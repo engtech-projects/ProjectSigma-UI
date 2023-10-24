@@ -1,6 +1,11 @@
 <template>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
         <div
+          class="grid-cols-2 border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
+        >
+        <CardNav/>
+        </div>
+        <div
           class="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
         >
         <LayoutSalesReport/>
@@ -15,11 +20,11 @@
         >3</div>
         <div
           class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
-        ></div>
+        >4</div>
       </div>
       <div
         class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"
-      ></div>
+      >5</div>
       <div class="grid grid-cols-2 gap-4 mb-4">
         <div
           class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
