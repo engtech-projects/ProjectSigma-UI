@@ -1,7 +1,8 @@
 <template>
-  
   <div class="antialiased bg-gray-50 dark:bg-gray-900">
-    <nav class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
+    <nav
+      class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50"
+    >
       <div class="flex flex-wrap justify-between items-center">
         <div class="flex justify-start items-center">
           <button
@@ -39,12 +40,10 @@
             <span class="sr-only">Toggle sidebar</span>
           </button>
           <a href="/dashboard" class="flex items-center justify-between mr-4">
-            <img
-              src="/logo.fw.png"
-              class="mr-3 h-12"
-              alt="Sigma Logo"
-            />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
+            <img src="/logo.fw.png" class="mr-3 h-12" alt="Sigma Logo" />
+            <span
+              class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
+            ></span>
           </a>
           <form action="#" method="GET" class="hidden md:block md:pl-2">
             <label for="topbar-search" class="sr-only">Search</label>
@@ -83,8 +82,18 @@
             class="p-2 mr-1 text-gray-500 rounded-lg md:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
           >
             <span class="sr-only">Toggle search</span>
-            <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path clip-rule="evenodd" fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"></path>
+            <svg
+              aria-hidden="true"
+              class="w-6 h-6"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                fill-rule="evenodd"
+                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              ></path>
             </svg>
           </button>
           <!-- Notifications -->
@@ -475,9 +484,7 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <div class="text-sm text-gray-900 dark:text-white">
-                  Profile
-                </div>
+                <div class="text-sm text-gray-900 dark:text-white">Profile</div>
               </a>
               <a
                 href="#"
@@ -542,9 +549,7 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <div class="text-sm text-gray-900 dark:text-white">
-                  Pricing
-                </div>
+                <div class="text-sm text-gray-900 dark:text-white">Pricing</div>
               </a>
               <a
                 href="#"
@@ -563,9 +568,7 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <div class="text-sm text-gray-900 dark:text-white">
-                  Billing
-                </div>
+                <div class="text-sm text-gray-900 dark:text-white">Billing</div>
               </a>
               <a
                 href="#"
@@ -586,9 +589,7 @@
                     d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                   ></path>
                 </svg>
-                <div class="text-sm text-gray-900 dark:text-white">
-                  Logout
-                </div>
+                <div class="text-sm text-gray-900 dark:text-white">Logout</div>
               </a>
             </div>
           </div>
@@ -616,8 +617,7 @@
                 class="block text-sm font-semibold text-gray-900 dark:text-white"
                 >Neil Sims</span
               >
-              <span
-                class="block text-sm text-gray-900 truncate dark:text-white"
+              <span class="block text-sm text-gray-900 truncate dark:text-white"
                 >name@flowbite.com</span
               >
             </div>
@@ -772,7 +772,10 @@
         </form>
         <ul class="space-y-2">
           <li>
-            <NuxtLink to="/dashboard" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><svg
+            <NuxtLink
+              to="/dashboard"
+              class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+              ><svg
                 aria-hidden="true"
                 class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                 fill="currentColor"
@@ -800,7 +803,9 @@
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
               >
-              <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+                <path
+                  d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"
+                />
               </svg>
               <span class="flex-1 ml-3 text-left whitespace-nowrap"
                 >Employees</span
@@ -819,22 +824,31 @@
                 ></path>
               </svg>
             </button>
-            
+
             <ul id="dropdown-pages" class="hidden py-2 space-y-2">
               <li>
-                <NuxtLink to="/application" class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                Application
-              </NuxtLink>
+                <NuxtLink
+                  to="/application"
+                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                >
+                  Application
+                </NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/paf" class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                New
-              </NuxtLink>
+                <NuxtLink
+                  to="#"
+                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                >
+                  New
+                </NuxtLink>
               </li>
               <li>
-                <NuxtLink to="/newemployee" class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                New
-              </NuxtLink>
+                <NuxtLink
+                  to="#"
+                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                >
+                  New
+                </NuxtLink>
               </li>
 
               <!-- <li>
@@ -869,9 +883,7 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="flex-1 ml-3 text-left whitespace-nowrap"
-                >Pages</span
-              >
+              <span class="flex-1 ml-3 text-left whitespace-nowrap">Pages</span>
               <svg
                 aria-hidden="true"
                 class="w-6 h-6"
@@ -902,7 +914,11 @@
                 >
               </li>
               <li>
-                <NuxtLink to="/calendar" class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Calendar</NuxtLink>
+                <NuxtLink
+                  to="/calendar"
+                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >Calendar</NuxtLink
+                >
                 <!-- <a
                   href='#'
                   class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -931,9 +947,7 @@
                   clip-rule="evenodd"
                 ></path>
               </svg>
-              <span class="flex-1 ml-3 text-left whitespace-nowrap"
-                >Sales</span
-              >
+              <span class="flex-1 ml-3 text-left whitespace-nowrap">Sales</span>
               <svg
                 aria-hidden="true"
                 class="w-6 h-6"
@@ -1378,18 +1392,16 @@
 
     <main class="p-4 md:ml-64 h-auto pt-20">
       <slot />
-      
     </main>
   </div>
-
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import { initFlowbite } from 'flowbite'
+import { onMounted } from "vue";
+import { initFlowbite } from "flowbite";
 
 // initialize components based on data attribute selectors
 onMounted(() => {
-    initFlowbite();
-})
+  initFlowbite();
+});
 </script>
