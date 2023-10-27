@@ -785,7 +785,7 @@
                 <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                 <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
               </svg>
-              <span class="ml-3">Overview</span>
+              <span class="ml-3">Dashboard</span>
             </NuxtLink>
           </li>
 
@@ -834,36 +834,26 @@
                   Application
                 </NuxtLink>
               </li>
-              <li>
-                <NuxtLink
-                  to="#"
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >
-                  New
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink
-                  to="#"
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >
-                  New
-                </NuxtLink>
-              </li>
-
               <!-- <li>
-                <a
-                  href="#"
+                <NuxtLink
+                  to="#"
                   class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >Kanban</a
                 >
+                  New
+                </NuxtLink>
               </li> -->
               <!-- <li>
-                <NuxtLink to="/calendar" class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Calendar</NuxtLink>
+                <NuxtLink
+                  to="#"
+                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                >
+                  New
+                </NuxtLink>
               </li> -->
             </ul>
           </li>
-          <li>
+          
+          <!-- <li>
             <button
               type="button"
               class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -917,16 +907,11 @@
                 <NuxtLink
                   to="/calendar"
                   class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >Calendar</NuxtLink
-                >
-                <!-- <a
-                  href='#'
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >Calendar</a
-                > -->
+                  >Calendar</NuxtLink>
               </li>
             </ul>
-          </li>
+          </li> -->
+<!--           
           <li>
             <button
               type="button"
@@ -985,8 +970,9 @@
                 >
               </li>
             </ul>
-          </li>
-          <li>
+          </li> -->
+
+          <!-- <li>
             <a
               href="#"
               class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -1012,8 +998,9 @@
                 4
               </span>
             </a>
-          </li>
-          <li>
+          </li> -->
+
+          <!-- <li>
             <button
               type="button"
               class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -1073,7 +1060,7 @@
                 >
               </li>
             </ul>
-          </li>
+          </li> -->
         </ul>
         <ul
           class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"
