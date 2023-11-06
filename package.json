@@ -24,6 +24,7 @@
     "flowbite": "^1.8.1",
     "flowbite-datepicker": "^1.2.2",
     "vue-chartjs": "^5.2.0",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue3-easy-data-table": "^1.5.47"
   }
 }

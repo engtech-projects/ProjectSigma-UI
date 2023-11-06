@@ -1,23 +1,16 @@
 <template>
   
-  <EvenparHeader />
-
-    <div class="grid grid-cols-3 p-2 mt-6">
-      <div class="text-lg lg:text-2xl font-normal text-left mb-4 col-span-2">
-      EMPLOYMENT APPLICATION FORM
+    <EvenparHeader />
+  
+    <div class="flex p-2 mt-6">
+      <div class="text-lg lg:text-2xl font-normal text-left mb-4 col-span-2">EMPLOYMENT APPLICATION FORM</div>
     </div>
-    
-    <div class="flex items-center justify-center mb-10 border-2 rounded-md">
-      <Fileinput class="inline-block p-2 mt-4" />
-      </div>
 
-      <div class="flex items-center">
-        <div class="italic font-bold">
-        EMPLOYEE INFORMATION
-        </div>
+    <div class="flex items-center mt-10 gap-4">
+      <div class="italic font-bold">
+      EMPLOYEE INFORMATION
       </div>
       <span class="block text-center text-xs font-medium text-red-700 italic">(note: please do not leave blank spaces. Write N/A for not applicable)</span>
-
     </div>
     <div class="rounded-md p-2 mt-4 ">
       <EmployeeInfo />
