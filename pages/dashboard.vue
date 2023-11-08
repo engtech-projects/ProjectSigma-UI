@@ -69,7 +69,7 @@ onMounted(() => {
 });
 
 definePageMeta({
-  layout: 'shell',
+  layout: 'default',
 }),
 
 useHead({

@@ -86,7 +86,7 @@
 
 <script setup>
 definePageMeta({
-  layout: "shell",
+  layout: "default",
 }),
   useHead({
     title: "Employment Application",

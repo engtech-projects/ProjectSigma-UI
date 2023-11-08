@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: 'shell',
+  layout: 'default',
 }),
 
 useHead({
