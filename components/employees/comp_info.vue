@@ -1,7 +1,7 @@
 <template>
   <form action="">
       <table class="w-full border-collapse border border-slate-400 table-fixed">
-        <div>
+        <div class="font-bold">
           COMPANY INFORMATION
         </div>
 

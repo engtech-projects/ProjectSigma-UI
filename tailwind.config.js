@@ -6,7 +6,7 @@ export default {
     "./pages/**/*.vue",
     "./plugins/**/*.{js,ts}",
     "./nuxt.config.{js,ts}",
-    "./node_modules/flowbite/**/*.{js,ts}"
+    "./node_modules/flowbite/**/*.js"
   ],
   darkMode: 'class', // Moved the 'darkMode' outside of 'theme'
   theme: {
