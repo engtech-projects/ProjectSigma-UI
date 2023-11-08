@@ -1,4 +1,7 @@
 <template>
+    <div class="text-2xl font-normal mb-4">
+      Employees' Record
+    </div>
     <div>
       <TabComp />
     </div>

@@ -1,5 +1,7 @@
 <template>
-  
+    <div class="text-2xl font-normal mb-6">
+      Personnel Information Sheet 
+    </div>
     <EvenparHeader />
   
     <div class="flex p-2 mt-6">
