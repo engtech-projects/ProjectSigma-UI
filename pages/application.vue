@@ -1,8 +1,9 @@
 <template>
-    <div class="text-2xl font-normal mb-6">
+    <div class="text-2xl font-normal mb-4">
       Personnel Information Sheet 
     </div>
-    <EvenparHeader />
+    <hr >
+    <EvenparHeader class="mt-6"/>
   
     <div class="flex p-2 mt-6">
       <div class="text-lg lg:text-2xl font-normal text-left mb-4 col-span-2">EMPLOYMENT APPLICATION FORM</div>

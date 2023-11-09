@@ -39,7 +39,7 @@
             </svg>
             <span class="sr-only">Toggle sidebar</span>
           </button>
-          <a href="/dashboard" class="flex items-center justify-between mr-4">
+          <a href="/hrms-dashboard" class="flex items-center justify-between mr-4">
             <img src="/logo.fw.png" class="mr-3 h-12" alt="Sigma Logo" />
             <span
               class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
@@ -359,8 +359,8 @@
                 </div>
               </a>
             </div>
-            <a
-              href="#"
+            <NuxtLink
+              to="/notifications"
               class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:underline"
             >
               <div class="inline-flex items-center">
@@ -380,7 +380,29 @@
                 </svg>
                 View all
               </div>
-            </a>
+            </NuxtLink>
+            <!-- <a
+              href="/notifications"
+              class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:underline"
+            >
+              <div class="inline-flex items-center">
+                <svg
+                  aria-hidden="true"
+                  class="mr-2 w-4 h-4 text-gray-500 dark:text-gray-400"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                  <path
+                    fill-rule="evenodd"
+                    d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                View all
+              </div>
+            </a> -->
           </div>
           <!-- Apps -->
           <button
@@ -773,7 +795,7 @@
         <ul class="space-y-2">
           <li>
             <NuxtLink
-              to="/dashboard"
+              to="/hrms-dashboard"
               class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               ><svg
                 aria-hidden="true"
@@ -785,7 +807,7 @@
                 <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                 <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
               </svg>
-              <span class="ml-3">Dashboard</span>
+              <span class="ml-3">HRMS Dashboard</span>
             </NuxtLink>
           </li>
 
@@ -831,7 +853,7 @@
                   to="/application"
                   class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
-                  <Icon name="ic:baseline-circle" color="black"/>
+                  <!-- <Icon name="ic:baseline-circle" color="black"/> -->
                   Application
                 </NuxtLink>
               </li>

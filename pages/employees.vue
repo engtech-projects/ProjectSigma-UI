@@ -2,6 +2,7 @@
     <div class="text-2xl font-normal mb-4">
       Employees' Record
     </div>
+    <hr>
     <div>
       <TabComp />
     </div>

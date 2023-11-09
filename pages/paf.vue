@@ -1,7 +1,10 @@
 <template>
+  <div class="text-2xl font-normal mb-4 ">
+    Personnel Action Form
+  </div>
+  <hr>
   <div>
     <!-- <Table /> -->
-    test
   </div>
 
 </template>
