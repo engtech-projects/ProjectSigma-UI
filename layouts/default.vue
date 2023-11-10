@@ -1,5 +1,4 @@
-<template>
-  <div class="antialiased bg-gray-50 dark:bg-gray-900">
+<template>  <div class="antialiased bg-gray-50 dark:bg-gray-900">
     <nav
       class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50"
     >
@@ -789,44 +788,54 @@
               <span class="ml-3">HRMS Dashboard</span>
             </NuxtLink>
           </li>
+          <li>
+            <NuxtLink
+              to="/calendar"
+              class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <Icon name="ic:round-calendar-month" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                    fill="currentColor" />
+              <span class="ml-3">Calendar</span>
+            </NuxtLink>
+          </li>
+
+          <li>
+              <button
+                type="button"
+                class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                aria-controls="dropdown-calendar"
+                data-collapse-toggle="dropdown-calendar">
+                <Icon name="ic:round-calendar-month" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                    fill="currentColor" />
+                <span class="flex-1 ml-3 text-left whitespace-nowrap">Calendar</span>
+                <Icon name="mdi:chevron-down" class="w-6 h-6" fill="currentColor"/>
+              </button>
+              <ul id="dropdown-calendar" class="hidden py-2 space-y-2">
+              <!-- <HrmsDashboardCalendar /> -->
+              <li>
+                <NuxtLink
+                  to="#"
+                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                  Biometric Accounts
+                </NuxtLink>
+              </li>
+            </ul>
+          </li>
 
           <li>
             <button
               type="button"
               class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-              aria-controls="dropdown-pages"
-              data-collapse-toggle="dropdown-pages"
+              aria-controls="dropdown-employees"
+              data-collapse-toggle="dropdown-employees"
             >
-              <svg
-                aria-hidden="true"
-                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"
-                />
-              </svg>
-              <span class="flex-1 ml-3 text-left whitespace-nowrap"
-                >Employees</span
-              >
-              <svg
-                aria-hidden="true"
-                class="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
+              <Icon name="ion:ios-people" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                fill="currentColor" />
+              <span class="flex-1 ml-3 text-left whitespace-nowrap">Employees</span>
+              <Icon name="mdi:chevron-down" class="w-6 h-6" fill="currentColor"/>
             </button>
 
-            <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+            <ul id="dropdown-employees" class="hidden py-2 space-y-2">
               <li>
                 <NuxtLink
                   to="/application"
@@ -863,42 +872,19 @@
             </ul>
           </li>
           
-          <!-- <li>
+          <li>
             <button
               type="button"
               class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-              aria-controls="dropdown-pages"
-              data-collapse-toggle="dropdown-pages"
+              aria-controls="dropdown-departmet"
+              data-collapse-toggle="dropdown-departmet"
             >
-              <svg
-                aria-hidden="true"
-                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <span class="flex-1 ml-3 text-left whitespace-nowrap">Pages</span>
-              <svg
-                aria-hidden="true"
-                class="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
+              <Icon name="mingcute:department-line" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                fill="currentColor" />
+              <span class="flex-1 ml-3 text-left whitespace-nowrap">Departments</span>
+              <Icon name="mdi:chevron-down" class="w-6 h-6" fill="currentColor"/>
             </button>
-            <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+            <!-- <ul id="dropdown-departmet" class="hidden py-2 space-y-2">
               <li>
                 <a
                   href="#"
@@ -919,9 +905,9 @@
                   class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >Calendar</NuxtLink>
               </li>
-            </ul>
-          </li> -->
-<!--           
+            </ul> -->
+          </li>
+
           <li>
             <button
               type="button"
@@ -929,60 +915,28 @@
               aria-controls="dropdown-sales"
               data-collapse-toggle="dropdown-sales"
             >
-              <svg
-                aria-hidden="true"
-                class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-              <span class="flex-1 ml-3 text-left whitespace-nowrap">Sales</span>
-              <svg
-                aria-hidden="true"
-                class="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
+              <Icon name="material-symbols:alarm" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                fill="currentColor" />
+              <span class="flex-1 ml-3 text-left whitespace-nowrap">Attendance</span>
+              <Icon name="mdi:chevron-down" class="w-6 h-6" fill="currentColor"/>
             </button>
-            <ul id="dropdown-sales" class="hidden py-2 space-y-2">
+            <ul id="dropdown-sales" class="hidden py-2 space-y-1">
               <li>
-                <a
-                  href="#"
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >Products</a
-                >
+                <a href="#" class="flex gap-2 items-center p-2 pl-7 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                  <Icon name="material-symbols:alarm-on-outline-rounded" class="w-4 h-4" fill="currentColor"/>Daily Time Record</a>
               </li>
               <li>
-                <a
-                  href="#"
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >Billing</a
-                >
+                <a href="#" class="flex gap-2 items-center p-2 pl-7 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                  <Icon name="mdi:face-recognition" class="w-4 h-4" fill="currentColor"/>Employee Biometrics</a>
               </li>
               <li>
-                <a
-                  href="#"
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >Invoice</a
-                >
+                <a href="#" class="flex gap-2 items-center p-2 pl-7 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                  <Icon name="mdi:qrcode-scan" class="w-4 h-4" fill="currentColor"/>Employee QR Code</a>
               </li>
             </ul>
-          </li> -->
+          </li>
 
-          <!-- <li>
+          <li>
             <a
               href="#"
               class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -1008,9 +962,9 @@
                 4
               </span>
             </a>
-          </li> -->
+          </li>
 
-          <!-- <li>
+          <li>
             <button
               type="button"
               class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -1070,7 +1024,7 @@
                 >
               </li>
             </ul>
-          </li> -->
+          </li>
         </ul>
         <ul
           class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"

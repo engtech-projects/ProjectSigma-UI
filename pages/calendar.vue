@@ -1,6 +1,6 @@
 <template>
     <div>
-      <Calendar />
+      <HrmsDashboardCalendar />
     </div>
 </template>
 

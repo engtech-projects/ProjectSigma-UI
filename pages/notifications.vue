@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-row justify-center gap-2 mx-auto border-2 rounded-lg bg-white md:w-1/2 max-w-full mt-10 py-1">
-    <button class="border-2 border-blue-200  hover:bg-teal-100 rounded-lg py-px px-2">All</button>
-    <button class="border-2 border-blue-200  hover:bg-teal-200 rounded-lg py-px px-2">Unread</button>
-  </div>
+  <!-- <div class="flex flex-row justify-center gap-2 mx-auto border-2 rounded-lg bg-white md:w-1/2 max-w-full mt-10 py-1">
+    <button class="border-2 border-blue-200  hover:bg-teal-100 rounded-lg py-px px-2"  @click="showAllNotifications">All</button>
+    <button class="border-2 border-blue-200  hover:bg-teal-200 rounded-lg py-px px-2"  @click="showUnreadNotifications">Unread</button>
+  </div> -->
   <div class="flex flex-col border-2 mt-6 p-2 w-full md:w-1/2 max-w-full bg-white border-gray-200 rounded-lg shadow sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700 mx-auto">
 
     <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b flex items-center justify-between">
@@ -12,10 +12,10 @@
           <Icon name="mdi:dots-horizontal" color="black" class="w-10 h-6 rounded-full" />
           <div v-if="isPopupVisible" class="popup bg-gray-100 border-2 rounded-lg absolute right-0 mt-5">
             <!-- Content for the pop-up goes here -->
-            <ul class="flex flex-col items-center p-2 space-y-2 text-xs">
-              <li><a href="#">Menu1</a></li>
+            <ul class="flex flex-col  p-2 space-y-2 text-xs">
+              <li><a href="#">All</a></li>
               <hr class="w-full my-1 border-gray-300">
-              <li><a href="#">Menu2</a></li>
+              <li><a href="#">Unread</a></li>
               <hr class="w-full my-1 border-gray-300">
               <li><a href="#">Menu3</a></li>
             </ul>
@@ -87,6 +87,7 @@ export default {
   data() {
     return {
       isPopupVisible: false,
+      filterStatus: 'all', 
       notifications: [
         {
           id: 1,
@@ -133,9 +134,31 @@ export default {
           message: " posted a new video: Glassmorphism - learn how to implement the new design trend.",
           timestamp: '3 hours ago',
         },
+        {
+          id: 6,
+          name: "Robert Brown",
+          avatar: "https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/robert-brown.png",
+          badgeClass: "bg-purple-500",
+          badgeIcon: "M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z",
+          message: " posted a new video: Glassmorphism - learn how to implement the new design trend.",
+          timestamp: '3 hours ago',
+          read: false,
+        },
       ],
     };
   },
+
+  computed: {
+    filteredNotifications() {
+      if (this.filterStatus === 'unread') {
+        // Filter unread notifications
+        return this.notifications.filter(notification => !notification.read);
+      }
+      // Show all notifications
+      return this.notifications;
+    },
+  },
+
   methods: {
       togglePopup() {
         this.isPopupVisible = !this.isPopupVisible;
@@ -143,8 +166,25 @@ export default {
       closePopup() {
         this.isPopupVisible = false;
       },
+      showAllNotifications() {
+      this.filterStatus = 'all';
+      },
+      showUnreadNotifications() {
+        this.filterStatus = 'unread';
+      },
     },
 };
+
+definePageMeta({
+  layout: "default",
+}),
+  useHead({
+    title: "Notification",
+    meta: [{ name: "description", content: "Notifications" }],
+    bodyAttrs: {
+      class: "test",
+    },
+  });
 
 
 
