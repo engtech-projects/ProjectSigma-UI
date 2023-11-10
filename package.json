@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@nuxt/devtools": "latest",
+    "@nuxt/devtools": "^1.0.1",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@samk-dev/nuxt-vcalendar": "^1.0.1",
     "eslint": "^8.52.0",

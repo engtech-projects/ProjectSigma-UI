@@ -1,7 +1,30 @@
 <template>
-  <div class="flex flex-col border-2 mt-10 p-2 w-full md:w-3/5 max-w-full bg-white border-gray-200 rounded-lg shadow sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700 mx-auto">
-    <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">Notifications</h5>
-    
+  <div class="flex flex-row justify-center gap-2 mx-auto border-2 rounded-lg bg-white md:w-1/2 max-w-full mt-10 py-1">
+    <button class="border-2 border-blue-200  hover:bg-teal-100 rounded-lg py-px px-2">All</button>
+    <button class="border-2 border-blue-200  hover:bg-teal-200 rounded-lg py-px px-2">Unread</button>
+  </div>
+  <div class="flex flex-col border-2 mt-6 p-2 w-full md:w-1/2 max-w-full bg-white border-gray-200 rounded-lg shadow sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700 mx-auto">
+
+    <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b flex items-center justify-between">
+      Notifications
+      <div class="relative">
+        <button @click="togglePopup" class="flex flex-col ml-auto items-center ">
+          <Icon name="mdi:dots-horizontal" color="black" class="w-10 h-6 rounded-full" />
+          <div v-if="isPopupVisible" class="popup bg-gray-100 border-2 rounded-lg absolute right-0 mt-5">
+            <!-- Content for the pop-up goes here -->
+            <ul class="flex flex-col items-center p-2 space-y-2 text-xs">
+              <li><a href="#">Menu1</a></li>
+              <hr class="w-full my-1 border-gray-300">
+              <li><a href="#">Menu2</a></li>
+              <hr class="w-full my-1 border-gray-300">
+              <li><a href="#">Menu3</a></li>
+            </ul>
+          </div>
+          <button @click="closePopup"></button>
+        </button>
+      </div>
+    </h5>
+
     <div class="notification-list">
       <!-- Replace this section with your dynamic data -->
       <a
@@ -63,6 +86,7 @@
 export default {
   data() {
     return {
+      isPopupVisible: false,
       notifications: [
         {
           id: 1,
@@ -112,6 +136,17 @@ export default {
       ],
     };
   },
+  methods: {
+      togglePopup() {
+        this.isPopupVisible = !this.isPopupVisible;
+      },
+      closePopup() {
+        this.isPopupVisible = false;
+      },
+    },
 };
+
+
+
 </script>
 
