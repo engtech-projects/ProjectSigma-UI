@@ -799,30 +799,6 @@
           </li>
 
           <li>
-              <button
-                type="button"
-                class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                aria-controls="dropdown-calendar"
-                data-collapse-toggle="dropdown-calendar">
-                <Icon name="ic:round-calendar-month" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                    fill="currentColor" />
-                <span class="flex-1 ml-3 text-left whitespace-nowrap">Calendar</span>
-                <Icon name="mdi:chevron-down" class="w-6 h-6" fill="currentColor"/>
-              </button>
-              <ul id="dropdown-calendar" class="hidden py-2 space-y-2">
-              <!-- <HrmsDashboardCalendar /> -->
-              <li>
-                <NuxtLink
-                  to="#"
-                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >
-                  Biometric Accounts
-                </NuxtLink>
-              </li>
-            </ul>
-          </li>
-
-          <li>
             <button
               type="button"
               class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
