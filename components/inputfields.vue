@@ -8,7 +8,7 @@
             
               <div class="grid gap-2 mb-6 md:grid-cols-3 text-sm">
 
-                  <Employeeid />
+                  <EmployeesEmployeeid />
                   
                   <div>
                       <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First name</label>

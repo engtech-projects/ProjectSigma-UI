@@ -24,7 +24,7 @@ export default {
             editable: true,
             selectable: true,
             initialEvents: [
-                { title: 'nice event', start: new Date() }
+                { title: 'nice event', start: new Date()}
             ],
             dateClick: (info) => {
                 alert('clicked ' + info.dateStr);
@@ -75,8 +75,8 @@ export default {
 
 <template>
 
-    <div class="mt-10 mb-10 grid grid-cols-1 gap-2 md:grid-cols-3">
-        <div class="border-2 p-2 rounded-lg w-full">
+    <div class="mt-10 md:flex gap-2 ">
+        <div class="p-2 bg-white border-2 rounded-lg w-full md:w-1/3 mb-5">
             <label for="eventTitle" class="text-2xl font-medium">Create Event</label>
             <div>
                 <form action="" class="space-y-2 mt-4">
@@ -87,7 +87,7 @@ export default {
                     
                     <div>
                         <label for="eventTypr">Event Type</label>
-                        <select name="" v-model="newEvent.eventType" id="" class="w-full rounded">
+                        <select name="" v-model="newEvent.eventType" id="" class="w-full rounded ">
                             <option value="">Event 1</option>
                             <option value="">Event 2</option>
                             <option value="">Event 3</option>
@@ -107,7 +107,7 @@ export default {
             </div>
         </div>
 
-        <div class="border-2 p-2 rounded-lg shadow col-span-2">
+        <div class="p-2 bg-white border-2 rounded-lg w-full md:w-3/4 mb-5">
             <FullCalendar :options='calendarOptions' class="mt-10"/>
         </div>
     </div>

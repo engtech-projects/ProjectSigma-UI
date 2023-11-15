@@ -1,51 +1,62 @@
-<script lang="ts">
-import FullCalendar from '@fullcalendar/vue3'
-import interactionPlugin from '@fullcalendar/interaction'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
+<script setup>
+const headers = [
+  { text: "ID", value: "id" },
+  { text: "DEPARTMENT NAME", value: "name" },
+  { text: "CREATED AT", value: "created" },
+  { text: "UPDATED AT", value: "updated" },
+];
 
-
-export default {
-    components: {
-    FullCalendar
-    },
-    data() {
-    return {
-        calendarOptions: {
-            plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin],
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth',
-            },
-            initialView: 'dayGridMonth',
-            weekends: true,
-            nowIndicator: true,
-            editable: true,
-            selectable: true,
-            initialEvents: [
-                { title: 'nice event', start: new Date() }
-            ],
-            dateClick: (info) => {
-                alert('clicked ' + info.dateStr);
-            },
-            select: (info) => {
-                alert('selected ' + info.startStr + ' to ' + info.endStr);
-            },
-            
-        },
-    }
-    }
-}
+const items = [
+  {
+    id: "Department-0011",
+    name: "Department Sample 11",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0012",
+    name: "Department Sample 12",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0013",
+    name: "Department Sample 13",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0014",
+    name: "Department Sample 14",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0015",
+    name: "Department Sample 15",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0016",
+    name: "Department Sample 16",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0017",
+    name: "Department Sample 17",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0018",
+    name: "Department Sample 18",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+];
 </script>
-
 <template>
-  <!-- <button @click="toggleWeekends">toggle weekends</button> -->
-    <FullCalendar :options='calendarOptions' class="mt-10"/>
-    
+  <Table :tbl-headers="headers" :tbl-items="items" />
 </template>
-
-
-
-<style scoped>
-</style>

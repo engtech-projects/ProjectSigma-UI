@@ -788,6 +788,50 @@
               <span class="ml-3">HRMS Dashboard</span>
             </NuxtLink>
           </li>
+
+          <li>
+            <button
+              type="button"
+              class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              aria-controls="dropdown-sales"
+              data-collapse-toggle="dropdown-sales"
+            >
+              <Icon name="material-symbols:alarm" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                fill="currentColor" />
+              <span class="flex-1 ml-3 text-left whitespace-nowrap">Attendance</span>
+              <Icon name="mdi:chevron-down" class="w-6 h-6" fill="currentColor"/>
+            </button>
+            <ul id="dropdown-sales" class="hidden py-2 space-y-2">
+              <li>
+                <NuxtLink
+                  to="/application"
+                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                  <Icon name="material-symbols:alarm-on-outline-rounded" class="w-4 h-4" fill="currentColor"/>
+                  Daily Time Record
+                </NuxtLink>
+              </li>
+              <li>
+                <NuxtLink
+                  to="/application"
+                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                  <Icon name="mdi:face-recognition" class="w-4 h-4" fill="currentColor"/>
+                  Employee Biometrics
+                </NuxtLink>
+              </li>
+              <li>
+                <NuxtLink
+                  to="/application"
+                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                  <Icon name="mdi:qrcode-scan" class="w-4 h-4" fill="currentColor"/>
+                  Employee QR Code
+                </NuxtLink>
+              </li>
+            </ul>
+          </li>
+
           <li>
             <NuxtLink
               to="/calendar"
@@ -795,6 +839,16 @@
               <Icon name="ic:round-calendar-month" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                     fill="currentColor" />
               <span class="ml-3">Calendar</span>
+            </NuxtLink>
+          </li>
+
+          <li>
+            <NuxtLink
+              to="/department"
+              class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <Icon name="ic:round-calendar-month" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                    fill="currentColor" />
+              <span class="ml-3">Department</span>
             </NuxtLink>
           </li>
 
@@ -817,23 +871,26 @@
                   to="/application"
                   class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
-                  <!-- <Icon name="ic:baseline-circle" color="black"/> -->
+                  <Icon name="material-symbols:dynamic-form-outline-rounded" class="w-4 h-4" fill="currentColor"/>
                   Application
                 </NuxtLink>
               </li>
               <li>
                 <NuxtLink
                   to="/employees"
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 >
+                  <Icon name="material-symbols:dynamic-form-outline-rounded" class="w-4 h-4" fill="currentColor"/>
                   201
+
                 </NuxtLink>
               </li>
               <li>
                 <NuxtLink
                   to="/paf"
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 >
+                  <Icon name="material-symbols:dynamic-form-outline-rounded" class="w-4 h-4" fill="currentColor"/>
                   PAF
                 </NuxtLink>
               </li>
@@ -847,72 +904,19 @@
               </li> -->
             </ul>
           </li>
-          
-          <li>
-            <button
-              type="button"
-              class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-              aria-controls="dropdown-departmet"
-              data-collapse-toggle="dropdown-departmet"
-            >
-              <Icon name="mingcute:department-line" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                fill="currentColor" />
-              <span class="flex-1 ml-3 text-left whitespace-nowrap">Departments</span>
-              <Icon name="mdi:chevron-down" class="w-6 h-6" fill="currentColor"/>
-            </button>
-            <!-- <ul id="dropdown-departmet" class="hidden py-2 space-y-2">
-              <li>
-                <a
-                  href="#"
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >Settings</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >Kanban</a
-                >
-              </li>
-              <li>
-                <NuxtLink
-                  to="/calendar"
-                  class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >Calendar</NuxtLink>
-              </li>
-            </ul> -->
-          </li>
 
           <li>
-            <button
-              type="button"
-              class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-              aria-controls="dropdown-sales"
-              data-collapse-toggle="dropdown-sales"
-            >
-              <Icon name="material-symbols:alarm" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                fill="currentColor" />
-              <span class="flex-1 ml-3 text-left whitespace-nowrap">Attendance</span>
-              <Icon name="mdi:chevron-down" class="w-6 h-6" fill="currentColor"/>
-            </button>
-            <ul id="dropdown-sales" class="hidden py-2 space-y-1">
-              <li>
-                <a href="#" class="flex gap-2 items-center p-2 pl-7 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                  <Icon name="material-symbols:alarm-on-outline-rounded" class="w-4 h-4" fill="currentColor"/>Daily Time Record</a>
-              </li>
-              <li>
-                <a href="#" class="flex gap-2 items-center p-2 pl-7 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                  <Icon name="mdi:face-recognition" class="w-4 h-4" fill="currentColor"/>Employee Biometrics</a>
-              </li>
-              <li>
-                <a href="#" class="flex gap-2 items-center p-2 pl-7 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                  <Icon name="mdi:qrcode-scan" class="w-4 h-4" fill="currentColor"/>Employee QR Code</a>
-              </li>
-            </ul>
+            <NuxtLink
+              to="/project"
+              class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+              <Icon name="material-symbols:construction" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                    fill="currentColor" />
+              <span class="ml-3">Project</span>
+            </NuxtLink>
           </li>
 
-          <li>
+
+          <!-- <li>
             <a
               href="#"
               class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -938,9 +942,9 @@
                 4
               </span>
             </a>
-          </li>
+          </li> -->
 
-          <li>
+          <!-- <li>
             <button
               type="button"
               class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -1000,7 +1004,7 @@
                 >
               </li>
             </ul>
-          </li>
+          </li> -->
         </ul>
         <ul
           class="pt-5 mt-5 space-y-2 border-t border-gray-200 dark:border-gray-700"
