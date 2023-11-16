@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700">
+  <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700 h-96 overflow-auto">
     <form class="space-y-3 " @submit.prevent="postAnnouncement">
       <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">Announcements</h5>
       <div>
@@ -29,10 +29,10 @@
       </div>
     </form>
 
-    <hr class="my-3">
-
+    
     <!-- Announcement Timeline -->
     <div v-if="announcements.length > 0" class="max-h-80 overflow-auto p-2">
+      <hr class="my-3">
       <ol class="relative border-l border-gray-200 dark:border-gray-700 p-2">
         <li v-for="(announcement, index) in announcements" :key="index" class="mb-2 border-2 p-1 rounded-md">
           <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>

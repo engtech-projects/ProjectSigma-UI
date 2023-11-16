@@ -12,5 +12,10 @@ export default defineNuxtConfig({
     'nuxt-icon'
     
   ],
+  nitro: {
+    prerender: {
+      routes: ['/hrms-dashboard', '/application', '/calendar', '/department', '/employees', '/index', '/notifications',],
+    },
+  },
 
 })

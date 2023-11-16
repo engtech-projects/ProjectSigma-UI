@@ -11,14 +11,14 @@
         <HrmsDashboardBirthdays :employees="employeesData" class="md: mt-2 md:mt-10 p-2" />
       </div>
       <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-92 md:h-full"
+        class=" rounded-lg border-gray-300 dark:border-gray-600 h-92 md:h-full"
       >
         <HrmsDashboardEmployeeStatus/>
       </div>
       <div
         class=" rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
       >
-        <ChartEmployeeschart class="p-2" />
+        <ChartEmployeesChart class="p-2" />
       </div>
       
     </div>
@@ -82,6 +82,8 @@ import { initFlowbite } from "flowbite";
 const employeesData = ref([
   { name: "John Mayer", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
   { name: "Jane Smith", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
+  { name: "John Doe", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
+  { name: "Mark Unico", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
   { name: "John Doe", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
   { name: "Mark Unico", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
 ]);

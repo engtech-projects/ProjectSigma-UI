@@ -1,63 +1,175 @@
 <script setup>
 const headers = [
-      { text: "ID", value: "id" },
-      { text: "DEPARTMENT NAME", value: "name" },
-      { text: "CREATED AT", value: "created" },
-      { text: "UPDATED AT", value: "updated" },
-  ]
+  { text: "ID", value: "id" },
+  { text: "DEPARTMENT NAME", value: "name" },
+  { text: "CREATED AT", value: "created" },
+  { text: "UPDATED AT", value: "updated" },
+];
 
 const items = [
-    { id: "Department-0011", name: "Department Sample 11", created: "10/24/23", updated: "10/24/23"},
-    { id: "Department-0012", name: "Department Sample 12", created: "10/24/23", updated: "10/24/23"},
-    { id: "Department-0013", name: "Department Sample 13", created: "10/24/23", updated: "10/24/23"},
-    { id: "Department-0014", name: "Department Sample 14", created: "10/24/23", updated: "10/24/23"},
-    { id: "Department-0015", name: "Department Sample 15", created: "10/24/23", updated: "10/24/23"},
-    { id: "Department-0016", name: "Department Sample 16", created: "10/24/23", updated: "10/24/23"},
-    { id: "Department-0017", name: "Department Sample 17", created: "10/24/23", updated: "10/24/23"},
-    { id: "Department-0018", name: "Department Sample 18", created: "10/24/23", updated: "10/24/23"},
-  ]
+  {
+    id: "Department-0011",
+    name: "Department Sample 11",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0012",
+    name: "Department Sample 12",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0013",
+    name: "Department Sample 13",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0014",
+    name: "Department Sample 14",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0015",
+    name: "Department Sample 15",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0016",
+    name: "Department Sample 16",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0017",
+    name: "Department Sample 17",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+  {
+    id: "Department-0018",
+    name: "Department Sample 18",
+    created: "10/24/23",
+    updated: "10/24/23",
+  },
+];
 
 definePageMeta({
-  layout: 'default',
+  layout: "default",
 }),
-
-useHead({
-  title: 'Department',
-  meta: [
-    { name: 'description', content: '' }
-  ],
-  
-})
-
-
+  useHead({
+    title: "Department",
+    meta: [{ name: "description", content: "" }],
+  });
 </script>
 
-
+<style scoped>
+.rotate-180 {
+  transform: rotate(180deg);
+}
+</style>
 
 <template>
-  <div class="mt-10 md:flex gap-2">
-      <div class="border-2 p-2 rounded-lg shadow w-full md:w-1/3 mb-4 ">
-          <label for="eventTitle" class="text-2xl font-medium">Create Department</label>
-          <div>
-              <form action="" class="space-y-2 mt-4">
-                  <div>
-                      <label for="eventTitle">Department</label>
-                      <input type="text"   id="eventTitle" class="w-full rounded"/>
-                  </div>
+  <div class="flex flex-col mt-10 md:flex-row gap-2">
+    <div class="w-full ">
+      <details class="group border-2 rounded-xl p-2 ">
+        <summary
+        class="flex cursor-pointer list-none items-center justify-between py-2 text-lg font-medium text-gray-900 ">
+        <label for="eventTitle" class="text-lg font-medium ">Add New Category</label>
 
+
+            <div class="text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="block h-5 w-5 transition-all duration-300 group-open:rotate-180">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" :class="{ 'rotate-180': isOpen2 }"/>
+              </svg>
+            </div>
+          </summary>
+          <div class="pb-2 text-gray-500 ">
+            
+              <form action="">
+                <div class="space-y-2">
+                  <label for="eventTitle">Category</label>
+                  <input type="text" id="eventTitle" class="w-full rounded" />
+                </div>
                   <div class="flex justify-end">
-                      <button @click="addEvent" class="flex-1 text-white p-2 rounded bg-cyan-800 content-center">
-                          <Icon name="mingcute:department-fill" class="mr-2"/>Add Department</button>
+                    <button
+                      @click="addEvent"
+                      class="flex-1 text-white p-2 rounded bg-cyan-800 content-center mt-5"
+                    >
+                      <Icon
+                        name="material-symbols:category-outline-rounded"
+                        class="mr-2"
+                      />Add Category
+                    </button>
                   </div>
               </form>
+            
           </div>
-      </div>
+        </details>
+    </div>
+    
+    <div class="w-full">
+      <details class="group border-2 rounded-xl p-2">
+          <summary
+            class="flex cursor-pointer list-none items-center justify-between py-2 text-lg font-medium text-gray-900">
 
-      <div class="border-2 p-2 rounded-lg shadow col-span-2 w-full md:w-3/4 mb-4">
-        <label for="eventTitle" class="text-2xl font-medium">Department List</label>
-          <Table :tbl-headers="headers" :tbl-items="items"/>
-      </div>
+            <label for="eventTitle" class="text-lg font-medium">Add New Department</label>
+
+            <div class="text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="block h-5 w-5 transition-all duration-300 group-open:rotate-180">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+          </summary>
+          <div class="pb-2 text-gray-500">
+
+            <form action="" >
+              <div class="space-y-2">
+                <label for="eventTitle">Department</label>
+                <input type="text" id="eventTitle" class="w-full rounded" />
+              </div>
+
+              <div class="flex justify-end">
+                <button
+                  @click="addEvent"
+                  class="flex-1 text-white p-2 rounded bg-cyan-800 content-center mt-5">
+                  <Icon name="mingcute:department-fill" class="mr-2" />Add
+                  Department
+                </button>
+              </div>
+            </form>
+
+          </div>
+        </details>
+    </div>
+
   </div>
-  
-</template>
+  <div class="container mx-auto mt-2">
+    <div class="w-full " >
+      <div class="divide-y divide-gray-100 ">
+        <details class="group border-2 rounded-xl p-2 mb-6" open>
+          <summary
+            class="flex cursor-pointer list-none items-center justify-between py-2 text-lg font-medium text-gray-900">
 
+            <label for="eventTitle" class="text-lg font-medium">Add New Department</label>
+
+            <div class="text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="block h-5 w-5 transition-all duration-300 group-open:rotate-180">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+          </summary>
+          <div class="pb-2 text-gray-500 ">
+            <Table :tbl-headers="headers" :tbl-items="items" />
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</template>

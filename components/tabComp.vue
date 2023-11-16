@@ -12,11 +12,11 @@
     <div id="default-tab-content">
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="pis" role="tabpanel" aria-labelledby="pis-tab">
             
-            <Inputfields />
+            <InputFields />
         </div>
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="staff" role="tabpanel" aria-labelledby="staff-tab">
             
-            <Staffinfosheet />
+            <StaffinfoSheet />
         </div>
     </div>
 </template>

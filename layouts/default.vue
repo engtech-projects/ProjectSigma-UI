@@ -804,7 +804,7 @@
             <ul id="dropdown-sales" class="hidden py-2 space-y-2">
               <li>
                 <NuxtLink
-                  to="/application"
+                  to="#"
                   class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                   <Icon name="material-symbols:alarm-on-outline-rounded" class="w-4 h-4" fill="currentColor"/>
@@ -813,7 +813,7 @@
               </li>
               <li>
                 <NuxtLink
-                  to="/application"
+                  to="#"
                   class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                   <Icon name="mdi:face-recognition" class="w-4 h-4" fill="currentColor"/>
@@ -822,7 +822,7 @@
               </li>
               <li>
                 <NuxtLink
-                  to="/application"
+                  to="#"
                   class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                   <Icon name="mdi:qrcode-scan" class="w-4 h-4" fill="currentColor"/>
@@ -915,6 +915,26 @@
             </NuxtLink>
           </li>
 
+          
+          <li>
+            <NuxtLink 
+            to="#"
+            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <Icon name="material-symbols:auto-schedule-outline-rounded" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+            fill="currentColor" />
+            <span class="ml-3">Request</span>
+          </NuxtLink>
+        </li>
+        
+        <!-- <li>
+          <NuxtLink 
+            to="#"
+            class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <Icon name="material-symbols:auto-schedule-outline-rounded" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  fill="currentColor" />
+            <span class="ml-3">Schedule</span>
+          </NuxtLink>
+        </li> -->
 
           <!-- <li>
             <a

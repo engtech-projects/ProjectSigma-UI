@@ -59,11 +59,11 @@ const showRow = (item) => {
     @click-row="showRow"
   >
   <template #loading>
-      <p>Loading. . .</p>
+      <p>Loading...</p>
     </template>
 
     <template #empty-message>
-      <p>Nothing Here. . .</p>
+      <p>No Results Found</p>
     </template>
   </EasyDataTable>
 </template>
