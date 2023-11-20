@@ -1,37 +1,50 @@
-<script setup lang="ts">
-const accordionItems: { title: string; content: string }[] = [
-  {
-    title: "Accordion item 01",
-    content: "This is the first item accordion body 1",
-  },
-  {
-    title: "Accordion item 02",
-    content: "This is the second item accordion body 2",
-  },
-  {
-    title: "Accordion item 03",
-    content: "This is the third item accordion body 3",
-  },
-];
-</script>
 <template>
-  <div class="container mx-auto">
-    <div class="w-full lg:max-w-lg">
-      <div class="divide-y divide-gray-100">
-        <details v-for="(item, index) in accordionItems" :key="index" class="group">
-          <summary
-            class="flex cursor-pointer list-none items-center justify-between py-4 text-lg font-medium text-secondary-900">
-            {{ item.title }}
-            <div class="text-secondary-500">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="block h-5 w-5 transition-all duration-300 group-open:rotate-180">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-              </svg>
-            </div>
-          </summary>
-          <div class="pb-4 text-secondary-500">{{ item.content }}</div>
-        </details>
-      </div>
+  <DateRangePicker />
+  <div class="shadow-md border rounded-lg p-4 bg-white mb-3 w-full md:w-3/4">
+    <div>
+      <label for="startDate" class="text-gray-900">Start Date:</label>
+      <input v-model="startDate" type="date" id="startDate" class="border p-2 mb-2">
+      
+      <label for="endDate" class="text-gray-900">End Date:</label>
+      <input v-model="endDate" type="date" id="endDate" class="border p-2 mb-2">
+      
+      <button @click="generateTable" class="bg-blue-500 text-white px-4 py-2">Generate Table</button>
+    </div>
+
+    <p v-if="startDate && endDate" class="text-2xl font-light text-gray-900 pb-5">
+      {{ formattedStartDate }} - {{ formattedEndDate }}
+    </p>
+
+    <div v-if="startDate && endDate">
+      <!-- Your dynamic table here -->
+      <!-- Use the startDate and endDate variables to generate the dynamic content -->
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      startDate: '',
+      endDate: '',
+    };
+  },
+  computed: {
+    formattedStartDate() {
+      // Format startDate if needed
+      return this.startDate;
+    },
+    formattedEndDate() {
+      // Format endDate if needed
+      return this.endDate;
+    },
+  },
+  methods: {
+    generateTable() {
+      // Implement the logic to generate the table based on the selected date range
+      console.log('Generating table for:', this.startDate, this.endDate);
+    },
+  },
+};
+</script>

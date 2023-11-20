@@ -1,7 +1,6 @@
 <template>
     <EvenparNologo />
 
-
     <div class="flex p-2 mt-6">
       <div class="text-lg lg:text-2xl font-normal text-left mb-4 col-span-2">STAFF INFORMATION SHEET</div>
     </div>

@@ -36,27 +36,16 @@ useHead({
 
 <template>
   <div class="mt-10 md:flex gap-2">
-      <div class="border-2 p-2 rounded-lg shadow w-full md:w-1/3 mb-4 ">
-          <label for="eventTitle" class="text-2xl font-medium">Create Project</label>
-          <div>
-              <form action="" class="space-y-2 mt-4">
-                  <div>
-                      <label for="eventTitle">Project</label>
-                      <input type="text"   id="eventTitle" class="w-full rounded"/>
-                  </div>
+      <HrmsProjectCreateEmployee />
 
-                  <div class="flex justify-end">
-                      <button @click="addEvent" class="flex-1 text-white p-2 rounded bg-cyan-800 content-center">
-                          <Icon name="material-symbols:construction-rounded" class="mr-2"/>Add Project</button>
-                  </div>
-              </form>
-          </div>
-      </div>
+      <HrmsProjectAssign />
 
-      <div class="border-2 p-2 rounded-lg shadow col-span-2 w-full md:w-3/4 mb-4">
+      <HrmsProjectAttendanceScheduleForm />
+
+      <!-- <div class="border-2 p-2 rounded-lg shadow col-span-2 w-full md:w-3/4 mb-4">
         <label for="eventTitle" class="text-2xl font-medium">Project List</label>
           <Table :tbl-headers="headers" :tbl-items="items"/>
-      </div>
+      </div> -->
   </div>
   
 </template>
