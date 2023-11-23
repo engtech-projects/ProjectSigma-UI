@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-20 justify-center p-4 bg-gradient-to-r from-sky-200 to-indigo-200 rounded-md " >
+  <div class="flex items-center gap-20 md:justify-center p-4 bg-gradient-to-r from-sky-200 to-indigo-200 rounded-md " >
     
     <div class="text-2xl p-3 lg:text-4xl text-center ">
       <h1 class="font-bold text-7xl">EVENPAR</h1>

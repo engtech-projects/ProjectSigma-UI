@@ -6,7 +6,7 @@
           <h5 class="text-2xl text-center font-medium text-gray-900 dark:text-white ">Personal Information</h5>
             <Avatar />
             
-              <div class="grid gap-2 mb-6 md:grid-cols-3 text-sm">
+              <div class="grid gap-2 mb-6 grid-cols-3 items-center text-sm">
 
                   <EmployeesEmployeeId />
                   

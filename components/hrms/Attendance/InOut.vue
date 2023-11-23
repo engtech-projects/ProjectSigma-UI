@@ -2,7 +2,8 @@
   <div
     class="shadow-md border-2 border-gray-400 rounded-lg p-4 bg-white mb-3 w-full md:w-3/4"
   >
-    <p class="text-2xl font-light text-gray-900 pb-5">
+    <p class="text-xl font-normal
+     text-gray-900 pb-4">
       September 23, 2023 - October 22, 2023
     </p>
     <div>

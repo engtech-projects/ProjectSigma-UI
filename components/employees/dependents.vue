@@ -5,11 +5,11 @@
         DEPENDENTS
       </div>
 
-      <table class="w-full border-collapse border border-slate-400 table-fixed" >
+      <table class="w-full border-collapse border border-slate-400 table-fixed " >
         <tbody>
           <tr >
-              <td colspan=2 class="border border-slate-300 p-1">
-                <label for="small-input" class="block mb-2 text-xs w-32 font-bold text-gray-900 dark:text-white">Name of Dependents</label>
+              <td colspan=1 class="border border-slate-300 p-1">
+                <label for="small-input" class=" mb-2 text-xs w-32 font-bold text-gray-900 dark:text-white ">Name of Dependents</label>
                   <input type="text" v-model="dependent.name" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </td>
               <td class="border border-slate-300 p-1 space-y-1">

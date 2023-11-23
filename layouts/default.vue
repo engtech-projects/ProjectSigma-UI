@@ -813,88 +813,121 @@
                 fill="currentColor"
               />
             </button>
+            
 
             <ul id="dropdown-attendance" class="hidden py-2 space-y-2">
-              <button
-              type="button"
-              class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-              aria-controls="dropdown-sales"
-              data-collapse-toggle="dropdown-sales"
-            >
-              <Icon
-                name="ic:outline-more-time"
-                class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                fill="currentColor"
-              />
-              <span class="flex-1 text-left whitespace-nowrap"
-                >Daily Time Record</span
-              >
-              <Icon
-                name="mdi:chevron-down"
-                class="w-6 h-6"
-                fill="currentColor"
-              />
-            </button>
+              <NuxtLink
+                to="/attendanceportal"
+                class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                <Icon
+                  name="mdi:face-recognition"
+                  class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  fill="currentColor"
+                />
+                Attendance Portal
+              </NuxtLink>
 
-            <ul id="dropdown-sales" class="hidden py-2 space-y-2 ml-4">
+                <button
+                  type="button"
+                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  aria-controls="dropdown-biometrics"
+                  data-collapse-toggle="dropdown-biometrics">
+                  <Icon
+                    name="ic:baseline-people-outline"
+                    class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                    fill="currentColor"/>
+                  <span class="flex-1 text-left whitespace-nowrap">Biometrics</span>
+                  <Icon
+                    name="mdi:chevron-down"
+                    class="w-5 h-5"
+                    fill="currentColor"/>
+                </button>
+
+                <ul id="dropdown-biometrics" class="hidden py-2 space-y-2 ml-4">
+                  
+                  <li>
+                    <NuxtLink
+                      to="/employeebiometrics"
+                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                      <Icon
+                        name="ic:outline-account-circle"
+                        class="w-4 h-4"
+                        fill="currentColor"/>
+                        Biometrics Account
+                    </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink
+                      to="/rejecteddata"
+                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <Icon
+                        name="ic:baseline-flag-circle"
+                        class="w-5 h-5"
+                        fill="currentColor"
+                      />
+                      Biometric Rejected Data
+                    </NuxtLink>
+                  </li>
+                </ul>
               
-              <li>
-                <NuxtLink
-                  to="/timeinout"
-                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              <button
+                type="button"
+                class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                aria-controls="dropdown-sales"
+                data-collapse-toggle="dropdown-sales">
+                <Icon
+                  name="ic:outline-more-time"
+                  class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  fill="currentColor"
+                />
+                <span class="flex-1 text-left whitespace-nowrap"
+                  >Daily Time Record</span
                 >
-                  <Icon
-                    name="material-symbols:alarm-on-outline-rounded"
-                    class="w-4 h-4"
-                    fill="currentColor"
-                  />
-                  Time In/Out
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink
-                  to="/failtolog"
-                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >
-                  <Icon
-                    name="ic:baseline-flag-circle"
-                    class="w-4 h-4"
-                    fill="currentColor"
-                  />
-                  Failure To Login
-                </NuxtLink>
-              </li>
+                <Icon
+                  name="mdi:chevron-down"
+                  class="w-5 h-5"
+                  fill="currentColor"
+                />
+              </button>
+
+              <ul id="dropdown-sales" class="hidden py-2 space-y-2 ml-4">
+                
+                <li>
+                  <NuxtLink
+                    to="/timeinout"
+                    class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    <Icon
+                      name="material-symbols:alarm-on-outline-rounded"
+                      class="w-4 h-4"
+                      fill="currentColor"
+                    />
+                    Time In/Out
+                  </NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink
+                    to="/failtolog"
+                    class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    <Icon
+                      name="ic:baseline-flag-circle"
+                      class="w-4 h-4"
+                      fill="currentColor"
+                    />
+                    Failure To Login
+                  </NuxtLink>
+                </li>
+              </ul>
+
+              
             </ul>
-              <li>
-                <NuxtLink
-                  to="/employeebiometrics"
-                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >
-                  <Icon
-                    name="mdi:face-recognition"
-                    class="w-4 h-4"
-                    fill="currentColor"
-                  />
-                  Employee Biometrics
-                </NuxtLink>
-              </li>
-              <li>
-                <NuxtLink
-                  to="/employeeqr"
-                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                >
-                  <Icon
-                    name="mdi:qrcode-scan"
-                    class="w-4 h-4"
-                    fill="currentColor"
-                  />
-                  Employee QR Code
-                </NuxtLink>
-              </li>
-            </ul>
+
           </li>
 
           <li>
+            
             <NuxtLink
               to="/calendar"
               class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
@@ -935,7 +968,7 @@
                 fill="currentColor"
               />
               <span class="flex-1 ml-3 text-left whitespace-nowrap"
-                >Employees</span
+                >Employee</span
               >
               <Icon
                 name="mdi:chevron-down"
@@ -981,7 +1014,7 @@
                     class="w-4 h-4"
                     fill="currentColor"
                   />
-                  PAF
+                  Personnel Action Form
                 </NuxtLink>
               </li>
               <!-- <li>

@@ -26,10 +26,13 @@
     "@fullcalendar/timegrid": "^6.1.9",
     "@fullcalendar/vue3": "^6.1.9",
     "@popperjs/core": "^2.11.8",
+    "@vuepic/vue-datepicker": "^7.2.2",
     "apexcharts": "^3.43.2-0",
     "chart.js": "^4.4.0",
+    "face-api.js": "^0.20.0",
     "flowbite": "^1.8.1",
     "flowbite-datepicker": "^1.2.2",
+    "qrcode": "^1.5.3",
     "vue-chartjs": "^5.2.0",
     "vue-router": "^4.2.5",
     "vue3-easy-data-table": "^1.5.47"

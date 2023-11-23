@@ -1,24 +1,25 @@
 <template>
-    <div class="text-2xl font-normal mb-4">
+    <div class="text-2xl font-normal mb-4 mt-10 md:mt-0">
       Personnel Information Sheet 
     </div>
     <hr >
-    <EvenparHeader class="mt-6"/>
+    <EvenparHeader class="mt-6 "/>
   
-    <div class="flex p-2 mt-6">
-      <div class="text-lg lg:text-2xl font-normal text-left mb-4 col-span-2">EMPLOYMENT APPLICATION FORM</div>
+    <div class="flex p-2 mt-6 justify-center lg:justify-left ">
+      <div class="text-xl font-medium text-left mb-4 col-span-2">EMPLOYMENT APPLICATION FORM</div>
     </div>
 
-    <div class="flex items-center mt-10 gap-4">
-      <div class="italic font-bold">
-      EMPLOYEE INFORMATION
+    <div class="flex p-2 mt-6">
+      <div class="flex items-center">
+        <div class="italic font-bold">
+          EMPLOYEE INFORMATION
+          <span class="block text-center text-xs font-medium text-red-700 italic">(note: please do not leave blank spaces. Write N/A for not applicable)</span>
+        </div>
       </div>
-      <span class="block text-center text-xs font-medium text-red-700 italic">(note: please do not leave blank spaces. Write N/A for not applicable)</span>
     </div>
     <div class="rounded-md p-2 mt-4 ">
       <EmployeeInfo />
     </div>
-    
     <div class="flex p-2 mt-6">
       <div class="flex items-center">
         <div class="italic font-bold">

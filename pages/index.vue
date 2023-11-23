@@ -16,12 +16,7 @@ useHead({
 
 </script>
 
-
-
 <template>
-
-
-
 
   <div>
     <section class="bg-gray-50 dark:bg-gray-900">
@@ -32,24 +27,14 @@ useHead({
       </a>
       <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <div>
-                <h1 class="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                  Select Project
-                </h1>
-                <select name="" id="" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option value="">Main</option>
-                    <option value="">Project 1</option>
-                    <option value="">Project 2</option>
-                    <option value="">Project 3</option>
-                </select>
-              </div>
+              
               <div class="border-b w-full h-[14px] text-center p-3 mt-2 mb-7">
                 <span class="text-md bg-white text-black px-3 italic">
                   Sign in to your account
                 </span>
               </div>
 
-              <form class="space-y-4 md:space-y-6" action="#">
+              <form class="space-y-4 md:space-y-6" action="#" @submit.prevent="signIn">
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
                       <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required>
@@ -69,10 +54,13 @@ useHead({
                       </div>
                       <a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
                   </div>
+                  
+                  
                   <button type="submit" class="w-full text-white bg-cyan-600 hover:bg-secondary-base focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
                   <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                       Don’t have an account yet? <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
                   </p>
+                  
               </form>
           </div>
       </div>

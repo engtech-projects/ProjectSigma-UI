@@ -27,64 +27,41 @@ const items = [
     logdate: "10/24/23",
     timein: "10/24/23",
     timeout: "10/24/23",
-    reason: "10/24/23",
+    reason: "reason101",
   },
   {
-    id: "Employee-0012",
-    employee_name: "Employee 12",
+    id: "Employee-0011",
+    employee_name: "Employee 11",
     logdate: "10/24/23",
     timein: "10/24/23",
     timeout: "10/24/23",
-    reason: "10/24/23",
+    reason: "reason101",
   },
   {
-    id: "Employee-0013",
-    employee_name: "Employee 13",
+    id: "Employee-0011",
+    employee_name: "Employee 11",
     logdate: "10/24/23",
     timein: "10/24/23",
     timeout: "10/24/23",
-    reason: "10/24/23",
+    reason: "reason101",
   },
   {
-    id: "Employee-0014",
-    employee_name: "Employee 14",
+    id: "Employee-0011",
+    employee_name: "Employee 11",
     logdate: "10/24/23",
     timein: "10/24/23",
     timeout: "10/24/23",
-    reason: "10/24/23",
+    reason: "reason101",
   },
   {
-    id: "Employee-0015",
-    employee_name: "Employee 15",
+    id: "Employee-0011",
+    employee_name: "Employee 11",
     logdate: "10/24/23",
     timein: "10/24/23",
     timeout: "10/24/23",
-    reason: "10/24/23",
+    reason: "reason101",
   },
-  {
-    id: "Employee-0016",
-    employee_name: "Employee 16",
-    logdate: "10/24/23",
-    timein: "10/24/23",
-    timeout: "10/24/23",
-    reason: "10/24/23",
-  },
-  {
-    id: "Employee-0017",
-    employee_name: "Employee 17",
-    logdate: "10/24/23",
-    timein: "10/24/23",
-    timeout: "10/24/23",
-    reason: "10/24/23",
-  },
-  {
-    id: "Employee-0018",
-    employee_name: "Employee 18",
-    logdate: "10/24/23",
-    timein: "10/24/23",
-    timeout: "10/24/23",
-    reason: "10/24/23",
-  },
+  
 ];
 </script>
 
@@ -98,7 +75,7 @@ const items = [
           :tbl-headers="headers"
           :tbl-items="items"
         />
-      </div>
+    </div>
   </div>
 </template>
 

@@ -6,7 +6,7 @@
     </div>
 
     <div class="flex justify-center">
-      <span class="text-xs font-nomal italic">This sheet is for employee's records & updates purposes. Kindly fill-in all inforamtion needed and just put N/A to any field that is already irrelevant to you. Immediately submit to HRD after completion.</span>
+      <span class="text-xs font-nomal italic">This sheet is for employee's records & updates purposes. Kindly fill-in all information needed and just put N/A to any field that is already irrelevant to you. Immediately submit to HRD after completion.</span>
     </div>
 
     <div class="mt-8">

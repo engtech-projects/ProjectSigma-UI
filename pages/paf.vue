@@ -1,29 +1,26 @@
+<script setup lang="ts">
+definePageMeta({
+  layout: 'default',
+}),
+
+useHead({
+  title: 'Personal Action Form',
+  meta: [
+    { name: 'description', content: '' }
+  ],
+  
+})
+</script>
+
 <template>
-  <div class="text-2xl font-normal mb-4 ">
+  <div class="text-2xl font-normal mb-4 mt-10 md:mt-0 ">
     Personnel Action Form
   </div>
   <hr>
   <div>
-    <!-- <Table /> -->
+    <EmployeePersonalActionForm />
   </div>
 
 </template>
 
-<script setup>
-import { onMounted } from "vue";
-import { initFlowbite } from "flowbite";
-
-// initialize components based on data attribute selectors
-onMounted(() => {
-initFlowbite();
-});
-
-definePageMeta({
-layout: "default",
-}),
-useHead({
-  title: "Employees",
-  meta: [{ name: "description", content: "Personnel Action Form" }],
-});
-</script>
 

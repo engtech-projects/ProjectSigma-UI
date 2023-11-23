@@ -1,6 +1,6 @@
 <template>
   <form action="">
-      <table class="w-full border-collapse border border-slate-400 table-fixed">
+      <table class="w-full border-collapse border border-slate-400 table-fixed items-center">
         <div class="font-bold">
           SPOUSE
         </div>
@@ -9,7 +9,7 @@
           <tr>
             <td class="border border-slate-300 p-1">
               <div>
-                <label for="small-input" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">Name of Spouse</label>
+                <label for="small-input" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white truncate" alt="Name of Spouse" title="Name of Spouse">Name of Spouse</label>
                 <input type="text"  id="master_title" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
               </div>
             </td>
@@ -27,7 +27,7 @@
             </td>
             <td class="border border-slate-300 p-1">
               <div>
-                <label for="small-input" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">Date of Marriage</label>
+                <label for="small-input" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white truncate">Date of Marriage</label>
                 <input type="date" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
               </div>
             </td>

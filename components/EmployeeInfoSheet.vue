@@ -3,7 +3,7 @@
     <div
       class="shadow-md p-4 bg-white mb-3 border-2 border-gray-400 rounded-lg w-full"
     >
-      <p class="text-2xl font-light text-gray-900 pb-5">
+      <p class="text-xl font-normal text-gray-900 pb-5">
         Employee Information Sheet
       </p>
       

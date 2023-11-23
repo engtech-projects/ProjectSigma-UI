@@ -1,6 +1,6 @@
 <template>
-    <div class="text-2xl font-normal mb-4">
-      Employees' Record
+    <div class="text-2xl font-normal mb-4 mt-10 md:mt-0">
+      Employees Record
     </div>
     <hr>
     <div>
