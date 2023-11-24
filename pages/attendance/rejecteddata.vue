@@ -13,7 +13,7 @@ useHead({
 </script>
 
 <template>
-  <div class="mt-10 md:flex gap-2">
+  <div class="mt-10 md:mt-0 md:flex gap-2">
     <HrmsAttendanceRejectedData />
   </div>
 </template>

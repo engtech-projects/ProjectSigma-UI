@@ -16,7 +16,7 @@ definePageMeta({
 </style>
 
 <template>
-  <div class="flex flex-col mt-10 md:flex-row gap-2">
+  <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-2">
     <HrmsDepartmentCategory />
 
     <HrmsDepartmentNewDepartment />
