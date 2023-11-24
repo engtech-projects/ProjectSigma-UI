@@ -1017,6 +1017,19 @@
                   Personnel Action Form
                 </NuxtLink>
               </li>
+              <li>
+                <NuxtLink
+                  to="/employee/onboarding"
+                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                >
+                  <Icon
+                    name="material-symbols:dynamic-form-outline-rounded"
+                    class="w-4 h-4"
+                    fill="currentColor"
+                  />
+                  Onboarding
+                </NuxtLink>
+              </li>
               <!-- <li>
                 <NuxtLink
                   to="#"
