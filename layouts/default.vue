@@ -875,7 +875,7 @@
                 type="button"
                 class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 aria-controls="dropdown-dtr"
-                data-collapse-toggle="dropdown-sales">
+                data-collapse-toggle="dropdown-dtr">
                 <Icon
                   name="ic:outline-more-time"
                   class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
