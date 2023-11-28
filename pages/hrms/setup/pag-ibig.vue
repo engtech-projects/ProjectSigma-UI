@@ -59,12 +59,16 @@ const submitEdit = () => {
 </script>
 
 <template>
-  <EasyDataTable
+
+<h2 class="text-4xl font-extrabold dark:text-white">PAG-IBIG</h2>
+
+<EasyDataTable
     show-index
     :headers="headers"
     :items="items"
     class="mt-5"
   >
+
     <template #item-actions="item">
       <button
       @click="deleteItem(item)"

@@ -62,6 +62,9 @@ const submitEdit = () => {
 </script>
 
 <template>
+  
+  <h2 class="text-4xl font-extrabold dark:text-white">PHILHEALTH</h2>
+  
   <EasyDataTable
     show-index
     :headers="headers"
