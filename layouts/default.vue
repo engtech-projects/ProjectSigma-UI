@@ -817,7 +817,7 @@
 
             <ul id="dropdown-attendance" class="hidden py-2 space-y-2">
               <NuxtLink
-                to="/attendance/portal"
+                to="/hrms/attendance/portal"
                 class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                 <Icon
                   name="mdi:face-recognition"
@@ -847,7 +847,7 @@
                   
                   <li>
                     <NuxtLink
-                      to="/attendance/biometrics"
+                      to="/hrms/attendance/biometrics"
                       class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                       <Icon
                         name="ic:outline-account-circle"
@@ -858,7 +858,7 @@
                   </li>
                   <li>
                     <NuxtLink
-                      to="/attendance/rejecteddata"
+                      to=".hrms/attendance/rejecteddata"
                       class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                     >
                       <Icon
@@ -891,7 +891,7 @@
                 />
               </button>
               <NuxtLink
-                to="/attendance/portal"
+                to="/hrms/attendance/portal"
                 class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                 <Icon
                   name="mdi:face-recognition"
@@ -905,7 +905,7 @@
                 
                 <li>
                   <NuxtLink
-                    to="/attendance/timeinout"
+                    to="/hrms/attendance/timeinout"
                     class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     <Icon
@@ -918,7 +918,7 @@
                 </li>
                 <li>
                   <NuxtLink
-                    to="/attendance/failtolog"
+                    to="/hrms/attendance/failtolog"
                     class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     <Icon
