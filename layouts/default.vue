@@ -1087,7 +1087,7 @@
             <ul id="dropdown-setups" class="hidden py-2 space-y-2">
               <li>
                 <NuxtLink
-                  to="hrms/setup/philhealth"
+                  to="/hrms/setup/philhealth"
                   class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 >
                   <Icon
@@ -1100,7 +1100,7 @@
               </li>
               <li>
                 <NuxtLink
-                  to="hrms/setup/pag-ibig"
+                  to="/hrms/setup/pag-ibig"
                   class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 >
                   <Icon
@@ -1113,7 +1113,7 @@
               </li>
               <li>
                 <NuxtLink
-                  to="hrms/setup/sss"
+                  to="/hrms/setup/sss"
                   class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 >
                   <Icon
@@ -1126,7 +1126,7 @@
               </li>
               <li>
                 <NuxtLink
-                  to="hrms/setup/wtax"
+                  to="/hrms/setup/wtax"
                   class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 >
                   <Icon
