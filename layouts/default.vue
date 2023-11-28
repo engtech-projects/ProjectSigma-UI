@@ -874,7 +874,7 @@
               <button
                 type="button"
                 class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                aria-controls="dropdown-sales"
+                aria-controls="dropdown-dtr"
                 data-collapse-toggle="dropdown-sales">
                 <Icon
                   name="ic:outline-more-time"
@@ -890,18 +890,9 @@
                   fill="currentColor"
                 />
               </button>
-              <NuxtLink
-                to="/hrms/attendance/portal"
-                class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                <Icon
-                  name="mdi:face-recognition"
-                  class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                  fill="currentColor"
-                />
-                QR Code
-              </NuxtLink>
+              
 
-              <ul id="dropdown-sales" class="hidden py-2 space-y-2 ml-4">
+              <ul id="dropdown-dtr" class="hidden py-2 space-y-2 ml-4">
                 
                 <li>
                   <NuxtLink
@@ -930,6 +921,17 @@
                   </NuxtLink>
                 </li>
               </ul>
+
+              <NuxtLink
+                to="/hrms/attendance/portal"
+                class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                <Icon
+                  name="mdi:face-recognition"
+                  class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  fill="currentColor"
+                />
+                QR Code
+              </NuxtLink>
 
               
             </ul>
