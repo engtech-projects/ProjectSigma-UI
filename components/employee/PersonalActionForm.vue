@@ -1,22 +1,50 @@
 <template>
-  <div
-    class="shadow-md p-4 mt-6 bg-white mb-3 border border-gray-200 rounded-lg w-full">
+  <div class="shadow-md p-4 mt-6 bg-white mb-3 border border-gray-200 rounded-lg w-full">
+    <div class="flex items-center gap-20 md:justify-center p-4" >
+    
+      <div class="text-2xl p-3 lg:text-4xl text-center ">
+        <h1 class="font-bold text-7xl">EVENPAR</h1>
+        <h4 class="font-medium text-sm "> CONSTRUCTION AND DEVELOPMENT CORPORATION</h4>
+        <h6 class="font-normal text-xs">P-1, Poblacion 8, Buenavista, Agusan Del Norte</h6>
+        <h6 class="font-normal text-xs">email address: evenparcorporation@gmail.com</h6>
+      </div>
+      <div>
+        <img
+          class="w-32 h-32 dark:ring-gray-500 mx-auto block logo "
+          src="/evenpar.jpg"
+          alt="Evenpar Logo"
+        />
+      </div>
+    </div>  
     <div>
+      <div class="flex flex-col">
+        <div><p class="font-bold text-xl text-green-500">EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION</p></div>
+        <div><p class="font-normal text-xs">P-1, Poblacion 8, Buenavista, Agusan Del Norte</p></div>
+        <div><p class="font-normal text-xs italic">email address: evenparcorporation@gmail.com</p></div>
+        
+      </div>
+
+      <!-- <div class="text-2xl p-3 lg:text-4xl text-center ">
+        <p class="font-bold text-xl text-green-500">EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION</p>
+        <p class="font-normal text-xs">P-1, Poblacion 8, Buenavista, Agusan Del Norte</p>
+        <p class="font-normal text-xs italic">email address: evenparcorporation@gmail.com</p>
+        
+      </div> -->
+      
+      
       <form>
-        <div class="flex p-2 w-full justify-between gap-2">
-          <p class="text-center text-md font-medium ml-auto">Date : 11/25/23</p>
-        </div>
+        
         <div class="w-full md:flex gap-2">
           <div class="md:w-1/3 py-2">
             <form>
-              <div class="md:flex w-full">
+              <div class="md:flex w-full ">
                 <div class="w-full">
                   <div
                     class="md:grid lg:grid grid-cols-1 border-dashed rounded-lg border-2 border-gray-400 p-4 gap-10"
                   >
                     <div>
-                      <p class="text-xl font-semibold pb-4">
-                        Personal Information
+                      <p class="text-xl font-semibold pb-4 uppercase">
+                        Personnel Action Notice
                       </p>
                       <div class="md:grid lg:grid grid-cols-3 gap-4">
                         <div class="relative z-0 mb-6 w-full group">
@@ -220,7 +248,7 @@
               </div>
             </form>
           </div>
-          <div class="md:w-3/4 py-2">
+          <!-- <div class="md:w-3/4 py-2">
             <div class="w-full p-2">
               <p class="font-semibold text-xl">ACTION TO BE TAKEN</p>
             </div>
@@ -447,7 +475,7 @@
                 Add Announcement
               </button>
             </div>
-          </div>
+          </div> -->
         </div>
       </form>
     </div>

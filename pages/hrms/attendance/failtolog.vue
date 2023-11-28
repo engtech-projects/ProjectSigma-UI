@@ -69,7 +69,7 @@ const items = [
   <div class="mt-10 md:mt-0 md:flex gap-2">
     <HrmsAttendanceFailureToLogForm />
 
-    <div class="border-2 border-gray-400 p-4 rounded-lg w-full">
+    <div class="shadow-md border border-gray-200 p-4 rounded-lg w-full">
       <label for="" class="text-xl font-normal text-gray-900">Log Failures Table</label>
         <Table
           :tbl-headers="headers"

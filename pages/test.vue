@@ -1,50 +1,314 @@
 <template>
-  <DateRangePicker />
-  <div class="shadow-md border rounded-lg p-4 bg-white mb-3 w-full md:w-3/4">
-    <div>
-      <label for="startDate" class="text-gray-900">Start Date:</label>
-      <input v-model="startDate" type="date" id="startDate" class="border p-2 mb-2">
-      
-      <label for="endDate" class="text-gray-900">End Date:</label>
-      <input v-model="endDate" type="date" id="endDate" class="border p-2 mb-2">
-      
-      <button @click="generateTable" class="bg-blue-500 text-white px-4 py-2">Generate Table</button>
-    </div>
-
-    <p v-if="startDate && endDate" class="text-2xl font-light text-gray-900 pb-5">
-      {{ formattedStartDate }} - {{ formattedEndDate }}
+  <div
+    class="shadow-md border border-gray-200 rounded-lg p-4 bg-white mb-3 w-full md:w-3/4"
+  >
+    <p class="flex justify-center text-xl font-normal
+     text-gray-900 pb-4">
+     
     </p>
-
-    <div v-if="startDate && endDate">
-      <!-- Your dynamic table here -->
-      <!-- Use the startDate and endDate variables to generate the dynamic content -->
+    <div>
+      <div class="relative overflow-x-auto shadow-md">
+        <table class="w-full text-sm text-center text-gray-50 ">
+          <thead
+            class="text-xs text-white uppercase bg-teal-500 dark:bg-gray-950"
+          >
+            <tr>
+              <th
+                scope="col"
+                rowspan="2"
+                class="px-6 py-3 border-solid border border-zinc-800"
+              >
+                Date
+              </th>
+              <th
+                scope="col"
+                colspan="2"
+                class="px-6 py-3 border-solid border border-zinc-800"
+              >
+                08:00 am - 12:00 pm
+              </th>
+              <th
+                scope="col"
+                colspan="2"
+                class="px-6 py-3 border-solid border border-zinc-800"
+              >
+                08:00 am - 12:00 pm
+              </th>
+              <th
+                scope="col"
+                rowspan="2"
+                class="px-2 py-3 border-solid border border-zinc-800"
+              >
+                Total Late
+              </th>
+              <th
+                scope="col"
+                rowspan="2"
+                class="px-2 py-3 border-solid border border-zinc-800"
+              >
+                Total Undertime
+              </th>
+              <th
+                scope="col"
+                colspan="2"
+                class="px-6 py-3 border-solid border border-zinc-800"
+              >
+                Overtime
+              </th>
+            </tr>
+            <tr>
+              <th
+                scope="col"
+                class="px-6 py-3 border-solid border border-zinc-800"
+              >
+                In
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 border-solid border border-zinc-800"
+              >
+                Out
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 border-solid border border-zinc-800"
+              >
+                In
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 border-solid border border-zinc-800"
+              >
+                Out
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 border-solid border border-zinc-800"
+              >
+                in
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 border-solid border border-zinc-800"
+              >
+                Out
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="bg-white border-b text-gray-950">
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                Sep 23
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+            </tr>
+            <tr class="bg-white border-b text-gray-950">
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                Sep 23
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+            </tr>
+            <tr class="bg-white border-b text-gray-950">
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                Sep 23
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+            </tr>
+            <tr class="bg-white border-b text-gray-950">
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                Sep 23
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+            </tr>
+            <tr class="bg-white border-b text-gray-950">
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                Sep 23
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+            </tr>
+            <tr class="bg-white border-b text-gray-950">
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                Sep 23
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+            </tr>
+            <tr class="bg-white border-b text-gray-950">
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                Sep 23
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+            </tr>
+            <tr class="bg-white border-b text-gray-950">
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                Sep 23
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+            </tr>
+            <tr class="bg-white border-b text-gray-950">
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                Sep 23
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+            </tr>
+            <tr class="bg-white border-b text-gray-950">
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                Sep 23
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                10:30
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">
+                15:00
+              </td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">0</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+              <td class="px-6 py-4 border-solid border border-zinc-800">N/A</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      startDate: '',
-      endDate: '',
-    };
-  },
-  computed: {
-    formattedStartDate() {
-      // Format startDate if needed
-      return this.startDate;
-    },
-    formattedEndDate() {
-      // Format endDate if needed
-      return this.endDate;
-    },
-  },
-  methods: {
-    generateTable() {
-      // Implement the logic to generate the table based on the selected date range
-      console.log('Generating table for:', this.startDate, this.endDate);
-    },
-  },
-};
-</script>

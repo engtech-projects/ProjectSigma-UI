@@ -75,8 +75,8 @@ export default {
 
 <template>
 
-    <div class="mt-10 md:flex gap-2 ">
-        <div class="p-2 bg-white border-2 rounded-lg w-full md:w-1/3 mb-5">
+    <div class="mt-10 md:mt-0 md:flex gap-2 ">
+        <div class="p-2 bg-white border rounded-lg w-full md:w-1/3 mb-5 shadow-md">
             <label for="eventTitle" class="text-2xl font-medium">Create Event</label>
             <div>
                 <form action="" class="space-y-2 mt-4">
@@ -107,7 +107,7 @@ export default {
             </div>
         </div>
 
-        <div class="p-2 bg-white border-2 rounded-lg w-full md:w-3/4 mb-5">
+        <div class="p-2 bg-white border shadow-md rounded-lg w-full md:w-3/4 mb-5">
             <FullCalendar :options='calendarOptions' class="mt-10"/>
         </div>
     </div>

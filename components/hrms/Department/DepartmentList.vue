@@ -63,13 +63,10 @@ const items = [
   <div class="container mx-auto mt-2">
     <div class="w-full">
       <div class="divide-y divide-gray-100">
-        <details class="group border-2 border-gray-400 rounded-xl p-2 mb-6" open>
+        <details class="group border border-gray-200 shadow-md rounded-xl p-2 mb-6" open>
           <summary
-            class="flex cursor-pointer list-none items-center justify-between text-lg font-medium text-gray-900"
-          >
-            <label for="eventTitle" class="text-lg font-medium"
-              >Department List</label
-            >
+            class="flex cursor-pointer list-none items-center justify-between text-lg font-medium text-gray-900">
+            <label for="eventTitle" class="text-lg font-medium">Department List</label>
 
             <div class="text-gray-500">
               <svg
