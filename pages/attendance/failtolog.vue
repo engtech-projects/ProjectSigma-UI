@@ -66,7 +66,7 @@ const items = [
 </script>
 
 <template>
-  <div class="mt-10 md:flex gap-2">
+  <div class="mt-10 md:mt-0 md:flex gap-2">
     <HrmsAttendanceFailureToLogForm />
 
     <div class="shadow-md border border-gray-200 p-4 rounded-lg w-full">
