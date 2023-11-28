@@ -40,7 +40,7 @@
             <span class="sr-only">Toggle sidebar</span>
           </button>
           <a
-            href="/hrms/index"
+            href="/hrms"
             class="flex items-center justify-between mr-4"
           >
             <img src="/logo.fw.png" class="mr-3 h-12" alt="Sigma Logo" />
@@ -776,7 +776,7 @@
         <ul class="space-y-2">
           <li>
             <NuxtLink
-              to="/hrms/index"
+              to="/hrms"
               class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               ><svg
                 aria-hidden="true"
