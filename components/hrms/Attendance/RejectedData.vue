@@ -32,7 +32,7 @@ const items = [
 </script>
 <template>
   <div></div>
-  <div class="border-2 border-gray-400 p-4 rounded-lg w-full space-y-3">
+  <div class="border border-gray-200 shadow-md p-4 rounded-lg w-full space-y-3">
     <label for="" class="text-xl font-normal text-gray-900">Biometric Data</label>
     <div class="md:w-96">
       <label for="" class="text-sm italic font-normal text-gray-900 mb-4">Select Date</label>

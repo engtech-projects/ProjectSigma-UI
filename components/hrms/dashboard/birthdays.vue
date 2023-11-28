@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700 h-96 overflow-auto">
+  <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700 h-96 overflow-auto">
     <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">Birthdays This Month</h5>
     <div class="grid grid-cols-4 justify-start mt-4 gap-4">
       <div v-for="(employee, index) in employees" :key="i0ndex" class="flex flex-col items-center">

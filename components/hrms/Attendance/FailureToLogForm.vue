@@ -1,6 +1,6 @@
 <template>
   <div
-    class="shadow-md p-4 bg-white mb-3 border-2 border-gray-400 rounded-lg w-full md:w-1/3"
+    class="shadow-md p-4 bg-white mb-3 border border-gray-300 rounded-lg w-full md:w-1/3"
   >
     <p class="text-xl font-normal text-gray-900 pb-5">
       Failure to Login / Logout form

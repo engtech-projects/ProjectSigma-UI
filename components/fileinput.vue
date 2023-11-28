@@ -7,7 +7,7 @@
 
     <!-- Align button to the right -->
     <div class="flex justify-end">
-      <button type="submit" class="w-38 h-8 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-0 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> 
+      <button type="submit" class="w-38 h-8 text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-2 py-0 text-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"> 
         <Icon name="ic:baseline-send" color="white" class="w-5 h-5"/>
         Submit
       </button>
