@@ -1,479 +1,118 @@
+<script  setup lang="ts">
+
+import { Header, Item } from "vue3-easy-data-table";
+import { defineComponent, ref, reactive } from "vue";
+
+const headers: Header[] = [
+      { text: "Employee Name", value: "employee_name" },
+      { text: "Department", value: "department_name" },
+      { text: "Action to be taken", value: "action_taken" },
+      { text: "Actions", value: "actions" },
+];
+
+const items: Item[any] = ref([
+{
+    employee_name: "Juan Luna",
+    department_name: "Accounting",
+    action_taken: "BASIC SALARY",
+    date_filed: "10/24/23",
+    action_button: "1230",
+  },
+  {
+    employee_name: "Jose Rizal",
+    department_name: "Finance",
+    action_taken: "EMPLOYMENT STATUS",
+    date_filed: "10/24/23",
+  },
+  {
+    employee_name: "Andress Boni",
+    department_name: "IT",
+    action_taken: "PROMOTION",
+    date_filed: "10/24/23",
+  },
+  {
+    employee_name: "Andress Boni",
+    department_name: "IT",
+    action_taken: "TRANSFER",
+    date_filed: "10/24/23",
+  },
+]);
+
+const editingItem = reactive({
+  salary_val_start: "",
+  salary_val_end: "",
+  monthly_prem: "",
+  id: 0,
+});
+
+const deleteItem = (val: Item) => {
+  items.value.splice(val.id,1);      
+};
+
+const editItem = (val: Item) => {
+  const { salary_val, monthly_prem, id } = val;
+
+  editingItem.salary_val_start = salary_val;
+  editingItem.salary_val_end = salary_val;
+  editingItem.monthly_prem = monthly_prem;
+  editingItem.id = id;
+};
+
+const submitEdit = () => {
+  const item = items.value.find((item: { id: number; }) => item.id === editingItem.id);
+  item.salary_val = editingItem.salary_val_start;
+  item.monthly_prem = editingItem.monthly_prem;
+};
+
+</script>
+
 <template>
-  <div class="w-full md:w-1/2">
-    <form class="md:mt-0 mt-10">   
-        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-        <div class="relative">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                </svg>
-            </div>
-            <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required>
-            <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+  <div
+    class="shadow-md p-4 mt-6 bg-white mb-3 border border-gray-200 rounded-lg w-full md:w-1/2">
+  
+    <div class="pb-2 text-gray-500">
+          Personnel Action Form List
+          
         </div>
-    </form>
-  
-    <form action="" class="mt-5">
-        <table class="w-full border-collapse border border-slate-300 table-fixed">
-            <tbody>
-              <tr>
-                <div class="flex justify-center border border-slate-300">
-                  <label for="small-input" class="flex text-lg font-medium text-gray-900 dark:text-white">PERSONNEL ACTION NOTICE</label>
-                </div>
-              </tr>
-  
-              <tr>
-                <td colspan="3"></td>
-                <td colspan="1" class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
-                    <input type="date" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="2" class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">EMPLOYEE:</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">EMPLOYEE NO.:</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">EFFECTIVE DATE:</label>
-                    <input type="date" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan=4 class="border border-slate-300">
-                  <div class="flex p-1">
-                    <div class="space-x-2 ">
-                      <input type="checkbox" id="1"  value="1">
-                      <label for="1" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">NEW HIRE</label>
-                      <input type="checkbox" id="2"  value="2">
-                      <label for="2" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">TERMINATION</label>
-                      <input type="checkbox" id="3"  value="3">
-                      <label for="3" class=" text-xs text-gray-900 dark:text-gray-300">TRANSFER</label>
-                      <input type="checkbox" id="4"  value="4">
-                      <label for="4" class=" text-xs text-gray-900 dark:text-gray-300">NEW RATE</label>
-                      <input type="checkbox" id="5"  value="5">
-                      <label for="5" class=" text-xs text-gray-900 dark:text-gray-300">BONUS</label>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan=4 class="border border-slate-300">
-                  <div class="flex p-1">
-                    <div class="space-x-2">
-                      <input type="checkbox" id="6"  value="6">
-                      <label for="6" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">TITLE CHANGE*</label>
-                      <input type="checkbox" id="7"  value="7">
-                      <label for="7" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">LABOR CATEGORY CHANGE</label>
-                      <input type="checkbox" id="8"  value="8">
-                      <label for="8" class=" text-xs text-gray-900 dark:text-gray-300">OTHERS</label>
-                      <label for="" class=" text-xs text-red-500 dark:text-gray-300 italic">*Provide explanation in Comments/Explanations</label>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-  
-              <tr>
-                <td colspan=4>
-                  <label for="small-input" class="flex text-md font-medium text-gray-900 dark:text-white">EMPLOYEE/NEW HIRE DATA</label>
-                </td>
-              </tr>
-  
-              <tr>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">SECTION:</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-                <td colspan="2" class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DESIGNATION:</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">SALARY:</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-              </tr>
-  
-              <tr>
-                <td colspan=4 class="border border-slate-300">
-                  <div class="p-1">
-                    <div class="space-x-2">
-                      <input type="checkbox" id="exempt"  value="1">
-                      <label for="exempt" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">Exempt</label>
-                      <input type="checkbox" id="nonexempt"  value="2">
-                      <label for="nonexempt" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">Non-exempt</label>
-                      <label for="nonexempt" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">Hire Source:</label>
-                      <input type="text" id="nonexempt"  value="" class="inline w-42 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan=4 class="border border-slate-300">
-                  <div class="p-1">
-                    <div class="space-x-2">
-                      <input type="checkbox" id="fulltime"  value="1">
-                      <label for="fulltime" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">Full-time</label>
-                      <input type="checkbox" id="parttime"  value="2">
-                      <label for="parttime" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">Part-time</label>
-                      <input type="checkbox" id="oncall"  value="3">
-                      <label for="oncall" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">Part-time/On-call</label>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan=4 class="border border-slate-300">
-                  <div class="p-1">
-                    <div class="space-x-2">
-                      <label for="nonexempt" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">Work Location:</label>
-                      <input type="text" id="nonexempt"  value="" class="inline w-80 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    </div>
-                  </div>
-                </td>
-              </tr>
+    
+    <EasyDataTable
+      show-index
+      :headers="headers"
+      :items="items"
+      class="mt-5"
+    >
+      <template #item-actions="item">
+        <button
+        @click="deleteItem(item)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6z"/></svg> 
+        </button>
+        <button
+        @click="editItem(item)"
+        >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+        </button>
+      </template>
 
-              <tr>
-                <td>
-                  <label for="small-input" class="flex text-md font-medium text-gray-900 dark:text-white">TRANSFER DATA</label>
-                </td>
-              </tr>
-              <tr>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">From: (Sec./Loc.):</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Approving Supervisor</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">To: (Sec./Loc.):</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Approving Supervisor</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-              </tr>
+    </EasyDataTable>
 
-              <tr>
-                <td colspan="4">
-                  <label for="small-input" class="flex w-full text-md font-medium text-gray-900 dark:text-white">SALARY, BONUS, TITLE CHANGES</label>
-                </td>
-              </tr>
-
-              <tr>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex justify-center text-xs font-bold text-gray-900 dark:text-white">TYPE OF ADJUSTMENT</label>
-                  </div>
-                </td>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex justify-center text-xs font-bold text-gray-900 dark:text-white">PRESENT</label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex justify-center text-xs font-bold text-gray-900 dark:text-white">PROPOSED</label>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex text-xs font-normal text-gray-900 dark:text-white">Semimonthly Salary (Full-time Exempt)</label>
-                  </div>
-                </td>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-normal text-gray-900 dark:text-white">Monthly Salary (Full-time Exempt)</label>
-                  </div>
-                </td>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-normal text-gray-900 dark:text-white">Annualized Salary (Full-time Exempt)</label>
-                  </div>
-                </td>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-normal text-gray-900 dark:text-white">Hourly Salary (Full-time Exempt)</label>
-                  </div>
-                </td>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-normal text-gray-900 dark:text-white">Bonus</label>
-                  </div>
-                </td>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex  text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td colspan="4">
-                  <label for="small-input" class="flex  justify-center text-md font-medium text-blue-700 dark:text-white">TERMINATION DATA (See Attached Page)</label>
-                </td>
-              </tr>
-
-              <tr>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Type of Termination:</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Reason for Termination:</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="inline mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Eligible for Rehire:</label>
-                    
-                   
-                      <div class="space-x-2 ">
-                        <input type="checkbox" id="yes"  value="">
-                        <label for="yes" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">Yes</label>
-                        <input type="checkbox" id="no"  value="">
-                        <label for="no" class=" mr-4 text-xs text-gray-900 dark:text-gray-300">No</label>
-                      </div>
-                    
-                  </div>
-                </td>
-                <td colspan=2 class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Last Day Worked:</label>
-                    <input type="text" id="small-input" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-              </tr>
-              
-              <tr>
-                <td colspan="4">
-                  <label for="small-input" class="flex  justify-center text-md font-medium text-blue-700 dark:text-white">COMMENTS/EXPLANATIONS</label>
-                </td>
-              </tr>
-
-              <tr>
-                <td colspan=4 class="border border-slate-300 p-1">
-                  <div>
-                    <input type="text" id="small-input" placeholder="Comments and explanations here" class="italic block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-              </tr>
-
-              <tr>
-                <td colspan="4">
-                  <label for="small-input" class="flex  justify-center text-md font-medium text-blue-700 dark:text-white">APPROVAL</label>
-                </td>
-              </tr>
-
-              <tr>
-                
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex justify-center text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex justify-center text-xs font-bold text-gray-900 dark:text-white">DATE</label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="flex justify-center text-xs font-bold text-gray-900 dark:text-white"></label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="small-input" class="w-12 flex justify-center text-xs font-bold text-gray-900 dark:text-white">DATE</label>
-                  </div>
-                </td>
-              </tr>
-
-
-              <tr>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="" class="flex text-xs font-medium text-gray-900 dark:text-white">Immediate Head:</label>
-                    <input type="text" id="small-input" class="italic block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1 w-6">
-                  <div>
-                    <input type="date" class="w-20 md:w-full">
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div class="flex h-16">
-                    <label for="" class="inline-block align-text-bottom text-xs pt-4 font-medium text-gray-900 dark:text-white ">Director: <b>ENGR. RICHIE C. DALAUTA</b></label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <input type="date" class="w-20 md:w-full">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="" class="inline-block align-text-bottom mt-8 text-xs font-medium text-gray-900 dark:text-white">HR Head: <b>JERMILY C. MOZO</b></label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <input type="date" class="w-20 md:w-full">
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div class="">
-                    <label for="" class="inline-block align-text-bottom mt-8 text-xs font-medium text-gray-900 dark:text-white">Director: <b>ENGR. DIONISION JONAS A. RODES</b></label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <input type="date" class="w-20 md:w-full">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <label for="" class="flex text-xs font-medium text-gray-900 dark:text-white">Director:</label>
-                    <input type="text" id="small-input" class="italic block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <input type="date" class="w-20 md:w-full">
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div class="">
-                    <label for="" class="inline-block align-text-bottom mt-8 text-xs font-medium text-gray-900 dark:text-white">President: <b>ENGR. ANGEL A. ABRAU</b></label>
-                  </div>
-                </td>
-                <td class="border border-slate-300 p-1">
-                  <div>
-                    <input type="date" class="w-20 md:w-full">
-                  </div>
-                </td>
-              </tr>
-              
-              
-              
-              <tr>
-                <td colspan="4">
-                  
-                  <label for="small-input" class="flex justify-center text-md font-medium text-blue-700 dark:text-white">EMPLOYEE SIGNATURE</label>
-                </td>
-              </tr>
-              <tr>
-                <td colspan=4 class="border border-slate-300 p-1">
-                  <div>
-                    <input type="text" id="small-input" class="italic block w-full p-1 text-gray-900 border-0 border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  </div>
-                  <label for="small-input" class="flex  justify-center text-xs italic font-medium text-gray-900 dark:text-white">Name & Signature                                                                     </label>
-                </td>
-              </tr>
-  
-              
-            </tbody>
-        </table>
-    </form>
-
+    <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
+      <div class="grid gap-6 mb-6 md:grid-cols-2">
+            <div>
+                <label for="salary_val_start" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start</label>
+                <input v-model="editingItem.salary_val_start" type="text" id="salary_val_start" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
+            </div>
+            <div>
+                <label for="salary_val_end" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End</label>
+                <input v-model="editingItem.salary_val_end" type="text" id="salary_val_end" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
+            </div>
+        </div>
+        <div class="mb-6">
+            <label for="monthly_prem" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Monthly Premium</label>
+            <input v-model="editingItem.monthly_prem" type="text" id="monthly_prem" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
+        </div> 
+        <button @click="submitEdit" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+    </div>
   </div>
 
 </template>
-

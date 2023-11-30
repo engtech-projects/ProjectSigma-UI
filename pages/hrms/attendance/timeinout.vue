@@ -4,7 +4,7 @@ definePageMeta({
 }),
 
 useHead({
-  title: 'Time In/Out',
+  title: 'Daily Logs Record',
   meta: [
     { name: 'description', content: '' }
   ],
