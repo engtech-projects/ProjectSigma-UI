@@ -904,7 +904,7 @@
                       class="w-4 h-4"
                       fill="currentColor"
                     />
-                    Time In/Out
+                    Daily Logs Record
                   </NuxtLink>
                 </li>
                 <li>
@@ -1026,7 +1026,7 @@
                     class="w-4 h-4"
                     fill="currentColor"
                   />
-                  Personnel Action Form
+                  Personnel Action Notice
                 </NuxtLink>
               </li>
               <li>
