@@ -5,17 +5,17 @@
             <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div class="mb-5">
                     <label for="req_department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Requesting Department</label>
-                    <input type="text" id="req_department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required>
+                    <input type="text" id="req_department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                 </div>
                 <div class="mb-5">
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div class="div">
                             <label for="date_requested" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Requested</label>
-                            <input type="date" id="date_requested" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required>
+                            <input type="date" id="date_requested" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                         </div>
                         <div class="div">
                             <label for="date_required" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Required</label>
-                            <input type="date" id="date_required" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required>
+                            <input type="date" id="date_required" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                         </div>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
             <div class="mb-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div class="mb-5">
                     <label for="position_title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position / Title</label>
-                    <input type="text" id="position_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required>
+                    <input type="text" id="position_title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                 </div>
                 <div class="mb-5">
                     <label for="employment_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employment Type</label>
