@@ -15,7 +15,7 @@ useHead({
 </script>
 
 <template>
-  <div class="mb-4 mt-10 md:mt-0">
+  <div class="mt-10 md:mt-0">
     <HrmsAttendanceUserAccounts />
   </div>
 </template>
