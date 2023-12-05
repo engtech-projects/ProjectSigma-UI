@@ -3,7 +3,7 @@
     class="shadow-md p-4 bg-white mb-3 border border-gray-300 rounded-lg w-full md:w-1/3"
   >
     <p class="text-xl font-normal text-gray-900 pb-5">
-      Failure to Login / Logout form
+      Failure to Log Form
     </p>
     <div>
       <form>
@@ -95,7 +95,7 @@
         <div class="flex justify-end mb-2 p-2">
           <button
             type="submit"
-            class="flex gap-2 justify-center text-white bg-cyan-700 hover:bg-cyan-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-900 dark:hover:bg-gray-800"
+            class="flex gap-2 justify-center text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-900 dark:hover:bg-gray-800"
           >
           <Icon name="ic:baseline-get-app" class="w-6 h-6" color="white" />
             Save Failure to Login
