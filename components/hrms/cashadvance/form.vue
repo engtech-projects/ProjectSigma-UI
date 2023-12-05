@@ -4,55 +4,70 @@
     <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <label for="employee_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee Name</label>
-          <input type="text" id="employee_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+          <input type="text" id="employee_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
         </div>
         <div>
           <label for="date_fill" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-          <input type="date" id="date_fill" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+          <input type="date" id="date_fill" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
         </div>
     </div>
     <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Designation</label>
-          <input type="text" id="position" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+          <input type="text" id="position" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required>
         </div>
         <div>
-            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee Name</label>
-            <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <option selected>Choose a country</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
-            </select>
+          <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+          <input type="text" id="department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
         </div>
     </div>
-    <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-4">
+    <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
-          <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-          <input type="date" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+          <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount Requested</label>
+          <input type="text" id="position" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
         </div>
         <div>
-          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-              <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time From</label>
-              <input type="time" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+          <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount Approved</label>
+          <input type="text" id="department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+        </div>
+    </div>
+    <div class="mt-5">
+        <div>
+          <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Purpose/Reason(s)</label>
+          <input type="text" id="position" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+        </div>
+    </div>
+    <div class="mt-5">
+      <div>
+        <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Terms of Cash Advance</label>
+        <input type="text" id="position" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+      </div>
+    </div>
+    <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div>
+          <label for="repayment_sched" class="block mb-2 text-md font-bold text-gray-900 dark:text-white">Repayment Schedule</label>
+          <label for="first_name" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Terms</label>
+          <div class="flex flex-col">
+            <div class="mt-5 flex flex-wrap items-center mb-4 gap-3">
+              <input id="leave-availment-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label for="leave-availment-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Monthly</label>
             </div>
-            <div>
-              <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To</label>
-              <input type="time" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+            <div class="flex items-center mb-4 gap-3">
+              <input id="leave-availment-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+              <label for="leave-availment-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Semi-monthly</label>
             </div>
           </div>
         </div>
-        <div>
-          <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total # Of Hrs.</label>
-          <input type="time" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+        <div class="flex flex-col">
+          <div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payroll Deduction:</label>
+            <input type="date" id="repayment_sched" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+          </div>
+          <div class="mt-5">
+            <label for="amt" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
+            <input type="text" id="amt" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+          </div>
         </div>
-        <div>
-          <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Purpose/Reason</label>
-          <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
-        </div>
-        
     </div>
     <div class="max-w-full flex flex-row-reverse mt-5">
       <button @click="submitAdd" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add</button>
@@ -62,130 +77,6 @@
 
 
 <script setup lang="ts">
-import { Header, Item } from "vue3-easy-data-table";
-import { ref, reactive } from "vue";
-
-const headers: Header[] = [
-      { text: "CREDITS", value: "credits" },
-      { text: "EARNED", value: "earned" },
-      { text: "USED", value: "used" },
-      { text: "BALANCE", value: "balance" },
-];
-
-const items: Item[any] = ref([
-  {
-    credits: "Vacation Leave",
-    earned: "",
-    used: "",
-    balance: "",
-  },
-  {
-    credits: "Sick Leave",
-    earned: "",
-    used: "",
-    balance: "",
-  },
-  {
-    credits: "Service Incentive Leave",
-    earned: "",
-    used: "",
-    balance: "",
-  },
-  {
-    credits: "Emergency Leave",
-    earned: "",
-    used: "",
-    balance: "",
-  },
-  {
-    credits: "Paternity Leave",
-    earned: "",
-    used: "",
-    balance: "",
-  },
-  {
-    credits: "Maternity Leave",
-    earned: "",
-    used: "",
-    balance: "",
-  },
-  {
-    credits: "Birthday Leave",
-    earned: "",
-    used: "",
-    balance: "",
-  },
-  {
-    credits: "Solo Parent Leave",
-    earned: "",
-    used: "",
-    balance: "",
-  },
-  {
-    credits: "Educational Leave",
-    earned: "",
-    used: "",
-    balance: "",
-  },
-  {
-    credits: "Menstrual Leave",
-    earned: "",
-    used: "",
-    balance: "",
-  },
-  {
-    credits: "Others",
-    earned: "",
-    used: "",
-    balance: "",
-  },
-]);
-
-const AddItem = reactive({
-range_compensation: "",
-employer_share: "",
-employee_share: "",
-total_contributions: "",
-id: 0,
-});
-
-const editingItem = reactive({
-range_compensation: "",
-employer_share: "",
-employee_share: "",
-total_contributions: "",
-id: 0,
-});
-
-const deleteItem = (val: Item) => {
-//   items.value.splice(val.id,1);      
-};
-
-const editItem = (val: Item) => {
-const { range_compensation, employer_share, employee_share, total_contributions, id } = val;
-editingItem.range_compensation = range_compensation;
-editingItem.employer_share = employer_share;
-editingItem.employee_share = employee_share;
-editingItem.total_contributions = total_contributions;
-editingItem.id = id;
-};
-
-const submitEdit = () => {
-//   const item = items.value.find((item: { id: number; }) => item.id === editingItem.id);
-//   item.range_compensation = editingItem.range_compensation;
-//   item.employer_share = editingItem.employer_share;
-//   item.employee_share = editingItem.employee_share;
-//   item.total_contributions = editingItem.total_contributions;
-};
-
-const autoAdd = () =>{
-AddItem.total_contributions = AddItem.employee_share + AddItem.employer_share;
-}
-
-const autoAddinEdit = () =>{
-editingItem.total_contributions = editingItem.employee_share + editingItem.employer_share;
-}
-
 const submitAdd = () => {
 };
 </script>

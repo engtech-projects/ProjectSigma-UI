@@ -21,6 +21,11 @@
                       <Icon class="text-lg" name="fa-solid:times" />
                     </button>
                     <button
+                    @click="payment(item)"
+                    >
+                      <Icon class="text-lg" name="mdi:cash" />
+                    </button>
+                    <button
                     @click="deleted(item)"
                     >
                       <Icon class="text-lg" name="mdi:trash" />
@@ -38,12 +43,14 @@ import { Header, Item } from "vue3-easy-data-table";
 
 const headers: Header[] = [
       { text: "Employee Name", value: "employee_name" },
-      { text: "Date Filed", value: "date_filed" ,width: 150 },
-      { text: "Overtime Date", value: "overtime_date" ,width: 150 },
-      { text: "Time From", value: "time_from" },
-      { text: "Time To", value: "time_to" },
-      { text: "Total # Of Hrs.", value: "total_hrs" },
-      { text: "Purpose/Reason", value: "purpose_reason" },
+      { text: "Date Filed", value: "date_filed" },
+      { text: "Requested Amount", value: "requested_amt" },
+      { text: "Purpose", value: "purpose" },
+      { text: "Repayment Term", value: "repayment_term" },
+      { text: "Repayment Start.", value: "repayment_start" },
+      { text: "Repayment Amount", value: "repayment_amt" },
+      { text: "Balance", value: "balance" },
+      { text: "Status", value: "status" },
       { text: "Action", value: "actions" },
 ];
 
@@ -51,67 +58,37 @@ const items: Item[any] = ref([
   {
     employee_name: "Lorem 1",
     date_filed: "2017-10-10",
-    overtime_date: "2017-10-10",
-    time_from: "2017-09-22 08:00:00",
-    time_to: "2017-09-22 17:00:00",
-    total_hrs: "8.00",
-    purpose_reason: "went to davao",
+    requested_amt: "2,000.00",
+    purpose: "medicine",
+    repayment_term: "Semi-monthly",
+    repayment_start: "2017-09-22 08:00:00",
+    repayment_amt: "500",
+    balance: "1,000.00",
+    status: "Approved",
   },
   {
     employee_name: "Lorem 1",
     date_filed: "2017-10-10",
-    overtime_date: "2017-10-10",
-    time_from: "2017-09-22 08:00:00",
-    time_to: "2017-09-22 17:00:00",
-    total_hrs: "8.00",
-    purpose_reason: "went to davao",
+    requested_amt: "2,000.00",
+    purpose: "medicine",
+    repayment_term: "Semi-monthly",
+    repayment_start: "2017-09-22 08:00:00",
+    repayment_amt: "500",
+    balance: "1,000.00",
+    status: "Approved",
   },
   {
     employee_name: "Lorem 1",
     date_filed: "2017-10-10",
-    overtime_date: "2017-10-10",
-    time_from: "2017-09-22 08:00:00",
-    time_to: "2017-09-22 17:00:00",
-    total_hrs: "8.00",
-    purpose_reason: "went to davao",
+    requested_amt: "2,000.00",
+    purpose: "medicine",
+    repayment_term: "Semi-monthly",
+    repayment_start: "2017-09-22 08:00:00",
+    repayment_amt: "500",
+    balance: "1,000.00",
+    status: "Approved",
   },
-  {
-    employee_name: "Lorem 1",
-    date_filed: "2017-10-10",
-    overtime_date: "2017-10-10",
-    time_from: "2017-09-22 08:00:00",
-    time_to: "2017-09-22 17:00:00",
-    total_hrs: "8.00",
-    purpose_reason: "went to davao",
-  },
-  {
-    employee_name: "Lorem 1",
-    date_filed: "2017-10-10",
-    overtime_date: "2017-10-10",
-    time_from: "2017-09-22 08:00:00",
-    time_to: "2017-09-22 17:00:00",
-    total_hrs: "8.00",
-    purpose_reason: "went to davao",
-  },
-  {
-    employee_name: "Lorem 1",
-    date_filed: "2017-10-10",
-    overtime_date: "2017-10-10",
-    time_from: "2017-09-22 08:00:00",
-    time_to: "2017-09-22 17:00:00",
-    total_hrs: "8.00",
-    purpose_reason: "went to davao",
-  },
-  {
-    employee_name: "Lorem 1",
-    date_filed: "2017-10-10",
-    overtime_date: "2017-10-10",
-    time_from: "2017-09-22 08:00:00",
-    time_to: "2017-09-22 17:00:00",
-    total_hrs: "8.00",
-    purpose_reason: "went to davao",
-  },
-]);
+])
 
 const approved = (val: Item) =>{
 }
@@ -119,8 +96,11 @@ const approved = (val: Item) =>{
 const deleted = (val: Item) =>{
 }
 
+const payment = (val: Item) =>{
+}
+
 const reject = (val: Item) => {
-};
+}
 </script>
 
 <style>
