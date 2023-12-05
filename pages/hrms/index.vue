@@ -3,12 +3,12 @@
       <div
         class="grid-cols-2 border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
       >
-        <HrmsDashboardAnnouncement class="md: mt-10 p-2" />
+        <HrmsDashboardAnnouncement class="mt-10 md:mt-0 p-2" />
       </div>
       <div
         class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
       >
-        <HrmsDashboardBirthdays :employees="employeesData" class="md: mt-2 md:mt-10 p-2" />
+        <HrmsDashboardBirthdays :employees="employeesData" class="md: mt-2 md .:mt-0 p-2" />
       </div>
       <div
         class=" rounded-lg border-gray-300 dark:border-gray-600 h-92 md:h-full"
