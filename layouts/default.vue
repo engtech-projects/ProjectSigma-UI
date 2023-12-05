@@ -934,7 +934,7 @@
               </NuxtLink>
 
               <NuxtLink
-                to="/hrms/attendance/portal"
+                to="/hrms/attendance/qrcode"
                 class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                 <Icon
                   name="material-symbols:qr-code-scanner-rounded"
