@@ -856,7 +856,7 @@
                         Biometrics Account
                     </NuxtLink>
                   </li>
-                  <li>
+                  <li hidden>
                     <NuxtLink
                       to="/hrms/attendance/rejecteddata"
                       class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
@@ -917,22 +917,32 @@
                       class="w-4 h-4"
                       fill="currentColor"
                     />
-                    Failure To Login
+                    Failure To Log
                   </NuxtLink>
                 </li>
               </ul>
+              
+              <NuxtLink
+                to="/hrms/attendance/useraccounts"
+                class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                <Icon
+                  name="material-symbols:person-add-outline-rounded"
+                  class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  fill="currentColor"
+                />
+                User Account
+              </NuxtLink>
 
               <NuxtLink
                 to="/hrms/attendance/portal"
                 class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                 <Icon
-                  name="mdi:face-recognition"
+                  name="material-symbols:qr-code-scanner-rounded"
                   class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   fill="currentColor"
                 />
                 QR Code
               </NuxtLink>
-
               
             </ul>
 
