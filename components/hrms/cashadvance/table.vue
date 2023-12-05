@@ -11,6 +11,16 @@
               <template #item-actions="item">
                   <div class="flex flex-row gap-1">
                     <button
+                    @click="approved(item)"
+                    >
+                      <Icon class="text-lg" name="mingcute:check-fill" />
+                    </button>
+                    <button
+                    @click="reject(item)"
+                    >
+                      <Icon class="text-lg" name="fa-solid:times" />
+                    </button>
+                    <button
                     @click="deleted(item)"
                     >
                       <Icon class="text-lg" name="mdi:trash" />
@@ -103,10 +113,14 @@ const items: Item[any] = ref([
   },
 ]);
 
-const deleted = (val: Item) =>{
-  items.value.splice(val.key,1);      
+const approved = (val: Item) =>{
 }
 
+const deleted = (val: Item) =>{
+}
+
+const reject = (val: Item) => {
+};
 </script>
 
 <style>
