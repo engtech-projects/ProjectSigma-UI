@@ -1,6 +1,6 @@
 <template>
   <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto" >
-      <h5 class="text-xl font-extrabold dark:text-white">Overtime List</h5>
+      <h5 class="text-xl font-extrabold dark:text-white">Cash Advances List</h5>
       <div class="mt-5 mb-6">
         <EasyDataTable
                 class="mt-5"
