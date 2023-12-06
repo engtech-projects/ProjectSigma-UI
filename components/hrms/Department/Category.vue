@@ -51,7 +51,7 @@ const category_items = [
 
 <template>
   <div class="w-full">
-      <details class="group border border-gray-200 shadow-md rounded-xl p-2">
+      <details class="group border border-gray-400 shadow-md rounded-md p-2">
         <summary
           class="flex cursor-pointer list-none items-center justify-between text-lg font-medium text-gray-900">
           <label for="eventTitle" class="text-lg font-medium">Add New Category</label>
@@ -78,7 +78,7 @@ const category_items = [
           <form action="">
             <div class="space-y-2">
               <label for="eventTitle" class="text-xs italic">Category Name</label>
-              <input type="text" id="eventTitle" class="w-full rounded" />
+              <input type="text" id="eventTitle" class="w-full rounded-lg" />
             </div>
             <div class="flex justify-end">
               <button
