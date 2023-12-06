@@ -1,6 +1,6 @@
 <template>
   <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto" >
-      <h5 class="text-xl font-extrabold dark:text-white">Leave Application Form</h5>
+      <label for="" class="text-xl font-semibold text-gray-900">Leave Application Form</label>
       <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
         <div class="mb-6">
           <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
@@ -23,7 +23,7 @@
         </div>
         <div class="flex gap-7">
           <div class="w-3/5">
-            <h5 class="text-xl font-extrabold dark:text-white">LEAVE AVAILMENT</h5>
+            <label for="" class="text-xl font-semibold text-gray-900">LEAVE AVAILMENT</label>
             <div class="flex gap-5">
               <div class="w-1/2">
                 <div class="mt-5 flex items-center mb-4">
@@ -109,7 +109,7 @@
             </div>
           </div>
           <div class="w-2/5">
-            <h5 class="text-xl font-extrabold dark:text-white">EMPLOYEE'S LEAVE RECORD (HRD use only)</h5>
+            <label for="" class="text-xl font-semibold text-gray-900">EMPLOYEE'S LEAVE RECORD (HRD use only)</label>
               <EasyDataTable
                 id="employee_leave_table"
                 class="mt-5"

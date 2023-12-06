@@ -206,8 +206,8 @@ const clear = () => {
 
 <template>
   
-  <h2 class="mt-5 text-4xl font-extrabold dark:text-white">Withholding Tax</h2>
-  
+  <h2 class="text-2xl font-semibold dark:text-white">Withholding Tax</h2>
+
   <div class="flex flex-row">
     <button type="button" class="mt-5 focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">$ BIR WTax Calculator</button>
   </div>
@@ -216,7 +216,7 @@ const clear = () => {
     <div class="w-2/5">
       <div class="edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto" >
           <div class="mb-6">
-              <h2 class="text-2xl font-extrabold dark:text-white">WTAX Create</h2>
+            <label for="" class="text-xl font-semibold text-gray-900">WTAX Create</label>
           </div>
           <div class="mb-6">
               <label for="term" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Term</label>

@@ -1,6 +1,7 @@
 <template>
   <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto" >
-    <h5 class="text-xl font-extrabold dark:text-white">Overtime Authorization Form</h5>
+    <label for="" class="text-xl font-semibold text-gray-900">Overtime Authorization Form</label>
+         
     <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
           <label for="project_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project Name</label>

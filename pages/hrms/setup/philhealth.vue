@@ -72,11 +72,11 @@ const submitAdd = () => {
 
 <template>
   
-  <h2 class="text-4xl font-extrabold dark:text-white">PHILHEALTH</h2>
-
+  <h2 class="text-2xl font-semibold dark:text-white">PHILHEALTH</h2>
 
   <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-      <h2 class="text-2xl font-extrabold dark:text-white">Add Contribution Record</h2>
+      <label for="" class="text-xl font-semibold text-gray-900">Add Contribution Record</label>
+
       <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
         <div>
           <label for="add_salary_val_start" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start</label>
@@ -95,7 +95,7 @@ const submitAdd = () => {
   </div>
 
   <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-    <h2 class="text-2xl font-extrabold dark:text-white">Contribution Table</h2>
+  <label for="" class="text-xl font-semibold text-gray-900">Contribution Table</label>
     <EasyDataTable
     show-index
     :headers="headers"
@@ -118,7 +118,7 @@ const submitAdd = () => {
     </div>
     
     <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-      <h2 class="text-2xl font-extrabold dark:text-white">Edit Contribution Record</h2>
+      <label for="" class="text-xl font-semibold text-gray-900">Edit Contribution Record</label>
       <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
         <div>
           <label for="salary_val_start" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start</label>

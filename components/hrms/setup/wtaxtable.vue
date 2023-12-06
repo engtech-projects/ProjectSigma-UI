@@ -22,7 +22,7 @@
     </EasyDataTable>
     <div class="edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto" >
           <div class="mb-6">
-              <h2 class="text-2xl font-extrabold dark:text-white">WTAX Update</h2>
+              <label for="" class="text-xl font-semibold text-gray-900">WTAX Update</label>
           </div>
           <div class="mb-6">
               <label for="term" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Term</label>

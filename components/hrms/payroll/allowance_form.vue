@@ -25,7 +25,8 @@
         </div>
         <div class="mb-5">
             <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-                <h5 class="text-xl font-extrabold dark:text-white">Less</h5>
+                <label for="" class="text-xl font-semibold text-gray-900">Less</label>
+                    
                 <div class="mt-4 flex flex-col">
                     <div>
                         <input id="checked-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
@@ -45,7 +46,7 @@
         <div>
             <div class="mb-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-                    <h5 class="text-xl font-extrabold dark:text-white">Adjustment</h5>
+                    <label for="" class="text-xl font-semibold text-gray-900">Adjustment</label>
                     <div class="mt-4 flex flex-col">
                         <div class="mb-5 grid grid-cols-1 gap-6 sm:grid-cols-4">
                             <div>
@@ -70,7 +71,8 @@
                     </div>
                 </div>
                 <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-                    <h5 class="text-xl font-extrabold dark:text-white">Waive Fees</h5>
+                    <label for="" class="text-xl font-semibold text-gray-900">Waive Fees</label>
+
                     <div class="mt-4 flex flex-col">
                         <div class="mb-5 grid grid-cols-1 gap-6 sm:grid-cols-4">
                             <div>

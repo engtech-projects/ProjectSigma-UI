@@ -75,10 +75,11 @@ const clear = () => {
 
 <template>
 
-<h2 class="text-4xl font-extrabold dark:text-white">PAG-IBIG</h2>
+<h2 class="text-2xl font-semibold dark:text-white">PAG-IBIG</h2>
 
 <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-  <h2 class="text-2xl font-extrabold dark:text-white">Add Pag-ibig Share</h2>
+  <label for="" class="text-xl font-semibold text-gray-900">Add Pag-ibig Share</label>
+
   <div class="mt-5 b-6">
           <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
           <input v-model="addItem.employee" type="text" id="employee" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
@@ -93,7 +94,7 @@ const clear = () => {
     </div>
     
     <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-      <h2 class="text-2xl font-extrabold dark:text-white">Contribution Table</h2>
+      <label for="" class="text-xl font-semibold text-gray-900">Contribution Table</label>
       <EasyDataTable
       show-index
       :headers="headers"
@@ -118,8 +119,8 @@ const clear = () => {
     </div>
     
     <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-      <h2 class="text-2xl font-extrabold dark:text-white">Edit Contribution Record</h2>
-      
+      <label for="" class="text-xl font-semibold text-gray-900">Edit Contribution Record</label>
+
       <div class="mt-5 mb-6">
         <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
         <input disabled readonly v-model="editingItem.employee" type="text" id="employee" class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>

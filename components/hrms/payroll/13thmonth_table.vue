@@ -1,5 +1,5 @@
 <template>
-      <h5 class="text-xl font-extrabold dark:text-white">13th Month Payroll Form</h5>
+      <label for="" class="text-xl font-semibold text-gray-900">13th Month Payroll Form</label>
         <div class="mt-5 mb-6">
           <div class="flex">
             <div class="search">

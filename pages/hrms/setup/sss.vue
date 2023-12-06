@@ -107,10 +107,10 @@ const submitAdd = () => {
 
 <template>
   
-  <h2 class="mt-5 text-4xl font-extrabold dark:text-white">SSS</h2>
+  <h2 class="mt-5 text-2xl font-semibold dark:text-white">SSS</h2>
 
   <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto" >
-      <h5 class="text-xl font-extrabold dark:text-white">Add SSS Contribution Range</h5>
+      <label for="" class="text-xl font-semibold text-gray-900">Add SSS Contribution Range</label>
       <div class="mt-5 mb-6">
           <label for="range_compensation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Range Compensation</label>
           <input v-model="AddItem.range_compensation" type="text" id="range_compensation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
@@ -131,7 +131,7 @@ const submitAdd = () => {
   </div>
 
   <div class="mt-5 w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5">
-    <h5 class="text-xl font-extrabold dark:text-white border-b">Contribution Table</h5>
+    <label for="" class="text-xl font-semibold text-gray-900">Contribution Table</label>
     <EasyDataTable
       show-index
       :headers="headers"
@@ -155,7 +155,7 @@ const submitAdd = () => {
   </div>
 
   <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto" >
-      <h5 class="text-xl font-extrabold dark:text-white">Edit SSS Contribution Range</h5>
+      <label for="" class="text-xl font-semibold text-gray-900">Edit SSS Contribution Range</label>
       <div class="mt-5 mb-6">
           <label for="range_compensation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Range Compensation</label>
           <input v-model="editingItem.range_compensation" type="text" id="range_compensation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
