@@ -1,126 +1,339 @@
 <template>
-      <h5 class="text-xl font-extrabold dark:text-white">Generate Payroll Form</h5>
+      <h5 class="text-xl font-extrabold dark:text-white">Payroll Record Query</h5>
         <div class="mt-5 mb-6">
-          <div class="flex">
-            <div class="search">
-              <div>
-                  <label for="search" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Search</label>
-                  <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" v-model="searchValue" type="text">
+          <div class="search">
+              <div class="mt-5 mb-5 grid grid-cols-1 gap-6 sm:grid-cols-5">
+                <div>
+                  <label for="department_category" class="block mb-2 text-[15px] font-medium text-gray-900 dark:text-white">DEPARTMENT CATEGORY</label>
+                  <select id="department_category" name="department_category" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
+                        <option value="selected" selected>--SELECT--</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Faculty">Faculty</option>
+                        <option value="Engtech">Engtech</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                        <option value="16">16</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="employement_type" class="block mb-2 text-[15px] font-medium text-gray-900 dark:text-white">EMPLOYMENT TYPE</label>
+                  <select id="employement_type" name="employement_type" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
+                        <option value="selected" selected>--SELECT--</option>
+                        <option value="contractual">Contractual</option>
+                        <option value="parttime">Part-time</option>
+                        <option value="probationary">Probationary</option>
+                        <option value="project_based">Project based</option>
+                        <option value="regular">Regular</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="month" class="block mb-2 text-[15px] font-medium text-gray-900 dark:text-white">SELECT MONTH</label>
+                  <select id="month" name="month" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
+                        <option value="selected" selected>--SELECT--</option>
+                        <option value="january">January</option>
+                        <option value="february">February</option>
+                        <option value="march">March</option>
+                        <option value="april">April</option>
+                        <option value="may">May</option>
+                        <option value="june">June</option>
+                        <option value="july">July</option>
+                        <option value="august">August</option>
+                        <option value="september">September</option>
+                        <option value="october">October</option>
+                        <option value="november">November</option>
+                        <option value="december">December</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="payroll_date" class="block mb-2 text-[15px] font-medium text-gray-900 dark:text-white">PAYROLL DATE</label>
+                  <select id="payroll_date" name="payroll_date" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
+                        <option value="selected" selected>--SELECT--</option>
+                        <option value="15th">15th</option>
+                        <option value="monthend">Month end</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="payroll_year" class="block mb-2 text-[15px] font-medium text-gray-900 dark:text-white">PAYROLL YEAR</label>
+                  <select id="payroll_year" name="payroll_year" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
+                        <option value="selected" selected>--SELECT--</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                  </select>
+                </div>
               </div>
-            </div>
           </div>
-          <EasyDataTable
-                  class="mt-5"
-                  table-class-name="customize-table"
-                  :headers="headers"
-                  :items="items"
-                  :search-field="searchField"
-                  :search-value="searchValue"
-                  :sort-by="sortBy"
-                  :sort-type="sortType"
-                  v-model:items-selected="itemsSelected"
-                >
-                <template #header-employee_id="header">
-                  <div class="flex flex-col gap-4 text-left">
-                    <div>
-                      {{ header.text }}
-                    </div>
-                  </div>
-                </template>
-                <template #header-employee="header">
-                  <div class="flex flex-col gap-4 text-left">
-                    <div>
-                      {{ header.text }}
-                    </div>
-                  </div>
-                </template>
-                <template #header-employment_type="header">
-                  <div class="flex flex-col gap-4 text-left">
-                    <div>
-                      {{ header.text }}
-                    </div>
-                  </div>
-                </template>
-                <template #header-department="header">
-                  <div class="flex flex-col gap-4 text-left">
-                    <div>
-                      {{ header.text }}
-                    </div>
-                  </div>
-                </template>
-                <!-- <template #header-position="header">
-                  <div class="flex flex-col gap-4 text-left">
-                    <div>
-                      {{ header.text }}
-                    </div>
-                    <div>
-                      <input type="text">
-                    </div>
-                  </div>
-                </template> -->
-                <template #item-actions="item">
-                    <div class="flex flex-row gap-1">
-                      <button
-                      @click="deleted(item)"
-                      >
-                        <Icon class="text-lg" name="mdi:trash" />
-                      </button>
-                    </div>
-                </template>
-          </EasyDataTable>
+          
+          <div class="headline">
+             <div class="mt-20 mb-5 flex max-w-full justify-center items-center flex-col gap-2">
+                <h2 class="text-2xl ">EVENPAR CONSTRUCTION DEVELOPMENT CORPORATION</h2>
+                <span>Payroll</span>
+             </div>
+          </div>
+          <div class="mb-3 head-table flex flex-row justify-start gap-14">
+             <div class="project">
+                Project 23N00016-EPJVEC
+             </div>
+             <div class="period_covered">
+                Period Covered: OCT 12-18, 2023
+             </div>
+          </div>
+          <div class="table">
+            <table class="border">
+              <thead>
+                <tr>
+                  <th rowspan="2">No</th>
+                  <th colspan="1">Name</th>
+                  <th rowspan="2">Designation</th>
+                  <th rowspan="2">Rate</th>
+                  <th colspan="7">No. of Days/Hours</th>
+                  <th colspan="7">Gross Pay</th>
+                  <th rowspan="2">Gross Pay</th>
+                  <th colspan="3">Salary Deduction</th>
+                  <th rowspan="2">Total Deduction</th>
+                  <th rowspan="2">Total Net Pay</th>
+                </tr>
+                <tr>
+                  <th>Last Name, First Name</th>
+                  <th>Reg. Day(s)</th>
+                  <th>Rest Day/Sun</th>
+                  <th>Reg. Hol.</th>
+                  <th>Reg. Hol. O.T.</th>
+                  <th>Spcl. Hol.</th>
+                  <th>Reg O.T.</th>
+                  <th>Rest Day O.T.</th>
+                  <th>Reg.</th>
+                  <th>Rest Day/Sun</th>
+                  <th>Reg. Hol.</th>
+                  <th>Reg. Hol. O.T.</th>
+                  <th>Spcl. Hol.</th>
+                  <th>Reg. O.T.</th>
+                  <th>Rest Day O.T.</th>
+                  <th>SSS</th>
+                  <th>PHIC</th>
+                  <th>HMDF</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    1
+                  </td>
+                  <td>
+                    AMPER, JOSHUA
+                  </td>
+                  <td>
+                    LABORER
+                  </td>
+                  <td>
+                    350
+                  </td>
+                  <td>
+                    6
+                  </td>
+                  <td>
+                    8
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    18
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    2,100.00
+                  </td>
+                  <td>
+                    455.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    984.38
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    2
+                  </td>
+                  <td>
+                    AMPER, JOSHUA
+                  </td>
+                  <td>
+                    LABORER
+                  </td>
+                  <td>
+                    350
+                  </td>
+                  <td>
+                    6
+                  </td>
+                  <td>
+                    8
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    18
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    2,100.00
+                  </td>
+                  <td>
+                    455.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    984.38
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    3
+                  </td>
+                  <td>
+                    AMPER, JOSHUA
+                  </td>
+                  <td>
+                    LABORER
+                  </td>
+                  <td>
+                    350
+                  </td>
+                  <td>
+                    6
+                  </td>
+                  <td>
+                    8
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    18
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    2,100.00
+                  </td>
+                  <td>
+                    455.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    984.38
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
   </template>
   
   
   <script setup lang="ts">
-  import { Header, Item, SortType  } from "vue3-easy-data-table";
-  
-  const searchField = ["employee_id"];
-  const searchValue = ref("");
-  const itemsSelected = ref<Item[]>([]);
-  
-  const sortBy: any[] = ["employee_id", "employee","employment_type","department", "position"];
-  const sortType: SortType[] = ["desc", "asc"];
-
-  const headers: Header[] = [
-        { text: "Employee ID", value: "employee_id", sortable: true },
-        { text: "Employee", value: "employee", sortable: true },
-        { text: "Employment Type", value: "employment_type", sortable: true },
-        { text: "Department", value: "department", sortable: true },
-        { text: "Position", value: "position", sortable: true },
-  ];
-  
-  const items: Item[any] = ref([
-    {
-        employee_id: "1111111111",
-        employee: "Lorem 1",
-        employment_type: "",
-        department: "2",
-        position: "Student Assistant",
-    },
-    {
-        employee_id: "1111111112",
-        employee: "Lorem 2",
-        employment_type: "",
-        department: "2",
-        position: "Student Assistant",
-    },
-    {
-        employee_id: "1111111113",
-        employee: "Lorem 3",
-        employment_type: "",
-        department: "2",
-        position: "Student Assistant",
-    },
-  ]);
-  
-  const deleted = (val: Item) =>{
-    items.value.splice(val.key,1);      
-  }
   
   </script>
   
   <style>
+  table,th,td{
+    border: 1px solid #000;
+  }
+  th,td{
+    padding: 0.2rem;
+  }
   .customize-table {
     --easy-table-header-item-padding: 10px 15px;
   }
