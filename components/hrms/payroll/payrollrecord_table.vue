@@ -63,9 +63,260 @@
                 </div>
               </div>
           </div>
+          
+          <div class="headline">
+             <div class="mt-20 mb-5 flex max-w-full justify-center items-center flex-col gap-2">
+                <h2 class="text-2xl ">EVENPAR CONSTRUCTION DEVELOPMENT CORPORATION</h2>
+                <span>Payroll</span>
+             </div>
+          </div>
+          <div class="mb-3 head-table flex flex-row justify-start gap-14">
+             <div class="project">
+                Project 23N00016-EPJVEC
+             </div>
+             <div class="period_covered">
+                Period Covered: OCT 12-18, 2023
+             </div>
+          </div>
           <div class="table">
-            <table>
-              <th></th>
+            <table class="border">
+              <thead>
+                <tr>
+                  <th rowspan="2">No</th>
+                  <th colspan="1">Name</th>
+                  <th rowspan="2">Designation</th>
+                  <th rowspan="2">Rate</th>
+                  <th colspan="7">No. of Days/Hours</th>
+                  <th colspan="7">Gross Pay</th>
+                  <th rowspan="2">Gross Pay</th>
+                  <th colspan="3">Salary Deduction</th>
+                  <th rowspan="2">Total Deduction</th>
+                  <th rowspan="2">Total Net Pay</th>
+                </tr>
+                <tr>
+                  <th>Last Name, First Name</th>
+                  <th>Reg. Day(s)</th>
+                  <th>Rest Day/Sun</th>
+                  <th>Reg. Hol.</th>
+                  <th>Reg. Hol. O.T.</th>
+                  <th>Spcl. Hol.</th>
+                  <th>Reg O.T.</th>
+                  <th>Rest Day O.T.</th>
+                  <th>Reg.</th>
+                  <th>Rest Day/Sun</th>
+                  <th>Reg. Hol.</th>
+                  <th>Reg. Hol. O.T.</th>
+                  <th>Spcl. Hol.</th>
+                  <th>Reg. O.T.</th>
+                  <th>Rest Day O.T.</th>
+                  <th>SSS</th>
+                  <th>PHIC</th>
+                  <th>HMDF</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    1
+                  </td>
+                  <td>
+                    AMPER, JOSHUA
+                  </td>
+                  <td>
+                    LABORER
+                  </td>
+                  <td>
+                    350
+                  </td>
+                  <td>
+                    6
+                  </td>
+                  <td>
+                    8
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    18
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    2,100.00
+                  </td>
+                  <td>
+                    455.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    984.38
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    2
+                  </td>
+                  <td>
+                    AMPER, JOSHUA
+                  </td>
+                  <td>
+                    LABORER
+                  </td>
+                  <td>
+                    350
+                  </td>
+                  <td>
+                    6
+                  </td>
+                  <td>
+                    8
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    18
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    2,100.00
+                  </td>
+                  <td>
+                    455.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    984.38
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    3
+                  </td>
+                  <td>
+                    AMPER, JOSHUA
+                  </td>
+                  <td>
+                    LABORER
+                  </td>
+                  <td>
+                    350
+                  </td>
+                  <td>
+                    6
+                  </td>
+                  <td>
+                    8
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    18
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    2,100.00
+                  </td>
+                  <td>
+                    455.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    984.38
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                    0.00
+                  </td>
+                  <td>
+                    3,539.38
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -77,6 +328,12 @@
   </script>
   
   <style>
+  table,th,td{
+    border: 1px solid #000;
+  }
+  th,td{
+    padding: 0.2rem;
+  }
   .customize-table {
     --easy-table-header-item-padding: 10px 15px;
   }
