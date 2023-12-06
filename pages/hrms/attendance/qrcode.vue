@@ -12,6 +12,6 @@ definePageMeta({
 
 <template>
   <div>
-    <QrGenerator />
+    <HrmsAttendanceQrGenerator />
   </div>
 </template>
