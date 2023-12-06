@@ -827,23 +827,26 @@
                 Attendance Portal
               </NuxtLink>
 
-                <button
-                  type="button"
-                  class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  aria-controls="dropdown-biometrics"
-                  data-collapse-toggle="dropdown-biometrics">
-                  <Icon
-                    name="ic:baseline-people-outline"
-                    class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
-                    fill="currentColor"/>
-                  <span class="flex-1 text-left whitespace-nowrap">Biometrics</span>
-                  <Icon
-                    name="mdi:chevron-down"
-                    class="w-5 h-5"
-                    fill="currentColor"/>
-                </button>
+                <div hidden>
+                  <button 
+                    type="button"
+                    class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    aria-controls="dropdown-biometrics"
+                    data-collapse-toggle="dropdown-biometrics" >
+                    <Icon
+                      name="ic:baseline-people-outline"
+                      class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      fill="currentColor"/>
+                    <span class="flex-1 text-left whitespace-nowrap" >Biometrics</span>
+                    <Icon
+                      name="mdi:chevron-down"
+                      class="w-5 h-5"
+                      fill="currentColor"/>
+                      
+                  </button>
+                </div>
 
-                <ul id="dropdown-biometrics" class="hidden py-2 space-y-2 ml-4">
+                <ul id="dropdown-biometrics" class="hidden py-2 space-y-2 ml-4" hidden>
                   
                   <li>
                     <NuxtLink
@@ -890,37 +893,47 @@
                   fill="currentColor"
                 />
               </button>
-              
 
-              <ul id="dropdown-dtr" class="hidden py-2 space-y-2 ml-4">
-                
-                <li>
-                  <NuxtLink
-                    to="/hrms/attendance/timeinout"
-                    class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >
-                    <Icon
-                      name="material-symbols:alarm-on-outline-rounded"
-                      class="w-4 h-4"
-                      fill="currentColor"
-                    />
-                    Daily Logs Record
-                  </NuxtLink>
-                </li>
-                <li>
-                  <NuxtLink
-                    to="/hrms/attendance/failtolog"
-                    class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >
-                    <Icon
-                      name="ic:baseline-flag-circle"
-                      class="w-4 h-4"
-                      fill="currentColor"
-                    />
-                    Failure To Log
-                  </NuxtLink>
-                </li>
-              </ul>
+                <ul id="dropdown-dtr" class="hidden py-2 space-y-2 ml-4">
+                  
+                  <li>
+                    <NuxtLink
+                      to="/hrms/attendance/timeinout"
+                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <Icon
+                        name="material-symbols:alarm-on-outline-rounded"
+                        class="w-4 h-4"
+                        fill="currentColor"
+                      />
+                      Daily Logs Record
+                    </NuxtLink>
+                  </li>
+                  <li>
+                    <NuxtLink
+                      to="/hrms/attendance/failtolog"
+                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      <Icon
+                        name="ic:baseline-flag-circle"
+                        class="w-4 h-4"
+                        fill="currentColor"
+                      />
+                      Failure To Log
+                    </NuxtLink>
+                  </li>
+                </ul>
+
+              <NuxtLink
+                to="/hrms/attendance/facerecognition"
+                class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                <Icon
+                  name="mdi:face-recognition"
+                  class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  fill="currentColor"
+                />
+                Face Recognition
+              </NuxtLink>
               
               <NuxtLink
                 to="/hrms/attendance/useraccounts"
