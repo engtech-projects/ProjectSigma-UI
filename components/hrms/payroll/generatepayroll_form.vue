@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="mt-5 mb-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div class="mt-5 mb-5 grid grid-cols-1 gap-6 sm:grid-cols-3">
             <div>
                 <label for="cutoff_dates" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cut-off Dates</label>
                 <select id="cutoff_dates" name="cutoff_dates" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
@@ -17,6 +17,10 @@
             <div>
                 <label for="payroll_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payroll Date</label>
                 <input type="date" id="payroll_date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+            </div>
+            <div>
+                <label for="payroll_project" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project</label>
+                <input type="text" id="payroll_project" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
             </div>
         </div>
         <div class="mb-5">
