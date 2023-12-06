@@ -48,24 +48,19 @@
                     </div>
                   </div>
                 </template>
-                <!-- <template #header-position="header">
+                <template #header-position="header">
                   <div class="flex flex-col gap-4 text-left">
                     <div>
                       {{ header.text }}
                     </div>
-                    <div>
-                      <input type="text">
-                    </div>
                   </div>
-                </template> -->
+                </template>
                 <template #item-actions="item">
-                    <div class="flex flex-row gap-1">
-                      <button
-                      @click="deleted(item)"
-                      >
-                        <Icon class="text-lg" name="mdi:trash" />
-                      </button>
-                    </div>
+                    <button
+                    @click="viewItem(item)"
+                    >
+                      <Icon name="material-symbols:visibility-rounded" color="blue" class="w-5 h-5"/>
+                    </button>
                 </template>
           </EasyDataTable>
         </div>
@@ -88,6 +83,7 @@
         { text: "Employment Type", value: "employment_type", sortable: true },
         { text: "Department", value: "department", sortable: true },
         { text: "Position", value: "position", sortable: true },
+        { text: "View Payslip", value: "actions" },
   ];
   
   const items: Item[any] = ref([
@@ -118,6 +114,10 @@
     items.value.splice(val.key,1);      
   }
   
+  
+const viewItem = (item:any) => {
+};
+
   </script>
   
   <style>
