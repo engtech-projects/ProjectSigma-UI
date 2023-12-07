@@ -9,7 +9,7 @@
             data-drawer-target="drawer-navigation"
             data-drawer-toggle="drawer-navigation"
             aria-controls="drawer-navigation"
-            class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900   focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400   dark:hover:text-white"
           >
             <svg
               aria-hidden="true"
@@ -82,7 +82,7 @@
             type="button"
             data-drawer-toggle="drawer-navigation"
             aria-controls="drawer-navigation"
-            class="p-2 mr-1 text-gray-500 rounded-lg md:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+            class="p-2 mr-1 text-gray-500 rounded-lg md:hidden hover:text-gray-900   dark:text-gray-400 dark:hover:text-white   focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
           >
             <span class="sr-only">Toggle search</span>
             <svg
@@ -103,7 +103,7 @@
           <button
             type="button"
             data-dropdown-toggle="notification-dropdown"
-            class="p-2 mr-1 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+            class="p-2 mr-1 text-gray-500 rounded-lg hover:text-gray-900   dark:text-gray-400 dark:hover:text-white   focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
           >
             <span class="sr-only">View notifications</span>
             <!-- Bell icon -->
@@ -132,7 +132,7 @@
             <div>
               <a
                 href="#"
-                class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
+                class="flex py-3 px-4 border-b   dark:hover:bg-gray-600 dark:border-gray-600"
               >
                 <div class="flex-shrink-0">
                   <img
@@ -178,7 +178,7 @@
               </a>
               <a
                 href="#"
-                class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
+                class="flex py-3 px-4 border-b   dark:hover:bg-gray-600 dark:border-gray-600"
               >
                 <div class="flex-shrink-0">
                   <img
@@ -224,7 +224,7 @@
               </a>
               <a
                 href="#"
-                class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
+                class="flex py-3 px-4 border-b   dark:hover:bg-gray-600 dark:border-gray-600"
               >
                 <div class="flex-shrink-0">
                   <img
@@ -272,7 +272,7 @@
               </a>
               <a
                 href="#"
-                class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
+                class="flex py-3 px-4 border-b   dark:hover:bg-gray-600 dark:border-gray-600"
               >
                 <div class="flex-shrink-0">
                   <img
@@ -321,7 +321,7 @@
               </a>
               <a
                 href="#"
-                class="flex py-3 px-4 hover:bg-gray-100 dark:hover:bg-gray-600"
+                class="flex py-3 px-4   dark:hover:bg-gray-600"
               >
                 <div class="flex-shrink-0">
                   <img
@@ -365,7 +365,7 @@
             </div>
             <NuxtLink
               to="/notifications"
-              class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:underline"
+              class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50   dark:bg-gray-600 dark:text-white dark:hover:underline"
             >
               <div class="inline-flex items-center">
                 <svg
@@ -390,7 +390,7 @@
           <button
             type="button"
             data-dropdown-toggle="apps-dropdown"
-            class="p-2 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+            class="p-2 text-gray-500 rounded-lg hover:text-gray-900   dark:text-gray-400 dark:hover:text-white   focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
           >
             <span class="sr-only">View notifications</span>
             <!-- Icon -->
@@ -418,7 +418,7 @@
             <div class="grid grid-cols-3 gap-4 p-4">
               <a
                 href="#"
-                class="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                class="block p-4 text-center rounded-lg   dark:hover:bg-gray-600 group"
               >
                 <svg
                   aria-hidden="true"
@@ -437,7 +437,7 @@
               </a>
               <a
                 href="#"
-                class="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                class="block p-4 text-center rounded-lg   dark:hover:bg-gray-600 group"
               >
                 <svg
                   aria-hidden="true"
@@ -454,7 +454,7 @@
               </a>
               <a
                 href="#"
-                class="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                class="block p-4 text-center rounded-lg   dark:hover:bg-gray-600 group"
               >
                 <svg
                   aria-hidden="true"
@@ -473,7 +473,7 @@
               </a>
               <a
                 href="#"
-                class="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                class="block p-4 text-center rounded-lg   dark:hover:bg-gray-600 group"
               >
                 <svg
                   aria-hidden="true"
@@ -492,7 +492,7 @@
               </a>
               <a
                 href="#"
-                class="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                class="block p-4 text-center rounded-lg   dark:hover:bg-gray-600 group"
               >
                 <svg
                   aria-hidden="true"
@@ -513,7 +513,7 @@
               </a>
               <a
                 href="#"
-                class="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                class="block p-4 text-center rounded-lg   dark:hover:bg-gray-600 group"
               >
                 <svg
                   aria-hidden="true"
@@ -535,7 +535,7 @@
               </a>
               <a
                 href="#"
-                class="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                class="block p-4 text-center rounded-lg   dark:hover:bg-gray-600 group"
               >
                 <svg
                   aria-hidden="true"
@@ -557,7 +557,7 @@
               </a>
               <a
                 href="#"
-                class="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                class="block p-4 text-center rounded-lg   dark:hover:bg-gray-600 group"
               >
                 <svg
                   aria-hidden="true"
@@ -576,7 +576,7 @@
               </a>
               <a
                 href="#"
-                class="block p-4 text-center rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 group"
+                class="block p-4 text-center rounded-lg   dark:hover:bg-gray-600 group"
               >
                 <svg
                   aria-hidden="true"
@@ -632,14 +632,14 @@
               <li>
                 <a
                   href="#"
-                  class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+                  class="block py-2 px-4 text-sm   dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
                   >My profile</a
                 >
               </li>
               <li>
                 <a
                   href="#"
-                  class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
+                  class="block py-2 px-4 text-sm   dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
                   >Account settings</a
                 >
               </li>
@@ -651,7 +651,7 @@
               <li>
                 <a
                   href="#"
-                  class="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  class="flex items-center py-2 px-4 text-sm   dark:hover:bg-gray-600 dark:hover:text-white"
                   ><svg
                     class="mr-2 w-5 h-5 text-gray-400"
                     fill="currentColor"
@@ -670,7 +670,7 @@
               <li>
                 <a
                   href="#"
-                  class="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  class="flex items-center py-2 px-4 text-sm   dark:hover:bg-gray-600 dark:hover:text-white"
                   ><svg
                     class="mr-2 w-5 h-5 text-gray-400"
                     fill="currentColor"
@@ -687,7 +687,7 @@
               <li>
                 <a
                   href="#"
-                  class="flex justify-between items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  class="flex justify-between items-center py-2 px-4 text-sm   dark:hover:bg-gray-600 dark:hover:text-white"
                 >
                   <span class="flex items-center">
                     <svg
@@ -728,7 +728,7 @@
               <li>
                 <a
                   href="#"
-                  class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                  class="block py-2 px-4 text-sm   dark:hover:bg-gray-600 dark:hover:text-white"
                   >Sign out</a
                 >
               </li>
@@ -779,7 +779,7 @@
             <li>
               <button
                 type="button"
-                class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group dark:text-white  "
                 data-collapse-toggle="dropdown-hrms-main"
                 aria-expanded="true"
               >
@@ -796,7 +796,7 @@
                 <li>
                   <NuxtLink
                     to="/hrms"
-                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white     group"
                     ><svg
                       aria-hidden="true"
                       class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -813,7 +813,7 @@
                 <li>
                 <button
                   type="button"
-                  class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                   aria-controls="dropdown-sales"
                   data-collapse-toggle="dropdown-attendance"
                 >
@@ -834,7 +834,7 @@
                   <ul id="dropdown-attendance" class="hidden py-2 space-y-2">
                     <NuxtLink
                       to="/hrms/attendance/portal"
-                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  ">
                       <Icon
                         name="mdi:face-recognition"
                         class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -845,7 +845,7 @@
                     <div hidden>
                       <button 
                         type="button"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                         aria-controls="dropdown-biometrics"
                         data-collapse-toggle="dropdown-biometrics" >
                         <Icon
@@ -864,7 +864,7 @@
                       <li>
                         <NuxtLink
                           to="/hrms/attendance/biometrics"
-                          class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                          class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group   dark:text-white  ">
                           <Icon
                             name="ic:outline-account-circle"
                             class="w-4 h-4"
@@ -875,7 +875,7 @@
                       <li hidden>
                         <NuxtLink
                           to="/hrms/attendance/rejecteddata"
-                          class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                          class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                         >
                           <Icon
                             name="ic:baseline-flag-circle"
@@ -888,7 +888,7 @@
                     </ul>
                     <button
                       type="button"
-                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       aria-controls="dropdown-dtr"
                       data-collapse-toggle="dropdown-dtr">
                       <Icon
@@ -909,7 +909,7 @@
                       <li>
                         <NuxtLink
                           to="/hrms/attendance/timeinout"
-                          class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                          class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                         >
                           <Icon
                             name="material-symbols:alarm-on-outline-rounded"
@@ -922,7 +922,7 @@
                       <li>
                         <NuxtLink
                           to="/hrms/attendance/failtolog"
-                          class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                          class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                         >
                           <Icon
                             name="ic:baseline-flag-circle"
@@ -935,7 +935,7 @@
                     </ul>
                     <NuxtLink
                       to="/hrms/attendance/facerecognition"
-                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  ">
                       <Icon
                         name="mdi:face-recognition"
                         class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -945,7 +945,7 @@
                     </NuxtLink>                  
                     <NuxtLink
                       to="/hrms/attendance/useraccounts"
-                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  ">
                       <Icon
                         name="material-symbols:person-add-outline-rounded"
                         class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -955,7 +955,7 @@
                     </NuxtLink>
                     <NuxtLink
                       to="/hrms/attendance/qrcode"
-                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  ">
                       <Icon
                         name="material-symbols:qr-code-scanner-rounded"
                         class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -968,7 +968,7 @@
                 <li>
                     <NuxtLink
                       to="/calendar"
-                      class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                      class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white     group"
                     >
                       <Icon
                         name="ic:round-calendar-month"
@@ -981,7 +981,7 @@
                 <li>
                   <button
                     type="button"
-                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                     aria-controls="dropdown-employees"
                     data-collapse-toggle="dropdown-employees"
                   >
@@ -1004,7 +1004,7 @@
                     <li hidden>
                       <NuxtLink
                         to="/hrms/employee/application"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1017,7 +1017,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/employee/201"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1030,7 +1030,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/employee/paf"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1043,7 +1043,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/employee/onboarding"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1056,7 +1056,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/employee/manpower"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1069,7 +1069,7 @@
                     <!-- <li>
                       <NuxtLink
                         to="#"
-                        class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         New
                       </NuxtLink>
@@ -1079,7 +1079,7 @@
                 <li hidden>
                   <NuxtLink
                     to="/project"
-                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white     group"
                   >
                     <Icon
                       name="material-symbols:construction"
@@ -1092,7 +1092,7 @@
                 <li>
                   <button
                     type="button"
-                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                     data-collapse-toggle="dropdown-setups"
                   >
                     <Icon
@@ -1113,7 +1113,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/setup/department"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1126,7 +1126,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/setup/philhealth"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1139,7 +1139,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/setup/pag-ibig"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1152,7 +1152,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/setup/sss"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1165,7 +1165,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/setup/wtax"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1180,7 +1180,7 @@
                 <li>
                   <NuxtLink
                     to="/leave"
-                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white     group"
                     >
                     <Icon class="text-lg" name="fluent-mdl2:leave-user" />
                     <span class="ml-3">Leave</span>
@@ -1189,7 +1189,7 @@
                 <li>
                   <NuxtLink
                     to="/overtime"
-                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white     group"
                     >
                     <Icon class="text-lg" name="mingcute:time-line" />
                     <span class="ml-3">Overtime</span>
@@ -1198,7 +1198,7 @@
                 <li>
                   <NuxtLink
                     to="/cashadvance"
-                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white     group"
                     >
                     <Icon class="text-lg" name="mdi:cash" />
                     <span class="ml-3">Cash Advance</span>
@@ -1207,7 +1207,7 @@
                 <li>
                   <button
                     type="button"
-                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                     data-collapse-toggle="dropdown-payroll"
                   >
                     <Icon
@@ -1228,7 +1228,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/payroll/generatepayroll"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1241,7 +1241,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/payroll/13thmonthpay"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1254,7 +1254,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/payroll/allowance"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1267,7 +1267,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/payroll/payrollrecord"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1282,7 +1282,7 @@
                 <li>
                   <button
                     type="button"
-                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                     data-collapse-toggle="dropdown-schedule"
                   >
                     <Icon
@@ -1303,7 +1303,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/schedule/department"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1316,7 +1316,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/schedule/employee"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1329,7 +1329,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/schedule/project"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1342,7 +1342,7 @@
                     <li>
                       <NuxtLink
                         to="/hrms/schedule/project"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
                         <Icon
                           name="material-symbols:dynamic-form-outline-rounded"
@@ -1362,7 +1362,7 @@
             <li>
               <button
               type="button"
-              class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
               data-collapse-toggle="dropdown-inventorywarehouse-main"
               aria-expanded="true"
               >
@@ -1383,7 +1383,7 @@
             <li>
               <button
                 type="button"
-                class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                 data-collapse-toggle="dropdown-accounting-main"
                 aria-expanded="true"
               >
@@ -1404,7 +1404,7 @@
             <li>
               <button
                 type="button"
-                class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                 data-collapse-toggle="dropdown-projectmonitoring-main"
                 aria-expanded="true"
               >
