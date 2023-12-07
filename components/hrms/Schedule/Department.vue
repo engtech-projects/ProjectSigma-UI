@@ -7,7 +7,7 @@ import { ref } from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
-const datePicker = ref();
+const date = ref();
 
 const handleSubmit = () => {
   // Logic to handle form submission
@@ -201,7 +201,7 @@ export default {
                           </span>
                         </div>
                         
-                          <VueDatePicker v-model="datePicker" multi-dates multi-dates-limit="3" class="rounded-lg"></VueDatePicker>
+                          <VueDatePicker v-model="date" multi-dates multi-dates-limit="3" class="rounded-lg"></VueDatePicker>
                             
                       </div>
                       <div class="flex justify-end mt-4">
