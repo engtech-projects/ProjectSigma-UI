@@ -4,7 +4,7 @@ definePageMeta({
   layout: "default",
 }),
   useHead({
-    title: "Division",
+    title: "Approvals",
     meta: [{ name: "description", content: "" }],
   });
 </script>
@@ -17,9 +17,8 @@ definePageMeta({
 
 <template>
   <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-6">
-    <HrmsSetupDivisionNew />
+    <HrmsSetupApprovalsForm />
   </div>
   <div class="container mx-auto mt-8">
-    <HrmsSetupDivisionList />
   </div>
 </template>

@@ -1178,6 +1178,19 @@
                     </li>
                     <li>
                       <NuxtLink
+                        to="/hrms/setup/approvals"
+                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
+                      >
+                        <Icon
+                          name="material-symbols:dynamic-form-outline-rounded"
+                          class="w-4 h-4"
+                          fill="currentColor"
+                        />
+                        <span>Approvals</span>
+                      </NuxtLink>
+                    </li>
+                    <li>
+                      <NuxtLink
                         to="/hrms/setup/division"
                         class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                       >
@@ -1473,6 +1486,7 @@
               <ul id="dropdown-projectmonitoring-main" class="py-2 space-y-2">
               </ul>
             </li>
+            <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
           </ul>
         </div>
     </aside>
