@@ -179,7 +179,7 @@ export default {
                             </div>
                           </div>
 
-                          <div class="border-b w-full h-[14px] text-center p-3 mb-2"></div>
+                          <div class="hidden border-b w-full h-[14px] text-center p-3 mb-2"></div>
 
                           <div class="flex md:flex justify-center mx-auto">
                             <div class="p-2  gap-4 items-center">

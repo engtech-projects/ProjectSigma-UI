@@ -137,8 +137,8 @@
                 <div class="flex-shrink-0">
                   <img
                     class="w-11 h-11 rounded-full"
-                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
-                    alt="Bonnie Green avatar"
+                    src="/avatarexample.png"
+                    alt="avatar"
                   />
                   
                   <div
@@ -166,13 +166,31 @@
                   >
                     New message from
                     <span class="font-semibold text-gray-900 dark:text-white"
-                      >Bonnie Green</span
-                    >: "Hey, what's up? All set for the presentation?"
+                      >HR Head</span
+                    >: Personal Action Form has been added
                   </div>
                   <div
-                    class="text-xs font-medium text-primary-600 dark:text-primary-500"
+                    class="flex  gap-6 text-xs font-medium text-primary-600 dark:text-primary-500"
                   >
                     a few moments ago
+                    <div class="flex justify-end ml-auto">
+                      <button
+                      @click="approveItem(item)"
+                      >
+                        <Icon name="material-symbols:check-circle" color="green" class="w-5 h-5"/>
+                        
+                      </button>
+                      <button
+                      @click="denyItem(item)"
+                      >
+                        <Icon name="material-symbols:cancel" color="red" class="w-5 h-5"/>
+                      </button>
+                      <button
+                      @click="viewItem(item)"
+                      >
+                        <Icon name="material-symbols:visibility-rounded" color="blue" class="w-5 h-5"/>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </a>
@@ -183,8 +201,8 @@
                 <div class="flex-shrink-0">
                   <img
                     class="w-11 h-11 rounded-full"
-                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
-                    alt="Jese Leos avatar"
+                    src="/avatarexample.png"
+                    alt="avatar"
                   />
                   <div
                     class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-gray-900 rounded-full border border-white dark:border-gray-700"
@@ -207,18 +225,34 @@
                     class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400"
                   >
                     <span class="font-semibold text-gray-900 dark:text-white"
-                      >Jese leos</span
+                      >Engineer1</span
                     >
                     and
                     <span class="font-medium text-gray-900 dark:text-white"
                       >5 others</span
                     >
-                    started following you.
+                    submitted their monthly reports.
                   </div>
                   <div
-                    class="text-xs font-medium text-primary-600 dark:text-primary-500"
+                    class="flex text-xs font-medium text-primary-600 dark:text-primary-500"
                   >
                     10 minutes ago
+                    <div class="flex justify-end ml-auto">
+                      <button @click="approveItem(item)">
+                        <Icon name="material-symbols:check-circle" color="green" class="w-5 h-5" />
+                      </button>
+                      <button @click="denyItem(item)">
+                        <Icon name="material-symbols:cancel" color="red" class="w-5 h-5" />
+                      </button>
+                      <button @click="viewItem(item)">
+                        <Icon
+                          name="material-symbols:visibility-rounded"
+                          color="blue"
+                          class="w-5 h-5"
+                        />
+                      </button>
+                    </div>
+
                   </div>
                 </div>
               </a>
@@ -229,8 +263,8 @@
                 <div class="flex-shrink-0">
                   <img
                     class="w-11 h-11 rounded-full"
-                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/joseph-mcfall.png"
-                    alt="Joseph McFall avatar"
+                    src="/avatarexample.png"
+                    alt="avatar"
                   />
                   <div
                     class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-red-600 rounded-full border border-white dark:border-gray-700"
@@ -240,7 +274,7 @@
                       class="w-3 h-3 text-white"
                       fill="currentColor"
                       viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns="http://www.w3.org/21000/svg"
                     >
                       <path
                         fill-rule="evenodd"
@@ -255,22 +289,37 @@
                     class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400"
                   >
                     <span class="font-semibold text-gray-900 dark:text-white"
-                      >Joseph Mcfall</span
+                      >HR Head</span
                     >
-                    and
-                    <span class="font-medium text-gray-900 dark:text-white"
-                      >141 others</span
-                    >
-                    love your story. See it and view more stories.
+                    
+                    uploaded employee records.
                   </div>
                   <div
-                    class="text-xs font-medium text-primary-600 dark:text-primary-500"
+                    class="flex text-xs font-medium text-primary-600 dark:text-primary-500"
                   >
                     44 minutes ago
+                    <div class="flex justify-end ml-auto">
+                      <button
+                      @click="approveItem(item)"
+                      >
+                        <Icon name="material-symbols:check-circle" color="green" class="w-5 h-5"/>
+                        
+                      </button>
+                      <button
+                      @click="denyItem(item)"
+                      >
+                        <Icon name="material-symbols:cancel" color="red" class="w-5 h-5"/>
+                      </button>
+                      <button
+                      @click="viewItem(item)"
+                      >
+                        <Icon name="material-symbols:visibility-rounded" color="blue" class="w-5 h-5"/>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </a>
-              <a
+              <!-- <a
                 href="#"
                 class="flex py-3 px-4 border-b   dark:hover:bg-gray-600 dark:border-gray-600"
               >
@@ -361,7 +410,7 @@
                     3 hours ago
                   </div>
                 </div>
-              </a>
+              </a> -->
             </div>
             <NuxtLink
               to="/notifications"
@@ -387,7 +436,7 @@
             </NuxtLink>
           </div>
           <!-- Apps -->
-          <button
+          <button hidden 
             type="button"
             data-dropdown-toggle="apps-dropdown"
             class="p-2 text-gray-500 rounded-lg hover:text-gray-900   dark:text-gray-400 dark:hover:text-white   focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
