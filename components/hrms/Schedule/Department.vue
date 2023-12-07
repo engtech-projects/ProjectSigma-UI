@@ -79,7 +79,7 @@ export default {
 
           <div class="p-4">
 
-            <details class="group p-2 rounded-lg bg-slate-50 ">
+            <details class="group p-2 rounded-lg bg-slate-50 " open>
               <summary
                 class="flex cursor-pointer list-none items-center justify-between text-lg font-medium text-gray-900 bg-teal-100 rounded-sm">
                 <label for="" class="text-lg font-medium p-2">Set Schedule</label>
