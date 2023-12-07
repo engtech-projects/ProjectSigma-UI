@@ -16,12 +16,10 @@ definePageMeta({
 </style>
 
 <template>
-  <div class="flex flex-col mt-10 md:flex-row gap-2">
-    <HrmsDepartmentCategory />
-
-    <HrmsDepartmentNewDepartment />
+  <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-6">
+    <HrmsSetupDivisionNew />
   </div>
-  <div class="container mx-auto mt-2">
-    <HrmsDepartmentList />
+  <div class="container mx-auto mt-8">
+    <HrmsSetupDivisionList />
   </div>
 </template>

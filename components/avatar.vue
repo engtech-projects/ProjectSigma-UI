@@ -1,22 +1,41 @@
 <template>
   <div>
-    <img class="w-36 h-36 p-1 mb-6 rounded-full ring-2 ring-gray-300 dark:ring-gray-500 mx-auto block" :src="imageUrl" alt="Bordered avatar">
-    
-    <div class="text-center space-x-6">
-      
-      <input type="file" id="imageInput" accept="image/*" style="display: none" @change="handleImageUpload">
-      <button @click="openImageInput" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        <svg class="w-2.5 h-2.5 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-        </svg>
-        Upload Image
-      </button>
-      <button @click="captureImage" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        <svg class="w-2.5 h-2.5 mr-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-        </svg>
-        Capture Image
-      </button>
+    <video
+      id="cameraPreview"
+      class="md:h-58 w-96 p-1 mb-6 rounded-md ring-2 ring-gray-300 dark:ring-gray-500 mx-auto"
+      autoplay
+      :poster="imageUrl"
+    ></video>
+
+    <div class="flex justify-center">
+      <input
+        type="file"
+        id="imageInput"
+        accept="image/*"
+        style="display: none"
+        @change="handleImageUpload"
+      />
+      <div class="flex gap-2">
+        <button
+          @click="openImageInput"
+          class="text-white gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+        <Icon name="ic:outline-file-upload" color="white" class="w-5 h-5" />
+          Upload Image
+        </button>
+
+        <button
+          @click="captureImage"
+          class="text-white gap-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+        <Icon
+            name="ic:outline-add-a-photo"
+            color="white"
+            class="w-5 h-5"
+          />
+          Capture Image
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -25,7 +44,8 @@
 export default {
   data() {
     return {
-      imageUrl: 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png'
+      imageUrl: '/avatarexample.png',
+      videoStream: null,
     };
   },
   methods: {
@@ -43,16 +63,52 @@ export default {
     },
     async captureImage() {
       try {
+        const video = document.getElementById('cameraPreview');
+        const capturedImage = document.getElementById('capturedImage');
+
+        // Ensure any existing video stream is stopped before starting a new one
+        if (this.videoStream) {
+          this.videoStream.getTracks().forEach((track) => track.stop());
+        }
+
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const track = stream.getVideoTracks()[0];
-        const imageCapture = new ImageCapture(track);
-        const blob = await imageCapture.takePhoto();
-        this.imageUrl = URL.createObjectURL(blob);
-        track.stop();
+        this.videoStream = stream;
+        video.srcObject = stream;
+
+        // Wait for the video to be loaded and start playing
+        await new Promise((resolve) => {
+          video.onloadedmetadata = () => {
+            video.play();
+            resolve();
+          };
+        });
+
+        // Create a canvas element to draw the video frame
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const context = canvas.getContext('2d');
+
+        // Draw the current video frame on the canvas
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Convert the canvas content to a Blob representing the image
+        canvas.toBlob(async (blob) => {
+          if (blob) {
+            // Display the captured image
+            capturedImage.src = URL.createObjectURL(blob);
+          }
+        }, 'image/png'); // You can change the format as needed
       } catch (error) {
         console.error('Error capturing image:', error);
       }
+    },
+  },
+  beforeUnmount() {
+    // Cleanup when component is about to be unmounted
+    if (this.videoStream) {
+      this.videoStream.getTracks().forEach((track) => track.stop());
     }
-  }
+  },
 };
 </script>

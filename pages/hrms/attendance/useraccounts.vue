@@ -4,18 +4,18 @@ definePageMeta({
 }),
 
 useHead({
-  title: 'Biometrics Rejected Data',
+  title: 'User Accounts',
   meta: [
     { name: 'description', content: '' }
   ],
-  
+
 })
+
+
 </script>
 
 <template>
-  <div class="mt-10 md:flex gap-2 ">
-    <HrmsAttendanceRejectedData/>
-    
+  <div class="mt-10 md:mt-0">
+    <HrmsAttendanceUserAccounts />
   </div>
-
 </template>

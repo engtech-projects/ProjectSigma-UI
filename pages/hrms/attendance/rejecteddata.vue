@@ -4,7 +4,7 @@ definePageMeta({
 }),
 
 useHead({
-  title: 'Time In/Out',
+  title: 'Biometric Rejected Data',
   meta: [
     { name: 'description', content: '' }
   ],
@@ -13,9 +13,8 @@ useHead({
 </script>
 
 <template>
-  <div class="mt-10 md:flex gap-2">
-    <EmployeeInfoSheet />
-    <HrmsAttendanceInOut />
+  <div class="mt-10 md:mt-0 md:flex gap-2">
+    <HrmsAttendanceRejectedData />
   </div>
 </template>
 

@@ -1,16 +1,27 @@
+<script setup>
+import { ref } from 'vue';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+
+const date = ref();
+
+
+</script>
+
 <template>
   <div
-    class="shadow-md border-2 border-gray-400 rounded-lg p-4 bg-white mb-3 w-full md:w-3/4"
-  >
+    class="shadow-md border border-gray-200 rounded-lg p-4 bg-white mb-3 w-full md:w-3/4">
     <p class="text-xl font-normal
      text-gray-900 pb-4">
-      September 23, 2023 - October 22, 2023
+     <div class="flex w-full md:w-2/5">
+       <VueDatePicker v-model="date" range placeholder="Select Date" class="rounded-lg inline-block" ></VueDatePicker>
+     </div>
     </p>
     <div>
       <div class="relative overflow-x-auto shadow-md">
-        <table class="w-full text-sm text-left text-gray-50">
+        <table class="w-full text-sm text-center text-gray-50 ">
           <thead
-            class="text-xs text-white uppercase bg-cyan-800 dark:bg-gray-950"
+            class="text-xs text-white uppercase bg-teal-500 dark:bg-gray-950"
           >
             <tr>
               <th

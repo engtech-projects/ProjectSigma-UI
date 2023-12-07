@@ -4,7 +4,7 @@
           <tbody>
             <tr v-for="(emprecord, index) in emprecords" :key="index">
                 <td class="border border-slate-300 p-1">
-                  <label for="small-input" class="block mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">INCLUSIVE DATES</label>
+                  <label for="small-input" class="flex-1 mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">INCLUSIVE DATES</label>
                     <input type="date" v-model="emprecord.incdates" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </td>
                 <td class="border border-slate-300 p-1">

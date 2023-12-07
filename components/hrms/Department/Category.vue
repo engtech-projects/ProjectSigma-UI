@@ -51,7 +51,7 @@ const category_items = [
 
 <template>
   <div class="w-full">
-      <details class="group border-2 border-gray-400 rounded-xl p-2">
+      <details class="group border border-gray-400 shadow-md rounded-md p-2">
         <summary
           class="flex cursor-pointer list-none items-center justify-between text-lg font-medium text-gray-900">
           <label for="eventTitle" class="text-lg font-medium">Add New Category</label>
@@ -78,12 +78,12 @@ const category_items = [
           <form action="">
             <div class="space-y-2">
               <label for="eventTitle" class="text-xs italic">Category Name</label>
-              <input type="text" id="eventTitle" class="w-full rounded" />
+              <input type="text" id="eventTitle" class="w-full rounded-lg" />
             </div>
             <div class="flex justify-end">
               <button
                 @click="addEvent"
-                class="flex-1 text-white p-2 rounded bg-cyan-800 content-center mt-5"
+                class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
               >
                 <Icon
                   name="material-symbols:category-outline-rounded"
@@ -98,7 +98,7 @@ const category_items = [
               Category List
             </span>
           </div>
-          <div class="border-2 border-gray-400 p-2 rounded-lg bg-orange-100">
+          <div class="border-2 border-gray-400 p-2 rounded-lg bg-teal-100">
             <Table
               :tbl-headers="category_headers"
               :tbl-items="category_items"

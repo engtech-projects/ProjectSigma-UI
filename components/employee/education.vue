@@ -4,7 +4,7 @@
           <tbody>
             <tr v-for="(schl, index) in schls" :key="index">
               <td class="border border-slate-300 p-1">
-                <label for="small-input" class="block mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">TYPE OF SCHOOL</label>
+                <label for="small-input" class="flex-1 mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">TYPE OF SCHOOL</label>
                   <select id="schl_type" name="schl_type" v-model="schl.type" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
                         <option value="selected" selected>--SELECT--</option>
                         <option value="a">ELEMENTARY</option>
@@ -55,7 +55,7 @@
             <tr>
               <td class="border border-slate-300 p-1">
                 <div>
-                  <label for="small-input" class="block text-[11px] w-32 font-medium text-gray-900 dark:text-white">MASTER THESIS</label>
+                  <label for="small-input" class="flex-1 text-[11px] w-32 font-medium text-gray-900 dark:text-white">MASTER THESIS</label>
                 </div>
               </td>
               <td colspan=2 class="border border-slate-300 p-1">
@@ -75,7 +75,7 @@
             <tr>
               <td class="border border-slate-300 p-1">
                 <div>
-                  <label for="small-input" class="block text-[11px] w-full font-medium text-gray-900 dark:text-white">DOCTOR DISSERTATION</label>
+                  <label for="small-input" class="flex-1 text-[11px] w-full font-medium text-gray-900 dark:text-white">DOCTOR DISSERTATION</label>
                 </div>
               </td>
               <td colspan=2 class="border border-slate-300 p-1">

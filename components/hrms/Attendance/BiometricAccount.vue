@@ -42,7 +42,7 @@ const items = [
 ];
 </script>
 <template>
-  <div class="border-2 border-gray-400 p-4 rounded-lg w-full space-y-3">
+  <div class="shadow-md border border-gray-200 p-4 rounded-lg w-full space-y-3">
     <label for="" class="text-xl font-normal text-gray-900">Biometric Accounts</label>
     <div>
       <label for="" class="text-sm italic font-normal text-gray-900">Employees with biometric accounts</label>

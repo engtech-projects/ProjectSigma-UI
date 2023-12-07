@@ -155,7 +155,7 @@
                     <input type="text" id="religion" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   </div>
                 </td>
-                <td class="grid grid-cols-2 gap-1 border-slate-300 p-1">
+                <td class="flex-1 space-y-2 border-slate-300 p-1">
                   <div>
                     <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">CIVIL STATUS</label>
                     <select id="civilstatus" name="civilstatus" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
@@ -238,7 +238,7 @@
                 </td>
                 <td class="border border-slate-300 p-1">
                   <div>
-                    <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">OCCUPATION(SPOUSE)</label>
+                    <label for="small-input" class="flex mb-2 text-[11px] font-medium text-gray-900 dark:text-white">OCCUPATION (SPOUSE)</label>
                     <input type="text"  id="spouse_occupation" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   </div>
                 </td>
@@ -270,7 +270,7 @@
                 </td>
               </tr>
               <tr>
-                  <label for="small-input" class="block p-2 text-[11px] font-medium text-gray-900 dark:text-white ">PERSON TO CONTACT IN CASE OF EMERGENCY:</label>
+                  <label for="small-input" class="flex justify-center p-2 text-[11px] font-medium text-gray-900 dark:text-white ">PERSON TO CONTACT IN CASE OF EMERGENCY: </label>
               </tr>
               <tr>
                 <td class="border border-slate-300 p-1">
