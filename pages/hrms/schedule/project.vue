@@ -1,4 +1,12 @@
 <script setup>
+import { onMounted } from 'vue'
+import { initFlowbite, initTabs } from 'flowbite'
+
+onMounted(() => {
+    initFlowbite();
+    initTabs();
+})
+
 
 definePageMeta({
   layout: "default",
