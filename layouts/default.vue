@@ -779,11 +779,11 @@
             <li>
               <button
                 type="button"
-                class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group dark:text-white  "
+                class="flex items-center w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group dark:text-white  "
                 data-collapse-toggle="dropdown-hrms-main"
                 aria-expanded="true"
               >
-                <span class="flex-1 ml-3 text-left whitespace-nowrap">
+                <span class="flex-1 text-left whitespace-nowrap">
                   HRMS
                 </span>
                 <Icon
@@ -1362,11 +1362,11 @@
             <li>
               <button
               type="button"
-              class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
+              class="flex items-center w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
               data-collapse-toggle="dropdown-inventorywarehouse-main"
               aria-expanded="true"
               >
-                <span class="flex-1 ml-3 text-left whitespace-nowrap">
+                <span class="flex-1 text-left whitespace-nowrap">
                   Inventory / Warehouse
                 </span>
                 <Icon
@@ -1383,11 +1383,11 @@
             <li>
               <button
                 type="button"
-                class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
+                class="flex items-center w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                 data-collapse-toggle="dropdown-accounting-main"
                 aria-expanded="true"
               >
-              <span class="flex-1 ml-3 text-left whitespace-nowrap">
+              <span class="flex-1 text-left whitespace-nowrap">
                 Accounting
               </span>
               <Icon
@@ -1404,11 +1404,11 @@
             <li>
               <button
                 type="button"
-                class="flex items-center p-2 w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
+                class="flex items-center w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
                 data-collapse-toggle="dropdown-projectmonitoring-main"
                 aria-expanded="true"
               >
-              <span class="flex-1 ml-3 text-left whitespace-nowrap">
+              <span class="flex-1 text-left whitespace-nowrap">
                 Project Monitoring
               </span>
               <Icon
