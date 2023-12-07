@@ -79,7 +79,7 @@ export default {
 
           <div class="p-4">
 
-            <details class="group p-2 rounded-lg bg-slate-50 ">
+            <details class="group p-2 rounded-lg bg-slate-50 " open>
               <summary
                 class="flex cursor-pointer list-none items-center justify-between text-lg font-medium text-gray-900 bg-teal-100 rounded-sm">
                 <label for="" class="text-lg font-medium p-2">Set Schedule</label>
@@ -142,7 +142,7 @@ export default {
                       </ul>
                   </div>
                   <div id="default-tab-content">
-                      <div class="hidden p-1 rounded-lg bg-gray-50 dark:bg-gray-800" id="regular" role="tabpanel" aria-labelledby="regular-tab">
+                      <div class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" id="regular" role="tabpanel" aria-labelledby="regular-tab">
                         <div class="border-b w-full h-[14px] text-center p-3 mb-2">
                           <span class="text-sm bg-slate-50 text-black px-10 italic">
                             Days
@@ -194,7 +194,7 @@ export default {
                           </div>
                       </div>
                     
-                      <div class="hidden p-1 rounded-lg bg-gray-50 dark:bg-gray-800" id="irregular" role="tabpanel" aria-labelledby="irregular-tab">
+                      <div class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" id="irregular" role="tabpanel" aria-labelledby="irregular-tab">
                         <div class="border-b w-full h-[14px] text-center p-3 mb-5">
                           <span class="text-sm bg-slate-50 text-black px-10 italic">
                             Schedule Dates
