@@ -880,10 +880,15 @@
                     fill="currentColor"
                   />
                 </button>
-                  <ul id="dropdown-attendance" class="hidden py-2 space-y-2">
+                  <ul id="dropdown-attendance"  class="hidden py-2 space-y-2">
                     <NuxtLink
                       to="/hrms/attendance/portal"
-                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  ">
+                      :class="{ 'active': isActive('/hrms/attendance/portal') }"
+                      class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white
+                      "
+                      
+                      >
+                      
                       <Icon
                         name="mdi:face-recognition"
                         class="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -1401,20 +1406,6 @@
                         Project Schedule
                       </NuxtLink>
                     </li>
-                    <li>
-                      <NuxtLink
-                        to="/hrms/schedule/project"
-                        class="flex gap-x-2 items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
-                      >
-                        <Icon
-                          name="material-symbols:dynamic-form-outline-rounded"
-                          class="w-4 h-4"
-                          fill="currentColor"
-                        />
-                        Project Schedule
-                      </NuxtLink>
-                    </li>
-                    
                   </ul>
                 </li>
               </ul>
@@ -1523,3 +1514,10 @@ onMounted(() => {
     initTooltips();
 })
 </script>
+
+<style scope>
+.active {
+  background-color: #007bff;  // Replace with the desired background color
+  color: #fff;  // Replace with the desired text color
+}
+</style>
