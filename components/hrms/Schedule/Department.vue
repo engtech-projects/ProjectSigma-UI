@@ -7,6 +7,8 @@ import { ref } from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
+
+
 const date = ref();
 
 const handleSubmit = () => {
@@ -18,6 +20,7 @@ const handleReset = () => {
   // Logic to handle form reset
   console.log('Form reset');
 };
+
 
 
 export default {
@@ -138,11 +141,12 @@ export default {
                           </li>
                           <li class="mr-2" role="presentation">
                               <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="irregular-tab" data-tabs-target="#irregular" type="button" role="tab" aria-controls="irregular" aria-selected="false">Irregular</button>
+                              
                           </li>
                       </ul>
                   </div>
                   <div id="default-tab-content">
-                      <div class="hidden p-1 rounded-lg bg-gray-50 dark:bg-gray-800" id="regular" role="tabpanel" aria-labelledby="regular-tab">
+                      <div class="p-1 rounded-lg bg-gray-50 dark:bg-gray-800" id="regular" role="tabpanel" aria-labelledby="regular-tab">
                         <div class="border-b w-full h-[14px] text-center p-3 mb-2">
                           <span class="text-sm bg-slate-50 text-black px-10 italic">
                             Days
@@ -194,7 +198,7 @@ export default {
                           </div>
                       </div>
                     
-                      <div class="hidden p-1 rounded-lg bg-gray-50 dark:bg-gray-800" id="irregular" role="tabpanel" aria-labelledby="irregular-tab">
+                      <div class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" id="irregular" role="tabpanel" aria-labelledby="irregular-tab">
                         <div class="border-b w-full h-[14px] text-center p-3 mb-5">
                           <span class="text-sm bg-slate-50 text-black px-10 italic">
                             Schedule Dates
