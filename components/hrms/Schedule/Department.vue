@@ -7,6 +7,8 @@ import { ref } from 'vue'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
+
+
 const date = ref();
 
 const handleSubmit = () => {
@@ -18,6 +20,7 @@ const handleReset = () => {
   // Logic to handle form reset
   console.log('Form reset');
 };
+
 
 
 export default {
@@ -138,6 +141,7 @@ export default {
                           </li>
                           <li class="mr-2" role="presentation">
                               <button class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="irregular-tab" data-tabs-target="#irregular" type="button" role="tab" aria-controls="irregular" aria-selected="false">Irregular</button>
+                              
                           </li>
                       </ul>
                   </div>
