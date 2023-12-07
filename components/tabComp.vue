@@ -13,7 +13,7 @@
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="pis" role="tabpanel" aria-labelledby="pis-tab">
             
             <!-- <Inputfields /> -->
-            <EvenparHeader />
+            <EvenparNologo />
             <label for="employeeinfo" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-4 italic">Employee Information</label>
             <EmployeeInfo />
             <label for="employeeeduc" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">Education</label>
