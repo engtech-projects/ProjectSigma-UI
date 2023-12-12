@@ -1267,6 +1267,15 @@
                 </li>
                 <li>
                   <NuxtLink
+                    to="/loans"
+                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white     group"
+                    >
+                    <Icon class="text-lg" name="mdi:cash" />
+                    <span class="ml-3">Loans</span>
+                  </NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink
                     to="/overtime"
                     class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white     group"
                     >
