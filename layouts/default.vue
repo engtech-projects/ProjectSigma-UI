@@ -1,7 +1,7 @@
 <template>
   <div class="antialiased bg-gray-50 dark:bg-gray-900">
     <nav
-      class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50"
+      class="exclude-from-print bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50" 
     >
       <div class="flex flex-wrap justify-between items-center">
         <div class="flex justify-start items-center">
@@ -1294,13 +1294,13 @@
                 </li>
                 <li>
                   <button
-                    type="button"
-                    class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
-                    data-collapse-toggle="dropdown-payroll"
+                  type="button"
+                  class="flex items-center p-2 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group   dark:text-white  "
+                  data-collapse-toggle="dropdown-payroll"
                   >
-                    <Icon
-                      name="ion:ios-people"
-                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  <Icon
+                  name="ion:ios-people"
+                  class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                       fill="currentColor"
                     />
                     <span class="flex-1 ml-3 text-left whitespace-nowrap">
@@ -1366,6 +1366,15 @@
                       </NuxtLink>
                     </li>
                   </ul>
+                </li>
+                <li>
+                  <NuxtLink
+                    to="/reports"
+                    class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white     group"
+                    >
+                    <Icon class="text-lg" name="ic:sharp-newspaper" />
+                    <span class="ml-3">Reports</span>
+                  </NuxtLink>
                 </li>
                 <li>
                   <button
@@ -1537,3 +1546,5 @@ onMounted(() => {
     initTooltips();
 })
 </script>
+
+
