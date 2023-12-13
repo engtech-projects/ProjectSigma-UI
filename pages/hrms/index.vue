@@ -10,6 +10,9 @@
       >
         <HrmsDashboardBirthdays :employees="employeesData" class="md: mt-2 md:mt-0 p-2" />
       </div>
+      <div class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full">
+        <HrmsDashboardLate :employees="employeesData" class="md: mt-2 md:mt-0 p-2" />
+      </div>
       <div
         class=" rounded-lg border-gray-300 dark:border-gray-600 h-92 md:h-full"
       >
@@ -80,12 +83,12 @@ import { onMounted } from "vue";
 import { initFlowbite } from "flowbite";
 
 const employeesData = ref([
-  { name: "John Mayer", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
-  { name: "Jane Smith", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
-  { name: "John Doe", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
-  { name: "John Doe", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", birthdate: "1990-05-15" },
+  { name: "John Mayer", avatar: "/avatarexample.png", late: "1990-05-15" },
+  { name: "Jane Smith", avatar: "/avatarexample.png", late: "1990-05-15" },
+  { name: "John Doe", avatar: "/avatarexample.png", late: "1990-05-15" },
+  { name: "Mark Unico", avatar: "/avatarexample.png", late: "1990-05-15" },
+  { name: "John Doe", avatar: "/avatarexample.png", late: "1990-05-15" },
+  { name: "Mark Unico", avatar: "/avatarexample.png", late: "1990-05-15" },
 ]);
 
 // initialize components based on data attribute selectors
