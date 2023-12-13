@@ -23,14 +23,21 @@
         fill="currentColor"
       />
     </button>
-    <ul :id="data.id" class="py-2 space-y-2">
-      <slot>
-      </slot>
-    </ul>
+    <!-- :id="data.id" -->
+      <div class="overflow-clip">
+        <TransitionsSlidedown>
+          <ul v-if="dp" class="py-2 space-y-2">
+            <slot>
+            </slot>
+          </ul>
+        </TransitionsSlidedown>
+      </div>
   </li>
+  <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">
 </template>
 
 <script setup lang="ts">
   const data = defineProps(['title','id']);
   const dp = ref(true);
+
 </script>
