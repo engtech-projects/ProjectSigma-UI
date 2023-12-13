@@ -1,5 +1,4 @@
 <template>
-  <div :class="data.hide">
     <NuxtLink
         :to = "data.linkarea"
         class="flex items-center p-2 stext-base font-medium text-gray-900 rounded-lg dark:text-white group"
@@ -11,10 +10,8 @@
         />
         <span class="ml-3">{{  data.singleNavTitle   }}</span>
     </NuxtLink>
-  </div>
-  <!-- name="ic:baseline-people-outline" -->
 </template>
 
 <script setup lang="ts">
-  const data = defineProps(['singleNavTitle','linkarea','icon','hide']);
+  const data = defineProps(['singleNavTitle','linkarea','icon']);
 </script>
