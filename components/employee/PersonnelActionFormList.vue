@@ -81,7 +81,7 @@ const closeViewModal = () => {
         show-index
         :headers="headers"
         :items="items"
-        class="mt-5">
+        class="mt-5 z-0">
         <template #item-actions="item">
           <button
           @click="approveItem(item)"
