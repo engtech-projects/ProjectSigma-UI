@@ -33,7 +33,7 @@
             <LayoutNavGroup icon="ion:ios-people" title="Setup">
                 <LayoutNav linkarea="/hrms/setup/department" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Department"/>
                 <LayoutNav linkarea="/hrms/setup/approvals" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Approvals"/>
-                <LayoutNav linkarea="/hrms/setup/division" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Division"/>
+                <LayoutNav class="hidden" linkarea="/hrms/setup/division" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Division"/>
                 <LayoutNav linkarea="/hrms/setup/philhealth" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Philhealth"/>
                 <LayoutNav linkarea="/hrms/setup/pag-ibig" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Pag-Ibig"/>
                 <LayoutNav linkarea="/hrms/setup/sss" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="SSS"/>
