@@ -21,7 +21,12 @@
       <div
         class=" rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
       >
-        <ChartEmployeeschart class="p-2"/>
+        <ChartEmployeeschart title="Employee Lates and Absences Chart" :labels="['Lates','Absences']" :datas="['22','40']" class="p-2"/>
+      </div>
+      <div
+        class=" rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
+      >
+        <ChartEmployeeschart title="Employee Chart" :labels="['Accounting', 'Finance', 'HR', 'Legal', 'Engineer', 'Estimator', 'Equipment Operator', 'Marketing', 'Sales', 'IT', 'Field Staff', 'Operations']" :datas="['40', '20', '12', '14', '56', '45', '88', '65', '56', '49', '71', '92']" class="p-2"/>
       </div>
       
     </div>
