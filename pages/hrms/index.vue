@@ -11,7 +11,7 @@
         <HrmsDashboardBirthdays :employees="employeesData" class="md: mt-2 md:mt-0 p-2" />
       </div>
       <div class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full">
-        <HrmsDashboardLate :employees="employeesData" class="md: mt-2 md:mt-0 p-2" />
+        <HrmsDashboardLate :employees="employeeslateData" class="md: mt-2 md:mt-0 p-2" />
       </div>
       <div
         class=" rounded-lg border-gray-300 dark:border-gray-600 h-92 md:h-full"
@@ -94,6 +94,15 @@ const employeesData = ref([
   { name: "Mark Unico", avatar: "/avatarexample.png", late: "1990-05-15" },
   { name: "John Doe", avatar: "/avatarexample.png", late: "1990-05-15" },
   { name: "Mark Unico", avatar: "/avatarexample.png", late: "1990-05-15" },
+]);
+
+const employeeslateData = ref([
+  { name: "John Mayer", avatar: "/avatarexample.png", late: "2" },
+  { name: "Jane Smith", avatar: "/avatarexample.png", late: "3" },
+  { name: "John Doe", avatar: "/avatarexample.png", late: "3" },
+  { name: "Mark Unico", avatar: "/avatarexample.png", late: "3" },
+  { name: "John Doe", avatar: "/avatarexample.png", late: "3" },
+  { name: "Mark Unico", avatar: "/avatarexample.png", late: "2" },
 ]);
 
 // initialize components based on data attribute selectors
