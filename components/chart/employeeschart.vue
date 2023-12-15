@@ -1,6 +1,6 @@
 <template>
   <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700">
-    <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">Employee Chart</h5>
+    <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">{{ title }}</h5>
     <div>
       <canvas ref="chart" :width="chartWidth" :height="chartHeight" />
     </div>
@@ -8,6 +8,7 @@
 </template>
 
 <script lang="ts">
+
 import {
   Chart as ChartJS,
   Title,
@@ -20,6 +21,10 @@ import { Doughnut } from 'vue-chartjs'
 ChartJS.register(DoughnutController, Title, Tooltip, Legend);
 
 export default {
+  title: 'title',
+  datas: 'datas',
+  labels: 'labels',
+  props:['title','datas','labels'],
   name: 'EmployeesChart',
   components: {
     Doughnut
@@ -29,9 +34,10 @@ export default {
       chartWidth: 300, // Set the desired width of the chart
       chartHeight: 300, // Set the desired height of the chart
       data: {
-        labels: ['Accounting', 'Finance', 'HR', 'Legal', 'Engineer', 'Estimator', 'Equipment Operator', 'Marketing', 'Sales', 'IT', 'Field Staff', 'Operations',],
+        // labels: ['Accounting', 'Finance', 'HR', 'Legal', 'Engineer', 'Estimator', 'Equipment Operator', 'Marketing', 'Sales', 'IT', 'Field Staff', 'Operations',],
+        labels: this.labels,
         datasets: [{
-          data: [40, 20, 12, 14, 56, 45, 88, 65, 56, 49, 71, 92],
+          data: this.datas,
           backgroundColor: [ // Specify different colors for each label
             'rgba(255, 99, 132, 0.7)',  // Red
             'rgba(54, 162, 235, 0.7)',  // Blue
@@ -48,7 +54,6 @@ export default {
           ],
         }],
       },
-
       options: {
         responsive: true,
         animation: {

@@ -2,36 +2,36 @@
 
 const headers = [
   { text: "EMPLOYEE NAME", value: "employee_name" },
-  { text: "DEPARTMENT", value: "department_name" },
-  { text: "ACTION TO BE TAKEN", value: "action_taken" },
+  { text: "ASSIGNED TO", value: "assigned_project" },
+  { text: "REQUESTED TO", value: "requested_to" },
+  { text: "STATUS", value: "status" },
   { text: "ACTIONS", value: "actions" },
 ];
 
 const items = [
   {
     employee_name: "Juan Luna",
-    department_name: "Accounting",
-    action_taken: "BASIC SALARY",
-    date_filed: "10/24/23",
-    action_button: "1230",
+    assigned_project: "Butuan",
+    requested_to: "CDO",
+    status: "Pending",
   },
   {
     employee_name: "Jose Rizal",
-    department_name: "Finance",
-    action_taken: "EMPLOYMENT STATUS",
-    date_filed: "10/24/23",
+    assigned_project: "Butuan",
+    requested_to: "CDO",
+    status: "Pending",
   },
   {
     employee_name: "Andress Boni",
-    department_name: "IT",
-    action_taken: "PROMOTION",
-    date_filed: "10/24/23",
+    assigned_project: "Butuan",
+    requested_to: "CDO",
+    status: "Pending",
   },
   {
     employee_name: "Andress Boni",
-    department_name: "IT",
-    action_taken: "TRANSFER",
-    date_filed: "10/24/23",
+    assigned_project: "Butuan",
+    requested_to: "CDO",
+    status: "Pending",
   },
   
 ];
@@ -70,10 +70,10 @@ const closeViewModal = () => {
 
 <template>
   <div
-    class="shadow-md p-4 mt-6 bg-white mb-3 border border-gray-200 rounded-lg w-full md:w-1/2">
+    class="shadow-md p-4 mt-5 bg-white mb-3 border border-gray-200 rounded-lg w-full ">
    
       <div class="pb-2 text-black font-medium text-lg">
-        Personnel Action Form List
+        Manpower Monitoring List
         
       </div>
 
@@ -81,7 +81,7 @@ const closeViewModal = () => {
         show-index
         :headers="headers"
         :items="items"
-        class="mt-5 z-0">
+        class="mt-5">
         <template #item-actions="item">
           <button
           @click="approveItem(item)"
