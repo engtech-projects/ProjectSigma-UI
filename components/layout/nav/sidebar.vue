@@ -49,6 +49,7 @@
                 <LayoutNav linkarea="/hrms/payroll/allowance" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Allowance"/>
                 <LayoutNav linkarea="/hrms/payroll/payrollrecord" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Payroll Record"/>
             </LayoutNavGroup>
+            <LayoutNav linkarea="/reports" icon="mdi:cash" single-nav-title="Reports"/>
             <LayoutNavGroup icon="uim:schedule" title="Schedule">
                 <LayoutNav linkarea="/hrms/schedule/department" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Department Schedule"/>
                 <LayoutNav linkarea="/hrms/schedule/employee" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Employee Schedule"/>
