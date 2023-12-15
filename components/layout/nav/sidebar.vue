@@ -3,6 +3,7 @@
         <!-- HRMS -->
         <LayoutNavModuleGroup title="hrms">
             <LayoutNav linkarea="/hrms" icon="material-symbols:alarm" single-nav-title="HRMS Dashboard"/>
+            <LayoutNav linkarea="/announcement" icon="ic:baseline-announcement" single-nav-title="Announcement"/>
             <LayoutNavGroup icon="material-symbols:alarm" title="Attendance">
                 <LayoutNav linkarea="/hrms/attendance/portal" icon="mdi:face-recognition" single-nav-title="Attendance Portal"/>
                 <LayoutNav linkarea="/hrms/attendance/timeinout" icon="material-symbols:alarm-on-outline-rounded" single-nav-title="Daily Logs Record"/>
