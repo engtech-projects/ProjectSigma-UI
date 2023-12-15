@@ -10,7 +10,7 @@
                 <!-- <LayoutNavGroup  icon="ic:outline-more-time" title="Daily Time Record">
                 </LayoutNavGroup> -->
                 <LayoutNav linkarea="/hrms/attendance/facerecognition" icon="mdi:face-recognition" single-nav-title="Face Recognition"/>
-                <LayoutNav linkarea="/hrms/attendance/useraccounts" icon="material-symbols:person-add-outline-rounded" single-nav-title="User Account"/>
+                <LayoutNav linkarea="/hrms/attendance/attendancelogin" icon="material-symbols:person-add-outline-rounded" single-nav-title="Attendance Login"/>
                 <LayoutNav linkarea="/hrms/attendance/qrcode" icon="material-symbols:qr-code-scanner-rounded" single-nav-title="QR Code"/>
                 <!-- hide true-->
                 <!-- <LayoutNavGroup class="hidden" icon="ic:baseline-people-outline" title="Biometrics">
@@ -31,6 +31,7 @@
             
             <LayoutNav class="hidden" linkarea="/project" icon="material-symbols:construction" single-nav-title="Project"/>
             <LayoutNavGroup icon="ion:ios-people" title="Setup">
+                <LayoutNav linkarea="/hrms/setup/useraccounts" icon="material-symbols:person-add-outline-rounded" single-nav-title="User Accounts"/>
                 <LayoutNav linkarea="/hrms/setup/department" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Department"/>
                 <LayoutNav linkarea="/hrms/setup/approvals" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Approvals"/>
                 <LayoutNav class="hidden" linkarea="/hrms/setup/division" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Division"/>

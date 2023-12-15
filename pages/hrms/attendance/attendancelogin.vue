@@ -4,7 +4,7 @@ definePageMeta({
 }),
 
 useHead({
-  title: 'User Accounts',
+  title: 'Attendance Login',
   meta: [
     { name: 'description', content: '' }
   ],
@@ -16,6 +16,6 @@ useHead({
 
 <template>
   <div class="mt-10 md:mt-0">
-    <HrmsAttendanceUserAccounts />
+    <HrmsAttendanceLogin />
   </div>
 </template>

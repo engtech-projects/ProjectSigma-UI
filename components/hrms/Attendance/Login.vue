@@ -3,7 +3,7 @@ definePageMeta({
   layout: "guest",
 }),
   useHead({
-    title: "User Account",
+    title: "Attendance Login",
     meta: [{ name: "description", content: "" }],
     bodyAttrs: {
       class: "login",
@@ -75,7 +75,7 @@ definePageMeta({
                 type="submit"
                 class="w-full text-white bg-cyan-600 hover:bg-secondary-base focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
-                Log in
+                Register
               </button>
               
             </form>
