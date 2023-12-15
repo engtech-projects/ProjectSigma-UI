@@ -1,10 +1,5 @@
 <template>
-  <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700">
-    <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">{{ title }}</h5>
-    <div>
       <canvas ref="chart" :width="chartWidth" :height="chartHeight" />
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
@@ -21,10 +16,9 @@ import { Doughnut } from 'vue-chartjs'
 ChartJS.register(DoughnutController, Title, Tooltip, Legend);
 
 export default {
-  title: 'title',
   datas: 'datas',
   labels: 'labels',
-  props:['title','datas','labels'],
+  props:['datas','labels'],
   name: 'EmployeesChart',
   components: {
     Doughnut

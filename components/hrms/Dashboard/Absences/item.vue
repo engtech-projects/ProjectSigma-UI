@@ -11,6 +11,5 @@
 </template>
 
 <script setup>
-import { formatDate } from "@fullcalendar/core";
 const data = defineProps(["title", "name", "avatar", "absences"]);
 </script>
