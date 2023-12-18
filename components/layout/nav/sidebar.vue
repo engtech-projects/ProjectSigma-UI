@@ -135,6 +135,11 @@
           icon="material-symbols:dynamic-form-outline-rounded"
           single-nav-title="Withholding Tax"
         />
+        <LayoutNav
+          linkarea="/hrms/setup/leaves"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Leaves"
+        />
       </LayoutNavGroup>
       <LayoutNav
         linkarea="/hrms/leave"
