@@ -2,38 +2,34 @@
   <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto" >
     <label for="" class="text-xl font-semibold text-gray-900">Overtime Authorization Form</label>
          
-    <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <div class="mt-5 grid grid-cols-1">
         <div>
           <label for="project_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project Name</label>
           <input type="text" id="project_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
         </div>
-        <div>
-          <label for="date_overtime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Overtime</label>
-          <input type="date" id="date_overtime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
-        </div>
     </div>
-    <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-3">
-        <div>
-          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-              <label for="time_from" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time From</label>
-              <input type="time" id="time_from" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
-            </div>
-            <div>
-              <label for="time_to" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To</label>
-              <input type="time" id="time_to" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
-            </div>
-          </div>
-        </div>
-        <div>
-          <label for="total_hrs" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total # Of Hrs.</label>
-          <input type="number" id="total_hrs" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-        </div>
-        <div>
-          <label for="purpose" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Purpose/Reason</label>
-          <input type="text" id="purpose" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-        </div>
+    <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-4">
+      <div>
+        <label for="date_overtime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of Overtime</label>
+        <input type="date" id="date_overtime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
       </div>
+      <div>
+        <label for="time_from" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time From</label>
+        <input type="time" id="time_from" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+      </div>
+      <div>
+        <label for="time_to" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To</label>
+        <input type="time" id="time_to" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+      </div>
+      <div>
+        <label for="total_hrs" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total # Of Hrs.</label>
+        <input type="number" id="total_hrs" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+      </div>
+    </div>
+    <div class="mt-5 ">
+        <label for="purpose" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Purpose/Reason</label>
+        <input type="text" id="purpose" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+    </div>
       <EasyDataTable
       id="overtime_form"
       class="mt-5"
