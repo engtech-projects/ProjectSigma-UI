@@ -180,7 +180,7 @@
         />
       </LayoutNavGroup>
       <LayoutNav
-        linkarea="/reports"
+        linkarea="/hrms/reports"
         icon="mdi:cash"
         single-nav-title="Reports"
       />

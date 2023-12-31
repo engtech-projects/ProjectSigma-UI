@@ -3,11 +3,24 @@
       <div class="md:grid grid-cols-4 gap-4 mt-5">
         <select v-model="selectedReport" id="report" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
             <option value="" disabled selected>Select Report</option>
-            <option value="Report1">Report 1</option>
-            <option value="Report2">Report 2</option>
-            <option value="Report3">Report 3</option>
-            <option value="Report4">Report 4</option>
-            <option value="Report5">Report 5</option>
+            <option value="Report1">SSS Summary</option>
+            <option value="Report2">SSS Project Remittance</option>
+            <option value="Report3">SSS Remittance</option>
+            <option value="Report4">SSS Loan Payment Summary</option>
+            <option value="Report5">SSS Loan Payment</option>
+            <option value="Report6">PHIC Summary</option>
+            <option value="Report7">PHIC Project Remittance </option>
+            <option value="Report8">PHIC Remittance</option>
+            <option value="Report9">HDMF Summary</option>
+            <option value="Report10">HDMF Project Remittance</option>
+            <option value="Report11">HDMF Remittance</option>
+            <option value="Report12">HDMF Loan Summary</option>
+            <option value="Report13">HDMF Loan Project Remittance</option>
+            <option value="Report14">HDMF Loan Remittance</option>
+            <option value="Report15">Salary Monitoring</option>
+            <option value="Report16">Overtime Monitoring</option>
+            <option value="Report17">Project Payroll Summary</option>
+            <option value="Report18">Employee Logs</option>
         </select>
         
         <VueDatePicker v-model="month" month-picker class="rounded-lg" placeholder="Select Month" ></VueDatePicker>
