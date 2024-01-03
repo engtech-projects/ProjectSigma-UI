@@ -116,6 +116,11 @@
           single-nav-title="Division"
         />
         <LayoutNav
+          linkarea="/hrms/setup/hmo"
+          icon="ic:baseline-health-and-safety"
+          single-nav-title="HMO"
+        />
+        <LayoutNav
           linkarea="/hrms/setup/philhealth"
           icon="material-symbols:dynamic-form-outline-rounded"
           single-nav-title="Philhealth"
