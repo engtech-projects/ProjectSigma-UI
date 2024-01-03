@@ -1,7 +1,11 @@
 <template>
-  <div>
-    <HrmsAnnouncement />
-    <HrmsAnnouncementList />
+  <div class="flex flex-col gap-3">
+    <div>
+      <HrmsAnnouncement />
+    </div>
+    <div>
+      <HrmsAnnouncementList />
+    </div>
   </div>
 </template>
 
