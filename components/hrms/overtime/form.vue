@@ -86,7 +86,16 @@ const submitAdd = () => {
 
 const items: Item[any] = ref([
   {
-    name: "Lorem 1",
+    name: "Jose Sheeran",
+  },
+  {
+    name: "John Lee",
+  },
+  {
+    name: "Clark Evans",
+  },
+  {
+    name: "Jones Mason",
   },
 ])
 
