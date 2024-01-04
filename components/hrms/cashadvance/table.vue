@@ -56,7 +56,7 @@ const headers: Header[] = [
 
 const items: Item[any] = ref([
   {
-    employee_name: "Lorem 1",
+    employee_name: "Miles A. Head",
     date_filed: "2017-10-10",
     requested_amt: "2,000.00",
     purpose: "medicine",
@@ -67,7 +67,7 @@ const items: Item[any] = ref([
     status: "Approved",
   },
   {
-    employee_name: "Lorem 1",
+    employee_name: "Robin Banks",
     date_filed: "2017-10-10",
     requested_amt: "2,000.00",
     purpose: "medicine",
@@ -78,7 +78,7 @@ const items: Item[any] = ref([
     status: "Approved",
   },
   {
-    employee_name: "Lorem 1",
+    employee_name: "Faye Kinnitt",
     date_filed: "2017-10-10",
     requested_amt: "2,000.00",
     purpose: "medicine",

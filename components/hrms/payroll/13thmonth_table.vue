@@ -65,15 +65,15 @@
           </EasyDataTable>
         </div>
   </template>
-  
-  
+
+
   <script setup lang="ts">
   import { Header, Item, SortType  } from "vue3-easy-data-table";
-  
+
   const searchField = ["employee_id"];
   const searchValue = ref("");
   const itemsSelected = ref<Item[]>([]);
-  
+
   const sortBy: any[] = ["employee_id", "employee","employment_type","department", "position"];
   const sortType: SortType[] = ["desc", "asc"];
 
@@ -81,45 +81,45 @@
         { text: "Employee ID", value: "employee_id", sortable: true },
         { text: "Employee", value: "employee", sortable: true },
         { text: "Employment Type", value: "employment_type", sortable: true },
-        { text: "Department", value: "department", sortable: true },
+        { text: "Office/Project", value: "department", sortable: true },
         { text: "Position", value: "position", sortable: true },
         { text: "View Payslip", value: "actions" },
   ];
-  
+
   const items: Item[any] = ref([
     {
         employee_id: "1111111111",
-        employee: "Lorem 1",
-        employment_type: "",
-        department: "2",
-        position: "Student Assistant",
+        employee: "Scarlett Raymond",
+        employment_type: "Regular",
+        department: "HR",
+        position: "HR Head",
     },
     {
         employee_id: "1111111112",
-        employee: "Lorem 2",
-        employment_type: "",
-        department: "2",
-        position: "Student Assistant",
+        employee: "Barbara Blevins",
+        employment_type: "Regular",
+        department: "HR",
+        position: "HR Assistant",
     },
     {
         employee_id: "1111111113",
-        employee: "Lorem 3",
-        employment_type: "",
-        department: "2",
-        position: "Student Assistant",
+        employee: "Nadia Raymond",
+        employment_type: "Regular",
+        department: "HR",
+        position: "HR Assistant",
     },
   ]);
-  
+
   const deleted = (val: Item) =>{
-    items.value.splice(val.key,1);      
+    items.value.splice(val.key,1);
   }
-  
-  
+
+
 const viewItem = (item:any) => {
 };
 
   </script>
-  
+
   <style>
   .customize-table {
     --easy-table-header-item-padding: 10px 15px;

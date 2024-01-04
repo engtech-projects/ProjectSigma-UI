@@ -1,4 +1,5 @@
 <template>
+  
   <div class="mt-10 md:flex gap-4 justify-center">
     <div class="border-2 border-gray-400 rounded-lg p-2 md:w-1/3 space-y-4">
       <div class="flex justify-center text-3xl font-medium text-cyan-700 p-2">

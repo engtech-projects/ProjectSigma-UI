@@ -3,7 +3,7 @@
     <div
       class="grid-cols-2 border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
     >
-      <HrmsDashboardAnnouncementTimeline class="mt-10 md:mt-0 p-2" />
+      <HrmsDashboardAnnouncementTimeline />
     </div>
     <div
       class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
@@ -32,101 +32,15 @@
     <div
       class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
     >
-      <ChartEmployeeschart
-        title="Employee Lates and Absences Chart"
-        :labels="['Lates', 'Absences']"
-        :datas="['22', '40']"
-        class="p-2"
-      />
+    <HrmsDashboardLatesAbsencesChart />
     </div>
     <div
       class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
     >
-      <ChartEmployeeschart
-        title="Employee Chart"
-        :labels="[
-          'Accounting',
-          'Finance',
-          'HR',
-          'Legal',
-          'Engineer',
-          'Estimator',
-          'Equipment Operator',
-          'Marketing',
-          'Sales',
-          'IT',
-          'Field Staff',
-          'Operations',
-        ]"
-        :datas="[
-          '40',
-          '20',
-          '12',
-          '14',
-          '56',
-          '45',
-          '88',
-          '65',
-          '56',
-          '49',
-          '71',
-          '92',
-        ]"
-        class="p-2"
-      />
+    <HrmsDashboardEmployeesChart />
     </div>
   </div>
 
-  <!-- <div
-      class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"
-    >
-      5
-    </div>
-    
-    <div class="grid grid-cols-2 gap-4 mb-4">
-      <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-      >
-        6
-      </div>
-      <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-      >
-        7
-      </div>
-      <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-      >
-        8
-      </div>
-      <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-      >
-        9
-      </div>
-    </div>
-    
-    <div
-      class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"
-    >
-      10
-    </div>
-
-    <div class="grid grid-cols-2 gap-4">
-      11
-      <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-      ></div>
-      <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-      ></div>
-      <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-      ></div>
-      <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
-      ></div>
-    </div> -->
 </template>
 
 <script setup>
@@ -134,30 +48,30 @@ import { onMounted } from "vue";
 import { initFlowbite } from "flowbite";
 
 const employeesData = ref([
-  { name: "John Mayer", avatar: "/avatarexample.png", late: "1990-05-15" },
-  { name: "Jane Smith", avatar: "/avatarexample.png", late: "1990-05-15" },
-  { name: "John Doe", avatar: "/avatarexample.png", late: "1990-05-15" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", late: "1990-05-15" },
-  { name: "John Doe", avatar: "/avatarexample.png", late: "1990-05-15" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", late: "1990-05-15" },
+  { name: "John Mayer", avatar: "/avatarexample.png", birthday: "1990-05-15" },
+  { name: "Jane Smith", avatar: "/avatarexample.png", birthday: "1990-05-15" },
+  { name: "John Doe", avatar: "/avatarexample.png", birthday: "1990-05-15" },
+  { name: "Mark Unico", avatar: "/avatarexample.png", birthday: "1990-05-15" },
+  { name: "John Doe", avatar: "/avatarexample.png", birthday: "1990-05-15" },
+  { name: "Mark Unico", avatar: "/avatarexample.png", birthday: "1990-05-15" },
 ]);
 
 const employeeslateData = ref([
-  { name: "John Mayer", avatar: "/avatarexample.png", late: "2" },
-  { name: "Jane Smith", avatar: "/avatarexample.png", late: "3" },
-  { name: "John Doe", avatar: "/avatarexample.png", late: "3" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", late: "3" },
-  { name: "John Doe", avatar: "/avatarexample.png", late: "3" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", late: "2" },
+  { name: "Chris P. Bacon", avatar: "/avatarexample.png", late: "2" },
+  { name: "Russell Sprout", avatar: "/avatarexample.png", late: "3" },
+  { name: "Isla White", avatar: "/avatarexample.png", late: "3" },
+  { name: "Ave Rill", avatar: "/avatarexample.png", late: "3" },
+  { name: "Cara Mel", avatar: "/avatarexample.png", late: "3" },
+  { name: "Cher E. Moya", avatar: "/avatarexample.png", late: "2" },
 ]);
 
 const employeesabsencesData = ref([
-  { name: "John Mayer", avatar: "/avatarexample.png", absences: "2" },
-  { name: "Jane Smith", avatar: "/avatarexample.png", absences: "3" },
-  { name: "John Doe", avatar: "/avatarexample.png", absences: "3" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", absences: "3" },
-  { name: "John Doe", avatar: "/avatarexample.png", absences: "3" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", absences: "2" },
+  { name: "Dixie Normus", avatar: "/avatarexample.png", absences: "2" },
+  { name: "Robin Banks", avatar: "/avatarexample.png", absences: "3" },
+  { name: "Ann Thrope", avatar: "/avatarexample.png", absences: "3" },
+  { name: "Anita Break", avatar: "/avatarexample.png", absences: "3" },
+  { name: "Carrie M. Bags", avatar: "/avatarexample.png", absences: "3" },
+  { name: "Ivy Lague", avatar: "/avatarexample.png", absences: "2" },
 ]);
 // initialize components based on data attribute selectors
 onMounted(() => {

@@ -4,6 +4,7 @@ import { Header, Item } from "vue3-easy-data-table";
 import { defineComponent, ref, reactive } from "vue";
 
 const headers: Header[] = [
+      { text: "HMO Name", value: "hmo_name" },
       { text: "Employee", value: "employee" },
       { text: "Employee Share", value: "employee_share" },
       { text: "Actions", value: "actions" },
@@ -11,24 +12,24 @@ const headers: Header[] = [
 
 const items: Item[any] = ref([
   {
-    employee: "Neil Down",
-    employee_share: "800",
+    hmo_name: "Maxicare Healthcare Corporation",
+    employee: "Jerry Atrick",
+    employee_share: "1000",
   },
   {
-    employee: "Pete Sakes",
-    employee_share: "700",
+    hmo_name: "Sunlife",
+    employee: "Joe King",
+    employee_share: "3500",
   },
   {
-    employee: "Tara Newhall",
-    employee_share: "800",
+    hmo_name: "Medicare",
+    employee: "Leigh V. Mealon",
+    employee_share: "1200",
   },
   {
-    employee: "Willie Passem",
-    employee_share: "700",
-  },
-  {
-    employee: "Drew A. Head",
-    employee_share: "800",
+    hmo_name: "Prulife",
+    employee: "Lou Pole",
+    employee_share: "1100",
   },
 ]);
 
@@ -75,15 +76,18 @@ const clear = () => {
 
 <template>
 
-<h2 class="text-2xl font-semibold dark:text-white">PAG-IBIG</h2>
+<h2 class="text-2xl font-semibold dark:text-white">Health Maintenance Organization</h2>
 
 <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-  <label for="" class="text-xl font-semibold text-gray-900">Add Pag-ibig Share</label>
-
-  <div class="mt-5 b-6">
-          <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
-          <input v-model="addItem.employee" type="text" id="employee" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-      </div> 
+  <label for="" class="text-xl font-semibold text-gray-900">Add HMO Share</label>
+    <div class="mt-5 b-6">
+        <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">HMO Name</label>
+        <input v-model="addItem.employee" type="text" id="employee" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
+    </div> 
+    <div class="mt-5 b-6">
+        <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
+        <input v-model="addItem.employee" type="text" id="employee" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
+    </div> 
       <div class="mt-5 mb-6">
           <label for="employee_share" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee Share</label>
           <input v-model="addItem.employee_share" type="text" id="employee_share" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
