@@ -11,24 +11,24 @@ const headers: Header[] = [
 
 const items: Item[any] = ref([
   {
-    employee: "lorem1",
-    employee_share: "100",
+    employee: "Jerry Atrick",
+    employee_share: "1000",
   },
   {
-    employee: "lorem2",
-    employee_share: "100",
+    employee: "Joe King",
+    employee_share: "3500",
   },
   {
-    employee: "lorem3",
-    employee_share: "100",
+    employee: "Leigh V. Mealon",
+    employee_share: "1200",
   },
   {
-    employee: "lorem4",
-    employee_share: "100",
+    employee: "Lou Pole",
+    employee_share: "1100",
   },
   {
-    employee: "lorem5",
-    employee_share: "100",
+    employee: "Moe Lester",
+    employee_share: "1800",
   },
 ]);
 

@@ -39,7 +39,7 @@ const headers: Header[] = [
 
 const items: Item[any] = ref([
   {
-    employee_name: "Lorem 1",
+    employee_name: "Oscar Lott",
     date_filed: "2017-10-10",
     overtime_date: "2017-10-10",
     time_from: "2017-09-22 08:00:00",
@@ -48,7 +48,7 @@ const items: Item[any] = ref([
     purpose_reason: "went to davao",
   },
   {
-    employee_name: "Lorem 1",
+    employee_name: "Leigh King",
     date_filed: "2017-10-10",
     overtime_date: "2017-10-10",
     time_from: "2017-09-22 08:00:00",
@@ -57,7 +57,7 @@ const items: Item[any] = ref([
     purpose_reason: "went to davao",
   },
   {
-    employee_name: "Lorem 1",
+    employee_name: "Ave Rill",
     date_filed: "2017-10-10",
     overtime_date: "2017-10-10",
     time_from: "2017-09-22 08:00:00",
@@ -66,7 +66,7 @@ const items: Item[any] = ref([
     purpose_reason: "went to davao",
   },
   {
-    employee_name: "Lorem 1",
+    employee_name: "Dex Turz",
     date_filed: "2017-10-10",
     overtime_date: "2017-10-10",
     time_from: "2017-09-22 08:00:00",
@@ -75,7 +75,7 @@ const items: Item[any] = ref([
     purpose_reason: "went to davao",
   },
   {
-    employee_name: "Lorem 1",
+    employee_name: "Sol Long",
     date_filed: "2017-10-10",
     overtime_date: "2017-10-10",
     time_from: "2017-09-22 08:00:00",
@@ -84,7 +84,7 @@ const items: Item[any] = ref([
     purpose_reason: "went to davao",
   },
   {
-    employee_name: "Lorem 1",
+    employee_name: "Len Dingmachin",
     date_filed: "2017-10-10",
     overtime_date: "2017-10-10",
     time_from: "2017-09-22 08:00:00",
@@ -93,7 +93,7 @@ const items: Item[any] = ref([
     purpose_reason: "went to davao",
   },
   {
-    employee_name: "Lorem 1",
+    employee_name: "Oliver Stuffismor",
     date_filed: "2017-10-10",
     overtime_date: "2017-10-10",
     time_from: "2017-09-22 08:00:00",

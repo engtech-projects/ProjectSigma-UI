@@ -57,21 +57,21 @@ const employeesData = ref([
 ]);
 
 const employeeslateData = ref([
-  { name: "John Mayer", avatar: "/avatarexample.png", late: "2" },
-  { name: "Jane Smith", avatar: "/avatarexample.png", late: "3" },
-  { name: "John Doe", avatar: "/avatarexample.png", late: "3" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", late: "3" },
-  { name: "John Doe", avatar: "/avatarexample.png", late: "3" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", late: "2" },
+  { name: "Chris P. Bacon", avatar: "/avatarexample.png", late: "2" },
+  { name: "Russell Sprout", avatar: "/avatarexample.png", late: "3" },
+  { name: "Isla White", avatar: "/avatarexample.png", late: "3" },
+  { name: "Ave Rill", avatar: "/avatarexample.png", late: "3" },
+  { name: "Cara Mel", avatar: "/avatarexample.png", late: "3" },
+  { name: "Cher E. Moya", avatar: "/avatarexample.png", late: "2" },
 ]);
 
 const employeesabsencesData = ref([
-  { name: "John Mayer", avatar: "/avatarexample.png", absences: "2" },
-  { name: "Jane Smith", avatar: "/avatarexample.png", absences: "3" },
-  { name: "John Doe", avatar: "/avatarexample.png", absences: "3" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", absences: "3" },
-  { name: "John Doe", avatar: "/avatarexample.png", absences: "3" },
-  { name: "Mark Unico", avatar: "/avatarexample.png", absences: "2" },
+  { name: "Dixie Normus", avatar: "/avatarexample.png", absences: "2" },
+  { name: "Robin Banks", avatar: "/avatarexample.png", absences: "3" },
+  { name: "Ann Thrope", avatar: "/avatarexample.png", absences: "3" },
+  { name: "Anita Break", avatar: "/avatarexample.png", absences: "3" },
+  { name: "Carrie M. Bags", avatar: "/avatarexample.png", absences: "3" },
+  { name: "Ivy Lague", avatar: "/avatarexample.png", absences: "2" },
 ]);
 // initialize components based on data attribute selectors
 onMounted(() => {

@@ -55,7 +55,7 @@ const headers: Header[] = [
 
 const items: Item[any] = ref([
   {
-    employee_name: "Lorem 1",
+    employee_name: "Justin Time",
     date_filed: "2017-10-10",
     loan_type: "BDO",
     amt_loaned: "50,000",
@@ -65,7 +65,7 @@ const items: Item[any] = ref([
     status: "Approved",
   },
   {
-    employee_name: "Lorem 1",
+    employee_name: "Sue Flay",
     date_filed: "2017-10-10",
     loan_type: "BDO",
     amt_loaned: "50,000",
@@ -75,7 +75,7 @@ const items: Item[any] = ref([
     status: "Approved",
   },
   {
-    employee_name: "Lorem 1",
+    employee_name: "Russell Sprout",
     date_filed: "2017-10-10",
     loan_type: "BDO",
     amt_loaned: "50,000",
