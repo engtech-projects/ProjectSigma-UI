@@ -1,28 +1,30 @@
 <template>
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
-    <div
-      class="grid-cols-2 border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
-    >
-      <HrmsDashboardAnnouncementTimeline />
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
+      <div
+        class="grid-cols-2 border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
+      >
+        <HrmsDashboardAnnouncement class="mt-10 md:mt-0 p-2" />
+      </div>
+      <div
+        class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
+      >
+        <HrmsDashboardBirthdays :employees="employeesData" class="md: mt-2 md .:mt-0 p-2" />
+      </div>
+      <div
+        class=" rounded-lg border-gray-300 dark:border-gray-600 h-92 md:h-full"
+      >
+        <HrmsDashboardEmployeeStatus/>
+      </div>
+      <div
+        class=" rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
+      >
+        <ChartEmployeesChart class="p-2" />
+      </div>
+
     </div>
-    <div
-      class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
-    >
-      <HrmsDashboardBirthdays
-        :employees="employeesData"
-        class="md: mt-2 md:mt-0 p-2"
-      />
-    </div>
-    <div
-      class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
-    >
-      <HrmsDashboardLates
-        :employees="employeeslateData"
-        class="md: mt-2 md:mt-0 p-2"
-      />
-    </div>
-    <div
-      class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
+
+    <!-- <div
+      class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"
     >
       <HrmsDashboardAbsences
         :employees="employeesabsencesData"

@@ -64,7 +64,7 @@
               >
                 Register
               </button>
-              
+
             </form>
           </div>
         </div>
@@ -84,7 +84,7 @@
             <div class="grid grid-cols-2 justify-between overflow-auto h-96">
               <div class="items-center ">
                 <label for="default-checkbox" class="ms-2 text-md font-medium text-green-400 dark:text-green-300">HRMS</label>
-                  
+
                     <div class="grid grid-cols-1 space-y-1 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                       <label class="relative inline-flex items-center w-full cursor-pointer">
                         <input type="checkbox" value="" class="sr-only peer">
@@ -129,7 +129,7 @@
                     </div>
 
                   <label for="default-checkbox" class="ms-2 text-md font-medium text-green-400 dark:text-green-300">ATTENDANCE</label>
-                  
+
                     <div class="grid grid-cols-1 space-y-1 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                       <label class="relative inline-flex items-center w-full cursor-pointer">
                         <input type="checkbox" value="" class="sr-only peer">

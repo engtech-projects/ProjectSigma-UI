@@ -22,15 +22,15 @@
             <option value="Report17">Project Payroll Summary</option>
             <option value="Report18">Employee Logs</option>
         </select>
-        
+
         <VueDatePicker v-model="month" month-picker class="rounded-lg" placeholder="Select Month" ></VueDatePicker>
         <VueDatePicker v-model="year" year-picker class="rounded-lg" placeholder="Select Year"></VueDatePicker>
-      
+
         <button @click="generateReport" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Generate Report</button>
-        
+
       </div>
-      
-      
+
+
     </div>
 
     <div class="mt-5 mb-6 border border-slate-300 rounded-lg p-2">
@@ -43,7 +43,7 @@
           :headers="headers"
           :items="items">
         </EasyDataTable>
-      
+
       </div>
       <button @click="print" class="flex justify-end ml-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><Icon name="ic:baseline-local-printshop" class="w-4 h-4 " fill="currentColor"/>Print Report</button>
 </template>

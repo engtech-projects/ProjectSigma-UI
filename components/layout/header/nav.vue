@@ -41,7 +41,7 @@
             <LayoutHeaderButton id="notification-dropdown" title="View notifications" :icon="true"/>
             <!-- Profile-btn -->
             <LayoutHeaderButton id="user-menu-button" title="Open user menu" :icon="false"/>
-         
+
             <!-- Notification dropdown-menu -->
             <div class="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700 rounded-xl" id="notification-dropdown">
                 <div class="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300">
@@ -185,7 +185,7 @@
                     </div>
                 </NuxtLink>
             </div>
-        
+
             <!-- Profile dropdown-menu -->
             <div class="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl" id="user-menu-button">
                 <div class="py-3 px-4">
