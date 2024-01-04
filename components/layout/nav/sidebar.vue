@@ -151,16 +151,27 @@
         icon="fluent-mdl2:leave-user"
         single-nav-title="Leave"
       />
-      <LayoutNav linkarea="/hrms/loans" icon="mdi:cash" single-nav-title="Loans" />
+      <LayoutNavGroup icon="mdi:cash" title="Loans and Advances">
+        <LayoutNav
+          linkarea="/hrms/loans/cashadvance"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Cash Advances"
+        />
+        <LayoutNav
+          linkarea="/hrms/loans"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Loans"
+        />
+        <LayoutNav
+          linkarea="/hrms/loans/otherdeductions"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Other Deductions"
+        />
+      </LayoutNavGroup>
       <LayoutNav
         linkarea="/hrms/overtime"
         icon="mingcute:time-line"
         single-nav-title="Overtime"
-      />
-      <LayoutNav
-        linkarea="/hrms/cashadvance"
-        icon="mdi:cash"
-        single-nav-title="Cash Advance"
       />
       <LayoutNavGroup icon="ion:ios-people" title="Payroll">
         <LayoutNav
