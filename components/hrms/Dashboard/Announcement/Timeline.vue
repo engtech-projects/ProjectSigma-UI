@@ -35,13 +35,13 @@ const datas = ref([
 
 const cardDatas = ref([
   {
-    id: 2,
+    id: 1,
     title: "Important Update",
     date: "2024-01-05",
     content: "We have an important update regarding our upcoming projects. Please stay tuned!",
   },
   {
-    id: 3,
+    id: 2,
     title: "Welcome New Team Members",
     date: "2024-01-10",
     content: "Let's welcome our new team members who joined us this month. Exciting times ahead!",
