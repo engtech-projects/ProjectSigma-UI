@@ -60,7 +60,7 @@ definePageMeta({
           <div>
             <NuxtLink to="#" class="flex justify-center items-center text-md font-semibold text-gray-900 dark:text-white border-t-4 border-t-teal-600 p-2 bg-slate-100 rounded-lg shadow-md hover:shadow-lg hover:shadow-teal-300 hover:ring-1 ring-teal-400">
               <div>
-                <img class="w-[100px]" src="/project_monitoring.png" alt="logo" />
+                <img class="w-[100px]" src="/monitor.png" alt="logo" />
                 <div class="flex justify-center items-center text-xs text-emerald-400 font-bold mt-2 ">
                   PROJECT MONITORING
                 </div>
