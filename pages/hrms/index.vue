@@ -39,6 +39,11 @@
     >
     <HrmsDashboardEmployeesChart />
     </div>
+    <div
+      class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
+    >
+    <HrmsDashboardMaleFemaleChart />
+    </div>
   </div>
 
 </template>
