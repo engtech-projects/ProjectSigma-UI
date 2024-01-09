@@ -4,7 +4,7 @@ definePageMeta({
 }),
 
 useHead({
-  title: 'Fail to Log',
+  title: 'Failure to Log',
   meta: [
     { name: 'description', content: '' }
   ],

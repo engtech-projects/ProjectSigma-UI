@@ -18,7 +18,6 @@ definePageMeta({
 }),
   useHead({
     title: "Employee Manpower Request",
-    meta: [{ name: "description", content: "Onboarding" }],
   });
 
 </script>

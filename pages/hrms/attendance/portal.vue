@@ -29,6 +29,14 @@
 </template>
 
 <script setup lang="ts">
+
+definePageMeta({
+  layout: "default",
+  }),
+  useHead({
+    title: "Attendance Portal",
+  });
+
 import { useRouter } from 'vue-router';
 
 const router = useRouter();

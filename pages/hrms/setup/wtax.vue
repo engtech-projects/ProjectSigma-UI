@@ -1,5 +1,12 @@
 <script  setup lang="ts">
 
+definePageMeta({
+  layout: "default",
+  }),
+  useHead({
+    title: "Withholding Tax",
+  });
+
 import { Header, Item } from "vue3-easy-data-table";
 import { ref, reactive } from "vue";
 import { initAccordions } from "flowbite";

@@ -1,5 +1,12 @@
 <script  setup lang="ts">
 
+definePageMeta({
+  layout: "default",
+  }),
+  useHead({
+    title: "PAGIBIG",
+  });
+
 import { Header, Item } from "vue3-easy-data-table";
 import { defineComponent, ref, reactive } from "vue";
 

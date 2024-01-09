@@ -4,11 +4,7 @@ definePageMeta({
 }),
 
 useHead({
-  title: 'Personal Action Form',
-  meta: [
-    { name: 'description', content: '' }
-  ],
-  
+  title: 'Personal Action Notice',
 })
 </script>
 

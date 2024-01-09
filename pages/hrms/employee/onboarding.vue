@@ -158,7 +158,6 @@ definePageMeta({
 }),
   useHead({
     title: "Employment Onboarding",
-    meta: [{ name: "description", content: "Onboarding" }],
   });
 
 </script>
