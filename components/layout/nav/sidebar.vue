@@ -1,21 +1,29 @@
 <template>
   <ul class="space-y-2">
+    <!-- <NuxtLink to="/welcome" class="flex justify-center border border-slate-200 rounded p-2">
+      Dashboard
+    </NuxtLink> -->
+    <LayoutNav
+        linkarea="/welcome"
+        icon="ic:baseline-space-dashboard"
+        single-nav-title="Dashboard"
+      />
     <!-- HRMS -->
     <LayoutNavModuleGroup title="hrms">
       <LayoutNav
         linkarea="/hrms"
-        icon="material-symbols:alarm"
+        icon="ic:round-dashboard"
         single-nav-title="HRMS Dashboard"
       />
       <LayoutNav
         linkarea="/hrms/announcement"
-        icon="ic:baseline-announcement"
+        icon="ic:outline-announcement"
         single-nav-title="Announcement"
       />
-      <LayoutNavGroup icon="material-symbols:alarm" title="Attendance">
+      <LayoutNavGroup icon="ic:outline-punch-clock" title="Attendance">
         <LayoutNav
           linkarea="/hrms/attendance/portal"
-          icon="mdi:face-recognition"
+          icon="ic:baseline-web"
           single-nav-title="Attendance Portal"
         />
         <LayoutNav
@@ -96,7 +104,7 @@
       <LayoutNavGroup icon="ion:ios-people" title="Setup">
         <LayoutNav
           linkarea="/hrms/setup/useraccounts"
-          icon="material-symbols:person-add-outline-rounded"
+          icon="ic:round-manage-accounts"
           single-nav-title="User Accounts"
         />
         <LayoutNav
@@ -197,7 +205,7 @@
       </LayoutNavGroup>
       <LayoutNav
         linkarea="/hrms/reports"
-        icon="mdi:cash"
+        icon="ic:sharp-add-chart"
         single-nav-title="Reports"
       />
       <LayoutNavGroup icon="uim:schedule" title="Schedule">
