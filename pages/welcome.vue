@@ -5,7 +5,7 @@ useHead({
 </script>
 
 <template>
-  <div class="h-screen flex items-center justify-center gap-10">
+  <div class="h-full mt-24 flex items-center justify-center gap-10">
     <div
       class="justify-center items-center w-1/2 border-y-4 border-y-teal-600 p-7 bg-white rounded-lg shadow-lg"
     >
