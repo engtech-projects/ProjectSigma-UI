@@ -58,46 +58,174 @@
                     <LayoutNav linkarea="/hrms/attendance/rejecteddata" icon="ic:baseline-flag-circle" single-nav-title="Biometric Rejected Data"/>
                     <LayoutNav linkarea="/hrms/attendance/biometrics" icon="ic:outline-account-circle" single-nav-title="Biometrics Account"/>
                 </LayoutNavGroup> -->
-            </LayoutNavGroup>
-            <LayoutNav linkarea="/calendar" icon="ic:round-calendar-month" single-nav-title="Event Calendar"/>
-            <LayoutNavGroup icon="ic:baseline-people-outline" title="Employee">
-                <!-- hide true-->
-                <LayoutNav class="hidden" linkarea="/hrms/employee/application" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Application"/>
-                <LayoutNav linkarea="/hrms/employee/201" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="201"/>
-                <LayoutNav linkarea="/hrms/employee/paf" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Personnel Action Notice"/>
-                <LayoutNav linkarea="/hrms/employee/onboarding" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Onboarding"/>
-                <LayoutNav linkarea="/hrms/employee/manpower" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Manpower Request"/>
-            </LayoutNavGroup>
-            <!-- hide true-->
+      </LayoutNavGroup>
+      <LayoutNav
+        linkarea="/hrms/calendar"
+        icon="ic:round-calendar-month"
+        single-nav-title="Event Calendar"
+      />
+      <LayoutNavGroup icon="ic:baseline-people-outline" title="Employee">
+        <!-- hide true-->
+        <LayoutNav
+          class="hidden"
+          linkarea="/hrms/employee/application"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Application"
+        />
+        <LayoutNav
+          linkarea="/hrms/employee/201"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="201"
+        />
+        <LayoutNav
+          linkarea="/hrms/employee/paf"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Personnel Action Notice"
+        />
+        <LayoutNav
+          linkarea="/hrms/employee/onboarding"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Onboarding"
+        />
+        <LayoutNav
+          linkarea="/hrms/employee/manpower"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Manpower Request"
+        />
+      </LayoutNavGroup>
+      <!-- hide true-->
 
-            <LayoutNav class="hidden" linkarea="/project" icon="material-symbols:construction" single-nav-title="Project"/>
-            <LayoutNavGroup icon="ion:ios-people" title="Setup">
-                <LayoutNav linkarea="/hrms/setup/useraccounts" icon="material-symbols:person-add-outline-rounded" single-nav-title="User Accounts"/>
-                <LayoutNav linkarea="/hrms/setup/department" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Department"/>
-                <LayoutNav linkarea="/hrms/setup/approvals" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Approvals"/>
-                <LayoutNav class="hidden" linkarea="/hrms/setup/division" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Division"/>
-                <LayoutNav linkarea="/hrms/setup/philhealth" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Philhealth"/>
-                <LayoutNav linkarea="/hrms/setup/pag-ibig" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Pag-Ibig"/>
-                <LayoutNav linkarea="/hrms/setup/sss" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="SSS"/>
-                <LayoutNav linkarea="/hrms/setup/wtax" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Withholding Tax"/>
-            </LayoutNavGroup>
-            <LayoutNav linkarea="/leave" icon="fluent-mdl2:leave-user" single-nav-title="Leave"/>
-            <LayoutNav linkarea="/loans" icon="mdi:cash" single-nav-title="Loans"/>
-            <LayoutNav linkarea="/overtime" icon="mingcute:time-line" single-nav-title="Overtime"/>
-            <LayoutNav linkarea="/cashadvance" icon="mdi:cash" single-nav-title="Cash Advance"/>
-            <LayoutNavGroup icon="ion:ios-people" title="Payroll">
-                <LayoutNav linkarea="/hrms/payroll/generatepayroll" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Generate Payroll"/>
-                <LayoutNav linkarea="/hrms/payroll/13thmonthpay" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="13th Month Pay"/>
-                <LayoutNav linkarea="/hrms/payroll/allowance" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Allowance"/>
-                <LayoutNav linkarea="/hrms/payroll/payrollrecord" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Payroll Record"/>
-            </LayoutNavGroup>
-            <LayoutNav linkarea="/reports" icon="mdi:cash" single-nav-title="Reports"/>
-            <LayoutNavGroup icon="uim:schedule" title="Schedule">
-                <LayoutNav linkarea="/hrms/schedule/department" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Department Schedule"/>
-                <LayoutNav linkarea="/hrms/schedule/employee" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Employee Schedule"/>
-                <LayoutNav linkarea="/hrms/schedule/project" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Project Schedule"/>
-            </LayoutNavGroup>
-        </LayoutNavModuleGroup>
+      <LayoutNav
+        class="hidden"
+        linkarea="/project"
+        icon="material-symbols:construction"
+        single-nav-title="Project"
+      />
+      <LayoutNavGroup icon="ion:ios-people" title="Setup">
+        <LayoutNav
+          linkarea="/hrms/setup/useraccounts"
+          icon="ic:round-manage-accounts"
+          single-nav-title="User Accounts"
+        />
+        <LayoutNav
+          linkarea="/hrms/setup/department"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Department"
+        />
+        <LayoutNav
+          linkarea="/hrms/setup/approvals"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Approvals"
+        />
+        <LayoutNav
+          class="hidden"
+          linkarea="/hrms/setup/division"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Division"
+        />
+        <LayoutNav
+          linkarea="/hrms/setup/hmo"
+          icon="ic:baseline-health-and-safety"
+          single-nav-title="HMO"
+        />
+        <LayoutNav
+          linkarea="/hrms/setup/philhealth"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Philhealth"
+        />
+        <LayoutNav
+          linkarea="/hrms/setup/pag-ibig"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Pag-Ibig"
+        />
+        <LayoutNav
+          linkarea="/hrms/setup/sss"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="SSS"
+        />
+        <LayoutNav
+          linkarea="/hrms/setup/wtax"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Withholding Tax"
+        />
+        <LayoutNav
+          linkarea="/hrms/setup/leaves"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Leaves"
+        />
+      </LayoutNavGroup>
+      <LayoutNav
+        linkarea="/hrms/leave"
+        icon="fluent-mdl2:leave-user"
+        single-nav-title="Leave"
+      />
+      <LayoutNavGroup icon="mdi:cash" title="Loans and Advances">
+        <LayoutNav
+          linkarea="/hrms/loans/cashadvance"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Cash Advances"
+        />
+        <LayoutNav
+          linkarea="/hrms/loans"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Loans"
+        />
+        <LayoutNav
+          linkarea="/hrms/loans/otherdeductions"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Other Deductions"
+        />
+      </LayoutNavGroup>
+      <LayoutNav
+        linkarea="/hrms/overtime"
+        icon="mingcute:time-line"
+        single-nav-title="Overtime"
+      />
+      <LayoutNavGroup icon="ion:ios-people" title="Payroll">
+        <LayoutNav
+          linkarea="/hrms/payroll/generatepayroll"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Generate Payroll"
+        />
+        <LayoutNav
+          linkarea="/hrms/payroll/13thmonthpay"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="13th Month Pay"
+        />
+        <LayoutNav
+          linkarea="/hrms/payroll/allowance"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Allowance"
+        />
+        <LayoutNav
+          linkarea="/hrms/payroll/payrollrecord"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Payroll Record"
+        />
+      </LayoutNavGroup>
+      <LayoutNav
+        linkarea="/hrms/reports"
+        icon="ic:sharp-add-chart"
+        single-nav-title="Reports"
+      />
+      <LayoutNavGroup icon="uim:schedule" title="Schedule">
+        <LayoutNav
+          linkarea="/hrms/schedule/department"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Department Schedule"
+        />
+        <LayoutNav
+          linkarea="/hrms/schedule/employee"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Employee Schedule"
+        />
+        <LayoutNav
+          linkarea="/hrms/schedule/project"
+          icon="material-symbols:dynamic-form-outline-rounded"
+          single-nav-title="Project Schedule"
+        />
+      </LayoutNavGroup>
+    </LayoutNavModuleGroup>
 
     <!-- Inventory / Warehouse -->
     <LayoutNavModuleGroup
