@@ -18,19 +18,19 @@
     />
   </LayoutBoards>
 
-  
+
 </template>
 
 <script setup>
 const datas = ref([
-  
+
   {
     id: 1,
     title: "Happy New Year!",
     date: "2024-01-01",
     content: "A prosperous New Year. Wish everyone success, health and happiness!",
   },
-  
+
 ]);
 
 const cardDatas = ref([
