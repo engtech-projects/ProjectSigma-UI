@@ -6,7 +6,7 @@ const departments = useDepartmentStore();
 departments.getDepartment()
 const { list: departmentList, isEdit, department } = storeToRefs(departments)
 
-const setEdit = (dept: { department_id: null; name: null; }) => {
+const setEdit = (dept: { department_id: null; department_name: null; }) => {
     isEdit.value = true
     department.value = dept
 }
