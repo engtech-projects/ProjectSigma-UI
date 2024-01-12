@@ -1,6 +1,6 @@
 <template>
-  <div>
-    main project
-    asdf
-  </div>
+    <div>
+        main project
+        asdf
+    </div>
 </template>

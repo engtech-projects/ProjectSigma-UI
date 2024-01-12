@@ -1,19 +1,19 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'default',
+    layout: "default",
 }),
 
 useHead({
-  title: 'Employee QR Code',
-  meta: [
-    { name: 'description', content: '' }
-  ],
-  
+    title: "Employee QR Code",
+    meta: [
+        { name: "description", content: "" }
+    ],
+
 })
 </script>
 
 <template>
-  <div>
-    drt
-  </div>
+    <div>
+        drt
+    </div>
 </template>

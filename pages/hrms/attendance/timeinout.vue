@@ -1,22 +1,20 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'default',
+    layout: "default",
 }),
 
 useHead({
-  title: 'Daily Logs Record',
-  meta: [
-    { name: 'description', content: '' }
-  ],
-  
+    title: "Daily Logs Record",
+    meta: [
+        { name: "description", content: "" }
+    ],
+
 })
 </script>
 
 <template>
-  <div class="mt-10 md:mt-0 md:flex gap-2">
-    <EmployeeInfoSheet />
-    <HrmsAttendanceInOut />
-  </div>
+    <div class="mt-10 md:mt-0 md:flex gap-2">
+        <EmployeeInfoSheet />
+        <HrmsAttendanceInOut />
+    </div>
 </template>
-
-

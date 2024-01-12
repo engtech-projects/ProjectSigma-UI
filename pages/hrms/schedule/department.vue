@@ -1,28 +1,28 @@
 <script setup>
-import { onMounted } from 'vue'
-import { initFlowbite, initTabs } from 'flowbite'
+import { onMounted } from "vue"
+import { initFlowbite, initTabs } from "flowbite"
 
 onMounted(() => {
-    initFlowbite();
-    initTabs();
+    initFlowbite()
+    initTabs()
 })
 
 definePageMeta({
-  layout: "default",
+    layout: "default",
 }),
-  useHead({
+useHead({
     title: "Department Schedule",
     meta: [{ name: "description", content: "" }],
-  });
+})
 </script>
 
 <template>
-  <div class="text-2xl font-normal mb-4 mt-10 md:mt-0 ">
-    Department Schedule
-  </div>
+    <div class="text-2xl font-normal mb-4 mt-10 md:mt-0 ">
+        Department Schedule
+    </div>
     <hr>
 
-  <div>
-    <HrmsScheduleDepartment />
-  </div>
+    <div>
+        <HrmsScheduleDepartment />
+    </div>
 </template>

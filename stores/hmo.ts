@@ -1,120 +1,120 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia"
 const config = useRuntimeConfig()
 
-export const useHMOStore = defineStore('hmo', {
-  state: () => ({
-    isEdit: false,
-    hmo: {
-      hmo_id: null,
-      hmo_name: null,
-      hmo_employee: null,
-      hmo_employeeShare: null,
-    },
-    hmolist: [],
-      getParams: {},
-      errorMessage: "",
-      successMessage: "",
-  }),
-  
-  actions: {
-    async getHmo () {
-      const { data, error } = await useFetch(
-          "/api/hmo",
-          {
-              baseURL: config.public.HRMS_API_URL,
-              method: "GET",
-              // headers: {
-              //     Authorization: token.value + ""
-              // },
-              params: this.getParams,
-          }
-      )
-      if (data.value) {
-          this.list = data.value.data
-          return data
-      } else if (error.value) {
-          return error
-      }
-    },
+export const useHMOStore = defineStore("hmo", {
+    state: () => ({
+        isEdit: false,
+        hmo: {
+            hmo_id: null,
+            hmo_name: null,
+            hmo_employee: null,
+            hmo_employeeShare: null,
+        },
+        hmolist: [],
+        getParams: {},
+        errorMessage: "",
+        successMessage: "",
+    }),
 
-    async createHmo () {
-      this.successMessage = ""
-      this.errorMessage = ""
-      const { data, error } = await useFetch(
-          "/api/hmo",
-          {
-              baseURL: config.public.HRMS_API_URL,
-              method: "POST",
-              // headers: {
-              //     Authorization: token.value + ""
-              // },
-              body: this.hmo,
-              watch: false,
-          }
-      )
-      if (data.value) {
-          this.getHmo()
-          this.reset()
-          this.successMessage = data.value.message
-          return data
-      } else if (error.value) {
-          this.errorMessage = error.value.data.message
-          return error
-      }
-    },
-    async editHmo () {
-      this.successMessage = ""
-      this.errorMessage = ""
-      const { data, error } = await useFetch(
-          "/api/hmo/" + this.hmo.hmo_id,
-          {
-              baseURL: config.public.HRMS_API_URL,
-              method: "PATCH",
-              // headers: {
-              //     Authorization: token.value + ""
-              // },
-              body: this.hmo,
-              watch: false,
-          }
-      )
-      if (data.value) {
-          this.successMessage = data.value.message
-          this.getHmo()
-          return data
-      } else if (error.value) {
-          this.errorMessage = error.value.data.message
-          return error
-      }
-    },
-    async deleteHmo (id : number) {
-      const { data, error } = await useFetch(
-          "/api/hmo/" + hmo_id,
-          {
-              baseURL: config.public.HRMS_API_URL,
-              method: "DELETE",
-              // headers: {
-              //     Authorization: token.value + ""
-              // },
-              watch: false,
-          }
-      )
-      if (data.value) {
-          this.getHmo()
-          return data
-      } else if (error.value) {
-          return error
-      }
-    },
+    actions: {
+        async getHmo () {
+            const { data, error } = await useFetch(
+                "/api/hmo",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    // headers: {
+                    //     Authorization: token.value + ""
+                    // },
+                    params: this.getParams,
+                }
+            )
+            if (data.value) {
+                this.list = data.value.data
+                return data
+            } else if (error.value) {
+                return error
+            }
+        },
 
-    reset () {
-      this.hmo = {
-          hmo_id: null,
-          hmo_name: null,
-      }
-      this.isEdit = false
-      this.successMessage = ""
-      this.errorMessage = ""
+        async createHmo () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useFetch(
+                "/api/hmo",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "POST",
+                    // headers: {
+                    //     Authorization: token.value + ""
+                    // },
+                    body: this.hmo,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.getHmo()
+                this.reset()
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+        async editHmo () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useFetch(
+                "/api/hmo/" + this.hmo.hmo_id,
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "PATCH",
+                    // headers: {
+                    //     Authorization: token.value + ""
+                    // },
+                    body: this.hmo,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.successMessage = data.value.message
+                this.getHmo()
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+        async deleteHmo (hmoId : number) {
+            const { data, error } = await useFetch(
+                "/api/hmo/" + hmoId,
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "DELETE",
+                    // headers: {
+                    //     Authorization: token.value + ""
+                    // },
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.getHmo()
+                return data
+            } else if (error.value) {
+                return error
+            }
+        },
+
+        reset () {
+            this.hmo = {
+                hmo_id: null,
+                hmo_name: null,
+            }
+            this.isEdit = false
+            this.successMessage = ""
+            this.errorMessage = ""
+        },
+
     },
-    
-  },
-});
+})

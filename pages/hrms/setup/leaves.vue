@@ -7,10 +7,10 @@
 
 <script setup lang="ts">
 definePageMeta({
-  layout: 'default',
+    layout: "default",
 }),
 
 useHead({
-  title: 'Leaves',
+    title: "Leaves",
 })
 </script>

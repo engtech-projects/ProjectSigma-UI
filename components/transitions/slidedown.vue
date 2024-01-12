@@ -1,7 +1,6 @@
 <template>
     <Transition name="slide">
-        <slot>
-        </slot>
+        <slot />
     </Transition>
 </template>
 

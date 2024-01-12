@@ -8,14 +8,14 @@
 <script setup lang="ts">
 
 definePageMeta({
-  layout: 'default',
+    layout: "default",
 }),
 
 useHead({
-  title: 'Overtime',
-  meta: [
-    { name: 'description', content: '' }
-  ],
-  
+    title: "Overtime",
+    meta: [
+        { name: "description", content: "" }
+    ],
+
 })
 </script>
