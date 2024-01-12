@@ -11,9 +11,7 @@ defineProps({
 });
 const searchField = ref();
 const searchValue = ref();
-const showRow = (item) => {
-  // data of row here
-};
+
 </script>
 
 <template>

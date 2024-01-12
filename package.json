@@ -12,11 +12,12 @@
   "devDependencies": {
     "@nuxt/devtools": "^1.0.1",
     "@nuxtjs/tailwindcss": "^6.8.0",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@samk-dev/nuxt-vcalendar": "^1.0.1",
+    "@sidebase/nuxt-auth": "^0.6.4",
     "eslint": "^8.52.0",
     "eslint-plugin-vue": "^9.17.0",
     "nuxt": "^3.7.3",
-    "nuxt-auth-sanctum": "^0.0.14",
     "nuxt-icon": "^0.6.3",
     "tailwind-config-viewer": "^1.7.2"
   },
@@ -26,19 +27,21 @@
     "@fullcalendar/interaction": "^6.1.9",
     "@fullcalendar/timegrid": "^6.1.9",
     "@fullcalendar/vue3": "^6.1.9",
+    "@pinia/nuxt": "^0.5.1",
     "@popperjs/core": "^2.11.8",
     "@vuepic/vue-datepicker": "^7.2.2",
     "apexcharts": "^3.43.2-0",
     "chart.js": "^4.4.0",
-    "face-api.js": "^0.20.0",
     "flowbite": "^1.8.1",
     "flowbite-datepicker": "^1.2.2",
     "install": "^0.13.0",
-    "qrcode": "^1.5.3",
+    "pinia": "^2.1.7",
     "vue-advanced-cropper": "^2.8.8",
-    "vue-barcode-reader": "^1.0.3",
     "vue-chartjs": "^5.2.0",
     "vue-router": "^4.2.5",
     "vue3-easy-data-table": "^1.5.47"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }

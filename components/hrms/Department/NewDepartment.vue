@@ -1,55 +1,48 @@
-<script setup>
-  
+<script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useDepartmentStore } from "@/stores/departments";
+
+const departments = useDepartmentStore();
+const { department, errorMessage, successMessage } = storeToRefs(departments);
+
+const addDepartment = () => {
+  departments.createDepartment();
+};
+
 </script>
 
 <template>
-  <div class="w-full">
-    <details class="group border border-gray-400 shadow-md rounded-lg p-2">
-      <summary
-        class="flex cursor-pointer list-none items-center justify-between text-lg font-medium text-gray-900"
-      >
-        <label for="eventTitle" class="text-lg font-medium"
-          >Add New Department</label
-        >
-
-        <div class="text-gray-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="block h-5 w-5 transition-all duration-300 group-open:rotate-180"
+  <LayoutBoards title="Department List" class="w-96 h-52 p-4">
+    <div class="text-gray-500 mt-2">
+      <form @submit.prevent="addDepartment">
+        <div class="space-y-2">
+          <label for="departmentName" class="text-xs italic"
+            >Department Name</label
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-            />
-          </svg>
+          <input
+            type="text"
+            v-model="department.name"
+            id="departmentName"
+            class="w-full rounded-lg"
+          />
         </div>
-      </summary>
-      <div class="pb-2 text-gray-500">
-        <form action="">
-          <div class="space-y-2">
-            <label for="eventTitle" class="text-xs italic">Department Name</label>
-            <input type="text" id="eventTitle" class="w-full rounded-lg" />
-          </div>
 
-          <div class="flex justify-end">
-            <button
-              @click="addEvent"
-              class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
-            >
-              <Icon name="mingcute:department-fill" class="mr-2" />Add
-              Department
-            </button>
-          </div>
-        </form>
-      </div>
-    </details>
-  </div>
-  
-
-    
+        <div class="flex justify-end">
+          <button
+            @click="addDepartment"
+            class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
+          >
+            <Icon name="mingcute:department-fill" class="mr-2" />Add Department
+          </button>
+        </div>
+      </form>
+      <p class="text-red-600 text-center font-semibold">{{ errorMessage }}</p>
+      <p
+        v-show="successMessage"
+        class="text-green-600 text-center font-semibold"
+      >
+        {{ successMessage }}
+      </p>
+    </div>
+  </LayoutBoards>
 </template>

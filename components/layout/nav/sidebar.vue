@@ -74,22 +74,22 @@
         />
         <LayoutNav
           linkarea="/hrms/employee/201"
-          icon="material-symbols:dynamic-form-outline-rounded"
+          icon="ic:round-folder-shared"
           single-nav-title="201"
         />
         <LayoutNav
           linkarea="/hrms/employee/paf"
-          icon="material-symbols:dynamic-form-outline-rounded"
+          icon="ic:round-add-card"
           single-nav-title="Personnel Action Notice"
         />
         <LayoutNav
           linkarea="/hrms/employee/onboarding"
-          icon="material-symbols:dynamic-form-outline-rounded"
+          icon="ic:round-assignment-ind"
           single-nav-title="Onboarding"
         />
         <LayoutNav
           linkarea="/hrms/employee/manpower"
-          icon="material-symbols:dynamic-form-outline-rounded"
+          icon="ic:round-people-alt"
           single-nav-title="Manpower Request"
         />
       </LayoutNavGroup>
@@ -109,7 +109,7 @@
         />
         <LayoutNav
           linkarea="/hrms/setup/department"
-          icon="material-symbols:dynamic-form-outline-rounded"
+          icon="ic:round-meeting-room"
           single-nav-title="Department"
         />
         <LayoutNav

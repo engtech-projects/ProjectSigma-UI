@@ -78,7 +78,6 @@
 
 
 <script>
-import QRCode from "qrcode"; // Import the qrcode library
 
 export default {
   data() {

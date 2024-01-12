@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import * as faceapi from 'face-api.js';
+
 
 const video = ref(null);
 const canvas = ref(null);

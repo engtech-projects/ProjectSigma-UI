@@ -1,8 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-
-import { createRouter } from './router.js'
-
-
 export default defineNuxtConfig({
   ssr: false,
   devtools: { enabled: true },
@@ -11,24 +7,55 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@samk-dev/nuxt-vcalendar',
     'nuxt-icon',
-    'nuxt-auth-sanctum'
+    [
+      '@pinia/nuxt',
+      {
+        autoImports: ['defineStore', 'acceptHMRUpdate'],
+      },
+    ],
+    '@pinia-plugin-persistedstate/nuxt',
+    '@sidebase/nuxt-auth',
   ],
 
-  sanctum: {
-    baseUrl: 'http://localhost:80', // Laravel API
-    origin: 'http://localhost:3000', // Nuxt app
-    endpoints: {
-      csrf: '/sanctum/csrf-cookie', // CSRF cookie endpoint
-      login: '/login', // Endpoint that accepts user credentials
-      logout: '/logout', // Endpoint to destroy the current session
-      user: '/api/user', // Endpoint that return current user information
+  imports: {
+    dirs: ['stores'],
+  },
+
+
+  auth: {
+    globalAppMiddleware: {
+        isEnabled: false,
     },
-    csrf: {
-      cookie: 'XSRF-TOKEN', // CSRF cookie name
-      header: 'X-XSRF-TOKEN', // CSRF header name
+    baseURL: process.env.HRMS_API_URL,
+    provider: {
+        type: "local",
+        endpoints: {
+            signIn: { path: "/api/login", method: "post" },
+            signOut: { path: "/api/logout", method: "post" },
+            // signUp: { path: '/register', method: 'post' },
+            getSession: { path: "/api/users", method: "get" },
+        },
+        token: {
+            signInResponseTokenPointer: "/access_token",
+            maxAgeInSeconds: 9999999,
+        },
+        pages: {
+            login: "/"
+        },
     },
-    redirect: {
-      onLogin: '/welcome',
+    session: {
+        enableRefreshOnWindowFocus: false,
+        enableRefreshPeriodically: false,
+    },
+
+  },
+
+  runtimeConfig: {
+    public: {
+        HRMS_API_URL: process.env.HRMS_API_URL,
+        ACCOUNTING_API_URL: process.env.ACCOUNTING_API_URL,
+        INVENTORY_API_URL: process.env.INVENTORY_API_URL,
+        PROJECT_API_URL: process.env.PROJECT_API_URL,
     }
   },
 
