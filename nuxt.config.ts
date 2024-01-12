@@ -31,7 +31,7 @@ export default defineNuxtConfig({
 
     auth: {
         globalAppMiddleware: {
-            isEnabled: false,
+            isEnabled: true,
         },
         baseURL: process.env.HRMS_API_URL + "/api",
         provider: {

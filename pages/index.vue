@@ -19,6 +19,9 @@ const userCredentials = ref({
     password: "",
     remember: false
 })
+const login = () => {
+    signIn(userCredentials.value, { callbackUrl: "/welcome" })
+}
 </script>
 
 <template>
@@ -46,7 +49,7 @@ const userCredentials = ref({
                         <form
                             class="space-y-4 md:space-y-6"
                             action="#"
-                            @submit.prevent="signIn(userCredentials)"
+                            @submit.prevent="login()"
                         >
                             <div>
                                 <label
