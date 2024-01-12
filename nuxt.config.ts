@@ -35,7 +35,8 @@ export default defineNuxtConfig({
         },
         baseURL: process.env.HRMS_API_URL,
         provider: {
-            type: "local",
+          type: "local",
+            baseURL: process.env.HRMS_API_URL,
             endpoints: {
                 signIn: { path: "/api/login", method: "post" },
                 signOut: { path: "/api/logout", method: "post" },
