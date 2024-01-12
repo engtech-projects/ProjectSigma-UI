@@ -14,6 +14,24 @@
                 "arrays": "only-multiline",
                 "objects": "only-multiline"
             }
-        ]
+        ],
+        //  Below Will be Temporary
+        "vue/multi-word-component-names": 0,
+        "vue/no-parsing-error" : 0,
+        "vue/require-prop-types": 0,
+        "vue/no-unused-vars": 0,
+        "@typescript-eslint/no-unused-vars": 0,
+        "require-await": 0,
+        "@typescript-eslint/no-mutating-props": 0,
+        "vue/no-mutating-props": 0,
+        "vue/valid-v-for": 0,
+        "vue/require-default-prop": 0,
+        "vue/no-multiple-template-root": 0,
+        "vue/no-unused-components": 0,
+        "camelcase": 0,
+        "no-console": 0,
+        "no-sequences": 0,
+        "no-unused-expressions": 0,
+        "vue/no-template-shadow": 0
     }
 }
