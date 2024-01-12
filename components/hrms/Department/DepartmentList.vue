@@ -1,23 +1,21 @@
 <script setup lang="ts">
-
+import { storeToRefs } from "pinia"
 import { useDepartmentStore } from '@/stores/departments';
 
 const departments = useDepartmentStore();
+departments.getDepartment()
 const { list: departmentList, isEdit, department } = storeToRefs(departments)
 
-const setEdit = (acc) => {
+const setEdit = (dept: { department_id: null; name: null; }) => {
     isEdit.value = true
-    department.value = acc
+    department.value = dept
 }
 
-
-
 const headers = [
-  { text: "ID", value: "id" },
+  { text: "ID", value: "department_id" },
   { text: "DEPARTMENT NAME", value: "department.name" },
   { text: 'Actions', value: 'actions' },
 ];
-
 
 
 </script>
@@ -38,12 +36,11 @@ const headers = [
           <tr v-for="(department, index) in departmentList" :key="index" >
             <td hidden class="border p-2">{{ index + 1 }}</td>
             <td class="border p-2">
-              <span v-if="!editMode">{{ department.name }}</span>
-              <input v-else v-model="department.name" />
+              <span >{{ department.department_name }}</span>
             </td>
             <td class="border p-2">
-              <button @click="setEdit(department)">{{ editMode ? 'Cancel' : 'Edit' }}</button>
-              <button v-if="editMode" @click="saveChanges">Save</button>
+              <button @click="setEdit(department)"></button>
+              <!-- <button v-if="editMode" @click="saveChanges">Save</button> -->
             </td>
           </tr>
         </tbody>

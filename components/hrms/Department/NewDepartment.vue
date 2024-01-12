@@ -21,15 +21,14 @@ const addDepartment = () => {
           >
           <input
             type="text"
-            v-model="department.name"
+            v-model="department.department_name"
             id="departmentName"
             class="w-full rounded-lg"
           />
         </div>
 
         <div class="flex justify-end">
-          <button
-            @click="addDepartment"
+          <button type="submit"
             class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
           >
             <Icon name="mingcute:department-fill" class="mr-2" />Add Department
@@ -44,5 +43,6 @@ const addDepartment = () => {
         {{ successMessage }}
       </p>
     </div>
+
   </LayoutBoards>
 </template>
