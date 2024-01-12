@@ -33,15 +33,14 @@ export default defineNuxtConfig({
         globalAppMiddleware: {
             isEnabled: false,
         },
-        baseURL: process.env.HRMS_API_URL,
+        baseURL: process.env.HRMS_API_URL + "/api",
         provider: {
           type: "local",
-            baseURL: process.env.HRMS_API_URL,
             endpoints: {
-                signIn: { path: "/api/login", method: "post" },
-                signOut: { path: "/api/logout", method: "post" },
+                signIn: { path: "/login", method: "post" },
+                signOut: { path: "/logout", method: "post" },
                 // signUp: { path: '/register', method: 'post' },
-                getSession: { path: "/api/session", method: "get" },
+                getSession: { path: "/session", method: "get" },
             },
             token: {
                 signInResponseTokenPointer: "/access_token",

@@ -6,7 +6,7 @@ definePageMeta({
         unauthenticatedOnly: true,
         navigateAuthenticatedTo: "/profile",
     },
-}),
+})
 useHead({
     title: "Login",
     meta: [{ name: "description", content: "Project SIGMA" }],
