@@ -84,7 +84,7 @@ onMounted(() => {
 
 definePageMeta({
     layout: "default",
-}),
+})
 useHead({
     title: "Dashboard",
     meta: [{ name: "description", content: "SIGMA Dashboard" }],

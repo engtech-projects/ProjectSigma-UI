@@ -9,8 +9,7 @@
 
 definePageMeta({
     layout: "default",
-}),
-
+})
 useHead({
     title: "Loans",
     meta: [

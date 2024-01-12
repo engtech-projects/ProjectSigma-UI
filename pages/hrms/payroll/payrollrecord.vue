@@ -8,7 +8,7 @@
 
 definePageMeta({
     layout: "default",
-}),
+})
 useHead({
     title: "Payroll Record",
 })

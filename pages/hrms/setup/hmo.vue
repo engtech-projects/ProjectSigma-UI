@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia"
 import { useHMOStore } from "@/stores/hmo"
-const newHmo = useUserAccount()
 const hmoStore = useHMOStore()
 
 const headers = [

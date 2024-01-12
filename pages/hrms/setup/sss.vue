@@ -5,7 +5,7 @@ import { defineComponent, ref, reactive } from "vue"
 
 definePageMeta({
     layout: "default",
-}),
+})
 useHead({
     title: "SSS",
 })

@@ -194,7 +194,7 @@ export default {
 
 definePageMeta({
     layout: "default",
-}),
+})
 useHead({
     title: "Notification",
     meta: [{ name: "description", content: "Notifications" }],

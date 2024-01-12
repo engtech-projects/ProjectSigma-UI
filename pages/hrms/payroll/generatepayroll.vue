@@ -9,7 +9,7 @@
 
 definePageMeta({
     layout: "default",
-}),
+})
 useHead({
     title: "Generate Payroll",
 })

@@ -7,7 +7,7 @@ usePinia(departmentStore)
 
 definePageMeta({
     layout: "default",
-}),
+})
 useHead({
     title: "Department",
 })

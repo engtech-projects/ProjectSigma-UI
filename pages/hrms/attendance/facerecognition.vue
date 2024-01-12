@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
     layout: "default",
-}),
+})
 useHead({
     title: "Face Login",
     meta: [{ name: "description", content: "" }],

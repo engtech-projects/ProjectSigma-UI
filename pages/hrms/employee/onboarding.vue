@@ -156,7 +156,7 @@
 <script setup>
 definePageMeta({
     layout: "default",
-}),
+})
 useHead({
     title: "Employment Onboarding",
 })

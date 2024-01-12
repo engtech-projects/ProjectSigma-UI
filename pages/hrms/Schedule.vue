@@ -19,8 +19,7 @@ const items = [
 
 definePageMeta({
     layout: "default",
-}),
-
+})
 useHead({
     title: "Schedule",
     meta: [
