@@ -14,10 +14,10 @@ const date = ref()
         <p
             class="text-xl font-normal
      text-gray-900 pb-4"
-        /><div class="flex w-full md:w-2/5">
+        />
+        <div class="flex w-full md:w-2/5">
             <VueDatePicker v-model="date" range placeholder="Select Date" class="rounded-lg inline-block" />
         </div>
-        </p>
         <div>
             <div class="relative overflow-x-auto shadow-md">
                 <table class="w-full text-sm text-center text-gray-50 ">
