@@ -11,11 +11,12 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.0.1",
+    "@nuxtjs/eslint-module": "^4.1.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@samk-dev/nuxt-vcalendar": "^1.0.1",
     "@sidebase/nuxt-auth": "^0.6.4",
-    "eslint": "^8.52.0",
+    "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.17.0",
     "nuxt": "^3.7.3",
     "nuxt-icon": "^0.6.3",
