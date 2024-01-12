@@ -7,50 +7,19 @@ export const useHMOStore = defineStore('hmo', {
     hmo: {
       hmo_id: null,
       hmo_name: null,
-      employee: null,
-      employee_share: null,
+      hmo_employee: null,
+      hmo_employeeShare: null,
     },
-    list: [],
+    hmolist: [],
       getParams: {},
       errorMessage: "",
       successMessage: "",
   }),
-  // actions: {
-  //   addHMO(newHMO: HMO) {
-  //     this.hmoList.push(newHMO);
-  //     console.log('HMO List after adding:', this.hmoList);
-  //   },
-  //   deleteHMO(val: HMO) {
-  //     const index = this.hmoList.indexOf(val);
-  //     this.hmoList.splice(index, 1);
-  //   },
-  //   editHMO(val: HMO) {
-  //     this.editingItem = { ...val };
-  //   },
-  //   submitEdit() {
-  //     const item = this.hmoList.find((item) => item.id === this.editingItem.id);
-  //     if (item) {
-  //       item.employee = this.editingItem.employee;
-  //       item.employee_share = this.editingItem.employee_share;
-  //     }
-  //     this.clearEditingItem();
-  //   },
-  //   submitAdd() {
-  //     const newHMO = { ...this.addItem, id: this.hmoList.length };
-  //     this.addHMO(newHMO);
-  //     this.clearAddItem();
-  //   },
-  //   clearEditingItem() {
-  //     this.editingItem = { employee: '', employee_share: '', id: 0 };
-  //   },
-  //   clearAddItem() {
-  //     this.addItem = { hmo_name: '', employee: '', employee_share: '', id: 0 };
-  //   },
-  // },
+  
   actions: {
     async getHmo () {
       const { data, error } = await useFetch(
-          "/api/departments",
+          "/api/hmo",
           {
               baseURL: config.public.HRMS_API_URL,
               method: "GET",
@@ -61,7 +30,7 @@ export const useHMOStore = defineStore('hmo', {
           }
       )
       if (data.value) {
-          this.list = data.value
+          this.list = data.value.data
           return data
       } else if (error.value) {
           return error
@@ -72,14 +41,14 @@ export const useHMOStore = defineStore('hmo', {
       this.successMessage = ""
       this.errorMessage = ""
       const { data, error } = await useFetch(
-          "/api/departments",
+          "/api/hmo",
           {
               baseURL: config.public.HRMS_API_URL,
               method: "POST",
               // headers: {
               //     Authorization: token.value + ""
               // },
-              body: this.department,
+              body: this.hmo,
               watch: false,
           }
       )
@@ -97,14 +66,14 @@ export const useHMOStore = defineStore('hmo', {
       this.successMessage = ""
       this.errorMessage = ""
       const { data, error } = await useFetch(
-          "/api/department/" + this.department.id,
+          "/api/hmo/" + this.hmo.hmo_id,
           {
               baseURL: config.public.HRMS_API_URL,
               method: "PATCH",
               // headers: {
               //     Authorization: token.value + ""
               // },
-              body: this.department,
+              body: this.hmo,
               watch: false,
           }
       )
@@ -119,7 +88,7 @@ export const useHMOStore = defineStore('hmo', {
     },
     async deleteHmo (id : number) {
       const { data, error } = await useFetch(
-          "/api/department/" + id,
+          "/api/hmo/" + hmo_id,
           {
               baseURL: config.public.HRMS_API_URL,
               method: "DELETE",
@@ -140,7 +109,7 @@ export const useHMOStore = defineStore('hmo', {
     reset () {
       this.hmo = {
           hmo_id: null,
-          name: null,
+          hmo_name: null,
       }
       this.isEdit = false
       this.successMessage = ""

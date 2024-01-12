@@ -4,19 +4,23 @@ import { useDepartmentStore } from '@/stores/departments';
 
 const departments = useDepartmentStore();
 departments.getDepartment()
+
 const { list: departmentList, isEdit, department } = storeToRefs(departments)
 
-const setEdit = (dept: { department_id: null; department_name: null; }) => {
+const setEdit = (dept) => {
     isEdit.value = true
     department.value = dept
 }
+
+const saveChanges = () => {
+    isEdit.value = false
+};
 
 const headers = [
   { text: "ID", value: "department_id" },
   { text: "DEPARTMENT NAME", value: "department.name" },
   { text: 'Actions', value: 'actions' },
 ];
-
 
 </script>
 
@@ -38,9 +42,9 @@ const headers = [
             <td class="border p-2">
               <span >{{ department.department_name }}</span>
             </td>
-            <td class="border p-2">
-              <button @click="setEdit(department)"></button>
-              <!-- <button v-if="editMode" @click="saveChanges">Save</button> -->
+            <td class="border p-2 flex gap-2 justify-center">
+              <button @click="setEdit(department)">{{department.isEdit ? 'Cancel' : 'Edit'}}</button>
+              <button @click="saveChanges()">Save</button>
             </td>
           </tr>
         </tbody>
@@ -50,7 +54,7 @@ const headers = [
       <!-- <EasyDataTable
         show-index
         :headers="headers"
-        :items="departmentStore.department"
+        :items="data.value"
         class="mt-5"
         >
         <template #item-actions="item">

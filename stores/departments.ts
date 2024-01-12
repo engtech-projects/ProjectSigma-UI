@@ -39,7 +39,6 @@ export const useDepartmentStore = defineStore('departments', {
     async createDepartment () {
       this.successMessage = ""
       this.errorMessage = ""
-      console.log("this is the input:",this.department)
       const { data, error } = await useFetch(
           "/api/departments",
           {
