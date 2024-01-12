@@ -20,7 +20,7 @@ export const useDepartmentStore = defineStore('departments', {
       const { data, error } = await useFetch(
           "/api/departments",
           {
-              baseURL: '192.168.1.222:8000',
+              baseURL: config.public.HRMS_API_URL,
               method: "GET",
               // headers: {
               //     Authorization: token.value + ""
@@ -43,7 +43,7 @@ export const useDepartmentStore = defineStore('departments', {
       const { data, error } = await useFetch(
           "/api/departments",
           {
-              baseURL: '192.168.1.222:8000',
+              baseURL: config.public.HRMS_API_URL,
               method: "POST",
               // headers: {
               //     Authorization: token.value + ""
