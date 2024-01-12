@@ -4,6 +4,14 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
+    [
+        "@nuxtjs/eslint-module",
+        {
+            formatter: "stylish",
+            lintOnStart: false,
+            fix: false // change to true when you want to auto fix eslint errors
+        },
+    ],
     '@nuxtjs/tailwindcss',
     '@samk-dev/nuxt-vcalendar',
     'nuxt-icon',
@@ -28,20 +36,20 @@ export default defineNuxtConfig({
     },
     baseURL: process.env.HRMS_API_URL,
     provider: {
-        type: "local",
-        endpoints: {
-            signIn: { path: "/api/login", method: "post" },
-            signOut: { path: "/api/logout", method: "post" },
-            // signUp: { path: '/register', method: 'post' },
-            getSession: { path: "/api/users", method: "get" },
-        },
-        token: {
-            signInResponseTokenPointer: "/access_token",
-            maxAgeInSeconds: 9999999,
-        },
-        pages: {
-            login: "/"
-        },
+      type: "local",
+      endpoints: {
+        signIn: { path: "/api/login", method: "post" },
+        signOut: { path: "/api/logout", method: "post" },
+        // signUp: { path: '/register', method: 'post' },
+        getSession: { path: "/api/session", method: "get" },
+      },
+      token: {
+        signInResponseTokenPointer: "/access_token",
+        maxAgeInSeconds: 9999999,
+      },
+      pages: {
+          login: "/"
+      },
     },
     session: {
         enableRefreshOnWindowFocus: false,
@@ -59,7 +67,7 @@ export default defineNuxtConfig({
     }
   },
 
-  
+
   nitro: {
     prerender: {
       routes: ['/hrms-dashboard', '/application', '/calendar', '/department', '/employees', '/index', '/notifications',],
