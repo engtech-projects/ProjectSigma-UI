@@ -11,7 +11,6 @@ import {
     Legend,
     DoughnutController
 } from "chart.js/auto"
-import { Doughnut } from "vue-chartjs"
 
 ChartJS.register(DoughnutController, Title, Tooltip, Legend)
 
@@ -19,9 +18,6 @@ export default {
     datas: "datas",
     labels: "labels",
     name: "EmployeesChart",
-    components: {
-        Doughnut
-    },
     props: ["datas", "labels"],
     data () {
         return {
