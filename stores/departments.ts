@@ -69,6 +69,10 @@ export const useDepartmentStore = defineStore("departments", {
                 return error
             }
         },
+        clearMessages () {
+            this.errorMessage = ""
+            this.successMessage = ""
+        },
         async editDepartmentName () {
             this.successMessage = ""
             this.errorMessage = ""

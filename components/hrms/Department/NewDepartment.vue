@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { storeToRefs } from "pinia"
 import { useDepartmentStore } from "@/stores/departments"
 
@@ -7,6 +7,10 @@ const { department, errorMessage, successMessage } = storeToRefs(departments)
 
 const addDepartment = () => {
     departments.createDepartment()
+
+    setTimeout(() => {
+        departments.clearMessages()
+    }, 2000)
 }
 
 </script>
@@ -37,15 +41,26 @@ const addDepartment = () => {
                     </button>
                 </div>
             </form>
-            <p class="text-red-600 text-center font-semibold mt-2">
+            <p class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
                 {{ errorMessage }}
             </p>
             <p
                 v-show="successMessage"
-                class="text-green-600 text-center font-semibold"
+                class="success-message text-green-600 text-center font-semibold italic"
             >
                 {{ successMessage }}
             </p>
         </div>
     </LayoutBoards>
 </template>
+
+<style scoped>
+.error-message,
+.success-message {
+    transition: opacity 0.5s ease-out;
+}
+
+.fade-out {
+    opacity: 0;
+}
+</style>
