@@ -5,14 +5,13 @@ const config = useRuntimeConfig()
 export const useContributionStore = defineStore("contributions", {
     state: () => ({
         isEdit: false,
-        contribution:
-    {
-        id: null,
-        range_from: null,
-        range_to: null,
-        employee_share: null,
-        employer_share: null,
-    },
+        contribution: {
+            id: null,
+            range_from: null,
+            range_to: null,
+            employee_share: null,
+            employer_share: null,
+        },
         list: [],
         pagination: {},
         getParams: {},
@@ -80,24 +79,25 @@ export const useContributionStore = defineStore("contributions", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/sss/" + this.sss.id,
+                "/api/sss/" + this.contribution.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
                     // headers: {
                     //     Authorization: token.value + ""
                     // },
-                    body: this.sss,
+                    body: this.contribution,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
                 }
             )
-            if (data.value) {
+            if (data) {
                 this.getContribution()
                 this.reset()
-                this.successMessage = data.value.message
                 return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
+            } else if (error) {
                 return error
             }
         },
