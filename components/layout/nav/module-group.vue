@@ -3,12 +3,12 @@
         <button
             type="button"
             class="flex items-center w-full uppercase text-xs font-bold text-gray-900 rounded-lg transition duration-75 group dark:text-white  "
-            :data-collapse-toggle="data.id"
+            :data-collapse-toggle="id"
             aria-expanded="true"
             @click="dp=!dp"
         >
             <span class="flex-1 text-left whitespace-nowrap">
-                {{ data.title }}
+                {{ title }}
             </span>
             <Icon
                 v-if="dp"
@@ -23,7 +23,6 @@
                 fill="currentColor"
             />
         </button>
-        <!-- :id="data.id" -->
         <div class="overflow-clip">
             <TransitionSlideDown>
                 <ul v-if="dp" class="py-2 space-y-2">
@@ -36,7 +35,15 @@
 </template>
 
 <script setup lang="ts">
-const data = defineProps(["title", "id"])
+defineProps({
+    id: {
+        type: Number,
+        required: true,
+    },
+    title: {
+        type: String,
+        required: true,
+    },
+})
 const dp = ref(true)
-
 </script>

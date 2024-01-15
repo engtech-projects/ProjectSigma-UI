@@ -1,12 +1,12 @@
 <template>
     <button
         type="button"
-        :data-dropdown-toggle="data.id"
+        :data-dropdown-toggle="id"
         class="p-2 mr-1 text-gray-500 rounded-lg hover:text-gray-900   dark:text-gray-400 dark:hover:text-white   focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
     >
-        <span class="sr-only">{{ data.title }}</span>
+        <span class="sr-only">{{ title }}</span>
         <svg
-            v-if="data.icon"
+            v-if="icon"
             aria-hidden="true"
             class="w-6 h-6"
             fill="currentColor"
@@ -27,5 +27,18 @@
 </template>
 
 <script setup>
-const data = defineProps(["title", "icon", "id"])
+defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
+    icon: {
+        type: String,
+        required: true,
+    },
+    id: {
+        type: String,
+        required: true,
+    },
+})
 </script>

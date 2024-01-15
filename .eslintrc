@@ -16,7 +16,6 @@
             }
         ],
         //  Below Will be Temporary
-        "vue/require-prop-types": 0,
         "camelcase": 0,
         "no-console": 0
     }

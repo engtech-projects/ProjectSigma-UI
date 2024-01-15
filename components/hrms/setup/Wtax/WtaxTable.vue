@@ -1,8 +1,8 @@
 <template>
     <EasyDataTable
         show-index
-        :headers="data.tableheaders"
-        :items="data.tabledata"
+        :headers="tableheaders"
+        :items="tabledata"
     >
         <template #item-actions="item">
             <!-- <button
@@ -107,10 +107,18 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { Item } from "vue3-easy-data-table"
+<script setup>
 
-const data = defineProps(["tabledata", "tableheaders"])
+const data = defineProps({
+    tabledata: {
+        type: Array,
+        required: true,
+    },
+    tableheaders: {
+        type: Array,
+        required: true,
+    },
+})
 const editingItem = reactive({
     term: "",
     status: "",
@@ -123,7 +131,7 @@ const editingItem = reactive({
     id: 0,
 })
 
-const editItem = (val: Item) => {
+const editItem = (val) => {
     const { term, status, compensation_range, salary_range_from, salary_range_to, salary_base, tax_amount, over_salary_base, id } = val
     editingItem.term = term
     editingItem.status = status
@@ -149,7 +157,7 @@ const clear = () => {
 }
 
 const submitEdit = () => {
-    const obj = data.tabledata.find((item: { id: number; }) => item.id === editingItem.id)
+    const obj = data.tabledata.find(item => item.id === editingItem.id)
     obj.status = editingItem.status
     obj.compensation_range = editingItem.compensation_range
     obj.salary_range_from = editingItem.salary_range_from

@@ -13,7 +13,21 @@
 </template>
 
 <script setup>
-defineProps(["title", "date", "content"])
+
+defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
+    date: {
+        type: String,
+        required: true,
+    },
+    content: {
+        type: String,
+        required: true,
+    },
+})
 
 const formatDate = (date) => {
     return new Date(date).toLocaleDateString()

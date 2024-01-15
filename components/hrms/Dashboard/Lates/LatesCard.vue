@@ -25,5 +25,10 @@
 </template>
 
 <script setup>
-defineProps(["employees"])
+defineProps({
+    employees: {
+        type: Array,
+        required: true,
+    },
+})
 </script>

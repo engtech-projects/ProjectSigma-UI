@@ -27,8 +27,24 @@
 </template>
 
 <script setup lang="ts">
-
-const { title, date, content, index } = defineProps(["title", "date", "content", "index"])
+defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
+    date: {
+        type: String,
+        required: true,
+    },
+    content: {
+        type: String,
+        required: true,
+    },
+    index: {
+        type: String,
+        required: true,
+    },
+})
 const maxContentLength = 100 // Adjust the maximum length you want to show initially
 const expandContent = ref(false)
 

@@ -1,5 +1,15 @@
 <script setup>
-defineProps(["announcements", "postAnnouncements"])
+
+defineProps({
+    announcements: {
+        type: String,
+        required: true,
+    },
+    postAnnouncements: {
+        type: String,
+        required: true,
+    },
+})
 const newAnnouncement = ref({
     title: "",
     startDate: "",

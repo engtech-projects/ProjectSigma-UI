@@ -11,7 +11,7 @@
             fill="currentColor"
         />
         <span class="flex-1 ml-3 text-left whitespace-nowrap">
-            {{ data.title }}
+            {{ title }}
         </span>
 
         <Icon
@@ -36,6 +36,15 @@
     </div>
 </template>
 <script setup lang="ts">
-const data = defineProps(["title", "icon"])
+defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
+    icon: {
+        type: String,
+        required: true,
+    },
+})
 const t = ref(false)
 </script>
