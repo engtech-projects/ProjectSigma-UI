@@ -25,7 +25,6 @@
         "vue/require-default-prop": 0,
         "camelcase": 0,
         "no-console": 0,
-        "no-sequences": 0,
-        "vue/no-template-shadow": 0
+        "no-sequences": 0
     }
 }

@@ -55,32 +55,32 @@ const changePaginate = (newParams) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(contributions, index) in contributionList" :key="index" class="border">
+                    <tr v-for="(contrib, index) in contributionList" :key="index" class="border">
                         <td hidden class="border p-2">
                             {{ index + 1 }}
                         </td>
                         <td class="p-2">
-                            <span>{{ contributions.range_from }}</span>
+                            <span>{{ contrib.range_from }}</span>
                         </td>
                         <td class="p-2">
-                            <span>{{ contributions.range_to }}</span>
+                            <span>{{ contrib.range_to }}</span>
                         </td>
                         <td class="p-2">
-                            <span>{{ contributions.employee_share }}</span>
+                            <span>{{ contrib.employee_share }}</span>
                         </td>
                         <td class="p-2">
-                            <span>{{ contributions.employer_share }}</span>
+                            <span>{{ contrib.employer_share }}</span>
                         </td>
                         <td hidden class="p-2">
-                            <span>{{ contributions.totalContributions }}</span>
+                            <span>{{ contrib.totalContributions }}</span>
                         </td>
                         <td class=" p-2 flex gap-2 justify-center">
-                            <button @click="setEdit(contributions)">
+                            <button @click="setEdit(contrib)">
                                 <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
                             </button>
                             <button
 
-                                @click="deleteCont(contributions)"
+                                @click="deleteCont(contrib)"
                             >
                                 <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" />
                             </button>
