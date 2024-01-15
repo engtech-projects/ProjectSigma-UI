@@ -15,6 +15,5 @@
                 "objects": "only-multiline"
             }
         ],
-        "no-console": 2
     }
 }
