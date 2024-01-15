@@ -133,7 +133,7 @@ const RemoveEmployeeItem = (index:any) => {
 }
 </script>
 
-<style>
+<style scoped>
 .customize-table {
   --easy-table-body-row-hover-font-color:none !important;
   --easy-table-body-row-hover-background-color:none !important;

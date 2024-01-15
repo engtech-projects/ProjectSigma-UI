@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useHMOStore } from "@/stores/hmo"
 const hmoStore = useHMOStore()
+const { hmo, hmolist, isEdit } = storeToRefs(hmoStore)
 
 const headers = [
     { text: "ID", value: "hmo_id" },
@@ -9,6 +10,11 @@ const headers = [
     { text: "Employee Share", value: "employee_share" },
     { text: "Actions", value: "actions" },
 ]
+
+const editItem = (item) => {
+    isEdit.value = true
+    hmo.value = item
+}
 </script>
 
 <template>
@@ -74,7 +80,7 @@ const headers = [
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                @click="hmoStore.submitAdd"
+                @click="hmoStore.createHmo()"
             >
                 Add
             </button>
@@ -92,14 +98,14 @@ const headers = [
             <EasyDataTable
                 show-index
                 :headers="headers"
-                :items="hmoStore.hmoList"
+                :items="hmolist"
                 class="mt-5"
             >
                 <template #item-actions="item">
-                    <button @click="hmoStore.deleteItem(item)">
+                    <button @click="hmoStore.deleteHmo(item.id)">
                         <!-- Your delete button icon -->
                     </button>
-                    <button @click="hmoStore.editItem(item)">
+                    <button @click="editItem(item)">
                         <!-- Your edit button icon -->
                     </button>
                 </template>

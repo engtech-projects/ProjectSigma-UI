@@ -46,7 +46,7 @@ onMounted(() => {
 })
 </script>
 
-<style>
+<style scoped>
 /* width */
 ::-webkit-scrollbar {
   width: 4px;

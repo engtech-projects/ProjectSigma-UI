@@ -162,7 +162,7 @@ const items: Item[any] = ref([
 // }
 </script>
 
-<style>
+<style scoped>
 
 #overtime_form .vue3-easy-data-table__footer{
   display: none !important;

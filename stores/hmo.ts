@@ -10,6 +10,12 @@ export const useHMOStore = defineStore("hmo", {
             hmo_employee: null,
             hmo_employeeShare: null,
         },
+        editingItem: {
+            hmo_id: null,
+            hmo_name: null,
+            hmo_employee: null,
+            hmo_employeeShare: null,
+        },
         hmolist: [],
         getParams: {},
         errorMessage: "",

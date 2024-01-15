@@ -208,7 +208,7 @@ const submitAdd = () => {
 }
 </script>
 
-<style>
+<style scoped>
 
 #employee_leave_table .vue3-easy-data-table__footer{
   display: none !important;

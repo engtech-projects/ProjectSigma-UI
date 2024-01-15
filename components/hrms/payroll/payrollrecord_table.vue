@@ -395,7 +395,7 @@
 
 </script>
 
-<style>
+<style scoped>
 table,th,td{
   border: 1px solid #000;
 }

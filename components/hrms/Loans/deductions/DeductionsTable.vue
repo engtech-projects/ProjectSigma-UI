@@ -92,7 +92,7 @@ const items: Item[any] = ref([
 
 </script>
 
-<style>
+<style scoped>
 .customize-table {
   --easy-table-header-item-padding: 10px 15px;
 }

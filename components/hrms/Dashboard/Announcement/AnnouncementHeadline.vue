@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
     title: {
         type: String,
         required: true,
@@ -48,7 +48,7 @@ defineProps({
 const maxContentLength = 100 // Adjust the maximum length you want to show initially
 const expandContent = ref(false)
 
-const isFirstCard = index === 0
+const isFirstCard = props.index === 0
 
 const toggleExpand = () => {
     expandContent.value = !expandContent.value

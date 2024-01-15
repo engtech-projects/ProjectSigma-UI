@@ -113,8 +113,8 @@ const viewItem = () => {
 
 </script>
 
-  <style>
-  .customize-table {
+<style scoped>
+.customize-table {
     --easy-table-header-item-padding: 10px 15px;
-  }
-  </style>
+}
+ </style>
