@@ -28,7 +28,7 @@ const setParams = (link) => {
                 v-for="link,index in links.pages"
                 :key="index"
                 href="#"
-                :class="link.active ? 'bg-color1 text-white': 'bg-white'"
+                :class="link.active ? 'bg-color1 text-black': 'bg-white'"
                 @click.prevent="setParams(link.url)"
             >
                 {{ link.label.includes('Next') ? "Next" : link.label.includes('Prev') ? "Back" : link.label }}
@@ -58,7 +58,7 @@ const setParams = (link) => {
 
 @layer utilities {
     #pagination a:hover {
-        @apply bg-teal-700;
+        @apply bg-teal-600;
     }
 }
 </style>

@@ -71,7 +71,7 @@ const headers = [
                 </tbody>
             </table>
         </div>
-        <div class="justify-self-end">
+        <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
