@@ -291,9 +291,6 @@
 
 <script setup>
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "User Accounts",
     meta: [{ name: "description", content: "" }],

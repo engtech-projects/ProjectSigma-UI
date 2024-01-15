@@ -7,9 +7,6 @@
 
 <script  setup lang="ts">
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "13th Month Pay",
 })

@@ -2,9 +2,6 @@
 
 import { Header, Item } from "vue3-easy-data-table"
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "PhilHealth",
 })

@@ -15,9 +15,6 @@
 </template>
 
 <script setup>
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Employee Manpower Request",
 })

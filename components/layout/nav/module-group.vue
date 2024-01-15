@@ -25,11 +25,11 @@
         </button>
         <!-- :id="data.id" -->
         <div class="overflow-clip">
-            <TransitionsSlidedown>
+            <TransitionSlideDown>
                 <ul v-if="dp" class="py-2 space-y-2">
                     <slot />
                 </ul>
-            </TransitionsSlidedown>
+            </TransitionSlideDown>
         </div>
     </li>
     <hr class="h-px bg-gray-200 border-0 dark:bg-gray-700">

@@ -1,8 +1,5 @@
 <script setup>
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Division",
     meta: [{ name: "description", content: "" }],

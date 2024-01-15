@@ -17,9 +17,6 @@ const items = [
     { id: "Schedule-0018", name: "Schedule Sample 18", created: "10/24/23", updated: "10/24/23" },
 ]
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Schedule",
     meta: [

@@ -20,9 +20,6 @@ import { initFlowbite } from "flowbite"
 onMounted(() => {
     initFlowbite()
 })
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "201",
 })

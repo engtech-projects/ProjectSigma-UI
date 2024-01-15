@@ -28,11 +28,11 @@
         />
     </button>
     <div class="ml-4 overflow-clip">
-        <TransitionsSlidedown>
+        <TransitionSlideDown>
             <ul v-if="t" class="space-y-2">
                 <slot />
             </ul>
-        </TransitionsSlidedown>
+        </TransitionSlideDown>
     </div>
 </template>
 <script setup lang="ts">

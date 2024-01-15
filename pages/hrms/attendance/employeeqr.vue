@@ -1,7 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Employee QR Code",
     meta: [

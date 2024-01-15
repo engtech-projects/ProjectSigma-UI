@@ -6,9 +6,6 @@ const contributions = useContributionStore()
 const { isEdit } = storeToRefs(contributions)
 contributions.getContribution()
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "SSS",
 })

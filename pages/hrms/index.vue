@@ -8,7 +8,7 @@
         <div
             class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
         >
-            <HrmsDashboardBirthdays
+            <HrmsDashboardBirthdaysCard
                 :employees="employeesData"
                 class="md: mt-2 md:mt-0 p-2"
             />
@@ -16,7 +16,7 @@
         <div
             class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
         >
-            <HrmsDashboardLates
+            <HrmsDashboardLatesCard
                 :employees="employeeslateData"
                 class="md: mt-2 md:mt-0 p-2"
             />
@@ -24,7 +24,7 @@
         <div
             class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
         >
-            <HrmsDashboardAbsences
+            <HrmsDashboardAbsencesCard
                 :employees="employeesabsencesData"
                 class="md: mt-2 md:mt-0 p-2"
             />
@@ -81,9 +81,6 @@ onMounted(() => {
     initFlowbite()
 })
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Dashboard",
     meta: [{ name: "description", content: "SIGMA Dashboard" }],

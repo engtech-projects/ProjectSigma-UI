@@ -38,9 +38,6 @@
 
 import { useRouter } from "vue-router"
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Attendance Portal",
 })

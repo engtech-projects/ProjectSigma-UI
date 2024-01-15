@@ -6,9 +6,6 @@ onMounted(() => {
     initTabs()
 })
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Project Schedule",
     meta: [{ name: "description", content: "" }],

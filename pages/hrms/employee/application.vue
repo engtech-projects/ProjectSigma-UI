@@ -92,9 +92,6 @@
 </template>
 
 <script setup>
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Employment Application",
     meta: [{ name: "description", content: "New Employee" }],

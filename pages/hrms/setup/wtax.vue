@@ -1,11 +1,8 @@
 <script  setup lang="ts">
 
-import { Header } from "vue3-easy-data-table"
+import { Header, Item } from "vue3-easy-data-table"
 import { initAccordions } from "flowbite"
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Withholding Tax",
 })
@@ -22,6 +19,105 @@ const headers: Header[] = [
     { text: "Total Contributions", value: "over_salary_base" },
     { text: "Actions", value: "actions" },
 ]
+const main_items = [
+    [
+        {
+            status: "status lorem1",
+            compensation_range: "compensation_range lorem1",
+            salary_base: "salary_base lorem1",
+            tax_amount: "tax_amount lorem1",
+            over_salary_base: "over_salary_base lorem1",
+        },
+        {
+            status: "status lorem2",
+            compensation_range: "compensation_range lorem2",
+            salary_base: "salary_base lorem2",
+            tax_amount: "tax_amount lorem2",
+            over_salary_base: "over_salary_base lorem2",
+        },
+        {
+            status: "status lorem3",
+            compensation_range: "compensation_range lorem3",
+            salary_base: "salary_base lorem3",
+            tax_amount: "tax_amount lorem3",
+            over_salary_base: "over_salary_base lorem3",
+        },
+    ],
+    [
+        {
+            status: "status lorem1",
+            compensation_range: "compensation_range lorem1",
+            salary_base: "salary_base lorem1",
+            tax_amount: "tax_amount lorem1",
+            over_salary_base: "over_salary_base lorem1",
+        },
+        {
+            status: "status lorem2",
+            compensation_range: "compensation_range lorem2",
+            salary_base: "salary_base lorem2",
+            tax_amount: "tax_amount lorem2",
+            over_salary_base: "over_salary_base lorem2",
+        },
+        {
+            status: "status lorem3",
+            compensation_range: "compensation_range lorem3",
+            salary_base: "salary_base lorem3",
+            tax_amount: "tax_amount lorem3",
+            over_salary_base: "over_salary_base lorem3",
+        }
+    ],
+    [
+        {
+            status: "status lorem1",
+            compensation_range: "compensation_range lorem1",
+            salary_base: "salary_base lorem1",
+            tax_amount: "tax_amount lorem1",
+            over_salary_base: "over_salary_base lorem1",
+        },
+        {
+            status: "status lorem2",
+            compensation_range: "compensation_range lorem2",
+            salary_base: "salary_base lorem2",
+            tax_amount: "tax_amount lorem2",
+            over_salary_base: "over_salary_base lorem2",
+        },
+        {
+            status: "status lorem3",
+            compensation_range: "compensation_range lorem3",
+            salary_base: "salary_base lorem3",
+            tax_amount: "tax_amount lorem3",
+            over_salary_base: "over_salary_base lorem3",
+        }
+    ],
+    [
+        {
+            status: "status lorem1",
+            compensation_range: "compensation_range lorem1",
+            salary_base: "salary_base lorem1",
+            tax_amount: "tax_amount lorem1",
+            over_salary_base: "over_salary_base lorem1",
+        },
+        {
+            status: "status lorem2",
+            compensation_range: "compensation_range lorem2",
+            salary_base: "salary_base lorem2",
+            tax_amount: "tax_amount lorem2",
+            over_salary_base: "over_salary_base lorem2",
+        },
+        {
+            status: "status lorem3",
+            compensation_range: "compensation_range lorem3",
+            salary_base: "salary_base lorem3",
+            tax_amount: "tax_amount lorem3",
+            over_salary_base: "over_salary_base lorem3",
+        }
+    ],
+]
+
+const items_daily: Item[any] = ref(main_items[0])
+const items_weekly: Item[any] = ref(main_items[1])
+const items_semi_monthly: Item[any] = ref(main_items[2])
+const items_monthly: Item[any] = ref(main_items[3])
 
 const addItem = reactive({
     term: "",
@@ -179,7 +275,7 @@ const clear = () => {
                             </button>
                         </h2>
                         <div id="ac-1" class="w-full hidden" aria-labelledby="ac-1">
-                            <HrmsSetupWtaxtable :tabledata="items_daily" :tableheaders="headers" />
+                            <HrmsSetupWtaxTable :tabledata="items_daily" :tableheaders="headers" />
                         </div>
                         <h2 id="accordion-color-heading-2">
                             <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-color-body-2" aria-expanded="false" aria-controls="accordion-color-body-2">
@@ -197,7 +293,7 @@ const clear = () => {
                             </button>
                         </h2>
                         <div id="accordion-color-body-2" class="w-full hidden" aria-labelledby="accordion-color-heading-2">
-                            <HrmsSetupWtaxtable :tabledata="items_weekly" :tableheaders="headers" />
+                            <HrmsSetupWtaxTable :tabledata="items_weekly" :tableheaders="headers" />
                         </div>
                         <h2 id="accordion-color-heading-3">
                             <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-color-body-3" aria-expanded="false" aria-controls="accordion-color-body-3">
@@ -215,7 +311,7 @@ const clear = () => {
                             </button>
                         </h2>
                         <div id="accordion-color-body-3" class="w-full hidden" aria-labelledby="accordion-color-heading-3">
-                            <HrmsSetupWtaxtable :tabledata="items_semi_monthly" :tableheaders="headers" />
+                            <HrmsSetupWtaxTable :tabledata="items_semi_monthly" :tableheaders="headers" />
                         </div>
                         <h2 id="accordion-color-heading-4">
                             <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-800 dark:border-gray-700 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-color-body-4" aria-expanded="false" aria-controls="accordion-color-body-4">
@@ -233,7 +329,7 @@ const clear = () => {
                             </button>
                         </h2>
                         <div id="accordion-color-body-4" class="w-full hidden" aria-labelledby="accordion-color-heading-4">
-                            <HrmsSetupWtaxtable :tabledata="items_monthly" :tableheaders="headers" />
+                            <HrmsSetupWtaxTable :tabledata="items_monthly" :tableheaders="headers" />
                         </div>
                     </div>
                 </div>

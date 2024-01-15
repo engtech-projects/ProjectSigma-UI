@@ -1,7 +1,4 @@
 <script setup>
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Project",
     meta: [

@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col gap-3">
         <div>
-            <HrmsAnnouncement />
+            <HrmsAnnouncementForm />
         </div>
         <div>
             <HrmsAnnouncementList />

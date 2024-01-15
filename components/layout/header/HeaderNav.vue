@@ -165,7 +165,7 @@
                             </div>
                         </a>
                     </div>
-                    <NuxtLink to="/notifications" class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50   dark:bg-gray-600 dark:text-white dark:hover:underline">
+                    <NuxtLink to="/hrms/notifications" class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50   dark:bg-gray-600 dark:text-white dark:hover:underline">
                         <div class="inline-flex items-center">
                             <svg
                                 aria-hidden="true"

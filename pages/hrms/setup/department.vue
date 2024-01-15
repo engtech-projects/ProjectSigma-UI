@@ -6,9 +6,6 @@ const departments = useDepartmentStore()
 const { isEdit } = storeToRefs(departments)
 departments.getDepartment()
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Department",
 })
