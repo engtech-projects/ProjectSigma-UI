@@ -7,8 +7,8 @@ export const useDepartmentStore = defineStore("departments", {
         isEdit: false,
         department:
     {
-        departmentId: null,
-        departmentName: null,
+        id: null,
+        department_name: null,
     },
         list: [],
         getParams: {},
@@ -65,7 +65,7 @@ export const useDepartmentStore = defineStore("departments", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/department/" + this.department.departmentId,
+                "/api/departments/" + this.department.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
@@ -77,17 +77,18 @@ export const useDepartmentStore = defineStore("departments", {
                 }
             )
             if (data.value) {
-                this.successMessage = data.value.message
                 this.getDepartment()
+                this.reset()
+                this.successMessage = data.value.message
                 return data
             } else if (error.value) {
                 this.errorMessage = error.value.data.message
                 return error
             }
         },
-        async deleteDepartment (departmentId : number) {
+        async deleteDepartment (id : number) {
             const { data, error } = await useFetch(
-                "/api/department/" + departmentId,
+                "/api/departments/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
@@ -107,8 +108,8 @@ export const useDepartmentStore = defineStore("departments", {
 
         reset () {
             this.department = {
-                departmentId: null,
-                departmentName: null,
+                id: null,
+                department_name: null,
             }
             this.isEdit = false
             this.successMessage = ""

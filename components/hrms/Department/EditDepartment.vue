@@ -1,20 +1,20 @@
-<script setup lang="ts">
+<script setup>
 import { storeToRefs } from "pinia"
 import { useDepartmentStore } from "@/stores/departments"
 
 const departments = useDepartmentStore()
 const { department, errorMessage, successMessage } = storeToRefs(departments)
 
-const addDepartment = () => {
-    departments.createDepartment()
+const editDepartment = () => {
+    departments.editDepartmentName()
 }
 
 </script>
 
 <template>
-    <LayoutBoards title="Department List" class="w-96 h-52 p-4">
+    <LayoutBoards title="Edit Department List" class="w-96 h-52 p-4">
         <div class="text-gray-500 mt-2">
-            <form @submit.prevent="addDepartment">
+            <form @submit.prevent="editDepartment">
                 <div class="space-y-2">
                     <label
                         for="department_name"
@@ -33,7 +33,7 @@ const addDepartment = () => {
                         type="submit"
                         class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
                     >
-                        <Icon name="mingcute:department-fill" class="mr-2" />Add Department
+                        <Icon name="mingcute:department-fill" class="mr-2" />Save
                     </button>
                 </div>
             </form>

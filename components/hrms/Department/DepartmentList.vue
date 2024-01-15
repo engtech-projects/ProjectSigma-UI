@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { storeToRefs } from "pinia"
 import { useDepartmentStore } from "@/stores/departments"
 
@@ -11,14 +11,13 @@ const setEdit = (dept) => {
     isEdit.value = true
     department.value = dept
 }
-
-const saveChanges = () => {
-    isEdit.value = false
+const deleteDept = (dept) => {
+    departments.deleteDepartment(dept.id)
 }
 
 const headers = [
-    { text: "ID", value: "departmentId" },
-    { text: "DEPARTMENT NAME", value: "department.name" },
+    { text: "ID", value: "id" },
+    { text: "DEPARTMENT NAME", value: "department_name" },
     { text: "Actions", value: "actions" },
 ]
 
@@ -42,38 +41,45 @@ const headers = [
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(department, index) in departmentList" :key="index">
+                    <tr v-for="(departments, index) in departmentList" :key="index" class="border">
                         <td hidden class="border p-2">
                             {{ index + 1 }}
                         </td>
-                        <td class="border p-2">
-                            <span>{{ department.departmentName }}</span>
+                        <td class="p-2">
+                            <span>{{ departments.department_name }}</span>
                         </td>
-                        <td class="border p-2 flex gap-2 justify-center">
-                            <button @click="setEdit(department)">
-                                {{ department.isEdit ? 'Cancel' : 'Edit' }}
+                        <td class=" p-2 flex gap-2 justify-center">
+                            <button @click="setEdit(departments)">
+                                <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
                             </button>
-                            <button @click="saveChanges()">
-                                Save
+                            <button
+                                @click="deleteDept(departments)"
+                            >
+                                <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" />
                             </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-        <!-- <EasyDataTable
-        show-index
-        :headers="headers"
-        :items="data.value"
-        class="mt-5"
-        >
-        <template #item-actions="item">
-          <button @click="departmentStore.deleteItem(item)">
-          </button>
-          <button @click="departmentStore.editItem(item)">
-          </button>
-        </template>
-      </EasyDataTable> -->
     </LayoutBoards>
 </template>
+
+<!-- <template>
+    <LayoutBoards title="Department List" class="w-full p-4">
+        <EasyDataTable
+            :headers="headers"
+            :items="departmentList"
+            class="mt-5"
+        >
+            <template #item-actions="{ item: department }">
+                <button @click="setEdit(department)">
+                    <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
+                </button>
+                <button @click="deleteDept(department)">
+                    <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" />
+                </button>
+            </template>
+        </EasyDataTable>
+    </LayoutBoards>
+</template> -->

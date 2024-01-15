@@ -1,9 +1,10 @@
-<script setup lang="ts">
+<script setup>
+import { storeToRefs } from "pinia"
 import { useDepartmentStore } from "@/stores/departments"
 
-// Create and use Pinia in the app
-const departmentStore = useDepartmentStore()
-usePinia(departmentStore)
+const departments = useDepartmentStore()
+const { isEdit } = storeToRefs(departments)
+departments.getDepartment()
 
 definePageMeta({
     layout: "default",
@@ -16,7 +17,10 @@ useHead({
 
 <template>
     <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-4">
-        <HrmsDepartmentNewDepartment />
+        <HrmsDepartmentNewDepartment
+            v-show="!isEdit"
+        />
+        <HrmsDepartmentEditDepartment v-show="isEdit" />
         <HrmsDepartmentList />
     </div>
 </template>
