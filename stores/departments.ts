@@ -11,6 +11,7 @@ export const useDepartmentStore = defineStore("departments", {
         department_name: null,
     },
         list: [],
+        pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
@@ -26,12 +27,19 @@ export const useDepartmentStore = defineStore("departments", {
                     //     Authorization: token.value + ""
                     // },
                     params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.list = response._data.data.data
+                        this.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.list = data.value.data.data
+            if (data) {
                 return data
-            } else if (error.value) {
+            } else if (error) {
                 return error
             }
         },

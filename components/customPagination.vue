@@ -58,7 +58,7 @@ const setParams = (link) => {
 
 @layer utilities {
     #pagination a:hover {
-        @apply bg-slate-300;
+        @apply bg-teal-700;
     }
 }
 </style>

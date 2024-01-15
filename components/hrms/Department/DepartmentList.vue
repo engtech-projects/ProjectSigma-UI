@@ -15,6 +15,14 @@ const deleteDept = (dept) => {
     departments.deleteDepartment(dept.id)
 }
 
+const changePaginate = (newParams) => {
+    getParams.value.page = newParams.page ?? ""
+    // getParams.value.syId = newParams.id ?? ""
+    // getParams.value.semId = newParams.semId ?? ""
+    // getParams.value.feeType = newParams.feeType ?? ""
+    // getParams.value.particularName = newParams.particularName ?? ""
+}
+
 const headers = [
     { text: "ID", value: "id" },
     { text: "DEPARTMENT NAME", value: "department_name" },
@@ -62,6 +70,9 @@ const headers = [
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="justify-self-end">
+            <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
 </template>
