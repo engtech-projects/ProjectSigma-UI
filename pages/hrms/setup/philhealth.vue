@@ -54,11 +54,11 @@ const deleteItem = (val: Item) => {
 }
 
 const editItem = (val: Item) => {
-    const { salary_val, monthly_prem, id } = val
+    const { salaryVal, monthlyPrem, id } = val
 
-    editingItem.salary_val_start = salary_val
-    editingItem.salary_val_end = salary_val
-    editingItem.monthly_prem = monthly_prem
+    editingItem.salary_val_start = salaryVal
+    editingItem.salary_val_end = salaryVal
+    editingItem.monthly_prem = monthlyPrem
     editingItem.id = id
 }
 

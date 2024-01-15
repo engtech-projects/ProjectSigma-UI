@@ -18,7 +18,16 @@ export default {
     datas: "datas",
     labels: "labels",
     name: "EmployeesChart",
-    props: ["datas", "labels"],
+    props: {
+        datas: {
+            type: Array,
+            required: true
+        },
+        labels: {
+            type: Array,
+            required: true
+        }
+    },
     data () {
         return {
             chartWidth: 300, // Set the desired width of the chart

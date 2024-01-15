@@ -132,15 +132,15 @@ const editingItem = reactive({
 })
 
 const editItem = (val) => {
-    const { term, status, compensation_range, salary_range_from, salary_range_to, salary_base, tax_amount, over_salary_base, id } = val
+    const { term, status, compensationRange, salaryRangeFrom, salaryRangeTo, salaryBase, taxAmount, overSalaryBase, id } = val
     editingItem.term = term
     editingItem.status = status
-    editingItem.compensation_range = compensation_range
-    editingItem.salary_range_from = salary_range_from
-    editingItem.salary_range_to = salary_range_to
-    editingItem.salary_base = salary_base
-    editingItem.tax_amount = tax_amount
-    editingItem.over_salary_base = over_salary_base
+    editingItem.compensation_range = compensationRange
+    editingItem.salary_range_from = salaryRangeFrom
+    editingItem.salary_range_to = salaryRangeTo
+    editingItem.salary_base = salaryBase
+    editingItem.tax_amount = taxAmount
+    editingItem.over_salary_base = overSalaryBase
     editingItem.id = id
 }
 

@@ -16,7 +16,6 @@
             }
         ],
         //  Below Will be Temporary
-        "camelcase": 0,
         "no-console": 0
     }
 }
