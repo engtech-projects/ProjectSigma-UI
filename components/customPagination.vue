@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
     links: {
-        type: Array,
+        type: Object,
         required: true,
     },
 })
