@@ -12,7 +12,7 @@ const addDepartment = () => {
 </script>
 
 <template>
-    <LayoutBoards title="Department List" class="w-96 h-52 p-4">
+    <LayoutBoards title="Department Name" class="w-96 h-64 p-4">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="addDepartment">
                 <div class="space-y-2">
@@ -37,7 +37,7 @@ const addDepartment = () => {
                     </button>
                 </div>
             </form>
-            <p class="text-red-600 text-center font-semibold">
+            <p class="text-red-600 text-center font-semibold mt-2">
                 {{ errorMessage }}
             </p>
             <p

@@ -5,7 +5,7 @@ import { useDepartmentStore } from "@/stores/departments"
 const departments = useDepartmentStore()
 departments.getDepartment()
 
-const { list: departmentList, isEdit, department } = storeToRefs(departments)
+const { list: departmentList, isEdit, department, getParams, pagination } = storeToRefs(departments)
 
 const setEdit = (dept) => {
     isEdit.value = true
@@ -53,6 +53,7 @@ const headers = [
                                 <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
                             </button>
                             <button
+
                                 @click="deleteDept(departments)"
                             >
                                 <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" />
@@ -64,22 +65,3 @@ const headers = [
         </div>
     </LayoutBoards>
 </template>
-
-<!-- <template>
-    <LayoutBoards title="Department List" class="w-full p-4">
-        <EasyDataTable
-            :headers="headers"
-            :items="departmentList"
-            class="mt-5"
-        >
-            <template #item-actions="{ item: department }">
-                <button @click="setEdit(department)">
-                    <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
-                </button>
-                <button @click="deleteDept(department)">
-                    <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" />
-                </button>
-            </template>
-        </EasyDataTable>
-    </LayoutBoards>
-</template> -->

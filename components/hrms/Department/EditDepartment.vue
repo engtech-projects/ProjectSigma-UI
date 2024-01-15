@@ -9,17 +9,21 @@ const editDepartment = () => {
     departments.editDepartmentName()
 }
 
+const cancelEdit = () => {
+    departments.reset()
+}
+
 </script>
 
 <template>
-    <LayoutBoards title="Edit Department List" class="w-96 h-52 p-4">
+    <LayoutEditBoards title="Edit Department" class="w-96 h-52 p-4">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="editDepartment">
                 <div class="space-y-2">
                     <label
                         for="department_name"
                         class="text-xs italic"
-                    >Department Name</label>
+                    >New Department Name</label>
                     <input
                         id="departmentName"
                         v-model="department.department_name"
@@ -28,12 +32,20 @@ const editDepartment = () => {
                     >
                 </div>
 
-                <div class="flex justify-end">
+                <div class="flex justify-end gap-2">
                     <button
                         type="submit"
-                        class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
+                        class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5 hover:bg-teal-500"
                     >
-                        <Icon name="mingcute:department-fill" class="mr-2" />Save
+                        Save
+                    </button>
+
+                    <button
+                        type="button"
+                        class="flex-1 text-white p-2 rounded bg-gray-700 content-center mt-5 hover:bg-gray-500"
+                        @click="cancelEdit"
+                    >
+                        Cancel
                     </button>
                 </div>
             </form>
@@ -47,5 +59,5 @@ const editDepartment = () => {
                 {{ successMessage }}
             </p>
         </div>
-    </LayoutBoards>
+    </LayoutEditBoards>
 </template>

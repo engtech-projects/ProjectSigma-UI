@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-// const { token } = useAuth()
+// const { data: token } = useAuth()
 const config = useRuntimeConfig()
 
 export const useDepartmentStore = defineStore("departments", {
@@ -29,7 +29,7 @@ export const useDepartmentStore = defineStore("departments", {
                 }
             )
             if (data.value) {
-                this.list = data.value.data
+                this.list = data.value.data.data
                 return data
             } else if (error.value) {
                 return error
