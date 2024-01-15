@@ -36,11 +36,11 @@ export default {
             // Example: Assume you have an API endpoint '/api/addAttendanceSchedule'
             this.$axios.post("/api/addAttendanceSchedule", this.attendanceSchedule)
                 .then((response) => {
-                    console.log("Attendance schedule added successfully:", response.data)
+                    return ["Attendance schedule added successfully:", response.data]
                     // Reset the form or perform other actions as needed
                 })
                 .catch((error) => {
-                    console.error("Error adding attendance schedule:", error)
+                    return ["Error adding attendance schedule:", error]
                     // Handle errors and display a message to the user
                 })
         },

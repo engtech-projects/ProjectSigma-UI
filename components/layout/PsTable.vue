@@ -26,7 +26,6 @@ defineProps({
 })
 const emit = defineEmits(["editRow", "deleteRow"])
 const doEdit = (data) => {
-    console.log(data)
     emit("editRow", data)
 }
 const doDelete = (data) => {

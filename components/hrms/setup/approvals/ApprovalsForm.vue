@@ -126,7 +126,6 @@ const AddEmployeeItem = (index:any) => {
             removeisnotActive: true
         }
     )
-    console.log(AddItem.value)
     // isActive.value = !isActive.value;
 }
 const RemoveEmployeeItem = (index:any) => {

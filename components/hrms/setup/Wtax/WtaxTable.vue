@@ -169,6 +169,6 @@ const submitEdit = () => {
 }
 
 const deleteItem = () => {
-    console.log("Delete Data Here")
+    return null
 }
 </script>

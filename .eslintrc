@@ -15,7 +15,6 @@
                 "objects": "only-multiline"
             }
         ],
-        //  Below Will be Temporary
-        "no-console": 0
+        "no-console": 2
     }
 }

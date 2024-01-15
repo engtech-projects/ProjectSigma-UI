@@ -276,7 +276,8 @@
 <script setup>
 const { signOut } = useAuth()
 const approveItem = (item) => {
-    console.log(item)
+    return item
+    // console.log(item)
 // Implement your approve logic here
 //   console.log("Item Approved:", item);
 // For demonstration purposes, let's update the item's action_taken

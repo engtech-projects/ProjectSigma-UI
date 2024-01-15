@@ -102,7 +102,7 @@ export default {
                 // Set the QR code data to the component's data
                 this.qrCodeData = dataURL
             } catch (error) {
-                console.error("Error generating QR code:", error)
+                return ["Error generating QR code:", error]
             }
         },
     },

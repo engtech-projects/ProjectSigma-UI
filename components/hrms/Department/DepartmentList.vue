@@ -8,7 +8,6 @@ departments.getDepartment()
 const { list: departmentList, isEdit, department, getParams, pagination } = storeToRefs(departments)
 
 const setEdit = (dept) => {
-    console.log(dept)
     isEdit.value = true
     department.value = dept
 }

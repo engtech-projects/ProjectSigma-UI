@@ -82,7 +82,7 @@ export default {
 
                 this.cameraStarted = true
             } catch (error) {
-                console.error("Error starting camera:", error)
+                return ("Error starting camera:", error)
             }
         },
         captureImage () {
@@ -108,7 +108,7 @@ export default {
                     }
                 }, "image/png") // You can change the format as needed
             } catch (error) {
-                console.error("Error capturing image:", error)
+                return ["Error capturing image:", error]
             }
         },
     },

@@ -94,7 +94,7 @@ export default {
                     data: this.data,
                     options: this.options,
                 })
-                console.log(chart)
+                return chart
             }
         },
     },

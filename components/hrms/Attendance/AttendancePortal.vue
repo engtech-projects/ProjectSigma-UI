@@ -29,7 +29,7 @@ onMounted(() => {
             video.value.play()
         })
         .catch((err) => {
-            console.error("An error occurred: ", err)
+            return ("An error occurred: ", err)
         })
 
     video.value.addEventListener("canplay", async () => {

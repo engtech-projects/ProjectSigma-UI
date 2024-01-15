@@ -28,7 +28,7 @@ onMounted(() => {
             video.value.play()
         })
         .catch((err) => {
-            console.error("An error occurred: ", err)
+            return ("An error occurred: ", err)
         })
 
     video.value.addEventListener("canplay", async () => {
@@ -60,7 +60,7 @@ const detectFaces = () => {
 
             // Perform face detection
             const detections = await faceapi.detectAllFaces(canvas.value, new faceapi.TinyFaceDetectorOptions({ inputSize: 256 })).withFaceLandmarks().withFaceDescriptors()
-            console.log("Number of faces detected:", detections.length)
+            // console.log("Number of faces detected:", detections.length)
             if (detections.length > 0) {
                 // Face detected
                 isLoggedIn.value = true

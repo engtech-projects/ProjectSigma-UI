@@ -40,21 +40,21 @@ const selectedItemDetails = ref(null)
 
 const approveItem = (item) => {
     // Implement your approve logic here
-    console.log("Item Approved:", item)
+    // console.log("Item Approved:", item)
     // For demonstration purposes, let's update the item's action_taken
     item.action_taken = "APPROVED"
 }
 
 const denyItem = (item) => {
     // Implement your deny logic here
-    console.log("Item Denied:", item)
+    // return ("Item Denied:", item)
     // For demonstration purposes, let's update the item's action_taken
     item.action_taken = "DENIED"
 }
 
 const viewItem = (item) => {
     // Implement your view logic here
-    console.log("Viewing Item:", item)
+    // return ("Viewing Item:", item)
     // For simplicity, let's just store the selected item details and display them in a modal
     selectedItemDetails.value = item
 }
