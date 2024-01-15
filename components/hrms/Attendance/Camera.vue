@@ -51,7 +51,7 @@ onMounted(() => {
     })
 })
 
-const detectFaces = async () => {
+const detectFaces = () => {
     const interval = setInterval(async () => {
         if (!video.value.paused && !video.value.ended) {
             canvas.value.width = width

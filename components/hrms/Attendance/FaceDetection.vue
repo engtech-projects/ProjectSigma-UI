@@ -85,7 +85,7 @@ export default {
                 console.error("Error starting camera:", error)
             }
         },
-        async captureImage () {
+        captureImage () {
             try {
                 const video = document.getElementById("cameraPreview")
                 const capturedImage = document.getElementById("capturedImage")
@@ -100,7 +100,7 @@ export default {
                 context.drawImage(video, 0, 0, canvas.width, canvas.height)
 
                 // Convert the canvas content to a Blob representing the image
-                canvas.toBlob(async (blob) => {
+                canvas.toBlob((blob) => {
                     if (blob) {
                         // Display the captured image
                         capturedImage.src = URL.createObjectURL(blob)
