@@ -24,16 +24,6 @@
     </div>
 </template>
 
-<script>
-export default {
-    props: {
-        employees: Array, // An array of employee objects with properties: name, avatar, birthdate
-    },
-    methods: {
-        formatDate (date) {
-            const options = { month: "long", day: "numeric", year: "numeric" }
-            return new Date(date).toLocaleDateString(undefined, options)
-        },
-    },
-}
+<script setup>
+defineProps(["employees"])
 </script>
