@@ -1,20 +1,11 @@
-<script>
-export default {
-    props: {
-        announcements: {
-            type: Array,
-            required: true,
-        },
-        newAnnouncement: {
-            type: Object,
-            required: true,
-        },
-        postAnnouncement: {
-            type: Function,
-            required: true,
-        },
-    },
-}
+<script setup>
+defineProps(["announcements", "postAnnouncements"])
+const newAnnouncement = ref({
+    title: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+})
 </script>
 
 <template>

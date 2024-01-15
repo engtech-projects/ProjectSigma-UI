@@ -160,7 +160,7 @@ const submitEdit = () => {
     obj.id = editingItem.id
 }
 
-const deleteItem = (val: Item) => {
-    data.tabledata.splice(val.key, 1)
+const deleteItem = () => {
+    console.log("Delete Data Here")
 }
 </script>
