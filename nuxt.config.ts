@@ -66,12 +66,6 @@ export default defineNuxtConfig({
         }
     },
 
-    nitro: {
-        prerender: {
-            routes: ["/hrms-dashboard", "/application", "/calendar", "/department", "/employees", "/index", "/notifications"],
-        },
-    },
-
     build: {
         transpile: ["@vuepic/vue-datepicker"]
     },
