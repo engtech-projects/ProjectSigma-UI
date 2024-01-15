@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
     layout: "guest",
-}),
+})
 useHead({
     title: "Attendance Login",
     meta: [{ name: "description", content: "" }],
