@@ -13,6 +13,12 @@ const cancelEdit = () => {
     contributions.reset()
 }
 
+const totalContributions = computed(() => {
+    const employerShare = parseInt(contribution.employer_share) || 0
+    const employeeShare = parseInt(contribution.employee_share) || 0
+    return employerShare + employeeShare
+})
+
 </script>
 
 <template>
@@ -83,6 +89,7 @@ const cancelEdit = () => {
                         >Total Contributions</label>
                         <input
                             id="totalContributions"
+                            :value="totalContributions"
                             disabled
                             readonly
                             type="number"
