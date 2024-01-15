@@ -129,11 +129,11 @@
                                 <img class="w-11 h-11 rounded-full" src="/avatarexample.png" alt="avatar">
                                 <div class="flex absolute justify-center items-center ml-6 -mt-5 w-5 h-5 bg-red-600 rounded-full border border-white dark:border-gray-700">
                                     <svg
+                                        xmlns="http://www.w3.org/2000/svg"
                                         aria-hidden="true"
                                         class="w-3 h-3 text-white"
                                         fill="currentColor"
                                         viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/21000/svg"
                                     >
                                         <path
                                             fill-rule="evenodd"

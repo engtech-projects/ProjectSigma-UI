@@ -17,7 +17,6 @@
         ],
         //  Below Will be Temporary
         "vue/multi-word-component-names": 0,
-        "vue/no-parsing-error" : 0,
         "vue/require-prop-types": 0,
         "@typescript-eslint/no-mutating-props": 0,
         "vue/no-mutating-props": 0,
