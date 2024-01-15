@@ -11,7 +11,6 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
 
 const currentDate = ref("")
 const currentTime = ref("")

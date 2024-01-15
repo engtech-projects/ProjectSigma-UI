@@ -67,7 +67,6 @@
 
 <script setup lang="ts">
 import { Header, Item } from "vue3-easy-data-table"
-import { ref, reactive } from "vue"
 
 const itemsSelected = ref<Item[]>([])
 

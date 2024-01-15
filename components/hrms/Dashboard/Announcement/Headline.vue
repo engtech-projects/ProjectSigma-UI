@@ -27,7 +27,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from "vue"
 
 const { title, date, content, index } = defineProps(["title", "date", "content", "index"])
 const maxContentLength = 100 // Adjust the maximum length you want to show initially

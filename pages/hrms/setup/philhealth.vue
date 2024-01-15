@@ -1,7 +1,6 @@
 <script  setup lang="ts">
 
 import { Header, Item } from "vue3-easy-data-table"
-import { defineComponent, ref, reactive } from "vue"
 
 definePageMeta({
     layout: "default",
@@ -84,7 +83,6 @@ const submitAdd = () => {
         </h2>
         <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
             <label for="" class="text-xl font-semibold text-gray-900">Add Contribution Record</label>
-    
             <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
                 <div>
                     <label for="add_salary_val_start" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start</label>

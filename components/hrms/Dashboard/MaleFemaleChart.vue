@@ -1,6 +1,6 @@
 <template>
     <LayoutBoards title="Total Number of Male and Female Employee">
-        <LayoutChartManpowerMonitor
+        <LayoutChartDoughnut
             :labels="[
                 'Male',
                 'Female',

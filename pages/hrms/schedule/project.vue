@@ -1,5 +1,4 @@
 <script setup>
-import { onMounted } from "vue"
 import { initFlowbite, initTabs } from "flowbite"
 
 onMounted(() => {

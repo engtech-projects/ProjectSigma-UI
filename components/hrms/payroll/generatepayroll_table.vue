@@ -109,11 +109,7 @@ const items: Item[any] = ref([
     },
 ])
 
-const deleted = (val: Item) => {
-    items.value.splice(val.key, 1)
-}
-
-const viewItem = (item:any) => {
+const viewItem = () => {
 }
 
 </script>

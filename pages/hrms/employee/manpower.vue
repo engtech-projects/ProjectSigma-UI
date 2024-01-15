@@ -8,7 +8,7 @@
             <EmployeeManpowerReq />
             <div>
                 <EmployeeManpowerMonitoringList />
-                <ChartManpowerMonitor />
+                <!-- <ChartManpowerMonitor /> -->
             </div>
         </div>
     </div>

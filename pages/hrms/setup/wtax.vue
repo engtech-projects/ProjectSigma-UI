@@ -1,7 +1,6 @@
 <script  setup lang="ts">
 
-import { Header, Item } from "vue3-easy-data-table"
-import { ref, reactive } from "vue"
+import { Header } from "vue3-easy-data-table"
 import { initAccordions } from "flowbite"
 
 definePageMeta({
@@ -15,8 +14,6 @@ onMounted(() => {
     initAccordions()
 })
 
-const isitem = ref("")
-
 const headers: Header[] = [
     { text: "Range of Compensation", value: "status" },
     { text: "Emlpoyer Share", value: "compensation_range" },
@@ -25,154 +22,6 @@ const headers: Header[] = [
     { text: "Total Contributions", value: "over_salary_base" },
     { text: "Actions", value: "actions" },
 ]
-
-const mainItems = [
-    [
-        {
-            id: 1,
-            term: "daily",
-            status: "status lorem1",
-            compensation_range: "compensation_range lorem1",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem1",
-            tax_amount: "tax_amount lorem1",
-            over_salary_base: "over_salary_base lorem1",
-        },
-        {
-            id: 2,
-            term: "daily",
-            status: "status lorem2",
-            compensation_range: "685 - 1095",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem2",
-            tax_amount: "tax_amount lorem2",
-            over_salary_base: "over_salary_base lorem2",
-        },
-        {
-            id: 3,
-            term: "daily",
-            status: "status lorem3",
-            compensation_range: "compensation_range lorem3",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem3",
-            tax_amount: "tax_amount lorem3",
-            over_salary_base: "over_salary_base lorem3",
-        },
-    ],
-    [
-        {
-            id: 1,
-            term: "weekly",
-            status: "status lorem1",
-            compensation_range: "compensation_range lorem1",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem1",
-            tax_amount: "tax_amount lorem1",
-            over_salary_base: "over_salary_base lorem1",
-        },
-        {
-            id: 2,
-            term: "weekly",
-            status: "status lorem2",
-            compensation_range: "compensation_range lorem2",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem2",
-            tax_amount: "tax_amount lorem2",
-            over_salary_base: "over_salary_base lorem2",
-        },
-        {
-            id: 3,
-            term: "weekly",
-            status: "status lorem3",
-            compensation_range: "compensation_range lorem3",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem3",
-            tax_amount: "tax_amount lorem3",
-            over_salary_base: "over_salary_base lorem3",
-        }
-    ],
-    [
-        {
-            id: 1,
-            term: "semi_monthly",
-            status: "status lorem1",
-            compensation_range: "compensation_range lorem1",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem1",
-            tax_amount: "tax_amount lorem1",
-            over_salary_base: "over_salary_base lorem1",
-        },
-        {
-            id: 2,
-            term: "semi_monthly",
-            status: "status lorem2",
-            compensation_range: "compensation_range lorem2",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem2",
-            tax_amount: "tax_amount lorem2",
-            over_salary_base: "over_salary_base lorem2",
-        },
-        {
-            id: 3,
-            term: "semi_monthly",
-            status: "status lorem3",
-            compensation_range: "compensation_range lorem3",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem3",
-            tax_amount: "tax_amount lorem3",
-            over_salary_base: "over_salary_base lorem3",
-        }
-    ],
-    [
-        {
-            id: 1,
-            term: "monthly",
-            status: "status lorem1",
-            compensation_range: "compensation_range lorem1",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem1",
-            tax_amount: "tax_amount lorem1",
-            over_salary_base: "over_salary_base lorem1",
-        },
-        {
-            id: 2,
-            term: "monthly",
-            status: "status lorem2",
-            compensation_range: "compensation_range lorem2",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem2",
-            tax_amount: "tax_amount lorem2",
-            over_salary_base: "over_salary_base lorem2",
-        },
-        {
-            id: 3,
-            term: "monthly",
-            status: "status lorem3",
-            compensation_range: "compensation_range lorem3",
-            salary_range_from: "685",
-            salary_range_to: "1095",
-            salary_base: "salary_base lorem3",
-            tax_amount: "tax_amount lorem3",
-            over_salary_base: "over_salary_base lorem3",
-        }
-    ],
-]
-
-const itemsDaily: Item[any] = ref(mainItems[0])
-const itemsWeekly: Item[any] = ref(mainItems[1])
-const itemsSemiMonthly: Item[any] = ref(mainItems[2])
-const itemsMonthly: Item[any] = ref(mainItems[3])
 
 const addItem = reactive({
     term: "",

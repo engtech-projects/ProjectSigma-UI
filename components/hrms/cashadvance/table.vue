@@ -89,16 +89,16 @@ const items: Item[any] = ref([
     },
 ])
 
-const approved = (val: Item) => {
+const approved = () => {
 }
 
-const deleted = (val: Item) => {
+const deleted = () => {
 }
 
-const payment = (val: Item) => {
+const payment = () => {
 }
 
-const reject = (val: Item) => {
+const reject = () => {
 }
 </script>
 

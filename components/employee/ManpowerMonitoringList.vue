@@ -36,7 +36,6 @@ const items = [
 
 ]
 
-const selectedItems = ref([])
 const selectedItemDetails = ref(null)
 
 const approveItem = (item) => {

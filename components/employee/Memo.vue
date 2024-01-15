@@ -21,7 +21,6 @@ const items = [
 
 ]
 
-const selectedItemsMemo = ref([])
 const selectedItemDetailsMemo = ref(null)
 
 const viewItemMemo = (item) => {

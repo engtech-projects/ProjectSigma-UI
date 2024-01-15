@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-const props = defineProps(["title", "date", "content"])
+defineProps(["title", "date", "content"])
 
 const formatDate = (date) => {
     return new Date(date).toLocaleDateString()

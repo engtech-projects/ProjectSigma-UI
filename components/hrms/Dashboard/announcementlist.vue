@@ -152,13 +152,13 @@ const items: Item[any] = ref([
     },
 ])
 
-const approved = (val: Item) => {
+const approved = () => {
 }
 
-const deleted = (val: Item) => {
+const deleted = () => {
 }
 
-const reject = (val: Item) => {
+const reject = () => {
 }
 </script>
 

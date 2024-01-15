@@ -1,7 +1,6 @@
 <script  setup lang="ts">
 
 import { Header, Item } from "vue3-easy-data-table"
-import { defineComponent, ref, reactive } from "vue"
 
 definePageMeta({
     layout: "default",

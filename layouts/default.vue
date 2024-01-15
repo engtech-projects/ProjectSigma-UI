@@ -15,7 +15,6 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue"
 import {
     initAccordions,
     initCarousels,

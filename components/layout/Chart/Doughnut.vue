@@ -47,9 +47,6 @@ export default {
             options: {
                 responsive: true,
                 animation: {
-                    onComplete: () => {
-                        const delayed = true
-                    },
                     delay: (context: { type: string; mode: string; dataIndex: number; datasetIndex: number }) => {
                         let delay = 0
                         if (context.type === "data" && context.mode === "default" && !delay) {
@@ -88,6 +85,7 @@ export default {
                     data: this.data,
                     options: this.options,
                 })
+                console.log(chart)
             }
         },
     },

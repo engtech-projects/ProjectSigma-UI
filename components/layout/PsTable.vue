@@ -38,7 +38,7 @@ const doDelete = (data) => {
         <thead>
             <tr>
                 <th
-                    v-for="header, index in headerColumns"
+                    v-for="header in headerColumns"
                     :key="header.name+'headerRow'"
                     class="p-2"
                     :class="header.style ?? ''"

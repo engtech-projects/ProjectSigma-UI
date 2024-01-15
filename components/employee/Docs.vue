@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue"
 
 const headers = [
     { text: "DOCUMENT NAME", value: "document_name" },
@@ -21,8 +20,6 @@ const items = [
     },
 
 ]
-
-const isOpen = ref(false)
 
 const selectedItemDetailsDocs = ref(null)
 

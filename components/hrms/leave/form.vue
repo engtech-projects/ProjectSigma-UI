@@ -204,52 +204,6 @@ const items: Item[any] = ref([
         balance: "",
     },
 ])
-
-const AddItem = reactive({
-    range_compensation: "",
-    employer_share: "",
-    employee_share: "",
-    total_contributions: "",
-    id: 0,
-})
-
-const editingItem = reactive({
-    range_compensation: "",
-    employer_share: "",
-    employee_share: "",
-    total_contributions: "",
-    id: 0,
-})
-
-const deleteItem = (val: Item) => {
-//   items.value.splice(val.id,1);
-}
-
-const editItem = (val: Item) => {
-    const { range_compensation, employer_share, employee_share, total_contributions, id } = val
-    editingItem.range_compensation = range_compensation
-    editingItem.employer_share = employer_share
-    editingItem.employee_share = employee_share
-    editingItem.total_contributions = total_contributions
-    editingItem.id = id
-}
-
-const submitEdit = () => {
-//   const item = items.value.find((item: { id: number; }) => item.id === editingItem.id);
-//   item.range_compensation = editingItem.range_compensation;
-//   item.employer_share = editingItem.employer_share;
-//   item.employee_share = editingItem.employee_share;
-//   item.total_contributions = editingItem.total_contributions;
-}
-
-const autoAdd = () => {
-    AddItem.total_contributions = AddItem.employee_share + AddItem.employer_share
-}
-
-const autoAddinEdit = () => {
-    editingItem.total_contributions = editingItem.employee_share + editingItem.employer_share
-}
-
 const submitAdd = () => {
 }
 </script>
