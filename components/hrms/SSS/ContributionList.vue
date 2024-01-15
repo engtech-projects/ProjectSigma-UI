@@ -1,18 +1,18 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useDepartmentStore } from "@/stores/departments"
+import { useContributionStore } from "@/stores/sss"
 
-const departments = useDepartmentStore()
-departments.getDepartment()
+const contributions = useContributionStore()
+contributions.getContribution()
 
-const { list: departmentList, isEdit, department, getParams, pagination } = storeToRefs(departments)
+const { list: contributionList, isEdit, contribution, getParams, pagination } = storeToRefs(contributions)
 
-const setEdit = (dept) => {
+const setEdit = (cont) => {
     isEdit.value = true
-    department.value = dept
+    contribution.value = cont
 }
-const deleteDept = (dept) => {
-    departments.deleteDepartment(dept.id)
+const deleteCont = (cont) => {
+    contributions.deleteContribution(cont.id)
 }
 
 const changePaginate = (newParams) => {
@@ -26,7 +26,7 @@ const changePaginate = (newParams) => {
 </script>
 
 <template>
-    <LayoutBoards title="Department List" class="w-full p-4">
+    <LayoutBoards title="Contribution Table" class="w-full p-4">
         <div class="pb-2 text-gray-500">
             <table class="table-auto w-full border-collapse">
                 <thead>
@@ -35,7 +35,19 @@ const changePaginate = (newParams) => {
                             #
                         </th>
                         <th class="p-2">
-                            Department Name
+                            Range From
+                        </th>
+                        <th class="p-2">
+                            Range To
+                        </th>
+                        <th class="p-2">
+                            Employer Share
+                        </th>
+                        <th class="p-2">
+                            Employee Share
+                        </th>
+                        <th hidden class="p-2">
+                            Total Contributions
                         </th>
                         <th class="p-2">
                             Actions
@@ -43,20 +55,32 @@ const changePaginate = (newParams) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(departments, index) in departmentList" :key="index" class="border">
+                    <tr v-for="(contributions, index) in contributionList" :key="index" class="border">
                         <td hidden class="border p-2">
                             {{ index + 1 }}
                         </td>
                         <td class="p-2">
-                            <span>{{ departments.department_name }}</span>
+                            <span>{{ contributions.range_from }}</span>
+                        </td>
+                        <td class="p-2">
+                            <span>{{ contributions.range_to }}</span>
+                        </td>
+                        <td class="p-2">
+                            <span>{{ contributions.employee_share }}</span>
+                        </td>
+                        <td class="p-2">
+                            <span>{{ contributions.employer_share }}</span>
+                        </td>
+                        <td hidden class="p-2">
+                            <span>{{ contributions.totalContributions }}</span>
                         </td>
                         <td class=" p-2 flex gap-2 justify-center">
-                            <button @click="setEdit(departments)">
+                            <button @click="setEdit(contributions)">
                                 <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
                             </button>
                             <button
 
-                                @click="deleteDept(departments)"
+                                @click="deleteCont(contributions)"
                             >
                                 <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" />
                             </button>

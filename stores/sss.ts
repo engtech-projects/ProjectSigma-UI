@@ -1,0 +1,138 @@
+import { defineStore } from "pinia"
+// const { data: token } = useAuth()
+const config = useRuntimeConfig()
+
+export const useContributionStore = defineStore("contributions", {
+    state: () => ({
+        isEdit: false,
+        contribution:
+    {
+        id: null,
+        range_from: null,
+        range_to: null,
+        employee_share: null,
+        employer_share: null,
+    },
+        list: [],
+        pagination: {},
+        getParams: {},
+        errorMessage: "",
+        successMessage: "",
+    }),
+    actions: {
+        async getContribution () {
+            const { data, error } = await useFetch(
+                "/api/sss",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    // headers: {
+                    //     Authorization: token.value + ""
+                    // },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.list = response._data.data.data
+                        this.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async addContribution () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useFetch(
+                "/api/sss",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "POST",
+                    // headers: {
+                    //     Authorization: token.value + ""
+                    // },d
+                    body: this.contribution,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.getContribution()
+                this.reset()
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+        clearMessages () {
+            this.errorMessage = ""
+            this.successMessage = ""
+        },
+        async editContribution () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useFetch(
+                "/api/sss/" + this.sss.id,
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "PATCH",
+                    // headers: {
+                    //     Authorization: token.value + ""
+                    // },
+                    body: this.sss,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.getContribution()
+                this.reset()
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+        async deleteContribution (id : number) {
+            const { data, error } = await useFetch(
+                "/api/sss/" + id,
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "DELETE",
+                    // headers: {
+                    //     Authorization: token.value + ""
+                    // },
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.getContribution()
+                return data
+            } else if (error.value) {
+                return error
+            }
+        },
+
+        reset () {
+            this.sss = {
+                id: null,
+                range_from: null,
+                range_to: null,
+                employee_share: null,
+                employer_share: null,
+            }
+            this.isEdit = false
+            this.successMessage = ""
+            this.errorMessage = ""
+        },
+
+    },
+})
