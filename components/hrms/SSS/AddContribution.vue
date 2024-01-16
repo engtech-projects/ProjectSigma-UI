@@ -18,11 +18,9 @@ const addRange = () => {
     <LayoutBoards title="SSS" class="w-96 p-4">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="addRange">
-                <div class="space-y-2">
-                    <label
-                        class="text-md"
-                    >Add SSS Contribution Range</label>
-                </div>
+                <label
+                    class="text-sm"
+                >Add SSS Contribution Range</label>
 
                 <div class="grid grid-cols-2 gap-2 ">
                     <div>
