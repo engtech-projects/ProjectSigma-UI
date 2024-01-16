@@ -122,7 +122,7 @@ export const useContributionStore = defineStore("contributions", {
         },
 
         reset () {
-            this.sss = {
+            this.contribution = {
                 id: null,
                 range_from: null,
                 range_to: null,
