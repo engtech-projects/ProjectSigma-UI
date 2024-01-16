@@ -19,9 +19,17 @@ const userCredentials = ref({
     password: "",
     remember: false
 })
-const login = () => {
-    signIn(userCredentials.value, { callbackUrl: "/welcome" })
+const login = async () => {
+    if (!loading.value) {
+        try {
+            loading.value = true
+            await signIn(userCredentials.value, { callbackUrl: "/welcome" })
+        } finally {
+            loading.value = false
+        }
+    }
 }
+const loading = ref(false)
 </script>
 
 <template>
@@ -104,21 +112,19 @@ const login = () => {
                                     class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >Forgot password?</a>
                             </div>
-
                             <button
+                                v-if="loading"
+                                class="w-full text-white bg-cyan-600 hover:bg-secondary-base focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            >
+                                <Icon name="mdi:loading" />
+                            </button>
+                            <button
+                                v-else
                                 type="submit"
                                 class="w-full text-white bg-cyan-600 hover:bg-secondary-base focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
                                 Sign in
                             </button>
-                            <NuxtLink
-                                hidden
-                                to="/welcome"
-                                type="submit"
-                                class="w-full text-white bg-cyan-600 hover:bg-secondary-base focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                            >
-                                Sign in
-                            </NuxtLink>
                         </form>
                     </div>
                 </div>

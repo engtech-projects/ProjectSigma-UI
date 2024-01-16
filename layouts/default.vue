@@ -1,5 +1,6 @@
 <template>
     <div class="antialiased bg-gray-50 dark:bg-gray-900">
+        <NuxtLoadingIndicator />
         <!-- Header -->
         <LayoutHeaderNav />
         <!-- Sidebar -->
