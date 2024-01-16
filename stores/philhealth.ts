@@ -2,12 +2,22 @@ import { defineStore } from "pinia"
 // const { data: token } = useAuth()
 const config = useRuntimeConfig()
 
-export const usePagibigStore = defineStore("contributions", {
+export const SHARE_AMOUNT = "Amount"
+export const SHARE_PERCENTAGE = "Percentage"
+export const SHARE_TYPES = [
+    SHARE_AMOUNT,
+    SHARE_PERCENTAGE
+]
+
+export const usePhilhealthStore = defineStore("contributions", {
     state: () => ({
         isEdit: false,
         contribution: {
             id: null,
-            employee_share: null,
+            range_from: null,
+            range_to: null,
+            share: null,
+            share_type: "",
         },
         list: [],
         pagination: {},
@@ -18,7 +28,7 @@ export const usePagibigStore = defineStore("contributions", {
     actions: {
         async getContribution () {
             const { data, error } = await useFetch(
-                "/api/pagibig",
+                "/api/philhealth",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -47,7 +57,7 @@ export const usePagibigStore = defineStore("contributions", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/pagibig",
+                "/api/philhealth",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
@@ -76,7 +86,7 @@ export const usePagibigStore = defineStore("contributions", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/pagibig/" + this.contribution.id,
+                "/api/philhealth/" + this.contribution.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
@@ -100,7 +110,7 @@ export const usePagibigStore = defineStore("contributions", {
         },
         async deleteContribution (id : number) {
             const { data, error } = await useFetch(
-                "/api/pagibig/" + id,
+                "/api/philhealth/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
@@ -123,8 +133,8 @@ export const usePagibigStore = defineStore("contributions", {
                 id: null,
                 range_from: null,
                 range_to: null,
-                employee_share: null,
-                employer_share: null,
+                share: null,
+                share_type: "",
             }
             this.isEdit = false
             this.successMessage = ""
