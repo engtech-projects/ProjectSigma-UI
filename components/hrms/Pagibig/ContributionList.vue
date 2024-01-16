@@ -24,7 +24,7 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-{ name: "Range From", id: "range_from" },
+    { name: "Range From", id: "range_from" },
     { name: "Range To", id: "range_to" },
     { name: "Employer Share", id: "employer_share" },
     { name: "Employee Name", id: "employee_share" },

@@ -5,18 +5,20 @@ import { useDepartmentStore } from "@/stores/departments"
 const departments = useDepartmentStore()
 const { department, errorMessage, successMessage } = storeToRefs(departments)
 
-const addDepartment = () => {
-    departments.createDepartment()
-
-    setTimeout(() => {
+const addDepartment = async () => {
+    try {
+        boardLoading.value = true
+        await departments.createDepartment()
+    } finally {
         departments.clearMessages()
-    }, 2000)
+        boardLoading.value = false
+    }
 }
-
+const boardLoading = ref(false)
 </script>
 
 <template>
-    <LayoutBoards title="Department Name" class="w-96 h-64 p-4">
+    <LayoutBoards title="Department Name" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="addDepartment">
                 <div class="space-y-2">
