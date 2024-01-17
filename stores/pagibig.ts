@@ -127,8 +127,9 @@ export const usePagibigStore = defineStore("contributions", {
                 id: null,
                 range_from: null,
                 range_to: null,
-                employee_share: null,
-                employer_share: null,
+                employee_share_percent: null,
+                employer_share_percent: null,
+                max_contribution: null,
             }
             this.isEdit = false
             this.successMessage = ""
