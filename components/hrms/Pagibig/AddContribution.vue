@@ -5,31 +5,66 @@ import { usePagibigStore } from "@/stores/pagibig"
 const contributions = usePagibigStore()
 const { contribution, errorMessage, successMessage } = storeToRefs(contributions)
 
-const addRange = () => {
-    contributions.addContribution()
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
 
-    setTimeout(() => {
-        contributions.clearMessages()
-    }, 2000)
+const addRange = async () => {
+    try {
+        boardLoading.value = true
+        await contributions.addContribution()
+        snackbar.add({
+            type: "success",
+            text: contributions.successMessage
+        })
+    } finally {
+        boardLoading.value = false
+        departments.clearMessages()
+    }
 }
 </script>
 
 <template>
-    <LayoutBoards title="Pag-IBIG" class="w-96 p-4">
+    <LayoutBoards title="Pag-IBIG" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="addRange">
                 <label
                     class="text-sm"
                 >Add Pag-IBIG Share</label>
+                <div class="grid grid-cols-2 gap-2 ">
+                    <div>
+                        <label
+                            for="pagibig_range_from"
+                            class="text-sm italic"
+                        >Range From</label>
+                        <input
+                            id="pagibig_range_from"
+                            v-model="contribution.range_from"
+                            type="number"
+                            class="w-full rounded-lg"
+                        >
+                    </div>
+                    <div>
+                        <label
+                            for="pagibig_range_to"
+                            class="text-sm italic"
+                        >Range To</label>
+                        <input
+                            id="pagibig_range_to"
+                            v-model="contribution.range_to"
+                            type="number"
+                            class="w-full rounded-lg"
+                        >
+                    </div>
+                </div>
                 <div>
                     <div>
                         <label
-                            for="pagibig_employee"
+                            for="pagibig_employerShare"
                             class="text-sm italic"
-                        >Employee</label>
+                        >Employeer Share Percent (%)</label>
                         <input
-                            id="pagibig_employee"
-                            v-model="contribution.range_to"
+                            id="pagibig_employerShare"
+                            v-model="contribution.employer_share_percent"
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -40,10 +75,24 @@ const addRange = () => {
                         <label
                             for="pagibig_employeeShare"
                             class="text-sm italic"
-                        >Employee Share</label>
+                        >Employee Share Percent (%)</label>
                         <input
                             id="pagibig_employeeShare"
-                            v-model="contribution.range_to"
+                            v-model="contribution.employee_share_percent"
+                            type="number"
+                            class="w-full rounded-lg"
+                        >
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <label
+                            for="pagibig_maxCont"
+                            class="text-sm italic"
+                        >Max Contribution</label>
+                        <input
+                            id="pagibig_maxCont"
+                            v-model="contribution.max_contribution"
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -59,11 +108,12 @@ const addRange = () => {
                     </button>
                 </div>
             </form>
-            <p class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+            <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
                 {{ errorMessage }}
             </p>
             <p
                 v-show="successMessage"
+                hidden
                 class="success-message text-green-600 text-center font-semibold italic"
             >
                 {{ successMessage }}
@@ -71,14 +121,15 @@ const addRange = () => {
         </div>
     </LayoutBoards>
 </template>
-
 <style scoped>
 .error-message,
 .success-message {
-    transition: opacity 0.5s ease-out;
+    transition: opacity 1s ease;
 }
 
-.fade-out {
+.error-message.fade-out,
+.success-message.fade-out {
+    animation-duration: 1s;
     opacity: 0;
 }
 </style>

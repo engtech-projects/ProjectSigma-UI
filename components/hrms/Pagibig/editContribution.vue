@@ -5,24 +5,41 @@ import { usePagibigStore } from "@/stores/pagibig"
 const contributions = usePagibigStore()
 const { contribution, errorMessage, successMessage } = storeToRefs(contributions)
 
-const editCont = () => {
-    contributions.editContribution()
-}
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
 
 const cancelEdit = () => {
     contributions.reset()
+}
+const editCont = async () => {
+    try {
+        boardLoading.value = true
+        await contributions.editContribution()
+        snackbar.add({
+            type: "success",
+            text: contributions.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: contributions.errorMessage || "something went wrong."
+        })
+    } finally {
+        contributions.clearMessages()
+        boardLoading.value = false
+    }
 }
 
 </script>
 
 <template>
-    <LayoutEditBoards title="Edit Contribution" class="w-96 p-4">
+    <LayoutEditBoards title="Edit Contribution" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="editCont">
                 <div class="space-y-2">
                     <label
                         class="text-md italic"
-                    >New SSS Contribution Range</label>
+                    >Edit Contribution Range</label>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2 ">
@@ -54,38 +71,40 @@ const cancelEdit = () => {
                 <div>
                     <div>
                         <label
-                            for="employerShare"
+                            for="pagibig_employerShare"
                             class="text-sm italic"
-                        >Employer Share</label>
+                        >Employeer Share Percent (%)</label>
                         <input
-                            id="employerShare"
-                            v-model="contribution.employee_share"
+                            id="pagibig_employerShare"
+                            v-model="contribution.employer_share_percent"
                             type="number"
                             class="w-full rounded-lg"
                         >
                     </div>
+                </div>
+                <div>
                     <div>
                         <label
-                            for="employeeShare"
+                            for="pagibig_employeeShare"
                             class="text-sm italic"
-                        >Employer Share</label>
+                        >Employee Share Percent (%)</label>
                         <input
-                            id="employeeShare"
-                            v-model="contribution.employer_share"
+                            id="pagibig_employeeShare"
+                            v-model="contribution.employee_share_percent"
                             type="number"
                             class="w-full rounded-lg"
                         >
                     </div>
+                </div>
+                <div>
                     <div>
                         <label
-                            for="totalContributions"
+                            for="pagibig_maxCont"
                             class="text-sm italic"
-                        >Total Contributions</label>
+                        >Max Contribution</label>
                         <input
-                            id="totalContributions"
-                            :value="contribution.employer_share + contribution.employee_share"
-                            disabled
-                            readonly
+                            id="pagibig_maxCont"
+                            v-model="contribution.max_contribution"
                             type="number"
                             class="w-full rounded-lg"
                         >

@@ -26,8 +26,9 @@ const changePaginate = (newParams) => {
 const headers = [
     { name: "Range From", id: "range_from" },
     { name: "Range To", id: "range_to" },
-    { name: "Employer Share", id: "employer_share" },
-    { name: "Employee Name", id: "employee_share" },
+    { name: "Employer Share %", id: "employer_share_percent" },
+    { name: "Employee Share %", id: "employee_share_percent" },
+    { name: "Max Contribution", id: "max_contribution" },
 ]
 const actions = {
     edit: true,
@@ -37,7 +38,7 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="Department List" class="w-full p-4">
+    <LayoutBoards title="Department List" class="w-full">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="contributionList" :actions="actions" @edit-row="setEdit" @delte-row="deleteCont" />
         </div>
