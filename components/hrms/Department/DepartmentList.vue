@@ -35,7 +35,7 @@ const actions = {
 <template>
     <LayoutBoards title="Department List" class="w-full p-4">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="departmentList" :actions="actions" @edit-row="setEdit" @delte-row="deleteDept" />
+            <LayoutPsTable :header-columns="headers" :datas="departmentList" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />

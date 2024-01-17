@@ -1,22 +1,40 @@
 <script setup>
 import { storeToRefs } from "pinia"
+import { useSnackbar } from "vue3-snackbar"
 import { useDepartmentStore } from "@/stores/departments"
 
 const departments = useDepartmentStore()
 const { department, errorMessage, successMessage } = storeToRefs(departments)
 
-const editDepartment = () => {
-    departments.editDepartmentName()
-}
+const snackbar = useSnackbar()
 
 const cancelEdit = () => {
     departments.reset()
 }
+const editDepartment = async () => {
+    try {
+        boardLoading.value = true
+        await departments.editDepartmentName()
+        snackbar.add({
+            type: "success",
+            text: departments.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: departments.errorMessage || "something went wrong."
+        })
+    } finally {
+        departments.clearMessages()
+        boardLoading.value = false
+    }
+}
+const boardLoading = ref(false)
 
 </script>
 
 <template>
-    <LayoutEditBoards title="Edit Department" class="w-96 h-52 p-4">
+    <LayoutEditBoards title="Edit Department" class="w-96 p-4">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="editDepartment">
                 <div class="space-y-2">
@@ -49,15 +67,28 @@ const cancelEdit = () => {
                     </button>
                 </div>
             </form>
-            <p class="text-red-600 text-center font-semibold">
+            <p class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
                 {{ errorMessage }}
             </p>
             <p
                 v-show="successMessage"
-                class="text-green-600 text-center font-semibold"
+                class="success-message text-green-600 text-center font-semibold italic transition-opacity delay-1000"
             >
                 {{ successMessage }}
             </p>
         </div>
     </LayoutEditBoards>
 </template>
+
+<style scoped>
+.error-message,
+.success-message {
+    transition: opacity 1s ease;
+}
+
+.error-message.fade-out,
+.success-message.fade-out {
+    animation-duration: 1s;
+    opacity: 0;
+}
+</style>

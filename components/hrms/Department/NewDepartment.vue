@@ -5,41 +5,51 @@ import { useDepartmentStore } from "@/stores/departments"
 const departments = useDepartmentStore()
 const { department, errorMessage, successMessage } = storeToRefs(departments)
 
+const snackbar = useSnackbar()
 const addDepartment = async () => {
     try {
         boardLoading.value = true
         await departments.createDepartment()
+        snackbar.add({
+            type: "success",
+            text: departments.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: departments.errorMessage || "something went wrong."
+        })
     } finally {
         departments.clearMessages()
         boardLoading.value = false
     }
 }
+
 const boardLoading = ref(false)
+
 </script>
 
 <template>
-    <LayoutBoards title="Department Name" :loading="boardLoading">
-        <div class="text-gray-500 mt-2">
+    <LayoutBoards title="Department Name" class="w-96 p-4" :loading="boardLoading">
+        <div class="text-gray-500">
             <form @submit.prevent="addDepartment">
-                <div class="space-y-2">
-                    <label
-                        for="department_name"
-                        class="text-xs italic"
-                    >Department Name</label>
-                    <input
-                        id="departmentName"
-                        v-model="department.department_name"
-                        type="text"
-                        class="w-full rounded-lg"
-                    >
-                </div>
+                <label
+                    for="department_name"
+                    class="text-xs italic"
+                >Department Name</label>
+                <input
+                    id="departmentName"
+                    v-model="department.department_name"
+                    type="text"
+                    class="w-full rounded-lg"
+                >
 
                 <div class="flex justify-end">
                     <button
                         type="submit"
                         class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
                     >
-                        <Icon name="mingcute:department-fill" class="mr-2" />Add Department
+                        Add Department
                     </button>
                 </div>
             </form>
@@ -48,7 +58,7 @@ const boardLoading = ref(false)
             </p>
             <p
                 v-show="successMessage"
-                class="success-message text-green-600 text-center font-semibold italic"
+                class="success-message text-green-600 text-center font-semibold italic transition-opacity delay-1000"
             >
                 {{ successMessage }}
             </p>
@@ -59,10 +69,12 @@ const boardLoading = ref(false)
 <style scoped>
 .error-message,
 .success-message {
-    transition: opacity 0.5s ease-out;
+    transition: opacity 1s ease;
 }
 
-.fade-out {
+.error-message.fade-out,
+.success-message.fade-out {
+    animation-duration: 1s;
     opacity: 0;
 }
 </style>

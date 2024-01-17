@@ -24,6 +24,7 @@ export default defineNuxtConfig({
         ],
         "@pinia-plugin-persistedstate/nuxt",
         "@sidebase/nuxt-auth",
+        "nuxt-snackbar",
     ],
 
     imports: {
@@ -56,6 +57,11 @@ export default defineNuxtConfig({
             enableRefreshPeriodically: false,
         },
 
+    },
+    snackbar: {
+        bottom: false,
+        right: true,
+        duration: 5000,
     },
 
     runtimeConfig: {

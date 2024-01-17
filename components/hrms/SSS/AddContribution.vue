@@ -12,11 +12,12 @@ const addRange = () => {
         contributions.clearMessages()
     }, 2000)
 }
+
 </script>
 
 <template>
     <LayoutBoards title="SSS" class="w-96 p-4">
-        <div class="text-gray-500 mt-2">
+        <div class="text-gray-500">
             <form @submit.prevent="addRange">
                 <label
                     class="text-sm"
@@ -31,6 +32,7 @@ const addRange = () => {
                         <input
                             id="rangeFrom"
                             v-model="contribution.range_from"
+                            required
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -57,6 +59,7 @@ const addRange = () => {
                         <input
                             id="employerShare"
                             v-model="contribution.employer_share"
+                            required
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -65,10 +68,11 @@ const addRange = () => {
                         <label
                             for="employeeShare"
                             class="text-sm italic"
-                        >Employer Share</label>
+                        >Employee Share</label>
                         <input
                             id="employeeShare"
                             v-model="contribution.employee_share"
+                            required
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -100,12 +104,13 @@ const addRange = () => {
                     </button>
                 </div>
             </form>
+
             <p class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
                 {{ errorMessage }}
             </p>
             <p
                 v-show="successMessage"
-                class="success-message text-green-600 text-center font-semibold italic"
+                class="success-message text-green-600 text-center font-semibold italic transition-opacity delay-1000"
             >
                 {{ successMessage }}
             </p>
@@ -116,10 +121,12 @@ const addRange = () => {
 <style scoped>
 .error-message,
 .success-message {
-    transition: opacity 0.5s ease-out;
+    transition: opacity 1s ease;
 }
 
-.fade-out {
+.error-message.fade-out,
+.success-message.fade-out {
+    animation-duration: 1s;
     opacity: 0;
 }
 </style>
