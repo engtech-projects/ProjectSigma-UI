@@ -7,7 +7,11 @@ export const usePagibigStore = defineStore("contributions", {
         isEdit: false,
         contribution: {
             id: null,
-            employee_share: null,
+            range_from: null,
+            range_to: null,
+            employee_share_percent: null,
+            employer_share_percent: null,
+            max_contribution: null,
         },
         list: [],
         pagination: {},
