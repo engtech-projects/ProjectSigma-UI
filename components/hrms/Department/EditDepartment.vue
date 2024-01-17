@@ -1,12 +1,12 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useSnackbar } from "vue3-snackbar"
 import { useDepartmentStore } from "@/stores/departments"
 
 const departments = useDepartmentStore()
 const { department, errorMessage, successMessage } = storeToRefs(departments)
 
 const snackbar = useSnackbar()
+const boardLoading = ref(false)
 
 const cancelEdit = () => {
     departments.reset()
@@ -29,12 +29,11 @@ const editDepartment = async () => {
         boardLoading.value = false
     }
 }
-const boardLoading = ref(false)
 
 </script>
 
 <template>
-    <LayoutEditBoards title="Edit Department" class="w-96 p-4">
+    <LayoutEditBoards title="Edit Department" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="editDepartment">
                 <div class="space-y-2">

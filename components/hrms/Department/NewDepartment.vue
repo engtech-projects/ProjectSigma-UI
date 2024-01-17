@@ -6,6 +6,8 @@ const departments = useDepartmentStore()
 const { department, errorMessage, successMessage } = storeToRefs(departments)
 
 const snackbar = useSnackbar()
+const boardLoading = ref(false)
+
 const addDepartment = async () => {
     try {
         boardLoading.value = true
@@ -17,7 +19,7 @@ const addDepartment = async () => {
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: departments.errorMessage || "something went wrong."
+            text: departments.errorMessage
         })
     } finally {
         departments.clearMessages()
@@ -25,12 +27,10 @@ const addDepartment = async () => {
     }
 }
 
-const boardLoading = ref(false)
-
 </script>
 
 <template>
-    <LayoutBoards title="Department Name" class="w-96 p-4" :loading="boardLoading">
+    <LayoutBoards title="Department Name" :loading="boardLoading">
         <div class="text-gray-500">
             <form @submit.prevent="addDepartment">
                 <label
