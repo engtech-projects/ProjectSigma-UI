@@ -2,22 +2,30 @@ import { defineStore } from "pinia"
 // const { data: token } = useAuth()
 const config = useRuntimeConfig()
 
-export const SHARE_AMOUNT = "Amount"
-export const SHARE_PERCENTAGE = "Percentage"
-export const SHARE_TYPES = [
-    SHARE_AMOUNT,
-    SHARE_PERCENTAGE
+export const EMPLOYMENT_PROBATIONARY = "Probationary"
+export const EMPLOYMENT_REGULAR = "Regular/FullTime"
+export const EMPLOYMENT_PARTTIME = "Part Time"
+export const EMPLOYMENT_PROJECTBASED = "Project Based"
+export const EMPLOYMENT_CONTRACTUAL = "Contractual"
+export const EMPLOYMENT_TYPE = [
+    EMPLOYMENT_PROBATIONARY,
+    EMPLOYMENT_REGULAR,
+    EMPLOYMENT_PARTTIME,
+    EMPLOYMENT_PROJECTBASED,
+    EMPLOYMENT_CONTRACTUAL
 ]
 
-export const usePhilhealthStore = defineStore("contributions", {
+export const useLeaveStore = defineStore("leaves", {
     state: () => ({
         isEdit: false,
-        contribution: {
+        leave:
+        {
             id: null,
-            range_from: null,
-            range_to: null,
-            share: null,
-            share_type: "",
+            leave_name: null,
+            amt_of_leave: null,
+            employment_type: {
+                data: []
+            },
         },
         list: [],
         pagination: {},
@@ -26,9 +34,9 @@ export const usePhilhealthStore = defineStore("contributions", {
         successMessage: "",
     }),
     actions: {
-        async getContribution () {
+        async getLeave () {
             const { data, error } = await useFetch(
-                "/api/philhealth",
+                "/api/leave",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -53,23 +61,23 @@ export const usePhilhealthStore = defineStore("contributions", {
             }
         },
 
-        async addContribution () {
+        async createLeave () {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/philhealth",
+                "/api/leave",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
                     // headers: {
                     //     Authorization: token.value + ""
-                    // },d
-                    body: this.contribution,
+                    // },
+                    body: this.leave,
                     watch: false,
                 }
             )
             if (data.value) {
-                this.getContribution()
+                this.getLeave()
                 this.reset()
                 this.successMessage = data.value.message
                 return data
@@ -82,26 +90,23 @@ export const usePhilhealthStore = defineStore("contributions", {
             this.errorMessage = ""
             this.successMessage = ""
         },
-        async editContribution () {
+        async editLeaves () {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/philhealth/" + this.contribution.id,
+                "/api/leave/" + this.leave.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
                     // headers: {
                     //     Authorization: token.value + ""
                     // },
-                    body: this.contribution,
+                    body: this.leave,
                     watch: false,
-                    onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
-                    },
                 }
             )
             if (data.value) {
-                this.getContribution()
+                this.getLeave()
                 this.reset()
                 this.successMessage = data.value.message
                 return data
@@ -110,9 +115,9 @@ export const usePhilhealthStore = defineStore("contributions", {
                 return error
             }
         },
-        async deleteContribution (id : number) {
+        async deleteLeave (id : number) {
             const { data, error } = await useFetch(
-                "/api/philhealth/" + id,
+                "/api/leave/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
@@ -123,7 +128,7 @@ export const usePhilhealthStore = defineStore("contributions", {
                 }
             )
             if (data.value) {
-                this.getContribution()
+                this.getLeave()
                 return data
             } else if (error.value) {
                 return error
@@ -131,12 +136,13 @@ export const usePhilhealthStore = defineStore("contributions", {
         },
 
         reset () {
-            this.contribution = {
+            this.leave = {
                 id: null,
-                range_from: null,
-                range_to: null,
-                share: null,
-                share_type: "",
+                leave_name: null,
+                amt_of_leave: null,
+                employment_type: {
+                    data: [],
+                },
             }
             this.isEdit = false
             this.successMessage = ""

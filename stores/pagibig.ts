@@ -89,16 +89,15 @@ export const usePagibigStore = defineStore("contributions", {
                     // },
                     body: this.contribution,
                     watch: false,
-                    onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
-                    },
                 }
             )
-            if (data) {
+            if (data.value) {
                 this.getContribution()
                 this.reset()
+                this.successMessage = data.value.message
                 return data
-            } else if (error) {
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
                 return error
             }
         },
