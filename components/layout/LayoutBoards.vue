@@ -1,7 +1,11 @@
 <template>
     <div class="relative">
-        <div v-if="loading" class="absolute bg-slate-400/50 rounded-lg w-full h-full flex items-center justify-center">
-            Loading...
+        <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+            <img
+                class="flex justify-center w-28 rounded-md"
+                src="/loader.gif"
+                alt="logo"
+            >
         </div>
         <div
             class=" w-full h-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700"
