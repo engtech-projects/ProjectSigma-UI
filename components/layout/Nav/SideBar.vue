@@ -240,7 +240,13 @@
         <LayoutNavModuleGroup
             id="dropdown-projectmonitoring-main"
             title="Project Monitoring"
-        />
+        >
+            <LayoutNavSingle
+                linkarea="/project-monitoring/projects"
+                icon="material-symbols:business-center"
+                single-nav-title="Project"
+            />
+        </LayoutNavModuleGroup>
     </ul>
 </template>
 
