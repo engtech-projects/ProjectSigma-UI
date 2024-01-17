@@ -127,11 +127,12 @@ const editCont = async () => {
                     </button>
                 </div>
             </form>
-            <p class="text-red-600 text-center font-semibold">
+            <p hidden class="text-red-600 text-center font-semibold">
                 {{ errorMessage }}
             </p>
             <p
                 v-show="successMessage"
+                hidden
                 class="text-green-600 text-center font-semibold"
             >
                 {{ successMessage }}

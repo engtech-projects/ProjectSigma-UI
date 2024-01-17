@@ -53,11 +53,12 @@ const addDepartment = async () => {
                     </button>
                 </div>
             </form>
-            <p class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+            <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
                 {{ errorMessage }}
             </p>
             <p
                 v-show="successMessage"
+                hidden
                 class="success-message text-green-600 text-center font-semibold italic transition-opacity delay-1000"
             >
                 {{ successMessage }}
