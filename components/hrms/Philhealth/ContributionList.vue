@@ -37,9 +37,9 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="Contribution Table" class="w-full p-4">
+    <LayoutBoards title="Contribution Table" class="w-full">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="contributionList" :actions="actions" @edit-row="setEdit" @delte-row="deleteCont" />
+            <LayoutPsTable :header-columns="headers" :datas="contributionList" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />

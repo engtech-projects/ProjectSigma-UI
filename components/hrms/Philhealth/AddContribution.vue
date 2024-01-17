@@ -5,17 +5,26 @@ import { usePhilhealthStore, SHARE_TYPES } from "@/stores/philhealth"
 const contributions = usePhilhealthStore()
 const { contribution, errorMessage, successMessage } = storeToRefs(contributions)
 
-const addRange = () => {
-    contributions.addContribution()
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
 
-    setTimeout(() => {
-        contributions.clearMessages()
-    }, 2000)
+const addRange = async () => {
+    try {
+        boardLoading.value = true
+        await contributions.addContribution()
+        snackbar.add({
+            type: "success",
+            text: contributions.successMessage
+        })
+    } finally {
+        boardLoading.value = false
+        departments.clearMessages()
+    }
 }
 </script>
 
 <template>
-    <LayoutBoards title="PhilHealth" class="w-96 p-4">
+    <LayoutBoards title="PhilHealth" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="addRange">
                 <label
