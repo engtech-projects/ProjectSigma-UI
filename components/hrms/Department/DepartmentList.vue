@@ -31,10 +31,12 @@ const actions = {
     delete: true
 }
 
+const boardLoading = ref(false)
+
 </script>
 
 <template>
-    <LayoutBoards title="Department List" class="w-full">
+    <LayoutBoards title="Department List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="departmentList" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
         </div>

@@ -101,59 +101,6 @@
                 icon="material-symbols:construction"
                 single-nav-title="Project"
             />
-            <LayoutNavGroup icon="ion:ios-people" title="Setup">
-                <LayoutNavSingle
-                    linkarea="/hrms/setup/useraccounts"
-                    icon="ic:round-manage-accounts"
-                    single-nav-title="User Accounts"
-                />
-                <LayoutNavSingle
-                    linkarea="/hrms/setup/department"
-                    icon="ic:round-meeting-room"
-                    single-nav-title="Department"
-                />
-                <LayoutNavSingle
-                    linkarea="/hrms/setup/approvals"
-                    icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Approvals"
-                />
-                <LayoutNavSingle
-                    class="hidden"
-                    linkarea="/hrms/setup/division"
-                    icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Division"
-                />
-                <LayoutNavSingle
-                    linkarea="/hrms/setup/hmo"
-                    icon="ic:baseline-health-and-safety"
-                    single-nav-title="HMO"
-                />
-                <LayoutNavSingle
-                    linkarea="/hrms/setup/philhealth"
-                    icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Philhealth"
-                />
-                <LayoutNavSingle
-                    linkarea="/hrms/setup/pag-ibig"
-                    icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Pag-Ibig"
-                />
-                <LayoutNavSingle
-                    linkarea="/hrms/setup/sss"
-                    icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="SSS"
-                />
-                <LayoutNavSingle
-                    linkarea="/hrms/setup/wtax"
-                    icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Withholding Tax"
-                />
-                <LayoutNavSingle
-                    linkarea="/hrms/setup/leaves"
-                    icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Leaves"
-                />
-            </LayoutNavGroup>
             <LayoutNavSingle
                 linkarea="/hrms/leave"
                 icon="fluent-mdl2:leave-user"
@@ -223,6 +170,59 @@
                     linkarea="/hrms/schedule/project"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Project Schedule"
+                />
+            </LayoutNavGroup>
+            <LayoutNavGroup icon="ion:ios-people" title="Setup">
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/useraccounts"
+                    icon="ic:round-manage-accounts"
+                    single-nav-title="User Accounts"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/department"
+                    icon="ic:round-meeting-room"
+                    single-nav-title="Department"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/approvals"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Approvals"
+                />
+                <LayoutNavSingle
+                    class="hidden"
+                    linkarea="/hrms/setup/division"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Division"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/hmo"
+                    icon="ic:baseline-health-and-safety"
+                    single-nav-title="HMO"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/philhealth"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Philhealth"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/pag-ibig"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Pag-Ibig"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/sss"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="SSS"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/wtax"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Withholding Tax"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/leaves"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Leaves"
                 />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
