@@ -41,7 +41,7 @@ const addRange = () => {
                             class="text-sm italic"
                         >Range To</label>
                         <input
-                            id="rangeFrom"
+                            id="rangeTo"
                             v-model="contribution.range_to"
                             type="number"
                             class="w-full rounded-lg"
