@@ -5,18 +5,27 @@ import { useContributionStore } from "@/stores/sss"
 const contributions = useContributionStore()
 const { contribution, errorMessage, successMessage } = storeToRefs(contributions)
 
-const addRange = () => {
-    contributions.addContribution()
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
 
-    setTimeout(() => {
-        contributions.clearMessages()
-    }, 2000)
+const addRange = async () => {
+    try {
+        boardLoading.value = true
+        await contributions.addContribution()
+        snackbar.add({
+            type: "success",
+            text: contributions.successMessage
+        })
+    } finally {
+        boardLoading.value = false
+        departments.clearMessages()
+    }
 }
 
 </script>
 
 <template>
-    <LayoutBoards title="SSS" class="w-96 p-4">
+    <LayoutBoards title="SSS" :loading="boardLoading">
         <div class="text-gray-500">
             <form @submit.prevent="addRange">
                 <label
@@ -104,13 +113,13 @@ const addRange = () => {
                     </button>
                 </div>
             </form>
-
-            <p class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+            <p hidden class=" text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
                 {{ errorMessage }}
             </p>
             <p
                 v-show="successMessage"
-                class="success-message text-green-600 text-center font-semibold italic transition-opacity delay-1000"
+                hidden
+                class=" text-green-600 text-center font-semibold italic transition-opacity delay-1000"
             >
                 {{ successMessage }}
             </p>

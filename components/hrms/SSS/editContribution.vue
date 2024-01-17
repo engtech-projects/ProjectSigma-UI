@@ -5,24 +5,41 @@ import { useContributionStore } from "@/stores/sss"
 const contributions = useContributionStore()
 const { contribution, errorMessage, successMessage } = storeToRefs(contributions)
 
-const editCont = () => {
-    contributions.editContribution()
-}
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
 
 const cancelEdit = () => {
     contributions.reset()
+}
+const editCont = async () => {
+    try {
+        boardLoading.value = true
+        await contributions.editContribution()
+        snackbar.add({
+            type: "success",
+            text: contributions.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: contributions.errorMessage || "something went wrong."
+        })
+    } finally {
+        contributions.clearMessages()
+        boardLoading.value = false
+    }
 }
 
 </script>
 
 <template>
-    <LayoutEditBoards title="Edit Contribution" class="w-96 p-4">
+    <LayoutEditBoards title="Edit Contribution" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="editCont">
                 <div class="space-y-2">
                     <label
                         class="text-md italic"
-                    >New SSS Contribution Range</label>
+                    >Edit Contribution Range</label>
                 </div>
 
                 <div class="grid grid-cols-2 gap-2 ">
@@ -59,7 +76,8 @@ const cancelEdit = () => {
                         >Employer Share</label>
                         <input
                             id="employerShare"
-                            v-model="contribution.employee_share"
+                            v-model="contribution.employer_share"
+                            required
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -68,10 +86,11 @@ const cancelEdit = () => {
                         <label
                             for="employeeShare"
                             class="text-sm italic"
-                        >Employer Share</label>
+                        >Employee Share</label>
                         <input
                             id="employeeShare"
-                            v-model="contribution.employer_share"
+                            v-model="contribution.employee_share"
+                            required
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -80,7 +99,9 @@ const cancelEdit = () => {
                         <label
                             for="totalContributions"
                             class="text-sm italic"
-                        >Total Contributions</label>
+                        >
+                            Total Contributions
+                        </label>
                         <input
                             id="totalContributions"
                             :value="contribution.employer_share + contribution.employee_share"
