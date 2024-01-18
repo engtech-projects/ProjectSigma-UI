@@ -5,16 +5,27 @@ import { useLeaveStore } from "@/stores/leaves"
 const leaves = useLeaveStore()
 leaves.getLeave()
 
-const { list: leaveList, isEdit, leave, getParams, pagination } = storeToRefs(leaves)
+const { list: leaveList, isEdit, leave, getParams, pagination, errorMessage, successMessage } = storeToRefs(leaves)
 
+const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const setEdit = (lv) => {
     isEdit.value = true
     leave.value = lv
 }
-const deleteLeaves = (lv) => {
-    leaves.deleteLeave(lv.id)
+
+const deleteLeaves = async (lv) => {
+    try {
+        boardLoading.value = true
+        await leaves.deleteLeave(lv.id)
+        snackbar.add({
+            type: "success",
+            text: leaves.successMessage
+        })
+    } finally {
+        boardLoading.value = false
+    }
 }
 
 const changePaginate = (newParams) => {
@@ -44,5 +55,15 @@ const actions = {
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
+        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+            {{ errorMessage }}
+        </p>
+        <p
+            v-show="successMessage"
+            hidden
+            class="success-message text-green-600 text-center font-semibold italic"
+        >
+            {{ successMessage }}
+        </p>
     </LayoutBoards>
 </template>
