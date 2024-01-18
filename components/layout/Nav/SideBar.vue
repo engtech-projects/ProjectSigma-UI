@@ -1,26 +1,29 @@
+<script setup>
+const config = useRuntimeConfig()
+</script>
+
 <template>
     <ul class="space-y-2">
-        <!-- <NuxtLink to="/welcome" class="flex justify-center border border-slate-200 rounded p-2">
-      Dashboard
-    </NuxtLink> -->
         <LayoutNavSingle
-            linkarea="/welcome"
+            linkarea="/dashboard"
             icon="ic:baseline-space-dashboard"
             single-nav-title="Dashboard"
         />
         <!-- HRMS -->
         <LayoutNavModuleGroup title="hrms">
             <LayoutNavSingle
+                v-if="config.public.APP_ENV"
                 linkarea="/hrms"
                 icon="ic:round-dashboard"
                 single-nav-title="HRMS Dashboard"
             />
             <LayoutNavSingle
+                v-if="config.public.APP_ENV"
                 linkarea="/hrms/announcement"
                 icon="ic:outline-announcement"
                 single-nav-title="Announcement"
             />
-            <LayoutNavGroup icon="ic:outline-punch-clock" title="Attendance">
+            <LayoutNavGroup v-if="config.public.APP_ENV" icon="ic:outline-punch-clock" title="Attendance">
                 <LayoutNavSingle
                     linkarea="/hrms/attendance/portal"
                     icon="ic:baseline-web"
@@ -60,11 +63,12 @@
                 </LayoutNavGroup> -->
             </LayoutNavGroup>
             <LayoutNavSingle
+                v-if="config.public.APP_ENV"
                 linkarea="/hrms/calendar"
                 icon="ic:round-calendar-month"
                 single-nav-title="Event Calendar"
             />
-            <LayoutNavGroup icon="ic:baseline-people-outline" title="Employee">
+            <LayoutNavGroup v-if="config.public.APP_ENV" icon="ic:baseline-people-outline" title="Employee">
                 <!-- hide true-->
                 <LayoutNavSingle
                     class="hidden"
@@ -96,17 +100,18 @@
             <!-- hide true-->
 
             <LayoutNavSingle
-                class="hidden"
+                v-if="config.public.APP_ENV"
                 linkarea="/hrms/project"
                 icon="material-symbols:construction"
                 single-nav-title="Project"
             />
             <LayoutNavSingle
+                v-if="config.public.APP_ENV"
                 linkarea="/hrms/leave"
                 icon="fluent-mdl2:leave-user"
                 single-nav-title="Leave"
             />
-            <LayoutNavGroup icon="mdi:cash" title="Loans and Advances">
+            <LayoutNavGroup v-if="config.public.APP_ENV" icon="mdi:cash" title="Loans and Advances">
                 <LayoutNavSingle
                     linkarea="/hrms/loans/cashadvance"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -124,11 +129,12 @@
                 />
             </LayoutNavGroup>
             <LayoutNavSingle
+                v-if="config.public.APP_ENV"
                 linkarea="/hrms/overtime"
                 icon="mingcute:time-line"
                 single-nav-title="Overtime"
             />
-            <LayoutNavGroup icon="ion:ios-people" title="Payroll">
+            <LayoutNavGroup v-if="config.public.APP_ENV" icon="ion:ios-people" title="Payroll">
                 <LayoutNavSingle
                     linkarea="/hrms/payroll/generatepayroll"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -151,11 +157,12 @@
                 />
             </LayoutNavGroup>
             <LayoutNavSingle
+                v-if="config.public.APP_ENV"
                 linkarea="/hrms/reports"
                 icon="ic:sharp-add-chart"
                 single-nav-title="Reports"
             />
-            <LayoutNavGroup icon="uim:schedule" title="Schedule">
+            <LayoutNavGroup v-if="config.public.APP_ENV" icon="uim:schedule" title="Schedule">
                 <LayoutNavSingle
                     linkarea="/hrms/schedule/department"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -174,6 +181,7 @@
             </LayoutNavGroup>
             <LayoutNavGroup icon="ion:ios-people" title="Setup">
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV"
                     linkarea="/hrms/setup/useraccounts"
                     icon="ic:round-manage-accounts"
                     single-nav-title="User Accounts"
@@ -184,17 +192,19 @@
                     single-nav-title="Department"
                 />
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV"
                     linkarea="/hrms/setup/approvals"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Approvals"
                 />
                 <LayoutNavSingle
-                    class="hidden"
+                    v-if="config.public.APP_ENV"
                     linkarea="/hrms/setup/division"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Division"
                 />
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV"
                     linkarea="/hrms/setup/hmo"
                     icon="ic:baseline-health-and-safety"
                     single-nav-title="HMO"
@@ -229,19 +239,26 @@
 
         <!-- Inventory / Warehouse -->
         <LayoutNavModuleGroup
+            v-if="config.public.APP_ENV"
             id="dropdown-inventorywarehouse-main"
             title="Inventory / Warehouse"
         />
 
         <!-- Accounting -->
-        <LayoutNavModuleGroup id="dropdown-accounting-main" title="Accounting" />
+        <LayoutNavModuleGroup
+            v-if="config.public.APP_ENV"
+            id="dropdown-accounting-main"
+            title="Accounting"
+        />
 
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup
+            v-if="config.public.APP_ENV"
             id="dropdown-projectmonitoring-main"
             title="Project Monitoring"
         >
             <LayoutNavSingle
+                v-if="config.public.APP_ENV"
                 linkarea="/project-monitoring/projects"
                 icon="material-symbols:business-center"
                 single-nav-title="Project"

@@ -71,6 +71,7 @@ export default defineNuxtConfig({
             ACCOUNTING_API_URL: process.env.ACCOUNTING_API_URL,
             INVENTORY_API_URL: process.env.INVENTORY_API_URL,
             PROJECT_API_URL: process.env.PROJECT_API_URL,
+            APP_ENV: process.env.APP_ENV || "production",
         }
     },
 

@@ -23,7 +23,7 @@ const login = async () => {
     if (!loading.value) {
         try {
             loading.value = true
-            await signIn(userCredentials.value, { callbackUrl: "/welcome" })
+            await signIn(userCredentials.value, { callbackUrl: "/dashboard" })
         } finally {
             loading.value = false
         }

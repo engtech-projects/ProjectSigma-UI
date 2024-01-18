@@ -32,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # NUXT_APP_BASE_URL: '/staging-ProjectSigma_UI'
+      APP_ENV: 'local'
       HRMS_API_URL: 'https://projectsigma-hrmsapi-staging.engtechglobalsolutions.com'
       ACCOUNTING_API_URL: 'https://projectsigma-accountingapi-staging.engtechglobalsolutions.com'
       INVENTORY_API_URL: 'https://projectsigma-inventoryapi-staging.engtechglobalsolutions.com'
