@@ -14,11 +14,11 @@ const edit = async () => {
         await withholdings.editWithholdings()
         snackbar.add({
             type: "success",
-            text: leaves.successMessage
+            text: withholdings.successMessage
         })
     } finally {
         boardLoading.value = false
-        leaves.clearMessages()
+        withholdings.clearMessages()
     }
 }
 

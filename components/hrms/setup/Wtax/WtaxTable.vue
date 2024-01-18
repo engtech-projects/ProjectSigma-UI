@@ -40,7 +40,7 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="Leave List" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="Withholding Table" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="withholdingList" :actions="actions" @edit-row="setEdit" @delete-row="deleteWtax" />
         </div>

@@ -4,7 +4,7 @@ definePageMeta({
     layout: "guest",
     auth: {
         unauthenticatedOnly: true,
-        navigateAuthenticatedTo: "/welcome",
+        navigateAuthenticatedTo: "/dashboard",
     },
 })
 useHead({

@@ -14,11 +14,11 @@ const addWtax = async () => {
         await withholdings.addWithholding()
         snackbar.add({
             type: "success",
-            text: leaves.successMessage
+            text: withholdings.successMessage
         })
     } finally {
         boardLoading.value = false
-        leaves.clearMessages()
+        withholdings.clearMessages()
     }
 }
 
