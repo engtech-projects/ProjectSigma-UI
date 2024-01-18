@@ -12,18 +12,18 @@ const config = useRuntimeConfig()
         <!-- HRMS -->
         <LayoutNavModuleGroup title="hrms">
             <LayoutNavSingle
-                v-if="config.public.APP_ENV"
+                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms"
                 icon="ic:round-dashboard"
                 single-nav-title="HRMS Dashboard"
             />
             <LayoutNavSingle
-                v-if="config.public.APP_ENV"
+                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/announcement"
                 icon="ic:outline-announcement"
                 single-nav-title="Announcement"
             />
-            <LayoutNavGroup v-if="config.public.APP_ENV" icon="ic:outline-punch-clock" title="Attendance">
+            <LayoutNavGroup v-if="config.public.APP_ENV == 'local'" icon="ic:outline-punch-clock" title="Attendance">
                 <LayoutNavSingle
                     linkarea="/hrms/attendance/portal"
                     icon="ic:baseline-web"
@@ -63,12 +63,12 @@ const config = useRuntimeConfig()
                 </LayoutNavGroup> -->
             </LayoutNavGroup>
             <LayoutNavSingle
-                v-if="config.public.APP_ENV"
+                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/calendar"
                 icon="ic:round-calendar-month"
                 single-nav-title="Event Calendar"
             />
-            <LayoutNavGroup v-if="config.public.APP_ENV" icon="ic:baseline-people-outline" title="Employee">
+            <LayoutNavGroup v-if="config.public.APP_ENV == 'local'" icon="ic:baseline-people-outline" title="Employee">
                 <!-- hide true-->
                 <LayoutNavSingle
                     class="hidden"
@@ -100,18 +100,18 @@ const config = useRuntimeConfig()
             <!-- hide true-->
 
             <LayoutNavSingle
-                v-if="config.public.APP_ENV"
+                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/project"
                 icon="material-symbols:construction"
                 single-nav-title="Project"
             />
             <LayoutNavSingle
-                v-if="config.public.APP_ENV"
+                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/leave"
                 icon="fluent-mdl2:leave-user"
                 single-nav-title="Leave"
             />
-            <LayoutNavGroup v-if="config.public.APP_ENV" icon="mdi:cash" title="Loans and Advances">
+            <LayoutNavGroup v-if="config.public.APP_ENV == 'local'" icon="mdi:cash" title="Loans and Advances">
                 <LayoutNavSingle
                     linkarea="/hrms/loans/cashadvance"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -129,12 +129,12 @@ const config = useRuntimeConfig()
                 />
             </LayoutNavGroup>
             <LayoutNavSingle
-                v-if="config.public.APP_ENV"
+                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/overtime"
                 icon="mingcute:time-line"
                 single-nav-title="Overtime"
             />
-            <LayoutNavGroup v-if="config.public.APP_ENV" icon="ion:ios-people" title="Payroll">
+            <LayoutNavGroup v-if="config.public.APP_ENV == 'local'" icon="ion:ios-people" title="Payroll">
                 <LayoutNavSingle
                     linkarea="/hrms/payroll/generatepayroll"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -157,12 +157,12 @@ const config = useRuntimeConfig()
                 />
             </LayoutNavGroup>
             <LayoutNavSingle
-                v-if="config.public.APP_ENV"
+                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/reports"
                 icon="ic:sharp-add-chart"
                 single-nav-title="Reports"
             />
-            <LayoutNavGroup v-if="config.public.APP_ENV" icon="uim:schedule" title="Schedule">
+            <LayoutNavGroup v-if="config.public.APP_ENV == 'local'" icon="uim:schedule" title="Schedule">
                 <LayoutNavSingle
                     linkarea="/hrms/schedule/department"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -181,7 +181,7 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup icon="ion:ios-people" title="Setup">
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV"
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/setup/useraccounts"
                     icon="ic:round-manage-accounts"
                     single-nav-title="User Accounts"
@@ -192,19 +192,19 @@ const config = useRuntimeConfig()
                     single-nav-title="Department"
                 />
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV"
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/setup/approvals"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Approvals"
                 />
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV"
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/setup/division"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Division"
                 />
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV"
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/setup/hmo"
                     icon="ic:baseline-health-and-safety"
                     single-nav-title="HMO"
@@ -239,26 +239,26 @@ const config = useRuntimeConfig()
 
         <!-- Inventory / Warehouse -->
         <LayoutNavModuleGroup
-            v-if="config.public.APP_ENV"
+            v-if="config.public.APP_ENV == 'local'"
             id="dropdown-inventorywarehouse-main"
             title="Inventory / Warehouse"
         />
 
         <!-- Accounting -->
         <LayoutNavModuleGroup
-            v-if="config.public.APP_ENV"
+            v-if="config.public.APP_ENV == 'local'"
             id="dropdown-accounting-main"
             title="Accounting"
         />
 
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup
-            v-if="config.public.APP_ENV"
+            v-if="config.public.APP_ENV == 'local'"
             id="dropdown-projectmonitoring-main"
             title="Project Monitoring"
         >
             <LayoutNavSingle
-                v-if="config.public.APP_ENV"
+                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/project-monitoring/projects"
                 icon="material-symbols:business-center"
                 single-nav-title="Project"
