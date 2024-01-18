@@ -1,29 +1,25 @@
 <script setup>
-import { onMounted } from 'vue'
-import { initFlowbite, initTabs } from 'flowbite'
+import { initFlowbite, initTabs } from "flowbite"
 
 onMounted(() => {
-    initFlowbite();
-    initTabs();
+    initFlowbite()
+    initTabs()
 })
 
-
-definePageMeta({
-  layout: "default",
-}),
-  useHead({
+useHead({
     title: "Project Schedule",
     meta: [{ name: "description", content: "" }],
-  });
+})
 </script>
 
 <template>
-  <div class="text-2xl font-normal mb-4 mt-10 md:mt-0 ">
-    Project Schedule
-  </div>
-    <hr>
-
-  <div>
-    <HrmsScheduleProject />
-  </div>
+    <div>
+        <div class="text-2xl font-normal mb-4 mt-10 md:mt-0 ">
+            Project Schedule
+        </div>
+        <hr>
+        <div>
+            <HrmsScheduleProject />
+        </div>
+    </div>
 </template>

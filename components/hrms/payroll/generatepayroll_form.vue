@@ -4,23 +4,39 @@
             <div>
                 <label for="cutoff_dates" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cut-off Dates</label>
                 <select id="cutoff_dates" name="cutoff_dates" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
-                    <option value="">Select Date Span</option>
-                    <option value="1">Today</option>
-                    <option value="2">Yesterday</option>
-                    <option value="3">Last 7 Days</option>
-                    <option value="4">Last 30 Days</option>
-                    <option value="5">This Month</option>
-                    <option value="6">Last Month</option>
-                    <option value="7">Custom Range</option>
+                    <option value="">
+                        Select Date Span
+                    </option>
+                    <option value="1">
+                        Today
+                    </option>
+                    <option value="2">
+                        Yesterday
+                    </option>
+                    <option value="3">
+                        Last 7 Days
+                    </option>
+                    <option value="4">
+                        Last 30 Days
+                    </option>
+                    <option value="5">
+                        This Month
+                    </option>
+                    <option value="6">
+                        Last Month
+                    </option>
+                    <option value="7">
+                        Custom Range
+                    </option>
                 </select>
             </div>
             <div>
                 <label for="payroll_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payroll Date</label>
-                <input type="date" id="payroll_date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                <input id="payroll_date" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
             </div>
             <div>
                 <label for="payroll_project" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project</label>
-                <input type="text" id="payroll_project" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                <input id="payroll_project" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
             </div>
         </div>
         <div class="mb-5">
@@ -54,15 +70,15 @@
                         <div class="mb-5 grid grid-cols-1 gap-6 sm:grid-cols-4">
                             <div>
                                 <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
-                                <input type="text" id="employee" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+                                <input id="employee" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
                             </div>
                             <div>
                                 <label for="adjustment_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Adjustment Name</label>
-                                <input type="text" id="adjustment_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <input id="adjustment_name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             </div>
                             <div>
                                 <label for="amt" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
-                                <input type="number" id="amt" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <input id="amt" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             </div>
                             <div class="flex justify-end items-center">
                                 <!-- <button @click="" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add</button> -->
@@ -79,19 +95,25 @@
                         <div class="mb-5 grid grid-cols-1 gap-6 sm:grid-cols-4">
                             <div>
                                 <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
-                                <input type="text" id="employee" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+                                <input id="employee" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
                             </div>
                             <div>
                                 <label for="fee_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fee Type</label>
                                 <select id="cutoff_dates" name="cutoff_dates" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
-                                    <option value="1">Cash Advance</option>
-                                    <option value="2">Loan</option>
-                                    <option value="3">Other Deduction</option>
+                                    <option value="1">
+                                        Cash Advance
+                                    </option>
+                                    <option value="2">
+                                        Loan
+                                    </option>
+                                    <option value="3">
+                                        Other Deduction
+                                    </option>
                                 </select>
                             </div>
                             <div>
                                 <label for="fee_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fee Name</label>
-                                <input type="text" id="fee_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <input id="fee_name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             </div>
                             <div class="flex justify-end items-center">
                                 <button type="submit" class="mt-5 min-w-min text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -106,17 +128,20 @@
         <div class="">
             <div class="flex flex-row justify-between">
                 <div>
-                    <button type="submit" class="text-white bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">BIR WTax Calculator</button>
+                    <button type="submit" class="text-white bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
+                        BIR WTax Calculator
+                    </button>
                 </div>
                 <div>
-                    <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Generate Payroll</button>
+                    <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                        Generate Payroll
+                    </button>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </template>
 
 <script  setup lang="ts">
 
 </script>
-

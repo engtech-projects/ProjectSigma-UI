@@ -32,9 +32,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # NUXT_APP_BASE_URL: '/staging-ProjectSigma_UI'
-      ASSESSMENT_API_URL: ''
-      CURRICULUM_API_URL: ''
-      ENROLLMENT_API_URL: ''
+      APP_ENV: 'local'
+      HRMS_API_URL: 'https://projectsigma-hrmsapi-staging.engtechglobalsolutions.com'
+      ACCOUNTING_API_URL: 'https://projectsigma-accountingapi-staging.engtechglobalsolutions.com'
+      INVENTORY_API_URL: 'https://projectsigma-inventoryapi-staging.engtechglobalsolutions.com'
+      PROJECT_API_URL: 'https://projectsigma-inventoryapi-staging.engtechglobalsolutions.com'
     if: github.ref == 'refs/heads/staging'
     steps:
       - name: Set output
@@ -59,9 +61,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # NUXT_APP_BASE_URL: '/ProjectSigma_UI'
-      ASSESSMENT_API_URL: ''
-      CURRICULUM_API_URL: ''
-      ENROLLMENT_API_URL: ''
+      HRMS_API_URL: 'https://projectsigma-hrmsapi.engtechglobalsolutions.com'
+      ACCOUNTING_API_URL: 'https://projectsigma-accountingapi.engtechglobalsolutions.com'
+      INVENTORY_API_URL: 'https://projectsigma-inventoryapi.engtechglobalsolutions.com'
+      PROJECT_API_URL: 'https://projectsigma-inventoryapi.engtechglobalsolutions.com'
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Set output
