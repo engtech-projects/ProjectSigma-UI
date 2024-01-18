@@ -8,10 +8,10 @@ const { withholding, errorMessage, successMessage } = storeToRefs(withholdings)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-const edit = async () => {
+const addWtax = async () => {
     try {
         boardLoading.value = true
-        await withholdings.editWithholdings()
+        await withholdings.addWithholding()
         snackbar.add({
             type: "success",
             text: leaves.successMessage
@@ -25,9 +25,9 @@ const edit = async () => {
 </script>
 
 <template>
-    <LayoutEditBoards title="Withholding Tax" :loading="boardLoading">
+    <LayoutBoards title="Withholding Tax" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
-            <form @submit.prevent="edit">
+            <form @submit.prevent="addWtax">
                 <label
                     class="text-sm"
                 >Create Withholding Record</label>
@@ -112,19 +112,12 @@ const edit = async () => {
                         class="w-full rounded-lg"
                     >
                 </div>
-                <div class="flex justify-end gap-4">
+                <div class="flex justify-end">
                     <button
                         type="submit"
                         class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
                     >
-                        Save
-                    </button>
-                    <button
-                        type="button"
-                        class="flex-1 text-white p-2 rounded bg-gray-700 content-center mt-5 hover:bg-gray-500"
-                        @click="cancelEdit"
-                    >
-                        Cancel
+                        Add Withholding
                     </button>
                 </div>
             </form>
@@ -139,7 +132,7 @@ const edit = async () => {
                 {{ successMessage }}
             </p>
         </div>
-    </LayoutEditBoards>
+    </LayoutBoards>
 </template>
 
 <style scoped>
