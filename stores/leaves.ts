@@ -23,9 +23,7 @@ export const useLeaveStore = defineStore("leaves", {
             id: null,
             leave_name: null,
             amt_of_leave: null,
-            employment_type: {
-                data: []
-            },
+            employment_type: [],
         },
         list: [],
         pagination: {},
@@ -45,7 +43,16 @@ export const useLeaveStore = defineStore("leaves", {
                     // },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data
+                        this.list = response._data.data.data.map((val) => {
+                            return {
+                                id: val.id,
+                                leave_name: val.leave_name,
+                                amt_of_leave: val.amt_of_leave,
+                                orig_employment_type: val.employment_type,
+                                employment_type: JSON.parse(val.employment_type),
+                                employment_type_view: JSON.parse(val.employment_type).toString(),
+                            }
+                        })
                         this.pagination = {
                             first_page: response._data.data.first_page_url,
                             pages: response._data.data.links,
@@ -115,7 +122,7 @@ export const useLeaveStore = defineStore("leaves", {
                 return error
             }
         },
-        async deleteLeave (id : number) {
+        async deleteLeave (id: number) {
             const { data, error } = await useFetch(
                 "/api/leave/" + id,
                 {
@@ -129,8 +136,10 @@ export const useLeaveStore = defineStore("leaves", {
             )
             if (data.value) {
                 this.getLeave()
+                this.successMessage = data.value.message
                 return data
             } else if (error.value) {
+                this.errorMessage = error.value.data.message
                 return error
             }
         },
@@ -140,9 +149,7 @@ export const useLeaveStore = defineStore("leaves", {
                 id: null,
                 leave_name: null,
                 amt_of_leave: null,
-                employment_type: {
-                    data: [],
-                },
+                employment_type: [],
             }
             this.isEdit = false
             this.successMessage = ""

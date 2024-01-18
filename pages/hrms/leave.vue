@@ -1,10 +1,3 @@
-<template>
-    <div>
-        <HrmsLeaveForm />
-        <HrmsLeaveTable />
-    </div>
-</template>
-
 <script setup lang="ts">
 
 useHead({
@@ -15,3 +8,10 @@ useHead({
 
 })
 </script>
+
+<template>
+    <div>
+        <HrmsLeaveForm />
+        <HrmsLeaveTable />
+    </div>
+</template>

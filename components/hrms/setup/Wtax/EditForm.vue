@@ -8,10 +8,13 @@ const { leave, errorMessage, successMessage } = storeToRefs(leaves)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-const addLeave = async () => {
+const cancelEdit = () => {
+    leaves.reset()
+}
+const edit = async () => {
     try {
         boardLoading.value = true
-        await leaves.createLeave()
+        await leaves.editLeaves()
         snackbar.add({
             type: "success",
             text: leaves.successMessage
@@ -25,12 +28,12 @@ const addLeave = async () => {
 </script>
 
 <template>
-    <LayoutBoards title="Leaves" :loading="boardLoading">
+    <LayoutEditBoards title="Edit Leaves" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
-            <form @submit.prevent="addLeave">
+            <form @submit.prevent="edit">
                 <label
-                    class="text-sm"
-                >Create Leave Type</label>
+                    class="text-sm italic"
+                >Edit Leave Type</label>
                 <div>
                     <div>
                         <label
@@ -62,7 +65,7 @@ const addLeave = async () => {
                             class="text-sm italic"
                         >Employement Type</label>
                         <select
-                            id="employment_type"
+                            id="edit_employment_type"
                             v-model="leave.employment_type"
                             class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
                             required
@@ -78,12 +81,19 @@ const addLeave = async () => {
                     </div>
                 </div>
 
-                <div class="flex justify-end">
+                <div class="flex justify-end gap-4">
                     <button
                         type="submit"
                         class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
                     >
-                        Add Leave
+                        Save
+                    </button>
+                    <button
+                        type="button"
+                        class="flex-1 text-white p-2 rounded bg-gray-700 content-center mt-5 hover:bg-gray-500"
+                        @click="cancelEdit"
+                    >
+                        Cancel
                     </button>
                 </div>
             </form>
@@ -98,7 +108,7 @@ const addLeave = async () => {
                 {{ successMessage }}
             </p>
         </div>
-    </LayoutBoards>
+    </LayoutEditBoards>
 </template>
 
 <style scoped>

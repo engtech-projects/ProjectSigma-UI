@@ -1,68 +1,48 @@
-<template>
-    <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-        <label for="" class="text-xl font-semibold text-gray-900">Leave List</label>
-        <div class="mt-5 mb-6">
-            <EasyDataTable
-                class="mt-5"
-                table-class-name="customize-table"
-                show-index
-                :headers="headers"
-                :items="items"
-            >
-                <template #item-actions="item">
-                    <div class="flex flex-row gap-1">
-                        <button
-                            @click="approved(item)"
-                        >
-                            <Icon class="text-lg" name="mingcute:check-fill" />
-                        </button>
-                        <button
-                            @click="reject(item)"
-                        >
-                            <Icon class="text-lg" name="fa-solid:times" />
-                        </button>
-                        <button
-                            @click="deleted(item)"
-                        >
-                            <Icon class="text-lg" name="mdi:trash" />
-                        </button>
-                    </div>
-                </template>
-            </EasyDataTable>
-        </div>
-    </div>
-</template>
+<script setup>
+import { storeToRefs } from "pinia"
+import { useLeaveStore } from "@/stores/leaves"
 
-<script setup lang="ts">
-import { Header, Item } from "vue3-easy-data-table"
+const leaves = useLeaveStore()
+leaves.getLeave()
 
-const headers: Header[] = [
-    { text: "Leave Name", value: "leave_name" },
-    { text: "Amount Leaves", value: "amt_leaves" },
-    { text: "Awardees", value: "awardees" },
-    { text: "Action", value: "actions" },
+const { list: leaveList, isEdit, leave, getParams, pagination } = storeToRefs(leaves)
+
+const boardLoading = ref(false)
+
+const setEdit = (lv) => {
+    isEdit.value = true
+    leave.value = lv
+}
+const deleteLeaves = (lv) => {
+    leaves.deleteLeave(lv.id)
+}
+
+const changePaginate = (newParams) => {
+    getParams.value.page = newParams.page ?? ""
+    // getParams.value.syId = newParams.id ?? ""
+    // getParams.value.semId = newParams.semId ?? ""
+    // getParams.value.feeType = newParams.feeType ?? ""
+    // getParams.value.particularName = newParams.particularName ?? ""
+}
+
+const headers = [
+    { name: "Leave Name", id: "leave_name" },
+    { name: "Amount of Leaves", id: "amt_of_leave" },
+    { name: "Employment Type", id: "employment_type_view" },
 ]
-
-const items: Item[any] = ref([
-    {
-        leave_name: "Lorem 1",
-        amt_leaves: "10",
-        awardees: "All",
-    },
-])
-
-const approved = () => {
-}
-
-const deleted = () => {
-}
-
-const reject = () => {
+const actions = {
+    edit: true,
+    delete: true
 }
 </script>
 
-  <style scoped>
-  .customize-table {
-    --easy-table-header-item-padding: 10px 15px;
-  }
-  </style>
+<template>
+    <LayoutBoards title="Leave List" class="w-full" :loading="boardLoading">
+        <div class="pb-2 text-gray-500">
+            <LayoutPsTable :header-columns="headers" :datas="leaveList" :actions="actions" @edit-row="setEdit" @delete-row="deleteLeaves" />
+        </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination :links="pagination" @change-params="changePaginate" />
+        </div>
+    </LayoutBoards>
+</template>
