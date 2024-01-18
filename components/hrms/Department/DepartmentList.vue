@@ -5,14 +5,23 @@ import { useDepartmentStore } from "@/stores/departments"
 const departments = useDepartmentStore()
 departments.getDepartment()
 
-const { list: departmentList, isEdit, department, getParams, pagination } = storeToRefs(departments)
+const { list: departmentList, isEdit, department, getParams, pagination, errorMessage, successMessage } = storeToRefs(departments)
 
 const setEdit = (dept) => {
     isEdit.value = true
     department.value = dept
 }
-const deleteDept = (dept) => {
-    departments.deleteDepartment(dept.id)
+const deleteDept = async (dept) => {
+    try {
+        boardLoading.value = true
+        await departments.deleteDepartment(dept.id)
+        snackbar.add({
+            type: "success",
+            text: departments.successMessage
+        })
+    } finally {
+        boardLoading.value = false
+    }
 }
 
 const changePaginate = (newParams) => {
@@ -31,6 +40,7 @@ const actions = {
     delete: true
 }
 
+const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 </script>
@@ -43,5 +53,15 @@ const boardLoading = ref(false)
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
+        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+            {{ errorMessage }}
+        </p>
+        <p
+            v-show="successMessage"
+            hidden
+            class="success-message text-green-600 text-center font-semibold italic"
+        >
+            {{ successMessage }}
+        </p>
     </LayoutBoards>
 </template>

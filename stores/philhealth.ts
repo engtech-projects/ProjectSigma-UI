@@ -120,12 +120,17 @@ export const usePhilhealthStore = defineStore("contributions", {
                     //     Authorization: token.value + ""
                     // },
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
                 }
             )
             if (data.value) {
                 this.getContribution()
+                this.successMessage = data.value.message
                 return data
             } else if (error.value) {
+                this.errorMessage = error.value.data.message
                 return error
             }
         },

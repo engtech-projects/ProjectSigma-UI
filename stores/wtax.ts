@@ -138,12 +138,17 @@ export const useWtaxStore = defineStore("withholdings", {
                     //     Authorization: token.value + ""
                     // },
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
                 }
             )
             if (data.value) {
                 this.getWithholding()
+                this.successMessage = data.value.message
                 return data
             } else if (error.value) {
+                this.errorMessage = error.value.data.message
                 return error
             }
         },

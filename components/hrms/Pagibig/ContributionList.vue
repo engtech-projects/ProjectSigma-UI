@@ -5,14 +5,27 @@ import { usePagibigStore } from "@/stores/pagibig"
 const contributions = usePagibigStore()
 contributions.getContribution()
 
-const { list: contributionList, isEdit, contribution, getParams, pagination } = storeToRefs(contributions)
+const { list: contributionList, isEdit, contribution, getParams, pagination, errorMessage, successMessage } = storeToRefs(contributions)
+
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
 
 const setEdit = (cont) => {
     isEdit.value = true
     contribution.value = cont
 }
-const deleteCont = (cont) => {
-    contributions.deleteContribution(cont.id)
+
+const deleteCont = async (cont) => {
+    try {
+        boardLoading.value = true
+        await contributions.deleteContribution(cont.id)
+        snackbar.add({
+            type: "success",
+            text: contributions.successMessage
+        })
+    } finally {
+        boardLoading.value = false
+    }
 }
 
 const changePaginate = (newParams) => {
@@ -29,6 +42,8 @@ const headers = [
     { name: "Employer Share %", id: "employer_share_percent" },
     { name: "Employee Share %", id: "employee_share_percent" },
     { name: "Max Contribution", id: "max_contribution" },
+    { name: "Employee Max Contribution", id: "employee_maximum_contribution" },
+    { name: "Employer Max Contribution", id: "employer_maximum_contribution" },
 ]
 const actions = {
     edit: true,
@@ -38,12 +53,23 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="Department List" class="w-full">
+    <LayoutBoards title="Contribution List" class="w-full">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="contributionList" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
+
+        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+            {{ errorMessage }}
+        </p>
+        <p
+            v-show="successMessage"
+            hidden
+            class="success-message text-green-600 text-center font-semibold italic"
+        >
+            {{ successMessage }}
+        </p>
     </LayoutBoards>
 </template>

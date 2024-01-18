@@ -110,6 +110,32 @@ const editCont = async () => {
                         >
                     </div>
                 </div>
+                <div>
+                    <div>
+                        <label
+                            for="empMaxCont"
+                            class="text-sm italic"
+                        >Employee Maximum Contribution</label>
+                        <input
+                            id="empMaxCont"
+                            v-model="contribution.employee_maximum_contribution"
+                            type="number"
+                            class="w-full rounded-lg"
+                        >
+                    </div>
+                    <div>
+                        <label
+                            for="emprMaxCont"
+                            class="text-sm italic"
+                        >Employer Maximum Contribution</label>
+                        <input
+                            id="emprMaxCont"
+                            v-model="contribution.employer_maximum_contribution"
+                            type="number"
+                            class="w-full rounded-lg"
+                        >
+                    </div>
+                </div>
 
                 <div class="flex justify-end gap-4">
                     <button

@@ -135,6 +135,9 @@ export const useLeaveStore = defineStore("leaves", {
                     //     Authorization: token.value + ""
                     // },
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
                 }
             )
             if (data.value) {
