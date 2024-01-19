@@ -3,7 +3,6 @@ import { storeToRefs } from "pinia"
 import { useDepartmentStore } from "@/stores/departments"
 
 const departments = useDepartmentStore()
-departments.getDepartment()
 
 const { list: departmentList, isEdit, department, getParams, pagination, errorMessage, successMessage } = storeToRefs(departments)
 

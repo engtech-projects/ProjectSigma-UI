@@ -12,11 +12,18 @@ const addDepartment = async () => {
     try {
         boardLoading.value = true
         await departments.createDepartment()
-        snackbar.add({
-            type: "success",
-            text: departments.successMessage
-        })
-    } catch (error) {
+        if (departments.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: departments.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: departments.successMessage
+            })
+        }
+    } catch {
         snackbar.add({
             type: "error",
             text: departments.errorMessage

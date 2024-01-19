@@ -3,7 +3,6 @@ import { storeToRefs } from "pinia"
 import { useContributionStore } from "@/stores/sss"
 
 const contributions = useContributionStore()
-contributions.getContribution()
 
 const { list: contributionList, isEdit, contribution, getParams, pagination, errorMessage, successMessage } = storeToRefs(contributions)
 

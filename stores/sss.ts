@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 // const { data: token } = useAuth()
 const config = useRuntimeConfig()
 
-export const useContributionStore = defineStore("contributions", {
+export const useContributionStore = defineStore("sssContrib", {
     state: () => ({
         isEdit: false,
         contribution: {
@@ -49,7 +49,7 @@ export const useContributionStore = defineStore("contributions", {
         async addContribution () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            await useFetch(
                 "/api/sss",
                 {
                     baseURL: config.public.HRMS_API_URL,
@@ -59,17 +59,17 @@ export const useContributionStore = defineStore("contributions", {
                     // },d
                     body: this.contribution,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.status !== 200) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getContribution()
+                            this.reset()
+                            this.successMessage = response._data.message
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.getContribution()
-                this.reset()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
         clearMessages () {
             this.errorMessage = ""

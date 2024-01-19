@@ -71,7 +71,7 @@ export const useLeaveStore = defineStore("leaves", {
         async createLeave () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            await useFetch(
                 "/api/leave",
                 {
                     baseURL: config.public.HRMS_API_URL,
@@ -81,17 +81,17 @@ export const useLeaveStore = defineStore("leaves", {
                     // },
                     body: this.leave,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.status !== 200) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getLeave()
+                            this.reset()
+                            this.successMessage = response._data.message
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.getLeave()
-                this.reset()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
         clearMessages () {
             this.errorMessage = ""
@@ -121,12 +121,12 @@ export const useLeaveStore = defineStore("leaves", {
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
-                this.errorMessage = error.value.data.message
+                this.errorMessage = error.value.message
                 return error
             }
         },
         async deleteLeave (id: number) {
-            const { data, error } = await useFetch(
+            await useFetch(
                 "/api/leave/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
@@ -137,17 +137,13 @@ export const useLeaveStore = defineStore("leaves", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
+                        this.getLeave()
+                    },
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data.message
                     },
                 }
             )
-            if (data.value) {
-                this.getLeave()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
 
         reset () {

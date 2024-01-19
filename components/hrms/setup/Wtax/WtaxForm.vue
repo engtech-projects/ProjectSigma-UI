@@ -12,13 +12,25 @@ const addWtax = async () => {
     try {
         boardLoading.value = true
         await withholdings.addWithholding()
+        if (withholdings.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: withholdings.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: withholdings.successMessage
+            })
+        }
+    } catch {
         snackbar.add({
-            type: "success",
-            text: withholdings.successMessage
+            type: "error",
+            text: withholdings.errorMessage
         })
     } finally {
-        boardLoading.value = false
         withholdings.clearMessages()
+        boardLoading.value = false
     }
 }
 
@@ -40,7 +52,6 @@ const addWtax = async () => {
                         id="wtaxTerm"
                         v-model="withholding.term"
                         class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                        required
                     >
                         <option class="italic font-semibold" value="" disabled selected>
                             Choose Term

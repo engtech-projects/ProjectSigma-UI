@@ -6,10 +6,10 @@ export const useDepartmentStore = defineStore("departments", {
     state: () => ({
         isEdit: false,
         department:
-    {
-        id: null,
-        department_name: null,
-    },
+        {
+            id: null,
+            department_name: null,
+        },
         list: [],
         pagination: {},
         getParams: {},
@@ -47,7 +47,7 @@ export const useDepartmentStore = defineStore("departments", {
         async createDepartment () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            await useFetch(
                 "/api/departments",
                 {
                     baseURL: config.public.HRMS_API_URL,
@@ -57,17 +57,17 @@ export const useDepartmentStore = defineStore("departments", {
                     // },
                     body: this.department,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.status !== 200) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getDepartment()
+                            this.reset()
+                            this.successMessage = response._data.message
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.getDepartment()
-                this.reset()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
         clearMessages () {
             this.errorMessage = ""
@@ -98,7 +98,7 @@ export const useDepartmentStore = defineStore("departments", {
                 return error
             }
         },
-        async deleteDepartment (id : number) {
+        async deleteDepartment (id: number) {
             const { data, error } = await useFetch(
                 "/api/departments/" + id,
                 {

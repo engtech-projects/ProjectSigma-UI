@@ -3,7 +3,6 @@ import { storeToRefs } from "pinia"
 import { useWtaxStore } from "@/stores/wtax"
 
 const withholdings = useWtaxStore()
-withholdings.getWithholding()
 
 const { list: withholdingList, isEdit, withholding, getParams, pagination, errorMessage, successMessage } = storeToRefs(withholdings)
 

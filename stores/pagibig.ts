@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 // const { data: token } = useAuth()
 const config = useRuntimeConfig()
 
-export const usePagibigStore = defineStore("contributions", {
+export const usePagibigStore = defineStore("pagibigContrib", {
     state: () => ({
         isEdit: false,
         contribution: {
@@ -11,7 +11,8 @@ export const usePagibigStore = defineStore("contributions", {
             range_to: null,
             employee_share_percent: null,
             employer_share_percent: null,
-            max_contribution: null,
+            employer_maximum_contribution: null,
+            employee_maximum_contribution: null,
         },
         list: [],
         pagination: {},
@@ -50,7 +51,7 @@ export const usePagibigStore = defineStore("contributions", {
         async addContribution () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            await useFetch(
                 "/api/pagibig",
                 {
                     baseURL: config.public.HRMS_API_URL,
@@ -60,17 +61,17 @@ export const usePagibigStore = defineStore("contributions", {
                     // },d
                     body: this.contribution,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.status !== 200) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getContribution()
+                            this.reset()
+                            this.successMessage = response._data.message
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.getContribution()
-                this.reset()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
         clearMessages () {
             this.errorMessage = ""
@@ -133,7 +134,8 @@ export const usePagibigStore = defineStore("contributions", {
                 range_to: null,
                 employee_share_percent: null,
                 employer_share_percent: null,
-                max_contribution: null,
+                employer_maximum_contribution: null,
+                employee_maximum_contribution: null,
             }
             this.isEdit = false
             this.successMessage = ""

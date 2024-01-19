@@ -2,10 +2,9 @@
 import { storeToRefs } from "pinia"
 import { usePagibigStore } from "@/stores/pagibig"
 
-const contributions = usePagibigStore()
-contributions.getContribution()
+const pagibig = usePagibigStore()
 
-const { list: contributionList, isEdit, contribution, getParams, pagination, errorMessage, successMessage } = storeToRefs(contributions)
+const { list: contributionList, isEdit, contribution, getParams, pagination, errorMessage, successMessage } = storeToRefs(pagibig)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -18,10 +17,10 @@ const setEdit = (cont) => {
 const deleteCont = async (cont) => {
     try {
         boardLoading.value = true
-        await contributions.deleteContribution(cont.id)
+        await pagibig.deleteContribution(cont.id)
         snackbar.add({
             type: "success",
-            text: contributions.successMessage
+            text: pagibig.successMessage
         })
     } finally {
         boardLoading.value = false
@@ -40,10 +39,9 @@ const headers = [
     { name: "Range From", id: "range_from" },
     { name: "Range To", id: "range_to" },
     { name: "Employer Share %", id: "employer_share_percent" },
-    { name: "Employee Share %", id: "employee_share_percent" },
-    { name: "Max Contribution", id: "max_contribution" },
-    { name: "Employee Max Contribution", id: "employee_maximum_contribution" },
     { name: "Employer Max Contribution", id: "employer_maximum_contribution" },
+    { name: "Employee Share %", id: "employee_share_percent" },
+    { name: "Employee Max Contribution", id: "employee_maximum_contribution" },
 ]
 const actions = {
     edit: true,

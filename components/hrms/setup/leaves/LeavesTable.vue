@@ -3,7 +3,6 @@ import { storeToRefs } from "pinia"
 import { useLeaveStore } from "@/stores/leaves"
 
 const leaves = useLeaveStore()
-leaves.getLeave()
 
 const { list: leaveList, isEdit, leave, getParams, pagination, errorMessage, successMessage } = storeToRefs(leaves)
 

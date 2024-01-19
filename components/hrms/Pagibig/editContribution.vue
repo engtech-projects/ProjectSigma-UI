@@ -2,30 +2,30 @@
 import { storeToRefs } from "pinia"
 import { usePagibigStore } from "@/stores/pagibig"
 
-const contributions = usePagibigStore()
-const { contribution, errorMessage, successMessage } = storeToRefs(contributions)
+const pagibig = usePagibigStore()
+const { contribution, errorMessage, successMessage } = storeToRefs(pagibig)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const cancelEdit = () => {
-    contributions.reset()
+    pagibig.reset()
 }
 const editCont = async () => {
     try {
         boardLoading.value = true
-        await contributions.editContribution()
+        await pagibig.editContribution()
         snackbar.add({
             type: "success",
-            text: contributions.successMessage
+            text: pagibig.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: contributions.errorMessage || "something went wrong."
+            text: pagibig.errorMessage || "something went wrong."
         })
     } finally {
-        contributions.clearMessages()
+        pagibig.clearMessages()
         boardLoading.value = false
     }
 }
@@ -91,20 +91,6 @@ const editCont = async () => {
                         <input
                             id="pagibig_employeeShare"
                             v-model="contribution.employee_share_percent"
-                            type="number"
-                            class="w-full rounded-lg"
-                        >
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <label
-                            for="pagibig_maxCont"
-                            class="text-sm italic"
-                        >Max Contribution</label>
-                        <input
-                            id="pagibig_maxCont"
-                            v-model="contribution.max_contribution"
                             type="number"
                             class="w-full rounded-lg"
                         >

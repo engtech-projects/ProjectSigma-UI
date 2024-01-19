@@ -3,7 +3,6 @@ import { storeToRefs } from "pinia"
 import { usePhilhealthStore } from "@/stores/philhealth"
 
 const contributions = usePhilhealthStore()
-contributions.getContribution()
 
 const { list: contributionList, isEdit, contribution, getParams, pagination, errorMessage, successMessage } = storeToRefs(contributions)
 
