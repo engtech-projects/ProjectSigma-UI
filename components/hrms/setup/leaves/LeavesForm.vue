@@ -12,13 +12,25 @@ const addLeave = async () => {
     try {
         boardLoading.value = true
         await leaves.createLeave()
+        if (leaves.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: leaves.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: leaves.successMessage
+            })
+        }
+    } catch {
         snackbar.add({
-            type: "success",
-            text: leaves.successMessage
+            type: "error",
+            text: leaves.errorMessage
         })
     } finally {
-        boardLoading.value = false
         leaves.clearMessages()
+        boardLoading.value = false
     }
 }
 
@@ -65,7 +77,6 @@ const addLeave = async () => {
                             id="employment_type"
                             v-model="leave.employment_type"
                             class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                            required
                             multiple
                         >
                             <option class="italic font-semibold" value="" disabled selected>

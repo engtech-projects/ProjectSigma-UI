@@ -1,26 +1,22 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useContributionStore } from "@/stores/sss"
+import { usePositionStore } from "@/stores/position"
 
-const contributions = useContributionStore()
+const positions = usePositionStore()
 
-const { list: contributionList, isEdit, contribution, getParams, pagination, errorMessage, successMessage } = storeToRefs(contributions)
+const { list: positionList, isEdit, position, getParams, pagination, errorMessage, successMessage } = storeToRefs(positions)
 
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
-
-const setEdit = (cont) => {
+const setEdit = (pos) => {
     isEdit.value = true
-    contribution.value = cont
+    position.value = pos
 }
-
-const deleteCont = async (cont) => {
+const deletePos = async (pos) => {
     try {
         boardLoading.value = true
-        await contributions.deleteContribution(cont.id)
+        await positions.deletePosition(pos.id)
         snackbar.add({
             type: "success",
-            text: contributions.successMessage
+            text: positions.successMessage
         })
     } finally {
         boardLoading.value = false
@@ -36,22 +32,22 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Range From", id: "range_from" },
-    { name: "Range To", id: "range_to" },
-    { name: "Employer Share", id: "employer_share" },
-    { name: "Employee Share", id: "employee_share" },
+    { name: "Position Name", id: "name" },
 ]
 const actions = {
     edit: true,
     delete: true
 }
 
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+
 </script>
 
 <template>
-    <LayoutBoards title="Contribution Table" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="Position List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="contributionList" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
+            <LayoutPsTable :header-columns="headers" :datas="positionList" :actions="actions" @edit-row="setEdit" @delete-row="deletePos" />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />

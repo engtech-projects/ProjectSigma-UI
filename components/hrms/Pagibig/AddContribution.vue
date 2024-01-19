@@ -2,8 +2,8 @@
 import { storeToRefs } from "pinia"
 import { usePagibigStore } from "@/stores/pagibig"
 
-const contributions = usePagibigStore()
-const { contribution, errorMessage, successMessage } = storeToRefs(contributions)
+const pagibig = usePagibigStore()
+const { contribution, errorMessage, successMessage } = storeToRefs(pagibig)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -11,14 +11,26 @@ const boardLoading = ref(false)
 const addRange = async () => {
     try {
         boardLoading.value = true
-        await contributions.addContribution()
+        await pagibig.addContribution()
+        if (pagibig.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: pagibig.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: pagibig.successMessage
+            })
+        }
+    } catch {
         snackbar.add({
-            type: "success",
-            text: contributions.successMessage
+            type: "error",
+            text: pagibig.errorMessage
         })
     } finally {
+        pagibig.clearMessages()
         boardLoading.value = false
-        departments.clearMessages()
     }
 }
 </script>
@@ -71,6 +83,18 @@ const addRange = async () => {
                     </div>
                 </div>
                 <div>
+                    <label
+                        for="emprMaxCont"
+                        class="text-sm italic"
+                    >Employer Maximum Contribution</label>
+                    <input
+                        id="emprMaxCont"
+                        v-model="contribution.employer_maximum_contribution"
+                        type="number"
+                        class="w-full rounded-lg"
+                    >
+                </div>
+                <div>
                     <div>
                         <label
                             for="pagibig_employeeShare"
@@ -83,16 +107,14 @@ const addRange = async () => {
                             class="w-full rounded-lg"
                         >
                     </div>
-                </div>
-                <div>
                     <div>
                         <label
-                            for="pagibig_maxCont"
+                            for="empMaxCont"
                             class="text-sm italic"
-                        >Max Contribution</label>
+                        >Employee Maximum Contribution</label>
                         <input
-                            id="pagibig_maxCont"
-                            v-model="contribution.max_contribution"
+                            id="empMaxCont"
+                            v-model="contribution.employee_maximum_contribution"
                             type="number"
                             class="w-full rounded-lg"
                         >

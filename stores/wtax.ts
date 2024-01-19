@@ -74,7 +74,7 @@ export const useWtaxStore = defineStore("withholdings", {
         async addWithholding () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            await useFetch(
                 "/api/witholdingtax",
                 {
                     baseURL: config.public.HRMS_API_URL,
@@ -84,17 +84,17 @@ export const useWtaxStore = defineStore("withholdings", {
                     // },d
                     body: this.withholding,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.status !== 200) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getWithholding()
+                            this.reset()
+                            this.successMessage = response._data.message
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.getWithholding()
-                this.reset()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
         clearMessages () {
             this.errorMessage = ""
@@ -138,12 +138,17 @@ export const useWtaxStore = defineStore("withholdings", {
                     //     Authorization: token.value + ""
                     // },
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
                 }
             )
             if (data.value) {
                 this.getWithholding()
+                this.successMessage = data.value.message
                 return data
             } else if (error.value) {
+                this.errorMessage = error.value.data.message
                 return error
             }
         },

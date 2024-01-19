@@ -9,7 +9,7 @@ export const SHARE_TYPES = [
     SHARE_PERCENTAGE
 ]
 
-export const usePhilhealthStore = defineStore("contributions", {
+export const usePhilhealthStore = defineStore("philContrib", {
     state: () => ({
         isEdit: false,
         contribution: {
@@ -56,27 +56,27 @@ export const usePhilhealthStore = defineStore("contributions", {
         async addContribution () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            await useFetch(
                 "/api/philhealth",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
                     // headers: {
                     //     Authorization: token.value + ""
-                    // },d
+                    // },
                     body: this.contribution,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.status !== 200) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getContribution()
+                            this.reset()
+                            this.successMessage = response._data.message
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.getContribution()
-                this.reset()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
         clearMessages () {
             this.errorMessage = ""
@@ -120,12 +120,17 @@ export const usePhilhealthStore = defineStore("contributions", {
                     //     Authorization: token.value + ""
                     // },
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
                 }
             )
             if (data.value) {
                 this.getContribution()
+                this.successMessage = data.value.message
                 return data
             } else if (error.value) {
+                this.errorMessage = error.value.data.message
                 return error
             }
         },

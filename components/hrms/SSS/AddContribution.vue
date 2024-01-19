@@ -12,13 +12,25 @@ const addRange = async () => {
     try {
         boardLoading.value = true
         await contributions.addContribution()
+        if (contributions.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: contributions.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: contributions.successMessage
+            })
+        }
+    } catch {
         snackbar.add({
-            type: "success",
-            text: contributions.successMessage
+            type: "error",
+            text: contributions.errorMessage
         })
     } finally {
+        contributions.clearMessages()
         boardLoading.value = false
-        departments.clearMessages()
     }
 }
 
@@ -41,7 +53,6 @@ const addRange = async () => {
                         <input
                             id="rangeFrom"
                             v-model="contribution.range_from"
-                            required
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -68,7 +79,6 @@ const addRange = async () => {
                         <input
                             id="employerShare"
                             v-model="contribution.employer_share"
-                            required
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -81,7 +91,6 @@ const addRange = async () => {
                         <input
                             id="employeeShare"
                             v-model="contribution.employee_share"
-                            required
                             type="number"
                             class="w-full rounded-lg"
                         >

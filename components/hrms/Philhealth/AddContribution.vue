@@ -12,13 +12,25 @@ const addRange = async () => {
     try {
         boardLoading.value = true
         await contributions.addContribution()
+        if (contributions.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: contributions.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: contributions.successMessage
+            })
+        }
+    } catch {
         snackbar.add({
-            type: "success",
-            text: contributions.successMessage
+            type: "error",
+            text: contributions.errorMessage
         })
     } finally {
+        contributions.clearMessages()
         boardLoading.value = false
-        departments.clearMessages()
     }
 }
 </script>
@@ -75,7 +87,6 @@ const addRange = async () => {
                         id="share_type"
                         v-model="contribution.share_type"
                         class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                        required
                     >
                         <option value="" disabled selected>
                             Choose Share Type

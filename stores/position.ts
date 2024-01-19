@@ -2,28 +2,13 @@ import { defineStore } from "pinia"
 // const { data: token } = useAuth()
 const config = useRuntimeConfig()
 
-export const EMPLOYMENT_PROBATIONARY = "Probationary"
-export const EMPLOYMENT_REGULAR = "Regular/FullTime"
-export const EMPLOYMENT_PARTTIME = "Part Time"
-export const EMPLOYMENT_PROJECTBASED = "Project Based"
-export const EMPLOYMENT_CONTRACTUAL = "Contractual"
-export const EMPLOYMENT_TYPE = [
-    EMPLOYMENT_PROBATIONARY,
-    EMPLOYMENT_REGULAR,
-    EMPLOYMENT_PARTTIME,
-    EMPLOYMENT_PROJECTBASED,
-    EMPLOYMENT_CONTRACTUAL
-]
-
-export const useLeaveStore = defineStore("leaves", {
+export const usePositionStore = defineStore("positions", {
     state: () => ({
         isEdit: false,
-        leave:
+        position:
         {
             id: null,
-            leave_name: null,
-            amt_of_leave: null,
-            employment_type: [],
+            name: null,
         },
         list: [],
         pagination: {},
@@ -32,9 +17,9 @@ export const useLeaveStore = defineStore("leaves", {
         successMessage: "",
     }),
     actions: {
-        async getLeave () {
+        async getPosition () {
             const { data, error } = await useFetch(
-                "/api/leave",
+                "/api/position",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -43,16 +28,7 @@ export const useLeaveStore = defineStore("leaves", {
                     // },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data.map((val) => {
-                            return {
-                                id: val.id,
-                                leave_name: val.leave_name,
-                                amt_of_leave: val.amt_of_leave,
-                                orig_employment_type: val.employment_type,
-                                employment_type: JSON.parse(val.employment_type),
-                                employment_type_view: JSON.parse(val.employment_type).toString(),
-                            }
-                        })
+                        this.list = response._data.data.data
                         this.pagination = {
                             first_page: response._data.data.first_page_url,
                             pages: response._data.data.links,
@@ -68,24 +44,24 @@ export const useLeaveStore = defineStore("leaves", {
             }
         },
 
-        async createLeave () {
+        async createPosition () {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/leave",
+                "/api/position",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
                     // headers: {
                     //     Authorization: token.value + ""
                     // },
-                    body: this.leave,
+                    body: this.position,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.status !== 200) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getLeave()
+                            this.getPosition()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -97,37 +73,34 @@ export const useLeaveStore = defineStore("leaves", {
             this.errorMessage = ""
             this.successMessage = ""
         },
-        async editLeaves () {
+        async editPosition () {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/leave/" + this.leave.id,
+                "/api/position/" + this.position.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
                     // headers: {
                     //     Authorization: token.value + ""
                     // },
-                    body: this.leave,
+                    body: this.position,
                     watch: false,
-                    onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
-                    },
                 }
             )
             if (data.value) {
-                this.getLeave()
+                this.getPosition()
                 this.reset()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
-                this.errorMessage = error.value.message
+                this.errorMessage = error.value.data.message
                 return error
             }
         },
-        async deleteLeave (id: number) {
-            await useFetch(
-                "/api/leave/" + id,
+        async deletePosition (id: number) {
+            const { data, error } = await useFetch(
+                "/api/position/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
@@ -137,21 +110,23 @@ export const useLeaveStore = defineStore("leaves", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
-                        this.getLeave()
-                    },
-                    onResponseError: ({ response }) => {
-                        this.errorMessage = response._data.message
                     },
                 }
             )
+            if (data.value) {
+                this.getPosition()
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
         },
 
         reset () {
-            this.leave = {
+            this.position = {
                 id: null,
-                leave_name: null,
-                amt_of_leave: null,
-                employment_type: [],
+                name: null,
             }
             this.isEdit = false
             this.successMessage = ""

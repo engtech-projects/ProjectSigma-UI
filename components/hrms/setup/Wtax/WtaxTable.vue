@@ -3,18 +3,28 @@ import { storeToRefs } from "pinia"
 import { useWtaxStore } from "@/stores/wtax"
 
 const withholdings = useWtaxStore()
-withholdings.getWithholding()
 
-const { list: withholdingList, isEdit, withholding, getParams, pagination } = storeToRefs(withholdings)
+const { list: withholdingList, isEdit, withholding, getParams, pagination, errorMessage, successMessage } = storeToRefs(withholdings)
 
+const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const setEdit = (tax) => {
     isEdit.value = true
     withholding.value = tax
 }
-const deleteWtax = (tax) => {
-    withholdings.deleteWithholding(tax.id)
+
+const deleteWtax = async (tax) => {
+    try {
+        boardLoading.value = true
+        await withholdings.deleteWithholding(tax.id)
+        snackbar.add({
+            type: "success",
+            text: withholdings.successMessage
+        })
+    } finally {
+        boardLoading.value = false
+    }
 }
 
 const changePaginate = (newParams) => {
@@ -47,5 +57,15 @@ const actions = {
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
+        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+            {{ errorMessage }}
+        </p>
+        <p
+            v-show="successMessage"
+            hidden
+            class="success-message text-green-600 text-center font-semibold italic"
+        >
+            {{ successMessage }}
+        </p>
     </LayoutBoards>
 </template>

@@ -25,12 +25,12 @@ const edit = async () => {
 </script>
 
 <template>
-    <LayoutEditBoards title="Withholding Tax" :loading="boardLoading">
+    <LayoutEditBoards title="Edit Withholding Tax" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
             <form @submit.prevent="edit">
                 <label
                     class="text-sm"
-                >Create Withholding Record</label>
+                >Edit Withholding Record</label>
                 <div class="grid grid-rows-1 p-px">
                     <label
                         for="wtaxTerm"
@@ -41,6 +41,7 @@ const edit = async () => {
                         v-model="withholding.term"
                         class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
                         required
+                        disabled
                     >
                         <option class="italic font-semibold" value="" disabled selected>
                             Choose Term

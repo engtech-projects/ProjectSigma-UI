@@ -1,35 +1,35 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useDepartmentStore } from "@/stores/departments"
+import { usePositionStore } from "@/stores/position"
 
-const departments = useDepartmentStore()
-const { department, errorMessage, successMessage } = storeToRefs(departments)
+const positions = usePositionStore()
+const { position, errorMessage, successMessage } = storeToRefs(positions)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-const addDepartment = async () => {
+const addPosition = async () => {
     try {
         boardLoading.value = true
-        await departments.createDepartment()
-        if (departments.errorMessage !== "") {
+        await positions.createPosition()
+        if (positions.errorMessage !== "") {
             snackbar.add({
                 type: "error",
-                text: departments.errorMessage
+                text: positions.errorMessage
             })
         } else {
             snackbar.add({
                 type: "success",
-                text: departments.successMessage
+                text: positions.successMessage
             })
         }
     } catch {
         snackbar.add({
             type: "error",
-            text: departments.errorMessage
+            text: positions.errorMessage
         })
     } finally {
-        departments.clearMessages()
+        positions.clearMessages()
         boardLoading.value = false
     }
 }
@@ -37,16 +37,16 @@ const addDepartment = async () => {
 </script>
 
 <template>
-    <LayoutBoards title="Department Name" :loading="boardLoading">
+    <LayoutBoards title="Position Name" :loading="boardLoading">
         <div class="text-gray-500">
-            <form @submit.prevent="addDepartment">
+            <form @submit.prevent="addPosition">
                 <label
-                    for="department_name"
+                    for="position_name"
                     class="text-xs italic"
-                >Department Name</label>
+                >New Position Name</label>
                 <input
-                    id="departmentName"
-                    v-model="department.department_name"
+                    id="position_name"
+                    v-model="position.name"
                     type="text"
                     class="w-full rounded-lg"
                 >
@@ -56,7 +56,7 @@ const addDepartment = async () => {
                         type="submit"
                         class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
                     >
-                        Add Department
+                        Add Position
                     </button>
                 </div>
             </form>
