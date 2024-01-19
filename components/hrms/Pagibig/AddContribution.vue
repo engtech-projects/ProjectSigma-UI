@@ -12,7 +12,7 @@ const addRange = async () => {
     try {
         boardLoading.value = true
         await pagibig.addContribution()
-        if (departments.errorMessage !== "") {
+        if (pagibig.errorMessage !== "") {
             snackbar.add({
                 type: "error",
                 text: pagibig.errorMessage
