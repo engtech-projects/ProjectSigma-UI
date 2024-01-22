@@ -44,11 +44,6 @@ const submitAllowance = async (positionAllowance) => {
     }
 }
 
-const onAmountChange = (positionAllowance) => {
-    // Mark the row as modified when the input is changed
-    positionAllowance.isModified = true
-}
-
 </script>
 
 <template>
@@ -71,9 +66,8 @@ const onAmountChange = (positionAllowance) => {
                             {{ pos.name }}
                         </td>
                         <td class="flex gap-4 p-2 rounded-md">
-                            {{ pos.amount }}
-                            <input v-model="pos.amount" class="rounded-md" type="number" @input="onAmountChange(pos)">
-                            <button v-if="pos.isModified" type="submit" class="rounded-md bg-green-400 p-2 text-white hover:bg-green-500" @click.prevent="submitAllowance(pos)">
+                            <input v-model="pos.amount" class="rounded-md" type="number">
+                            <button type="submit" class="rounded-md bg-green-400 p-2 text-white hover:bg-green-500" @click.prevent="submitAllowance(pos)">
                                 Save Changes
                             </button>
                         </td>
