@@ -17,24 +17,36 @@ const changePaginate = (newParams) => {
     // getParams.value.particularName = newParams.particularName ?? ""
 }
 
-const submitAllowance = (positionAllowance) => {
-    if (!positionAllowance.id) {
+const submitAllowance = async (positionAllowance) => {
+    try {
         boardLoading.value = true
+
         allowance.value = positionAllowance
-        allowances.createAllowance()
+
+        if (!positionAllowance.id) {
+            await allowances.createAllowance()
+        } else {
+            await allowances.editAllowance()
+        }
+
         snackbar.add({
             type: "success",
-            text: positions.successMessage
+            text: allowances.successMessage,
         })
-    } else {
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: allowances.errorMessage,
+        })
+    } finally {
+        allowances.clearMessages()
         boardLoading.value = false
-        allowance.value = positionAllowance
-        allowances.editAllowance()
-        snackbar.add({
-            type: "success",
-            text: positions.successMessage
-        })
     }
+}
+
+const onAmountChange = (positionAllowance) => {
+    // Mark the row as modified when the input is changed
+    positionAllowance.isModified = true
 }
 
 </script>
@@ -60,8 +72,8 @@ const submitAllowance = (positionAllowance) => {
                         </td>
                         <td class="flex gap-4 p-2 rounded-md">
                             {{ pos.amount }}
-                            <input v-model="pos.amount" class="rounded-md" type="number">
-                            <button type="submit" class="rounded-md bg-green-400 p-2 text-white hover:bg-green-500" @click.prevent="submitAllowance(pos)">
+                            <input v-model="pos.amount" class="rounded-md" type="number" @input="onAmountChange(pos)">
+                            <button v-if="pos.isModified" type="submit" class="rounded-md bg-green-400 p-2 text-white hover:bg-green-500" @click.prevent="submitAllowance(pos)">
                                 Save Changes
                             </button>
                         </td>
