@@ -6,6 +6,9 @@ const allowances = useAllowanceStore()
 
 const { allowance, getParams, pagination, errorMessage, successMessage, positionAllowances } = storeToRefs(allowances)
 
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
     // getParams.value.syId = newParams.id ?? ""
@@ -16,15 +19,23 @@ const changePaginate = (newParams) => {
 
 const submitAllowance = (positionAllowance) => {
     if (!positionAllowance.id) {
+        boardLoading.value = true
         allowance.value = positionAllowance
         allowances.createAllowance()
+        snackbar.add({
+            type: "success",
+            text: positions.successMessage
+        })
     } else {
+        boardLoading.value = false
         allowance.value = positionAllowance
         allowances.editAllowance()
+        snackbar.add({
+            type: "success",
+            text: positions.successMessage
+        })
     }
 }
-// const snackbar = useSnackbar()
-const boardLoading = ref(false)
 
 </script>
 
@@ -48,8 +59,9 @@ const boardLoading = ref(false)
                             {{ pos.name }}
                         </td>
                         <td class="flex gap-4 p-2 rounded-md">
+                            {{ pos.amount }}
                             <input v-model="pos.amount" class="rounded-md" type="number">
-                            <button class="rounded-md bg-green-400 p-2 text-white hover:bg-green-500" @click.prevent="submitAllowance(pos)">
+                            <button type="submit" class="rounded-md bg-green-400 p-2 text-white hover:bg-green-500" @click.prevent="submitAllowance(pos)">
                                 Save Changes
                             </button>
                         </td>

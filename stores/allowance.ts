@@ -23,9 +23,9 @@ export const useAllowanceStore = defineStore("Allowances", {
             return state.positionList.map((pos) => {
                 return {
                     name: pos.name,
-                    id: null,
+                    id: pos.allowances[0].id || null,
                     position_id: pos.id,
-                    amount: 0,
+                    amount: pos.allowances[0].amount || 0,
                 }
             })
         }
@@ -33,7 +33,7 @@ export const useAllowanceStore = defineStore("Allowances", {
     actions: {
         async getPositionAllowances () {
             const { data, error } = await useFetch(
-                "/api/position",
+                "/api/allowance-list",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -42,12 +42,13 @@ export const useAllowanceStore = defineStore("Allowances", {
                     // },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.positionList = response._data.data.data
-                        this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
-                        }
+                        this.positionList = response._data.data
+                        // console.log(this.positionList)
+                        // this.pagination = {
+                        //     first_page: response._data.data.first_page_url,
+                        //     pages: response._data.data.links,
+                        //     last_page: response._data.data.last_page_url,
+                        // }
                     },
                 }
             )
@@ -75,7 +76,7 @@ export const useAllowanceStore = defineStore("Allowances", {
                         if (response.status !== 200) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getAllowance()
+                            this.getPositionAllowances()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -103,7 +104,7 @@ export const useAllowanceStore = defineStore("Allowances", {
                 }
             )
             if (data.value) {
-                this.getAllowance()
+                this.getPositionAllowances()
                 this.reset()
                 this.successMessage = data.value.message
                 return data
@@ -128,7 +129,7 @@ export const useAllowanceStore = defineStore("Allowances", {
                 }
             )
             if (data.value) {
-                this.getAllowance()
+                this.getPositionAllowances()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
