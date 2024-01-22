@@ -3,7 +3,7 @@
 import { useAllowanceStore } from "@/stores/allowance"
 
 const allowances = useAllowanceStore()
-// const { isEdit } = storeToRefs(allowances)
+const { isEdit } = storeToRefs(allowances)
 allowances.getPositionAllowances()
 
 useHead({
@@ -15,5 +15,6 @@ useHead({
 <template>
     <div class="flex flex-col md:flex-row gap-4">
         <HrmsSetupAllowanceTable />
+        <HrmsSetupEditTable v-show="isEdit" />
     </div>
 </template>
