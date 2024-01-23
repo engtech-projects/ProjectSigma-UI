@@ -10,7 +10,7 @@ env:
   APP_NAME: "ProjectSigma_UI"
 
 concurrency:
-  group: "deployftp ProjectSigma_UI"
+  group: "deployftp ProjectSigma_UI ${{ github.event.workflow_run.head_branch }}"
   cancel-in-progress: true
 
 jobs:
