@@ -8,26 +8,21 @@ const { project, errorMessage, successMessage } = storeToRefs(projects)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-const addProject = async () => {
+const cancelEdit = () => {
+    projects.reset()
+}
+const editProject = async () => {
     try {
         boardLoading.value = true
-        await projects.createProject()
-        if (projects.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: projects.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: projects.successMessage
-            })
-        }
-    } catch (error) {
-        errorMessage.value = errorMessage
+        await projects.editProject()
+        snackbar.add({
+            type: "success",
+            text: projects.successMessage
+        })
+    } catch {
         snackbar.add({
             type: "error",
-            text: projects.errorMessage
+            text: projects.errorMessage || "something went wrong."
         })
     } finally {
         projects.clearMessages()
@@ -38,15 +33,15 @@ const addProject = async () => {
 </script>
 
 <template>
-    <LayoutBoards title="Project Name" :loading="boardLoading">
-        <div class="text-gray-500">
-            <form @submit.prevent="addProject">
+    <LayoutEditBoards title="Edit project" :loading="boardLoading">
+        <div class="text-gray-500 mt-2">
+            <form @submit.prevent="editProject">
                 <div class="flex flex-col gap-2">
                     <div>
                         <label
-                            for="project_name"
+                            for="contract_id"
                             class="text-xs italic"
-                        >Contract ID</label>
+                        >New Contract ID</label>
                         <input
                             id="contractId"
                             v-model="project.contract_id"
@@ -56,9 +51,9 @@ const addProject = async () => {
                     </div>
                     <div>
                         <label
-                            for="project_name"
+                            for="contract_name"
                             class="text-xs italic"
-                        >Contract Name</label>
+                        >New Contract Name</label>
                         <input
                             id="contractName"
                             v-model="project.contract_name"
@@ -70,7 +65,7 @@ const addProject = async () => {
                         <label
                             for="contract_location"
                             class="text-xs italic"
-                        >Contract Location</label>
+                        >New Contract Location</label>
                         <input
                             id="contractLocation"
                             v-model="project.contract_location"
@@ -80,12 +75,20 @@ const addProject = async () => {
                     </div>
                 </div>
 
-                <div class="flex justify-end">
+                <div class="flex justify-end gap-2">
                     <button
                         type="submit"
-                        class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
+                        class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5 hover:bg-teal-500"
                     >
-                        Add Project
+                        Save
+                    </button>
+
+                    <button
+                        type="button"
+                        class="flex-1 text-white p-2 rounded bg-gray-700 content-center mt-5 hover:bg-gray-500"
+                        @click="cancelEdit"
+                    >
+                        Cancel
                     </button>
                 </div>
             </form>
@@ -100,7 +103,7 @@ const addProject = async () => {
                 {{ successMessage }}
             </p>
         </div>
-    </LayoutBoards>
+    </LayoutEditBoards>
 </template>
 
 <style scoped>

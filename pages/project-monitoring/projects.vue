@@ -1,5 +1,9 @@
 <script setup lang="ts">
 
+const projects = useProjectStore()
+const { isEdit } = storeToRefs(projects)
+projects.getProject()
+
 definePageMeta({
     layout: "default",
 })
@@ -11,7 +15,8 @@ useHead({
 
 <template>
     <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-4">
-        <ProjectsNewProject />
+        <ProjectsNewProject v-show="!isEdit" />
+        <ProjectsEditProject v-show="isEdit" />
         <ProjectsList />
     </div>
 </template>
