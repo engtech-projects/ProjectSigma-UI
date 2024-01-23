@@ -23,7 +23,8 @@ const addDepartment = async () => {
                 text: departments.successMessage
             })
         }
-    } catch {
+    } catch (error) {
+        errorMessage.value = errorMessage
         snackbar.add({
             type: "error",
             text: departments.errorMessage
