@@ -220,6 +220,11 @@ const config = useRuntimeConfig()
                     single-nav-title="Pag-Ibig"
                 />
                 <LayoutNavSingle
+                    linkarea="/hrms/setup/allowance"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Allowance"
+                />
+                <LayoutNavSingle
                     linkarea="/hrms/setup/position"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Position"
