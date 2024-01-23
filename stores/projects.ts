@@ -17,9 +17,11 @@ export const useProjectStore = defineStore("projects", {
         getParams: {},
         errorMessage: "",
         successMessage: "",
+        isLoading: false,
     }),
     actions: {
         async getProject () {
+            this.isLoading = true
             const { data, error } = await useFetch(
                 "/api/projects",
                 {
@@ -31,11 +33,12 @@ export const useProjectStore = defineStore("projects", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
+                        this.isLoading = false
                         this.list = response._data.data
                         this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            first_page: response._data.first_page_url,
+                            pages: response._data.links,
+                            last_page: response._data.last_page_url,
                         }
                     },
                 }

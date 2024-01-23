@@ -25,10 +25,6 @@ const deleteDept = async (dept) => {
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
-    // getParams.value.syId = newParams.id ?? ""
-    // getParams.value.semId = newParams.semId ?? ""
-    // getParams.value.feeType = newParams.feeType ?? ""
-    // getParams.value.particularName = newParams.particularName ?? ""
 }
 
 const headers = [
@@ -47,10 +43,10 @@ const boardLoading = ref(false)
 </script>
 
 <template>
-    <LayoutBoards title="Project List" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="Project List" class="w-full" :loading="projects.isLoading">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="projectList" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
-            <center v-if="!projectList.length" class="p-4">
+            <center v-if="!projectList.length&&!projects.isLoading" class="p-4">
                 <i>No data available.</i>
             </center>
         </div>
