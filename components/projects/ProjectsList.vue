@@ -45,13 +45,21 @@ const boardLoading = ref(false)
 <template>
     <LayoutBoards title="Project List" class="w-full" :loading="projects.isLoading">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="projectList" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
-            <center v-if="!projectList.length&&!projects.isLoading" class="p-4">
-                <i>No data available.</i>
-            </center>
+            <LayoutPsTable
+                :header-columns="headers"
+                :datas="projectList"
+                :actions="actions"
+                @edit-row="setEdit"
+                @delete-row="deleteDept"
+            />
+            <i v-if="!projectList.length&&!projects.isLoading" class="p-4 text-center block">No data available.</i>
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <CustomPagination
+                v-if="projectList.length"
+                :links="pagination"
+                @change-params="changePaginate"
+            />
         </div>
         <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
             {{ errorMessage }}

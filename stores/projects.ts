@@ -29,7 +29,7 @@ export const useProjectStore = defineStore("projects", {
                     method: "GET",
                     headers: {
                         Authorization: token.value + "",
-                        Accept: 'application/json'
+                        Accept: "application/json"
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
@@ -60,12 +60,12 @@ export const useProjectStore = defineStore("projects", {
                     method: "POST",
                     headers: {
                         Authorization: token.value + "",
-                        Accept: 'application/json'
+                        Accept: "application/json"
                     },
                     body: this.project,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 200) {
+                        if (response.status !== 201) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getProject()
