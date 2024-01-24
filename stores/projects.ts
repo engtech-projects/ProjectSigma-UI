@@ -17,9 +17,11 @@ export const useProjectStore = defineStore("projects", {
         getParams: {},
         errorMessage: "",
         successMessage: "",
+        isLoading: false,
     }),
     actions: {
         async getProject () {
+            this.isLoading = true
             const { data, error } = await useFetch(
                 "/api/projects",
                 {
@@ -27,15 +29,16 @@ export const useProjectStore = defineStore("projects", {
                     method: "GET",
                     headers: {
                         Authorization: token.value + "",
-                        Accept: 'application/json'
+                        Accept: "application/json"
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
+                        this.isLoading = false
                         this.list = response._data.data
                         this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            first_page: response._data.first_page_url,
+                            pages: response._data.links,
+                            last_page: response._data.last_page_url,
                         }
                     },
                 }
@@ -57,12 +60,12 @@ export const useProjectStore = defineStore("projects", {
                     method: "POST",
                     headers: {
                         Authorization: token.value + "",
-                        Accept: 'application/json'
+                        Accept: "application/json"
                     },
                     body: this.project,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 200) {
+                        if (response.status !== 201) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getProject()
