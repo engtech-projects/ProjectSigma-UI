@@ -37,7 +37,7 @@ const addRange = async () => {
 
 <template>
     <LayoutBoards title="Pag-IBIG" :loading="boardLoading">
-        <div class="text-gray-500 mt-2">
+        <div class="text-gray-500 mt-4">
             <form @submit.prevent="addRange">
                 <label
                     class="text-sm"

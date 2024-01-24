@@ -24,8 +24,8 @@ permissions:
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: "build ProjectSigma_UI"
-  cancel-in-progress: false
+  group: "build ProjectSigma_UI ${{ github.ref  }}"
+  cancel-in-progress: true
 
 jobs:
   build-nuxt-staging:
@@ -36,7 +36,7 @@ jobs:
       HRMS_API_URL: 'https://projectsigma-hrmsapi-staging.engtechglobalsolutions.com'
       ACCOUNTING_API_URL: 'https://projectsigma-accountingapi-staging.engtechglobalsolutions.com'
       INVENTORY_API_URL: 'https://projectsigma-inventoryapi-staging.engtechglobalsolutions.com'
-      PROJECT_API_URL: 'https://projectsigma-inventoryapi-staging.engtechglobalsolutions.com'
+      PROJECT_API_URL: 'https://projectsigma-projectsapi-staging.engtechglobalsolutions.com'
     if: github.ref == 'refs/heads/staging'
     steps:
       - name: Set output
@@ -64,7 +64,7 @@ jobs:
       HRMS_API_URL: 'https://projectsigma-hrmsapi.engtechglobalsolutions.com'
       ACCOUNTING_API_URL: 'https://projectsigma-accountingapi.engtechglobalsolutions.com'
       INVENTORY_API_URL: 'https://projectsigma-inventoryapi.engtechglobalsolutions.com'
-      PROJECT_API_URL: 'https://projectsigma-inventoryapi.engtechglobalsolutions.com'
+      PROJECT_API_URL: 'https://projectsigma-projectsapi.engtechglobalsolutions.com'
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Set output

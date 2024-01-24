@@ -14,22 +14,54 @@ useHead({
         class: "login",
     },
 })
-const userCredentials = ref({
+const userCredentials = reactive({
     username: "",
     password: "",
-    remember: false
+    remember: false,
+    response: ""
 })
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+const signingIn = ref("")
+const loggedIn = ref("")
+
 const login = async () => {
-    if (!loading.value) {
-        try {
-            loading.value = true
-            await signIn(userCredentials.value, { callbackUrl: "/dashboard" })
-        } finally {
-            loading.value = false
-        }
+    boardLoading.value = true
+    userCredentials.response = ""
+    signingIn.value = "Signing in..."
+    loggedIn.value = "Welcome " + userCredentials.username
+    snackbar.add({
+        type: "success",
+        text: signingIn.value
+    })
+    try {
+        const response = await signIn(
+            {
+                username: userCredentials.username,
+                password: userCredentials.password,
+            },
+            { callbackUrl: "/dashboard" }
+        )
+        snackbar.add({
+            type: "success",
+            text: loggedIn.value
+        })
+        snackbar.add({
+            type: "success",
+            text: userCredentials.response = response.message
+        })
+        // userCredentials.response = response.message
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: userCredentials.response = error.data.message
+        })
+        // userCredentials.response = error.data.message
     }
+    signingIn.value = ""
+    boardLoading.value = false
 }
-const loading = ref(false)
+
 </script>
 
 <template>
@@ -44,9 +76,7 @@ const loading = ref(false)
                 >
                     <img class="w-90 h-70 mr-2" src="/logo.fw.png" alt="logo">
                 </a>
-                <div
-                    class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
-                >
+                <LayoutCard title="" :loading="boardLoading">
                     <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <div class="border-b w-full h-[14px] text-center p-3 mt-2 mb-7">
                             <span class="text-md bg-white text-black px-3 italic">
@@ -89,6 +119,14 @@ const loading = ref(false)
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 >
                             </div>
+                            <p class="p-4">
+                                <span class="text-red-600">
+                                    <!-- {{ userCredentials.response }} -->
+                                </span>
+                                <span>
+                                    {{ signingIn }}
+                                </span>
+                            </p>
                             <div class="flex items-center justify-between">
                                 <div class="flex items-start">
                                     <div class="flex items-center h-5">
@@ -112,14 +150,17 @@ const loading = ref(false)
                                     class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                                 >Forgot password?</a>
                             </div>
-                            <button
-                                v-if="loading"
+                            <!-- <button
+                                v-if="boardLoading"
                                 class="w-full text-white bg-cyan-600 hover:bg-secondary-base focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
-                                <Icon name="mdi:loading" />
-                            </button>
+                                <img
+                                    class="flex justify-center mx-auto w-8 rounded-md"
+                                    src="/loader.gif"
+                                    alt="logo"
+                                >
+                            </button> -->
                             <button
-                                v-else
                                 type="submit"
                                 class="w-full text-white bg-cyan-600 hover:bg-secondary-base focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
@@ -127,7 +168,7 @@ const loading = ref(false)
                             </button>
                         </form>
                     </div>
-                </div>
+                </LayoutCard>
             </div>
         </section>
     </div>
