@@ -20,13 +20,20 @@ const userCredentials = reactive({
     remember: false,
     response: ""
 })
-
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
 const signingIn = ref("")
+const loggedIn = ref("")
 
 const login = async () => {
     boardLoading.value = true
     userCredentials.response = ""
-    signingIn.value = "Signing In..."
+    signingIn.value = "Signing in..."
+    loggedIn.value = "Welcome " + userCredentials.username
+    snackbar.add({
+        type: "success",
+        text: signingIn.value
+    })
     try {
         const response = await signIn(
             {
@@ -35,15 +42,26 @@ const login = async () => {
             },
             { callbackUrl: "/dashboard" }
         )
-        userCredentials.response = response.message
+        snackbar.add({
+            type: "success",
+            text: loggedIn.value
+        })
+        snackbar.add({
+            type: "success",
+            text: userCredentials.response = response.message
+        })
+        // userCredentials.response = response.message
     } catch (error) {
-        userCredentials.response = error.data.message
+        snackbar.add({
+            type: "error",
+            text: userCredentials.response = error.data.message
+        })
+        // userCredentials.response = error.data.message
     }
-    boardLoading.value = false
     signingIn.value = ""
+    boardLoading.value = false
 }
 
-const boardLoading = ref(false)
 </script>
 
 <template>
@@ -103,7 +121,7 @@ const boardLoading = ref(false)
                             </div>
                             <p class="p-4">
                                 <span class="text-red-600">
-                                    {{ userCredentials.response }}
+                                    <!-- {{ userCredentials.response }} -->
                                 </span>
                                 <span>
                                     {{ signingIn }}
