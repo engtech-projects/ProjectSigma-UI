@@ -23,9 +23,9 @@ export const useAllowanceStore = defineStore("Allowances", {
             return state.positionList.map((pos) => {
                 return {
                     name: pos.name,
-                    id: pos.allowances[0].id || null,
+                    id: pos.allowances?.id || null,
                     position_id: pos.id,
-                    amount: pos.allowances[0].amount || 0,
+                    amount: pos.allowances?.amount || 0,
                 }
             })
         }

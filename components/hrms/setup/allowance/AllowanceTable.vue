@@ -67,6 +67,7 @@ const submitAllowance = async (positionAllowance) => {
                         </td>
                         <td class="flex gap-4 p-2 rounded-md">
                             <input v-model="pos.amount" class="rounded-md" type="number">
+
                             <button type="submit" class="rounded-md bg-green-400 p-2 text-white hover:bg-green-500" @click.prevent="submitAllowance(pos)">
                                 Save Changes
                             </button>
