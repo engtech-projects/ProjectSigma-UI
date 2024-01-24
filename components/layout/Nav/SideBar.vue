@@ -187,18 +187,13 @@ const config = useRuntimeConfig()
                     single-nav-title="User Accounts"
                 />
                 <LayoutNavSingle
-                    linkarea="/hrms/setup/department"
-                    icon="ic:round-meeting-room"
-                    single-nav-title="Department"
-                />
-                <LayoutNavSingle
                     v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/setup/approvals"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Approvals"
                 />
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV == 'local'"
+                    v-if="config.public.APP_ENV == 'local' && false"
                     linkarea="/hrms/setup/division"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Division"
@@ -210,14 +205,14 @@ const config = useRuntimeConfig()
                     single-nav-title="HMO"
                 />
                 <LayoutNavSingle
-                    linkarea="/hrms/setup/philhealth"
-                    icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Philhealth"
+                    linkarea="/hrms/setup/department"
+                    icon="ic:round-meeting-room"
+                    single-nav-title="Department"
                 />
                 <LayoutNavSingle
-                    linkarea="/hrms/setup/pag-ibig"
+                    linkarea="/hrms/setup/position"
                     icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Pag-Ibig"
+                    single-nav-title="Position"
                 />
                 <LayoutNavSingle
                     linkarea="/hrms/setup/allowance"
@@ -225,9 +220,19 @@ const config = useRuntimeConfig()
                     single-nav-title="Allowance"
                 />
                 <LayoutNavSingle
-                    linkarea="/hrms/setup/position"
+                    linkarea="/hrms/setup/leaves"
                     icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Position"
+                    single-nav-title="Leaves"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/pag-ibig"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Pag-Ibig"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/philhealth"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Philhealth"
                 />
                 <LayoutNavSingle
                     linkarea="/hrms/setup/sss"
@@ -238,11 +243,6 @@ const config = useRuntimeConfig()
                     linkarea="/hrms/setup/wtax"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Withholding Tax"
-                />
-                <LayoutNavSingle
-                    linkarea="/hrms/setup/leaves"
-                    icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Leaves"
                 />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
@@ -263,15 +263,13 @@ const config = useRuntimeConfig()
 
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup
-            v-if="config.public.APP_ENV == 'local'"
             id="dropdown-projectmonitoring-main"
             title="Project Monitoring"
         >
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/project-monitoring/projects"
                 icon="material-symbols:business-center"
-                single-nav-title="Project"
+                single-nav-title="Projects"
             />
         </LayoutNavModuleGroup>
     </ul>
