@@ -1,11 +1,53 @@
+<script setup>
+
+import { storeToRefs } from "pinia"
+import { useMain } from "@/stores/announcements"
+
+const mains = useMain()
+
+const { announcement, successMessage, errorMessage } = storeToRefs(mains)
+
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+
+const addMain = async () => {
+    try {
+        boardLoading.value = true
+        await mains.create()
+        if (mains.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: mains.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: successMessage
+            })
+        }
+    } catch (error) {
+        errorMessage.value = errorMessage
+        snackbar.add({
+            type: "error",
+            text: mains.errorMessage
+        })
+    } finally {
+        mains.clearMessages()
+        boardLoading.value = false
+    }
+}
+
+</script>
 <template>
     <LayoutBoards title="Announcement Form" class="mb-5">
-        <form class="space-y-3 mt-5" @submit.prevent="postAnnouncement">
+        <form class="space-y-3 mt-5" @submit.prevent="addMain">
             <div>
-                <label for="announcement-title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                <label for="announcement-title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Title
+                </label>
                 <input
                     id="announcement-title"
-                    v-model="newAnnouncement.title"
+                    v-model="announcement.title"
                     type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     placeholder="Announcement Title"
@@ -14,10 +56,12 @@
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label for="announcement-date1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Announcement Starts</label>
+                    <label for="announcement-date1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Announcement Starts
+                    </label>
                     <input
                         id="announcement-date1"
-                        v-model="newAnnouncement.startDate"
+                        v-model="announcement.startDate"
                         type="date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         placeholder="Announcement Title"
@@ -25,10 +69,12 @@
                     >
                 </div>
                 <div>
-                    <label for="announcement-date1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Announcement Ends</label>
+                    <label for="announcement-date1" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Announcement Ends
+                    </label>
                     <input
                         id="announcement-date2"
-                        v-model="newAnnouncement.endDate"
+                        v-model="announcement.endDate"
                         type="date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         placeholder="Announcement Title"
@@ -37,10 +83,11 @@
                 </div>
             </div>
             <div>
-                <label for="announcement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Announcement</label>
-                <textarea id="announcement" v-model="newAnnouncement.description" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Type your announcement here" required />
+                <label for="announcement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Announcement
+                </label>
+                <textarea id="announcement" v-model="announcement.content" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Type your announcement here" required />
             </div>
-
             <div class="flex space-x-1 justify-end">
                 <button type="reset" class="w-18 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Clear
@@ -53,29 +100,3 @@
         </form>
     </LayoutBoards>
 </template>
-
-<script setup lang="ts">
-
-const newAnnouncement = ref({
-    title: "",
-    startDate: "",
-    endDate: "",
-    description: "",
-    editing: false,
-})
-
-const postAnnouncement = () => {
-    if (
-        newAnnouncement.value.title &&
-    newAnnouncement.value.description &&
-    newAnnouncement.value.startDate &&
-    newAnnouncement.value.endDate
-    ) {
-        newAnnouncement.value.title = ""
-        newAnnouncement.value.startDate = ""
-        newAnnouncement.value.endDate = ""
-        newAnnouncement.value.description = ""
-    }
-}
-
-</script>
