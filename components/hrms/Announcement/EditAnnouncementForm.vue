@@ -5,7 +5,7 @@ import { useMain } from "@/stores/announcements"
 
 const mains = useMain()
 
-const { announcement, successMessage, errorMessage } = storeToRefs(mains)
+const { announcement, errorMessage } = storeToRefs(mains)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -19,7 +19,7 @@ const edit = async () => {
         await mains.editone()
         snackbar.add({
             type: "success",
-            text: successMessage
+            text: mains.successMessage
         })
     } catch {
         snackbar.add({

@@ -5,7 +5,7 @@ import { useMain } from "@/stores/announcements"
 const mains = useMain()
 
 // const { isEdit, main, getParams, pagination, errorMessage, successMessage } = storeToRefs(mains)
-const { list: mainList, announcement, isEdit, successMessage } = storeToRefs(mains)
+const { list: mainList, announcement, isEdit } = storeToRefs(mains)
 
 const setEdit = (dept) => {
     isEdit.value = true
@@ -18,7 +18,7 @@ const deleteone = async (dept) => {
         await mains.deleteone(dept.id)
         snackbar.add({
             type: "success",
-            text: successMessage
+            text: mains.successMessage
         })
     } finally {
         boardLoading.value = false
