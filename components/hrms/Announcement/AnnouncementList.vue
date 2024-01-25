@@ -5,12 +5,17 @@ import { useMain } from "@/stores/announcements"
 const mains = useMain()
 
 // const { isEdit, main, getParams, pagination, errorMessage, successMessage } = storeToRefs(mains)
-const { announcement, successMessage } = storeToRefs(mains)
+const { list: mainList, announcement, isEdit, successMessage } = storeToRefs(mains)
 
-const deleted = async (dept) => {
+const setEdit = (dept) => {
+    isEdit.value = true
+    announcement.value = dept
+}
+
+const deleteone = async (dept) => {
     try {
         boardLoading.value = true
-        await mains.delete(dept.id)
+        await mains.deleteone(dept.id)
         snackbar.add({
             type: "success",
             text: successMessage
@@ -20,10 +25,20 @@ const deleted = async (dept) => {
     }
 }
 
-const headers = [
-    { name: "Announcement", id: "announcement" },
-]
+// const changePaginate = (newParams) => {
+//     getParams.value.page = newParams.page ?? ""
+// }
 
+const headers = [
+    { name: "Announcement", id: "title" },
+    { name: "Content", id: "content" },
+    { name: "Date From", id: "start_date" },
+    { name: "Date to", id: "end_date" },
+]
+const actions = {
+    edit: true,
+    delete: true
+}
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
@@ -47,8 +62,7 @@ const boardLoading = ref(false)
             </div>
         </div>
         <div class="mt-5 mb-6">
-            <!-- <LayoutPsTable :header-columns="headers" :datas="announcement" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" /> -->
-            <LayoutPsTable :header-columns="headers" :datas="announcement" :actions="actions" @delete-row="deleted" />
+            <LayoutPsTable :header-columns="headers" :actions="actions" :datas="mainList" @edit-row="setEdit" @delete-row="deleteone" />
         </div>
     </LayoutBoards>
 </template>

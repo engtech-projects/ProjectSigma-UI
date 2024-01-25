@@ -9,27 +9,22 @@ const { announcement, successMessage, errorMessage } = storeToRefs(mains)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
+const cancelEdit = () => {
+    mains.reset()
+}
 
-const addMain = async () => {
+const edit = async () => {
     try {
         boardLoading.value = true
-        await mains.createone()
-        if (errorMessage !== "") {
-            snackbar.add({
-                type: "success",
-                text: successMessage
-            })
-        } else {
-            snackbar.add({
-                type: "error",
-                text: errorMessage
-            })
-        }
-    } catch (error) {
-        errorMessage.value = errorMessage
+        await mains.editone()
+        snackbar.add({
+            type: "success",
+            text: successMessage
+        })
+    } catch {
         snackbar.add({
             type: "error",
-            text: errorMessage
+            text: errorMessage || "something went wrong."
         })
     } finally {
         mains.clearMessages()
@@ -39,8 +34,8 @@ const addMain = async () => {
 
 </script>
 <template>
-    <LayoutBoards title="Announcement Form" class="mb-5">
-        <form class="space-y-3 mt-5" @submit.prevent="addMain">
+    <LayoutBoards title="Edit Announcement Form" class="mb-5">
+        <form class="space-y-3 mt-5" @submit.prevent="edit">
             <div>
                 <label for="announcement-title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Title
@@ -89,11 +84,11 @@ const addMain = async () => {
                 <textarea id="announcement" v-model="announcement.content" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Type your announcement here" required />
             </div>
             <div class="flex space-x-1 justify-end">
-                <button type="reset" class="w-18 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Clear
+                <button type="button" class="w-18 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" @click="cancelEdit">
+                    Cancel
                 </button>
                 <button type="submit" class="w-38 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-0 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Post
+                    Save
                     <Icon name="material-symbols:speaker-notes-outline-rounded" color="white" class="w-5 h-5" />
                 </button>
             </div>
