@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-// const { data: token } = useAuth()
+// const { token } = useAuth()
 const config = useRuntimeConfig()
 
 export const usePositionStore = defineStore("positions", {
@@ -24,7 +24,8 @@ export const usePositionStore = defineStore("positions", {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
                     // headers: {
-                    //     Authorization: token.value + ""
+                    //     Authorization: token.value + "",
+                    //     Accept: "application/json"
                     // },
                     params: this.getParams,
                     onResponse: ({ response }) => {
@@ -53,7 +54,8 @@ export const usePositionStore = defineStore("positions", {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
                     // headers: {
-                    //     Authorization: token.value + ""
+                    //     Authorization: token.value + "",
+                    //     Accept: "application/json"
                     // },
                     body: this.position,
                     watch: false,
@@ -82,7 +84,8 @@ export const usePositionStore = defineStore("positions", {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
                     // headers: {
-                    //     Authorization: token.value + ""
+                    //     Authorization: token.value + "",
+                    //     Accept: "application/json"
                     // },
                     body: this.position,
                     watch: false,
@@ -105,7 +108,8 @@ export const usePositionStore = defineStore("positions", {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
                     // headers: {
-                    //     Authorization: token.value + ""
+                    //     Authorization: token.value + "",
+                    //     Accept: "application/json"
                     // },
                     watch: false,
                     onResponse: ({ response }) => {

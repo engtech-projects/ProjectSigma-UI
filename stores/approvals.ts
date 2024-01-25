@@ -2,38 +2,64 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export const useAllowanceStore = defineStore("Allowances", {
+export const USER_SELECTOR1 = "Employee 1"
+export const USER_SELECTOR2 = "Employee 2"
+export const SELECTOR = [
+    USER_SELECTOR1,
+    USER_SELECTOR2
+]
+
+export interface Approver {
+    type: string,
+    user_id: number | null,
+    userselector: boolean
+}
+export interface Approval {
+    id: string | null,
+    form: string,
+    approvals: Array<Approver>,
+}
+export const useApprovalStore = defineStore("approvals", {
     state: () => ({
         isEdit: false,
-        allowance:
-        {
-            id: null,
-            position_id: "",
-            amount: null,
-        },
-        positionList: [],
-        list: [],
+        formApproval: {} as Approval,
+        list: [
+            {
+                id: null,
+                form: "Personel Action Notice",
+                approvals: [
+                    {
+                        type: "Test",
+                        user_id: null,
+                        userselector: true
+                    },
+                    {
+                        type: "Test",
+                        user_id: null,
+                        userselector: true
+                    },
+                ],
+            },
+            {
+                id: null,
+                form: "Manpower Request",
+                approvals: [],
+            },
+            {
+                id: null,
+                form: "Overtime",
+                approvals: [],
+            },
+        ] as unknown as Approval,
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
     }),
-    getters: {
-        positionAllowances (state) {
-            return state.positionList.map((pos) => {
-                return {
-                    name: pos.name,
-                    id: pos.allowances?.id || null,
-                    position_id: pos.id,
-                    amount: pos.allowances?.amount || 0,
-                }
-            })
-        }
-    },
     actions: {
-        async getPositionAllowances () {
+        async getApproval () {
             const { data, error } = await useFetch(
-                "/api/allowance-list",
+                "/api/approvals",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -43,13 +69,18 @@ export const useAllowanceStore = defineStore("Allowances", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.positionList = response._data.data
-                        // console.log(this.positionList)
-                        // this.pagination = {
-                        //     first_page: response._data.data.first_page_url,
-                        //     pages: response._data.data.links,
-                        //     last_page: response._data.data.last_page_url,
-                        // }
+                        this.approvalList = response._data.data.data.map((val) => {
+                            return {
+                                type: val.form,
+                                user_id: null,
+                                userselector: false,
+                            }
+                        })
+                        this.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
                     },
                 }
             )
@@ -60,11 +91,11 @@ export const useAllowanceStore = defineStore("Allowances", {
             }
         },
 
-        async createAllowance () {
+        async createApproval () {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/allowance",
+                "/api/approvals",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
@@ -72,13 +103,13 @@ export const useAllowanceStore = defineStore("Allowances", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.allowance,
+                    body: this.approval,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.status !== 200) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getPositionAllowances()
+                            this.getApproval()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -90,11 +121,11 @@ export const useAllowanceStore = defineStore("Allowances", {
             this.errorMessage = ""
             this.successMessage = ""
         },
-        async editAllowance () {
+        async editApprovals () {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/allowance/" + this.allowance.id,
+                "/api/approvals/" + this.approval.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
@@ -102,23 +133,26 @@ export const useAllowanceStore = defineStore("Allowances", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.allowance,
+                    body: this.approval,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
                 }
             )
             if (data.value) {
-                this.getPositionAllowances()
+                this.getApproval()
                 this.reset()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
-                this.errorMessage = error.value.data.message
+                this.errorMessage = error.value.message
                 return error
             }
         },
-        async deleteAllowance (id: number) {
-            const { data, error } = await useFetch(
-                "/api/allowance/" + id,
+        async deleteApproval (id: number) {
+            await useFetch(
+                "/api/approvals/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
@@ -129,25 +163,22 @@ export const useAllowanceStore = defineStore("Allowances", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
+                        this.getApproval()
+                    },
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data.message
                     },
                 }
             )
-            if (data.value) {
-                this.getPositionAllowances()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
 
         reset () {
-            this.allowance = {
+            this.approval = {
                 id: null,
-                position_id: "",
-                amount: null,
+                form: null,
+                approvals: [],
             }
+            this.approvals = []
             this.isEdit = false
             this.successMessage = ""
             this.errorMessage = ""

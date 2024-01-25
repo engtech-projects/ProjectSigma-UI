@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-// const { data: token } = useAuth()
+const { token } = useAuth()
 const config = useRuntimeConfig()
 
 export const SHARE_AMOUNT = "Amount"
@@ -32,9 +32,10 @@ export const usePhilhealthStore = defineStore("philContrib", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
@@ -61,9 +62,10 @@ export const usePhilhealthStore = defineStore("philContrib", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.contribution,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -90,9 +92,10 @@ export const usePhilhealthStore = defineStore("philContrib", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.contribution,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -116,9 +119,10 @@ export const usePhilhealthStore = defineStore("philContrib", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
