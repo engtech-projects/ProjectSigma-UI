@@ -1,22 +1,19 @@
 <script setup>
 
+import { storeToRefs } from "pinia"
+import { useApprovalStore } from "@/stores/approvals"
+
+const approvals = useApprovalStore()
+const { isEdit } = storeToRefs(approvals)
+approvals.getApproval()
+
 useHead({
     title: "Approvals",
-    meta: [{ name: "description", content: "" }],
 })
 </script>
 
 <template>
-    <div>
-        <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-6">
-            <HrmsSetupApprovalsForm />
-        </div>
-        <div class="container mx-auto mt-8" />
+    <div class="flex flex-col md:flex-row gap-4">
+        <HrmsSetupApprovalsForm v-show="!isEdit" />
     </div>
 </template>
-
-<style scoped>
-.rotate-180 {
-  transform: rotate(180deg);
-}
-</style>
