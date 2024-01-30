@@ -14,8 +14,8 @@
         <time class="block mb-2 text-xl font-normal leading-none text-gray-700 dark:text-gray-500">{{ date }}</time>
 
         <div class="mb-4 text-2xl font-normal text-gray-500 dark:text-gray-400 italic">
-            {{ content.slice(0, maxContentLength) }}
-            <span v-if="content.length > maxContentLength && !isFirstCard" class="text-blue-700 cursor-pointer hover:underline dark:text-blue-300" @click="toggleExpand">... View All</span>
+            {{ content?.slice(0, maxContentLength) }}
+            <span v-if="content?.length > maxContentLength && !isFirstCard" class="text-blue-700 cursor-pointer hover:underline dark:text-blue-300" @click="toggleExpand">... View All</span>
             <!-- {{ content }} -->
         </div>
 

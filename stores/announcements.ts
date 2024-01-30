@@ -1,6 +1,11 @@
 import { defineStore } from "pinia"
 const config = useRuntimeConfig()
-
+interface Announcement {
+    title: String,
+    content: String,
+    start_date: String,
+    end_date: String
+}
 export const useMain = defineStore("Announcements", {
     state: () => ({
         isEdit: false,
@@ -12,8 +17,8 @@ export const useMain = defineStore("Announcements", {
             start_date: "",
             end_date: "",
         },
-        positionList: [],
-        list: [],
+        list: [] as Array<Announcement>,
+        activeList: [] as Array<Announcement>,
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -47,7 +52,33 @@ export const useMain = defineStore("Announcements", {
                 return error
             }
         },
-
+        async getactiveAll () {
+            const { data, error } =
+            await useFetch(
+                "/api/announcement-list",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    // headers: {
+                    //     Authorization: token.value + ""
+                    // },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.activeList = response._data.data
+                        // this.pagination = {
+                        //     first_page: response._data.data.first_page_url,
+                        //     pages: response._data.data.links,
+                        //     last_page: response._data.data.last_page_url,
+                        // }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
         async createone () {
             this.successMessage = ""
             this.errorMessage = ""
