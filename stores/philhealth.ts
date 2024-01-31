@@ -16,8 +16,9 @@ export const usePhilhealthStore = defineStore("philContrib", {
             id: null,
             range_from: null,
             range_to: null,
-            share: null,
             share_type: "",
+            employee_share: null,
+            employer_share: null,
         },
         list: [],
         pagination: {},
@@ -144,8 +145,9 @@ export const usePhilhealthStore = defineStore("philContrib", {
                 id: null,
                 range_from: null,
                 range_to: null,
-                share: null,
                 share_type: "",
+                employee_share: null,
+                employer_share: null,
             }
             this.isEdit = false
             this.successMessage = ""

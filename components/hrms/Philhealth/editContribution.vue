@@ -68,17 +68,31 @@ const editCont = async () => {
                         >
                     </div>
                 </div>
-                <div>
-                    <label
-                        for="share"
-                        class="text-sm italic"
-                    >Share</label>
-                    <input
-                        id="share"
-                        v-model="contribution.share"
-                        type="number"
-                        class="w-full rounded-lg"
-                    >
+                <div class="grid grid-cols-2 gap-2 ">
+                    <div>
+                        <label
+                            for="empShare"
+                            class="text-sm italic"
+                        >Employee Share</label>
+                        <input
+                            id="empShare"
+                            v-model="contribution.employee_share"
+                            type="number"
+                            class="w-full rounded-lg"
+                        >
+                    </div>
+                    <div>
+                        <label
+                            for="empShare"
+                            class="text-sm italic"
+                        >Employer Share</label>
+                        <input
+                            id="empShare"
+                            v-model="contribution.employer_share"
+                            type="number"
+                            class="w-full rounded-lg"
+                        >
+                    </div>
                 </div>
                 <div class="grid grid-rows-1 mt-1">
                     <label for="share_type" class="text-sm italic">Share Type</label>
