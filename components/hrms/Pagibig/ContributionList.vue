@@ -40,8 +40,10 @@ const headers = [
     { name: "Range To", id: "range_to" },
     { name: "Employer Share %", id: "employer_share_percent" },
     { name: "Employer Max Contribution", id: "employer_maximum_contribution" },
+    { name: "Employer Compensation", id: "employer_compensation" },
     { name: "Employee Share %", id: "employee_share_percent" },
     { name: "Employee Max Contribution", id: "employee_maximum_contribution" },
+    { name: "Employee Compensation", id: "employee_compensation" },
 ]
 const actions = {
     edit: true,
@@ -52,7 +54,7 @@ const actions = {
 
 <template>
     <LayoutBoards title="Contribution List" class="w-full">
-        <div class="pb-2 text-gray-500">
+        <div class="pb-2 text-gray-500 text-[12px]">
             <LayoutPsTable :header-columns="headers" :datas="contributionList" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
         </div>
         <div class="flex justify-center mx-auto">
