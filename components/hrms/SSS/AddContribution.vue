@@ -70,7 +70,7 @@ const addRange = async () => {
                         >
                     </div>
                 </div>
-                <div>
+                <div class="grid grid-cols-2 gap-2 ">
                     <div>
                         <label
                             for="employerShare"
@@ -79,6 +79,16 @@ const addRange = async () => {
                         <input
                             id="employerShare"
                             v-model="contribution.employer_share"
+                            type="number"
+                            class="w-full rounded-lg"
+                        >
+                        <label
+                            for="employerContrib"
+                            class="text-sm italic"
+                        >Employer Contribution</label>
+                        <input
+                            id="employerContrib"
+                            v-model="contribution.employer_contribution"
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -94,25 +104,18 @@ const addRange = async () => {
                             type="number"
                             class="w-full rounded-lg"
                         >
-                    </div>
-                    <div>
                         <label
-                            for="totalContributions"
+                            for="employeeContrib"
                             class="text-sm italic"
-                        >
-                            Total Contributions
-                        </label>
+                        >Employee Contribution</label>
                         <input
-                            id="totalContributions"
-                            :value="contribution.employer_share + contribution.employee_share"
-                            disabled
-                            readonly
+                            id="employeeContrib"
+                            v-model="contribution.employee_contribution"
                             type="number"
                             class="w-full rounded-lg"
                         >
                     </div>
                 </div>
-
                 <div class="flex justify-end">
                     <button
                         type="submit"

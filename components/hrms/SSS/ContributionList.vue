@@ -39,7 +39,9 @@ const headers = [
     { name: "Range From", id: "range_from" },
     { name: "Range To", id: "range_to" },
     { name: "Employer Share", id: "employer_share" },
+    { name: "Employer Contribution", id: "employer_contribution" },
     { name: "Employee Share", id: "employee_share" },
+    { name: "Employee Contribution", id: "employee_contribution" },
 ]
 const actions = {
     edit: true,
