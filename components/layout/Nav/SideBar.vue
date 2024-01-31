@@ -187,7 +187,6 @@ const config = useRuntimeConfig()
                     single-nav-title="User Accounts"
                 />
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/setup/approvals"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Approvals"

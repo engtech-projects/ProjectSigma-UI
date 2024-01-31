@@ -33,17 +33,18 @@ export const useApprovalStore = defineStore("approvals", {
                         user_id: null,
                         userselector: true
                     },
+                ],
+            },
+            {
+                id: null,
+                form: "Manpower Request",
+                approvals: [
                     {
                         type: "Test",
                         user_id: null,
                         userselector: true
                     },
                 ],
-            },
-            {
-                id: null,
-                form: "Manpower Request",
-                approvals: [],
             },
             {
                 id: null,
@@ -103,7 +104,7 @@ export const useApprovalStore = defineStore("approvals", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.approval,
+                    body: this.formApproval,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.status !== 200) {
