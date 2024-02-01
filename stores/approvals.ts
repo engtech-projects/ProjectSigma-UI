@@ -2,8 +2,8 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export const USER_SELECTOR1 = "Employee 1"
-export const USER_SELECTOR2 = "Employee 2"
+export const USER_SELECTOR1 = "1"
+export const USER_SELECTOR2 = "2"
 export const SELECTOR = [
     USER_SELECTOR1,
     USER_SELECTOR2

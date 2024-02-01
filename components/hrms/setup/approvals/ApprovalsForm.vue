@@ -31,7 +31,7 @@ const submitApprov = async (approval) => {
         boardLoading.value = true
         formApproval.value = approval
 
-        if (!approval.id) {
+        if (!approvals.id) {
             await approvals.createApproval()
         } else {
             await approvals.editApprovals()
@@ -119,7 +119,7 @@ const submitApprov = async (approval) => {
                                                 <option value="select" selected>
                                                     --Select--
                                                 </option>
-                                                <option v-for="userSelect, userSelector in SELECTOR" :key="userSelector" :value="userSelect">
+                                                <option v-for="userSelect, userSelector in SELECTOR" :key="userSelector" :value="2">
                                                     {{ userSelect }}
                                                 </option>
                                             </select>
