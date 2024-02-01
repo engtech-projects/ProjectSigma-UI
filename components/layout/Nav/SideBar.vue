@@ -243,6 +243,11 @@ const config = useRuntimeConfig()
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Withholding Tax"
                 />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/settings"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Settings"
+                />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
