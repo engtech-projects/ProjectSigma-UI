@@ -4,11 +4,11 @@
             class="flex items-center justify-between
      text-lg font-semibold text-gray-900 dark:text-white"
         >
-            <h3 class="text-7xl mb-4 ">
+            <h3 class="text-6xl mb-4 ">
                 {{ title }}
             </h3>
 
-            <span class="bg-teal-100 text-teal-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-blue-300 ms-3">Latest</span>
+            <span class="bg-teal-100 text-teal-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-blue-300 ms-3" v-if="title!='No Announcement'">Latest</span>
         </div>
 
         <time class="block mb-2 text-xl font-normal leading-none text-gray-700 dark:text-gray-500">{{ date }}</time>
