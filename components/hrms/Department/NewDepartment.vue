@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useDepartmentStore } from "@/stores/departments"
+import { useDepartmentStore } from "@/stores/hrms/departments"
 
 const departments = useDepartmentStore()
 const { department, errorMessage, successMessage } = storeToRefs(departments)
@@ -87,3 +87,4 @@ const addDepartment = async () => {
     opacity: 0;
 }
 </style>
+~/stores/hrms/departments
