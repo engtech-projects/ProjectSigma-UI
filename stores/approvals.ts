@@ -23,35 +23,7 @@ export const useApprovalStore = defineStore("approvals", {
     state: () => ({
         isEdit: false,
         formApproval: {} as Approval,
-        list: [
-            {
-                id: null,
-                form: "Personel Action Notice",
-                approvals: [
-                    {
-                        type: "Test",
-                        user_id: null,
-                        userselector: true
-                    },
-                ],
-            },
-            {
-                id: null,
-                form: "Manpower Request",
-                approvals: [
-                    {
-                        type: "Test",
-                        user_id: null,
-                        userselector: true
-                    },
-                ],
-            },
-            {
-                id: null,
-                form: "Overtime",
-                approvals: [],
-            },
-        ] as unknown as Approval,
+        list: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -70,11 +42,11 @@ export const useApprovalStore = defineStore("approvals", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.approvalList = response._data.data.data.map((val) => {
+                        this.list = response._data.data.data.map((val) => {
                             return {
-                                type: val.form,
-                                user_id: null,
-                                userselector: false,
+                                id: val.id,
+                                form: val.form,
+                                approvals: JSON.parse(val.approvals),
                             }
                         })
                         this.pagination = {
