@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useDepartmentStore } from "@/stores/hrms/departments"
+import { useDepartmentStore } from "@/stores/departments"
 
 const departments = useDepartmentStore()
 
@@ -64,4 +64,3 @@ const boardLoading = ref(false)
         </p>
     </LayoutBoards>
 </template>
-~/stores/hrms/departments
