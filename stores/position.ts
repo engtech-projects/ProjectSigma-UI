@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-// const { token } = useAuth()
+const { token } = useAuth()
 const config = useRuntimeConfig()
 
 export const usePositionStore = defineStore("positions", {
@@ -23,10 +23,10 @@ export const usePositionStore = defineStore("positions", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    // headers: {
-                    //     Authorization: token.value + "",
-                    //     Accept: "application/json"
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
@@ -53,10 +53,10 @@ export const usePositionStore = defineStore("positions", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    // headers: {
-                    //     Authorization: token.value + "",
-                    //     Accept: "application/json"
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.position,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -83,10 +83,10 @@ export const usePositionStore = defineStore("positions", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
-                    // headers: {
-                    //     Authorization: token.value + "",
-                    //     Accept: "application/json"
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.position,
                     watch: false,
                 }
@@ -107,10 +107,10 @@ export const usePositionStore = defineStore("positions", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    // headers: {
-                    //     Authorization: token.value + "",
-                    //     Accept: "application/json"
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
