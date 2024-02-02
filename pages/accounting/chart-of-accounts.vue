@@ -21,7 +21,7 @@ useHead({
                 @click="btnAction = 'class'"
             >
                 <Icon name="fa:plus-circle" class="mr-1" />
-                New Class
+                New Category
             </button>
             <button
                 :class="btnAction=='type'?'active':''"
@@ -41,7 +41,7 @@ useHead({
             </button>
         </div>
         <div class="flex gap-4">
-            <AccountingNewClass v-show="btnAction == 'class'" class="flex-1" />
+            <AccountingNewAccountCategory v-show="btnAction == 'class'" class="flex-1" />
             <AccountingNewType v-show="btnAction == 'type'" class="flex-1" />
             <AccountingNewAccount v-show="btnAction == 'account'" class="flex-1 h-fit" />
             <AccountingChartOfAccounts class="flex-2" />

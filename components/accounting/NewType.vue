@@ -1,10 +1,13 @@
 <script lang="ts" setup>
+import { useAccountType } from "~/stores/accounting/accounttype"
 
+const accountType = useAccountType()
+accountType.getAccountTypes()
 </script>
 
 <template>
     <LayoutBoards title="Create New Type" class="w-full h-fit">
-        <form @submit.prevent="" action="">
+        <form @submit.prevent="">
             <div class="flex flex-col gap-2">
                 <div>
                     <label
@@ -24,7 +27,6 @@
                         class="text-xs italic"
                     >Class</label>
                     <select
-                        name="className"
                         id="className"
                         class="w-full rounded-lg"
                         required

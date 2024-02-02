@@ -263,7 +263,14 @@ const config = useRuntimeConfig()
             v-if="config.public.APP_ENV == 'local'"
             id="dropdown-accounting-main"
             title="Accounting"
-        />
+        >
+            <LayoutNavSingle
+                v-if="config.public.APP_ENV == 'local'"
+                linkarea="/accounting/chart-of-accounts"
+                icon="ci:table"
+                single-nav-title="Chart of Accounts"
+            />
+        </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup
