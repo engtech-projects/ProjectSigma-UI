@@ -1,10 +1,13 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useApprovalStore, SELECTOR } from "@/stores/approvals"
+import { useApprovalStore } from "@/stores/approvals"
+import { useUserStore } from "@/stores/hrms/users"
 
 const approvals = useApprovalStore()
+const user = useUserStore()
 
 const { list: approvalsList, errorMessage, successMessage, formApproval } = storeToRefs(approvals)
+const { employeeUserList } = storeToRefs(user)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -30,12 +33,7 @@ const submitApprov = async (approval) => {
     try {
         boardLoading.value = true
         formApproval.value = approval
-
-        if (!approval.id) {
-            await approvals.createApproval()
-        } else {
-            await approvals.editApprovals()
-        }
+        await approvals.editApprovals()
         snackbar.add({
             type: "success",
             text: approvals.successMessage,
@@ -76,7 +74,7 @@ const submitApprov = async (approval) => {
                             <!-- {{ approv }} -->
                             {{ approv.form }}
                         </td>
-                        <div class="overflow-y-scroll max-h-32 p-2 space-y-2">
+                        <div class="p-2 space-y-2">
                             <td v-for="approvers, index2 in approv.approvals" :key="index2" class="p-3 flex flex-col border border-slate-400 rounded-lg">
                                 <div class="flex ml-auto">
                                     <Icon name="ic:baseline-minus" class="flex ml-auto bg-red-400 hover:bg-red-500 text-black hover:text-white rounded-sm w-10" @click.prevent="delApprover(approv.approvals, index2)" />
@@ -89,26 +87,26 @@ const submitApprov = async (approval) => {
 
                                     <div>
                                         <input
-                                            :id="index2+'user_selector'"
+                                            :id="index2+'user_selector'+index"
                                             v-model="approvers.userselector"
                                             type="radio"
                                             :value="true"
-                                            :name="index2+'radio1'"
+                                            :name="index2+'radio1'+index"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                             @change="setSelector(approvers)"
                                         >
-                                        <label :for="index2+'user_selector'" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Employee Selector</label>
+                                        <label :for="index2+'user_selector'+index" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Employee Selector</label>
                                         <div class="flex items-center">
                                             <input
-                                                :id="index2+'employee_selector'"
+                                                :id="index2+'employee_selector'+index"
                                                 v-model="approvers.userselector"
                                                 type="radio"
                                                 :value="false"
-                                                :name="index2+'radio2'"
+                                                :name="index2+'radio2'+index"
                                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                                 @change="setSelector(approvers)"
                                             >
-                                            <label :for="index2+'employee_selector'" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Specific Employee</label>
+                                            <label :for="index2+'employee_selector'+index" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Specific Employee</label>
                                             <select
                                                 id="users_list"
                                                 v-model="approvers.user_id"
@@ -119,8 +117,8 @@ const submitApprov = async (approval) => {
                                                 <option value="select" selected>
                                                     --Select--
                                                 </option>
-                                                <option v-for="userSelect, userSelector in SELECTOR" :key="userSelector" :value="userSelect">
-                                                    {{ userSelect }}
+                                                <option v-for="userSelect, userSelector in employeeUserList" :key="userSelector" :value="userSelect.id">
+                                                    {{ userSelect.name }}
                                                 </option>
                                             </select>
                                         </div>

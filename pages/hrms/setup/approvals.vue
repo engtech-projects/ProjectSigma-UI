@@ -2,10 +2,13 @@
 
 import { storeToRefs } from "pinia"
 import { useApprovalStore } from "@/stores/approvals"
+import { useUserStore } from "@/stores/hrms/users"
 
 const approvals = useApprovalStore()
+const users = useUserStore()
 const { isEdit } = storeToRefs(approvals)
 approvals.getApproval()
+users.getUserEmployees()
 
 useHead({
     title: "Approvals",
@@ -17,3 +20,4 @@ useHead({
         <HrmsSetupApprovalsForm v-show="!isEdit" />
     </div>
 </template>
+~/stores/hrms/users
