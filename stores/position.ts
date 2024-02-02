@@ -1,6 +1,13 @@
 import { defineStore } from "pinia"
-// const { token } = useAuth()
+const { token } = useAuth()
 const config = useRuntimeConfig()
+
+export const POSITION_HEAD = "Head"
+export const POSTION_STAFF = "Staff"
+export const POSITION_TYPES = [
+    POSITION_HEAD,
+    POSTION_STAFF
+]
 
 export const usePositionStore = defineStore("positions", {
     state: () => ({
@@ -16,6 +23,7 @@ export const usePositionStore = defineStore("positions", {
         errorMessage: "",
         successMessage: "",
     }),
+
     actions: {
         async getPosition () {
             const { data, error } = await useFetch(
@@ -23,10 +31,10 @@ export const usePositionStore = defineStore("positions", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    // headers: {
-                    //     Authorization: token.value + "",
-                    //     Accept: "application/json"
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
@@ -53,10 +61,10 @@ export const usePositionStore = defineStore("positions", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    // headers: {
-                    //     Authorization: token.value + "",
-                    //     Accept: "application/json"
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.position,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -83,10 +91,10 @@ export const usePositionStore = defineStore("positions", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
-                    // headers: {
-                    //     Authorization: token.value + "",
-                    //     Accept: "application/json"
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.position,
                     watch: false,
                 }
@@ -107,10 +115,10 @@ export const usePositionStore = defineStore("positions", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    // headers: {
-                    //     Authorization: token.value + "",
-                    //     Accept: "application/json"
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message

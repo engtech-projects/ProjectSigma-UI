@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+const { token } = useAuth()
 const config = useRuntimeConfig()
 
 export const useHMOStore = defineStore("hmo", {
@@ -29,9 +30,10 @@ export const useHMOStore = defineStore("hmo", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     params: this.getParams,
                 }
             )
@@ -51,9 +53,10 @@ export const useHMOStore = defineStore("hmo", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.hmo,
                     watch: false,
                 }
@@ -76,9 +79,10 @@ export const useHMOStore = defineStore("hmo", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.hmo,
                     watch: false,
                 }
@@ -98,9 +102,10 @@ export const useHMOStore = defineStore("hmo", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     watch: false,
                 }
             )

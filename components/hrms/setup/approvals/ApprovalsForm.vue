@@ -69,13 +69,13 @@ const submitApprov = async (approval) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(approv, index) in approvalsList" :key="index" class="border">
+                    <tr v-for="(approv, index) in approvalsList" :key="index" class="border-2 border-slate-300 ">
                         <td class="p-2">
                             <!-- {{ approv }} -->
                             {{ approv.form }}
                         </td>
                         <div class="p-2 space-y-2">
-                            <td v-for="approvers, index2 in approv.approvals" :key="index2" class="p-3 flex flex-col border border-slate-400 rounded-lg">
+                            <td v-for="approvers, index2 in approv.approvals" :key="index2" class="p-3 flex flex-col border border-slate-400 rounded-lg ">
                                 <div class="flex ml-auto">
                                     <Icon name="ic:baseline-minus" class="flex ml-auto bg-red-400 hover:bg-red-500 text-black hover:text-white rounded-sm w-10" @click.prevent="delApprover(approv.approvals, index2)" />
                                 </div>
