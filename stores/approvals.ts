@@ -2,8 +2,8 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export const USER_SELECTOR1 = "Employee 1"
-export const USER_SELECTOR2 = "Employee 2"
+export const USER_SELECTOR1 = "1"
+export const USER_SELECTOR2 = "2"
 export const SELECTOR = [
     USER_SELECTOR1,
     USER_SELECTOR2
@@ -95,10 +95,11 @@ export const useApprovalStore = defineStore("approvals", {
             this.successMessage = ""
         },
         async editApprovals () {
+            console.log(this.formApproval)
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/approvals/" + this.approval.id,
+                "/api/approvals/" + this.formApproval.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
@@ -106,10 +107,16 @@ export const useApprovalStore = defineStore("approvals", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.approval,
+                    body: this.formApproval,
                     watch: false,
                     onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
+                        if (response.status !== 200) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getApproval()
+                            this.reset()
+                            this.successMessage = response._data.message
+                        }
                     },
                 }
             )
