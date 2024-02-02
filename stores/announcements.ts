@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+const { token } = useAuth()
 const config = useRuntimeConfig()
 interface Announcement {
     title: String,
@@ -32,9 +33,10 @@ export const useMain = defineStore("Announcements", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
@@ -59,9 +61,10 @@ export const useMain = defineStore("Announcements", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.activeList = response._data.data
@@ -87,9 +90,10 @@ export const useMain = defineStore("Announcements", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.announcement,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -131,19 +135,20 @@ export const useMain = defineStore("Announcements", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.announcement,
                     watch: false,
                     onResponse: ({ response }) => {
+                        this.getAll()
+                        this.reset()
                         this.successMessage = response._data.message
                     },
                 }
             )
             if (data.value) {
-                this.getAll()
-                this.reset()
                 return data
             } else if (error.value) {
                 this.errorMessage = error.value.data.message
@@ -157,9 +162,10 @@ export const useMain = defineStore("Announcements", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
