@@ -2,6 +2,13 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
+export const POSITION_HEAD = "Head"
+export const POSTION_STAFF = "Staff"
+export const POSITION_TYPES = [
+    POSITION_HEAD,
+    POSTION_STAFF
+]
+
 export const usePositionStore = defineStore("positions", {
     state: () => ({
         isEdit: false,
@@ -16,6 +23,7 @@ export const usePositionStore = defineStore("positions", {
         errorMessage: "",
         successMessage: "",
     }),
+
     actions: {
         async getPosition () {
             const { data, error } = await useFetch(

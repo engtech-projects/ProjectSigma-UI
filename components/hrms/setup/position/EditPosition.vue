@@ -1,6 +1,10 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { usePositionStore } from "@/stores/position"
+import { usePositionStore, POSITION_TYPES } from "@/stores/position"
+import { useDepartmentStore } from "@/stores/departments"
+
+const departments = useDepartmentStore()
+const { departmentsList } = storeToRefs(departments)
 
 const positions = usePositionStore()
 const { position, errorMessage, successMessage } = storeToRefs(positions)
@@ -46,6 +50,35 @@ const editPos = async () => {
                     type="text"
                     class="w-full rounded-lg"
                 >
+
+                <div class="grid grid-rows-1 mt-1">
+                    <label for="share_type" class="text-sm italic">Department</label>
+                    <select
+                        id="department"
+                        v-model="position.department_id"
+                        class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
+                    >
+                        <option value="" disabled selected>
+                            Choose Department
+                        </option>
+                        <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
+                            {{ dpt.department_name }}
+                        </option>
+                    </select>
+                </div>
+                <label for="positionType" class="text-sm italic">Position Type</label>
+                <div class="grid md:grid-cols-2 justify-items-center">
+                    <div v-for="(positionType, index) in POSITION_TYPES" :key="index">
+                        <input
+                            id="positionType"
+                            v-model="position.position_type"
+                            :value="positionType"
+                            type="radio"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                        >
+                        <label class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ positionType }}</label>
+                    </div>
+                </div>
 
                 <div class="flex justify-end gap-2">
                     <button

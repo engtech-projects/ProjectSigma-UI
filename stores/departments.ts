@@ -10,13 +10,51 @@ export const useDepartmentStore = defineStore("departments", {
             id: null,
             department_name: null,
         },
+        departmentList: [],
         list: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
     }),
+    getters: {
+        departmentsList (state) {
+            return state.departmentList.map((dpt) => {
+                return {
+                    id: dpt.id,
+                    department_name: dpt.department_name,
+                }
+            })
+        }
+    },
     actions: {
+        async getDepartmentList () {
+            const { data, error } = await useFetch(
+                "/api/department-list",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.departmentList = response._data.data
+                        this.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
         async getDepartment () {
             const { data, error } = await useFetch(
                 "/api/departments",
