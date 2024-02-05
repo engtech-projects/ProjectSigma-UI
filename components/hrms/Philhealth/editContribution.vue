@@ -29,6 +29,9 @@ const editCont = async () => {
         boardLoading.value = false
     }
 }
+const handleInput = (model, field) => {
+    model[field] = Math.abs(model[field])
+}
 
 </script>
 
@@ -51,8 +54,10 @@ const editCont = async () => {
                         <input
                             id="rangeFrom"
                             v-model="contribution.range_from"
+                            v-oninput="handleInput(contribution, 'range_from')"
                             type="number"
                             class="w-full rounded-lg"
+                            required
                         >
                     </div>
                     <div>
@@ -63,6 +68,7 @@ const editCont = async () => {
                         <input
                             id="rangeFrom"
                             v-model="contribution.range_to"
+                            v-oninput="handleInput(contribution, 'range_to')"
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -77,8 +83,10 @@ const editCont = async () => {
                         <input
                             id="empShare"
                             v-model="contribution.employee_share"
+                            v-oninput="handleInput(contribution, 'employee_share')"
                             type="number"
                             class="w-full rounded-lg"
+                            required
                         >
                     </div>
                     <div>
@@ -89,8 +97,10 @@ const editCont = async () => {
                         <input
                             id="empShare"
                             v-model="contribution.employer_share"
+                            v-oninput="handleInput(contribution, 'employer_share')"
                             type="number"
                             class="w-full rounded-lg"
+                            required
                         >
                     </div>
                 </div>

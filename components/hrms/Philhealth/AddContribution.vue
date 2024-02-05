@@ -54,6 +54,8 @@ const addRange = async () => {
                             v-model="contribution.range_from"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                     </div>
                     <div>
@@ -66,6 +68,7 @@ const addRange = async () => {
                             v-model="contribution.range_to"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
                         >
                     </div>
                 </div>
@@ -80,6 +83,8 @@ const addRange = async () => {
                             v-model="contribution.employee_share"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                     </div>
                     <div>
@@ -92,6 +97,8 @@ const addRange = async () => {
                             v-model="contribution.employer_share"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                     </div>
                 </div>
@@ -101,6 +108,7 @@ const addRange = async () => {
                         id="share_type"
                         v-model="contribution.share_type"
                         class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
+                        required
                     >
                         <option value="" disabled selected>
                             Choose Share Type
