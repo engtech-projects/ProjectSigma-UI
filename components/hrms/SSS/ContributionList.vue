@@ -52,7 +52,7 @@ const actions = {
 
 <template>
     <LayoutBoards title="Contribution Table" class="w-full" :loading="boardLoading">
-        <div class="pb-2 text-gray-500">
+        <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable :header-columns="headers" :datas="contributionList" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
         </div>
         <div class="flex justify-center mx-auto">

@@ -55,6 +55,8 @@ const addRange = async () => {
                             v-model="contribution.range_from"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                     </div>
                     <div>
@@ -67,6 +69,8 @@ const addRange = async () => {
                             v-model="contribution.range_to"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                     </div>
                 </div>
@@ -81,6 +85,8 @@ const addRange = async () => {
                             v-model="contribution.employer_share"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                         <label
                             for="employerContrib"
@@ -91,6 +97,8 @@ const addRange = async () => {
                             v-model="contribution.employer_contribution"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                     </div>
                     <div>
@@ -103,6 +111,8 @@ const addRange = async () => {
                             v-model="contribution.employee_share"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                         <label
                             for="employeeContrib"
@@ -113,6 +123,8 @@ const addRange = async () => {
                             v-model="contribution.employee_contribution"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                     </div>
                 </div>

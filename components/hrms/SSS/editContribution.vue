@@ -29,7 +29,9 @@ const editCont = async () => {
         boardLoading.value = false
     }
 }
-
+const handleInput = (model, field) => {
+    model[field] = Math.abs(model[field])
+}
 </script>
 
 <template>
@@ -51,8 +53,10 @@ const editCont = async () => {
                         <input
                             id="rangeFrom"
                             v-model="contribution.range_from"
+                            v-oninput="handleInput(contribution, 'range_from')"
                             type="number"
                             class="w-full rounded-lg"
+                            required
                         >
                     </div>
                     <div>
@@ -63,6 +67,7 @@ const editCont = async () => {
                         <input
                             id="rangeFrom"
                             v-model="contribution.range_to"
+                            v-oninput="handleInput(contribution, 'range_to')"
                             type="number"
                             class="w-full rounded-lg"
                         >
@@ -77,8 +82,10 @@ const editCont = async () => {
                         <input
                             id="employerShare"
                             v-model="contribution.employer_share"
+                            v-oninput="handleInput(contribution, 'employer_share')"
                             type="number"
                             class="w-full rounded-lg"
+                            required
                         >
                         <label
                             for="employerContrib"
@@ -87,8 +94,10 @@ const editCont = async () => {
                         <input
                             id="employerContrib"
                             v-model="contribution.employer_contribution"
+                            v-oninput="handleInput(contribution, 'employer_contribution')"
                             type="number"
                             class="w-full rounded-lg"
+                            required
                         >
                     </div>
                     <div>
@@ -99,8 +108,10 @@ const editCont = async () => {
                         <input
                             id="employeeShare"
                             v-model="contribution.employee_share"
+                            v-oninput="handleInput(contribution, 'employee_share')"
                             type="number"
                             class="w-full rounded-lg"
+                            required
                         >
                         <label
                             for="employeeContrib"
@@ -109,8 +120,10 @@ const editCont = async () => {
                         <input
                             id="employeeContrib"
                             v-model="contribution.employee_contribution"
+                            v-oninput="handleInput(contribution, 'employee_contribution')"
                             type="number"
                             class="w-full rounded-lg"
+                            required
                         >
                     </div>
                 </div>
