@@ -95,7 +95,6 @@ export const useApprovalStore = defineStore("approvals", {
             this.successMessage = ""
         },
         async editApprovals () {
-            console.log(this.formApproval)
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
