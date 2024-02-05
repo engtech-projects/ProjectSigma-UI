@@ -54,10 +54,10 @@ const actions = {
 
 <template>
     <LayoutBoards title="Contribution List" class="w-full">
-        <div class="pb-2 text-gray-500 text-[12px]">
+        <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable :header-columns="headers" :datas="contributionList" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
         </div>
-        <div class="flex justify-center mx-auto">
+        <div class="flex justify-center mx-auto p-2">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
 
