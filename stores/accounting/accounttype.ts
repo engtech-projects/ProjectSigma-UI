@@ -4,13 +4,20 @@ const config = useRuntimeConfig()
 
 export const useAccountType = defineStore("accountType", {
     state: () => ({
-        accountType: {},
+        accountType: {
+            type_id: null,
+            account_type: null,
+            account_category: null,
+            balance_type: null,
+            notation: null,
+        },
         list: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
         isLoading: false,
+        isEdit: false
     }),
     actions: {
         async getAccountTypes () {
@@ -43,41 +50,94 @@ export const useAccountType = defineStore("accountType", {
             }
         },
 
-        // async createAccountCategory () {
-        //     this.successMessage = ""
-        //     this.errorMessage = ""
-        //     await useFetch(
-        //         "/api/v1/account/category",
-        //         {
-        //             baseURL: config.public.ACCOUNTING_API_URL,
-        //             method: "POST",
-        //             headers: {
-        //                 Authorization: token.value + "",
-        //                 Accept: "application/json"
-        //             },
-        //             body: this.accountCategory,
-        //             watch: false,
-        //             onResponse: ({ response }) => {
-        //                 if (response.status !== 201) {
-        //                     this.errorMessage = response._data.message
-        //                 } else {
-        //                     this.getAccountCategories()
-        //                     this.reset()
-        //                     this.successMessage = response._data.message
-        //                 }
-        //             },
-        //         }
-        //     )
-        // },
+        async createAccountType () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useFetch(
+                "/api/v1/account/type",
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "POST",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    body: this.accountType,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.status !== 201) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getAccountTypes()
+                            //this.reset()
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
 
-        // reset () {
-        //     this.accountCategory = {
-        //         id: null,
-        //         account_category: null,
-        //         to_increase: null,
-        //     }
-        //     this.successMessage = ""
-        //     this.errorMessage = ""
-        // },
+        async editAccountType () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useFetch(
+                "/api/v1/account/type/" + this.accountType.type_id,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "PATCH",
+                    headers: {
+                        Authorization: token.value + ""
+                    },
+                    body: this.accountType,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.getAccountTypes()
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+
+        async deleteAccountType (id: number) {
+            const { data, error } = await useFetch(
+                "/api/v1/account/type/" + id,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "DELETE",
+                    headers: {
+                        Authorization: token.value + ""
+                    },
+                    body: this.accountType,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
+                }
+            )
+            if (data.value) {
+                this.getAccountTypes()
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = "Error"
+                return error
+            }
+        },
+
+        reset () {
+            this.accountType = {
+                type_id: null,
+                account_type: null,
+                account_category: null,
+                balance_type: null,
+                notation: null,
+            }
+            this.successMessage = ""
+            this.errorMessage = ""
+        },
     },
 })

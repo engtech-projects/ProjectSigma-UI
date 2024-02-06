@@ -4,7 +4,8 @@ const config = useRuntimeConfig()
 
 export const useChartOfAccountsStore = defineStore("chartOfAccounts", {
     state: () => ({
-        account: {},
+        account: {
+        },
         list: [],
         pagination: {},
         getParams: {},
@@ -16,7 +17,7 @@ export const useChartOfAccountsStore = defineStore("chartOfAccounts", {
         async getAccounts () {
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/v1/accounts",
+                "/api/v1/chart-of-accounts",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",

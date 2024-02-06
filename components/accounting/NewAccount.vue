@@ -1,10 +1,44 @@
 <script lang="ts" setup>
+import { useAccountType } from "~/stores/accounting/accounttype"
+import { useAccountStore } from "~/stores/accounting/account"
 
+const accountTypeStore = useAccountType()
+const accountStore = useAccountStore()
+const isSub = ref(false)
+const boardLoading = ref(false)
+const snackbar = useSnackbar()
+
+async function handleSubmit () {
+    try {
+        boardLoading.value = true
+        await accountStore.createAccount()
+        if (accountStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: accountStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: accountStore.successMessage
+            })
+        }
+    } catch (error) {
+        errorMessage.value = errorMessage
+        snackbar.add({
+            type: "error",
+            text: accountStore.errorMessage
+        })
+    } finally {
+        // accountType.clearMessages()
+        boardLoading.value = false
+    }
+}
 </script>
 
 <template>
     <LayoutBoards title="Create New Account" class="w-full">
-        <form @submit.prevent="">
+        <form @submit.prevent="handleSubmit">
             <div class="flex flex-col gap-2">
                 <div>
                     <label
@@ -13,11 +47,12 @@
                     >Type Name</label>
                     <select
                         id="typeName"
+                        v-model="accountStore.account.account_type_id"
                         class="w-full rounded-lg"
                         required
                     >
-                        <option value="">
-                            Option 1
+                        <option v-for="at in accountTypeStore.list" :key="at.id" :value="at.id">
+                            {{ at.account_type }}
                         </option>
                     </select>
                 </div>
@@ -28,6 +63,7 @@
                     >Account Number</label>
                     <input
                         id="accountNumber"
+                        v-model="accountStore.account.account_number"
                         type="text"
                         class="w-full rounded-lg"
                         required
@@ -40,12 +76,13 @@
                     >Account Name</label>
                     <input
                         id="accountName"
+                        v-model="accountStore.account.account_name"
                         type="text"
                         class="w-full rounded-lg"
                         required
                     >
                 </div>
-                <div>
+                <!-- <div>
                     <label
                         for="contract_location"
                         class="text-xs italic"
@@ -59,7 +96,7 @@
                             Option 1
                         </option>
                     </select>
-                </div>
+                </div> -->
                 <div class="flex gap-3 items-center">
                     <div class="flex flex-col">
                         <label
@@ -68,6 +105,7 @@
                         >Sub Account</label>
                         <input
                             id="subAccount"
+                            v-model="isSub"
                             type="checkbox"
                             class="rounded-lg w-10 h-10"
                         >
@@ -76,13 +114,17 @@
                         <label
                             for="contract_location"
                             class="text-xs italic"
-                        >Bank Recon</label>
-                        <input
-                            id="contractLocation"
-                            type="text"
+                        >Parent Account</label>
+                        <select
+                            id="parentAccount"
                             class="w-full rounded-lg"
                             required
+                            :disabled="!isSub"
                         >
+                            <option value="">
+                                Option 1
+                            </option>
+                        </select>
                     </div>
                 </div>
                 <div>
@@ -92,12 +134,13 @@
                     >Description</label>
                     <textarea
                         id="description"
+                        v-model="accountStore.account.account_description"
                         type="text"
                         class="w-full rounded-lg"
                         required
                     />
                 </div>
-                <div>
+                <!-- <div>
                     <label
                         for="opening_balance"
                         class="text-xs italic"
@@ -108,8 +151,8 @@
                         class="w-full rounded-lg"
                         required
                     >
-                </div>
-                <div>
+                </div> -->
+                <!-- <div>
                     <label
                         for="as_of"
                         class="text-xs italic"
@@ -120,7 +163,7 @@
                         class="w-full rounded-lg"
                         required
                     >
-                </div>
+                </div> -->
             </div>
 
             <div class="flex justify-end">

@@ -33,7 +33,7 @@ const accounts = useChartOfAccountsStore()
                                 Edit
                             </td>
                         </tr>
-                        <tr class="border-y">
+                        <!-- <tr class="border-y">
                             <td class="p-2 w-7/12">
                                 <span class="pl-6 pr-4 text-md">1001</span>
                                 <span class="pl-6 pr-4 text-md">Cash on hand</span>
@@ -68,10 +68,11 @@ const accounts = useChartOfAccountsStore()
                             <td class="p-2">
                                 Edit
                             </td>
-                        </tr>
+                        </tr> -->
                         <tr v-for="account,i in atype.account" :key="i" class="border-y">
                             <td class="p-2 w-7/12">
-                                <span class="pl-4 text-md">Cash on hand</span>
+                                <span class="pl-6 pr-4 text-md">{{ account.account_number }}</span>
+                                <span class="pl-6 text-md">{{ account.account_name }}</span>
                             </td>
                             <td class="p-2">
                                 Yes

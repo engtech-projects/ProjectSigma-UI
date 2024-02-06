@@ -15,14 +15,14 @@ useHead({
 <template>
     <div class="flex flex-col gap-2">
         <div class="flex justify-end">
-            <button
+            <!-- <button
                 :class="btnAction=='class'?'active':''"
                 class="px-4 py-2 w-42 bg-slate-100 hover:bg-slate-200 active:bg-slate-100 border border-slate-200 rounded-l-md"
                 @click="btnAction = 'class'"
             >
                 <Icon name="fa:plus-circle" class="mr-1" />
                 New Category
-            </button>
+            </button> -->
             <button
                 :class="btnAction=='type'?'active':''"
                 class="px-4 py-2 w-42 bg-slate-100 hover:bg-slate-200 active:bg-slate-100 border border-slate-200"
@@ -41,8 +41,11 @@ useHead({
             </button>
         </div>
         <div class="flex gap-4">
-            <AccountingNewAccountCategory v-show="btnAction == 'class'" class="flex-1" />
-            <AccountingNewType v-show="btnAction == 'type'" class="flex-1" />
+            <!-- <AccountingNewAccountCategory v-show="btnAction == 'class'" class="flex-1" /> -->
+            <div v-show="btnAction == 'type'" class="flex gap-4 flex-col">
+                <AccountingNewType class="flex-1" />
+                <AccountingAccountTypeList class="flex-1" />
+            </div>
             <AccountingNewAccount v-show="btnAction == 'account'" class="flex-1 h-fit" />
             <AccountingChartOfAccounts class="flex-2" />
         </div>
