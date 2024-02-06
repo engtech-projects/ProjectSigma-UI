@@ -15,6 +15,7 @@ export const usePositionStore = defineStore("positions", {
         position:
         {
             id: null,
+            department_name: null,
             name: null,
         },
         list: [],
