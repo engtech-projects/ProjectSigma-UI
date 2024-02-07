@@ -41,10 +41,10 @@ const headers = [
     { name: "Requested by", id: "requested_by" },
     { name: "Request Status", id: "request_status" },
 ]
-const actions = {
-    edit: true,
-    delete: true
-}
+// const actions = {
+//     edit: false,
+//     delete: false
+// }
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -54,7 +54,7 @@ const boardLoading = ref(false)
 <template>
     <LayoutBoards title="Manpower Monitoring List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <LayoutPsTable :header-columns="headers" :datas="manpowerList" :actions="actions" @edit-row="setEdit" @delete-row="deleteManpwr" />
+            <LayoutPsTable :header-columns="headers" :datas="manpowerList" @edit-row="setEdit" @delete-row="deleteManpwr" />
         </div>
         <div class="flex justify-center mx-auto p-2">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
