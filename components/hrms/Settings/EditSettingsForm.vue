@@ -5,10 +5,11 @@ import { useMain } from "@/stores/settings"
 
 const mains = useMain()
 
-const { settings, errorMessage } = storeToRefs(mains)
+const { updateSettings, errorMessage } = storeToRefs(mains)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
+
 const cancelEdit = () => {
     mains.reset()
 }
@@ -36,32 +37,39 @@ const edit = async () => {
 <template>
     <LayoutBoards title="Edit Setting Form" class="mb-5">
         <form class="space-y-3 mt-5" @submit.prevent="edit">
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-2 gap-4 mb-3 mt-3">
                 <div>
-                    <label for="setting-value" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Setting Name
                     </label>
-                    <input
-                        id="setting-value"
-                        v-model="settings.setting_name"
-                        type="text"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        placeholder="Setting Name"
-                        required
-                    >
                 </div>
                 <div>
-                    <label for="setting-value" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Setting Value
                     </label>
-                    <input
-                        id="setting-value"
-                        v-model="settings.value"
-                        type="text"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        placeholder="Setting Value"
-                        required
-                    >
+                </div>
+            </div>
+            <div v-for="item, index in updateSettings" :key="index">
+                <div class="grid grid-cols-2 gap-4 mb-3 mt-3">
+                    <div>
+                        <input
+                            v-model="item.setting_name"
+                            type="text"
+                            class="bg-gray-50 border disabled border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                            placeholder="Setting Name"
+                            disabled
+                            required
+                        />
+                    </div>
+                    <div>
+                        <input
+                            v-model="item.value"
+                            type="text"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                            placeholder="Setting Value"
+                            required
+                        />
+                    </div>
                 </div>
             </div>
             <div class="flex space-x-1 justify-end">

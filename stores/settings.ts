@@ -2,20 +2,30 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 interface Settings {
-    title: String,
-    content: String,
-    start_date: String,
-    end_date: String
+    id: BigInteger,
+    setting_name: String,
+    value: BigInteger,
+    // title: String,
+    // content: String,
+    // start_date: String,
+    // end_date: String
 }
 export const useMain = defineStore("Settings", {
     state: () => ({
         isEdit: false,
-        settings:
+        settingsOne:
         {
             id: null,
             setting_name: "",
             value: "",
         },
+        settingsTwo:
+        {
+            id: null,
+            setting_name: "",
+            value: "",
+        },
+        updateSettings: [] as Array<Settings>,
         list: [] as Array<Settings>,
         activeList: [] as Array<Settings>,
         pagination: {},
@@ -38,6 +48,9 @@ export const useMain = defineStore("Settings", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
+                        this.updateSettings = response._data.data.data
+                        // this.settingsOne.setting_name = response._data.data.data[0].setting_name
+                        // this.settingsOne.setting_name = "test"
                         this.pagination = {
                             first_page: response._data.data.first_page_url,
                             pages: response._data.data.links,
@@ -52,32 +65,32 @@ export const useMain = defineStore("Settings", {
                 return error
             }
         },
-        async createone () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useFetch(
-                "/api/settings",
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    body: this.settings,
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        if (response.status !== 200) {
-                            this.errorMessage = response._data.message
-                        } else {
-                            this.getAll()
-                            this.reset()
-                            this.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
+        // async createone () {
+        //     this.successMessage = ""
+        //     this.errorMessage = ""
+        //     await useFetch(
+        //         "/api/settings",
+        //         {
+        //             baseURL: config.public.HRMS_API_URL,
+        //             method: "POST",
+        //             headers: {
+        //                 Authorization: token.value + "",
+        //                 Accept: "application/json"
+        //             },
+        //             body: this.settings,
+        //             watch: false,
+        //             onResponse: ({ response }) => {
+        //                 if (response.status !== 200) {
+        //                     this.errorMessage = response._data.message
+        //                 } else {
+        //                     this.getAll()
+        //                     this.reset()
+        //                     this.successMessage = response._data.message
+        //                 }
+        //             },
+        //         }
+        //     )
+        // },
 
         clearMessages () {
             this.errorMessage = ""
@@ -85,7 +98,12 @@ export const useMain = defineStore("Settings", {
         },
 
         reset () {
-            this.settings = {
+            this.settingsOne = {
+                id: null,
+                setting_name: "",
+                value: "",
+            }
+            this.settingsTwo = {
                 id: null,
                 setting_name: "",
                 value: "",
@@ -99,15 +117,15 @@ export const useMain = defineStore("Settings", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/settings/" + this.settings.id,
+                "/api/update-settings",
                 {
                     baseURL: config.public.HRMS_API_URL,
-                    method: "PATCH",
+                    method: "PUT",
                     headers: {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.settings,
+                    body: this.updateSettings,
                     watch: false,
                     onResponse: ({ response }) => {
                         this.getAll()
