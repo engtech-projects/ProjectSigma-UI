@@ -34,9 +34,9 @@ export const useUserStore = defineStore("users", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.status >= 200 && response.status <= 299) { // Success
                             this.employeeUserList = response._data.data
-                        } else {
+                        } else { // Error
                             throw new Error(response._data.message)
                         }
                     },

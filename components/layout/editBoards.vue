@@ -13,7 +13,7 @@
             <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">
                 {{ title }}
             </h5>
-            <div class="overflow-auto h-96">
+            <div>
                 <slot />
             </div>
         </div>

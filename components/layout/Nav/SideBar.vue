@@ -68,25 +68,29 @@ const config = useRuntimeConfig()
                 icon="ic:round-calendar-month"
                 single-nav-title="Event Calendar"
             />
-            <LayoutNavGroup v-if="config.public.APP_ENV == 'local'" icon="ic:baseline-people-outline" title="Employee">
+            <LayoutNavGroup icon="ic:baseline-people-outline" title="Employee">
                 <!-- hide true-->
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
                     class="hidden"
                     linkarea="/hrms/employee/application"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Application"
                 />
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/employee/201"
                     icon="ic:round-folder-shared"
                     single-nav-title="201"
                 />
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/employee/paf"
                     icon="ic:round-add-card"
                     single-nav-title="Personnel Action Notice"
                 />
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/employee/onboarding"
                     icon="ic:round-assignment-ind"
                     single-nav-title="Onboarding"

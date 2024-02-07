@@ -1,22 +1,28 @@
-<template>
-    <div>
-        <div class="text-2xl font-normal mb-4  md:mt-0">
-            Manpower Request
-        </div>
-        <hr>
-        <div class="md:grid grid-cols-2 gap-4">
-            <EmployeeManpowerReq />
-            <div>
-                <EmployeeManpowerMonitoringList />
-                <!-- <ChartManpowerMonitor /> -->
-            </div>
-        </div>
-    </div>
-</template>
-
 <script setup>
+import { storeToRefs } from "pinia"
+import { useManpowerStore } from "@/stores/employee/manpower"
+import { useDepartmentStore } from "@/stores/departments"
+
+const departments = useDepartmentStore()
+const manpowers = useManpowerStore()
+const { isEdit } = storeToRefs(manpowers)
+manpowers.getManpower()
+departments.getDepartmentList()
+
 useHead({
-    title: "Employee Manpower Request",
+    title: "Manpower Request",
 })
 
 </script>
+
+<template>
+    <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
+        <div>
+            <EmployeeManpowerAddRequest v-show="!isEdit" />
+            <EmployeeManpowerEditRequest v-show="isEdit" />
+        </div>
+        <div>
+            <EmployeeManpowerMonitoringList />
+        </div>
+    </div>
+</template>
