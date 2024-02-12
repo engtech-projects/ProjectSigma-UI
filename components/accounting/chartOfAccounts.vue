@@ -8,10 +8,10 @@ const accounts = useChartOfAccountsStore()
     <div class="flex flex-col">
         <LayoutBoards title="Chart of Accounts" :loading="accounts.isLoading" class="w-full flex-2">
             <div class="flex flex-col gap-2 pt-4">
-                <table v-for="list in accounts.list" :key="list.account_category" class="table-auto boder w-full">
+                <table v-for="list,j in accounts.list" :key="list.account_category" class="table-auto boder w-full">
                     <thead class="bg-slate-100">
                         <th class="text-left px-2 border-y py-2 uppercase">
-                            {{ list.account_category }}
+                            {{ j }}
                         </th>
                         <th class="text-left px-2 border-y py-2 uppercase">
                             Bank Reconciliation
@@ -20,11 +20,11 @@ const accounts = useChartOfAccountsStore()
                             Action
                         </th>
                     </thead>
-                    <tbody v-for="atype in list.account_type" :key="atype.account_category_id">
-                        <tr class="border-y">
+                    <tbody>
+                        <tr v-for="account in list" :key="account.account_id" class="border-y">
                             <td class="p-2 w-7/12">
-                                <span class="pr-4 font-bold text-sm text-slate-800">{{ atype.account_type_number }}</span>
-                                <span class="font-bold text-sm text-slate-800">{{ atype.account_type }}</span>
+                                <span class="ml-4 pr-4 font-bold text-sm text-slate-800">{{ account.account_number }}</span>
+                                <span class="font-bold text-sm text-slate-800">{{ account.account_name }}</span>
                             </td>
                             <td class="p-2">
                                 Yes
@@ -69,18 +69,6 @@ const accounts = useChartOfAccountsStore()
                                 Edit
                             </td>
                         </tr> -->
-                        <tr v-for="account,i in atype.account" :key="i" class="border-y">
-                            <td class="p-2 w-7/12">
-                                <span class="pl-6 pr-4 text-md">{{ account.account_number }}</span>
-                                <span class="pl-6 text-md">{{ account.account_name }}</span>
-                            </td>
-                            <td class="p-2">
-                                Yes
-                            </td>
-                            <td class="p-2">
-                                Edit
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

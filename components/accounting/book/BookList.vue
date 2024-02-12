@@ -1,27 +1,25 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useAccountType } from "~/stores/accounting/accounttype"
+import { useBookStore } from "~/stores/accounting/book"
 
-const accountTypeStore = useAccountType()
+const bookStore = useBookStore()
+const { list: bookList, book, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(bookStore)
 
-const { list: accountTypeList, accountType, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(accountTypeStore)
-
-const setEdit = (atype) => {
+const setEdit = (bk) => {
     isEdit.value = true
-    accountType.value = atype
+    book.value = bk
 }
 
-const deleteAccountType = async (atype) => {
+const deleteBook = async (bk) => {
     try {
-        boardLoading.value = true
-        accountTypeStore.isLoading = true
-        await accountTypeStore.deleteAccountType(atype.type_id)
+        bookStore.isLoading = true
+        await bookStore.deleteBook(bk.book_id)
         snackbar.add({
             type: "success",
-            text: accountTypeStore.successMessage
+            text: bookStore.successMessage
         })
     } finally {
-        boardLoading.value = false
+        bookStore.isLoading = false
     }
 }
 
@@ -30,10 +28,9 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Type Name", id: "account_type" },
-    { name: "Category", id: "account_category" },
-    { name: "Balance Type", id: "balance_type" },
-    { name: "Notation", id: "notation" },
+    { name: "Book Code", id: "book_code" },
+    { name: "Book Name", id: "book_name" },
+    { name: "Status", id: "status" },
 ]
 const actions = {
     edit: true,
@@ -41,26 +38,24 @@ const actions = {
 }
 
 const snackbar = useSnackbar()
-const boardLoading = ref(false)
-
 </script>
 
 <template>
-    <LayoutBoards title="Account Type List" class="w-full" :loading="accountTypeStore.isLoading">
+    <LayoutBoards title="Books List" class="w-full" :loading="bookStore.isLoading">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable
                 id="listTable"
                 :header-columns="headers"
-                :datas="accountTypeList"
+                :datas="bookList"
                 :actions="actions"
                 @edit-row="setEdit"
-                @delete-row="deleteAccountType"
+                @delete-row="deleteBook"
             />
-            <i v-if="!accountTypeList.length&&!accountTypeStore.isLoading" class="p-4 text-center block">No data available.</i>
+            <i v-if="!bookList.length&&!bookStore.isLoading" class="p-4 text-center block">No data available.</i>
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination
-                v-if="accountTypeList.length"
+                v-if="bookList.length"
                 :links="pagination"
                 @change-params="changePaginate"
             />

@@ -7,36 +7,33 @@ const accountStore = useAccountStore()
 // const isSub = ref(false)
 const snackbar = useSnackbar()
 
-async function handleSubmit () {
+async function updateType () {
     try {
-        accountStore.isLoading = true
-        await accountStore.createAccount()
-        if (accountStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: accountStore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: accountStore.successMessage
-            })
-        }
-    } catch (error) {
-        errorMessage.value = errorMessage
+        await accountStore.editAccount()
+        snackbar.add({
+            type: "success",
+            text: accountStore.successMessage
+        })
+    } catch {
         snackbar.add({
             type: "error",
-            text: accountStore.errorMessage
+            text: accountStore.errorMessage || "something went wrong."
         })
     } finally {
         // accountType.clearMessages()
     }
 }
+
+function cancelEdit () {
+    accountStore.reset()
+    accountStore.isEdit = false
+}
+
 </script>
 
 <template>
-    <LayoutBoards title="Create New Account" :loading="accountStore.isLoading" class="w-full">
-        <form @submit.prevent="handleSubmit">
+    <LayoutBoards title="Edit Account" :loading="accountStore.isLoading" class="w-full border-t-8 rounded-lg border-teal-500">
+        <form @submit.prevent="updateType">
             <div class="flex flex-col gap-2">
                 <div>
                     <label
@@ -80,51 +77,6 @@ async function handleSubmit () {
                         required
                     >
                 </div>
-                <!-- <div>
-                    <label
-                        for="contract_location"
-                        class="text-xs italic"
-                    >Bank Recon</label>
-                    <select
-                        id="bankRecon"
-                        class="w-full rounded-lg"
-                        required
-                    >
-                        <option value="">
-                            Option 1
-                        </option>
-                    </select>
-                </div> -->
-                <!-- <div class="flex gap-3 items-center">
-                    <div class="flex flex-col">
-                        <label
-                            for="sub_account"
-                            class="text-xs italic mb-1"
-                        >Sub Account</label>
-                        <input
-                            id="subAccount"
-                            v-model="isSub"
-                            type="checkbox"
-                            class="rounded-lg w-10 h-10"
-                        >
-                    </div>
-                    <div class="flex-1">
-                        <label
-                            for="contract_location"
-                            class="text-xs italic"
-                        >Parent Account</label>
-                        <select
-                            id="parentAccount"
-                            class="w-full rounded-lg"
-                            required
-                            :disabled="!isSub"
-                        >
-                            <option value="">
-                                Option 1
-                            </option>
-                        </select>
-                    </div>
-                </div> -->
                 <div>
                     <label
                         for="account_name"
@@ -151,38 +103,20 @@ async function handleSubmit () {
                         required
                     />
                 </div>
-                <!-- <div>
-                    <label
-                        for="opening_balance"
-                        class="text-xs italic"
-                    >Opening Balance</label>
-                    <input
-                        id="openingBalance"
-                        type="text"
-                        class="w-full rounded-lg"
-                        required
-                    >
-                </div> -->
-                <!-- <div>
-                    <label
-                        for="as_of"
-                        class="text-xs italic"
-                    >As of</label>
-                    <input
-                        id="asOf"
-                        type="date"
-                        class="w-full rounded-lg"
-                        required
-                    >
-                </div> -->
             </div>
 
-            <div class="flex justify-end">
+            <div class="flex gap-4 justify-end">
+                <button
+                    @click="cancelEdit"
+                    class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5"
+                >
+                    Cancel
+                </button>
                 <button
                     type="submit"
                     class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
                 >
-                    Add Account
+                    Update Account
                 </button>
             </div>
         </form>

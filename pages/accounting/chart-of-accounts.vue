@@ -1,8 +1,10 @@
 <script lang="ts" setup>
+import { useAccountStore } from "~/stores/accounting/account"
 import { useChartOfAccountsStore } from "~/stores/accounting/chartofaccounts"
 
 const accounts = useChartOfAccountsStore()
-const btnAction = ref("")
+const accountStore = useAccountStore()
+const btnAction = ref("chart")
 accounts.getAccounts()
 definePageMeta({
     layout: "default",
@@ -15,14 +17,14 @@ useHead({
 <template>
     <div class="flex flex-col gap-2">
         <div class="flex justify-end">
-            <!-- <button
-                :class="btnAction=='class'?'active':''"
+            <button
+                :class="btnAction=='chart'?'active':''"
                 class="px-4 py-2 w-42 bg-slate-100 hover:bg-slate-200 active:bg-slate-100 border border-slate-200 rounded-l-md"
-                @click="btnAction = 'class'"
+                @click="btnAction = 'chart'"
             >
-                <Icon name="fa:plus-circle" class="mr-1" />
-                New Category
-            </button> -->
+                <!-- <Icon name="fa:plus-circle" class="mr-1" /> -->
+                Chart of Accounts
+            </button>
             <button
                 :class="btnAction=='type'?'active':''"
                 class="px-4 py-2 w-42 bg-slate-100 hover:bg-slate-200 active:bg-slate-100 border border-slate-200"
@@ -42,12 +44,17 @@ useHead({
         </div>
         <div class="flex gap-4">
             <!-- <AccountingNewAccountCategory v-show="btnAction == 'class'" class="flex-1" /> -->
-            <div v-show="btnAction == 'type'" class="flex gap-4 flex-col">
+            <div v-show="btnAction == 'type'" class="flex flex-1 gap-4">
                 <AccountingNewType class="flex-1" />
-                <AccountingAccountTypeList class="flex-1" />
+                <AccountingAccountTypeList class="flex-2" />
             </div>
-            <AccountingNewAccount v-show="btnAction == 'account'" class="flex-1 h-fit" />
-            <AccountingChartOfAccounts class="flex-2" />
+            <div v-show="btnAction == 'account'" class="flex flex-1 gap-4">
+                <AccountingNewAccount v-if="!accountStore.isEdit" class="flex-1 h-fit" />
+                <AccountingEditAccount v-else class="flex-1 h-fit" />
+                <AccountingAccountList class="flex-2 h-fit" />
+            </div>
+
+            <AccountingChartOfAccounts v-show="btnAction == 'chart'" class="flex-1" />
         </div>
     </div>
 </template>

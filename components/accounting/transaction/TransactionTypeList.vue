@@ -1,27 +1,27 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useAccountType } from "~/stores/accounting/accounttype"
+import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
 
-const accountTypeStore = useAccountType()
+const transactionTypeStore = useTransactionTypeStore()
+await transactionTypeStore.getTransactionTypes()
+const { list: typeList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(transactionTypeStore)
 
-const { list: accountTypeList, accountType, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(accountTypeStore)
-
-const setEdit = (atype) => {
+const setEdit = (ttype) => {
     isEdit.value = true
-    accountType.value = atype
+    transactionTypeStore.transactionType = ttype
 }
 
-const deleteAccountType = async (atype) => {
+const isLoading = ref(false)
+const deleteType = async (ttype) => {
     try {
-        boardLoading.value = true
-        accountTypeStore.isLoading = true
-        await accountTypeStore.deleteAccountType(atype.type_id)
+        transactionTypeStore.isLoading = true
+        await transactionTypeStore.deleteTransactionType(ttype.transaction_type_id)
         snackbar.add({
             type: "success",
-            text: accountTypeStore.successMessage
+            text: transactionTypeStore.successMessage
         })
     } finally {
-        boardLoading.value = false
+        isLoading.value = false
     }
 }
 
@@ -30,10 +30,7 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Type Name", id: "account_type" },
-    { name: "Category", id: "account_category" },
-    { name: "Balance Type", id: "balance_type" },
-    { name: "Notation", id: "notation" },
+    { name: "Transaction Type Name", id: "transaction_type_name" },
 ]
 const actions = {
     edit: true,
@@ -41,26 +38,24 @@ const actions = {
 }
 
 const snackbar = useSnackbar()
-const boardLoading = ref(false)
-
 </script>
 
 <template>
-    <LayoutBoards title="Account Type List" class="w-full" :loading="accountTypeStore.isLoading">
+    <LayoutBoards title="Transaction Type List" class="w-full" :loading="transactionTypeStore.isLoading">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable
                 id="listTable"
                 :header-columns="headers"
-                :datas="accountTypeList"
+                :datas="typeList"
                 :actions="actions"
                 @edit-row="setEdit"
-                @delete-row="deleteAccountType"
+                @delete-row="deleteType"
             />
-            <i v-if="!accountTypeList.length&&!accountTypeStore.isLoading" class="p-4 text-center block">No data available.</i>
+            <i v-if="!typeList.length&&!transactionTypeStore.isLoading" class="p-4 text-center block">No data available.</i>
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination
-                v-if="accountTypeList.length"
+                v-if="typeList.length"
                 :links="pagination"
                 @change-params="changePaginate"
             />

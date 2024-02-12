@@ -2,18 +2,18 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export const useAccountStore = defineStore("accountStore", {
+export const useBookStore = defineStore("bookStore", {
     state: () => ({
-        account: {
+        book: {
+            book_id: null,
+            book_code: null,
+            book_name: null,
+            book_src: null,
+            book_ref: null,
+            book_flag: null,
+            book_head: null,
             account_id: null,
-            account_number: null,
-            account_name: null,
-            account_description: null,
-            parent_account: null,
-            bank_reconciliation: "no",
-            statement: null,
-            type_id: null,
-            opening_balance: 0
+            status: "active",
         },
         list: [],
         pagination: {},
@@ -24,10 +24,10 @@ export const useAccountStore = defineStore("accountStore", {
         isEdit: false
     }),
     actions: {
-        async getAccounts () {
+        async getBooks () {
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/v1/accounts",
+                "/api/v1/book",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
@@ -58,7 +58,7 @@ export const useAccountStore = defineStore("accountStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/v1/accounts",
+                "/api/v1/book",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
@@ -66,13 +66,13 @@ export const useAccountStore = defineStore("accountStore", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.account,
+                    body: this.book,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.status !== 201) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getAccounts()
+                            this.getBooks()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -81,23 +81,23 @@ export const useAccountStore = defineStore("accountStore", {
             )
         },
 
-        async editAccount () {
+        async editBook () {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/v1/account/" + this.account.account_id,
+                "/api/v1/book/" + this.book.book_id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
                     headers: {
                         Authorization: token.value + ""
                     },
-                    body: this.account,
+                    body: this.book,
                     watch: false,
                 }
             )
             if (data.value) {
-                this.getAccounts()
+                this.getBooks()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -106,17 +106,43 @@ export const useAccountStore = defineStore("accountStore", {
             }
         },
 
+        async deleteBook (id: number) {
+            const { data, error } = await useFetch(
+                "/api/v1/book/" + id,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "DELETE",
+                    headers: {
+                        Authorization: token.value + ""
+                    },
+                    body: this.book,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
+                }
+            )
+            if (data.value) {
+                this.getBooks()
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = "Error"
+                return error
+            }
+        },
+
         reset () {
-            this.account = {
+            this.book = {
+                book_id: null,
+                book_code: null,
+                book_name: null,
+                book_src: null,
+                book_ref: null,
+                book_flag: null,
+                book_head: null,
                 account_id: null,
-                account_number: null,
-                account_name: null,
-                account_description: null,
-                parent_account: null,
-                bank_reconciliation: "no",
-                statement: null,
-                type_id: null,
-                opening_balance: 0
+                status: "active",
             }
             this.successMessage = ""
             this.errorMessage = ""

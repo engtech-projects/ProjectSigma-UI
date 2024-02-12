@@ -2,18 +2,13 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export const useAccountStore = defineStore("accountStore", {
+export const useTransactionTypeStore = defineStore("transactionTypeStore", {
     state: () => ({
-        account: {
-            account_id: null,
-            account_number: null,
-            account_name: null,
-            account_description: null,
-            parent_account: null,
-            bank_reconciliation: "no",
-            statement: null,
-            type_id: null,
-            opening_balance: 0
+        transactionType: {
+            transaction_type_id: null,
+            transaction_type_name: null,
+            book_id: null,
+            account_id: null
         },
         list: [],
         pagination: {},
@@ -24,10 +19,10 @@ export const useAccountStore = defineStore("accountStore", {
         isEdit: false
     }),
     actions: {
-        async getAccounts () {
+        async getTransactionTypes () {
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/v1/accounts",
+                "/api/v1/transaction-type",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
@@ -38,7 +33,7 @@ export const useAccountStore = defineStore("accountStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.data
+                        this.list = response._data.transaction_type
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -54,11 +49,11 @@ export const useAccountStore = defineStore("accountStore", {
             }
         },
 
-        async createAccount () {
+        async createTransactionType () {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/v1/accounts",
+                "/api/v1/transaction-type",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
@@ -66,13 +61,13 @@ export const useAccountStore = defineStore("accountStore", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.account,
+                    body: this.transactionType,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 201) {
+                        if (response.status !== 200) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getAccounts()
+                            this.getTransactionTypes()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -81,23 +76,23 @@ export const useAccountStore = defineStore("accountStore", {
             )
         },
 
-        async editAccount () {
+        async editTransactionType () {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/v1/account/" + this.account.account_id,
+                "/api/v1/transaction-type/" + this.transactionType.transaction_type_id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
                     headers: {
                         Authorization: token.value + ""
                     },
-                    body: this.account,
+                    body: this.transactionType,
                     watch: false,
                 }
             )
             if (data.value) {
-                this.getAccounts()
+                this.getTransactionTypes()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -106,17 +101,38 @@ export const useAccountStore = defineStore("accountStore", {
             }
         },
 
+        async deleteTransactionType (id: number) {
+            const { data, error } = await useFetch(
+                "/api/v1/transaction-type/" + id,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "DELETE",
+                    headers: {
+                        Authorization: token.value + ""
+                    },
+                    body: this.transactionType,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
+                }
+            )
+            if (data.value) {
+                this.getTransactionTypes()
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = "Error"
+                return error
+            }
+        },
+
         reset () {
-            this.account = {
-                account_id: null,
-                account_number: null,
-                account_name: null,
-                account_description: null,
-                parent_account: null,
-                bank_reconciliation: "no",
-                statement: null,
-                type_id: null,
-                opening_balance: 0
+            this.transactionType = {
+                transaction_type_id: null,
+                transaction_type_name: null,
+                book_id: null,
+                account_id: null
             }
             this.successMessage = ""
             this.errorMessage = ""

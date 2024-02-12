@@ -274,6 +274,18 @@ const config = useRuntimeConfig()
                 icon="ci:table"
                 single-nav-title="Chart of Accounts"
             />
+            <LayoutNavSingle
+                v-if="config.public.APP_ENV == 'local'"
+                linkarea="/accounting/books"
+                icon="iconoir:book"
+                single-nav-title="Books"
+            />
+            <LayoutNavSingle
+                v-if="config.public.APP_ENV == 'local'"
+                linkarea="/accounting/transaction-type"
+                icon="iconoir:x"
+                single-nav-title="Transaction Type"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->
