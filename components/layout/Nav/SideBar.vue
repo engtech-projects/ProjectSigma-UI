@@ -292,6 +292,12 @@ const config = useRuntimeConfig()
                 icon="iconoir:x"
                 single-nav-title="Transaction Type"
             />
+            <LayoutNavSingle
+                v-if="config.public.APP_ENV == 'local'"
+                linkarea="/accounting/document-series"
+                icon="iconoir:archive"
+                single-nav-title="Document Series"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->
