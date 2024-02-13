@@ -155,8 +155,8 @@ function cancelEdit () {
                 </button>
                 <div v-else class="flex gap-2 flex-1">
                     <button
-                        @click.prevent="cancelEdit"
                         class="flex-1 text-white p-2 rounded bg-slate-500 content-center mt-5"
+                        @click.prevent="cancelEdit"
                     >
                         Cancel
                     </button>

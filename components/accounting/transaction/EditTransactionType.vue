@@ -89,8 +89,8 @@ function cancelEdit () {
 
             <div class="flex justify-end gap-4">
                 <button
-                    @click="cancelEdit"
                     class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5"
+                    @click="cancelEdit"
                 >
                     Cancel
                 </button>
