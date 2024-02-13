@@ -2,12 +2,7 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export const USER_SELECTOR1 = "1"
-export const USER_SELECTOR2 = "2"
-export const SELECTOR = [
-    USER_SELECTOR1,
-    USER_SELECTOR2
-]
+export const APPROVAL_MANPOWERREQ = "Manpower Request"
 
 export interface Approver {
     type: string,
@@ -62,6 +57,30 @@ export const useApprovalStore = defineStore("approvals", {
             } else if (error) {
                 return error
             }
+        },
+
+        async getApprovalByName (approvalName : String) {
+            const { data } = await useFetch(
+                "/api/get-form-requests/" + approvalName,
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.status !== 200) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            return response._data.data
+                        }
+                    },
+                }
+            )
+            console.log("Approvals Data:", data.value)
+            return data.value.data.approvals
         },
 
         async createApproval () {

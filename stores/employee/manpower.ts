@@ -65,7 +65,7 @@ export const useManpowerStore = defineStore("manpowers", {
             position: null,
             employment_type: "",
             brief_description: null,
-            job_description_attachment: null,
+            job_description_attachment: undefined,
             nature_of_request: "",
             age_range: null,
             status: "",
@@ -144,6 +144,35 @@ export const useManpowerStore = defineStore("manpowers", {
         async createManpower () {
             this.successMessage = ""
             this.errorMessage = ""
+
+            const formData = new FormData()
+
+            formData.append("requesting_department", this.manpower.requesting_department)
+            formData.append("date_requested", this.manpower.date_requested)
+            formData.append("date_required", this.manpower.date_required)
+            formData.append("position", this.manpower.position)
+            formData.append("employment_type", this.manpower.employment_type)
+            formData.append("brief_description", this.manpower.brief_description)
+            formData.append("nature_of_request", this.manpower.nature_of_request)
+            formData.append("age_range", this.manpower.age_range)
+            formData.append("status", this.manpower.status)
+            formData.append("gender", this.manpower.gender)
+            formData.append("educational_requirement", this.manpower.educational_requirement)
+            formData.append("preferred_qualifications", this.manpower.preferred_qualifications)
+            formData.append("approvals", this.manpower.approvals)
+            formData.append("remarks", this.manpower.remarks)
+            formData.append("request_status", this.manpower.request_status)
+            formData.append("charged_to", this.manpower.charged_to)
+            formData.append("breakdown_details", this.manpower.breakdown_details)
+            formData.append("requested_by", this.manpower.requested_by)
+
+            const files = this.manpower.job_description_attachment
+            if (files) {
+                for (let i = 0; i < files.length; i++) {
+                    formData.append("job_description_attachment[]", files[i])
+                }
+            }
+
             await useFetch(
                 "/api/manpower-requests",
                 {
@@ -153,7 +182,7 @@ export const useManpowerStore = defineStore("manpowers", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.manpower,
+                    body: formData,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.status !== 200) {

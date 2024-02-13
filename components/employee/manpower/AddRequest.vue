@@ -2,16 +2,29 @@
 import { storeToRefs } from "pinia"
 import { useManpowerStore, EMPLOYMENT_TYPE, NATURE_REQUESTS, STATUS, GENDER } from "@/stores/employee/manpower"
 import { useDepartmentStore } from "@/stores/departments"
+import { useApprovalStore, APPROVAL_MANPOWERREQ } from "@/stores/approvals"
 
 const { data: userData } = useAuth()
 const departments = useDepartmentStore()
 const { departmentsList } = storeToRefs(departments)
 const manpowers = useManpowerStore()
 const { manpower, errorMessage, successMessage } = storeToRefs(manpowers)
+const approvals = useApprovalStore()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 manpower.value.requested_by = userData.value.id
+manpower.value.approvals = await approvals.getApprovalByName(APPROVAL_MANPOWERREQ)
+
+const handleFileUpload = (event) => {
+    const file = event.target.files[0]
+    manpower.value.job_description_attachment = file
+    console.log("handle event:", file)
+
+    const formData = new FormData()
+    formData.append("file", file)
+    console.log("append:", formData.getAll("file"))
+}
 
 const addManpwr = async () => {
     try {
@@ -48,7 +61,7 @@ const addManpwr = async () => {
                 <!-- {{ manpower }} -->
                 <div class="grid grid-cols-2 gap-2 sm:grid-cols-2">
                     <div class="pb-4">
-                        <label for="req_department" class="block text-sm font-medium text-gray-900 dark:text-white">Requesting Department</label>
+                        <label for="reqDepartment" class="block text-sm font-medium text-gray-900 dark:text-white">Requesting Department</label>
                         <select id="reqDepartment" v-model="manpower.requesting_department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option value="" disabled selected>
                                 Choose Department
@@ -95,7 +108,19 @@ const addManpwr = async () => {
                     </div>
                     <div class="pb-4">
                         <label for="job_description_attachment" class="block  text-sm font-medium text-gray-900 dark:text-white">Job Description Attachment</label>
-                        <textarea id="job_description_attachment" v-model="manpower.job_description_attachment" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
+
+                        <input
+                            id="job_description_attachment"
+                            @change="handleFileUpload"
+                            class="block w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                            aria-describedby="file_input_help"
+                            type="file"
+                            accept="application/pdf,application/msword,
+  application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                        >
+                        <p class="flex justify-center mx-auto text-xs text-gray-500 dark:text-gray-300 uppercase" id="job_description_attachment">
+                            doc/docx/pdf
+                        </p>
                     </div>
                 </div>
                 <div class="pb-4 grid grid-cols-1 gap-2 sm:grid-cols-5">
@@ -162,79 +187,21 @@ const addManpwr = async () => {
                             disabled
                         >
                     </div>
-                    <!-- <div>
+
+                    <div>
                         <label for="approved_by" class="block  text-sm font-medium text-gray-900 dark:text-white">Approvals</label>
-                        <select id="approved_by" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                            <option value="">
-                                Select options
-                            </option>
-                        </select>
-                    </div> -->
+
+                        <HrmsSetupApprovalsList
+                            v-for="approv, apr in manpower.approvals"
+                            :key="apr"
+                            :approval-type="approv.type"
+                            :employee-selector="approv.user_id"
+                            :specific-employee="approv.user_selector"
+                        />
+                        <!-- <HrmsSetupApprovalsList /> -->
+                    </div>
                 </div>
-                <!-- <div class="pb-4 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                    <div class="pb-4">
-                        <label for="requested_status" class="block  text-sm font-medium text-gray-900 dark:text-white">Requested Status</label>
-                        <select id="requested_status" v-model="manpower.request_status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option value="" disabled selected>
-                                Choose Request Status
-                            </option>
-                            <option v-for="requestStatus, reqStats in REQUEST_STATUS" :key="reqStats" :value="requestStatus">
-                                {{ requestStatus }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="pb-4">
-                        <label for="charged_to" class="block whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Charged to (Department)</label>
-                        <select id="charged_to" v-model="manpower.charged_to" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option value="" disabled selected>
-                                Choose Department
-                            </option>
-                            <option v-for="dpt, chargedTo in departmentsList" :key="chargedTo" :value=" dpt.id">
-                                {{ dpt.department_name }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="pb-4">
-                        <label for="breakdown_details" class="block  text-sm font-medium text-gray-900 dark:text-white">Breakdown Details</label>
-                        <input id="breakdown_details" v-model="manpower.breakdown_details" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                    </div>
-                </div> -->
-                <!-- <div class="pb-4 grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    <div class="pb-4">
-                        <label for="processed_by" class="block  text-sm font-medium text-gray-900 dark:text-white">Processed by</label>
-                        <select id="processed_by" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option value="">
-                                Select options
-                            </option>
-                            <option value="1">
-                                Lorem 1
-                            </option>
-                            <option value="2">
-                                Lorem 2
-                            </option>
-                            <option value="3">
-                                Lorem 3
-                            </option>
-                        </select>
-                    </div>
-                    <div class="pb-4">
-                        <label for="checked_by" class="block  text-sm font-medium text-gray-900 dark:text-white">Checked / Approved by</label>
-                        <select id="checked_by" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option value="">
-                                Select options
-                            </option>
-                            <option value="1">
-                                Lorem 1
-                            </option>
-                            <option value="2">
-                                Lorem 2
-                            </option>
-                            <option value="3">
-                                Lorem 3
-                            </option>
-                        </select>
-                    </div>
-                </div> -->
+
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Submit
                 </button>

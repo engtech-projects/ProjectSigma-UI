@@ -39,6 +39,7 @@
     "install": "^0.13.0",
     "nuxt-snackbar": "^1.0.4",
     "pinia": "^2.1.7",
+    "uuid": "^9.0.1",
     "vue-advanced-cropper": "^2.8.8",
     "vue-chartjs": "^5.2.0",
     "vue-multiselect": "^2.1.8",

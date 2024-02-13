@@ -1,8 +1,8 @@
 <script setup>
 import { initFlowbite } from "flowbite"
-import { useMain } from "@/stores/announcements"
+import { useAnnouncements } from "@/stores/announcements"
 
-const mains = useMain()
+const mains = useAnnouncements()
 mains.getactiveAll()
 
 const employeesData = ref([

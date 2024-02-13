@@ -1,8 +1,8 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useMain } from "@/stores/announcements"
+import { useAnnouncements } from "@/stores/announcements"
 
-const mains = useMain()
+const mains = useAnnouncements()
 const { isEdit } = storeToRefs(mains)
 mains.getAll()
 

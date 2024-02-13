@@ -7,7 +7,7 @@ interface Announcement {
     start_date: String,
     end_date: String
 }
-export const useMain = defineStore("Announcements", {
+export const useAnnouncements = defineStore("Announcements", {
     state: () => ({
         isEdit: false,
         announcement:
