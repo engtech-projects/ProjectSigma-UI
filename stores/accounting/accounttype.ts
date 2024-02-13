@@ -69,7 +69,7 @@ export const useAccountType = defineStore("accountType", {
                             this.errorMessage = response._data.message
                         } else {
                             this.getAccountTypes()
-                            //this.reset()
+                            // this.reset()
                             this.successMessage = response._data.message
                         }
                     },

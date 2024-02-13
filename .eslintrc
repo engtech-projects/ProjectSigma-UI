@@ -15,8 +15,5 @@
                 "objects": "only-multiline"
             }
         ],
-        "no-console": 0,
-        "vue/attributes-order": 0,
-        "spaced-comment": 0
     }
 }

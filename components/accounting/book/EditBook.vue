@@ -93,8 +93,12 @@ function cancelEdit () {
                         class="w-full rounded-lg"
                         required
                     >
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
+                        <option value="active">
+                            Active
+                        </option>
+                        <option value="inactive">
+                            Inactive
+                        </option>
                     </select>
                 </div>
             </div>
