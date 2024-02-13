@@ -37,7 +37,7 @@ export const useApprovalStore = defineStore("approvals", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data.map((val) => {
+                        this.list = response._data.data.data.map((val:any) => {
                             return {
                                 id: val.id,
                                 form: val.form,
@@ -79,8 +79,7 @@ export const useApprovalStore = defineStore("approvals", {
                     },
                 }
             )
-            console.log("Approvals Data:", data.value)
-            return data.value.data.approvals
+            return JSON.parse(data.value.data.approvals)
         },
 
         async createApproval () {

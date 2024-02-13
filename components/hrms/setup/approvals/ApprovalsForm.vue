@@ -21,7 +21,7 @@ const addApprover = (appr) => {
     appr.push({
         type: "",
         user_id: null,
-        userselector: false
+        userselector: true
     })
 }
 
