@@ -168,7 +168,7 @@ export const useManpowerStore = defineStore("manpowers", {
 
             const files = this.manpower.job_description_attachment
             if (files) {
-                for (let i = 0; i < files.lengt; i++) {
+                for (let i = 0; i < files.length; i++) {
                     formData.append("job_description_attachment[]", files[i])
                 }
             }
