@@ -13,7 +13,7 @@
                     v-model="searchQuery"
                     type="search"
                     class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-teal-500 focus:border-teal-200 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
-                    placeholder="Search Employee Name"
+                    placeholder="Search"
                 >
                 <button type="submit" class="text-white absolute right-2.5 bottom-1 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-3 py-1 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800">
                     Search

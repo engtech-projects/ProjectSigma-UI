@@ -1,8 +1,7 @@
 <template>
     <div class="block max-w-screen p-4 bg-blue-200 border border-gray-200 rounded-lg shadow hover:bg-blue-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <div
-            class="flex items-center justify-between
-     text-lg font-semibold text-gray-900 dark:text-white"
+            class="flex items-center justify-between text-lg font-semibold text-gray-900 dark:text-white"
         >
             <h3 class="text-6xl mb-4 ">
                 {{ title }}
@@ -41,7 +40,7 @@ const props = defineProps({
         required: true,
     },
     index: {
-        type: String,
+        type: Number,
         required: true,
     },
 })

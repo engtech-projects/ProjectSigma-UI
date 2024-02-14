@@ -4,41 +4,6 @@
             <tbody>
                 <tr>
                     <td class="border border-slate-300 p-1">
-                        <div class="p-1">
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">POSITION APPLIED FOR:</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td colspan="2" class="border border-slate-300">
-                        <div class="p-1">
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">EMPLOYMENT DESIRED:</label>
-                            <div class="flex justify-center">
-                                <input id="1" type="radio" name="employmentDesired" value="1">
-                                <label for="1" class="ml-2 mr-4 text-[11px] text-gray-900 dark:text-gray-300">FULL-TIME</label>
-                                <input id="2" type="radio" name="employmentDesired" value="2">
-                                <label for="2" class="ml-2 mr-4 text-[11px] text-gray-900 dark:text-gray-300">PART-TIME ONLY</label>
-                                <input id="3" type="radio" name="employmentDesired" value="3">
-                                <label for="3" class="ml-2 text-[11px] text-gray-900 dark:text-gray-300">FULL-TIME OR PART-TIME</label>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="p-1">
-                            <label for="employee_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Generate Employee ID</label>
-                            <div class="relative">
-                                <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Employee ID" required>
-                                <button type="submit" class="absolute top-0 right-0 p-1 h-full  md:w-26 text-sm font-medium text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex items-center">
-                                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                    </svg>
-                                    <span class="ml-1 text-[11px]">Generate New ID</span>
-                                </button>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">FAMILY NAME</label>
                             <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -64,41 +29,97 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="border border-slate-300 p-1">
+                    <td colspan="4" class="border border-slate-300 p-1">
                         <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">PRESENT ADDRESS</label>
+                            <label for="small-input" class="block mb-2 text-[11px] text-2xl text-gray-900 dark:text-white">PRESENT ADDRESS</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1">
+                        <div>
+                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Street</label>
                             <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">LANDLINE</label>
+                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Barangay</label>
                             <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">CELLPHONE</label>
+                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">City</label>
+                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                    </td>
+                    <td class="border border-slate-300 p-1">
+                        <div>
+                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Zip</label>
                             <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="border border-slate-300 p-1">
+                    <td class="border border-slate-300 p-1">
                         <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">PERMANENT ADDRESS</label>
+                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Province</label>
+                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="border border-slate-300 p-1">
+                        <div>
+                            <label for="small-input" class="block mb-2 text-[11px] text-2xl text-gray-900 dark:text-white">PERMANENT ADDRESS</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1">
+                        <div>
+                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Street</label>
+                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                    </td>
+                    <td class="border border-slate-300 p-1">
+                        <div>
+                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Barangay</label>
+                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                    </td>
+                    <td class="border border-slate-300 p-1">
+                        <div>
+                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">City</label>
+                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                    </td>
+                    <td class="border border-slate-300 p-1">
+                        <div>
+                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Zip</label>
+                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1">
+                        <div>
+                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Province</label>
+                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-slate-300 p-1">
+                        <div>
+                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">CELLPHONE</label>
                             <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">LANDLINE</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">CELLPHONE</label>
                             <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
