@@ -298,6 +298,12 @@ const config = useRuntimeConfig()
                 icon="iconoir:archive"
                 single-nav-title="Document Series"
             />
+            <LayoutNavSingle
+                v-if="config.public.APP_ENV == 'local'"
+                linkarea="/accounting/posting-period"
+                icon="iconoir:notes"
+                single-nav-title="Posting Period"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->
