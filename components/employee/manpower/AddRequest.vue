@@ -19,11 +19,9 @@ manpower.value.approvals = await approvals.getApprovalByName(APPROVAL_MANPOWERRE
 const handleFileUpload = (event) => {
     const file = event.target.files[0]
     manpower.value.job_description_attachment = file
-    console.log("handle event:", file)
 
     const formData = new FormData()
     formData.append("file", file)
-    console.log("append:", formData.getAll("file"))
 }
 
 const addManpwr = async () => {
@@ -50,6 +48,9 @@ const addManpwr = async () => {
         manpowers.clearMessages()
         boardLoading.value = false
     }
+}
+const changeuserId = (approver, userId) => {
+    approver.user_id = userId
 }
 
 </script>
@@ -111,14 +112,14 @@ const addManpwr = async () => {
 
                         <input
                             id="job_description_attachment"
-                            @change="handleFileUpload"
                             class="block w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                             aria-describedby="file_input_help"
                             type="file"
                             accept="application/pdf,application/msword,
   application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                            @change="handleFileUpload"
                         >
-                        <p class="flex justify-center mx-auto text-xs text-gray-500 dark:text-gray-300 uppercase" id="job_description_attachment">
+                        <p id="job_description_attachment" class="flex justify-center mx-auto text-xs text-gray-500 dark:text-gray-300 uppercase">
                             doc/docx/pdf
                         </p>
                     </div>
@@ -192,13 +193,11 @@ const addManpwr = async () => {
                         <label for="approved_by" class="block  text-sm font-medium text-gray-900 dark:text-white">Approvals</label>
 
                         <HrmsSetupApprovalsList
-                            v-for="approv, apr in manpower.approvals"
+                            v-for="(approv, apr) in manpower.approvals"
                             :key="apr"
-                            :approval-type="approv.type"
-                            :employee-selector="approv.user_id"
-                            :specific-employee="approv.user_selector"
+                            :approval="approv"
+                            @changeuser-id="changeuserId"
                         />
-                        <!-- <HrmsSetupApprovalsList /> -->
                     </div>
                 </div>
 

@@ -37,7 +37,7 @@ export const useApprovalStore = defineStore("approvals", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data.map((val:any) => {
+                        this.list = response._data.data.data.map((val: any) => {
                             return {
                                 id: val.id,
                                 form: val.form,
@@ -59,7 +59,7 @@ export const useApprovalStore = defineStore("approvals", {
             }
         },
 
-        async getApprovalByName (approvalName : String) {
+        async getApprovalByName (approvalName: String) {
             const { data } = await useFetch(
                 "/api/get-form-requests/" + approvalName,
                 {
@@ -79,7 +79,7 @@ export const useApprovalStore = defineStore("approvals", {
                     },
                 }
             )
-            return JSON.parse(data.value.data.approvals)
+            return data.value.data.approvals
         },
 
         async createApproval () {

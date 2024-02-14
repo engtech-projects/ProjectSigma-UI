@@ -72,7 +72,7 @@ export const useManpowerStore = defineStore("manpowers", {
             gender: "",
             educational_requirement: null,
             preferred_qualifications: null,
-            approvals: null,
+            approvals: [],
             remarks: null,
             request_status: "",
             charged_to: null,
@@ -168,7 +168,7 @@ export const useManpowerStore = defineStore("manpowers", {
 
             const files = this.manpower.job_description_attachment
             if (files) {
-                for (let i = 0; i < files.length; i++) {
+                for (let i = 0; i < files.lengt; i++) {
                     formData.append("job_description_attachment[]", files[i])
                 }
             }
@@ -261,14 +261,14 @@ export const useManpowerStore = defineStore("manpowers", {
                 position: null,
                 employment_type: "",
                 brief_description: null,
-                job_description_attachment: null,
+                job_description_attachment: undefined,
                 nature_of_request: "",
                 age_range: null,
                 status: "",
                 gender: "",
                 educational_requirement: null,
                 preferred_qualifications: null,
-                approvals: null,
+                approvals: [],
                 remarks: null,
                 request_status: "",
                 charged_to: null,
