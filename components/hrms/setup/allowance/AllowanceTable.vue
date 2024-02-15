@@ -20,23 +20,29 @@ const changePaginate = (newParams) => {
 const submitAllowance = async (positionAllowance) => {
     try {
         boardLoading.value = true
-
         allowance.value = positionAllowance
 
-        if (!positionAllowance.id) {
-            await allowances.createAllowance()
-        } else {
+        if (positionAllowance.id) {
             await allowances.editAllowance()
+        } else {
+            await allowances.createAllowance()
         }
 
-        snackbar.add({
-            type: "success",
-            text: allowances.successMessage,
-        })
-    } catch {
+        if (allowances.errorMessage) {
+            snackbar.add({
+                type: "error",
+                text: allowances.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: allowances.successMessage
+            })
+        }
+    } catch (error) {
         snackbar.add({
             type: "error",
-            text: allowances.errorMessage,
+            text: "An error occurred while processing the allowance."
         })
     } finally {
         allowances.clearMessages()
@@ -63,6 +69,7 @@ const submitAllowance = async (positionAllowance) => {
                 <tbody>
                     <tr v-for="pos, index in positionAllowances " :key="index" class="border flex justify-between">
                         <td class="p-2">
+                            <!-- {{ pos.name + ' ' + pos.id }} -->
                             {{ pos.name }}
                         </td>
                         <td class="flex gap-4 p-2 rounded-md">
@@ -79,13 +86,13 @@ const submitAllowance = async (positionAllowance) => {
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
-        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+        <p hidden class="text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
             {{ errorMessage }}
         </p>
         <p
             v-show="successMessage"
             hidden
-            class="success-message text-green-600 text-center font-semibold italic"
+            class="text-green-600 text-center font-semibold italic"
         >
             {{ successMessage }}
         </p>

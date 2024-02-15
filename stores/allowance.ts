@@ -83,6 +83,7 @@ export const useAllowanceStore = defineStore("Allowances", {
                             this.successMessage = response._data.message
                         }
                     },
+
                 }
             )
         },
@@ -104,6 +105,9 @@ export const useAllowanceStore = defineStore("Allowances", {
                     },
                     body: this.allowance,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
                 }
             )
             if (data.value) {
