@@ -2,12 +2,15 @@
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/employee/manpower"
 import { useDepartmentStore } from "@/stores/departments"
+import { useUserStore } from "@/stores/hrms/users"
 
 const departments = useDepartmentStore()
 const manpowers = useManpowerStore()
+const user = useUserStore()
 const { isEdit } = storeToRefs(manpowers)
 manpowers.getManpower()
 departments.getDepartmentList()
+user.getUserEmployees()
 
 useHead({
     title: "Manpower Request",
