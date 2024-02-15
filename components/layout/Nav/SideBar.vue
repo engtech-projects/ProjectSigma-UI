@@ -258,6 +258,12 @@ const config = useRuntimeConfig()
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Settings"
                 />
+                <LayoutNavSingle
+                    v-if="config.public.BULK_UPLOAD_ENABLED === 'true'"
+                    linkarea="/hrms/setup/bulk-upload-employee"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Bulk Upload Employee"
+                />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
