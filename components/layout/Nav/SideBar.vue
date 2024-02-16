@@ -12,13 +12,11 @@ const config = useRuntimeConfig()
         <!-- HRMS -->
         <LayoutNavModuleGroup title="hrms">
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms"
                 icon="ic:round-dashboard"
                 single-nav-title="HRMS Dashboard"
             />
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/announcement"
                 icon="ic:outline-announcement"
                 single-nav-title="Announcement"
