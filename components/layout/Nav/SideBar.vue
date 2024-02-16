@@ -257,36 +257,30 @@ const config = useRuntimeConfig()
 
         <!-- Accounting -->
         <LayoutNavModuleGroup
-            v-if="config.public.APP_ENV == 'local'"
             id="dropdown-accounting-main"
             title="Accounting"
         >
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/accounting/chart-of-accounts"
                 icon="ci:table"
                 single-nav-title="Chart of Accounts"
             />
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/accounting/books"
                 icon="iconoir:book"
                 single-nav-title="Books"
             />
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/accounting/transaction-type"
                 icon="iconoir:x"
                 single-nav-title="Transaction Type"
             />
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/accounting/document-series"
                 icon="iconoir:archive"
                 single-nav-title="Document Series"
             />
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/accounting/posting-period"
                 icon="iconoir:notes"
                 single-nav-title="Posting Period"
