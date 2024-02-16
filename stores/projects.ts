@@ -10,7 +10,18 @@ export const useProjectStore = defineStore("projects", {
             id: null,
             contract_name: null,
             contract_id: null,
-            contract_location: null
+            contract_location: null,
+            contract_amount: 0,
+            contract_duration: null,
+            project_code: null,
+            project_identifier: null,
+            implementing_office: null,
+            nature_of_work: null,
+            date_of_noa: null,
+            date_of_contract: null,
+            date_of_ntp: null,
+            license: null
+
         },
         list: [],
         pagination: {},

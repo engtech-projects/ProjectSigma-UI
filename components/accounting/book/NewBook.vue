@@ -9,6 +9,10 @@ const isLoading = ref(false)
 const accountStore = useAccountStore()
 accountStore.getAccounts()
 
+function select (val:any) {
+    bookStore.book.account_id = val.account_id
+}
+
 async function handleSubmit () {
     try {
         isLoading.value = true
@@ -74,16 +78,7 @@ async function handleSubmit () {
                         for="book_name"
                         class="text-xs italic"
                     >Account</label>
-                    <select
-                        id="typeName"
-                        v-model="bookStore.book.account_id"
-                        class="w-full rounded-lg"
-                        required
-                    >
-                        <option v-for="acct in accountStore.list" :key="acct.account_id" :value="acct.account_id">
-                            {{ acct.account_name }}
-                        </option>
-                    </select>
+                    <AccountingSelectSearch :options="accountStore.list" title="account_name" opid="account_id" :selected-id="bookStore.book.account_id" @select="select" />
                 </div>
 
                 <div>

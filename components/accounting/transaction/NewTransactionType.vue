@@ -61,6 +61,9 @@ async function updateType () {
 //     transactionTypeStore.isEdit = false
 //     transactionTypeStore.reset()
 // }
+function select (val:any) {
+    transactionTypeStore.transactionType.account_id = val.account_id
+}
 </script>
 
 <template>
@@ -101,16 +104,13 @@ async function updateType () {
                         for="book"
                         class="text-xs italic"
                     >Account</label>
-                    <select
-                        id="account"
-                        v-model="transactionTypeStore.transactionType.account_id"
-                        class="w-full rounded-lg"
-                        required
-                    >
-                        <option v-for="account in accountStore.list" :key="account.account_id" :value="account.account_id">
-                            {{ account.account_name }}
-                        </option>
-                    </select>
+                    <AccountingSelectSearch
+                        :options="accountStore.list"
+                        title="account_name"
+                        opid="account_id"
+                        :selected-id="transactionTypeStore.transactionType.account_id"
+                        @select="select"
+                    />
                 </div>
             </div>
 
