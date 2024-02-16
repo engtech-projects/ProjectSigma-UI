@@ -72,7 +72,7 @@ export const useManpowerStore = defineStore("manpowers", {
             gender: "",
             educational_requirement: null,
             preferred_qualifications: null,
-            approvals: [],
+            approvals: null,
             remarks: null,
             request_status: "",
             charged_to: null,
@@ -98,7 +98,7 @@ export const useManpowerStore = defineStore("manpowers", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.departmentList = response._data.data
+                        this.getDepartmentList = response._data.data
                         this.pagination = {
                             first_page: response._data.data.first_page_url,
                             pages: response._data.data.links,
@@ -159,17 +159,16 @@ export const useManpowerStore = defineStore("manpowers", {
             formData.append("gender", this.manpower.gender)
             formData.append("educational_requirement", this.manpower.educational_requirement)
             formData.append("preferred_qualifications", this.manpower.preferred_qualifications)
-            formData.append("approvals", this.manpower.approvals)
             formData.append("remarks", this.manpower.remarks)
             formData.append("request_status", this.manpower.request_status)
             formData.append("charged_to", this.manpower.charged_to)
             formData.append("breakdown_details", this.manpower.breakdown_details)
             formData.append("requested_by", this.manpower.requested_by)
+            formData.append("job_description_attachment", this.manpower.job_description_attachment)
 
-            const files = this.manpower.job_description_attachment
-            if (files) {
-                for (let i = 0; i < files.length; i++) {
-                    formData.append("job_description_attachment[]", files[i])
+            if (Array.isArray(this.manpower.approvals)) {
+                for await (const approval of this.manpower.approvals) {
+                    formData.append("approvals[]", JSON.stringify(approval))
                 }
             }
 
@@ -180,7 +179,6 @@ export const useManpowerStore = defineStore("manpowers", {
                     method: "POST",
                     headers: {
                         Authorization: token.value + "",
-                        Accept: "application/json"
                     },
                     body: formData,
                     watch: false,
@@ -268,7 +266,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 gender: "",
                 educational_requirement: null,
                 preferred_qualifications: null,
-                approvals: [],
+                approvals: null,
                 remarks: null,
                 request_status: "",
                 charged_to: null,

@@ -26,6 +26,9 @@ export const useAllowanceStore = defineStore("Allowances", {
                     id: pos.allowances?.id || null,
                     position_id: pos.id,
                     amount: pos.allowances?.amount || 0,
+                    dpt_name: pos.departments?.department_name,
+                    position_type: pos.position_type,
+
                 }
             })
         }
@@ -44,7 +47,6 @@ export const useAllowanceStore = defineStore("Allowances", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.positionList = response._data.data
-                        // console.log(this.positionList)
                         // this.pagination = {
                         //     first_page: response._data.data.first_page_url,
                         //     pages: response._data.data.links,
@@ -83,6 +85,7 @@ export const useAllowanceStore = defineStore("Allowances", {
                             this.successMessage = response._data.message
                         }
                     },
+
                 }
             )
         },
@@ -104,6 +107,9 @@ export const useAllowanceStore = defineStore("Allowances", {
                     },
                     body: this.allowance,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
                 }
             )
             if (data.value) {

@@ -19,9 +19,6 @@ manpower.value.approvals = await approvals.getApprovalByName(APPROVAL_MANPOWERRE
 const handleFileUpload = (event) => {
     const file = event.target.files[0]
     manpower.value.job_description_attachment = file
-
-    const formData = new FormData()
-    formData.append("file", file)
 }
 
 const addManpwr = async () => {
@@ -115,11 +112,11 @@ const changeuserId = (approver, userId) => {
                             class="block w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                             aria-describedby="file_input_help"
                             type="file"
-                            accept="application/pdf,application/msword,
-  application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                            accept=".doc,.docx,.pdf"
+                            required
                             @change="handleFileUpload"
                         >
-                        <p id="job_description_attachment" class="flex justify-center mx-auto text-xs text-gray-500 dark:text-gray-300 uppercase">
+                        <p class="flex justify-center mx-auto text-xs text-gray-500 dark:text-gray-300 uppercase">
                             doc/docx/pdf
                         </p>
                     </div>

@@ -1,9 +1,9 @@
 <script setup>
-import { computed } from "vue"
+import { storeToRefs } from "pinia"
 import { useUserStore } from "@/stores/hrms/users"
 
 const user = useUserStore()
-const employeeUserList = computed(() => user.employeeUserList)
+const { employeeUserList } = storeToRefs(user)
 
 const props = defineProps({
     approval: {
@@ -20,19 +20,22 @@ const changeValue = (event) => {
 
 <template>
     <div>
-        <div>{{ approval.type }}</div>
+        <div class="font-semibold text-black">
+            {{ approval.type }}
+        </div>
+
         <div v-if="approval.userselector">
-            <select @change="changeValue">
-                <option value="select" selected>
+            <select class="w-full" @change="changeValue(approval)">
+                <option value="" disabled selected>
                     --Select--
                 </option>
-                <option v-for="userSelect in employeeUserList" :key="userSelect.user_id" :value="userSelect.user_id">
+                <option v-for="userSelect in employeeUserList" :key="userSelect.id" :value="userSelect.id">
                     {{ userSelect.name }}
                 </option>
             </select>
         </div>
         <div v-else>
-            <span>{{ approval.name }}</span>
+            <span class="font-semibold">{{ approval.name }}</span>
         </div>
     </div>
 </template>
