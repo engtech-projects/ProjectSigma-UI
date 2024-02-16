@@ -164,7 +164,7 @@ export interface EmployeeSearch {
 export const useEmployeeInfo = defineStore("employee", {
     state: () => ({
         information: {} as EmployeeInformation,
-        employeeSearchList: {} as Array<Object>,
+        employeeSearchList: {} as Array<EmployeeSearch>,
         searchEmployeeParams: {
             key: "",
         },
@@ -173,8 +173,9 @@ export const useEmployeeInfo = defineStore("employee", {
 
     },
     actions: {
-        async getEmployees () {
-            const { data, error } = await useFetch(
+        async getEmployees () { // i rename ni later into searchEmployees tom
+            this.employeeSearchList = [] as Array<EmployeeSearch>
+            await useFetch(
                 "/api/employee-search",
                 {
                     baseURL: config.public.HRMS_API_URL,
@@ -184,14 +185,15 @@ export const useEmployeeInfo = defineStore("employee", {
                         Accept: "application/json"
                     },
                     body: this.searchEmployeeParams,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.employeeSearchList = response._data?.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.employeeSearchList = data.value.data
-                return data
-            } else if (error.value) {
-                return error
-            }
         },
         async getEmployeeInformation (id : Number) {
             const { data, error } = await useFetch(

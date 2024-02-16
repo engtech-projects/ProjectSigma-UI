@@ -12,7 +12,6 @@ const selectEmployee = (id) => {
 </script>
 <template>
     <div>
-        {{ employeeSearchList }}
         <form @submit.prevent="handleSubmit">
             <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div class="relative">
@@ -36,7 +35,7 @@ const selectEmployee = (id) => {
 
         <ul v-if="employeeSearchList" class="mt-1 p-px rounded-lg bg-white dark:bg-gray-800">
             <li v-for="(emp, i) in employeeSearchList" :key="i" class="hover:bg-teal-200 rounded-md cursor-pointer p-1" @click="selectEmployee(emp.id)">
-                {{ emp.family_name }}, {{ emp.first_name }}
+                {{ emp.family_name }}, {{ emp.first_name }} {{ emp.middle_name || "" }}
             </li>
         </ul>
     </div>
