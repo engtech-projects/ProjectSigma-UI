@@ -30,10 +30,6 @@ const login = async () => {
     userCredentials.response = ""
     signingIn.value = "Signing in..."
     loggedIn.value = "Welcome " + userCredentials.username
-    snackbar.add({
-        type: "success",
-        text: signingIn.value
-    })
     try {
         const response = await signIn(
             {
@@ -57,9 +53,10 @@ const login = async () => {
             text: userCredentials.response = error.data.message
         })
         // userCredentials.response = error.data.message
+    } finally {
+        signingIn.value = ""
+        boardLoading.value = false
     }
-    signingIn.value = ""
-    boardLoading.value = false
 }
 
 </script>
@@ -121,14 +118,6 @@ const login = async () => {
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 >
                             </div>
-                            <p class="p-4">
-                                <!-- <span class="text-red-600">
-                                    {{ userCredentials.response }}
-                                </span> -->
-                                <span>
-                                    {{ signingIn }}
-                                </span>
-                            </p>
                             <div class="flex items-center justify-between">
                                 <div class="flex items-start">
                                     <div class="flex items-center h-5">
