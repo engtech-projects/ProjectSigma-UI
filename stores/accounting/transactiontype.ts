@@ -8,7 +8,8 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
             transaction_type_id: null,
             transaction_type_name: null,
             book_id: null,
-            account_id: null
+            account_id: null,
+            symbol: null
         },
         list: [],
         pagination: {},
@@ -132,7 +133,8 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
                 transaction_type_id: null,
                 transaction_type_name: null,
                 book_id: null,
-                account_id: null
+                account_id: null,
+                symbol: null
             }
             this.successMessage = ""
             this.errorMessage = ""

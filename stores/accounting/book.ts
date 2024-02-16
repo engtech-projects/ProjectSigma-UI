@@ -6,14 +6,9 @@ export const useBookStore = defineStore("bookStore", {
     state: () => ({
         book: {
             book_id: null,
-            book_code: null,
             book_name: null,
-            book_src: null,
-            book_ref: null,
-            book_flag: null,
-            book_head: null,
             account_id: null,
-            status: "active",
+            symbol: null,
         },
         list: [],
         pagination: {},
@@ -38,7 +33,7 @@ export const useBookStore = defineStore("bookStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.data
+                        this.list = response._data.books
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -135,14 +130,9 @@ export const useBookStore = defineStore("bookStore", {
         reset () {
             this.book = {
                 book_id: null,
-                book_code: null,
                 book_name: null,
-                book_src: null,
-                book_ref: null,
-                book_flag: null,
-                book_head: null,
                 account_id: null,
-                status: "active",
+                symbol: null,
             }
             this.successMessage = ""
             this.errorMessage = ""

@@ -112,6 +112,20 @@ function select (val:any) {
                         @select="select"
                     />
                 </div>
+
+                <div>
+                    <label
+                        for="symbol"
+                        class="text-xs italic"
+                    >Symbol</label>
+                    <input
+                        id="bookName"
+                        v-model="transactionTypeStore.transactionType.symbol"
+                        type="text"
+                        class="w-full rounded-lg"
+                        required
+                    >
+                </div>
             </div>
 
             <div class="flex justify-end">

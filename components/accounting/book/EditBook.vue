@@ -47,20 +47,6 @@ function cancelEdit () {
             <div class="flex flex-col gap-2">
                 <div>
                     <label
-                        for="book_code"
-                        class="text-xs italic"
-                    >Book Code</label>
-                    <input
-                        id="bookCode"
-                        v-model="bookStore.book.book_code"
-                        type="text"
-                        class="w-full rounded-lg"
-                        required
-                    >
-                </div>
-
-                <div>
-                    <label
                         for="book_name"
                         class="text-xs italic"
                     >Book Name</label>
@@ -83,22 +69,16 @@ function cancelEdit () {
 
                 <div>
                     <label
-                        for="book_status"
+                        for="symbol"
                         class="text-xs italic"
-                    >Status</label>
-                    <select
-                        id="typeName"
-                        v-model="bookStore.book.status"
+                    >Symbol</label>
+                    <input
+                        id="bookName"
+                        v-model="bookStore.book.symbol"
+                        type="text"
                         class="w-full rounded-lg"
                         required
                     >
-                        <option value="active">
-                            Active
-                        </option>
-                        <option value="inactive">
-                            Inactive
-                        </option>
-                    </select>
                 </div>
             </div>
 

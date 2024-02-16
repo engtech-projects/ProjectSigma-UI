@@ -13,8 +13,8 @@ const props = defineProps({
         default: ""
     },
     selectedId: {
-        type: String,
-        default: ""
+        type: Number,
+        default: null
     }
 })
 const searchInput = ref("")
@@ -60,16 +60,16 @@ const searchedOptions = computed(() => {
 
 <template>
     <div class="border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer">
-        <div class="flex flex-1 items-center overflow-hidden py-[8px]" @click="toggleDD">
+        <div class="flex flex-1 items-center overflow-hidden py-[9px]" @click="toggleDD">
             <span class="flex-1">{{ currentOptionValue?currentOptionValue[title]:'' }}</span>
             <Icon name="iconoir:nav-arrow-down" class="font-bold text-xl" />
         </div>
-        <div v-if="showDD" class="absolute max-h-56 left-0 top-11 min-w-full py-2 border border-slate-800 bg-white rounded flex flex-col gap-2">
+        <div v-if="showDD" class="absolute max-h-72 left-0 top-11 min-w-full py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2">
             <div class="px-3 w-full">
-                <input v-model="searchInput" type="text" class="border border-slate-300 rounded w-full" placeholder="Search">
+                <input v-model="searchInput" type="text" class="border border-slate-300 rounded w-full h-10" placeholder="Search">
             </div>
             <div class="flex flex-col overflow-auto">
-                <span v-for="option,i in searchedOptions" :key="i" class="cursor-pointer hover:bg-slate-100 px-3 py-1" @click="selectOption(option)">{{ option[props.title] }}</span>
+                <span v-for="option,i in searchedOptions" :key="i" class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b" @click="selectOption(option)">{{ option[props.title] }}</span>
             </div>
         </div>
     </div>

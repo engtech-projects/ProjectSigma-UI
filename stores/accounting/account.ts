@@ -38,7 +38,7 @@ export const useAccountStore = defineStore("accountStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.data
+                        this.list = response._data.accounts
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
