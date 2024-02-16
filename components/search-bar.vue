@@ -1,3 +1,15 @@
+<script setup>
+import { storeToRefs } from "pinia"
+import { useEmployeeInfo } from "@/stores/employee"
+
+const employee = useEmployeeInfo()
+employee.getEmployees()
+const { employeeSearchList, searchEmployeeParams } = storeToRefs(employee)
+
+const selectEmployee = (id) => {
+    employee.getEmployeeInformation(id)
+}
+</script>
 <template>
     <div>
         <form @submit.prevent="handleSubmit">
@@ -10,7 +22,7 @@
                 </div>
                 <input
                     id="default-search"
-                    v-model="searchQuery"
+                    v-model="searchEmployeeParams.key"
                     type="search"
                     class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-teal-500 focus:border-teal-200 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
                     placeholder="Search"
@@ -21,47 +33,10 @@
             </div>
         </form>
 
-        <ul v-if="showSuggestions" class="mt-1 p-px rounded-lg bg-white dark:bg-gray-800">
-            <li v-if="filteredEmployees.length === 0" class="flex justify-center p-1 italic">
-                No Records Found
-            </li>
-            <li v-for="employee in filteredEmployees" :key="employee.id" class="hover:bg-teal-200 rounded-md cursor-pointer p-1" @click="selectEmployee(employee)">
-                {{ employee.name }}
+        <ul v-if="employeeSearchList" class="mt-1 p-px rounded-lg bg-white dark:bg-gray-800">
+            <li v-for="(emp, i) in employeeSearchList" :key="i" class="hover:bg-teal-200 rounded-md cursor-pointer p-1" @click="selectEmployee(emp.id)">
+                {{ emp.family_name }}, {{ emp.first_name }} {{ emp.middle_name || "" }}
             </li>
         </ul>
     </div>
 </template>
-
-<script>
-export default {
-    data () {
-        return {
-            searchQuery: "",
-            employees: [
-                { id: 1, name: "John Doe" },
-                { id: 2, name: "Jane Smith" },
-                { id: 2, name: "Dane Smith" },
-            ],
-            showSuggestions: false,
-        }
-    },
-    computed: {
-        filteredEmployees () {
-            return this.employees.filter(employee => employee.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
-        },
-    },
-    watch: {
-        searchQuery () {
-            this.showSuggestions = this.searchQuery.length > 0
-        },
-    },
-    methods: {
-        handleSubmit () {
-        },
-        selectEmployee (employee) {
-            this.searchQuery = employee.name
-            this.showSuggestions = false
-        },
-    },
-}
-</script>
