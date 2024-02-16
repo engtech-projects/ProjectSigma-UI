@@ -172,11 +172,6 @@ export const useManpowerStore = defineStore("manpowers", {
                 }
             }
 
-            // const files = this.manpower.job_description_attachment
-            // if (files) {
-            //     formData.append("job_description_attachment", files[0])
-            // }
-
             await useFetch(
                 "/api/manpower-requests",
                 {
