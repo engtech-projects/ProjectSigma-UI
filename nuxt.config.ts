@@ -72,6 +72,7 @@ export default defineNuxtConfig({
             INVENTORY_API_URL: process.env.INVENTORY_API_URL,
             PROJECT_API_URL: process.env.PROJECT_API_URL,
             APP_ENV: process.env.APP_ENV || "production",
+            BULK_UPLOAD_ENABLED: process.env.BULK_UPLOAD_ENABLED || "false",
         }
     },
 
