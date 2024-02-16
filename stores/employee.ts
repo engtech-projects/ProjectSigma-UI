@@ -137,7 +137,7 @@ export interface EmployeeInformation {
     first_name: String,
     middle_name: String,
     last_name: String,
-    nickname: String,
+    nick_name: String,
     cellphone: Number,
     land_line: Number,
     birthday: String
@@ -153,26 +153,64 @@ export interface EmployeeInformation {
     pag_ibig: String,
     tin: String,
     sss: String,
-    employment: Array<EmploymentInformation>,
-    address: Array<Address>,
-    parents: Array<Parents>,
-    spouse: Array<Spouse>,
-    children: Array<Children>,
-    contact_of_emergency: Array<Contact_of_emergency>,
-    hospitalization: Array<Hospitalization>,
-    conviction: Array<Conviction>,
-    dismissalInformation: Array<DismissalInformation>,
-    administrativeCaseInformation: Array<AdministrativeCaseInformation>,
-    relatives: Array<Company_family_members>,
-    education: Array<Education>,
 }
 
+export interface EmployeeSearch {
+    employee_id: number,
+    first_name: String,
+    middle_name: String,
+    last_name: String,
+}
 export const useEmployeeInfo = defineStore("employee", {
     state: () => ({
         information: {} as EmployeeInformation,
+        employeeSearchList: {} as Array<Object>,
+        searchEmployeeParams: {
+            key: "",
+        },
     }),
     getters: {
+
     },
     actions: {
+        async getEmployees () {
+            const { data, error } = await useFetch(
+                "/api/employee-search",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "POST",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    body: this.searchEmployeeParams,
+                }
+            )
+            if (data.value) {
+                this.employeeSearchList = data.value.data
+                return data
+            } else if (error.value) {
+                return error
+            }
+        },
+        async getEmployeeInformation (id : Number) {
+            const { data, error } = await useFetch(
+                "/api/employee/" + id,
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                }
+            )
+            if (data.value) {
+                this.information = data.value.data
+                return data
+            } else if (error.value) {
+                return error
+            }
+        },
     },
 })

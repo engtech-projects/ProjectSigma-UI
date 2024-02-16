@@ -1,3 +1,27 @@
+<script setup>
+import { storeToRefs } from "pinia"
+import { useEmployeeInfo } from "@/stores/employee"
+
+const employee = useEmployeeInfo()
+const { information: employeeInformation } = storeToRefs(employee)
+
+const children = ref([{ name: "", dob: "" }])
+const relatives = ref([{ relative_name: "", relative_rel: "", relative_position: "", reason: "" }])
+const addChild = () => {
+    children.value.push({ name: "", dob: "" })
+}
+const addRelative = () => {
+    relatives.value.push({ relative_name: "", relative_rel: "", relative_position: "", reason: "" })
+}
+
+const deleteChild = () => {
+    children.value.splice(index, 1)
+}
+
+const deleteRelative = () => {
+    relatives.value.splice(index, 1)
+}
+</script>
 <template>
     <form action="">
         <table class="w-full border-collapse border border-slate-300 table-fixed">
@@ -6,25 +30,25 @@
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">FAMILY NAME</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.family_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">FIRST NAME</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.middle_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">MIDDLE NAME</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.first_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">NICK NAME</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.nick_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -39,25 +63,25 @@
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Street</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.pre_street" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Barangay</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.pre_brgy" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">City</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.pre_city" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Zip</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.pre_zip" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -65,7 +89,7 @@
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Province</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.pre_province" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -80,25 +104,25 @@
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Street</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.pre_street" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Barangay</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.pre_brgy" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">City</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.pre_city" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Zip</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.pre_zip" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -106,7 +130,7 @@
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Province</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.pre_province" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -114,13 +138,13 @@
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">CELLPHONE</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.mobile_number" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">LANDLINE</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.telephone_number" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -128,25 +152,25 @@
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="dob" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE OF BIRTH</label>
-                            <input id="dob" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="dob" v-model="employeeInformation.date_of_birth" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="pob" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">PLACE OF BIRTH</label>
-                            <input id="pob" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="pob" v-model="employeeInformation.place_of_birth" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">CITIZENSHIP</label>
-                            <input id="small-input" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.citizenship" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="grid grid-cols-2 gap-1 border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">BLOOD TYPE</label>
-                            <select id="bloodtype" name="bloodtype" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
+                            <select id="bloodtype" v-model="employeeInformation.blood_type" name="bloodtype" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
                                 <option value="a">
                                     A+
                                 </option>
@@ -175,7 +199,7 @@
                         </div>
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">GENDER</label>
-                            <select id="gender" name="gender" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
+                            <select id="gender" v-model="employeeInformation.gender" name="gender" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
                                 <option value="male">
                                     Male
                                 </option>
@@ -193,13 +217,13 @@
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">RELIGION</label>
-                            <input id="religion" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="religion" v-model="employeeInformation.religion" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="flex-1 space-y-2 border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">CIVIL STATUS</label>
-                            <select id="civilstatus" name="civilstatus" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
+                            <select id="civilstatus" v-model="employeeInformation.civil_status" name="civilstatus" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
                                 <option value="single">
                                     SINGLE
                                 </option>
@@ -216,19 +240,19 @@
                         </div>
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE OF MARRIAGE</label>
-                            <input id="dob" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="dom" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">HEIGHT</label>
-                            <input id="height" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="height" v-model="employeeInformation.height" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">WEIGHT</label>
-                            <input id="weight" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="weight" v-model="employeeInformation.weight" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -236,25 +260,25 @@
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">PHILHEALTH #</label>
-                            <input id="philhealth" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="philhealth" v-model="employeeInformation.phil_health" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">PAGIBIG #</label>
-                            <input id="pagibig" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="pagibig" v-model="employeeInformation.pag_ibig" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TIN #</label>
-                            <input id="tin" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="tin" v-model="employeeInformation.tin" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">SSS #</label>
-                            <input id="sss" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="sss" v-model="employeeInformation.sss" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -486,28 +510,3 @@
         </table>
     </form>
 </template>
-
-<script>
-export default {
-    data () {
-        return {
-            children: [{ name: "", dob: "" }],
-            relatives: [{ relative_name: "", relative_rel: "", relative_position: "", reason: "" }],
-        }
-    },
-    methods: {
-        addChild () {
-            this.children.push({ name: "", dob: "" })
-        },
-        addRelative () {
-            this.relatives.push({ relative_name: "", relative_rel: "", relative_position: "", reason: "" })
-        },
-        deleteChild (index) {
-            this.children.splice(index, 1)
-        },
-        deleteRelative (index) {
-            this.relatives.splice(index, 1)
-        },
-    },
-}
-</script>
