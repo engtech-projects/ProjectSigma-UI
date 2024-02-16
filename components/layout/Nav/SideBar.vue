@@ -69,30 +69,10 @@ const config = useRuntimeConfig()
                 single-nav-title="Event Calendar"
             />
             <LayoutNavGroup icon="ic:baseline-people-outline" title="Employee">
-                <!-- hide true-->
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV == 'local'"
-                    class="hidden"
-                    linkarea="/hrms/employee/application"
-                    icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Application"
-                />
-                <LayoutNavSingle
-                    linkarea="/hrms/employee/manpower"
-                    icon="ic:round-people-alt"
-                    single-nav-title="Manpower Request"
-                />
-                <LayoutNavSingle
-                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/employee/201"
                     icon="ic:round-folder-shared"
                     single-nav-title="201"
-                />
-                <LayoutNavSingle
-                    v-if="config.public.APP_ENV == 'local'"
-                    linkarea="/hrms/employee/applicant"
-                    icon="ic:baseline-diversity-3"
-                    single-nav-title="Job Applicants"
                 />
                 <LayoutNavSingle
                     v-if="config.public.APP_ENV == 'local'"
@@ -106,9 +86,18 @@ const config = useRuntimeConfig()
                     icon="ic:round-assignment-ind"
                     single-nav-title="Onboarding"
                 />
+                <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
+                    linkarea="/hrms/employee/applicant"
+                    icon="ic:baseline-diversity-3"
+                    single-nav-title="Job Applicants"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/employee/manpower"
+                    icon="ic:round-people-alt"
+                    single-nav-title="Manpower Request"
+                />
             </LayoutNavGroup>
-            <!-- hide true-->
-
             <LayoutNavSingle
                 v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/project"

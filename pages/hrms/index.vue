@@ -52,44 +52,46 @@ useHead({
         >
             <HrmsDashboardAnnouncementTimeline />
         </div>
-        <div
-            class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardBirthdaysCard
-                :employees="employeesData"
-                class="md: mt-2 md:mt-0 p-2"
-            />
-        </div>
-        <div
-            class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardLatesCard
-                :employees="employeeslateData"
-                class="md: mt-2 md:mt-0 p-2"
-            />
-        </div>
-        <div
-            class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardAbsencesCard
-                :employees="employeesabsencesData"
-                class="md: mt-2 md:mt-0 p-2"
-            />
-        </div>
-        <div
-            class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardLatesAbsencesChart />
-        </div>
-        <div
-            class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardEmployeesChart />
-        </div>
-        <div
-            class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardMaleFemaleChart />
+        <div v-if="config.public.APP_ENV == 'local'">
+            <div
+                class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardBirthdaysCard
+                    :employees="employeesData"
+                    class="md: mt-2 md:mt-0 p-2"
+                />
+            </div>
+            <div
+                class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardLatesCard
+                    :employees="employeeslateData"
+                    class="md: mt-2 md:mt-0 p-2"
+                />
+            </div>
+            <div
+                class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardAbsencesCard
+                    :employees="employeesabsencesData"
+                    class="md: mt-2 md:mt-0 p-2"
+                />
+            </div>
+            <div
+                class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardLatesAbsencesChart />
+            </div>
+            <div
+                class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardEmployeesChart />
+            </div>
+            <div
+                class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardMaleFemaleChart />
+            </div>
         </div>
     </div>
 </template>
