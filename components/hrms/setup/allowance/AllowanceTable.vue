@@ -68,9 +68,9 @@ const submitAllowance = async (positionAllowance) => {
                 </thead>
                 <tbody>
                     <tr v-for="pos, index in positionAllowances " :key="index" class="border flex justify-between">
-                        <td class="p-2">
+                        <td class="p-2 items-center flex justify-around">
                             <!-- {{ pos.name + ' ' + pos.id }} -->
-                            {{ pos.name }}
+                            {{ pos.dpt_name + ' - ' + pos.position_type }}({{ pos.name }})
                         </td>
                         <td class="flex gap-4 p-2 rounded-md">
                             <input v-model="pos.amount" class="rounded-md" type="number">
