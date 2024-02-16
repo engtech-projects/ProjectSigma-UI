@@ -55,6 +55,9 @@ const addRange = async () => {
                             v-model="contribution.range_from"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
+                            required
                         >
                     </div>
                     <div>
@@ -67,10 +70,13 @@ const addRange = async () => {
                             v-model="contribution.range_to"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
+                            required
                         >
                     </div>
                 </div>
-                <div>
+                <div class="grid grid-cols-2 gap-2 ">
                     <div>
                         <label
                             for="employerShare"
@@ -81,6 +87,22 @@ const addRange = async () => {
                             v-model="contribution.employer_share"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
+                            required
+                        >
+                        <label
+                            for="employerContrib"
+                            class="text-sm italic"
+                        >Employer Contribution</label>
+                        <input
+                            id="employerContrib"
+                            v-model="contribution.employer_contribution"
+                            type="number"
+                            class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
+                            required
                         >
                     </div>
                     <div>
@@ -93,26 +115,25 @@ const addRange = async () => {
                             v-model="contribution.employee_share"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
+                            required
                         >
-                    </div>
-                    <div>
                         <label
-                            for="totalContributions"
+                            for="employeeContrib"
                             class="text-sm italic"
-                        >
-                            Total Contributions
-                        </label>
+                        >Employee Contribution</label>
                         <input
-                            id="totalContributions"
-                            :value="contribution.employer_share + contribution.employee_share"
-                            disabled
-                            readonly
+                            id="employeeContrib"
+                            v-model="contribution.employee_contribution"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
+                            required
                         >
                     </div>
                 </div>
-
                 <div class="flex justify-end">
                     <button
                         type="submit"

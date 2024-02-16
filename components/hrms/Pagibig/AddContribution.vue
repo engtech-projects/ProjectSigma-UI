@@ -36,13 +36,13 @@ const addRange = async () => {
 </script>
 
 <template>
-    <LayoutBoards title="Pag-IBIG" :loading="boardLoading">
-        <div class="text-gray-500 mt-4">
+    <LayoutBoards title="Pag-IBIG" :loading="boardLoading" class="w-full">
+        <div class="text-gray-500 p-2">
             <form @submit.prevent="addRange">
                 <label
                     class="text-sm"
                 >Add Pag-IBIG Share</label>
-                <div class="grid grid-cols-2 gap-2 ">
+                <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label
                             for="pagibig_range_from"
@@ -53,6 +53,9 @@ const addRange = async () => {
                             v-model="contribution.range_from"
                             type="number"
                             class="w-full rounded-lg"
+                            min="0"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                     </div>
                     <div>
@@ -65,36 +68,55 @@ const addRange = async () => {
                             v-model="contribution.range_to"
                             type="number"
                             class="w-full rounded-lg"
+                            min="0"
+                            oninput="this.value = Math.abs(this.value)"
                         >
                     </div>
                 </div>
-                <div>
+                <div class="grid grid-cols-2 gap-2 ">
                     <div>
                         <label
                             for="pagibig_employerShare"
                             class="text-sm italic"
-                        >Employeer Share Percent (%)</label>
+                        >Employer Share Percent (%)</label>
                         <input
                             id="pagibig_employerShare"
                             v-model="contribution.employer_share_percent"
                             type="number"
                             class="w-full rounded-lg"
+                            min="0"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
+                        >
+
+                        <label
+                            for="emprMaxCont"
+                            class="text-sm italic"
+                        >Employer Maximum Contribution</label>
+                        <input
+                            id="emprMaxCont"
+                            v-model="contribution.employer_maximum_contribution"
+                            type="number"
+                            class="w-full rounded-lg"
+                            min="0"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
+                        >
+
+                        <label
+                            for="emprComp"
+                            class="text-sm italic"
+                        >Employer Compensation</label>
+                        <input
+                            id="emprComp"
+                            v-model="contribution.employer_compensation"
+                            type="number"
+                            class="w-full rounded-lg"
+                            min="0"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                     </div>
-                </div>
-                <div>
-                    <label
-                        for="emprMaxCont"
-                        class="text-sm italic"
-                    >Employer Maximum Contribution</label>
-                    <input
-                        id="emprMaxCont"
-                        v-model="contribution.employer_maximum_contribution"
-                        type="number"
-                        class="w-full rounded-lg"
-                    >
-                </div>
-                <div>
                     <div>
                         <label
                             for="pagibig_employeeShare"
@@ -105,9 +127,11 @@ const addRange = async () => {
                             v-model="contribution.employee_share_percent"
                             type="number"
                             class="w-full rounded-lg"
+                            min="0"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
-                    </div>
-                    <div>
+
                         <label
                             for="empMaxCont"
                             class="text-sm italic"
@@ -117,6 +141,23 @@ const addRange = async () => {
                             v-model="contribution.employee_maximum_contribution"
                             type="number"
                             class="w-full rounded-lg"
+                            min="0"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
+                        >
+
+                        <label
+                            for="empConp"
+                            class="text-sm italic"
+                        >Employee Compensation</label>
+                        <input
+                            id="empConp"
+                            v-model="contribution.employee_compensation"
+                            type="number"
+                            class="w-full rounded-lg"
+                            min="0"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                     </div>
                 </div>

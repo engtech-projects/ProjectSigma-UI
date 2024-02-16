@@ -12,13 +12,11 @@ const config = useRuntimeConfig()
         <!-- HRMS -->
         <LayoutNavModuleGroup title="hrms">
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms"
                 icon="ic:round-dashboard"
                 single-nav-title="HRMS Dashboard"
             />
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/announcement"
                 icon="ic:outline-announcement"
                 single-nav-title="Announcement"
@@ -68,28 +66,29 @@ const config = useRuntimeConfig()
                 icon="ic:round-calendar-month"
                 single-nav-title="Event Calendar"
             />
-            <LayoutNavGroup v-if="config.public.APP_ENV == 'local'" icon="ic:baseline-people-outline" title="Employee">
-                <!-- hide true-->
-                <LayoutNavSingle
-                    class="hidden"
-                    linkarea="/hrms/employee/application"
-                    icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Application"
-                />
+            <LayoutNavGroup icon="ic:baseline-people-outline" title="Employee">
                 <LayoutNavSingle
                     linkarea="/hrms/employee/201"
                     icon="ic:round-folder-shared"
                     single-nav-title="201"
                 />
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/employee/paf"
                     icon="ic:round-add-card"
                     single-nav-title="Personnel Action Notice"
                 />
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/employee/onboarding"
                     icon="ic:round-assignment-ind"
                     single-nav-title="Onboarding"
+                />
+                <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
+                    linkarea="/hrms/employee/applicant"
+                    icon="ic:baseline-diversity-3"
+                    single-nav-title="Job Applicants"
                 />
                 <LayoutNavSingle
                     linkarea="/hrms/employee/manpower"
@@ -97,8 +96,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Manpower Request"
                 />
             </LayoutNavGroup>
-            <!-- hide true-->
-
             <LayoutNavSingle
                 v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/project"
@@ -187,7 +184,6 @@ const config = useRuntimeConfig()
                     single-nav-title="User Accounts"
                 />
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/setup/approvals"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Approvals"
@@ -244,6 +240,11 @@ const config = useRuntimeConfig()
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Withholding Tax"
                 />
+                <LayoutNavSingle
+                    linkarea="/hrms/setup/settings"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Settings"
+                />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
@@ -256,10 +257,35 @@ const config = useRuntimeConfig()
 
         <!-- Accounting -->
         <LayoutNavModuleGroup
-            v-if="config.public.APP_ENV == 'local'"
             id="dropdown-accounting-main"
             title="Accounting"
-        />
+        >
+            <LayoutNavSingle
+                linkarea="/accounting/chart-of-accounts"
+                icon="ci:table"
+                single-nav-title="Chart of Accounts"
+            />
+            <LayoutNavSingle
+                linkarea="/accounting/books"
+                icon="iconoir:book"
+                single-nav-title="Books"
+            />
+            <LayoutNavSingle
+                linkarea="/accounting/transaction-type"
+                icon="iconoir:x"
+                single-nav-title="Transaction Type"
+            />
+            <LayoutNavSingle
+                linkarea="/accounting/document-series"
+                icon="iconoir:archive"
+                single-nav-title="Document Series"
+            />
+            <LayoutNavSingle
+                linkarea="/accounting/posting-period"
+                icon="iconoir:notes"
+                single-nav-title="Posting Period"
+            />
+        </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup

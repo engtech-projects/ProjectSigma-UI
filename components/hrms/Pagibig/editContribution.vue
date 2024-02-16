@@ -30,6 +30,9 @@ const editCont = async () => {
     }
 }
 
+const handleInput = (model, field) => {
+    model[field] = Math.abs(model[field])
+}
 </script>
 
 <template>
@@ -51,8 +54,11 @@ const editCont = async () => {
                         <input
                             id="rangeFrom"
                             v-model="contribution.range_from"
+                            v-oninput="handleInput(contribution, 'range_from')"
                             type="number"
                             class="w-full rounded-lg"
+                            min="0"
+                            required
                         >
                     </div>
                     <div>
@@ -61,28 +67,59 @@ const editCont = async () => {
                             class="text-sm italic"
                         >Range To</label>
                         <input
-                            id="rangeFrom"
+                            id="rangeTo"
                             v-model="contribution.range_to"
+                            v-oninput="handleInput(contribution, 'range_to')"
                             type="number"
                             class="w-full rounded-lg"
+                            min="0"
                         >
                     </div>
                 </div>
-                <div>
+                <div class="grid grid-cols-2 gap-2 ">
                     <div>
                         <label
                             for="pagibig_employerShare"
                             class="text-sm italic"
-                        >Employeer Share Percent (%)</label>
+                        >Employer Share Percent (%)</label>
                         <input
                             id="pagibig_employerShare"
                             v-model="contribution.employer_share_percent"
+                            v-oninput="handleInput(contribution, 'employer_share_percent')"
                             type="number"
                             class="w-full rounded-lg"
+                            min="0"
+                            required
+                        >
+
+                        <label
+                            for="emprMaxCont"
+                            class="text-sm italic"
+                        >Employer Maximum Contribution</label>
+                        <input
+                            id="emprMaxCont"
+                            v-model="contribution.employer_maximum_contribution"
+                            v-oninput="handleInput(contribution, 'employer_maximum_contribution')"
+                            type="number"
+                            class="w-full rounded-lg"
+                            min="0"
+                            required
+                        >
+
+                        <label
+                            for="emprComp"
+                            class="text-sm italic"
+                        >Employer Compensation</label>
+                        <input
+                            id="emprComp"
+                            v-model="contribution.employer_compensation"
+                            v-oninput="handleInput(contribution, 'employer_compensation')"
+                            type="number"
+                            class="w-full rounded-lg"
+                            min="0"
+                            required
                         >
                     </div>
-                </div>
-                <div>
                     <div>
                         <label
                             for="pagibig_employeeShare"
@@ -91,13 +128,13 @@ const editCont = async () => {
                         <input
                             id="pagibig_employeeShare"
                             v-model="contribution.employee_share_percent"
+                            v-oninput="handleInput(contribution, 'employee_share_percent')"
                             type="number"
                             class="w-full rounded-lg"
+                            min="0"
+                            required
                         >
-                    </div>
-                </div>
-                <div>
-                    <div>
+
                         <label
                             for="empMaxCont"
                             class="text-sm italic"
@@ -105,20 +142,24 @@ const editCont = async () => {
                         <input
                             id="empMaxCont"
                             v-model="contribution.employee_maximum_contribution"
+                            v-oninput="handleInput(contribution, 'employee_maximum_contribution')"
                             type="number"
                             class="w-full rounded-lg"
+                            min="0"
                         >
-                    </div>
-                    <div>
+
                         <label
-                            for="emprMaxCont"
+                            for="empConp"
                             class="text-sm italic"
-                        >Employer Maximum Contribution</label>
+                        >Employee Compensation</label>
                         <input
-                            id="emprMaxCont"
-                            v-model="contribution.employer_maximum_contribution"
+                            id="empConp"
+                            v-model="contribution.employee_compensation"
+                            v-oninput="handleInput(contribution, 'employee_compensation')"
+                            employee_maximum_contribution
                             type="number"
                             class="w-full rounded-lg"
+                            min="0"
                         >
                     </div>
                 </div>

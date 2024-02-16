@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-// const { data: token } = useAuth()
+const { token } = useAuth()
 const config = useRuntimeConfig()
 
 export const useAllowanceStore = defineStore("Allowances", {
@@ -26,6 +26,9 @@ export const useAllowanceStore = defineStore("Allowances", {
                     id: pos.allowances?.id || null,
                     position_id: pos.id,
                     amount: pos.allowances?.amount || 0,
+                    dpt_name: pos.departments?.department_name,
+                    position_type: pos.position_type,
+
                 }
             })
         }
@@ -37,13 +40,13 @@ export const useAllowanceStore = defineStore("Allowances", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.positionList = response._data.data
-                        // console.log(this.positionList)
                         // this.pagination = {
                         //     first_page: response._data.data.first_page_url,
                         //     pages: response._data.data.links,
@@ -67,9 +70,10 @@ export const useAllowanceStore = defineStore("Allowances", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.allowance,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -81,6 +85,7 @@ export const useAllowanceStore = defineStore("Allowances", {
                             this.successMessage = response._data.message
                         }
                     },
+
                 }
             )
         },
@@ -96,11 +101,15 @@ export const useAllowanceStore = defineStore("Allowances", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.allowance,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
                 }
             )
             if (data.value) {
@@ -119,9 +128,10 @@ export const useAllowanceStore = defineStore("Allowances", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message

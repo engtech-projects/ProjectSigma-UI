@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-// const { data: token } = useAuth()
+const { token } = useAuth()
 const config = useRuntimeConfig()
 
 export const TERM_DAILY = "Daily"
@@ -39,9 +39,10 @@ export const useWtaxStore = defineStore("withholdings", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
@@ -79,9 +80,10 @@ export const useWtaxStore = defineStore("withholdings", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },d
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.withholding,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -108,9 +110,10 @@ export const useWtaxStore = defineStore("withholdings", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.withholding,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -134,9 +137,10 @@ export const useWtaxStore = defineStore("withholdings", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message

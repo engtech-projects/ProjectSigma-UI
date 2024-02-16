@@ -38,7 +38,8 @@ const changePaginate = (newParams) => {
 const headers = [
     { name: "Range From", id: "range_from" },
     { name: "Range To", id: "range_to" },
-    { name: "Share", id: "share" },
+    { name: "Employer Share", id: "employer_share" },
+    { name: "Employee Share", id: "employee_share" },
     { name: "Share Type", id: "share_type" },
 ]
 const actions = {
@@ -50,10 +51,10 @@ const actions = {
 
 <template>
     <LayoutBoards title="Contribution Table" class="w-full" :loading="boardLoading">
-        <div class="pb-2 text-gray-500">
+        <div class="pb-2 text-gray-500 ">
             <LayoutPsTable :header-columns="headers" :datas="contributionList" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
         </div>
-        <div class="flex justify-center mx-auto">
+        <div class="flex justify-center mx-auto p-2">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
         <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">

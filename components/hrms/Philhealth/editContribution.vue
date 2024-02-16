@@ -29,6 +29,9 @@ const editCont = async () => {
         boardLoading.value = false
     }
 }
+const handleInput = (model, field) => {
+    model[field] = Math.abs(model[field])
+}
 
 </script>
 
@@ -51,8 +54,10 @@ const editCont = async () => {
                         <input
                             id="rangeFrom"
                             v-model="contribution.range_from"
+                            v-oninput="handleInput(contribution, 'range_from')"
                             type="number"
                             class="w-full rounded-lg"
+                            required
                         >
                     </div>
                     <div>
@@ -63,22 +68,41 @@ const editCont = async () => {
                         <input
                             id="rangeFrom"
                             v-model="contribution.range_to"
+                            v-oninput="handleInput(contribution, 'range_to')"
                             type="number"
                             class="w-full rounded-lg"
                         >
                     </div>
                 </div>
-                <div>
-                    <label
-                        for="share"
-                        class="text-sm italic"
-                    >Share</label>
-                    <input
-                        id="share"
-                        v-model="contribution.share"
-                        type="number"
-                        class="w-full rounded-lg"
-                    >
+                <div class="grid grid-cols-2 gap-2 ">
+                    <div>
+                        <label
+                            for="empShare"
+                            class="text-sm italic"
+                        >Employee Share</label>
+                        <input
+                            id="empShare"
+                            v-model="contribution.employee_share"
+                            v-oninput="handleInput(contribution, 'employee_share')"
+                            type="number"
+                            class="w-full rounded-lg"
+                            required
+                        >
+                    </div>
+                    <div>
+                        <label
+                            for="empShare"
+                            class="text-sm italic"
+                        >Employer Share</label>
+                        <input
+                            id="empShare"
+                            v-model="contribution.employer_share"
+                            v-oninput="handleInput(contribution, 'employer_share')"
+                            type="number"
+                            class="w-full rounded-lg"
+                            required
+                        >
+                    </div>
                 </div>
                 <div class="grid grid-rows-1 mt-1">
                     <label for="share_type" class="text-sm italic">Share Type</label>

@@ -1,53 +1,37 @@
-<template>
-    <LayoutBoards title="Announcement">
-        <HrmsDashboardAnnouncementHeadline
-            v-for="data in datas"
-            :key="data.id"
-            class="mb-4 mt-2"
-            :title="data.title"
-            :date="formatDate(data.date)"
-            :content="data.content"
-        />
-
-        <HrmsDashboardAnnouncementCard
-            v-for="(data, index) in cardDatas"
-            :key="index"
-            :title="data.title"
-            :date="formatDate(data.date)"
-            :content="data.content"
-        />
-    </LayoutBoards>
-</template>
-
 <script setup>
-const datas = ref([
+import { storeToRefs } from "pinia"
+import { useAnnouncements } from "@/stores/announcements"
 
-    {
-        id: 1,
-        title: "Happy New Year!",
-        date: "2024-01-01",
-        content: "A prosperous New Year. Wish everyone success, health and happiness!",
-    },
+const mains = useAnnouncements()
 
-])
-
-const cardDatas = ref([
-    {
-        id: 1,
-        title: "Important Update",
-        date: "2024-01-05",
-        content: "We have an important update regarding our upcoming projects. Please stay tuned!",
-    },
-    {
-        id: 2,
-        title: "Welcome New Team Members",
-        date: "2024-01-10",
-        content: "Let's welcome our new team members who joined us this month. Exciting times ahead!",
-    },
-    // Add more card announcements as needed
-])
-
+const { activeList: mainList } = storeToRefs(mains)
 const formatDate = (date) => {
     return new Date(date).toLocaleDateString()
 }
 </script>
+
+<template>
+    <LayoutBoards title="Announcement">
+        <div v-if="mainList!=''">
+            <HrmsDashboardAnnouncementHeadline
+                class="mb-4 mt-2"
+                :title="mainList[0]?.title"
+                :date="formatDate(mainList[0]?.start_date)"
+                :content="mainList[0]?.content"
+            />
+            <HrmsDashboardAnnouncementCard
+                v-for="(data, index) in mainList.splice(1)"
+                :key="index"
+                :title="data.title"
+                :date="formatDate(data.start_date)"
+                :content="data.content"
+            />
+        </div>
+        <div v-if="mainList==''">
+            <HrmsDashboardAnnouncementHeadline
+                class="mb-4 mt-2"
+                title="No Announcement"
+            />
+        </div>
+    </LayoutBoards>
+</template>

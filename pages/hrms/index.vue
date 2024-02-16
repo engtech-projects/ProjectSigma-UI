@@ -1,54 +1,9 @@
-<template>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
-        <div
-            class="grid-cols-2 border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardAnnouncementTimeline />
-        </div>
-        <div
-            class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardBirthdaysCard
-                :employees="employeesData"
-                class="md: mt-2 md:mt-0 p-2"
-            />
-        </div>
-        <div
-            class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardLatesCard
-                :employees="employeeslateData"
-                class="md: mt-2 md:mt-0 p-2"
-            />
-        </div>
-        <div
-            class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardAbsencesCard
-                :employees="employeesabsencesData"
-                class="md: mt-2 md:mt-0 p-2"
-            />
-        </div>
-        <div
-            class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardLatesAbsencesChart />
-        </div>
-        <div
-            class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardEmployeesChart />
-        </div>
-        <div
-            class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
-        >
-            <HrmsDashboardMaleFemaleChart />
-        </div>
-    </div>
-</template>
-
 <script setup>
 import { initFlowbite } from "flowbite"
+import { useAnnouncements } from "@/stores/announcements"
+
+const mains = useAnnouncements()
+mains.getactiveAll()
 
 const employeesData = ref([
     { name: "John Mayer", avatar: "/avatarexample.png", birthday: "1990-05-15" },
@@ -89,3 +44,54 @@ useHead({
     },
 })
 </script>
+
+<template>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
+        <div
+            class="grid-cols-2 border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
+        >
+            <HrmsDashboardAnnouncementTimeline />
+        </div>
+        <div v-if="config.public.APP_ENV == 'local'">
+            <div
+                class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardBirthdaysCard
+                    :employees="employeesData"
+                    class="md: mt-2 md:mt-0 p-2"
+                />
+            </div>
+            <div
+                class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardLatesCard
+                    :employees="employeeslateData"
+                    class="md: mt-2 md:mt-0 p-2"
+                />
+            </div>
+            <div
+                class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardAbsencesCard
+                    :employees="employeesabsencesData"
+                    class="md: mt-2 md:mt-0 p-2"
+                />
+            </div>
+            <div
+                class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardLatesAbsencesChart />
+            </div>
+            <div
+                class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardEmployeesChart />
+            </div>
+            <div
+                class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardMaleFemaleChart />
+            </div>
+        </div>
+    </div>
+</template>

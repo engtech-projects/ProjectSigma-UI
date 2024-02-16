@@ -30,10 +30,6 @@ const login = async () => {
     userCredentials.response = ""
     signingIn.value = "Signing in..."
     loggedIn.value = "Welcome " + userCredentials.username
-    snackbar.add({
-        type: "success",
-        text: signingIn.value
-    })
     try {
         const response = await signIn(
             {
@@ -57,24 +53,23 @@ const login = async () => {
             text: userCredentials.response = error.data.message
         })
         // userCredentials.response = error.data.message
+    } finally {
+        signingIn.value = ""
+        boardLoading.value = false
     }
-    signingIn.value = ""
-    boardLoading.value = false
 }
 
 </script>
 
 <template>
-    <div>
-        <section class="bg-gray-50 dark:bg-gray-900">
-            <div
-                class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
-            >
+    <div class="h-full">
+        <section class="bg-gray-50 dark:bg-gray-900 overflow-auto">
+            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a
                     href="#"
                     class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
                 >
-                    <img class="w-90 h-70 mr-2" src="/logo.fw.png" alt="logo">
+                    <img class="w-48 md:w-full" src="/logo.fw.png" alt="logo">
                 </a>
                 <LayoutCard title="" :loading="boardLoading">
                     <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -92,6 +87,7 @@ const login = async () => {
                             <div>
                                 <label
                                     for="email"
+                                    :class="{ 'text-red-500': userCredentials.response && !userCredentials.username }"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     Username
@@ -101,6 +97,7 @@ const login = async () => {
                                     v-model="userCredentials.username"
                                     type="text"
                                     name="email"
+                                    :class="{ 'border-red-500': userCredentials.response && !userCredentials.username }"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Username"
                                 >
@@ -108,6 +105,7 @@ const login = async () => {
                             <div>
                                 <label
                                     for="password"
+                                    :class="{ 'text-red-500': userCredentials.response && !userCredentials.password }"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >Password</label>
                                 <input
@@ -116,17 +114,10 @@ const login = async () => {
                                     type="password"
                                     name="password"
                                     placeholder="••••••••"
+                                    :class="{ 'border-red-500': userCredentials.response && !userCredentials.password }"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 >
                             </div>
-                            <p class="p-4">
-                                <span class="text-red-600">
-                                    <!-- {{ userCredentials.response }} -->
-                                </span>
-                                <span>
-                                    {{ signingIn }}
-                                </span>
-                            </p>
                             <div class="flex items-center justify-between">
                                 <div class="flex items-start">
                                     <div class="flex items-center h-5">

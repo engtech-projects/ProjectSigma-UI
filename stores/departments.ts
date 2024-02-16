@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-// const { data: token } = useAuth()
+const { token } = useAuth()
 const config = useRuntimeConfig()
 
 export const useDepartmentStore = defineStore("departments", {
@@ -10,22 +10,61 @@ export const useDepartmentStore = defineStore("departments", {
             id: null,
             department_name: null,
         },
+        departmentList: [],
         list: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
     }),
+    getters: {
+        departmentsList (state) {
+            return state.departmentList.map((dpt) => {
+                return {
+                    id: dpt.id,
+                    department_name: dpt.department_name,
+                }
+            })
+        }
+    },
     actions: {
+        async getDepartmentList () {
+            const { data, error } = await useFetch(
+                "/api/department-list",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.departmentList = response._data.data
+                        this.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
         async getDepartment () {
             const { data, error } = await useFetch(
                 "/api/departments",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
@@ -52,9 +91,10 @@ export const useDepartmentStore = defineStore("departments", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.department,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -81,9 +121,10 @@ export const useDepartmentStore = defineStore("departments", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     body: this.department,
                     watch: false,
                 }
@@ -104,9 +145,10 @@ export const useDepartmentStore = defineStore("departments", {
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    // headers: {
-                    //     Authorization: token.value + ""
-                    // },
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message

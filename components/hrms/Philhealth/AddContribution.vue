@@ -54,6 +54,8 @@ const addRange = async () => {
                             v-model="contribution.range_from"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
                         >
                     </div>
                     <div>
@@ -66,20 +68,39 @@ const addRange = async () => {
                             v-model="contribution.range_to"
                             type="number"
                             class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
                         >
                     </div>
                 </div>
-                <div>
-                    <label
-                        for="share"
-                        class="text-sm italic"
-                    >Share</label>
-                    <input
-                        id="share"
-                        v-model="contribution.share"
-                        type="number"
-                        class="w-full rounded-lg"
-                    >
+                <div class="grid grid-cols-2 gap-2 ">
+                    <div>
+                        <label
+                            for="empShare"
+                            class="text-sm italic"
+                        >Employee Share</label>
+                        <input
+                            id="empShare"
+                            v-model="contribution.employee_share"
+                            type="number"
+                            class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
+                        >
+                    </div>
+                    <div>
+                        <label
+                            for="empShare"
+                            class="text-sm italic"
+                        >Employer Share</label>
+                        <input
+                            id="empShare"
+                            v-model="contribution.employer_share"
+                            type="number"
+                            class="w-full rounded-lg"
+                            oninput="this.value = Math.abs(this.value)"
+                            required
+                        >
+                    </div>
                 </div>
                 <div class="grid grid-rows-1 mt-1">
                     <label for="share_type" class="text-sm italic">Share Type</label>
@@ -87,6 +108,7 @@ const addRange = async () => {
                         id="share_type"
                         v-model="contribution.share_type"
                         class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
+                        required
                     >
                         <option value="" disabled selected>
                             Choose Share Type

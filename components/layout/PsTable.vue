@@ -50,7 +50,7 @@ const doDelete = (data) => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="dataValue, index in datas" :key="index" class="border">
+            <tr v-for="dataValue, index in datas" :key="index" class="border text-center">
                 <td
                     v-for="header in headerColumns"
                     :key="header+'headerRow'"
