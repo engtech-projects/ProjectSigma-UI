@@ -1,5 +1,4 @@
 <script setup>
-import { storeToRefs } from "pinia"
 import { useUserStore } from "@/stores/hrms/users"
 
 const user = useUserStore()
@@ -10,32 +9,44 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    approvalIndex: {
+        type: Number,
+        required: true,
+    }
 })
 const emit = defineEmits(["changeuserId"])
 
-const changeValue = (event) => {
-    emit("changeuserId", props.approval, event.target.value)
+const changeuserId = (event) => {
+    emit("changeuserId", props.approvalIndex, event.target.value)
 }
+
 </script>
 
 <template>
-    <div>
-        <div class="font-semibold text-black">
-            {{ approval.type }}
+    <div class="grid grid-cols-2 border border-slate-400 p-2">
+        <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-900 dark:text-white">Approval Type</label>
+            <div class="font-semibold text-black">
+                {{ approval.type }}
+            </div>
         </div>
 
-        <div v-if="approval.userselector">
-            <select class="w-full" @change="changeValue(approval)">
-                <option value="" disabled selected>
-                    --Select--
-                </option>
-                <option v-for="userSelect in employeeUserList" :key="userSelect.id" :value="userSelect.id">
-                    {{ userSelect.name }}
-                </option>
-            </select>
-        </div>
-        <div v-else>
-            <span class="font-semibold">{{ approval.name }}</span>
+        <div class="flex flex-col">
+            <label class="block text-sm font-medium text-gray-900 dark:text-white">Approver</label>
+
+            <div v-if="approval.userselector">
+                <select class="w-full" @change="changeuserId">
+                    <option disabled selected>
+                        --Select--
+                    </option>
+                    <option v-for="userSelect in employeeUserList" :key="userSelect.id" :value="userSelect.id">
+                        {{ userSelect.name }}
+                    </option>
+                </select>
+            </div>
+            <div v-else>
+                <span class="font-semibold">{{ approval.name }}</span>
+            </div>
         </div>
     </div>
 </template>
