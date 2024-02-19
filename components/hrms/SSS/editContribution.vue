@@ -56,6 +56,8 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'range_from')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
                             required
                         >
                     </div>
@@ -69,6 +71,8 @@ const handleInput = (model, field) => {
                             v-model="contribution.range_to"
                             v-oninput="handleInput(contribution, 'range_to')"
                             type="number"
+                            step=".01"
+                            min="0"
                             class="w-full rounded-lg"
                         >
                     </div>
@@ -85,6 +89,8 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'employer_share')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
                             required
                         >
                         <label
@@ -97,6 +103,8 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'employer_contribution')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
                             required
                         >
                     </div>
@@ -111,6 +119,8 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'employee_share')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
                             required
                         >
                         <label
@@ -123,6 +133,8 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'employee_contribution')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
                             required
                         >
                     </div>

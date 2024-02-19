@@ -57,6 +57,7 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'range_from')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
                             required
                         >
@@ -72,6 +73,7 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'range_to')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
                         >
                     </div>
@@ -88,6 +90,7 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'employer_share_percent')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
                             required
                         >
@@ -102,6 +105,7 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'employer_maximum_contribution')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
                             required
                         >
@@ -116,6 +120,7 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'employer_compensation')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
                             required
                         >
@@ -131,6 +136,7 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'employee_share_percent')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
                             required
                         >
@@ -145,6 +151,7 @@ const handleInput = (model, field) => {
                             v-oninput="handleInput(contribution, 'employee_maximum_contribution')"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
                         >
 
@@ -159,6 +166,7 @@ const handleInput = (model, field) => {
                             employee_maximum_contribution
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
                         >
                     </div>

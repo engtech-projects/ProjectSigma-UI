@@ -49,6 +49,7 @@ const editPos = async () => {
                     v-model="position.name"
                     type="text"
                     class="w-full rounded-lg"
+                    required
                 >
 
                 <div class="grid grid-rows-1 mt-1">
