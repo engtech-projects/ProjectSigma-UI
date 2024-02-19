@@ -173,7 +173,7 @@ export const useEmployeeInfo = defineStore("employee", {
 
     },
     actions: {
-        async getEmployees () { // i rename ni later into searchEmployees tom
+        async searchEmployees () {
             this.employeeSearchList = [] as Array<EmployeeSearch>
             await useFetch(
                 "/api/employee-search",

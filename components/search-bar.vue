@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/employee"
 
 const employee = useEmployeeInfo()
-employee.getEmployees()
+employee.searchEmployees()
 const { employeeSearchList, searchEmployeeParams } = storeToRefs(employee)
 
 const selectEmployee = (id) => {
