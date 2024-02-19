@@ -22,7 +22,7 @@ useHead({
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
             <EmployeeManpowerAddRequest v-show="!isEdit" />
-            <EmployeeManpowerEditRequest v-show="isEdit" />
+            <!-- <EmployeeManpowerEditRequest v-show="isEdit" /> -->
         </div>
         <div>
             <EmployeeManpowerMonitoringList />

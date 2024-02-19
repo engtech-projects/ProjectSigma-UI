@@ -187,7 +187,6 @@ export const useManpowerStore = defineStore("manpowers", {
                             this.errorMessage = response._data.message
                         } else {
                             this.getManpower()
-                            this.reset()
                             this.successMessage = response._data.message
                         }
                     },
