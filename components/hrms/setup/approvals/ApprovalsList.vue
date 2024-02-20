@@ -25,15 +25,12 @@ const changeuserId = (event) => {
 <template>
     <div class="grid grid-cols-2 border border-slate-400 p-2">
         <div class="flex flex-col">
-            <label class="block text-sm font-medium text-gray-900 dark:text-white">Approval Type</label>
             <div class="font-semibold text-black">
                 {{ approval.type }}
             </div>
         </div>
 
         <div class="flex flex-col">
-            <label class="block text-sm font-medium text-gray-900 dark:text-white">Approver</label>
-
             <div v-if="approval.userselector">
                 <select class="w-full" @change="changeuserId">
                     <option disabled selected>
