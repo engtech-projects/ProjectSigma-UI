@@ -156,6 +156,7 @@ export interface EmployeeInformation {
     first_name: String,
     middle_name: String,
     last_name: String,
+    name_suffix: String,
     nick_name: String,
     cellphone: Number,
     land_line: Number,
@@ -175,6 +176,7 @@ export interface EmployeeInformation {
     sss: String,
     employment_records: Array<Employement>
     company_employments: Array<CompanyEmployments>
+    current_employment: CompanyEmployments
 }
 
 export interface EmployeeSearch {
@@ -192,7 +194,12 @@ export const useEmployeeInfo = defineStore("employee", {
         },
     }),
     getters: {
-
+        fullname (state) {
+            if (state.information.employee_id) {
+                return state.information.first_name + " " + state.information.middle_name + " " + state.information.last_name + " " + state.information.name_suffix
+            }
+            return ""
+        }
     },
     actions: {
         async searchEmployees () {

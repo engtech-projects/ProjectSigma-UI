@@ -12,7 +12,7 @@
             </div>
 
             <div>
-                <form class="space-y-6 mb-4" action="#">
+                <div class="space-y-6 mb-4" action="#">
                     <img
                         class="md:h-58 w-full bg-gray-400 rounded-lg"
                         src="/avatarexample.png"
@@ -21,7 +21,7 @@
                     <div class="flex gap-20 ">
                         <div>
                             <p class="text-xl font-bold">
-                                Juan Dela Cruz
+                                Juan Dela Cruzsss
                             </p>
                             <label
                                 for="text"
@@ -38,7 +38,7 @@
                             >Position</label>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
