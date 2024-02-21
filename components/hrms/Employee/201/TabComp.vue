@@ -1,7 +1,7 @@
 <template>
     <div class="flex md:flex-row flex-col">
         <div class="w-full md:w-1/3">
-            <Employee201EmployeeInformationSheet />
+            <HrmsEmployee201SearchProfile />
         </div>
         <div class="w-full md:w-2/3 overflow-scroll">
             <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
@@ -53,48 +53,14 @@
 
             <div id="default-tab-content">
                 <div id="pis" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="staff-tab">
-                    <EvenparNologo />
-                    <EmployeeInfo />
-                    <EmployeeEducation />
-                    <EmployeesSpouse />
-                    <EmployeesDependents />
-                    <EmployeesContactPerson />
-                    <EmployeesCompInfo />
-                    <EmployeesCareer />
-                    <div class="mt-8 flex justify-end">
-                        <div>
-                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                Save
-                            </button>
-
-                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.print()">
-                                Print this page
-                            </button>
-                        </div>
-                    </div>
+                    <HrmsEmployee201PersonnelInfoSheet />
                 </div>
                 <div id="staff" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="staff-tab">
-                    <EvenparNologo />
-                    <EmployeesCompInfo />
-                    <EmployeesCareer />
-                    <div class="mt-8 flex justify-end">
-                        <div>
-                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                                Save
-                            </button>
-
-                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.print()">
-                                Print this page
-                            </button>
-                        </div>
-                    </div>
+                    <HrmsEmployee201StaffInfoSheet />
                 </div>
 
                 <div id="docsmemo" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="docsmemo-tab">
-                    <div class="flex gap-4">
-                        <EmployeeDocs />
-                        <EmployeeMemo />
-                    </div>
+                    <HrmsEmployee201DocumentsMemo />
                 </div>
             </div>
         </div>
