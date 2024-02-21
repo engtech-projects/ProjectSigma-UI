@@ -37,7 +37,7 @@
         <div class="flex p-2 mt-6">
             <div class="flex items-center">
                 <div class="italic font-bold">
-                    EMPLOYMENT (Start with the most recent or present employer)
+                    WORK EXPERIENCE (Start with the most recent or present employer)
                 </div>
             </div>
         </div>

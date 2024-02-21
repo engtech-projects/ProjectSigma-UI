@@ -1,8 +1,5 @@
 <template>
     <form action="">
-        <div class="font-bold">
-            EDUCATIONAL BACKGROUND
-        </div>
         <table class="w-full border-collapse border border-slate-400 table-fixed">
             <tbody>
                 <tr v-for="(educbg1, index) in educbgs1" :key="index">

@@ -1,10 +1,7 @@
 <template>
     <form action="">
         <table class="w-full border-collapse border border-slate-400 table-fixed items-center">
-            <div class="font-bold">
-                SPOUSE
-            </div>
-
+            <label for="employee_employment" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">Spouse</label>
             <tbody>
                 <tr>
                     <td class="border border-slate-300 p-1">

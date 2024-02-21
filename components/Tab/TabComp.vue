@@ -52,18 +52,42 @@
             </div>
 
             <div id="default-tab-content">
-                <div id="pis" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="pis-tab">
+                <div id="pis" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="staff-tab">
                     <EvenparNologo />
-                    <label for="employeeinfo" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-4 italic">Employee Information</label>
                     <EmployeeInfo />
-                    <label for="employeeeduc" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">Education</label>
                     <EmployeeEducation />
-                    <label for="employee_employment" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">Employment</label>
-                    <EmployeeEmployment />
-                </div>
+                    <EmployeesSpouse />
+                    <EmployeesDependents />
+                    <EmployeesContactPerson />
+                    <EmployeesCompInfo />
+                    <EmployeesCareer />
+                    <div class="mt-8 flex justify-end">
+                        <div>
+                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                Save
+                            </button>
 
+                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.print()">
+                                Print this page
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div id="staff" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="staff-tab">
-                    <Employee201StaffInfoSheet />
+                    <EvenparNologo />
+                    <EmployeesCompInfo />
+                    <EmployeesCareer />
+                    <div class="mt-8 flex justify-end">
+                        <div>
+                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                                Save
+                            </button>
+
+                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onclick="window.print()">
+                                Print this page
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="docsmemo" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="docsmemo-tab">

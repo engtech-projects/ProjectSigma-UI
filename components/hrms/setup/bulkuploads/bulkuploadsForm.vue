@@ -106,6 +106,7 @@ const headers = [
 const employees : any = ref([])
 
 const saveBulkUpload = async () => {
+    boardLoading.value = true
     const formData = new FormData()
     formData.append("employees_data", JSON.stringify(employees.value))
     await useFetch(
@@ -129,6 +130,7 @@ const saveBulkUpload = async () => {
         }
     )
     selectedEmployeeDetails.value = true
+    boardLoading.value = false
 }
 const handleUploadEmployeesData = async (event : any) => {
     boardLoading.value = true

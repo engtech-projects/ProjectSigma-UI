@@ -7,6 +7,8 @@ employee.searchEmployees()
 const { employeeSearchList, searchEmployeeParams } = storeToRefs(employee)
 
 const selectEmployee = (id) => {
+    employeeSearchList.value = []
+    searchEmployeeParams.value.key = null
     employee.getEmployeeInformation(id)
 }
 </script>

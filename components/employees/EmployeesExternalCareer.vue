@@ -1,8 +1,5 @@
 <template>
     <form action="">
-        <div class="font-bold">
-            CAREER / PROFESSIONAL CREDENTIALS
-        </div>
         <table class="w-full border-collapse border border-slate-400 table-fixed">
             <td colspan="5" class="border border-slate-300 p-2 bg-cyan-100">
                 <div>
