@@ -1,0 +1,91 @@
+<script setup>
+import { storeToRefs } from "pinia"
+import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+
+const accountGroupStore = useAccountGroupStore()
+accountGroupStore.getAccountGroups()
+
+const { list: groupList, accountGroup, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(accountGroupStore)
+
+const setEdit = (ag) => {
+    isEdit.value = true
+    accountGroup.value = ag
+    return navigateTo("/accounting/account-groups/edit/" + ag.account_group_id)
+}
+
+const deleteGroup = async (ag) => {
+    try {
+        accountGroupStore.isLoading = true
+        await accountGroupStore.deleteBook(ag.account_group_id)
+        snackbar.add({
+            type: "success",
+            text: accountGroupStore.successMessage
+        })
+    } finally {
+        accountGroupStore.isLoading = false
+    }
+}
+
+const changePaginate = (newParams) => {
+    getParams.value.page = newParams.page ?? ""
+}
+
+const headers = [
+    { name: "Account Group Name", id: "account_group_name" },
+    { name: "Type", id: "type_id" },
+]
+const actions = {
+    edit: true,
+    delete: true
+}
+
+const snackbar = useSnackbar()
+</script>
+
+<template>
+    <div class="flex flex-col items-end gap-4">
+        <NuxtLink
+            to="/accounting/account-groups/create"
+            class="flex-1 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
+        >
+            <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
+            <span>New Account Group</span>
+        </NuxtLink>
+        <LayoutBoards title="Account Group List" class="w-full" :loading="accountGroupStore.isLoading">
+            <div class="pb-2 text-gray-500">
+                <LayoutPsTable
+                    id="listTable"
+                    :header-columns="headers"
+                    :datas="groupList"
+                    :actions="actions"
+                    @edit-row="setEdit"
+                    @delete-row="deleteGroup"
+                />
+                <i v-if="!groupList.length&&!accountGroupStore.isLoading" class="p-4 text-center block">No data available.</i>
+            </div>
+            <div class="flex justify-center mx-auto">
+                <CustomPagination
+                    v-if="groupList.length"
+                    :links="pagination"
+                    @change-params="changePaginate"
+                />
+            </div>
+            <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+                {{ errorMessage }}
+            </p>
+            <p
+                v-show="successMessage"
+                hidden
+                class="success-message text-green-600 text-center font-semibold italic"
+            >
+                {{ successMessage }}
+            </p>
+        </LayoutBoards>
+    </div>
+</template>
+
+<style>
+    #listTable tbody tr td, #listTable thead th {
+        text-align: left!important;
+    }
+</style>

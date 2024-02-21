@@ -291,6 +291,11 @@ const config = useRuntimeConfig()
                 icon="iconoir:notes"
                 single-nav-title="Posting Period"
             />
+            <LayoutNavSingle
+                linkarea="/accounting/account-groups"
+                icon="iconoir:commodity"
+                single-nav-title="Account Groups"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->
