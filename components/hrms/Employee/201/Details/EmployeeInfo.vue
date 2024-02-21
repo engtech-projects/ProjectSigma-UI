@@ -23,6 +23,7 @@ const deleteRelative = () => {
 }
 </script>
 <template>
+    <label for="employeeinfo" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-4 italic">Employee Information</label>
     <form action="">
         <table class="w-full border-collapse border border-slate-300 table-fixed">
             <tbody>
@@ -104,25 +105,25 @@ const deleteRelative = () => {
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Street</label>
-                            <input id="small-input" v-model="employeeInformation.pre_street" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.per_street" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Barangay</label>
-                            <input id="small-input" v-model="employeeInformation.pre_brgy" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.per_brgy" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">City</label>
-                            <input id="small-input" v-model="employeeInformation.pre_city" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.per_city" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Zip</label>
-                            <input id="small-input" v-model="employeeInformation.pre_zip" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.per_zip" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -130,7 +131,7 @@ const deleteRelative = () => {
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Province</label>
-                            <input id="small-input" v-model="employeeInformation.pre_province" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employeeInformation.per_province" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -171,28 +172,31 @@ const deleteRelative = () => {
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">BLOOD TYPE</label>
                             <select id="bloodtype" v-model="employeeInformation.blood_type" name="bloodtype" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
-                                <option value="a">
+                                <option value="A+">
                                     A+
                                 </option>
-                                <option value="a-">
+                                <option value="A-">
                                     A-
                                 </option>
-                                <option value="b+">
+                                <option value="B+">
                                     B+
                                 </option>
-                                <option value="b-">
+                                <option value="B-">
                                     B-
                                 </option>
-                                <option value="o+">
+                                <option value="O+">
                                     O+
                                 </option>
-                                <option value="o-">
+                                <option value="O">
+                                    O
+                                </option>
+                                <option value="O-">
                                     O-
                                 </option>
-                                <option value="ab+">
+                                <option value="AB+">
                                     AB+
                                 </option>
-                                <option value="ab-">
+                                <option value="AB-">
                                     AB-
                                 </option>
                             </select>
@@ -200,13 +204,13 @@ const deleteRelative = () => {
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">GENDER</label>
                             <select id="gender" v-model="employeeInformation.gender" name="gender" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
-                                <option value="male">
+                                <option value="MALE">
                                     Male
                                 </option>
-                                <option value="female">
+                                <option value="FEMALE">
                                     Female
                                 </option>
-                                <option value="other">
+                                <option value="OTHER">
                                     Other
                                 </option>
                             </select>
@@ -224,23 +228,23 @@ const deleteRelative = () => {
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">CIVIL STATUS</label>
                             <select id="civilstatus" v-model="employeeInformation.civil_status" name="civilstatus" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
-                                <option value="single">
+                                <option value="SINGLE">
                                     SINGLE
                                 </option>
-                                <option value="married">
+                                <option value="MARRIED">
                                     MARRIED
                                 </option>
-                                <option value="widow">
+                                <option value="WIDOW">
                                     WIDOW
                                 </option>
-                                <option value="complicated">
+                                <option value="COMPLICATED">
                                     COMPLICATED
                                 </option>
                             </select>
                         </div>
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE OF MARRIAGE</label>
-                            <input id="dom" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="dom" v-model="employeeInformation.date_of_marriage" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
@@ -257,68 +261,16 @@ const deleteRelative = () => {
                     </td>
                 </tr>
                 <tr>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">PHILHEALTH #</label>
-                            <input id="philhealth" v-model="employeeInformation.phil_health" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">PAGIBIG #</label>
-                            <input id="pagibig" v-model="employeeInformation.pag_ibig" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TIN #</label>
-                            <input id="tin" v-model="employeeInformation.tin" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">SSS #</label>
-                            <input id="sss" v-model="employeeInformation.sss" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
                     <td colspan="2" class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">FATHER'S NAME</label>
-                            <input id="fathers_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="fathers_name" v-model="employeeInformation.father_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td colspan="2" class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">MOTHER'S MAIDEN NAME</label>
-                            <input id="mothers_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">NAME OF SPOUSE</label>
-                            <input id="spouse_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE OF BIRTH(SPOUSE)</label>
-                            <input id="dob_spouse" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="flex mb-2 text-[11px] font-medium text-gray-900 dark:text-white">OCCUPATION (SPOUSE)</label>
-                            <input id="spouse_occupation" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TELEPHONE #</label>
-                            <input id="spouse_contact" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="mothers_name" v-model="employeeInformation.mother_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -358,36 +310,7 @@ const deleteRelative = () => {
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <label for="small-input" class="flex justify-center p-2 text-[11px] font-medium text-gray-900 dark:text-white ">PERSON TO CONTACT IN CASE OF EMERGENCY: </label>
-                </tr>
-                <tr>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">NAME</label>
-                            <input id="emergency_person_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">ADDRESS</label>
-                            <input id="emergency_person_addr" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TELEPHONE #</label>
-                            <input id="emergency_person_phone" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td class="border border-slate-300 p-1">
-                        <div>
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">RELATIONSHIP</label>
-                            <input id="emergency_person_rel" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
+                <!-- <tr>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="inline text-[11px] w-32 font-medium text-gray-900 dark:text-white">PREVIOUS HOSPITALIZATION</label>
@@ -460,11 +383,11 @@ const deleteRelative = () => {
                             <input id="crime" type="text" class="block w-full h-16 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="IF YES, SPECIFY OFFENSE">
                         </div>
                     </td>
-                </tr>
+                </tr> -->
 
                 <tr v-for="(relative, index) in relatives" :key="index">
                     <td class="border border-slate-300 p-1">
-                        <label for="small-input" class="inline mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">DO YOU HAVE RELATIVES OR FAMILY MEMBERS WORKING FOR ACLC?</label>
+                        <label for="small-input" class="inline mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">DO YOU HAVE RELATIVES OR FAMILY MEMBERS WORKING FOR EVENPAR?</label>
                     </td>
 
                     <td class="border border-slate-300 p-1">

@@ -3,37 +3,37 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export interface StaffInformationSheet {
-    companyInformation: Array<{
-        company: String,
-        date_hired: String,
-        employment_status: String,
-        position: String,
-        section_program: String,
-        department: String,
-        division: String,
-        imidiate_supervisor: String,
-        phic_number: String,
-        sss_number: String,
-        tin_number: String,
-        pagibig_number: String,
-    }>,
-    personalInformation: Array<{
-        employee_id: String,
-        family_name: String,
-        first_name: String,
-        middle_name: String,
-        blood_type: String,
-        civil_status: String,
-        date_of_birth: String,
-        gender: String,
-        father_name: String,
-        mother_name: String,
-        telephone_number: String,
-        religion: String,
-        mobile_number: String,
-    }>
-}
+// export interface StaffInformationSheet {
+//     companyInformation: Array<{
+//         company: String,
+//         date_hired: String,
+//         employment_status: String,
+//         position: String,
+//         section_program: String,
+//         department: String,
+//         division: String,
+//         imidiate_supervisor: String,
+//         phic_number: String,
+//         sss_number: String,
+//         tin_number: String,
+//         pagibig_number: String,
+//     }>,
+//     personalInformation: Array<{
+//         employee_id: String,
+//         family_name: String,
+//         first_name: String,
+//         middle_name: String,
+//         blood_type: String,
+//         civil_status: String,
+//         date_of_birth: String,
+//         gender: String,
+//         father_name: String,
+//         mother_name: String,
+//         telephone_number: String,
+//         religion: String,
+//         mobile_number: String,
+//     }>
+// }
 
 export interface EmploymentInformation {
     company_name: String,
@@ -126,22 +126,43 @@ export interface Education {
     dates_to: String,
 }
 export interface Employement {
-    type: String,
-    name: String,
-    degree: String,
-    dates_from: String,
-    dates_to: String,
+    department: String,
+    id: Number,
+    employee_id: Number,
+    position: String,
+    employment_status: String,
+    section_program: String,
+    created_at: String,
+    updated_at: String,
+    deleted_at: String,
+}
+export interface CompanyEmployments {
+    company: String,
+    date_hired: String,
+    employee_id: Number,
+    id: Number,
+    imidiate_supervisor: Number,
+    pagibig_number: Number,
+    sss_number: Number,
+    tin_number: Number,
+    phic_number: Number,
+    employeedisplay_id: String,
+    created_at: String,
+    updated_at: String,
+    deleted_at: String,
 }
 export interface EmployeeInformation {
     employee_id: number,
     first_name: String,
     middle_name: String,
     last_name: String,
+    name_suffix: String,
     nick_name: String,
     cellphone: Number,
     land_line: Number,
     birthday: String
     place_of_birth: String,
+    date_of_marriage: String,
     citizenship: String,
     blood_type: String,
     gender: String,
@@ -153,6 +174,9 @@ export interface EmployeeInformation {
     pag_ibig: String,
     tin: String,
     sss: String,
+    employment_records: Array<Employement>
+    company_employments: Array<CompanyEmployments>
+    current_employment: CompanyEmployments
 }
 
 export interface EmployeeSearch {
@@ -170,10 +194,15 @@ export const useEmployeeInfo = defineStore("employee", {
         },
     }),
     getters: {
-
+        fullname (state) {
+            if (state.information.employee_id) {
+                return state.information.first_name + " " + state.information.middle_name + " " + state.information.last_name + " " + state.information.name_suffix
+            }
+            return ""
+        }
     },
     actions: {
-        async getEmployees () { // i rename ni later into searchEmployees tom
+        async searchEmployees () {
             this.employeeSearchList = [] as Array<EmployeeSearch>
             await useFetch(
                 "/api/employee-search",

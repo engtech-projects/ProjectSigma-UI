@@ -4,7 +4,7 @@
             Employees Record
         </div>
         <div>
-            <TabComp />
+            <HrmsEmployee201TabComp />
         </div>
     </div>
 </template>

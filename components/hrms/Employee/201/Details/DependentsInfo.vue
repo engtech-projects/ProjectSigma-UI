@@ -1,9 +1,6 @@
 <template>
+    <label for="employee_employment" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">Dependents</label>
     <form v-for="(dependent, index) in dependents" :key="index" action="">
-        <div class="font-bold">
-            DEPENDENTS
-        </div>
-
         <table class="w-full border-collapse border border-slate-400 table-fixed ">
             <tbody>
                 <tr>

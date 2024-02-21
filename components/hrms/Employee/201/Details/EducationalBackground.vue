@@ -1,5 +1,6 @@
 <template>
     <form action="">
+        <label for="employeeeduc" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">Education</label>
         <table class="w-full border-collapse border border-slate-400 table-fixed">
             <tbody>
                 <tr v-for="(schl, index) in schls" :key="index">

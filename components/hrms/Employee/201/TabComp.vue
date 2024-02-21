@@ -1,7 +1,7 @@
 <template>
     <div class="flex md:flex-row flex-col">
         <div class="w-full md:w-1/3">
-            <Employee201EmployeeInformationSheet />
+            <HrmsEmployee201SearchProfile />
         </div>
         <div class="w-full md:w-2/3 overflow-scroll">
             <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
@@ -52,25 +52,15 @@
             </div>
 
             <div id="default-tab-content">
-                <div id="pis" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="pis-tab">
-                    <EvenparNologo />
-                    <label for="employeeinfo" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-4 italic">Employee Information</label>
-                    <EmployeeInfo />
-                    <label for="employeeeduc" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">Education</label>
-                    <EmployeeEducation />
-                    <label for="employee_employment" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">Employment</label>
-                    <EmployeeEmployment />
+                <div id="pis" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="staff-tab">
+                    <HrmsEmployee201PersonnelInfoSheet />
                 </div>
-
                 <div id="staff" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="staff-tab">
-                    <Employee201StaffInfoSheet />
+                    <HrmsEmployee201StaffInfoSheet />
                 </div>
 
                 <div id="docsmemo" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="docsmemo-tab">
-                    <div class="flex gap-4">
-                        <EmployeeDocs />
-                        <EmployeeMemo />
-                    </div>
+                    <HrmsEmployee201DocumentsMemo />
                 </div>
             </div>
         </div>
