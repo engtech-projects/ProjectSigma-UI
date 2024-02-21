@@ -11,8 +11,8 @@ useHead({
         </div>
         <hr>
         <div class="flex gap-4">
-            <HrmsEmployeePanPersonnelActionForm />
-            <HrmsEmployeePanPersonnelActionFormList />
+            <EmployeePersonnelActionForm />
+            <EmployeePersonnelActionFormList />
         </div>
     </div>
 </template>

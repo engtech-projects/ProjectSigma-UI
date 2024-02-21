@@ -10,7 +10,7 @@ useHead({
 
 <template>
     <div class="mt-10 md:mt-0 md:flex gap-2">
-        <HrmsAttendanceEmployeeInfoSheet />
+        <EmployeeInfoSheet />
         <HrmsAttendanceInOut />
     </div>
 </template>

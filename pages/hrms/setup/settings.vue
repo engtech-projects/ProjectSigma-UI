@@ -12,6 +12,6 @@ useHead({
 
 <template>
     <div class="flex flex-col gap-3">
-        <HrmsSetupSettingsEditSettingsForm />
+        <HrmsSettingsEditSettingsForm />
     </div>
 </template>

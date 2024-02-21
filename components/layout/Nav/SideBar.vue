@@ -71,6 +71,13 @@ const config = useRuntimeConfig()
             <LayoutNavGroup icon="ic:baseline-people-outline" title="Employee">
                 <!-- hide true-->
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
+                    class="hidden"
+                    linkarea="/hrms/employee/application"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Application"
+                />
+                <LayoutNavSingle
                     linkarea="/hrms/employee/manpower"
                     icon="ic:round-people-alt"
                     single-nav-title="Manpower Request"
