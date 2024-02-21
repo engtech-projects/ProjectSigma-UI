@@ -63,7 +63,13 @@ async function handleSubmit () {
                         for="book_name"
                         class="text-xs italic"
                     >Account</label>
-                    <AccountingSelectSearch :options="accountStore.list" title="account_name" opid="account_id" :selected-id="bookStore.book.account_id" @select="select" />
+                    <AccountingSelectSearch
+                        :options="accountStore.list"
+                        title="account_name"
+                        opid="account_id"
+                        :selected-id="bookStore.book.account_id"
+                        @select="select"
+                    />
                 </div>
 
                 <div>
@@ -81,7 +87,13 @@ async function handleSubmit () {
                 </div>
             </div>
 
-            <div class="flex justify-end">
+            <div class="flex justify-end gap-4">
+                <NuxtLink
+                    to="/accounting/books"
+                    class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5 text-center"
+                >
+                    Cancel
+                </NuxtLink>
                 <button
                     type="submit"
                     class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"

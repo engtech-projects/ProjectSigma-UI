@@ -15,10 +15,10 @@ useHead({
 <template>
     <div class="flex flex-col gap-2">
         <div class="flex gap-4">
-            <div class="flex-1">
+            <!-- <div class="flex-1">
                 <AccountingDocumentEditSeries v-if="documentSeriesStore.isEdit" />
                 <AccountingDocumentNewSeries v-else />
-            </div>
+            </div> -->
             <AccountingDocumentSeriesList class="flex-2" />
         </div>
     </div>

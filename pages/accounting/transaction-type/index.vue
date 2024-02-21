@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
-
-const transactionTypeStore = useTransactionTypeStore()
 
 definePageMeta({
     layout: "default",
@@ -13,10 +10,10 @@ useHead({
 
 <template>
     <div class="flex flex gap-4">
-        <div class="flex-1">
+        <!-- <div class="flex-1">
             <AccountingTransactionEditTransactionType v-if="transactionTypeStore.isEdit" class="flex-1" />
             <AccountingTransactionNewTransactionType v-else class="flex-1" />
-        </div>
+        </div> -->
         <AccountingTransactionTypeList class="flex-2" />
     </div>
 </template>

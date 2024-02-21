@@ -38,11 +38,12 @@ const selectedId = computed(() => {
 function cancelEdit () {
     bookStore.isEdit = false
     bookStore.reset()
+    return navigateTo("/accounting/books")
 }
 </script>
 
 <template>
-    <LayoutBoards title="Edit New Book" :loading="isLoading" class="w-full border-t-8 rounded-lg border-teal-500">
+    <LayoutBoards title="Edit Book" :loading="isLoading" class="w-full border-t-8 rounded-lg border-teal-500">
         <form @submit.prevent="handleSubmit">
             <div class="flex flex-col gap-2">
                 <div>
@@ -85,7 +86,7 @@ function cancelEdit () {
             <div class="flex justify-end gap-4">
                 <button
                     class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5"
-                    @click="cancelEdit"
+                    @click.prevent="cancelEdit"
                 >
                     Cancel
                 </button>

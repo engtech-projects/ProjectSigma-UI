@@ -33,6 +33,7 @@ async function updateTransactionType () {
 function cancelEdit () {
     transactionTypeStore.isEdit = false
     transactionTypeStore.reset()
+    return navigateTo("/accounting/transaction-type")
 }
 
 function select (val:any) {
