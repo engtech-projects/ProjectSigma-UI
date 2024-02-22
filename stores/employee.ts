@@ -195,10 +195,10 @@ export const useEmployeeInfo = defineStore("employee", {
     }),
     getters: {
         fullname (state) {
-            if (state.information.employee_id) {
-                return state.information.first_name + " " + state.information.middle_name + " " + state.information.last_name + " " + state.information.name_suffix
+            if (!state.information) {
+                return ""
             }
-            return ""
+            return state.information.first_name + " " + state.information.middle_name + " " + state.information.last_name + " " + state.information.name_suffix
         }
     },
     actions: {
