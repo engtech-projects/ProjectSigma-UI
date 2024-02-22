@@ -14,7 +14,7 @@ const { information: employeeInformation } = storeToRefs(employee)
             </div>
         </div>
         <div class="w-full">
-            <div v-if="employeeInformation.employee_id">
+            <div v-if="employeeInformation">
                 <div class="space-y-6 mb-4" action="#">
                     <img
                         class="md:h-58 w-full bg-gray-400 rounded-lg"
