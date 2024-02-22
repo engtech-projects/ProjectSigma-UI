@@ -14,7 +14,12 @@ const { information: employeeInformation } = storeToRefs(employee)
             </div>
         </div>
         <div class="w-full">
-            <div v-if="employeeInformation">
+            <div v-if="!employeeInformation">
+                <p class="text-xl font-bold">
+                    No Employee Selected
+                </p>
+            </div>
+            <div v-else>
                 <div class="space-y-6 mb-4" action="#">
                     <img
                         class="md:h-58 w-full bg-gray-400 rounded-lg"
@@ -51,11 +56,6 @@ const { information: employeeInformation } = storeToRefs(employee)
                         </div>
                     </div>
                 </div>
-            </div>
-            <div v-else>
-                <p class="text-xl font-bold">
-                    No Employee Selected
-                </p>
             </div>
         </div>
     </div>
