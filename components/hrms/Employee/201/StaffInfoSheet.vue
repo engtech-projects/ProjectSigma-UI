@@ -2,7 +2,7 @@
     <div>
         <EvenparNologo />
         <HrmsEmployee201DetailsCompanyInfo />
-        <HrmsEmployee201DetailsTraininsSeminars />
+        <HrmsEmployee201DetailsTrainingsSeminars />
         <HrmsEmployee201DetailsInternalCareer />
         <HrmsEmployee201DetailsExternalCareer />
         <div class="mt-8 flex justify-end">
