@@ -85,7 +85,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Onboarding"
                 />
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/employee/applicant"
                     icon="ic:baseline-diversity-3"
                     single-nav-title="Job Applicants"

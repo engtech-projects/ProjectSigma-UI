@@ -79,7 +79,17 @@ export const useApprovalStore = defineStore("approvals", {
                     },
                 }
             )
-            return data.value.data.approvals
+            return data.value.data.approvals.map((approv) => {
+                return {
+                    type: approv.type,
+                    status: "Pending",
+                    user_id: approv.user_id,
+                    userselector: approv.userselector,
+                    date_approved: "",
+                    remarks: "",
+                    name: approv.name,
+                }
+            })
         },
 
         async createApproval () {

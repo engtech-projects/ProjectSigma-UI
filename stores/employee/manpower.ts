@@ -80,6 +80,8 @@ export const useManpowerStore = defineStore("manpowers", {
             requested_by: null
         },
         list: [],
+        myApprovalRequestList: [],
+        myRequestList: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -114,7 +116,7 @@ export const useManpowerStore = defineStore("manpowers", {
             }
         },
         async getManpower () {
-            const { data, error } = await useFetch(
+            await useFetch(
                 "/api/manpower-requests",
                 {
                     baseURL: config.public.HRMS_API_URL,
@@ -134,11 +136,40 @@ export const useManpowerStore = defineStore("manpowers", {
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
+        },
+        async getMyRequests () {
+            await useFetch(
+                "/api/get-request",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.myRequestList = response._data.data
+                    },
+                }
+            )
+        },
+        async getMyApprovalRequests () {
+            await useFetch(
+                "/api/get-approve-request",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.myApprovalRequestList = response._data.data
+                    },
+                }
+            )
         },
 
         async createManpower () {
@@ -165,12 +196,7 @@ export const useManpowerStore = defineStore("manpowers", {
             formData.append("breakdown_details", this.manpower.breakdown_details)
             formData.append("requested_by", this.manpower.requested_by)
             formData.append("job_description_attachment", this.manpower.job_description_attachment)
-
-            if (Array.isArray(this.manpower.approvals)) {
-                for await (const approval of this.manpower.approvals) {
-                    formData.append("approvals[]", JSON.stringify(approval))
-                }
-            }
+            formData.append("approvals", JSON.stringify(this.manpower.approvals))
 
             await useFetch(
                 "/api/manpower-requests",
@@ -179,6 +205,7 @@ export const useManpowerStore = defineStore("manpowers", {
                     method: "POST",
                     headers: {
                         Authorization: token.value + "",
+                        Accept: "application/json"
                     },
                     body: formData,
                     watch: false,
