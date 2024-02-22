@@ -29,13 +29,9 @@ const selectEmployee = (id) => {
                     class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-teal-500 focus:border-teal-200 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
                     placeholder="Search"
                 >
-                <button type="submit" class="text-white absolute right-2.5 bottom-1 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-3 py-1 dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800">
-                    Search
-                </button>
             </div>
         </form>
-
-        <ul v-if="employeeSearchList" class="mt-1 p-px rounded-lg bg-white dark:bg-gray-800">
+        <ul v-if="employeeSearchList.length > 0" class="mt-1 p-px rounded-lg bg-white dark:bg-gray-800">
             <li v-for="(emp, i) in employeeSearchList" :key="i" class="hover:bg-teal-200 rounded-md cursor-pointer p-1" @click="selectEmployee(emp.id)">
                 {{ emp.family_name }}, {{ emp.first_name }} {{ emp.middle_name || "" }}
             </li>

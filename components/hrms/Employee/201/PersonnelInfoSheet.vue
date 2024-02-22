@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="overflow-auto">
         <EvenparNologo />
         <HrmsEmployee201DetailsEmployeeInfo />
         <HrmsEmployee201DetailsEducationalBackground />

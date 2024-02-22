@@ -3,7 +3,7 @@
         <div class="w-full md:w-1/3">
             <HrmsEmployee201SearchProfile />
         </div>
-        <div class="w-full md:w-2/3 overflow-scroll">
+        <div class="w-full md:w-2/3">
             <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
                 <ul id="default-tab" class="flex flex-wrap -mb-px text-sm font-medium text-center" data-tabs-toggle="#default-tab-content" role="tablist">
                     <li class="mr-2" role="presentation">

@@ -155,7 +155,7 @@ export interface EmployeeInformation {
     employee_id: number,
     first_name: String,
     middle_name: String,
-    last_name: String,
+    family_name: String,
     name_suffix: String,
     nick_name: String,
     cellphone: Number,
@@ -174,6 +174,16 @@ export interface EmployeeInformation {
     pag_ibig: String,
     tin: String,
     sss: String,
+    pre_street: String,
+    pre_brgy: String,
+    pre_city: String,
+    pre_zip: String,
+    pre_province: String,
+    per_street: String,
+    per_brgy: String,
+    per_city: String,
+    per_zip: String,
+    per_province: String,
     employment_records: Array<Employement>
     company_employments: Array<CompanyEmployments>
     current_employment: CompanyEmployments
@@ -188,6 +198,7 @@ export interface EmployeeSearch {
 export const useEmployeeInfo = defineStore("employee", {
     state: () => ({
         information: {} as EmployeeInformation,
+        employeeIsSearched: false as Boolean,
         employeeSearchList: {} as Array<EmployeeSearch>,
         searchEmployeeParams: {
             key: "",
@@ -198,8 +209,28 @@ export const useEmployeeInfo = defineStore("employee", {
             if (!state.information) {
                 return ""
             }
-            return state.information.first_name + " " + state.information.middle_name + " " + state.information.last_name + " " + state.information.name_suffix
-        }
+            return state.information.first_name + " " + (state.information.middle_name || "") + " " + state.information.family_name + " " + (state.information.name_suffix || "")
+        },
+        presentAddress (state) {
+            if (!state.information) {
+                return ""
+            }
+            return (state.information.pre_street || "") + " " +
+            (state.information.pre_brgy || "") + " " +
+            (state.information.pre_city || "") + " " +
+            (state.information.pre_zip || "") + " " +
+            (state.information.pre_province || "")
+        },
+        permanentAddress (state) {
+            if (!state.information) {
+                return ""
+            }
+            return (state.information.per_street || "") + " " +
+            (state.information.per_brgy || "") + " " +
+            (state.information.per_city || "") + " " +
+            (state.information.per_zip || "") + " " +
+            (state.information.per_province || "")
+        },
     },
     actions: {
         async searchEmployees () {
@@ -225,6 +256,7 @@ export const useEmployeeInfo = defineStore("employee", {
             )
         },
         async getEmployeeInformation (id : Number) {
+            this.$reset()
             const { data, error } = await useFetch(
                 "/api/employee/" + id,
                 {
@@ -237,6 +269,7 @@ export const useEmployeeInfo = defineStore("employee", {
                 }
             )
             if (data.value) {
+                this.employeeIsSearched = true
                 this.information = data.value.data
                 return data
             } else if (error.value) {
