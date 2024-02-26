@@ -295,6 +295,11 @@ const config = useRuntimeConfig()
                 icon="iconoir:commodity"
                 single-nav-title="Account Groups"
             />
+            <LayoutNavSingle
+                linkarea="/accounting/stakeholder"
+                icon="iconoir:user-square"
+                single-nav-title="Stakeholder"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->

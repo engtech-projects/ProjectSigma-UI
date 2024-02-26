@@ -65,8 +65,11 @@ const searchedOptions = computed(() => {
             <Icon name="iconoir:nav-arrow-down" class="font-bold text-xl" />
         </div>
         <div v-if="showDD" class="absolute max-h-72 left-0 top-11 min-w-full py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2">
-            <div class="px-3 w-full">
+            <div v-if="searchedOptions.length" class="px-3 w-full">
                 <input v-model="searchInput" type="text" class="border border-slate-300 rounded w-full h-10" placeholder="Search">
+            </div>
+            <div v-else class="px-4">
+                <span>No data available.</span>
             </div>
             <div class="flex flex-col overflow-auto">
                 <span v-for="option,i in searchedOptions" :key="i" class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b" @click="selectOption(option)">{{ option[props.title] }}</span>
