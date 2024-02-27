@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useProjectStore } from "@/stores/projects"
+import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
 
@@ -73,3 +73,4 @@ const boardLoading = ref(false)
         </p>
     </LayoutBoards>
 </template>
+~/stores/projects/projects

@@ -33,7 +33,7 @@ defineProps({
         required: true,
     },
     icon: {
-        type: String,
+        type: Boolean,
         required: true,
     },
     id: {

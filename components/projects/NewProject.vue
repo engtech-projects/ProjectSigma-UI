@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useProjectStore } from "@/stores/projects"
+import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
 const { project, errorMessage, successMessage } = storeToRefs(projects)
@@ -245,3 +245,4 @@ const addProject = async () => {
     opacity: 0;
 }
 </style>
+~/stores/projects/projects

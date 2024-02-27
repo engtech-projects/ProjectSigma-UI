@@ -5,12 +5,15 @@ const config = useRuntimeConfig()
 <template>
     <ul class="space-y-2">
         <LayoutNavSingle
+            class="px-5"
             linkarea="/dashboard"
             icon="ic:baseline-space-dashboard"
             single-nav-title="Dashboard"
         />
         <!-- HRMS -->
-        <LayoutNavModuleGroup title="hrms">
+        <LayoutNavModuleGroup
+            title="hrms"
+        >
             <LayoutNavSingle
                 linkarea="/hrms"
                 icon="ic:round-dashboard"
@@ -256,13 +259,17 @@ const config = useRuntimeConfig()
         <!-- Inventory / Warehouse -->
         <LayoutNavModuleGroup
             v-if="config.public.APP_ENV == 'local'"
-            id="dropdown-inventorywarehouse-main"
             title="Inventory / Warehouse"
-        />
+        >
+            <LayoutNavSingle
+                linkarea="/inventory"
+                icon="ic:baseline-space-dashboard"
+                single-nav-title="Inventory Dashboard"
+            />
+        </LayoutNavModuleGroup>
 
         <!-- Accounting -->
         <LayoutNavModuleGroup
-            id="dropdown-accounting-main"
             title="Accounting"
         >
             <LayoutNavSingle
@@ -304,9 +311,13 @@ const config = useRuntimeConfig()
 
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup
-            id="dropdown-projectmonitoring-main"
             title="Project Monitoring"
         >
+            <LayoutNavSingle
+                linkarea="/project-monitoring"
+                icon="ic:baseline-space-dashboard"
+                single-nav-title="Projects Dashboard"
+            />
             <LayoutNavSingle
                 linkarea="/project-monitoring/projects"
                 icon="material-symbols:business-center"

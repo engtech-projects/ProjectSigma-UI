@@ -1,6 +1,5 @@
 <template>
     <div>
-        main project
-        asdf
+        Projects Dashboard
     </div>
 </template>

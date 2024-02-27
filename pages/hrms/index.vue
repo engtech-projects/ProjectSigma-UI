@@ -2,6 +2,7 @@
 import { initFlowbite } from "flowbite"
 import { useAnnouncements } from "@/stores/announcements"
 
+const config = useRuntimeConfig()
 const mains = useAnnouncements()
 mains.getactiveAll()
 
