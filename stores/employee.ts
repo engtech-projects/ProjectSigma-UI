@@ -3,38 +3,6 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-// export interface StaffInformationSheet {
-//     companyInformation: Array<{
-//         company: String,
-//         date_hired: String,
-//         employment_status: String,
-//         position: String,
-//         section_program: String,
-//         department: String,
-//         division: String,
-//         imidiate_supervisor: String,
-//         phic_number: String,
-//         sss_number: String,
-//         tin_number: String,
-//         pagibig_number: String,
-//     }>,
-//     personalInformation: Array<{
-//         employee_id: String,
-//         family_name: String,
-//         first_name: String,
-//         middle_name: String,
-//         blood_type: String,
-//         civil_status: String,
-//         date_of_birth: String,
-//         gender: String,
-//         father_name: String,
-//         mother_name: String,
-//         telephone_number: String,
-//         religion: String,
-//         mobile_number: String,
-//     }>
-// }
-
 export interface EmploymentInformation {
     company_name: String,
     immediate_superior: Array<{
@@ -49,7 +17,16 @@ export interface EmploymentInformation {
         start: Number,
         final: Number
     }>,
-    address: String,
+    address: Array<{
+        id: Number,
+        employee_id: Number,
+        street: String,
+        brgy: String,
+        city: String,
+        zip: String,
+        province: String,
+        type: String,
+    }>,
     telephone_number: Number,
     position: String,
     duties_responsibilities: String,
@@ -61,29 +38,44 @@ export interface Memos {
 export interface Documents {
     Name: String,
 }
-export interface Address {
-    present_address: Array<{
-        street: String,
-        barangay: String,
-        city: String,
-        zipcode: number,
-        province: String,
-    }>
-    permanent_address: Array<{
-        street: String,
-        barangay: String,
-        city: String,
-        zipcode: number,
-        province: String,
-    }>,
+export interface EmployeeAddress {
+    id: Number,
+    employee_id: Number,
+    street: String,
+    brgy: String,
+    city: String,
+    zip: String,
+    province: String,
+    type: String,
 }
 export interface Parents {
     father_name: String,
-    mother_name: String
+    mother_name: String,
 }
 export interface Children {
-    name: String,
-    birthday: String
+    id: Number,
+    employee_id: Number,
+    zip: Number,
+    brgy: String,
+    city: String,
+    contact_no: String,
+    date_of_birth: String,
+    occupation: String,
+    province: String,
+    relationship: String,
+    street: String,
+    type: String,
+    updated_at: String,
+    created_at: String,
+    deleted_at: String,
+}
+export interface EmployeeAffiliation {
+    id: Number,
+    employee_id: Number,
+    club_organization_name: String,
+    membership_type: String,
+    status: String,
+    membership_exp_date: String,
 }
 export interface Contact_of_emergency {
     name: String,
@@ -118,41 +110,102 @@ export interface Company_family_members {
     relationship: String,
     position: String
 }
-export interface Education {
-    type: String,
-    name: String,
-    degree: String,
-    dates_from: String,
-    dates_to: String,
-}
-export interface Employement {
-    department: String,
+export interface EmploymentEducation {
     id: Number,
     employee_id: Number,
-    position: String,
-    employment_status: String,
-    section_program: String,
-    created_at: String,
-    updated_at: String,
-    deleted_at: String,
+    elementary_name: String,
+    elementary_education: String,
+    elementary_period_attendance_to: String,
+    elementary_period_attendance_from: String,
+    elementary_year_graduated: String,
+    secondary_name: String,
+    secondary_education: String,
+    secondary_period_attendance_to: String,
+    secondary_period_attendance_from: String,
+    secondary_year_graduated: String,
+    vocationalcourse_name: String,
+    vocationalcourse_education: String,
+    vocationalcourse_period_attendance_to: String,
+    vocationalcourse_period_attendance_from: String,
+    vocationalcourse_year_graduated: String,
+    college_name: String,
+    college_education: String,
+    college_period_attendance_to: String,
+    college_period_attendance_from: String,
+    college_year_graduated: String,
+    graduatestudies_name: String,
+    graduatestudies_education: String,
+    graduatestudies_period_attendance_to: String,
+    graduatestudies_period_attendance_from: String,
+    graduatestudies_year_graduated: String,
 }
+
+export interface EmploymentRecord {
+    id: Number,
+    employee_id: Number,
+    employment_status: String,
+    position: String,
+    department: String,
+    division: String,
+    section_program: String,
+}
+export interface EmploymentEligibility {
+    id: Number,
+    employee_id: Number,
+    program_module: String,
+    certificate_lvl: String,
+    status: String,
+    cert_exp_date: String,
+}
+
 export interface CompanyEmployments {
+    id: Number,
+    employeedisplay_id: String,
     company: String,
     date_hired: String,
-    employee_id: Number,
-    id: Number,
-    imidiate_supervisor: Number,
-    pagibig_number: Number,
-    sss_number: Number,
-    tin_number: Number,
-    phic_number: Number,
-    employeedisplay_id: String,
+    employee_id: String,
+    imidiate_supervisor: String,
+    pagibig_number: String,
+    phic_number: String,
+    sss_number: String,
+    tin_number: String,
     created_at: String,
     updated_at: String,
     deleted_at: String,
 }
+export interface EmployeeRelatedPerson {
+    id: Number,
+    employee_id: Number,
+    relationship: String,
+    type: String,
+    name: String,
+    date_of_birth: String,
+    street: String,
+    brgy: String,
+    city: String,
+    zip: String,
+    province: String,
+    occupation: String,
+    contact_no: String,
+}
+export interface EmployeeSeminarTraining {
+    id: Number,
+    employee_id: Number,
+    name_title_training: String,
+    inclusive_dates: String,
+    venue: String,
+    training_provider: String,
+}
+export interface EmployeeUpload {
+    id: Number,
+    employee_uploads: Number,
+    employee_id: String,
+    upload_type: String,
+    file_location: String,
+}
 export interface EmployeeInformation {
-    employee_id: number,
+    id: Number,
+    employee_id: Number,
     first_name: String,
     middle_name: String,
     family_name: String,
@@ -170,23 +223,16 @@ export interface EmployeeInformation {
     civil_status: String,
     height: String,
     weight: String,
-    phil_health: String,
-    pag_ibig: String,
-    tin: String,
-    sss: String,
-    pre_street: String,
-    pre_brgy: String,
-    pre_city: String,
-    pre_zip: String,
-    pre_province: String,
-    per_street: String,
-    per_brgy: String,
-    per_city: String,
-    per_zip: String,
-    per_province: String,
-    employment_records: Array<Employement>
-    company_employments: Array<CompanyEmployments>
-    current_employment: CompanyEmployments
+    child: Array<Children>,
+    employee_address: Array<EmployeeAddress>,
+    contact_person: Array<EmployeeRelatedPerson>,
+    employment_records: Array<EmploymentRecord>,
+    employee_affiliation: Array<EmployeeAffiliation>,
+    employee_education: Array<EmploymentEducation>,
+    employment_eligibility: Array<EmploymentEligibility>,
+    company_employments: Array<CompanyEmployments>,
+    employee_uploads: Array<EmployeeUpload>
+    employee_seminartraining: Array<EmployeeSeminarTraining>
 }
 
 export interface EmployeeSearch {
@@ -212,24 +258,40 @@ export const useEmployeeInfo = defineStore("employee", {
             return state.information.first_name + " " + (state.information.middle_name || "") + " " + state.information.family_name + " " + (state.information.name_suffix || "")
         },
         presentAddress (state) {
+            let preAddress = null
             if (!state.information) {
                 return ""
             }
-            return (state.information.pre_street || "") + " " +
-            (state.information.pre_brgy || "") + " " +
-            (state.information.pre_city || "") + " " +
-            (state.information.pre_zip || "") + " " +
-            (state.information.pre_province || "")
+            if (state.information.employee_address) {
+                state.information.employee_address.forEach((item) => {
+                    if (item.type === "present") {
+                        preAddress = item
+                    }
+                })
+            }
+            return preAddress
         },
         permanentAddress (state) {
+            let perAddress = null
             if (!state.information) {
                 return ""
             }
-            return (state.information.per_street || "") + " " +
-            (state.information.per_brgy || "") + " " +
-            (state.information.per_city || "") + " " +
-            (state.information.per_zip || "") + " " +
-            (state.information.per_province || "")
+            if (state.information.employee_address) {
+                state.information.employee_address.forEach((item) => {
+                    if (item.type === "present") {
+                        perAddress = item
+                    }
+                })
+            }
+            return perAddress
+        },
+        childrenInformation (state) {
+            if (!state.information) {
+                return ""
+            }
+            if (state.information.child) {
+                return state.information.child
+            }
         },
     },
     actions: {

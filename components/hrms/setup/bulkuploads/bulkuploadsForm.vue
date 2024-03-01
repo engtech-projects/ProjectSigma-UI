@@ -3,6 +3,7 @@
 const { token } = useAuth()
 const config = useRuntimeConfig()
 const selectedEmployeeDetails = ref(false)
+const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const headers = [
@@ -123,7 +124,15 @@ const saveBulkUpload = async () => {
             onResponse: ({ response }) => {
                 if (response.status >= 200 && response.status <= 299) {
                     employees.value = response._data?.data
+                    snackbar.add({
+                        type: "success",
+                        text: response._data.message
+                    })
                 } else {
+                    snackbar.add({
+                        type: "danger",
+                        text: response?._data.message
+                    })
                     throw new Error(response._data.message)
                 }
             },
@@ -151,7 +160,15 @@ const handleUploadEmployeesData = async (event : any) => {
             onResponse: ({ response }) => {
                 if (response.status >= 200 && response.status <= 299) {
                     employees.value = response._data?.data
+                    snackbar.add({
+                        type: "success",
+                        text: response._data.message
+                    })
                 } else {
+                    snackbar.add({
+                        type: "danger",
+                        text: "Error Extracting Data" + response._data.message
+                    })
                     throw new Error(response._data.message)
                 }
             },
