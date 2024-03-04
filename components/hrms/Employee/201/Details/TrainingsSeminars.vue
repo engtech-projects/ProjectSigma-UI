@@ -1,3 +1,25 @@
+<script setup>
+import { useEmployeeInfo } from "@/stores/employee"
+const employee = useEmployeeInfo()
+
+const emprecords = ref(null)
+emprecords.value = employee.employee_seminartraining
+const addEmprecords = () => {
+    emprecords.value.push(
+        {
+            id: "",
+            employee_id: "",
+            name_title_training: "",
+            inclusive_dates: "",
+            venue: "",
+            training_provider: "",
+        }
+    )
+}
+const deleteEmprecords = (index) => {
+    this.emprecords.splice(index, 1)
+}
+</script>
 <template>
     <div>
         <label for="employee_employment" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">
@@ -59,21 +81,3 @@
         </form>
     </div>
 </template>
-
-<script>
-export default {
-    data () {
-        return {
-            emprecords: [{ compname: "", imdtsuperior: "", from: "", salarystart: "", compaddr: "", compcont: "", to: "", salaryfinal: "", duties: "" }],
-        }
-    },
-    methods: {
-        addEmprecords () {
-            this.emprecords.push({ compname: "", imdtsuperior: "", from: "", salarystart: "", compaddr: "", compcont: "", to: "", salaryfinal: "", duties: "" })
-        },
-        deleteEmprecords (index) {
-            this.emprecords.splice(index, 1)
-        },
-    },
-}
-</script>

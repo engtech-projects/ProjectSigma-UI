@@ -64,25 +64,25 @@ const deleteRelative = () => {
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Street</label>
-                            <input id="small-input" v-model="employeeInformation.pre_street" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employee.presentAddressData.street" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Barangay</label>
-                            <input id="small-input" v-model="employeeInformation.pre_brgy" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employee.presentAddressData.brgy" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">City</label>
-                            <input id="small-input" v-model="employeeInformation.pre_city" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employee.presentAddressData.city" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Zip</label>
-                            <input id="small-input" v-model="employeeInformation.pre_zip" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employee.presentAddressData.zip" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -90,7 +90,7 @@ const deleteRelative = () => {
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Province</label>
-                            <input id="small-input" v-model="employeeInformation.pre_province" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employee.presentAddressData.province" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -105,25 +105,25 @@ const deleteRelative = () => {
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Street</label>
-                            <input id="small-input" v-model="employeeInformation.per_street" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employee.permanentAddressData.street" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Barangay</label>
-                            <input id="small-input" v-model="employeeInformation.per_brgy" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employee.permanentAddressData.brgy" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">City</label>
-                            <input id="small-input" v-model="employeeInformation.per_city" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employee.permanentAddressData.city" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Zip</label>
-                            <input id="small-input" v-model="employeeInformation.per_zip" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employee.permanentAddressData.zip" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -131,7 +131,7 @@ const deleteRelative = () => {
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Province</label>
-                            <input id="small-input" v-model="employeeInformation.per_province" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="small-input" v-model="employee.permanentAddressData.province" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
@@ -264,29 +264,28 @@ const deleteRelative = () => {
                     <td colspan="2" class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">FATHER'S NAME</label>
-                            <input id="fathers_name" v-model="employeeInformation.father_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="fathers_name" v-model="employee.information.father.name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td colspan="2" class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">MOTHER'S MAIDEN NAME</label>
-                            <input id="mothers_name" v-model="employeeInformation.mother_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="mothers_name" v-model="employee.information.mother.name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
 
-                <tr v-for="(child, index) in children" :key="index">
+                <tr v-for="(child, index) in employee.information.child" :key="index">
                     <td colspan="2" class="border border-slate-300 p-1">
                         <div>
                             <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">NAME OF CHILDREN</label>
                             <input v-model="child.name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
-
                     <td colspan="2" class="border border-slate-300 p-1">
                         <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE OF BIRTH</label>
                         <div class="flex">
-                            <input v-model="child.dob" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input v-model="child.date_of_birth" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <button v-if="index > 0" class="delete-button" @click.prevent="deleteChild(index)">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"

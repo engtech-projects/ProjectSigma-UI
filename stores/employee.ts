@@ -13,10 +13,6 @@ export interface EmploymentInformation {
         from: String,
         to: String,
     }>,
-    salary: Array<{
-        start: Number,
-        final: Number
-    }>,
     address: Array<{
         id: Number,
         employee_id: Number,
@@ -48,12 +44,9 @@ export interface EmployeeAddress {
     province: String,
     type: String,
 }
-export interface Parents {
-    father_name: String,
-    mother_name: String,
-}
-export interface Children {
+export interface RelatedPersonModel {
     id: Number,
+    name:Number,
     employee_id: Number,
     zip: Number,
     brgy: String,
@@ -110,36 +103,9 @@ export interface Company_family_members {
     relationship: String,
     position: String
 }
-export interface EmploymentEducation {
-    id: Number,
-    employee_id: Number,
-    elementary_name: String,
-    elementary_education: String,
-    elementary_period_attendance_to: String,
-    elementary_period_attendance_from: String,
-    elementary_year_graduated: String,
-    secondary_name: String,
-    secondary_education: String,
-    secondary_period_attendance_to: String,
-    secondary_period_attendance_from: String,
-    secondary_year_graduated: String,
-    vocationalcourse_name: String,
-    vocationalcourse_education: String,
-    vocationalcourse_period_attendance_to: String,
-    vocationalcourse_period_attendance_from: String,
-    vocationalcourse_year_graduated: String,
-    college_name: String,
-    college_education: String,
-    college_period_attendance_to: String,
-    college_period_attendance_from: String,
-    college_year_graduated: String,
-    graduatestudies_name: String,
-    graduatestudies_education: String,
-    graduatestudies_period_attendance_to: String,
-    graduatestudies_period_attendance_from: String,
-    graduatestudies_year_graduated: String,
-}
+export interface EmployeeEducationModel {
 
+}
 export interface EmploymentRecord {
     id: Number,
     employee_id: Number,
@@ -203,17 +169,93 @@ export interface EmployeeUpload {
     upload_type: String,
     file_location: String,
 }
-export interface EmployeeInformation {
+export interface EmployeeElementaryEducationModel {
+    elementary_name: String,
+    elementary_education: String,
+    elementary_period_attendance_to: String,
+    elementary_period_attendance_from: String,
+    elementary_year_graduated: String,
+}
+export interface EmployeeSecondaryEducationModel {
+    secondary_name: String,
+    secondary_education: String,
+    secondary_period_attendance_to: String,
+    secondary_period_attendance_from: String,
+    secondary_year_graduated: String,
+}
+export interface EmployeeVocationalEducationModel {
+    vocationalcourse_name: String,
+    vocationalcourse_education: String,
+    vocationalcourse_period_attendance_to: String,
+    vocationalcourse_period_attendance_from: String,
+    vocationalcourse_year_graduated: String,
+}
+export interface EmployeeCollegeEducationModel {
+    college_name: String,
+    college_education: String,
+    college_period_attendance_to: String,
+    college_period_attendance_from: String,
+    college_year_graduated: String,
+}
+export interface EmployeeGraduateStudiesEducationModel {
+    college_name: String,
+    college_education: String,
+    college_period_attendance_to: String,
+    college_period_attendance_from: String,
+    college_year_graduated: String,
+}
+export interface StudiesModel {
     id: Number,
     employee_id: Number,
+    date: String,
+    title: String,
+    type: String,
+    created_at: String,
+    deleted_at: String,
+    updated_at: String,
+}
+export interface EmploymentEducation {
+    id: Number,
+    employee_id: Number,
+    elementary_name: String,
+    elementary_education: String,
+    elementary_period_attendance_to: String,
+    elementary_period_attendance_from: String,
+    elementary_year_graduated: String,
+    secondary_name: String,
+    secondary_education: String,
+    secondary_period_attendance_to: String,
+    secondary_period_attendance_from: String,
+    secondary_year_graduated: String,
+    vocationalcourse_name: String,
+    vocationalcourse_education: String,
+    vocationalcourse_period_attendance_to: String,
+    vocationalcourse_period_attendance_from: String,
+    vocationalcourse_year_graduated: String,
+    college_name: String,
+    college_education: String,
+    college_period_attendance_to: String,
+    college_period_attendance_from: String,
+    college_year_graduated: String,
+    graduatestudies_name: String,
+    graduatestudies_education: String,
+    graduatestudies_period_attendance_to: String,
+    graduatestudies_period_attendance_from: String,
+    graduatestudies_year_graduated: String,
+
+}
+
+export interface EmployeeInformation {
+    id: null | Number,
+    employee_id: null | Number,
     first_name: String,
     middle_name: String,
     family_name: String,
     name_suffix: String,
     nick_name: String,
-    cellphone: Number,
-    land_line: Number,
-    birthday: String
+    cellphone: null | Number,
+    land_line: null | Number,
+    birthday: String,
     place_of_birth: String,
     date_of_marriage: String,
     citizenship: String,
@@ -223,16 +265,27 @@ export interface EmployeeInformation {
     civil_status: String,
     height: String,
     weight: String,
-    child: Array<Children>,
+    child: Array<RelatedPersonModel>,
+    spouse: Array<RelatedPersonModel>,
+    father: RelatedPersonModel,
+    mother: RelatedPersonModel,
+    masterstudies: Array<StudiesModel>,
+    doctorstudies: Array<StudiesModel>,
+    professionalstudies: Array<StudiesModel>,
+    employee_education_elementary: Array<EmployeeElementaryEducationModel>,
+    employee_education_secondary: Array<EmployeeSecondaryEducationModel>,
+    employee_education_vocationalcourse: Array<EmployeeVocationalEducationModel>,
+    employee_education_college: Array<EmployeeCollegeEducationModel>,
+    employee_education_graduatestudies: Array<EmployeeGraduateStudiesEducationModel>,
+    employee_eligibility: Array<EmploymentEligibility>,
+    employee_seminartraining: Array<EmployeeSeminarTraining>,
     employee_address: Array<EmployeeAddress>,
     contact_person: Array<EmployeeRelatedPerson>,
     employment_records: Array<EmploymentRecord>,
     employee_affiliation: Array<EmployeeAffiliation>,
     employee_education: Array<EmploymentEducation>,
-    employment_eligibility: Array<EmploymentEligibility>,
     company_employments: Array<CompanyEmployments>,
     employee_uploads: Array<EmployeeUpload>
-    employee_seminartraining: Array<EmployeeSeminarTraining>
 }
 
 export interface EmployeeSearch {
@@ -243,7 +296,49 @@ export interface EmployeeSearch {
 }
 export const useEmployeeInfo = defineStore("employee", {
     state: () => ({
-        information: {} as EmployeeInformation,
+        spouseData: {} as Spouse,
+        information: {
+            id: null as null | Number,
+            employee_id: null as null | Number,
+            first_name: "" as String,
+            middle_name: "" as String,
+            family_name: "" as String,
+            name_suffix: "" as String,
+            nick_name: "" as String,
+            cellphone: null as null | Number,
+            land_line: null as null | Number,
+            birthday: "" as String,
+            place_of_birth: "" as String,
+            date_of_marriage: "" as String,
+            citizenship: "" as String,
+            blood_type: "" as String,
+            gender: "" as String,
+            religion: "" as String,
+            civil_status: "" as String,
+            height: "" as String,
+            weight: "" as String,
+            child: [] as Array<RelatedPersonModel>,
+            spouse: [] as Array<RelatedPersonModel>,
+            father: {} as RelatedPersonModel,
+            mother: {} as RelatedPersonModel,
+            masterstudies: [] as Array<StudiesModel>,
+            doctorstudies: [] as Array<StudiesModel>,
+            professionalstudies: [] as Array<StudiesModel>,
+            employee_education_elementary: [] as Array<EmployeeElementaryEducationModel>,
+            employee_education_secondary: [] as Array<EmployeeSecondaryEducationModel>,
+            employee_education_vocationalcourse: [] as Array<EmployeeVocationalEducationModel>,
+            employee_education_college: [] as Array<EmployeeCollegeEducationModel>,
+            employee_education_graduatestudies: [] as Array<EmployeeGraduateStudiesEducationModel>,
+            employee_eligibility: [] as Array<EmploymentEligibility>,
+            employee_seminartraining: [] as Array<EmployeeSeminarTraining>,
+            employee_address: [] as Array<EmployeeAddress>,
+            contact_person: [] as Array<EmployeeRelatedPerson>,
+            employment_records: [] as Array<EmploymentRecord>,
+            employee_affiliation: [] as Array<EmployeeAffiliation>,
+            employee_education: [] as Array<EmploymentEducation>,
+            company_employments: [] as Array<CompanyEmployments>,
+            employee_uploads: [] as Array<EmployeeUpload>
+        } as EmployeeInformation,
         employeeIsSearched: false as Boolean,
         employeeSearchList: {} as Array<EmployeeSearch>,
         searchEmployeeParams: {
@@ -258,9 +353,37 @@ export const useEmployeeInfo = defineStore("employee", {
             return state.information.first_name + " " + (state.information.middle_name || "") + " " + state.information.family_name + " " + (state.information.name_suffix || "")
         },
         presentAddress (state) {
-            let preAddress = null
+            let preAddress = ""
             if (!state.information) {
                 return ""
+            }
+            if (state.information.employee_address) {
+                state.information.employee_address.forEach((item) => {
+                    if (item.type === "present") {
+                        preAddress = item.street + " " + item.brgy + " " + item.city + " " + item.province
+                    }
+                })
+            }
+            return preAddress
+        },
+        permanentAddress (state) {
+            let perAddress = ""
+            if (!state.information) {
+                return ""
+            }
+            if (state.information.employee_address) {
+                state.information.employee_address.forEach((item) => {
+                    if (item.type === "both" || item.type === "permanent") {
+                        perAddress = item.street + " " + item.brgy + " " + item.city + " " + item.province
+                    }
+                })
+            }
+            return perAddress
+        },
+        presentAddressData (state) {
+            let preAddress = {} as EmployeeAddress
+            if (!state.information) {
+                return preAddress
             }
             if (state.information.employee_address) {
                 state.information.employee_address.forEach((item) => {
@@ -271,14 +394,14 @@ export const useEmployeeInfo = defineStore("employee", {
             }
             return preAddress
         },
-        permanentAddress (state) {
-            let perAddress = null
+        permanentAddressData (state) {
+            let perAddress = {} as EmployeeAddress
             if (!state.information) {
                 return ""
             }
             if (state.information.employee_address) {
                 state.information.employee_address.forEach((item) => {
-                    if (item.type === "present") {
+                    if (item.type === "both" || item.type === "permanent") {
                         perAddress = item
                     }
                 })
@@ -286,12 +409,19 @@ export const useEmployeeInfo = defineStore("employee", {
             return perAddress
         },
         childrenInformation (state) {
+            const childrenData = {} as RelatedPersonModel
             if (!state.information) {
-                return ""
+                return childrenData
             }
             if (state.information.child) {
                 return state.information.child
             }
+        },
+        spouseInformation (state) {
+            if (!state.information) {
+                return {} as RelatedPersonModel
+            }
+            return state.information.spouse
         },
     },
     actions: {
