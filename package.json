@@ -19,7 +19,7 @@
     "@sidebase/nuxt-auth": "^0.6.4",
     "eslint": "^8.56.0",
     "eslint-plugin-vue": "^9.17.0",
-    "nuxt": "^3.7.3",
+    "nuxt": "^3.10.3",
     "nuxt-icon": "^0.6.3",
     "tailwind-config-viewer": "^1.7.2"
   },
