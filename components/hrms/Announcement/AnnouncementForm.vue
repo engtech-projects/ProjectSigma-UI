@@ -33,7 +33,7 @@ const addMain = async () => {
 
 </script>
 <template>
-    <LayoutBoards title="Announcement Form" class="mb-5">
+    <LayoutBoards title="Announcement Form" class="mb-5" :loading="boardLoading">
         <form class="space-y-3 mt-5" @submit.prevent="addMain">
             <div>
                 <label for="announcement-title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

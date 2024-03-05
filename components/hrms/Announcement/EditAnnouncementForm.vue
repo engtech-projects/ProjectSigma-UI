@@ -5,7 +5,7 @@ import { useAnnouncements } from "@/stores/announcements"
 
 const mains = useAnnouncements()
 
-const { announcement, errorMessage } = storeToRefs(mains)
+const { announcement } = storeToRefs(mains)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -21,10 +21,10 @@ const edit = async () => {
             type: "success",
             text: mains.successMessage
         })
-    } catch {
+    } catch (error) {
         snackbar.add({
             type: "error",
-            text: errorMessage || "something went wrong."
+            text: error || "something went wrong."
         })
     } finally {
         mains.clearMessages()
@@ -34,7 +34,7 @@ const edit = async () => {
 
 </script>
 <template>
-    <LayoutBoards title="Edit Announcement Form" class="mb-5">
+    <LayoutBoards title="Edit Announcement Form" class="mb-5" :loading="boardLoading">
         <form class="space-y-3 mt-5" @submit.prevent="edit">
             <div>
                 <label for="announcement-title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

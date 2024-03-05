@@ -122,7 +122,6 @@ export const useAnnouncements = defineStore("Announcements", {
                 {
                     method: "PATCH",
                     body: this.announcement,
-                    watch: false,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.getAll()
