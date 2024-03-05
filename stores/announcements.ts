@@ -1,12 +1,12 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
+
 interface Announcement {
     title: String,
     content: String,
     start_date: String,
     end_date: String
 }
+
 export const useAnnouncements = defineStore("Announcements", {
     state: () => ({
         isEdit: false,
@@ -28,15 +28,10 @@ export const useAnnouncements = defineStore("Announcements", {
     actions: {
         async getAll () {
             const { data, error } =
-            await useFetch(
+            await useHRMSApi(
                 "/api/announcement",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
@@ -56,15 +51,10 @@ export const useAnnouncements = defineStore("Announcements", {
         },
         async getactiveAll () {
             const { data, error } =
-            await useFetch(
+            await useHRMSApi(
                 "/api/announcement-list",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.activeList = response._data.data
@@ -85,24 +75,21 @@ export const useAnnouncements = defineStore("Announcements", {
         async createone () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+
+            await useHRMSApiO(
                 "/api/announcement",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.announcement,
-                    watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 200) {
-                            this.errorMessage = response._data.message
-                        } else {
+                        if (response.status >= 200 && response.status <= 299) {
                             this.getAll()
-                            this.reset()
+                            this.$reset()
                             this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -130,54 +117,46 @@ export const useAnnouncements = defineStore("Announcements", {
         async editone () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            await useHRMSApiO(
                 "/api/announcement/" + this.announcement.id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.announcement,
                     watch: false,
                     onResponse: ({ response }) => {
-                        this.getAll()
-                        this.reset()
-                        this.successMessage = response._data.message
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.getAll()
+                            this.reset()
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
                     },
                 }
             )
-            if (data.value) {
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
 
         async deleteone (id: number) {
-            const { data, error } = await useFetch(
+            const { data, error } = await useHRMSApi(
                 "/api/announcement/" + id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
                     },
                 }
             )
+            if (error.value) {
+                this.errorMessage = error.value.data.message
+                throw new Error(this.errorMessage)
+                return error
+            }
             if (data.value) {
                 this.getAll()
                 return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
             }
         },
     },

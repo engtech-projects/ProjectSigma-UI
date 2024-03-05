@@ -9,6 +9,7 @@ export default defineNuxtConfig({
             {
                 formatter: "stylish",
                 failOnError: true,
+                failOnWarning: process.env.DEPLOYCHECK === "true" || false,
                 lintOnStart: false,
                 fix: false // change to true when you want to auto fix eslint errors
             },

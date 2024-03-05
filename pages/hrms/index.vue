@@ -53,7 +53,7 @@ useHead({
         >
             <HrmsDashboardAnnouncementTimeline />
         </div>
-        <div v-if="config.public.APP_ENV == 'local'">
+        <template v-if="config.public.APP_ENV == 'local'">
             <div
                 class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
             >
@@ -93,6 +93,6 @@ useHead({
             >
                 <HrmsDashboardMaleFemaleChart />
             </div>
-        </div>
+        </template>
     </div>
 </template>

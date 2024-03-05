@@ -38,6 +38,7 @@ jobs:
       INVENTORY_API_URL: 'https://projectsigma-inventoryapi-staging.engtechglobalsolutions.com'
       PROJECT_API_URL: 'https://projectsigma-projectsapi-staging.engtechglobalsolutions.com'
       BULK_UPLOAD_ENABLED: true
+      DEPLOYCHECK: true
     if: github.ref == 'refs/heads/staging'
     steps:
       - name: Set output
@@ -67,6 +68,7 @@ jobs:
       INVENTORY_API_URL: 'https://projectsigma-inventoryapi.engtechglobalsolutions.com'
       PROJECT_API_URL: 'https://projectsigma-projectsapi.engtechglobalsolutions.com'
       BULK_UPLOAD_ENABLED: true
+      DEPLOYCHECK: true
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Set output
