@@ -36,42 +36,42 @@
                 <tbody>
                     <tr>
                         <td class="border border-slate-300 p-1">
-                            <label for="small-input" class="block mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">COMPANY NAME</label>
+                            <label class="block mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">COMPANY NAME</label>
                             <input v-model="emprecord.incdates" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </td>
                         <td class="border border-slate-300 p-1 space-y-1">
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">IMMEDIATE SUPERIOR</label>
+                            <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">IMMEDIATE SUPERIOR</label>
                             <div class="flex justify-start items-center gap-2">
-                                <label for="small-input" class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">NAME:</label>
+                                <label class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">NAME:</label>
                                 <input id="superior_name" v-model="emprecord.posdept" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>
                             <div class="flex justify-start items-center gap-2">
-                                <label for="small-input" class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">CONTACT:</label>
+                                <label class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">CONTACT:</label>
                                 <input id="superior_name" v-model="emprecord.posdept" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>
                         </td>
                         <td class="border border-slate-300 p-1">
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">EMPLOYMENT DATES</label>
+                            <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">EMPLOYMENT DATES</label>
                             <div class="flex-1 justify-center items-center gap-2">
                                 <div class="flex justify-start items-center gap-1">
-                                    <label for="small-input" class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">FROM:</label>
+                                    <label class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">FROM:</label>
                                     <input id="superior_name" v-model="emprecord.posdept" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-normal dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 </div>
                                 <div class="flex justify-start items-center gap-1">
-                                    <label for="small-input" class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">TO:</label>
+                                    <label class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">TO:</label>
                                     <input id="superior_name" v-model="emprecord.posdept" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 </div>
                             </div>
                         </td>
                         <td class="border border-slate-300 p-1">
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">SALARY</label>
+                            <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">SALARY</label>
                             <div class="flex-1 justify-center items-center gap-2">
                                 <div class="flex justify-start items-center gap-1">
-                                    <label for="small-input" class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">START:</label>
+                                    <label class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">START:</label>
                                     <input id="superior_name" v-model="emprecord.posdept" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 </div>
                                 <div class="flex justify-start items-center gap-1">
-                                    <label for="small-input" class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">FINAL:</label>
+                                    <label class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">FINAL:</label>
                                     <input id="superior_name" v-model="emprecord.posdept" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 </div>
                             </div>
@@ -79,25 +79,25 @@
                     </tr>
                     <tr>
                         <td class="border border-slate-300 p-1">
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">ADDRESS</label>
+                            <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">ADDRESS</label>
                             <div class="flex">
                                 <input v-model="emprecord.salary" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>
                         </td>
                         <td class="border border-slate-300 p-1">
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TELEPHONE #</label>
+                            <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TELEPHONE #</label>
                             <div class="flex">
                                 <input v-model="emprecord.reason" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>
                         </td>
                         <td class="border border-slate-300 p-1">
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">POSITION</label>
+                            <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">POSITION</label>
                             <div class="flex">
                                 <input v-model="emprecord.reason" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>
                         </td>
                         <td class="border border-slate-300 p-1">
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">REASON FOR LEAVING</label>
+                            <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">REASON FOR LEAVING</label>
                             <div class="flex">
                                 <input v-model="emprecord.reason" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>
@@ -105,7 +105,7 @@
                     </tr>
                     <tr>
                         <td colspan="4" class="border border-slate-300 p-1">
-                            <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DUTIES & RESPONSIBILITIES</label>
+                            <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DUTIES & RESPONSIBILITIES</label>
                             <div class="flex">
                                 <input v-model="emprecord.reason" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             </div>

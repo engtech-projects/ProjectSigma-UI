@@ -51,9 +51,17 @@ const closeViewModal = () => {
         class="shadow-md p-4 bg-white mb-3 border border-gray-200 rounded-lg w-full md:w-1/2"
     >
         <div class="pb-2 text-black font-medium text-lg">
-            MEMO
+            <div>
+                <p>MEMO</p>
+            </div>
+            <div>
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center" for="file_input">Upload Application Document Files</label>
+                <input id="memo_multiple_file" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple>
+                <p id="file_input_help" class="mt-1 text-sm text-gray-500 dark:text-gray-300">
+                    Allowed file types: .DOC, .PDF, Images
+                </p>
+            </div>
         </div>
-
         <EasyDataTable
             show-index
             :headers="headers"

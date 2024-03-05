@@ -34,25 +34,25 @@
             <tbody>
                 <tr>
                     <td class="border border-slate-300 p-1">
-                        <label for="small-input" class="block mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">NAME</label>
-                        <input v-model="emprecord.incdates" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <label for="incdates" class="block mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">NAME</label>
+                        <input id="incdates" v-model="emprecord.incdates" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </td>
                     <td class="border border-slate-300 p-1">
-                        <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">COMPANY NAME & ADDRESS</label>
+                        <label for="superior_name" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">COMPANY NAME & ADDRESS</label>
                         <div class="justify-center items-center gap-2">
                             <input id="superior_name" v-model="emprecord.posdept" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
-                        <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">POSITION</label>
+                        <label for="inclusive_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">POSITION</label>
                         <div class="flex-wrap">
                             <input id="inclusive_date" v-model="emprecord.supcont" type="text" class="block w-36 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
-                        <label for="small-input" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">CONTACT #</label>
+                        <label for="salary" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">CONTACT #</label>
                         <div class="flex">
-                            <input v-model="emprecord.salary" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="salary" v-model="emprecord.salary" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         </div>
                     </td>
                 </tr>
