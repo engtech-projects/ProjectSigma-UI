@@ -24,13 +24,21 @@ defineProps({
         required: true,
     },
 })
-const emit = defineEmits(["editRow", "deleteRow"])
+
+const emit = defineEmits(["editRow", "deleteRow", "showTable", "detailRow"])
 const doEdit = (data) => {
     emit("editRow", data)
 }
 const doDelete = (data) => {
     emit("deleteRow", data)
 }
+const showTbl = (data) => {
+    emit("showTable", data)
+}
+const doDetail = (data) => {
+    emit("detailRow", data)
+}
+
 </script>
 <template>
     <table class="table-auto w-full border-collapse">
@@ -63,8 +71,14 @@ const doDelete = (data) => {
                     <button v-if="actions.edit" @click="doEdit(dataValue) ">
                         <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
                     </button>
-                    <button v-if="actions.edit" @click="doDelete(dataValue)">
+                    <button v-if="actions.delete" @click="doDelete(dataValue)">
                         <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" />
+                    </button>
+                    <button v-if="actions.showTable" @click="showTbl(dataValue)">
+                        <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
+                    </button>
+                    <button v-if="actions.detail" @click="doDetail(dataValue)">
+                        <Icon name="material-symbols:visibility-rounded" color="white" class="bg-green-600 rounded h-8 w-8 p-1" />
                     </button>
                 </td>
             </tr>

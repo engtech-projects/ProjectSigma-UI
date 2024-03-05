@@ -79,7 +79,8 @@ export const useApprovalStore = defineStore("approvals", {
                     },
                 }
             )
-            return data.value.data.approvals.map((approv) => {
+            // return data.value.data.approvals
+            return data.value.data.approvals.map((approv: any) => {
                 return {
                     type: approv.type,
                     status: "Pending",

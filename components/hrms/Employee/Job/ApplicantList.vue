@@ -52,7 +52,7 @@
 </script>
 
 <template>
-    <LayoutBoards title="Job Applicants" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="Job Details" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">
             <table class="table-auto w-full border-collapse">
                 <thead>

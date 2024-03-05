@@ -56,6 +56,7 @@ export const REQUEST_STATUS = [
 export const useManpowerStore = defineStore("manpowers", {
     state: () => ({
         isEdit: false,
+        isDetail: false,
         manpower:
         {
             id: null,
@@ -82,6 +83,8 @@ export const useManpowerStore = defineStore("manpowers", {
         list: [],
         myApprovalRequestList: [],
         myRequestList: [],
+        manpowerHiringList: [],
+        applicantDetails: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -171,6 +174,40 @@ export const useManpowerStore = defineStore("manpowers", {
                 }
             )
         },
+        async getManpowerHiringRequests () {
+            await useFetch(
+                "/api/manpower-with-applicant",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.manpowerHiringList = response._data.data
+                    },
+                }
+            )
+        },
+        async getJobApplicantsDetails () {
+            await useFetch(
+                "/api/job-applicants-get",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.applicantDetails = response._data.data
+                    },
+                }
+            )
+        },
 
         async createManpower () {
             this.successMessage = ""
@@ -196,7 +233,12 @@ export const useManpowerStore = defineStore("manpowers", {
             formData.append("breakdown_details", this.manpower.breakdown_details)
             formData.append("requested_by", this.manpower.requested_by)
             formData.append("job_description_attachment", this.manpower.job_description_attachment)
-            formData.append("approvals", JSON.stringify(this.manpower.approvals))
+
+            if (Array.isArray(this.manpower.approvals)) {
+                for await (const approval of this.manpower.approvals) {
+                    formData.append("approvals[]", JSON.stringify(approval))
+                }
+            }
 
             await useFetch(
                 "/api/manpower-requests",
@@ -205,7 +247,6 @@ export const useManpowerStore = defineStore("manpowers", {
                     method: "POST",
                     headers: {
                         Authorization: token.value + "",
-                        Accept: "application/json"
                     },
                     body: formData,
                     watch: false,

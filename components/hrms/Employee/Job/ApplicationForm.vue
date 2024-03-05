@@ -1,122 +1,353 @@
-<!-- <script setup>
+<script setup>
+import { storeToRefs } from "pinia"
+import { useJobapplicantStore, CURRENT_EMP } from "~/stores/employee/jobapplicant"
 
-const children = ref({ name: "", dob: "" })
-const addChild = () => {
-    children.value.push({ name: "", dob: "" })
-}
-const delChild = (index) => {
-    children.value.splice(index, 1)
-}
+const jobapplicants = useJobapplicantStore()
+const { jobapplicant: applicantInformation, errorMessage, successMessage } = storeToRefs(jobapplicants)
 
-</script> -->
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
 
-<script>
-export default {
-    data () {
-        return {
-            children: [{ name: "", dob: "" }],
-            education: [{ level: "", schlName: "", course: "", fromTo: "", yearGrad: "" }],
-            work: [{ date1: "", date2: "", position: "", department: "", monthlySal: "", statAppt: "" }]
-
+const submitForm = async () => {
+    try {
+        boardLoading.value = true
+        await jobapplicants.addJobapplication()
+        if (jobapplicants.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: jobapplicants.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: jobapplicants.successMessage
+            })
         }
-    },
-    methods: {
-        addChild () {
-            this.children.push({ name: "", dob: "" })
-        },
-        delChild (index) {
-            this.children.splice(index, 1)
-        },
+    } catch (error) {
+        errorMessage.value = errorMessage
+        snackbar.add({
+            type: "error",
+            text: jobapplicants.errorMessage
+        })
+    } finally {
+        jobapplicants.clearMessages()
+        boardLoading.value = false
+    }
+}
 
-        addEduc () {
-            this.education.push({ level: "", schlName: "", course: "", fromTo: "", yearGrad: "" })
-        },
-        delEduc (index1) {
-            this.education.splice(index1, 1)
-        },
+const child = ref([{ name: "", birthdate: "" }])
 
-        addWork () {
-            this.work.push({ date1: "", date2: "", position: "", department: "", monthlySal: "", statAppt: "" })
-        },
-        delWork (index2) {
-            this.work.splice(index2, 1)
-        },
-    },
+const workexperience = ref([{ inclusive_dates_from: "", inclusive_dates_to: "", position_title: "", dpt_agency_office_company: "", monthly_salary: "", status_of_appointment: "" }])
+
+const addChild = () => {
+    child.value.push({ name: "", birthdate: "" })
+}
+
+const delChild = () => {
+    child.value.splice(index, 1)
+}
+
+const addWork = () => {
+    workexperience.value.push({ dates_from: "", dates_to: "", position_title: "", dpt_agency_office_company: "", monthly_salary: "", status_of_appointment: "" })
+}
+
+const delWork = () => {
+    workexperience.value.splice(index, 1)
+}
+
+const handleAppLetterFileUpload = (event) => {
+    const appLetter = event.target.files[0]
+    jobapplicant.value.application_letter_attachment = appLetter
+}
+const handleResumeFileUpload = (event) => {
+    const resume = event.target.files[0]
+    jobapplicant.value.resume_attachment = resume
 }
 </script>
 
 <template>
-    <LayoutCard>
+    <LayoutCard title=" " :loading="boardLoading">
         <label class="block text-lg font-medium text-gray-900 dark:text-white pb-4">Application Form</label>
-        <form class="w-full">
+        <form @submit.prevent="submitForm">
+            <div class="grid md:grid-cols-3 md:gap-6">
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-2">
+                        <input
+                            id="floating_application_name"
+                            v-model="applicantInformation.application_name"
+                            type="text"
+                            name="floating_application_name"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_application_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Application Name</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-2">
+                        <label for="floating_application_letter_attachment" class="block  text-sm font-medium text-gray-900 dark:text-white">Application Letter Attachment</label>
+
+                        <input
+                            id="floating_application_letter_attachment"
+                            class="block w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                            aria-describedby="file_input_help"
+                            type="file"
+                            accept=".doc, .docx, .pdf"
+                            required
+                            @change="handleAppLetterFileUpload"
+                        >
+                        <p class="flex justify-center mx-auto text-xs text-gray-500 dark:text-gray-300 uppercase">
+                            doc/docx/pdf
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-2">
+                        <label for="floating_application_letter_attachment" class="block  text-sm font-medium text-gray-900 dark:text-white">Resume Attachment</label>
+
+                        <input
+                            id="floating_application_letter_attachment"
+                            class="block w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                            aria-describedby="file_input_help"
+                            type="file"
+                            accept=".doc, .docx, .pdf"
+                            required
+                            @change="handleResumeFileUpload"
+                        >
+                        <p class="flex justify-center mx-auto text-xs text-gray-500 dark:text-gray-300 uppercase">
+                            doc/docx/pdf
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid md:grid-cols-3 md:gap-6">
                 <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 col-span-2">I. Personal Information</label>
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_date_name"
+                        id="floating_date_of_application"
+                        v-model="applicantInformation.date_of_application"
                         type="date"
-                        name="floating_date_name"
+                        name="floating_date_of_application"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         required
                     >
-                    <label for="floating_date_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Application</label>
+                    <label for="floating_date_of_application" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Application</label>
                 </div>
             </div>
-            <div class="grid md:grid-cols-3 md:gap-6">
-                <div class="relative z-0 w-full mb-5 group col-span-2">
-                    <input
-                        id="floating_first_name"
-                        type="text"
-                        name="floating_first_name"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name (First/Last/Middle)</label>
+            <div class="grid md:grid-cols-4 md:gap-6">
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-2">
+                        <input
+                            id="floating_firstname"
+                            v-model="applicantInformation.firstname"
+                            type="text"
+                            name="floating_firstname"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_firstname" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First Name</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-2">
+                        <input
+                            id="floating_middlename"
+                            v-model="applicantInformation.middlename"
+                            type="text"
+                            name="floating_middlename"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_middlename" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Middle Name</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-2">
+                        <input
+                            id="floating_lastname"
+                            v-model="applicantInformation.lastname"
+                            type="text"
+                            name="floating_lastname"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_lastname" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last Name</label>
+                    </div>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_date_name"
+                        id="floating_date_of_birth"
+                        v-model="applicantInformation.date_of_birth"
                         type="date"
-                        name="floating_date_name"
+                        name="floating_date_of_birth"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         required
                     >
-                    <label for="floating_date_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Birth</label>
+                    <label for="floating_date_of_birth" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Birth</label>
+                </div>
+            </div>
+            <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 col-span-2">Address</label>
+            <div class="grid md:grid-cols-3 md:gap-6">
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-3">
+                        <input
+                            id="floating_per_address_street"
+                            v-model="applicantInformation.per_address_street"
+                            type="text"
+                            name="floating_per_address_street"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_per_address_street" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Street</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-3">
+                        <input
+                            id="floating_per_address_barangay"
+                            v-model="applicantInformation.per_address_barangay"
+                            type="text"
+                            name="floating_per_address_barangay"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_per_address_barangay" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Barangay</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-3">
+                        <input
+                            id="floating_per_address_city"
+                            v-model="applicantInformation.per_address_city"
+                            type="text"
+                            name="floating_per_address_city"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_per_address_city" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">City</label>
+                    </div>
                 </div>
             </div>
             <div class="grid md:grid-cols-3 md:gap-6">
-                <div class="relative z-0 w-full mb-5 group col-span-3">
-                    <input
-                        id="floating_address"
-                        type="text"
-                        name="floating_address"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Address (Street/City/Zip)</label>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-3">
+                        <input
+                            id="floating_per_address_zip"
+                            v-model="applicantInformation.per_address_zip"
+                            type="text"
+                            name="floating_per_address_zip"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_per_address_zip" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">ZIP</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-3">
+                        <input
+                            id="floating_per_address_province"
+                            v-model="applicantInformation.per_address_province"
+                            type="text"
+                            name="floating_per_address_province"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_per_address_province" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Province</label>
+                    </div>
+                </div>
+            </div>
+            <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 col-span-2">Alternate Address</label>
+            <div class="grid md:grid-cols-3 md:gap-6">
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-3">
+                        <input
+                            id="floating_pre_address_street"
+                            v-model="applicantInformation.pre_address_street"
+                            type="text"
+                            name="floating_pre_address_street"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_pre_address_street" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Street</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-3">
+                        <input
+                            id="floating_pre_address_brgy"
+                            v-model="applicantInformation.pre_address_brgy"
+                            type="text"
+                            name="floating_pre_address_brgy"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_pre_address_brgy" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Barangay</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-3">
+                        <input
+                            id="floating_pre_address_city"
+                            v-model="applicantInformation.pre_address_city"
+                            type="text"
+                            name="floating_pre_address_city"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_pre_address_city" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">City</label>
+                    </div>
                 </div>
             </div>
             <div class="grid md:grid-cols-3 md:gap-6">
-                <div class="relative z-0 w-full mb-5 group col-span-3">
-                    <input
-                        id="floating_alt_address"
-                        type="text"
-                        name="floating_alt_address"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_alt_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Alternate Address (Street/City/Zip)</label>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-3">
+                        <input
+                            id="floating_pre_address_zip"
+                            v-model="applicantInformation.pre_address_zip"
+                            type="text"
+                            name="floating_pre_address_zip"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_pre_address_zip" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">ZIP</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-3">
+                        <input
+                            id="floating_pre_address_province"
+                            v-model="applicantInformation.pre_address_province"
+                            type="text"
+                            name="floating_pre_address_province"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                            required
+                        >
+                        <label for="floating_pre_address_province" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Province</label>
+                    </div>
                 </div>
             </div>
-            <div class="grid md:grid-cols-3 md:gap-6">
-                <div class="relative z-0 w-full mb-5 group col-span-1">
+            <div class="grid md:grid-cols-2 md:gap-6">
+                <div class="relative z-0 w-full mb-5 group">
                     <input
                         id="floating_contact_info"
+                        v-model="applicantInformation.contact_info"
                         type="text"
                         name="floating_contact_info"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -125,9 +356,10 @@ export default {
                     >
                     <label for="floating_contact_info" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contact Information</label>
                 </div>
-                <div class="relative z-0 w-full mb-5 group col-span-2">
+                <div class="relative z-0 w-full mb-5 group">
                     <input
                         id="floating_email"
+                        v-model="applicantInformation.email"
                         type="email"
                         name="floating_email"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -140,27 +372,29 @@ export default {
             <div class="grid md:grid-cols-3 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group col-span-3">
                     <input
-                        id="floating_howdid"
+                        id="floating_how_did_u_learn_about_our_company"
+                        v-model="applicantInformation.how_did_u_learn_about_our_company"
                         type="text"
-                        name="floating_howdid"
+                        name="floating_how_did_u_learn_about_our_company"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         required
                     >
-                    <label for="floating_howdid" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">How did you learn about our company?</label>
+                    <label for="floating_how_did_u_learn_about_our_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">How did you learn about our company?</label>
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
                     <input
                         id="floating_desired_position"
+                        v-model="applicantInformation.desired_position"
                         type="text"
                         name="floating_desired_position"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         required
                     >
-                    <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Desired Positon</label>
+                    <label for="floating_desired_position" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Desired Positon</label>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <select
@@ -169,11 +403,8 @@ export default {
                         <option value="select" disabled selected>
                             -- Select --
                         </option>
-                        <option value="yes">
-                            Yes
-                        </option>
-                        <option value="no">
-                            No
+                        <option v-for="currentlyEmp, index in CURRENT_EMP" :key="index" :value="currentlyEmp">
+                            {{ currentlyEmp }}
                         </option>
                     </select>
                     <label for="floating_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Are you currently employed?</label>
@@ -187,7 +418,6 @@ export default {
                         name="floating_placeOfBirth"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_placeOfBirth" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Place of Birth</label>
                 </div>
@@ -198,7 +428,6 @@ export default {
                         name="floating_citizenship"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_citizenship" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Citizenship</label>
                 </div>
@@ -227,7 +456,6 @@ export default {
                         name="floating_bloodType"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_bloodType" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Blood Type</label>
                 </div>
@@ -238,7 +466,6 @@ export default {
                         name="floating_religion"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_religion" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Religion</label>
                 </div>
@@ -273,7 +500,6 @@ export default {
                         name="floating_dateOfMarriage"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_dateOfMarriage" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Marriage</label>
                 </div>
@@ -284,7 +510,6 @@ export default {
                         name="floating_heightWeight"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_heightWeight" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Height/Weight</label>
                 </div>
@@ -295,7 +520,6 @@ export default {
                         name="floating_heightWeight"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_heightWeight" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Gender</label>
                 </div>
@@ -308,7 +532,6 @@ export default {
                         name="floating_SSS"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_SSS" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">SSS #</label>
                 </div>
@@ -319,7 +542,6 @@ export default {
                         name="floating_fathersName"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_fathersName" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Father's Name</label>
                 </div>
@@ -332,7 +554,6 @@ export default {
                         name="floating_SSS"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_SSS" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">PhilHealth #</label>
                 </div>
@@ -343,7 +564,6 @@ export default {
                         name="floating_mothersName"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_mothersName" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Mother's Name</label>
                 </div>
@@ -356,7 +576,6 @@ export default {
                         name="floating_pagibig"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_pagibig" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">PagIBIG #</label>
                 </div>
@@ -367,7 +586,6 @@ export default {
                         name="floating_TIN"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_TIN" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">TIN #</label>
                 </div>
@@ -378,75 +596,73 @@ export default {
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_nameofSpouse"
+                        id="floating_name_of_spouse"
+                        v-model="applicantInformation.name_of_spouse"
                         type="text"
-                        name="floating_nameofSpouse"
+                        name="floating_name_of_spouse"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
-                    <label for="floating_nameofSpouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name of Spouse</label>
+                    <label for="floating_name_of_spouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name of Spouse</label>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_spouseDOB"
+                        id="floating_date_of_birth_spouse"
+                        v-model="applicantInformation.date_of_birth_spouse"
                         type="text"
-                        name="floating_spouseDOB"
+                        name="floating_date_of_birth_spouse"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
-                    <label for="floating_spouseDOB" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Birth</label>
+                    <label for="floating_date_of_birth_spouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Birth</label>
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_occupationSpouse"
+                        id="floating_occupation_spouse"
+                        v-model="applicantInformation.occupation_spouse"
                         type="text"
-                        name="floating_occupationSpouse"
+                        name="floating_occupation_spouse"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
-                    <label for="floating_occupationSpouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Occupation(Spouse)</label>
+                    <label for="floating_occupation_spouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Occupation(Spouse)</label>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_spouseTel"
+                        id="floating_telephone_spouse"
+                        v-model="applicantInformation.telephone_spouse"
                         type="text"
-                        name="floating_spouseTel"
+                        name="floating_telephone_spouse"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
-                    <label for="floating_spouseTel" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Telephone #</label>
+                    <label for="floating_telephone_spouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Telephone #</label>
                 </div>
             </div>
-            <div v-for="(child, index) in children" :key="index" class="grid md:grid-cols-4 md:gap-6">
+            <div v-for="(kid, index) in jobapplicants.jobapplicant.children" :key="index" class="grid md:grid-cols-4 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group col-span-2">
                     <input
-                        id="floating_nameofChildren"
-                        v-model="child.name"
+                        id="floating_children_name"
+                        v-model="kid.name"
                         type="text"
-                        name="floating_nameofChildren"
+                        name="floating_children_name"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
-                    <label for="floating_nameofChildren" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name of Children</label>
+                    <label for="floating_children_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name of Children</label>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_childrenDOB"
-                        v-model="child.dob"
+                        id="floating_children_birthdate"
+                        v-model="kid.birthdate"
                         type="date"
-                        name="floating_childrenDOB"
+                        name="floating_children_birthdate"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
-                    <label for="floating_childrenDOB" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Birth</label>
+                    <label for="floating_children_birthdate" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Birth</label>
                 </div>
                 <div>
                     <button v-if="index > 0" class="delete-button" @click.prevent="delChild(index)">
@@ -459,7 +675,7 @@ export default {
                             class="w-6 h-6 text-red-600"
                         ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </button>
-                    <button v-if="index === children.length - 1" class="add-button " @click="addChild">
+                    <button v-if="index === child.length - 1" class="add-button " @click="addChild">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -475,69 +691,70 @@ export default {
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_emrgName"
+                        id="floating_icoe_name"
+                        v-model="applicantInformation.icoe_name"
                         type="text"
-                        name="floating_emrgName"
+                        name="floating_icoe_name"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         required
                     >
-                    <label for="floating_emrgName" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+                    <label for="floating_icoe_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_emrgAddress"
+                        id="floating_icoe_address"
+                        v-model="applicantInformation.icoe_address"
                         type="text"
-                        name="floating_emrgAddress"
+                        name="floating_icoe_address"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         required
                     >
-                    <label for="floating_emrgAddress" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Address</label>
+                    <label for="floating_icoe_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Address</label>
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_emrgRelationship"
+                        id="floating_icoe_relationship"
+                        v-model="applicantInformation.icoe_relationship"
                         type="text"
-                        name="floating_emrgRelationship"
+                        name="floating_icoe_relationship"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         required
                     >
-                    <label for="floating_emrgRelationship" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Relationship</label>
+                    <label for="floating_icoe_relationship" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Relationship</label>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_emrgTel"
+                        id="floating_telephone_icoe"
+                        v-model="applicantInformation.telephone_icoe"
                         type="text"
-                        name="floating_emrgTel"
+                        name="floating_telephone_icoe"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         required
                     >
-                    <label for="floating_emrgTel" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Telephone #</label>
+                    <label for="floating_telephone_icoe" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Telephone #</label>
                 </div>
             </div>
             <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 italic">III. Educational Background</label>
-            <div v-for="(educ, index1) in education" :key="index1" class="grid md:grid-cols-3 md:gap-4">
+            <div class="grid md:grid-cols-5 md:gap-4">
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_educLevel"
-                        v-model="educ.level"
+                        id="floating_level"
                         type="text"
                         name="floating_educLevel"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
+                        class="block py-2.5 px-0 w-full text-sm font-semibold text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder="Elementary"
+                        disabled
                     >
-                    <label for="floating_educLevel" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ">Level</label>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <input
-                        id="floating_schlName"
-                        v-model="educ.schlName"
+                        id="floating_elementary_name"
                         type="text"
                         name="floating_schlName"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -549,7 +766,6 @@ export default {
                 <div class="relative z-0 w-full mb-5 group">
                     <input
                         id="floating_educCourse"
-                        v-model="educ.course"
                         type="text"
                         name="floating_educCourse"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -561,7 +777,6 @@ export default {
                 <div class="relative z-0 w-full mb-5 group">
                     <input
                         id="floating_fromTo"
-                        v-model="educ.fromTo"
                         type="text"
                         name="floating_fromTo"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -573,7 +788,6 @@ export default {
                 <div class="relative z-0 w-full mb-5 group">
                     <input
                         id="floating_yearGrad"
-                        v-model="educ.yearGrad"
                         type="text"
                         name="floating_yearGrad"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -582,7 +796,7 @@ export default {
                     >
                     <label for="floating_yearGrad" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Year Graduated</label>
                 </div>
-                <div>
+                <!-- <div>
                     <button v-if="index1 > 0" class="delete-button" @click.prevent="delEduc(index1)">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -603,32 +817,335 @@ export default {
                             class="w-6 h-6 text-green-600 "
                         ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </button>
-                </div>
+                </div> -->
             </div>
-            <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 italic">IV. Work Experience</label>
-            <div v-for="(wrk, index2) in work" :key="index2" class="grid md:grid-cols-2 md:gap-4">
+            <div class="grid md:grid-cols-5 md:gap-4">
                 <div class="relative z-0 w-full mb-5 group">
-                    <!-- <input
-                        id="floating_inclusiveDates"
-                        v-model="wrk.dates"
+                    <input
+                        id="floating_educLevel"
                         type="text"
-                        name="floating_inclusiveDates"
+                        name="floating_educLevel"
+                        class="block py-2.5 px-0 w-full text-sm font-semibold text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder="Secondary"
+                        disabled
+                    >
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_schlName"
+                        type="text"
+                        name="floating_schlName"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
                         required
-                    > -->
+                    >
+                    <label for="floating_schlName" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name of School</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_educCourse"
+                        type="text"
+                        name="floating_educCourse"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_educCourse" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Basic Education/Degree/Course</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_fromTo"
+                        type="text"
+                        name="floating_fromTo"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_fromTo" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Peroid of Attendance(From-To)</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_yearGrad"
+                        type="text"
+                        name="floating_yearGrad"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_yearGrad" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Year Graduated</label>
+                </div>
+                <!-- <div>
+                    <button v-if="index1 > 0" class="delete-button" @click.prevent="delEduc(index1)">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6 text-red-600"
+                        ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </button>
+                    <button v-if="index1 === education.length - 1" class="add-button " @click="addEduc">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6 text-green-600 "
+                        ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </button>
+                </div> -->
+            </div>
+            <div class="grid md:grid-cols-5 md:gap-4">
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_educLevel"
+                        type="text"
+                        name="floating_educLevel"
+                        class="block py-2.5 px-0 w-full text-sm font-semibold text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder="Vocational/Trade Course"
+                        disabled
+                    >
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_schlName"
+                        type="text"
+                        name="floating_schlName"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_schlName" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name of School</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_educCourse"
+                        type="text"
+                        name="floating_educCourse"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_educCourse" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Basic Education/Degree/Course</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_fromTo"
+                        type="text"
+                        name="floating_fromTo"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_fromTo" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Peroid of Attendance(From-To)</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_yearGrad"
+                        type="text"
+                        name="floating_yearGrad"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_yearGrad" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Year Graduated</label>
+                </div>
+                <!-- <div>
+                    <button v-if="index1 > 0" class="delete-button" @click.prevent="delEduc(index1)">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6 text-red-600"
+                        ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </button>
+                    <button v-if="index1 === education.length - 1" class="add-button " @click="addEduc">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6 text-green-600 "
+                        ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </button>
+                </div> -->
+            </div>
+            <div class="grid md:grid-cols-5 md:gap-4">
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_educLevel"
+                        type="text"
+                        name="floating_educLevel"
+                        class="block py-2.5 px-0 w-full text-sm font-semibold text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder="College"
+                        disabled
+                    >
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_schlName"
+                        type="text"
+                        name="floating_schlName"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_schlName" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name of School</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_educCourse"
+                        type="text"
+                        name="floating_educCourse"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_educCourse" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Basic Education/Degree/Course</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_fromTo"
+                        type="text"
+                        name="floating_fromTo"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_fromTo" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Peroid of Attendance(From-To)</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_yearGrad"
+                        type="text"
+                        name="floating_yearGrad"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_yearGrad" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Year Graduated</label>
+                </div>
+                <!-- <div>
+                    <button v-if="index1 > 0" class="delete-button" @click.prevent="delEduc(index1)">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6 text-red-600"
+                        ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </button>
+                    <button v-if="index1 === education.length - 1" class="add-button " @click="addEduc">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6 text-green-600 "
+                        ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </button>
+                </div> -->
+            </div>
+            <div class="grid md:grid-cols-5 md:gap-4">
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_educLevel"
+                        type="text"
+                        name="floating_educLevel"
+                        class="block py-2.5 px-0 w-full text-sm font-semibold text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder="Graduate Studies"
+                        disabled
+                    >
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_schlName"
+                        type="text"
+                        name="floating_schlName"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_schlName" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name of School</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_educCourse"
+                        type="text"
+                        name="floating_educCourse"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_educCourse" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Basic Education/Degree/Course</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_fromTo"
+                        type="text"
+                        name="floating_fromTo"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_fromTo" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Peroid of Attendance(From-To)</label>
+                </div>
+                <div class="relative z-0 w-full mb-5 group">
+                    <input
+                        id="floating_yearGrad"
+                        type="text"
+                        name="floating_yearGrad"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                        required
+                    >
+                    <label for="floating_yearGrad" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Year Graduated</label>
+                </div>
+                <!-- <div>
+                    <button v-if="index1 > 0" class="delete-button" @click.prevent="delEduc(index1)">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6 text-red-600"
+                        ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </button>
+                    <button v-if="index1 === education.length - 1" class="add-button " @click="addEduc">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6 text-green-600 "
+                        ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </button>
+                </div> -->
+            </div>
+            <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 italic">IV. Work Experience</label>
+            <div v-for="(wrk, index) in jobapplicants.jobapplicant.wrk" :key="index" class="grid md:grid-cols-2 md:gap-4">
+                <div class="relative z-0 w-full mb-5 group">
                     <div class="flex-1">
                         From
-                        <input id="inclusive_date1" v-model="wrk.date1" type="date" class="block w-36 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input id="inclusive_dates_from" v-model="wrk.inclusive_dates_from" type="date" class="block w-36 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         To
-                        <input id="inclusive_date2" v-model="wrk.date2" type="date" class="block w-36 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input id="inclusive_dates_to" v-model="wrk.inclusive_dates_to" type="date" class="block w-36 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                     <label for="floating_inclusiveDates" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Inclusive Dates(mm/dd/yyyy)</label>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <input
                         id="floating_positionTitles"
-                        v-model="wrk.position"
+                        v-model="wrk.position_title"
                         type="text"
                         name="floating_positionTitles"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -640,7 +1157,7 @@ export default {
                 <div class="relative z-0 w-full mb-5 group">
                     <input
                         id="floating_dept"
-                        v-model="wrk.department"
+                        v-model="wrk.dpt_agency_office_company"
                         type="text"
                         name="floating_dept"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -652,7 +1169,7 @@ export default {
                 <div class="relative z-0 w-full mb-5 group">
                     <input
                         id="floating_monthlySal"
-                        v-model="wrk.monthlySal"
+                        v-model="wrk.monthly_salary"
                         type="text"
                         name="floating_monthlySal"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -664,7 +1181,7 @@ export default {
                 <div class="relative z-0 w-full mb-5 group">
                     <input
                         id="floating_statAppt"
-                        v-model="wrk.statAppt"
+                        v-model="wrk.status_of_appointment"
                         type="text"
                         name="floating_statAppt"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -674,7 +1191,7 @@ export default {
                     <label for="floating_statAppt" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Status of Appointment</label>
                 </div>
                 <div>
-                    <button v-if="index2 > 0" class="delete-button" @click.prevent="delWork(index2)">
+                    <button v-if="index > 0" class="delete-button" @click.prevent="delWork(index)">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -684,7 +1201,7 @@ export default {
                             class="w-6 h-6 text-red-600"
                         ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </button>
-                    <button v-if="index2 === work.length - 1" class="add-button " @click="addWork">
+                    <button v-if="index === workexperience.length - 1" class="add-button " @click="addWork">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -701,5 +1218,16 @@ export default {
                 Submit
             </button>
         </form>
+
+        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+            {{ errorMessage }}
+        </p>
+        <p
+            v-show="successMessage"
+            hidden
+            class="success-message text-green-600 text-center font-semibold italic transition-opacity delay-1000"
+        >
+            {{ successMessage }}
+        </p>
     </LayoutCard>
 </template>
