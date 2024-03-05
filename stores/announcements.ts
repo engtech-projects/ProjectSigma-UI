@@ -83,8 +83,8 @@ export const useAnnouncements = defineStore("Announcements", {
                     body: this.announcement,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
-                            this.getAll()
                             this.$reset()
+                            this.getAll()
                             this.successMessage = response._data.message
                             return response._data
                         } else {
@@ -124,8 +124,8 @@ export const useAnnouncements = defineStore("Announcements", {
                     body: this.announcement,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
-                            this.getAll()
                             this.reset()
+                            this.getAll()
                             this.successMessage = response._data.message
                             return response._data
                         } else {
@@ -144,6 +144,8 @@ export const useAnnouncements = defineStore("Announcements", {
                     method: "DELETE",
                     watch: false,
                     onResponse: ({ response }) => {
+                        this.$reset()
+                        this.getAll()
                         this.successMessage = response._data.message
                     },
                 }
