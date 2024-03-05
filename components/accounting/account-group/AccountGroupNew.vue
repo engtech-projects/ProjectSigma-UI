@@ -1,17 +1,9 @@
 <script lang="ts" setup>
-import { useAccountType } from "~/stores/accounting/accounttype"
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 
 const accountGroupStore = useAccountGroupStore()
 const snackbar = useSnackbar()
 const isLoading = ref(false)
-
-const accountType = useAccountType()
-accountType.getAccountTypes()
-
-function select (val:any) {
-    accountGroupStore.accountGroup.type_id = val.type_id
-}
 
 async function handleSubmit () {
     try {
@@ -58,7 +50,7 @@ async function handleSubmit () {
                     >
                 </div>
 
-                <div>
+                <!-- <div>
                     <label
                         for="account_type"
                         class="text-xs italic"
@@ -70,7 +62,7 @@ async function handleSubmit () {
                         :selected-id="accountGroupStore.accountGroup.type_id"
                         @select="select"
                     />
-                </div>
+                </div> -->
             </div>
 
             <div class="flex justify-end gap-4">
