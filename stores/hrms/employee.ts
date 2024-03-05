@@ -3,30 +3,11 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export interface EmploymentInformation {
-    company_name: String,
-    immediate_superior: Array<{
-        name: String,
-        contact: String,
-    }>,
-    dates: Array<{
-        from: String,
-        to: String,
-    }>,
-    address: Array<{
-        id: Number,
-        employee_id: Number,
-        street: String,
-        brgy: String,
-        city: String,
-        zip: String,
-        province: String,
-        type: String,
-    }>,
-    telephone_number: Number,
-    position: String,
-    duties_responsibilities: String,
-    reason_for_leaving: String,
+export interface Data {
+    value : Array<{
+        data: Array<{}>,
+        message: String,
+    }>
 }
 export interface Memos {
     name: String,
@@ -139,21 +120,7 @@ export interface CompanyEmployments {
     updated_at: String,
     deleted_at: String,
 }
-export interface EmployeeRelatedPerson {
-    id: Number,
-    employee_id: Number,
-    relationship: String,
-    type: String,
-    name: String,
-    date_of_birth: String,
-    street: String,
-    brgy: String,
-    city: String,
-    zip: String,
-    province: String,
-    occupation: String,
-    contact_no: String,
-}
+
 export interface EmployeeSeminarTraining {
     id: Number,
     employee_id: Number,
@@ -269,6 +236,7 @@ export interface EmployeeInformation {
     spouse: Array<RelatedPersonModel>,
     father: RelatedPersonModel,
     mother: RelatedPersonModel,
+    contact_person: RelatedPersonModel,
     masterstudies: Array<StudiesModel>,
     doctorstudies: Array<StudiesModel>,
     professionalstudies: Array<StudiesModel>,
@@ -280,7 +248,6 @@ export interface EmployeeInformation {
     employee_eligibility: Array<EmploymentEligibility>,
     employee_seminartraining: Array<EmployeeSeminarTraining>,
     employee_address: Array<EmployeeAddress>,
-    contact_person: Array<EmployeeRelatedPerson>,
     employment_records: Array<EmploymentRecord>,
     employee_affiliation: Array<EmployeeAffiliation>,
     employee_education: Array<EmploymentEducation>,
@@ -321,6 +288,7 @@ export const useEmployeeInfo = defineStore("employee", {
             spouse: [] as Array<RelatedPersonModel>,
             father: {} as RelatedPersonModel,
             mother: {} as RelatedPersonModel,
+            contact_person: {} as RelatedPersonModel,
             masterstudies: [] as Array<StudiesModel>,
             doctorstudies: [] as Array<StudiesModel>,
             professionalstudies: [] as Array<StudiesModel>,
@@ -332,7 +300,6 @@ export const useEmployeeInfo = defineStore("employee", {
             employee_eligibility: [] as Array<EmploymentEligibility>,
             employee_seminartraining: [] as Array<EmployeeSeminarTraining>,
             employee_address: [] as Array<EmployeeAddress>,
-            contact_person: [] as Array<EmployeeRelatedPerson>,
             employment_records: [] as Array<EmploymentRecord>,
             employee_affiliation: [] as Array<EmployeeAffiliation>,
             employee_education: [] as Array<EmploymentEducation>,
