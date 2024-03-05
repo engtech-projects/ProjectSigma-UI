@@ -55,7 +55,7 @@ const availableAccounts = computed(() => {
     accountStore.list.forEach((ac) => {
         let count = 0
         accountGroupStore.accountGroup.accounts.forEach((ag) => {
-            if (ag === ac) {
+            if (ag.account_id === ac.account_id) {
                 count++
             }
         })
@@ -123,12 +123,10 @@ const snackbar = useSnackbar()
                     </tbody>
                 </table>
             </LayoutBoards>
-            <LayoutBoards title="Account List" class="w-full flex-1 flex flex-col justify-between" :loading="isLoading" v-if="accountGroup.account_group_id">
+            <LayoutBoards v-if="accountGroup.account_group_id" title="Account List" :loading="isLoading" class="w-full flex-1 flex flex-col justify-between">
                 <div class="flex flex-col justify-between min-h-[300px]">
                     <div class="flex flex-col">
-                        <div class="flex">
-
-                        </div>
+                        <div class="flex" />
                         <table class="table w-full border">
                             <thead>
                                 <th class="text-left p-2 w-full">
@@ -137,7 +135,7 @@ const snackbar = useSnackbar()
                                 <th />
                             </thead>
                             <tbody>
-                                <tr class="border" v-for="ac in accountGroup.accounts" :key="ac.account_id">
+                                <tr v-for="ac in accountGroup.accounts" :key="ac.account_id" class="border">
                                     <td class="p-2">
                                         {{ ac.account_name }}
                                     </td>
@@ -154,15 +152,14 @@ const snackbar = useSnackbar()
                         </table>
                     </div>
                     <div class="flex justify-end">
-                        <button class="text-white p-2 px-8 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600 mt-4" @click="updateAccountGroup">Save</button>
+                        <button class="text-white p-2 px-8 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600 mt-4" @click="updateAccountGroup">
+                            Save
+                        </button>
                     </div>
                 </div>
             </LayoutBoards>
-            <LayoutBoards title="Add Accounts" class="w-full flex-1" v-if="addAcount">
+            <LayoutBoards v-if="addAcount" title="Add Accounts" class="w-full flex-1">
                 <div class="flex flex-col">
-                    <div class="flex">
-
-                    </div>
                     <table class="table w-full border">
                         <thead>
                             <th class="text-left p-2 w-full">
@@ -171,7 +168,7 @@ const snackbar = useSnackbar()
                             <th />
                         </thead>
                         <tbody>
-                            <tr class="border" v-for="ac in availableAccounts" :key="ac.account_id">
+                            <tr v-for="ac in availableAccounts" :key="ac.account_id" class="border">
                                 <td class="p-2">
                                     {{ ac.account_name }}
                                 </td>
@@ -187,7 +184,6 @@ const snackbar = useSnackbar()
                         </tbody>
                     </table>
                 </div>
-
             </LayoutBoards>
         </div>
         <LayoutBoards v-show="1==2" title="Account Group List" class="w-full" :loading="accountGroupStore.isLoading">
