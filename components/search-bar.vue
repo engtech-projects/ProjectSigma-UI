@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useEmployeeInfo } from "@/stores/employee"
+import { useEmployeeInfo } from "@/stores/hrms/employee"
 
 const employee = useEmployeeInfo()
 employee.searchEmployees()

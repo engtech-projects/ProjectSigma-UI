@@ -1,5 +1,5 @@
 <script setup>
-import { useEmployeeInfo } from "@/stores/employee"
+import { useEmployeeInfo } from "@/stores/hrms/employee"
 const employee = useEmployeeInfo()
 
 const emprecords = ref(null)
