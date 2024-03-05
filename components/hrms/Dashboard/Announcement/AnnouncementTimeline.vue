@@ -20,7 +20,7 @@ const formatDate = (date) => {
                 :content="mainList[0]?.content"
             />
             <HrmsDashboardAnnouncementCard
-                v-for="(data, index) in mainList.splice(1)"
+                v-for="(data, index) in mainList.slice(1)"
                 :key="index"
                 :title="data.title"
                 :date="formatDate(data.start_date)"

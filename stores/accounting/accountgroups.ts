@@ -7,7 +7,8 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
         accountGroup: {
             account_group_id: null,
             account_group_name: null,
-            type_id: null,
+            accounts: [],
+            account_id: []
         },
         list: [],
         pagination: {},
@@ -48,6 +49,29 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
             }
         },
 
+        async showAccountGroup (id:any) {
+            const { data, error } = await useFetch(
+                "/api/v1/account-group/" + id,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.accountGroup = response._data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         async createAccountGroup () {
             this.successMessage = ""
             this.errorMessage = ""
@@ -78,6 +102,10 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
         async editAccountGroup () {
             this.successMessage = ""
             this.errorMessage = ""
+            this.accountGroup.account_id = []
+            this.accountGroup.accounts.forEach((element) => {
+                this.accountGroup.account_id.push(element.account_id)
+            })
             const { data, error } = await useFetch(
                 "/api/v1/account-group/" + this.accountGroup.account_group_id,
                 {
@@ -130,7 +158,8 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
             this.accountGroup = {
                 account_group_id: null,
                 account_group_name: null,
-                type_id: null,
+                accounts: [],
+                account_id: []
             }
             this.successMessage = ""
             this.errorMessage = ""
