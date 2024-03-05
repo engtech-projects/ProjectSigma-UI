@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useWtaxStore, TERM } from "@/stores/wtax"
+import { useWtaxStore, TERM } from "@/stores/hrms/wtax"
 
 const withholdings = useWtaxStore()
 const { withholding, errorMessage, successMessage } = storeToRefs(withholdings)

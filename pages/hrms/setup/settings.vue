@@ -1,5 +1,5 @@
 <script setup>
-import { useMain } from "@/stores/settings"
+import { useMain } from "@/stores/hrms/settings"
 
 const mains = useMain()
 mains.getAll()

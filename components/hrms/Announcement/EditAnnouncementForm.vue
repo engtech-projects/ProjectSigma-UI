@@ -1,7 +1,7 @@
 <script setup>
 
 import { storeToRefs } from "pinia"
-import { useAnnouncements } from "@/stores/announcements"
+import { useAnnouncements } from "@/stores/hrms/announcements"
 
 const mains = useAnnouncements()
 

@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useContributionStore } from "@/stores/sss"
+import { useContributionStore } from "@/stores/hrms/sss"
 
 const contributions = useContributionStore()
 

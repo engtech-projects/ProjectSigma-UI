@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { usePagibigStore } from "@/stores/pagibig"
+import { usePagibigStore } from "@/stores/hrms/pagibig"
 
 const pagibig = usePagibigStore()
 const { contribution, errorMessage, successMessage } = storeToRefs(pagibig)

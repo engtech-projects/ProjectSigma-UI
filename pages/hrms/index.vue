@@ -1,6 +1,6 @@
 <script setup>
 import { initFlowbite } from "flowbite"
-import { useAnnouncements } from "@/stores/announcements"
+import { useAnnouncements } from "@/stores/hrms/announcements"
 
 const config = useRuntimeConfig()
 const mains = useAnnouncements()

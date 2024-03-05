@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useManpowerStore, EMPLOYMENT_TYPE, NATURE_REQUESTS, STATUS, GENDER } from "@/stores/employee/manpower"
-import { useDepartmentStore } from "@/stores/departments"
+import { useDepartmentStore } from "@/stores/hrms/departments"
 
 const { data: userData } = useAuth()
 const departments = useDepartmentStore()

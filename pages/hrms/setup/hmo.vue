@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useHMOStore } from "@/stores/hmo"
+import { useHMOStore } from "@/stores/hrms/hmo"
 const hmoStore = useHMOStore()
 const { hmo, hmolist, isEdit } = storeToRefs(hmoStore)
 

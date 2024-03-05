@@ -1,6 +1,6 @@
 <script setup>
 // import { storeToRefs } from "pinia"
-import { useAllowanceStore } from "@/stores/allowance"
+import { useAllowanceStore } from "@/stores/hrms/allowance"
 
 const allowances = useAllowanceStore()
 // const { isEdit } = storeToRefs(allowances)
