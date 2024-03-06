@@ -2,7 +2,6 @@ import { defineStore } from "pinia"
 
 const { token } = useAuth()
 const config = useRuntimeConfig()
-
 export interface Data {
     value : Array<{
         data: Array<{}>,
@@ -36,6 +35,7 @@ export interface RelatedPersonModel {
     date_of_birth: String,
     occupation: String,
     province: String,
+    age:String,
     relationship: String,
     street: String,
     type: String,

@@ -1,20 +1,14 @@
 <script setup>
+import { useEmployeeInfo } from "@/stores/hrms/employee"
+const { token } = useAuth()
+const employee = useEmployeeInfo()
+const config = useRuntimeConfig()
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
 
 const headers = [
-    { text: "DOCUMENT NAME", value: "document_name" },
-    { text: "ACTIONS", value: "actions" },
-]
-
-const items = [
-    {
-        document_name: "Docs Example 1",
-    },
-    {
-        document_name: "Docs Example 2",
-    },
-    {
-        document_name: "Docs Example 3",
-    },
+    { text: "employee_uploads", value: "employee_uploads" },
+    { text: "Type", value: "upload_type" },
 ]
 
 const selectedItemDetailsDocs = ref(null)
@@ -36,11 +30,49 @@ const downloadItemDocs = (item) => {
 
     document.body.removeChild(downloadLink)
 }
-
 const closeViewModal = () => {
     selectedItemDetailsDocs.value = null
 }
 
+const handleDocumentUpload = async (event) => {
+    boardLoading.value = true
+    const file = event.target.files[0]
+    const formData = new FormData()
+    formData.append("employee_uploads", files[0].name)
+    formData.append("employee_id", employee.information.id)
+    formData.append("upload_type", "Documents")
+    formData.append("file", file)
+    await useFetch(
+        "/api/employee-uploads",
+        {
+            baseURL: config.public.HRMS_API_URL,
+            method: "POST",
+            headers: {
+                Authorization: token.value + "",
+                Accept: "application/json"
+            },
+            body: formData,
+            watch: false,
+            onResponse: ({ response }) => {
+                if (response.status >= 200 && response.status <= 299) {
+                    docsList.value = response._data?.data
+                    snackbar.add({
+                        type: "success",
+                        text: response._data.message
+                    })
+                } else {
+                    snackbar.add({
+                        type: "danger",
+                        text: "Error Extracting Data" + response._data.message
+                    })
+                    throw new Error(response._data.message)
+                }
+            },
+        }
+    )
+    selectedEmployeeDetails.value = true
+    boardLoading.value = false
+}
 </script>
 
 <template>
@@ -49,20 +81,28 @@ const closeViewModal = () => {
     >
         <div class="pb-2 text-black font-medium text-lg">
             <div>
-                <p>DOCUMENTS</p>
+                <p>DOCUMENT</p>
             </div>
-            <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center" for="file_input">Upload Application Document Files</label>
-                <input id="document_multiple_file" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" type="file" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple>
-                <p id="file_input_help" class="mt-1 text-sm text-gray-500 dark:text-gray-300">
-                    Allowed file types: .DOC, .PDF, Images
+            <div class="relative z-0 w-full mb-5 group col-span-2">
+                <label for="floating_application_letter_attachment" class="block  text-sm font-medium text-gray-900 dark:text-white">Application Document Attachment</label>
+                <input
+                    id="floating_application_letter_attachment"
+                    class="block w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    aria-describedby="file_input_help"
+                    type="file"
+                    accept=".doc, .docx, .pdf"
+                    required
+                    @change="handleDocumentUpload"
+                >
+                <p class="flex justify-center mx-auto text-xs text-gray-500 dark:text-gray-300 uppercase">
+                    doc/docx/pdf
                 </p>
             </div>
         </div>
         <EasyDataTable
             show-index
             :headers="headers"
-            :items="items"
+            :items="employee.information.docs ?? []"
             class="mt-5 z-0"
         >
             <template #item-actions="item">

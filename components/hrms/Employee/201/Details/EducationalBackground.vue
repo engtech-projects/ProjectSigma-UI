@@ -1,6 +1,5 @@
 <script setup>
 import { useEmployeeInfo } from "@/stores/hrms/employee"
-
 const employee = useEmployeeInfo()
 </script>
 <template>
@@ -260,14 +259,6 @@ const employee = useEmployeeInfo()
                         <div>
                             <label for="proflicence_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
                             <input id="proflicence_date" v-model="employee.information.professionalstudies.date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="border border-slate-300 p-1">
-                        <div>
-                            <label for="special_skills" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white" />
-                            <input id="special_skills" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="(PLEASE SPECIFY, eg., computer, driving, etc.)">
                         </div>
                     </td>
                 </tr>
