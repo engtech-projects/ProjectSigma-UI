@@ -35,23 +35,23 @@ const submitForm = async () => {
     }
 }
 
-const child = ref([{ name: "", birthdate: "" }])
+const children = ref([{ name: "", birthdate: "" }])
 
 const workexperience = ref([{ inclusive_dates_from: "", inclusive_dates_to: "", position_title: "", dpt_agency_office_company: "", monthly_salary: "", status_of_appointment: "" }])
 
 const addChild = () => {
-    child.value.push({ name: "", birthdate: "" })
+    children.value.push({ name: "", birthdate: "" })
 }
 
-const delChild = () => {
-    child.value.splice(index, 1)
+const delChild = (index) => {
+    children.value.splice(index, 1)
 }
 
 const addWork = () => {
     workexperience.value.push({ dates_from: "", dates_to: "", position_title: "", dpt_agency_office_company: "", monthly_salary: "", status_of_appointment: "" })
 }
 
-const delWork = () => {
+const delWork = (index) => {
     workexperience.value.splice(index, 1)
 }
 
@@ -641,7 +641,7 @@ const handleResumeFileUpload = (event) => {
                     <label for="floating_telephone_spouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Telephone #</label>
                 </div>
             </div>
-            <div v-for="(kid, index) in jobapplicants.jobapplicant.children" :key="index" class="grid md:grid-cols-4 md:gap-6">
+            <div v-for="(kid, index) in children" :key="index" class="grid md:grid-cols-4 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group col-span-2">
                     <input
                         id="floating_children_name"
@@ -675,7 +675,7 @@ const handleResumeFileUpload = (event) => {
                             class="w-6 h-6 text-red-600"
                         ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </button>
-                    <button v-if="index === child.length - 1" class="add-button " @click="addChild">
+                    <button v-if="index === children.length - 1" class="add-button " @click.prevent="addChild">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -796,28 +796,6 @@ const handleResumeFileUpload = (event) => {
                     >
                     <label for="floating_yearGrad" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Year Graduated</label>
                 </div>
-                <!-- <div>
-                    <button v-if="index1 > 0" class="delete-button" @click.prevent="delEduc(index1)">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 text-red-600"
-                        ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </button>
-                    <button v-if="index1 === education.length - 1" class="add-button " @click="addEduc">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 text-green-600 "
-                        ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </button>
-                </div> -->
             </div>
             <div class="grid md:grid-cols-5 md:gap-4">
                 <div class="relative z-0 w-full mb-5 group">
@@ -874,28 +852,6 @@ const handleResumeFileUpload = (event) => {
                     >
                     <label for="floating_yearGrad" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Year Graduated</label>
                 </div>
-                <!-- <div>
-                    <button v-if="index1 > 0" class="delete-button" @click.prevent="delEduc(index1)">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 text-red-600"
-                        ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </button>
-                    <button v-if="index1 === education.length - 1" class="add-button " @click="addEduc">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 text-green-600 "
-                        ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </button>
-                </div> -->
             </div>
             <div class="grid md:grid-cols-5 md:gap-4">
                 <div class="relative z-0 w-full mb-5 group">
@@ -952,28 +908,6 @@ const handleResumeFileUpload = (event) => {
                     >
                     <label for="floating_yearGrad" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Year Graduated</label>
                 </div>
-                <!-- <div>
-                    <button v-if="index1 > 0" class="delete-button" @click.prevent="delEduc(index1)">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 text-red-600"
-                        ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </button>
-                    <button v-if="index1 === education.length - 1" class="add-button " @click="addEduc">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 text-green-600 "
-                        ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </button>
-                </div> -->
             </div>
             <div class="grid md:grid-cols-5 md:gap-4">
                 <div class="relative z-0 w-full mb-5 group">
@@ -1030,28 +964,6 @@ const handleResumeFileUpload = (event) => {
                     >
                     <label for="floating_yearGrad" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Year Graduated</label>
                 </div>
-                <!-- <div>
-                    <button v-if="index1 > 0" class="delete-button" @click.prevent="delEduc(index1)">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 text-red-600"
-                        ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </button>
-                    <button v-if="index1 === education.length - 1" class="add-button " @click="addEduc">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 text-green-600 "
-                        ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </button>
-                </div> -->
             </div>
             <div class="grid md:grid-cols-5 md:gap-4">
                 <div class="relative z-0 w-full mb-5 group">
@@ -1108,37 +1020,15 @@ const handleResumeFileUpload = (event) => {
                     >
                     <label for="floating_yearGrad" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Year Graduated</label>
                 </div>
-                <!-- <div>
-                    <button v-if="index1 > 0" class="delete-button" @click.prevent="delEduc(index1)">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 text-red-600"
-                        ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </button>
-                    <button v-if="index1 === education.length - 1" class="add-button " @click="addEduc">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6 text-green-600 "
-                        ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </button>
-                </div> -->
             </div>
             <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 italic">IV. Work Experience</label>
-            <div v-for="(wrk, index) in jobapplicants.jobapplicant.wrk" :key="index" class="grid md:grid-cols-2 md:gap-4">
+            <div v-for="(wrk, index) in workexperience" :key="index" class="grid md:grid-cols-3 md:gap-4">
                 <div class="relative z-0 w-full mb-5 group">
                     <div class="flex-1">
                         From
-                        <input id="inclusive_dates_from" v-model="wrk.inclusive_dates_from" type="date" class="block w-36 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input id="inclusive_dates_from" v-model="wrk.inclusive_dates_from" type="text" class="block w-36 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         To
-                        <input id="inclusive_dates_to" v-model="wrk.inclusive_dates_to" type="date" class="block w-36 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input id="inclusive_dates_to" v-model="wrk.inclusive_dates_to" type="text" class="block w-36 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                     <label for="floating_inclusiveDates" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Inclusive Dates(mm/dd/yyyy)</label>
                 </div>
