@@ -104,8 +104,8 @@ export interface JobApplicationWorkExperience {
     inclusive_dates_to: String,
     position_title: String,
     dpt_agency_office_company: String,
-    monthly_salary:String,
-    status_of_appointment:String,
+    monthly_salary: String,
+    status_of_appointment: String,
 }
 export interface ApplicantInformation {
     id: null | Number,
@@ -113,7 +113,7 @@ export interface ApplicantInformation {
     application_name: String,
     application_letter_attachment: undefined,
     resume_attachment: undefined,
-    status: string,
+    status: String,
     lastname: String,
     firstname: String,
     middlename: String,
@@ -150,6 +150,7 @@ export interface ApplicantInformation {
 export const useJobapplicantStore = defineStore("jobapplicants", {
     state: () => ({
         isEdit: false,
+        isApplicantDetail: false,
         jobapplicant: {
             id: null as null | Number,
             manpowerrequests_id: null as null | Number,
@@ -188,7 +189,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             telephone_icoe: null as null | Number,
             workexperience: [] as Array<JobApplicationWorkExperience>,
             education: {} as Array<JobApplicationEducation>
-        } as unknown as ApplicantInformation,
+        } as ApplicantInformation,
         list: [],
         jobApplicantDetails: [],
         pagination: {},

@@ -29,16 +29,19 @@ const addApplicant = () => {
 const closeForm = () => {
     showFormComponent.value = false
 }
+
+// const applicantDetails = async () => {
+//     applicantDetail.value = true
+//     await jobapplicants.getJobApplicantsDetails()
+// }
+
 const applicantDetails = async () => {
     applicantDetail.value = true
-    const appDetails = await jobapplicants.getJobApplicantsDetails()
-    applicantDetail.value = appDetails
-    // jobapplicant.value = appDetails
-    // console.log("applicant details", appDetails)
+    await jobapplicants.getJobApplicantsDetails()
 }
-// const closeApplicantDetail = () => {
-//     applicantDetail.value = false
-// }
+const closeApplicantDetail = () => {
+    applicantDetail.value = false
+}
 
 </script>
 
@@ -68,13 +71,15 @@ const applicantDetails = async () => {
                     </div>
                 </Teleport>
 
-                <div v-if="applicantDetail" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                    <div class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md shadow-lg overflow-auto absolute" @click.stop>
+                <div v-if="applicantDetail" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70" @click="closeApplicantDetail">
+                    <div class="p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" @click.stop>
                         <div v-if="applicantDetail">
-                            <div v-for="(value, key) in applicantDetail" :key="key" class="border px-4 py-2">
-                                <span class="font-semibold">{{ key }}:</span> {{ value }}
+                            <div v-for="(applicant, key) in applicantDetail" :key="key" class="border px-4 py-2">
+                                <span class="font-semibold">{{ key }}:</span>
+                                <span>{{ applicant }}</span>
                             </div>
                         </div>
+                        <HrmsEmployeeJobApplicantList />
                     </div>
                 </div>
 

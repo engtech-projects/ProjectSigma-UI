@@ -191,24 +191,6 @@ export const useManpowerStore = defineStore("manpowers", {
                 }
             )
         },
-        async getJobApplicantsDetails () {
-            await useFetch(
-                "/api/job-applicants-get",
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        this.applicantDetails = response._data.data
-                    },
-                }
-            )
-        },
-
         async createManpower () {
             this.successMessage = ""
             this.errorMessage = ""
