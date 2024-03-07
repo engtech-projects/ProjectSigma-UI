@@ -194,9 +194,7 @@ export const useManpowerStore = defineStore("manpowers", {
         async createManpower () {
             this.successMessage = ""
             this.errorMessage = ""
-
             const formData = new FormData()
-
             formData.append("requesting_department", this.manpower.requesting_department)
             formData.append("date_requested", this.manpower.date_requested)
             formData.append("date_required", this.manpower.date_required)
@@ -215,23 +213,12 @@ export const useManpowerStore = defineStore("manpowers", {
             formData.append("breakdown_details", this.manpower.breakdown_details)
             formData.append("requested_by", this.manpower.requested_by)
             formData.append("job_description_attachment", this.manpower.job_description_attachment)
-
-            if (Array.isArray(this.manpower.approvals)) {
-                for await (const approval of this.manpower.approvals) {
-                    formData.append("approvals[]", JSON.stringify(approval))
-                }
-            }
-
-            await useFetch(
+            formData.append("approvals", JSON.stringify(this.manpower.approvals))
+            await useHRMSApiO(
                 "/api/manpower-requests",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                    },
                     body: formData,
-                    watch: false,
                     onResponse: ({ response }) => {
                         if (response.status !== 200) {
                             this.errorMessage = response._data.message
