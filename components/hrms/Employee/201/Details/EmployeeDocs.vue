@@ -1,25 +1,23 @@
 <script setup>
 import { useEmployeeInfo } from "@/stores/hrms/employee"
-const { token } = useAuth()
 const employee = useEmployeeInfo()
-const config = useRuntimeConfig()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const headers = [
     { text: "employee_uploads", value: "employee_uploads" },
     { text: "Type", value: "upload_type" },
+    { text: "Action", value: "actions" },
 ]
 
 const selectedItemDetailsDocs = ref(null)
 
 const viewItemDocs = (item) => {
-    // console.log('Selected Item Details:', item);
     selectedItemDetailsDocs.value = item
 }
 
 const downloadItemDocs = (item) => {
-    const fileUrl = item.file_url // Replace 'file_url' with the actual property name
+    const fileUrl = item.file_location // Replace 'file_url' with the actual property name
 
     const downloadLink = document.createElement("a")
     downloadLink.href = fileUrl
@@ -35,43 +33,26 @@ const closeViewModal = () => {
 }
 
 const handleDocumentUpload = async (event) => {
-    boardLoading.value = true
-    const file = event.target.files[0]
-    const formData = new FormData()
-    formData.append("employee_uploads", files[0].name)
-    formData.append("employee_id", employee.information.id)
-    formData.append("upload_type", "Documents")
-    formData.append("file", file)
-    await useFetch(
-        "/api/employee-uploads",
-        {
-            baseURL: config.public.HRMS_API_URL,
-            method: "POST",
-            headers: {
-                Authorization: token.value + "",
-                Accept: "application/json"
-            },
-            body: formData,
-            watch: false,
-            onResponse: ({ response }) => {
-                if (response.status >= 200 && response.status <= 299) {
-                    docsList.value = response._data?.data
-                    snackbar.add({
-                        type: "success",
-                        text: response._data.message
-                    })
-                } else {
-                    snackbar.add({
-                        type: "danger",
-                        text: "Error Extracting Data" + response._data.message
-                    })
-                    throw new Error(response._data.message)
-                }
-            },
-        }
-    )
-    selectedEmployeeDetails.value = true
-    boardLoading.value = false
+    try {
+        const file = event.target.files[0]
+        const formData = new FormData()
+        formData.append("employee_uploads", event.target.files[0].name)
+        formData.append("employee_id", employee.information.id)
+        formData.append("upload_type", "Documents")
+        formData.append("file", file)
+        await employee.uploadDoc(formData)
+        snackbar.add({
+            type: "success",
+            text: employee.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error
+        })
+    } finally {
+        boardLoading.value = false
+    }
 }
 </script>
 
@@ -80,23 +61,25 @@ const handleDocumentUpload = async (event) => {
         class="shadow-md p-4 bg-white mb-3 border border-gray-200 rounded-lg w-full md:w-1/2"
     >
         <div class="pb-2 text-black font-medium text-lg">
-            <div>
-                <p>DOCUMENT</p>
-            </div>
-            <div class="relative z-0 w-full mb-5 group col-span-2">
-                <label for="floating_application_letter_attachment" class="block  text-sm font-medium text-gray-900 dark:text-white">Application Document Attachment</label>
+            <div class="flex gap-2 items-center">
+                <p>
+                    DOCUMENT
+                </p>
+                <span class="content-center">
+                    <label for="floating_application_letter_attachment" class="block  text-sm font-medium dark:text-white border rounded-xl p-1 px-2 bg-green-500 text-gray-50 hover:bg-green-700">
+                        <Icon name="material-symbols:upload-file-sharp" />
+                        new
+                    </label>
+                </span>
                 <input
                     id="floating_application_letter_attachment"
-                    class="block w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    class="hidden w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                     aria-describedby="file_input_help"
                     type="file"
                     accept=".doc, .docx, .pdf"
                     required
                     @change="handleDocumentUpload"
                 >
-                <p class="flex justify-center mx-auto text-xs text-gray-500 dark:text-gray-300 uppercase">
-                    doc/docx/pdf
-                </p>
             </div>
         </div>
         <EasyDataTable
@@ -127,16 +110,27 @@ const handleDocumentUpload = async (event) => {
                 <div class="fixed inset-1 flex items-center justify-center">
                     <div class="bg-white p-4 max-w-lg rounded-lg border border-slate-300">
                         <h2 class="text-lg font-semibold">
-                            Item Details
+                            Document Details
                         </h2>
                         <hr>
-                        <ul class="mt-4">
-                            <li><strong class="text-teal-500">Document Name:</strong> {{ selectedItemDetailsDocs.document_name }}</li>
-                            <li><strong class="text-teal-500">Action Taken:</strong> {{ selectedItemDetailsDocs.action_taken }}</li>
+                        <ul class="mt-4 p-4">
+                            <li><strong class="text-teal-500">Document Name:</strong> {{ selectedItemDetailsDocs.employee_uploads }}</li>
+                            <li><strong class="text-teal-500">Type:</strong> {{ selectedItemDetailsDocs.upload_type }}</li>
                         </ul>
-                        <button class="mt-4 bg-gray-600 px-2 rounded text-white" @click="closeViewModal">
-                            Close
-                        </button>
+                        <div class="flex gap-2 justify-between">
+                            <button
+                                @click="downloadItemDocs(item)"
+                            >
+                                <Icon name="ic:sharp-file-download" color="green" class="w-4 h-4 " />
+                                Download
+                            </button>
+                            <button
+                                @click="closeViewModal"
+                            >
+                                <Icon name="cil:x" color="green" class="w-4 h-4 " />
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
             </Teleport>

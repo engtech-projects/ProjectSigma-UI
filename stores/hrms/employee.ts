@@ -311,6 +311,8 @@ export const useEmployeeInfo = defineStore("employee", {
         searchEmployeeParams: {
             key: "",
         },
+        errorMessage: "",
+        successMessage: "",
     }),
     getters: {
         fullname (state) {
@@ -408,6 +410,26 @@ export const useEmployeeInfo = defineStore("employee", {
                         if (response.status >= 200 && response.status <= 299) {
                             this.employeeSearchList = response._data?.data
                         } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async uploadDoc (formData : FormData) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee-uploads",
+                {
+                    method: "POST",
+                    body: formData,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
