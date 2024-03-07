@@ -71,17 +71,19 @@ const closeApplicantDetail = () => {
                     </div>
                 </Teleport>
 
-                <div v-if="applicantDetail" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70" @click="closeApplicantDetail">
-                    <div class="p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" @click.stop>
-                        <div v-if="applicantDetail">
-                            <div v-for="(applicant, key) in applicantDetail" :key="key" class="border px-4 py-2">
-                                <span class="font-semibold">{{ key }}:</span>
-                                <span>{{ applicant }}</span>
+                <Teleport to="body">
+                    <div v-if="applicantDetail" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70" @click="closeApplicantDetail">
+                        <div class="p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" @click.stop>
+                            <div v-if="applicantDetail">
+                                <div v-for="(applicant, key) in applicantDetail" :key="key" class="border px-4 py-2">
+                                    <span class="font-semibold">{{ key }}:</span>
+                                    <span>{{ applicant }}</span>
+                                </div>
                             </div>
+                            <HrmsEmployeeJobApplicantList />
                         </div>
-                        <HrmsEmployeeJobApplicantList />
                     </div>
-                </div>
+                </Teleport>
 
                 <div class="flex justify-end mt-4">
                     <button class="hover:text-green-500 flex items-center" @click="addApplicant">

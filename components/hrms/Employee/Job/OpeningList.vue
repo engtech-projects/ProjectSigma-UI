@@ -18,7 +18,6 @@ const headers = [
     { name: "Requesting Department", id: "requesting_department" },
     { name: "Employment Type", id: "employment_type" },
     { name: "Nature of Request", id: "nature_of_request" },
-    { name: "Request Status", id: "request_status" },
     // { name: "Number of Applicants", id: "jobapplicants" },
 ]
 const actions = {
