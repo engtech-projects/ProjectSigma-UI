@@ -1,43 +1,65 @@
 <script lang="ts" setup>
-import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
-import { useBookStore } from "~/stores/accounting/book"
-import { useAccountStore } from "~/stores/accounting/account"
+import { useSalaryGradeStore } from "~/stores/hrms/salarygrade"
 
-const transactionTypeStore = useTransactionTypeStore()
-const bookStore = useBookStore()
-bookStore.getBooks()
-const accountStore = useAccountStore()
-accountStore.getAccounts()
+const salaryGradeStore = useSalaryGradeStore()
 const boardLoading = ref(false)
 const snackbar = useSnackbar()
+const salaryGradeStepInput = ref("")
 
 async function handleSubmit () {
-    try {
-        boardLoading.value = true
-        await transactionTypeStore.createTransactionType()
-        if (transactionTypeStore.errorMessage !== "") {
+    if (salaryGradeStore.salaryGrade.salary_grade_step.length > 5) {
+        try {
+            boardLoading.value = true
+            await salaryGradeStore.createSalaryGrade()
+            if (salaryGradeStore.errorMessage !== "") {
+                snackbar.add({
+                    type: "error",
+                    text: salaryGradeStore.errorMessage
+                })
+            } else {
+                snackbar.add({
+                    type: "success",
+                    text: salaryGradeStore.successMessage
+                })
+            }
+        } catch (error) {
+            salaryGradeStore.errorMessage = errorMessage
             snackbar.add({
                 type: "error",
-                text: transactionTypeStore.errorMessage
+                text: salaryGradeStore.errorMessage
             })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: transactionTypeStore.successMessage
-            })
+        } finally {
+            salaryGradeStore.reset()
+            boardLoading.value = false
         }
-    } catch (error) {
-        transactionTypeStore.errorMessage = errorMessage
+    } else {
         snackbar.add({
             type: "error",
-            text: transactionTypeStore.errorMessage
+            text: "6 salary grade steps are needed to proceed."
         })
-    } finally {
-        transactionTypeStore.reset()
-        boardLoading.value = false
     }
 }
+function addStep () {
+    if (salaryGradeStore.salaryGrade.salary_grade_step.length < 6) {
+        salaryGradeStore.salaryGrade.salary_grade_step.push({ step_name: salaryGradeStepInput.value })
+        salaryGradeStepInput.value = ""
+    } else {
+        snackbar.add({
+            type: "error",
+            text: "Cannot exceed step 6."
+        })
+    }
+}
+function formatCurrency (number:number, locale = "en-US") {
+    const formatter = new Intl.NumberFormat(locale, {
+        style: "decimal",
+    })
 
+    return formatter.format(number)
+}
+function removeStep (step:any) {
+    salaryGradeStore.salaryGrade.salary_grade_step = salaryGradeStore.salaryGrade.salary_grade_step.filter(st => st !== step)
+}
 </script>
 
 <template>
@@ -51,38 +73,40 @@ async function handleSubmit () {
                     >Salary Grade Level</label>
                     <input
                         id="salaryGradeLevel"
-                        v-model="transactionTypeStore.transactionType.transaction_type_name"
+                        v-model="salaryGradeStore.salaryGrade.salary_grade_level"
                         type="text"
                         class="w-full rounded-lg"
                         required
                     >
                 </div>
-                <div>
-                    <label
-                        for="salary_grade_step"
-                        class="text-xs italic"
-                    >Salary Grade Step</label>
-                    <input
-                        id="salaryGradeStep"
-                        v-model="transactionTypeStore.transactionType.transaction_type_name"
-                        type="text"
-                        class="w-full rounded-lg"
-                        required
-                    >
+                <div class="flex gap-2 items-end">
+                    <div class="flex-1">
+                        <label
+                            for="salary_grade_step"
+                            class="text-xs italic"
+                        >Step {{ salaryGradeStore.salaryGrade.salary_grade_step.length + 1 }}</label>
+                        <input
+                            id="salaryGradeStep"
+                            v-model="salaryGradeStepInput"
+                            type="number"
+                            class="w-full rounded-lg"
+                        >
+                    </div>
+                    <span v-if="salaryGradeStepInput !== '' && salaryGradeStore.salaryGrade.salary_grade_step.length < 6" class="cursor-pointer hover:bg-green-600 flex items-center justify-center w-10 h-10 bg-green-500 rounded text-white font-bold text-2xl pb-1" @click="addStep">+</span>
+                    <span v-else class="flex items-center justify-center w-10 h-10 bg-slate-500 rounded text-white font-bold text-2xl pb-1">+</span>
                 </div>
-                <div>
-                    <label
-                        for="amount"
-                        class="text-xs italic"
-                    >Amount</label>
-                    <input
-                        id="amount"
-                        v-model="transactionTypeStore.transactionType.transaction_type_name"
-                        type="number"
-                        class="w-full rounded-lg"
-                        required
-                        placeholder="0.00"
-                    >
+                <div class="flex flex-col gap-1">
+                    <div v-for="sg,i in salaryGradeStore.salaryGrade.salary_grade_step" :key="i" class="flex justify-between bg-yellow-100 px-2 py-1">
+                        <span>
+                            STEP {{ i + 1 }}
+                        </span>
+                        <div class="flex gap-2 items-center">
+                            <span>
+                                {{ formatCurrency(sg.step_name) }}
+                            </span>
+                            <Icon name="iconoir:xmark" class="text-red-500 text-2xl font-bold cursor-pointer hover:text-red-700" @click="removeStep(sg)" />
+                        </div>
+                    </div>
                 </div>
             </div>
 

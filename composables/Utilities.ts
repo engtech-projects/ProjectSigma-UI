@@ -7,5 +7,11 @@ export const useUtilities = () => {
             return match.toUpperCase()
         })
     }
-    return ref({ upperFirst, upperWords })
+    function formatCurrency (number:number, locale = "en-US") {
+        const formatter = new Intl.NumberFormat(locale, {
+            style: "decimal",
+        })
+        return formatter.format(number)
+    }
+    return ref({ upperFirst, upperWords, formatCurrency })
 }

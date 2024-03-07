@@ -8,20 +8,8 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
         salaryGrade:
         {
             id: null,
-            contract_name: null,
-            contract_id: null,
-            contract_location: null,
-            contract_amount: 0,
-            contract_duration: null,
-            project_code: null,
-            project_identifier: null,
-            implementing_office: null,
-            nature_of_work: null,
-            date_of_noa: null,
-            date_of_contract: null,
-            date_of_ntp: null,
-            license: null
-
+            salary_grade_level: "",
+            salary_grade_step: []
         },
         list: [],
         pagination: {},
@@ -39,7 +27,7 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.data
+                        this.list = response._data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -59,7 +47,7 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/projects",
+                "/api/salary-grade-level",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
@@ -90,7 +78,7 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/projects/" + this.salaryGrade.id,
+                "/api/salary-grade-level/" + this.salaryGrade.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
@@ -140,19 +128,8 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
         reset () {
             this.salaryGrade = {
                 id: null,
-                contract_name: null,
-                contract_id: null,
-                contract_location: null,
-                contract_amount: 0,
-                contract_duration: null,
-                project_code: null,
-                project_identifier: null,
-                implementing_office: null,
-                nature_of_work: null,
-                date_of_noa: null,
-                date_of_contract: null,
-                date_of_ntp: null,
-                license: null
+                salary_grade_level: "",
+                salary_grade_step: []
             }
             this.isEdit = false
             this.successMessage = ""

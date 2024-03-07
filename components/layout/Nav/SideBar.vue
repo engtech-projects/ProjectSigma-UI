@@ -248,6 +248,11 @@ const config = useRuntimeConfig()
                     single-nav-title="Settings"
                 />
                 <LayoutNavSingle
+                    linkarea="/hrms/setup/salary-grade"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Salary Grade"
+                />
+                <LayoutNavSingle
                     v-if="config.public.BULK_UPLOAD_ENABLED === 'true'"
                     linkarea="/hrms/setup/bulk-upload-employee"
                     icon="material-symbols:dynamic-form-outline-rounded"
