@@ -61,7 +61,7 @@ async function handleSubmit () {
                                 <input
                                     id="salaryGradeLevel"
                                     v-model="salaryGradeStore.salaryGrade.salary_grade_step[i].step_name"
-                                    type="text"
+                                    type="number"
                                     class="w-full rounded-lg"
                                     required
                                 >
