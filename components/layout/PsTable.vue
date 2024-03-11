@@ -1,15 +1,4 @@
 <script setup>
-// <script setup lang="ts">
-// interface RowAction {
-//     edit: Boolean,
-//     delete: Boolean,
-// }
-// interface HeaderType {
-//     name: String,
-//     id: String,
-//     style: String,
-// }
-
 defineProps({
     headerColumns: {
         type: Array,

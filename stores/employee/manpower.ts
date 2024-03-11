@@ -261,6 +261,48 @@ export const useManpowerStore = defineStore("manpowers", {
                 return error
             }
         },
+        async approveApprovalForm (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useHRMSApiO(
+                "/api/approve-approval-form/" + id,
+                {
+                    method: "PUT",
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
+                }
+            )
+            if (data.value) {
+                this.getManpower()
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+        async denyApprovalForm (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useHRMSApiO(
+                "/api/deny-approval-form/" + id,
+                {
+                    method: "PUT",
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
+                }
+            )
+            if (data.value) {
+                this.getManpower()
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
         async deleteManpower (id: number) {
             const { data, error } = await useFetch(
                 "/api/manpower-requests/" + id,
