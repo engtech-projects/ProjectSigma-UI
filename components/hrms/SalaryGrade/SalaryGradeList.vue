@@ -1,12 +1,34 @@
 <script lang="ts" setup>
 import { useSalaryGradeStore } from "~/stores/hrms/salarygrade"
+import { useModalStore } from "~/stores/modal"
+const modalStore = useModalStore()
 const salaryGradeStore = useSalaryGradeStore()
 await salaryGradeStore.getSalaryGrade()
 const utils = useUtilities()
+const snackbar = useSnackbar()
+const toDelete = ref({})
 
-function setEdit (sg) {
+function setEdit (sg:any) {
     salaryGradeStore.salaryGrade = sg
     salaryGradeStore.isEdit = true
+}
+
+const deleteSalaryGrade = async () => {
+    modalStore.hideModal()
+    try {
+        salaryGradeStore.isLoading = true
+        await salaryGradeStore.deleteSalaryGrade(toDelete.value.id)
+        snackbar.add({
+            type: "success",
+            text: salaryGradeStore.successMessage
+        })
+    } finally {
+        salaryGradeStore.isLoading = false
+    }
+}
+function setDelete (sg:any) {
+    toDelete.value = sg
+    modalStore.showModal()
 }
 </script>
 
@@ -49,7 +71,7 @@ function setEdit (sg) {
                         <td>
                             <div class="flex gap-2 items-center pl-2">
                                 <Icon name="iconoir:edit" class="text-xl text-green-500 cursor-pointer hover:text-green-700" @click="setEdit(sg)" />
-                                <Icon name="iconoir:bin-minus-in" class="text-red-500 cursor-pointer hover:text-red-700" />
+                                <Icon name="iconoir:bin-minus-in" class="text-red-500 cursor-pointer hover:text-red-700" @click="setDelete(sg)" />
                             </div>
                         </td>
                     </tr>
@@ -61,6 +83,21 @@ function setEdit (sg) {
                 </tbody>
             </table>
         </LayoutBoards>
+        <ModalContainer size="modal-sm">
+            <div class="flex flex-col gap-6">
+                <center class="text-xl">
+                    Do you want to delete this salary grade?
+                </center>
+                <div class="flex gap-3 justify-end">
+                    <button class="px-4 py-2 text-white bg-slate-500 hover:bg-slate-600" @click="modalStore.hideModal">
+                        Cancel
+                    </button>
+                    <button class="px-4 py-2 text-white bg-teal-500 hover:bg-teal-600" @click="deleteSalaryGrade()">
+                        Proceed
+                    </button>
+                </div>
+            </div>
+        </ModalContainer>
     </div>
 </template>
 

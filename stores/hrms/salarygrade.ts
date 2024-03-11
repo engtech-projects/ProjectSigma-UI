@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const useSalaryGradeStore = defineStore("salaryGradeStore", {
     state: () => ({
@@ -9,7 +7,32 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
         {
             id: null,
             salary_grade_level: "",
-            salary_grade_step: []
+            salary_grade_step: [
+                {
+                    id: null,
+                    step_name: ""
+                },
+                {
+                    id: null,
+                    step_name: ""
+                },
+                {
+                    id: null,
+                    step_name: ""
+                },
+                {
+                    id: null,
+                    step_name: ""
+                },
+                {
+                    id: null,
+                    step_name: ""
+                },
+                {
+                    id: null,
+                    step_name: ""
+                }
+            ]
         },
         list: [],
         pagination: {},
@@ -46,15 +69,10 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
         async createSalaryGrade () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useHRMSApi(
                 "/api/salary-grade-level",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.salaryGrade,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -77,14 +95,10 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
         async editSalaryGrade () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            const { data, error } = await useHRMSApi(
                 "/api/salary-grade-level/" + this.salaryGrade.id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.salaryGrade,
                     watch: false,
                 }
@@ -101,14 +115,10 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
         },
 
         async deleteSalaryGrade (id: number) {
-            const { data, error } = await useFetch(
-                "/api/projects/" + id,
+            const { data, error } = await useHRMSApi(
+                "/api/salary-grade-level/" + id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
@@ -129,7 +139,32 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
             this.salaryGrade = {
                 id: null,
                 salary_grade_level: "",
-                salary_grade_step: []
+                salary_grade_step: [
+                    {
+                        id: null,
+                        step_name: ""
+                    },
+                    {
+                        id: null,
+                        step_name: ""
+                    },
+                    {
+                        id: null,
+                        step_name: ""
+                    },
+                    {
+                        id: null,
+                        step_name: ""
+                    },
+                    {
+                        id: null,
+                        step_name: ""
+                    },
+                    {
+                        id: null,
+                        step_name: ""
+                    }
+                ]
             }
             this.isEdit = false
             this.successMessage = ""
