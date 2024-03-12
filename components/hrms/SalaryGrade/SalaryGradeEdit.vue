@@ -7,7 +7,6 @@ const snackbar = useSnackbar()
 
 function cancelEdit () {
     salaryGradeStore.isEdit = false
-    salaryGradeStore.$reset()
 }
 
 async function handleSubmit () {
