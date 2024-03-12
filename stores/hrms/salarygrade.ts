@@ -1,5 +1,17 @@
 import { defineStore } from "pinia"
 
+export interface SalaryGradeStep {
+    id: null | Number,
+    step_name: String,
+    monthly_salary_amount: Number,
+}
+
+export interface SalaryGrade {
+    id: null | Number,
+    salary_grade_level: String,
+    salary_grade_step: SalaryGradeStep[],
+}
+
 export const useSalaryGradeStore = defineStore("salaryGradeStore", {
     state: () => ({
         isEdit: false,
@@ -10,31 +22,37 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
             salary_grade_step: [
                 {
                     id: null,
-                    step_name: ""
-                },
+                    step_name: "1",
+                    monthly_salary_amount: 0,
+                } as SalaryGradeStep,
                 {
                     id: null,
-                    step_name: ""
-                },
+                    step_name: "2",
+                    monthly_salary_amount: 0,
+                } as SalaryGradeStep,
                 {
                     id: null,
-                    step_name: ""
-                },
+                    step_name: "3",
+                    monthly_salary_amount: 0,
+                } as SalaryGradeStep,
                 {
                     id: null,
-                    step_name: ""
-                },
+                    step_name: "4",
+                    monthly_salary_amount: 0,
+                } as SalaryGradeStep,
                 {
                     id: null,
-                    step_name: ""
-                },
+                    step_name: "5",
+                    monthly_salary_amount: 0,
+                } as SalaryGradeStep,
                 {
                     id: null,
-                    step_name: ""
-                }
+                    step_name: "6",
+                    monthly_salary_amount: 0,
+                } as SalaryGradeStep,
             ]
-        },
-        list: [],
+        } as SalaryGrade,
+        list: [] as SalaryGrade[],
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -79,8 +97,8 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
                         if (response.status !== 201) {
                             this.errorMessage = response._data.message
                         } else {
+                            this.$reset()
                             this.getSalaryGrade()
-                            this.reset()
                             this.successMessage = response._data.message
                         }
                     },
@@ -104,8 +122,8 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
                 }
             )
             if (data.value) {
+                this.$reset()
                 this.getSalaryGrade()
-                this.reset()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -133,42 +151,6 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
                 this.errorMessage = error.value.data.message
                 return error
             }
-        },
-
-        reset () {
-            this.salaryGrade = {
-                id: null,
-                salary_grade_level: "",
-                salary_grade_step: [
-                    {
-                        id: null,
-                        step_name: ""
-                    },
-                    {
-                        id: null,
-                        step_name: ""
-                    },
-                    {
-                        id: null,
-                        step_name: ""
-                    },
-                    {
-                        id: null,
-                        step_name: ""
-                    },
-                    {
-                        id: null,
-                        step_name: ""
-                    },
-                    {
-                        id: null,
-                        step_name: ""
-                    }
-                ]
-            }
-            this.isEdit = false
-            this.successMessage = ""
-            this.errorMessage = ""
         },
 
     },

@@ -7,7 +7,7 @@ const snackbar = useSnackbar()
 
 function cancelEdit () {
     salaryGradeStore.isEdit = false
-    salaryGradeStore.reset()
+    salaryGradeStore.$reset()
 }
 
 async function handleSubmit () {
@@ -29,14 +29,15 @@ async function handleSubmit () {
 </script>
 
 <template>
-    <LayoutBoards title="Edit Salary Grade" :loading="boardLoading" class="w-full h-fit border-t-8 rounded-lg border-teal-500">
+    <LayoutBoards
+        title="Edit Salary Grade"
+        :loading="boardLoading"
+        class="w-full h-fit border-t-8 rounded-lg border-teal-500"
+    >
         <form @submit.prevent="handleSubmit">
             <div class="flex flex-col gap-2">
                 <div>
-                    <label
-                        for="salary_grade"
-                        class="text-xs italic"
-                    >Salary Grade Level</label>
+                    <label for="salary_grade" class="text-xs italic">Salary Grade Level</label>
                     <input
                         id="salaryGradeLevel"
                         v-model="salaryGradeStore.salaryGrade.salary_grade_level"
@@ -46,21 +47,19 @@ async function handleSubmit () {
                     >
                 </div>
                 <div class="flex flex-col">
-                    <label
-                        for="salary_grade"
-                        class="text-md font-bold italic"
-                    >Salary Grade Steps</label>
+                    <label for="salary_grade" class="text-md font-bold italic">Salary Grade Steps</label>
                     <div class="flex flex-col gap-2 bg-slate-100 p-3 rounded">
-                        <div v-for="sg,i in salaryGradeStore.salaryGrade.salary_grade_step" :key="sg.id" class="flex gap-2">
+                        <div
+                            v-for="sg, i in salaryGradeStore.salaryGrade.salary_grade_step"
+                            :key="'editSalaryGrade' + sg.id + i"
+                            class="flex gap-2"
+                        >
                             <div class="flex flex-col gap-1 flex-1">
-                                <label
-                                    for="salary_grade"
-                                    class="text-xs italic"
-                                >STEP {{ i + 1 }}
+                                <label for="salary_grade" class="text-xs italic">STEP {{ sg.step_name }}
                                 </label>
                                 <input
                                     id="salaryGradeLevel"
-                                    v-model="salaryGradeStore.salaryGrade.salary_grade_step[i].step_name"
+                                    v-model="sg.monthly_salary_amount"
                                     type="number"
                                     class="w-full rounded-lg"
                                     required
@@ -79,10 +78,7 @@ async function handleSubmit () {
                 >
                     Cancel
                 </button>
-                <button
-                    type="submit"
-                    class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
-                >
+                <button type="submit" class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5">
                     Update Salary Grade
                 </button>
             </div>
