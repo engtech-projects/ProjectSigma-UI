@@ -18,7 +18,6 @@ const headers = [
     { name: "Requesting Department", id: "requesting_department" },
     { name: "Employment Type", id: "employment_type" },
     { name: "Nature of Request", id: "nature_of_request" },
-    // { name: "Number of Applicants", id: "jobapplicants" },
 ]
 const actions = {
     showTable: false,
@@ -33,11 +32,10 @@ const setDetail = (jobapp) => {
     isDetail.value = true
     manpower.value = jobapp
     if (jobapp && typeof jobapp === "object") {
-        const formattedApplicants = jobapp.job_applicants.map((applicant, index) => {
-            return `${index + 1}. ${applicant.lastname}, ${applicant.firstname} ${applicant.middlename}`
-        })
+        const applicantCount = jobapp.job_applicants.length
 
         manpower.value = {
+            id: jobapp.id,
             Position: jobapp.position,
             "Requesting Department": jobapp.requesting_department,
             "Brief Description": jobapp.brief_description,
@@ -53,7 +51,8 @@ const setDetail = (jobapp) => {
             "Educational Requirement": jobapp.educational_requirement,
             Remarks: jobapp.remarks,
             "Request Status": jobapp.request_status,
-            Applicants: formattedApplicants.join("\n\n\n")
+            "Total Applicants": applicantCount > 0 ? applicantCount : null,
+            job_applicants: jobapp.job_applicants
         }
     }
 }
@@ -85,6 +84,6 @@ const setDetail = (jobapp) => {
                 {{ successMessage }}
             </p>
         </LayoutBoards>
-        <HrmsEmployeeJobHiringDetails v-if="isDetail" :manpower-data="manpower" class="w-full" @detail-selected="setDetail" />
+        <HrmsEmployeeJobHiringDetails v-if="isDetail" :manpower-data="manpower" class="w-full" />
     </div>
 </template>

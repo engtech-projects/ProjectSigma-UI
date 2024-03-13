@@ -158,44 +158,76 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         isEdit: false,
         isApplicantDetail: false,
         jobapplicant: {
-            id: null as null | Number,
-            manpowerrequests_id: null as null | Number,
-            application_name: "" as String,
+            id: null,
+            manpowerrequests_id: null,
             application_letter_attachment: undefined,
             resume_attachment: undefined,
-            status: "" as String,
-            lastname: "" as String,
-            firstname: "" as String,
-            middlename: "" as String,
-            date_of_application: "" as String,
-            date_of_birth: "" as String,
-            per_address_street: "" as String,
-            per_address_brgy: "" as String,
-            per_address_city: "" as String,
-            per_address_zip: "" as String,
-            per_address_province: "" as String,
-            pre_address_street: "" as String,
-            pre_address_brgy: "" as String,
-            pre_address_city: "" as String,
-            pre_address_zip: "" as String,
-            pre_address_province: "" as String,
-            contact_info: null as null | Number,
-            email: "" as String,
-            how_did_u_learn_about_our_company: "" as String,
-            desired_position: "" as String,
+            status: "",
+            lastname: null,
+            firstname: null,
+            middlename: null,
+            name_suffix: null,
+            date_of_application: null,
+            date_of_birth: null,
+            per_address_street: null,
+            per_address_brgy: null,
+            per_address_city: null,
+            per_address_zip: null,
+            per_address_province: null,
+            pre_address_street: null,
+            pre_address_brgy: null,
+            pre_address_city: null,
+            pre_address_zip: null,
+            pre_address_province: null,
+            contact_info: null,
+            email: null,
+            how_did_u_learn_about_our_company: null,
+            desired_position: null,
             currently_employed: "",
-            name_of_spouse: "" as String,
-            date_of_birth_spouse: "" as String,
-            occupation_spouse: "" as String,
-            telephone_spouse: null as null | Number,
-            children: [] as Array<JobApplicationChildren>,
-            icoe_name: "" as String,
-            icoe_address: "" as String,
-            icoe_relationship: "" as String,
-            telephone_icoe: null as null | Number,
-            workexperience: [] as Array<JobApplicationWorkExperience>,
-            education: {} as Array<JobApplicationEducation>
-        } as ApplicantInformation,
+            place_of_birth: null,
+            blood_type: null,
+            date_of_marriage: null,
+            sss: null,
+            philhealth: null,
+            pagibig: null,
+            tin: null,
+            citizenship: null,
+            religion: null,
+            height: null,
+            weight: null,
+            father_name: null,
+            mother_name: null,
+            gender: null,
+            civil_status: null,
+            name_of_spouse: null,
+            date_of_birth_spouse: null,
+            occupation_spouse: null,
+            telephone_spouse: null,
+            children: [],
+            icoe_name: null,
+            icoe_relationship: null,
+            telephone_icoe: null,
+            workexperience: [],
+            // education: [
+            //     {
+            //         elementary_name: null,
+            //         elementary_education: null,
+            //         secondary_name: null,
+            //         secondary_education: null,
+            //         vocationalcourse_name: null,
+            //         vocationalcourse_education: null,
+            //         college_name: null,
+            //         college_education: null,
+            //         graduatestudies_name: null,
+            //         graduatestudies_education: null,
+            //     }
+            // ],
+            icoe_brgy: null,
+            icoe_city: null,
+            icoe_province: null,
+            icoe_street: null,
+            icoe_zip: null,
+        },
         list: [],
         jobApplicantDetails: [],
         searchJobApplicantParams: {
@@ -276,32 +308,81 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 }
             )
         },
-        async addJobapplication (state: any) {
+        async createJobapplicant () {
             this.successMessage = ""
             this.errorMessage = ""
             const formData = new FormData()
-            formData.append("application_letter_attachment", state.jobapplicant.application_letter_attachment)
-            formData.append("resume_attachment", state.jobapplicant.resume_attachment)
-            formData.append("manpowerrequests_id", state.jobapplicant.manpowerrequests_id)
-            formData.append("application_name", state.jobapplicant.application_name)
-            formData.append("status", state.jobapplicant.status)
-            formData.append("lastname", state.jobapplicant.lastname)
-            formData.append("firstname", state.jobapplicant.firstname)
-            formData.append("middlename", state.jobapplicant.middlename)
-            formData.append("date_of_application", state.jobapplicant.date_of_application)
-            formData.append("workexperience", state.jobapplicant.JobApplicationWorkExperience)
+            formData.append("manpowerrequests_id", this.jobapplicant.manpowerrequests_id)
+            formData.append("application_name", this.jobapplicant.application_name)
+            formData.append("application_letter_attachment", this.jobapplicant.application_letter_attachment)
+            formData.append("resume_attachment", this.jobapplicant.resume_attachment)
+            formData.append("lastname", this.jobapplicant.lastname)
+            formData.append("firstname", this.jobapplicant.firstname)
+            formData.append("middlename", this.jobapplicant.middlename)
+            formData.append("name_suffix", this.jobapplicant.name_suffix)
+            formData.append("status", this.jobapplicant.status)
+            formData.append("date_of_application", this.jobapplicant.date_of_application)
+            formData.append("date_of_birth", this.jobapplicant.date_of_birth)
+            formData.append("per_address_street", this.jobapplicant.per_address_street)
+            formData.append("per_address_brgy", this.jobapplicant.per_address_brgy)
+            formData.append("per_address_city", this.jobapplicant.per_address_city)
+            formData.append("per_address_zip", this.jobapplicant.per_address_zip)
+            formData.append("per_address_province", this.jobapplicant.per_address_province)
+            formData.append("pre_address_street", this.jobapplicant.pre_address_street)
+            formData.append("pre_address_brgy", this.jobapplicant.pre_address_brgy)
+            formData.append("pre_address_city", this.jobapplicant.pre_address_city)
+            formData.append("pre_address_zip", this.jobapplicant.pre_address_zip)
+            formData.append("pre_address_province", this.jobapplicant.pre_address_province)
+            formData.append("contact_info", this.jobapplicant.contact_info)
+            formData.append("email", this.jobapplicant.email)
+            formData.append("how_did_u_learn_about_our_company", this.jobapplicant.how_did_u_learn_about_our_company)
+            formData.append("desired_position", this.jobapplicant.desired_position)
+            formData.append("currently_employed", this.jobapplicant.currently_employed)
+            formData.append("place_of_birth", this.jobapplicant.place_of_birth)
+            formData.append("blood_type", this.jobapplicant.blood_type)
+            formData.append("date_of_marriage", this.jobapplicant.date_of_marriage)
+            formData.append("sss", this.jobapplicant.sss)
+            formData.append("philhealth", this.jobapplicant.philhealth)
+            formData.append("pagibig", this.jobapplicant.pagibig)
+            formData.append("tin", this.jobapplicant.tin)
+            formData.append("citizenship", this.jobapplicant.citizenship)
+            formData.append("religion", this.jobapplicant.religion)
+            formData.append("height", this.jobapplicant.height)
+            formData.append("weight", this.jobapplicant.weight)
+            formData.append("father_name", this.jobapplicant.father_name)
+            formData.append("mother_name", this.jobapplicant.mother_name)
+            formData.append("gender", this.jobapplicant.gender)
+            formData.append("civil_status", this.jobapplicant.civil_status)
+            formData.append("name_of_spouse", this.jobapplicant.name_of_spouse)
+            formData.append("date_of_birth_spouse", this.jobapplicant.date_of_birth_spouse)
+            formData.append("occupation_spouse", this.jobapplicant.occupation_spouse)
+            formData.append("telephone_spouse", this.jobapplicant.telephone_spouse)
+            formData.append("children", JSON.stringify(this.jobapplicant.children))
+            formData.append("icoe_name", this.jobapplicant.icoe_name)
+            formData.append("icoe_relationship", this.jobapplicant.icoe_relationship)
+            formData.append("telephone_icoe", this.jobapplicant.telephone_icoe)
+            formData.append("workexperience", JSON.stringify(this.jobapplicant.workexperience))
+            formData.append("education", JSON.stringify(this.jobapplicant.education))
+            formData.append("icoe_street", this.jobapplicant.icoe_street)
+            formData.append("icoe_brgy", this.jobapplicant.icoe_brgy)
+            formData.append("icoe_city", this.jobapplicant.icoe_city)
+            formData.append("icoe_province", this.jobapplicant.icoe_province)
+            formData.append("icoe_zip", this.jobapplicant.icoe_zip)
 
-            await useFetch(
+            // this.jobapplicant.education.forEach((edu, index) => {
+            //     formData.append(`education[${index}][elementary_name]`, edu.elementary_name)
+            //     formData.append(`education[${index}][elementary_education]`, edu.elementary_education)
+            //     formData.append(`education[${index}][elementary_period_attendance_to]`, edu.elementary_period_attendance_to)
+            //     formData.append(`education[${index}][secondary_name]`, edu.secondary_name)
+            //     formData.append(`education[${index}][secondary_education]`, edu.secondary_education)
+            //     formData.append(`education[${index}][secondary_period_attendance_to]`, edu.secondary_period_attendance_to)
+            // })
+
+            await useHRMSApiO(
                 "/api/job-applicants",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    body: this.jobapplicant,
-                    watch: false,
+                    body: formData,
                     onResponse: ({ response }) => {
                         if (response.status !== 200) {
                             this.errorMessage = response._data.message
@@ -365,5 +446,71 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 return error
             }
         },
+
+        reset () {
+            this.jobapplicant = {
+                id: null,
+                manpowerrequests_id: null,
+                application_letter_attachment: undefined,
+                resume_attachment: undefined,
+                status: "",
+                lastname: null,
+                firstname: null,
+                middlename: null,
+                name_suffix: null,
+                date_of_application: null,
+                date_of_birth: null,
+                per_address_street: null,
+                per_address_brgy: null,
+                per_address_city: null,
+                per_address_zip: null,
+                per_address_province: null,
+                pre_address_street: null,
+                pre_address_brgy: null,
+                pre_address_city: null,
+                pre_address_zip: null,
+                pre_address_province: null,
+                contact_info: null,
+                email: null,
+                how_did_u_learn_about_our_company: null,
+                desired_position: null,
+                currently_employed: "",
+                place_of_birth: null,
+                blood_type: null,
+                date_of_marriage: null,
+                sss: null,
+                philhealth: null,
+                pagibig: null,
+                tin: null,
+                citizenship: null,
+                religion: null,
+                height: null,
+                weight: null,
+                father_name: null,
+                mother_name: null,
+                gender: null,
+                civil_status: null,
+                name_of_spouse: null,
+                date_of_birth_spouse: null,
+                occupation_spouse: null,
+                telephone_spouse: null,
+                children: [],
+                icoe_name: null,
+                icoe_relationship: null,
+                telephone_icoe: null,
+                workexperience: [],
+                education: [],
+                icoe_brgy: null,
+                icoe_city: null,
+                icoe_province: null,
+                icoe_street: null,
+                icoe_zip: null,
+
+            }
+            this.isEdit = false
+            this.successMessage = ""
+            this.errorMessage = ""
+        },
+
     },
 })

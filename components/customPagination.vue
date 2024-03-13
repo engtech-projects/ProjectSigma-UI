@@ -21,7 +21,7 @@ const setParams = (link) => {
             href="#"
             @click.prevent="setParams(links.first_page)"
         >
-            <Icon name="ep:d-arrow-left" class="h-4 w-4 lg:h-5 lg:w-5" />
+            <Icon name="ep:d-arrow-left" class="h-5 w-5 lg:h-5 lg:w-5" />
         </a>
         <div class="flex items-center space-x-1">
             <a

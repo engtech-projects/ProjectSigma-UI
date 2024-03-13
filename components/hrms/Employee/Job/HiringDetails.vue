@@ -29,15 +29,9 @@ const addApplicant = () => {
 const closeForm = () => {
     showFormComponent.value = false
 }
-
-// const applicantDetails = async () => {
-//     applicantDetail.value = true
-//     await jobapplicants.getJobApplicantsDetails()
-// }
-
 const applicantDetails = async () => {
     applicantDetail.value = true
-    await jobapplicants.getJobApplicantsDetails()
+    await $fetch()
 }
 const closeApplicantDetail = () => {
     applicantDetail.value = false
@@ -52,8 +46,13 @@ const closeApplicantDetail = () => {
                 <div class="rounded p-2 grid grid-cols-2 " @change="setDetail">
                     <div v-for="(detailList, index) in manpowerData" :key="index" class="border px-4 py-2">
                         <span class="font-semibold">{{ index }}: </span>
-                        <template v-if="index === 'Applicants'">
+                        <template v-if="index === 'Total Applicants'">
                             <span class="cursor-pointer text-blue-500" @click="applicantDetails">
+                                {{ detailList }}
+                            </span>
+                        </template>
+                        <template v-else-if="index === 'job_applicants'">
+                            <span class="hidden" @click="applicantDetails">
                                 {{ detailList }}
                             </span>
                         </template>
@@ -69,9 +68,7 @@ const closeApplicantDetail = () => {
                             <HrmsEmployeeJobApplicationForm class="pt-2" />
                         </div>
                     </div>
-                </Teleport>
 
-                <Teleport to="body">
                     <div v-if="applicantDetail" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70" @click="closeApplicantDetail">
                         <div class="p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" @click.stop>
                             <div v-if="applicantDetail">
