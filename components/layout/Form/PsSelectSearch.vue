@@ -9,14 +9,14 @@ const props = defineProps({
         default: []
     }
 })
-const resultValue = defineModel("result", { type: Object, required: true })
+const result = defineModel("result", { type: Object, required: true })
 const searchInput = defineModel("searchInput", { type: String, required: true })
 const showDD = ref(false)
 function toggleDD () {
     showDD.value = !showDD.value
 }
 function selectOption (option: any) {
-    resultValue.value = option
+    result.value = option
     toggleDD()
     searchInput.value = ""
 }
@@ -25,7 +25,7 @@ function selectOption (option: any) {
 <template>
     <div class="border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer">
         <div class="flex flex-1 items-center overflow-hidden py-[9px]" @click="toggleDD">
-            <span class="flex-1">{{ resultValue ? resultValue[title] : '' }}</span>
+            <span class="flex-1">{{ result ? result[title] : '' }}</span>
             <Icon name="iconoir:nav-arrow-down" class="font-bold text-xl" />
         </div>
         <div

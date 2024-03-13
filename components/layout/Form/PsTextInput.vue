@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-const model = defineModel({ type: String })
+const model = defineModel({ required: true, type: String })
 const compId = useId()
 defineProps({
     title: {
