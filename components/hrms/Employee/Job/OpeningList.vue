@@ -45,7 +45,7 @@ const setDetail = (jobapp) => {
             "Date Requested": jobapp.date_requested,
             "Date Required": jobapp.date_required,
             "Age Range": jobapp.age_range,
-            Status: jobapp.status,
+            "Civil Status": jobapp.status,
             Gender: jobapp.gender,
             "Prefered Qualifications": jobapp.prefered_qualifications,
             "Educational Requirement": jobapp.educational_requirement,

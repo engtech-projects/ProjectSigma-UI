@@ -838,10 +838,43 @@ const handleResumeFileUpload = (event) => {
             </div>
             <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 italic">III. Educational Background</label>
 
-            <!-- <div class="grid grid-cols-4 gap-4">
-                <LayoutFormPsTextInput v-model="jobapplicant.education.elementary_name" title="elementary" placeholder="" name="elem" />
-                <LayoutFormPsTextInput v-model="jobapplicant.education.elementary_education" title="elementary" placeholder="" />
-            </div> -->
+            <div>
+                <div class="grid grid-cols-5 gap-4">
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.elementary_name" title="Name of Elementary School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.elementary_education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.elementary_period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.elementary_period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.elementary_year_graduated" title="Year Graduated" />
+                </div>
+                <div class="grid grid-cols-5 gap-4">
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.secondary_name" title="Name of Secondary School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.secondary_education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.secondary_period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.secondary_period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.secondary_year_graduated" title="Year Graduated" />
+                </div>
+                <div class="grid grid-cols-5 gap-4">
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.vocationalcourse_name" title="Name of Vocational School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.vocationalcourse_education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.vocationalcourse_period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.vocationalcourse_period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.vocationalcourse_year_graduated" title="Year Graduated" />
+                </div>
+                <div class="grid grid-cols-5 gap-4">
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.college_name" title="Name of College" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.college_education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.college_period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.college_period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.college_year_graduated" title="Year Graduated" />
+                </div>
+                <div class="grid grid-cols-5 gap-4">
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.graduatestudies_name" title="Graduate Studies School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.graduatestudies_education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.graduatestudies_period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.graduatestudies_period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.graduatestudies_year_graduated" title="Year Graduated" />
+                </div>
+            </div>
 
             <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 italic">IV. Work Experience</label>
             <div v-for="(wrk, index) in jobapplicant.workexperience" :key="index" class="grid md:grid-cols-3 md:gap-4">
