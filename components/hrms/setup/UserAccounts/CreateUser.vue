@@ -1,7 +1,35 @@
-<script setup>
-const employeeId = ref("")
-const username = ref("")
-const password = ref("")
+<script setup lang="ts">
+import { storeToRefs } from "pinia"
+import { useEmployeeSearch } from "@/stores/hrms/employeeSearch"
+import { useUserStore } from "@/stores/hrms/users"
+import PsSelectSearch from "~/components/layout/Form/PsSelectSearch.vue"
+import type { EmployeeInformation } from "@/stores/hrms/employee"
+const employeeSearch = useEmployeeSearch()
+const userAccountStore = useUserStore()
+const { createData } = storeToRefs(userAccountStore)
+const { searchEmployeeParamsNoAccount, searchResultList } = storeToRefs(employeeSearch)
+const employeeId = ref<EmployeeInformation>({} as EmployeeInformation)
+const snackbar = useSnackbar()
+const register = async () => {
+    createData.value.params.employee_id = employeeId.value.id
+    try {
+        // boardLoading.value = true
+        await userAccountStore.createEmployeeAccount()
+        snackbar.add({
+            type: "success",
+            text: createData.value.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    } finally {
+        userAccountStore.$reset()
+        employeeId.value = {} as EmployeeInformation
+        // boardLoading.value = false
+    }
+}
 </script>
 <template>
     <section class="bg-gray-50 dark:bg-gray-900 mb-4">
@@ -13,7 +41,7 @@ const password = ref("")
             >
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8 ">
                     <img class="w-20 h-20 mx-auto rounded-xl" src="/evenpar.jpg" alt="logo">
-                    <HrmsSetupUserAccountsSearchEmployeeNoAccount v-model="employeeId" />
+                    <PsSelectSearch v-model:result="employeeId" v-model:search-input="searchEmployeeParamsNoAccount.key" :search-list="searchResultList" title="fullname_last" />
                     <div class="border-b w-full h-[14px] text-center p-3 mt-2 mb-7">
                         <span class="text-md bg-white text-black px-3 italic">
                             User Account Setup
@@ -25,18 +53,9 @@ const password = ref("")
                         action="#"
                         @submit.prevent="register"
                     >
-                        <LayoutFormPsTextInput v-model="username" title="Username" name="username" placeholder="JohnDoe" />
-                        <LayoutFormPsPasswordInput v-model="password" title="Password" name="password" placeholder="••••••••" />
-
-                        <div class="flex items-center justify-between">
-                            <a
-                                href="#"
-                                class="text-sm font-medium ml-auto text-primary-600 hover:underline dark:text-primary-500"
-                            >
-                                Forgot password?
-                            </a>
-                        </div>
-
+                        <LayoutFormPsEmailInput v-model="createData.params.email" title="Email" name="email" placeholder="JohnDoe@gmail.com" />
+                        <LayoutFormPsTextInput v-model="createData.params.name" title="Username" name="username" placeholder="JohnDoe" />
+                        <LayoutFormPsPasswordInput v-model="createData.params.password" title="Password" name="password" placeholder="••••••••" />
                         <button
                             type="submit"
                             class="w-full text-white bg-cyan-600 hover:bg-secondary-base focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

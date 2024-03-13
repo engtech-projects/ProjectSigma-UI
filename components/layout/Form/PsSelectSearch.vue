@@ -15,41 +15,29 @@ const props = defineProps({
     selectedId: {
         type: Number,
         default: null
+    },
+    searchList: {
+        type: Array<Object>,
+        default: []
     }
 })
-const resultValue = defineModel({ type: String })
-const searchInput = defineModel({ type: String })
-const emit = defineEmits(["select"])
-const selectedOption = ref(null)
+const resultValue = defineModel("result", { type: String, required: true })
+const searchInput = defineModel("searchInput", { type: String, required: true })
 const showDD = ref(false)
 function toggleDD () {
     showDD.value = !showDD.value
 }
 function selectOption (option: any) {
-    emit("select", option)
-    selectedOption.value = option
+    resultValue.value = option
     toggleDD()
     searchInput.value = ""
 }
-const currentOptionValue = computed(() => {
-    let option = null
-    if (props.selectedId) {
-        props.options.forEach((item: any) => {
-            if (item[props.opid] === props.selectedId) {
-                option = item
-            }
-        })
-    } else {
-        option = selectedOption
-    }
-    return option
-})
 </script>
 
 <template>
     <div class="border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer">
         <div class="flex flex-1 items-center overflow-hidden py-[9px]" @click="toggleDD">
-            <span class="flex-1">{{ currentOptionValue ? currentOptionValue[title] : '' }}</span>
+            <span class="flex-1">{{ resultValue ? resultValue[title] : '' }}</span>
             <Icon name="iconoir:nav-arrow-down" class="font-bold text-xl" />
         </div>
         <div
@@ -64,9 +52,9 @@ const currentOptionValue = computed(() => {
                     placeholder="Search"
                 >
             </div>
-            <div v-if="searchList.length" class="flex flex-col overflow-auto">
+            <div v-if="props.searchList.length" class="flex flex-col overflow-auto">
                 <span
-                    v-for="option, i in searchList"
+                    v-for="option, i in props.searchList"
                     :key="i"
                     class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
                     @click="selectOption(option)"
