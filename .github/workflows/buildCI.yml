@@ -14,7 +14,7 @@ env:
   APPLICATION_NAME: "ProjectSigma_UI"
   GIT_USERNAME: "engtech-projects"
   REPOSITORY_NAME: "ProjectSigma_UI"
-  NODE_VERSION: '20.x'
+  NODE_VERSION: '20.11.1'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
