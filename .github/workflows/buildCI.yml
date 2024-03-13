@@ -54,9 +54,9 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Build Nuxt
         run: |
-              npm install;
+              npm ci;
               npm run generate;
-              cd dist
+              cd .output/public
               git config --global user.email "engtechsolutions2020@gmail.com"
               git config --global user.name "EngtechDeploy"
               git init
@@ -88,9 +88,9 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Build Nuxt
         run: |
-              npm install;
+              npm ci;
               npm run generate;
-              cd dist
+              cd .output/public
               git config --global user.email "engtechsolutions2020@gmail.com"
               git config --global user.name "EngtechDeploy"
               git init
