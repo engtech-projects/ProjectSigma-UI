@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 const model = defineModel({ required: true, type: String })
 const compId = useId()
 defineProps({
