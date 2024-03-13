@@ -56,8 +56,7 @@ jobs:
         run: |
               npm ci;
               npm run generate;
-              npm run build
-              cd .output/public
+              cd dist
               git config --global user.email "engtechsolutions2020@gmail.com"
               git config --global user.name "EngtechDeploy"
               git init
@@ -91,8 +90,7 @@ jobs:
         run: |
               npm ci;
               npm run generate;
-              npm run build
-              cd .output/public
+              cd dist
               git config --global user.email "engtechsolutions2020@gmail.com"
               git config --global user.name "EngtechDeploy"
               git init
