@@ -55,6 +55,7 @@ jobs:
       - name: Build Nuxt
         run: |
               npm ci;
+              npm run build
               npm run generate;
               cd .output/public
               git config --global user.email "engtechsolutions2020@gmail.com"
@@ -89,6 +90,7 @@ jobs:
       - name: Build Nuxt
         run: |
               npm ci;
+              npm run build
               npm run generate;
               cd .output/public
               git config --global user.email "engtechsolutions2020@gmail.com"
