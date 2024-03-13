@@ -38,6 +38,18 @@ const boardLoading = ref(false)
                     <div>
                         <p class="font-semibold italic">
                             Status:
+                            <select
+                                v-model="applicant.status"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-cyan-500 focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
+                            >
+                                <option value="select" disabled selected>
+                                    -- Select --
+                                </option>
+                                <option v-for="applicants, statusIndex in STATUS" :key="statusIndex" :value="stats">
+                                    <!-- {{ stats }} -->
+                                    {{ applicants.status }}
+                                </option>
+                            </select>
                         </p>
                         <p class="truncate">
                             {{ applicant.status }}
@@ -55,6 +67,12 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.date_of_application }}</p>
                     </div>
+                    <!-- <div>
+                        <p class="font-semibold italic">
+                            Remarks:
+                            <input v-model="applicant.remarks" type="text" class="truncate border border-gray-300 rounded-md p-1">
+                        </p>
+                    </div> -->
                 </div>
                 <div class="grid grid-cols-2 gap-4 pt-4">
                     <div>
