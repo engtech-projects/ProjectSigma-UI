@@ -32,7 +32,9 @@ const password = ref("")
                             <a
                                 href="#"
                                 class="text-sm font-medium ml-auto text-primary-600 hover:underline dark:text-primary-500"
-                            >Forgot password?</a>
+                            >
+                                Forgot password?
+                            </a>
                         </div>
 
                         <button
