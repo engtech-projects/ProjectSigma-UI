@@ -1,12 +1,12 @@
-<script setup>
+<script lang="ts" setup>
 const props = defineProps({
     title: {
         type: String,
-        default: ""
+        default: "",
     },
     searchList: {
         type: Array<Object>,
-        default: []
+        default: [],
     }
 })
 const result = defineModel("result", { type: Object, required: true })
