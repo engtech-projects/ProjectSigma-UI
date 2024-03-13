@@ -8,20 +8,12 @@ const props = defineProps({
         type: String,
         default: ""
     },
-    opid: {
-        type: String,
-        default: ""
-    },
-    selectedId: {
-        type: Number,
-        default: null
-    },
     searchList: {
         type: Array<Object>,
         default: []
     }
 })
-const resultValue = defineModel("result", { type: String, required: true })
+const resultValue = defineModel("result", { type: Object, required: true })
 const searchInput = defineModel("searchInput", { type: String, required: true })
 const showDD = ref(false)
 function toggleDD () {

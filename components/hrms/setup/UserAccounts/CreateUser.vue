@@ -41,7 +41,6 @@ const register = async () => {
             >
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8 ">
                     <img class="w-20 h-20 mx-auto rounded-xl" src="/evenpar.jpg" alt="logo">
-                    <PsSelectSearch v-model:result="employeeId" v-model:search-input="searchEmployeeParamsNoAccount.key" :search-list="searchResultList" title="fullname_last" />
                     <div class="border-b w-full h-[14px] text-center p-3 mt-2 mb-7">
                         <span class="text-md bg-white text-black px-3 italic">
                             User Account Setup
@@ -53,6 +52,7 @@ const register = async () => {
                         action="#"
                         @submit.prevent="register"
                     >
+                        <PsSelectSearch v-model:result="employeeId" v-model:search-input="searchEmployeeParamsNoAccount.key" :search-list="searchResultList" title="fullname_last" />
                         <LayoutFormPsEmailInput v-model="createData.params.email" title="Email" name="email" placeholder="JohnDoe@gmail.com" />
                         <LayoutFormPsTextInput v-model="createData.params.name" title="Username" name="username" placeholder="JohnDoe" />
                         <LayoutFormPsPasswordInput v-model="createData.params.password" title="Password" name="password" placeholder="••••••••" />

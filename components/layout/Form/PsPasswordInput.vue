@@ -7,7 +7,7 @@
             {{ title }}
         </label>
         <input
-            id="compId"
+            :id="compId"
             v-model="model"
             type="password"
             :name="name"

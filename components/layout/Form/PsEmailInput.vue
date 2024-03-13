@@ -7,7 +7,7 @@
             {{ title }}
         </label>
         <input
-            id="compId"
+            :id="compId"
             v-model="model"
             type="email"
             :name="name"

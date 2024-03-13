@@ -4,7 +4,7 @@ const employeeSearch = useEmployeeSearch()
 employeeSearch.searchEmployeesNoAccount()
 useHead({
     title: "User Accounts",
-    meta: [{ name: "description", content: "" }],
+    meta: [{ name: "description", content: "User Accounts Creation Page" }],
 })
 
 </script>
