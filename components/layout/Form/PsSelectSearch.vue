@@ -1,9 +1,5 @@
 <script lang="ts" setup>
 const props = defineProps({
-    options: {
-        type: Array,
-        default: () => { return [] }
-    },
     title: {
         type: String,
         default: ""
@@ -50,8 +46,9 @@ function selectOption (option: any) {
                     :key="i"
                     class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
                     @click="selectOption(option)"
-                >{{
-                    option[props.title] }}</span>
+                >
+                    {{ option[props.title] }}
+                </span>
             </div>
             <div v-else class="px-4">
                 <span>No data available.</span>
