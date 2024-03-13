@@ -1,4 +1,3 @@
-
 <script setup>
 const model = defineModel({ required: true, type: String })
 const compId = useId()
