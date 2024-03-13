@@ -1,6 +1,10 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
+
+pan.personelActionNotice.type_of_termination = "Voluntary"
+pan.personelActionNotice.reasons_for_termination = "Violation"
+pan.personelActionNotice.eligible_for_rehire = "No"
 </script>
 <template>
     <tr>
@@ -8,7 +12,7 @@ const pan = usePersonelActionNotice()
             <label
                 for="small-input"
                 class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >EMPLOYEE TERMINATION DATA <span class="text-gray-700">{{ pan.personelActionNotice.type_of_termination }}</span></label>
+            >EMPLOYEE TERMINATION DATA </label>
         </td>
     </tr>
     <tr>

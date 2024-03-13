@@ -43,7 +43,7 @@ const closeViewModal = () => {
             show-index
             :headers="headers"
             :items="employee.information.memo ?? []"
-            class="z-0 mt-32"
+            class="z-0 mt-7"
         >
             <template #item-actions="item">
                 <div class="flex gap-4">

@@ -107,6 +107,12 @@ export interface JobApplicationWorkExperience {
     monthly_salary: String,
     status_of_appointment: String,
 }
+export interface JobApplicantSearch {
+    id: number,
+    firstname: String,
+    middlename: String,
+    lastname: String,
+}
 export interface ApplicantInformation {
     id: null | Number,
     manpowerrequests_id: null | Number,
@@ -192,12 +198,67 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         } as ApplicantInformation,
         list: [],
         jobApplicantDetails: [],
+        searchJobApplicantParams: {
+            key: ""
+        },
+        applicantSearchList: {} as Array<JobApplicantSearch>,
         pagination: {},
         getParams: {},
+        jobApplicantIsSearch: false as Boolean,
         errorMessage: "",
         successMessage: "",
     }),
+    getters: {
+        fullname (state) {
+            if (!state.jobapplicant) {
+                return ""
+            }
+            return state.jobapplicant.firstname + " " + (state.jobapplicant.middlename || "") + " " + state.jobapplicant.lastname + " "
+        },
+    },
     actions: {
+        async searchJobApplicants () {
+            await useFetch(
+                "/api/get-for-hiring",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "POST",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    body: this.searchJobApplicantParams,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.applicantSearchList = response._data?.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getJobApplicantInformation (id : Number) {
+            this.$reset()
+            const { data, error } = await useFetch(
+                "/api/job-applicants/" + id,
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                }
+            )
+            if (data.value) {
+                this.jobApplicantIsSearch = true
+                this.jobapplicant = data.value.data
+                return data
+            } else if (error.value) {
+                return error
+            }
+        },
         async getJobApplicantsDetails () {
             await useFetch(
                 "/api/job-applicants-get",
@@ -215,13 +276,10 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 }
             )
         },
-
-        async addJobapplication (state) {
+        async addJobapplication (state: any) {
             this.successMessage = ""
             this.errorMessage = ""
-
             const formData = new FormData()
-
             formData.append("application_letter_attachment", state.jobapplicant.application_letter_attachment)
             formData.append("resume_attachment", state.jobapplicant.resume_attachment)
             formData.append("manpowerrequests_id", state.jobapplicant.manpowerrequests_id)
@@ -249,7 +307,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                             this.errorMessage = response._data.message
                         } else {
                             this.getJobApplicantsDetails()
-                            this.reset()
                             this.successMessage = response._data.message
                         }
                     },
@@ -264,7 +321,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/manpower-requests/" + this.manpower.id,
+                "/api/manpower-requests/" + this.jobapplicant.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
@@ -273,12 +330,10 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         Accept: "application/json"
                     },
                     body: this.jobapplicant,
-                    watch: false,
                 }
             )
             if (data.value) {
                 this.getJobApplicantsDetails()
-                this.reset()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -287,7 +342,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             }
         },
         async deleteJobapplicant (id: number) {
-            const { data, error } = await useFetch(
+            const { data, error } = await useHRMSApiO(
                 "/api/manpower-requests/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
@@ -296,7 +351,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
                     },
@@ -311,44 +365,5 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 return error
             }
         },
-
-        // reset () {
-        //     this.jobapplicant = {
-        //         id: null,
-        //         manpowerrequests_id: null,
-        //         application_name: null,
-        //         application_letter_attachment: undefined,
-        //         resume_attachment: undefined,
-        //         status: "",
-        //         lastname: null,
-        //         firstname: null,
-        //         middlename: null,
-        //         date_of_application: null,
-        //         date_of_birth: null,
-        //         address_street: null,
-        //         address_city: null,
-        //         address_zip: null,
-        //         contact_info: null,
-        //         email: null,
-        //         how_did_u_learn_about_our_company: null,
-        //         desired_position: null,
-        //         currently_employed: "",
-        //         name_of_spouse: null,
-        //         date_of_birth_spouse: null,
-        //         occupation_spouse: null,
-        //         telephone_spouse: null,
-        //         children: null,
-        //         icoe_name: null,
-        //         icoe_address: null,
-        //         icoe_relationship: null,
-        //         telephone_icoe: null,
-        //         workexperience: null,
-        //         education: null,
-        //     }
-        //     this.isEdit = false
-        //     this.successMessage = ""
-        //     this.errorMessage = ""
-        // },
-
     },
 })

@@ -1,18 +1,19 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useEmployeeInfo } from "@/stores/hrms/employee"
+import { useJobapplicantStore } from "@/stores/employee/jobapplicant"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
-const employee = useEmployeeInfo()
-const pan = usePersonelActionNotice()
-employee.searchEmployees()
-const { employeeSearchList, searchEmployeeParams } = storeToRefs(employee)
 
-const selectEmployee = async (id) => {
-    employeeSearchList.value = []
-    searchEmployeeParams.value.key = null
-    await employee.getEmployeeInformation(id)
-    pan.personelActionNotice.employee_id = employee.information.id
-    pan.personelActionNotice.employee = employee.fullname
+const jobapplicant = useJobapplicantStore()
+const pan = usePersonelActionNotice()
+jobapplicant.searchJobApplicants()
+const { applicantSearchList, searchJobApplicantParams } = storeToRefs(jobapplicant)
+
+const selectJobApplicant = async (id) => {
+    applicantSearchList.value = []
+    searchJobApplicantParams.value.key = null
+    await jobapplicant.getJobApplicantInformation(id)
+    pan.personelActionNotice.pan_job_applicant_id = jobapplicant.jobapplicant.id
+    pan.personelActionNotice.employee = jobapplicant.fullname
 }
 </script>
 <template>
@@ -27,16 +28,16 @@ const selectEmployee = async (id) => {
                 </div>
                 <input
                     id="default-search"
-                    v-model="searchEmployeeParams.key"
+                    v-model="searchJobApplicantParams.key"
                     type="search"
                     class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-teal-500 focus:border-teal-200 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-teal-500 dark:focus:border-teal-500"
-                    placeholder="Search Employee"
+                    placeholder="Search New Hire"
                 >
             </div>
         </form>
-        <ul v-if="employeeSearchList.length > 0" class="mt-1 p-px rounded-lg bg-white dark:bg-gray-800">
-            <li v-for="(emp, i) in employeeSearchList" :key="i" class="hover:bg-teal-200 rounded-md cursor-pointer p-1" @click="selectEmployee(emp.id)">
-                {{ emp.family_name }}, {{ emp.first_name }} {{ emp.middle_name || "" }}
+        <ul v-if="applicantSearchList.length > 0" class="mt-1 p-px rounded-lg bg-white dark:bg-gray-800">
+            <li v-for="(applicant, i) in applicantSearchList" :key="i" class="hover:bg-teal-200 rounded-md cursor-pointer p-1" @click="selectJobApplicant(applicant.id)">
+                {{ applicant.lastname }}, {{ applicant.firstname }} {{ applicant.middlename || "" }}
             </li>
         </ul>
     </div>

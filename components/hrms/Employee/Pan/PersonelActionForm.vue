@@ -1,9 +1,14 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
+import { useApprovalStore } from "@/stores/hrms/approvals"
+
+const approval = useApprovalStore()
 const pan = usePersonelActionNotice()
+
+pan.personelActionNotice.date_of_effictivity = Date.now()
 pan.personelActionNotice.type = "newhire"
-pan.personelActionNotice.salary_type = "Fixed Rate"
-pan.personelActionNotice.hire_source = "Internal"
+
+pan.personelActionNotice.approvals = approval.getApprovalByName("Personnel Action Notice")
 </script>
 <template>
     <div
@@ -73,6 +78,11 @@ pan.personelActionNotice.hire_source = "Internal"
                             </td>
                         </tr>
                         <tr>
+                            <td colspan="4">
+                                <HrmsEmployeePanSearchBar />
+                            </td>
+                        </tr>
+                        <tr>
                             <td colspan="2" class="border border-slate-300 p-2">
                                 <div>
                                     <label
@@ -81,6 +91,7 @@ pan.personelActionNotice.hire_source = "Internal"
                                     >EMPLOYEE:</label>
                                     <input
                                         id="small-input"
+                                        v-model="pan.personelActionNotice.employee"
                                         type="text"
                                         class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
@@ -107,6 +118,7 @@ pan.personelActionNotice.hire_source = "Internal"
                                     >EFFECTIVE DATE:</label>
                                     <input
                                         id="small-input"
+                                        v-model="pan.personelActionNotice.date_of_effictivity"
                                         type="date"
                                         class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >
@@ -125,44 +137,6 @@ pan.personelActionNotice.hire_source = "Internal"
                         <template v-if="pan.personelActionNotice.type === 'transfer'">
                             <HrmsEmployeePanPersonelTransfer />
                         </template>
-
-                        <tr>
-                            <td colspan="2" class="border border-slate-300 p-2">
-                                <div>
-                                    <label
-                                        for="small-input"
-                                        class="inline mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
-                                    >Eligible for Rehire:</label>
-
-                                    <div class="space-x-2">
-                                        <input id="yes" type="checkbox" value="">
-                                        <label
-                                            for="yes"
-                                            class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                                        >Yes</label>
-                                        <input id="no" type="checkbox" value="">
-                                        <label
-                                            for="no"
-                                            class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                                        >No</label>
-                                    </div>
-                                </div>
-                            </td>
-                            <td colspan="2" class="border border-slate-300 p-2">
-                                <div>
-                                    <label
-                                        for="small-input"
-                                        class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
-                                    >Last Day Worked:</label>
-                                    <input
-                                        id="small-input"
-                                        type="text"
-                                        class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    >
-                                </div>
-                            </td>
-                        </tr>
-
                         <tr>
                             <td colspan="4">
                                 <label

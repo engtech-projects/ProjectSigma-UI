@@ -41,11 +41,6 @@ export const useDepartmentStore = defineStore("departments", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.departmentList = response._data.data
-                        this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
-                        }
                     },
                 }
             )
