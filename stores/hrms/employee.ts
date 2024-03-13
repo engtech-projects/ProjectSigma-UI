@@ -310,6 +310,7 @@ export const useEmployeeInfo = defineStore("employee", {
         employeeSearchList: {} as Array<EmployeeSearch>,
         searchEmployeeParams: {
             key: "",
+            type: "AllEmployees",
         },
         errorMessage: "",
         successMessage: "",
