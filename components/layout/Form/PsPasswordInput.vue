@@ -1,3 +1,21 @@
+<script setup>
+const model = defineModel({ required: true, type: String })
+const compId = useId()
+defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    placeholder: {
+        type: String,
+        default: "",
+    },
+})
+</script>
 <template>
     <div class="PsTextInput">
         <label
@@ -18,21 +36,3 @@
     </div>
 </template>
 
-<script setup lang="ts">
-const model = defineModel({ required: true, type: String })
-const compId = useId()
-defineProps({
-    title: {
-        type: String,
-        required: true,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    placeholder: {
-        type: String,
-        default: "",
-    },
-})
-</script>
