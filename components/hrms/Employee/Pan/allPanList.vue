@@ -1,10 +1,8 @@
 <script setup>
-
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/employee/manpower"
-const manpowers = useManpowerStore()
-const { myApprovalRequestList: manpowerList } = storeToRefs(manpowers)
-
+import { usePersonelActionNotice } from "@/stores/hrms/pan"
+const pan = usePersonelActionNotice()
+const { allPanList } = storeToRefs(pan)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
@@ -71,7 +69,8 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="Manpower Approval List" class="w-full" :loading="boardLoading">
+    {{ allPanList }}
+    <LayoutBoards title="ALL PERSONEL ACTION NOTICE LIST" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
@@ -102,54 +101,7 @@ const actions = {
                         </div>
                     </div>
                     <div class="grid md:grid-cols-3 gap-2 md:justify-between">
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Requested Date: </span> <span class="text-gray-900">{{ employeeData.date_requested }}</span>
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Requested Required Date: </span> {{ employeeData.date_required }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> employment_type </span> {{ employeeData.employment_type }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> brief_description </span> {{ employeeData.brief_description }}
-                        </div>
-                        <!-- <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> job_description_attachment </span> {{ employeeData.job_description_attachment }}
-                        </div> -->
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> nature_of_request </span> {{ employeeData.nature_of_request }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> age_range </span> {{ employeeData.age_range }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> status </span> {{ employeeData.status }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> gender </span> {{ employeeData.gender }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> educational_requirement </span> {{ employeeData.educational_requirement }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> preferred_qualifications </span> {{ employeeData.preferred_qualifications }}
-                        </div>
-                        <!-- <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> approvals </span> {{ employeeData.approvals }}
-                        </div> -->
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> remarks </span> {{ employeeData.remarks }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> request_status </span> {{ employeeData.request_status }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> charged_to </span> {{ employeeData.charged_to }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> breakdown_details </span> {{ employeeData.breakdown_details }}
-                        </div>
+                        sample
                     </div>
                     <div class="flex gap-2 p-2 justify-end">
                         <button

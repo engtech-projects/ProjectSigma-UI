@@ -41,6 +41,9 @@ export interface PersonelActionNotice {
 
 export const usePersonelActionNotice = defineStore("personelActionNotice", {
     state: () => ({
+        allPanList: [] as Array<PersonelActionNotice>,
+        myPanList: [] as Array<PersonelActionNotice>,
+        approvalPanList: [] as Array<PersonelActionNotice>,
         personelActionNotice: {
             id: null as null | Number,
             employee_id: null as null | Number,
@@ -104,12 +107,11 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             await useHRMSApi(
                 "/api/employee-panrequest",
                 {
-                    method: "POST",
+                    method: "GET",
                     body: requestData,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
-                            this.successMessage = response._data.message
-                            return response._data
+                            this.allPanList = response._data._data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -126,12 +128,12 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             await useHRMSApi(
                 "/api/get-pan-approvals",
                 {
-                    method: "POST",
+                    method: "GET",
                     body: requestData,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.successMessage = response._data.message
-                            return response._data
+                            this.approvalPanList = response._data._data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -148,12 +150,12 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             await useHRMSApi(
                 "/api/get-panrequest",
                 {
-                    method: "POST",
+                    method: "GET",
                     body: requestData,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.successMessage = response._data.message
-                            return response._data
+                            this.myPanList = response._data._data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
