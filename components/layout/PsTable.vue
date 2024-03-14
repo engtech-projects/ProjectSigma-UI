@@ -1,7 +1,14 @@
-<script setup>
+<!-- eslint-disable vue/no-useless-template-attributes -->
+<script lang="ts" setup>
+interface HeaderColumn {
+    name: String,
+    id: String,
+    style: String
+}
+
 defineProps({
     headerColumns: {
-        type: Array,
+        type: Array<HeaderColumn>,
         required: true,
     },
     datas: {
@@ -53,8 +60,15 @@ const doDetail = (data) => {
                     :key="header+'headerRow'"
                     class="p-2"
                     :class="header.style ?? ''"
+                    :set="val = dataValue"
                 >
-                    {{ dataValue[header.id] }}
+                    <template v-if="(header.id).includes('.')">
+                        <span v-for="headerid in (header.id).split('.')" :key="'templateheaderrow'+headerid" :set="val = val[headerid]" />
+                        {{ val }}
+                    </template>
+                    <template v-else>
+                        {{ dataValue[header.id] }}
+                    </template>
                 </td>
                 <td v-if="actions" class=" p-2 flex gap-2 justify-center">
                     <button v-if="actions.edit" @click="doEdit(dataValue) ">
