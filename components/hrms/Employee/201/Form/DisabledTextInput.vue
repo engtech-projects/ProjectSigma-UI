@@ -5,7 +5,7 @@ defineProps({
         required: true,
     },
 })
-const model = defineModel({ required: true, type, String })
+const model = defineModel({ required: true, type: String })
 </script>
 <template>
     <td class="border border-slate-300 p-1">
