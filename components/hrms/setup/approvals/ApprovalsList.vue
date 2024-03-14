@@ -4,6 +4,10 @@ import { useUserStore } from "@/stores/hrms/users"
 const user = useUserStore()
 const { employeeUserList } = storeToRefs(user)
 
+if (employeeUserList.length() <= 0) {
+    user.getUserEmployees()
+}
+
 const model = defineModel({ required: true, type: Object })
 </script>
 
