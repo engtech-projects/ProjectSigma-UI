@@ -46,9 +46,6 @@ const addManpwr = async () => {
         boardLoading.value = false
     }
 }
-const changeuserId = (approver, userId) => {
-    manpower.value.approvals[approver].user_id = userId
-}
 </script>
 
 <template>
@@ -189,10 +186,8 @@ const changeuserId = (approver, userId) => {
                 <div>
                     <HrmsSetupApprovalsList
                         v-for="(approv, apr) in manpower.approvals"
-                        :key="apr"
-                        :approval="approv"
-                        :approval-index="apr"
-                        @changeuser-id="changeuserId"
+                        :key="'hrmsetupapprovallist'+apr"
+                        v-model="manpower.approvals[apr]"
                     />
                 </div>
 
