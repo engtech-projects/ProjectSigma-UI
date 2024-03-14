@@ -2,7 +2,8 @@
 import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
-const { approvalPanList } = storeToRefs(pan)
+
+const { approvalPanList, errorMessage, successMessage } = storeToRefs(pan)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
@@ -18,22 +19,18 @@ const closeViewModal = () => {
 }
 
 const headers = [
-    { name: "Requesting Department", id: "requesting_department" },
-    { name: "Position/Title", id: "position" },
-    { name: "Date Requested", id: "date_requested" },
-    { name: "Date Required", id: "date_required" },
-    { name: "Employment Type", id: "employment_type" },
-    { name: "Nature of Request", id: "nature_of_request" },
-    { name: "Requested by", id: "requested_by" },
-    { name: "Request Status", id: "request_status" },
+    { name: "APPLICANT NAME", id: "jobapplicantonly" },
+    { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
+    { name: "DEPARTMENT", id: "department_name" },
+    { name: "ACTIONS", id: "actions" },
 ]
 const approvedRequest = async (id) => {
     try {
         boardLoading.value = true
-        await manpowers.approveApprovalForm(id)
+        await pan.approvedPanRequest(id)
         snackbar.add({
             type: "success",
-            text: mains.successMessage
+            text: successMessage
         })
     } catch (error) {
         snackbar.add({
@@ -47,10 +44,10 @@ const approvedRequest = async (id) => {
 const deniedRequest = async (id) => {
     try {
         boardLoading.value = true
-        await manpowers.denyApprovalForm(id)
+        await pan.deniedPanRequest(id)
         snackbar.add({
             type: "success",
-            text: mains.successMessage
+            text: errorMessage
         })
     } catch (error) {
         snackbar.add({
@@ -69,15 +66,13 @@ const actions = {
 </script>
 
 <template>
-    {{ approvalPanList }}
-    <LayoutBoards title="APPROVAL PERSONEL ACTION NOTICE" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="PERSONEL ACTION NOTICE APPROVAL LIST" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="manpowerList"
+                :datas="approvalPanList"
                 @edit-row="setEdit"
-                @delete-row="deleteManpwr"
                 @show-table="showInformation"
             />
         </div>
@@ -95,13 +90,8 @@ const actions = {
                             Close
                         </button>
                     </div>
-                    <div class="grid gap-2 md:justify-between">
-                        <div class="p-2 flex gap-2">
-                            <span class="text-gray-900 text-4xl">POSITION {{ employeeData.position }}</span>
-                        </div>
-                    </div>
-                    <div class="grid md:grid-cols-3 gap-2 md:justify-between">
-                        sample
+                    <div>
+                        body here . . .
                     </div>
                     <div class="flex gap-2 p-2 justify-end">
                         <button

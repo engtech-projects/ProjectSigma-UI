@@ -102,16 +102,13 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         async getAllPan () {
             this.successMessage = ""
             this.errorMessage = ""
-            const requestData = JSON.parse(JSON.stringify(this.personelActionNotice))
-            requestData.approvals = JSON.stringify(requestData.approvals)
             await useHRMSApi(
                 "/api/employee-panrequest",
                 {
                     method: "GET",
-                    body: requestData,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
-                            this.allPanList = response._data._data
+                            this.allPanList = response._data.data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -123,17 +120,14 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         async getPanApprovals () {
             this.successMessage = ""
             this.errorMessage = ""
-            const requestData = JSON.parse(JSON.stringify(this.personelActionNotice))
-            requestData.approvals = JSON.stringify(requestData.approvals)
             await useHRMSApi(
                 "/api/get-pan-approvals",
                 {
                     method: "GET",
-                    body: requestData,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.successMessage = response._data.message
-                            this.approvalPanList = response._data._data
+                            this.approvalPanList = response._data.data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -145,17 +139,14 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         async myPanRequest () {
             this.successMessage = ""
             this.errorMessage = ""
-            const requestData = JSON.parse(JSON.stringify(this.personelActionNotice))
-            requestData.approvals = JSON.stringify(requestData.approvals)
             await useHRMSApi(
                 "/api/get-panrequest",
                 {
                     method: "GET",
-                    body: requestData,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.successMessage = response._data.message
-                            this.myPanList = response._data._data
+                            this.myPanList = response._data.data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -163,6 +154,46 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     },
                 }
             )
+        },
+        async approvedPanRequest (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useHRMSApiO(
+                "/api/approve-pan-approvals/" + id,
+                {
+                    method: "PUT",
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
+                }
+            )
+            if (data.value) {
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+        async deniedPanRequest (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useHRMSApiO(
+                "/api/approve-pan-approvals/" + id,
+                {
+                    method: "PUT",
+                    onResponse: ({ response }) => {
+                        this.successMessage = response._data.message
+                    },
+                }
+            )
+            if (data.value) {
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
         },
     },
 })
