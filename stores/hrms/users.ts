@@ -42,7 +42,7 @@ export const useUserStore = defineStore("users", {
             } as User,
             errorMessage: "",
             successMessage: "",
-        }
+        },
         employeeUserList: [] as Array<User>,
         pagination: {},
         getParams: {},
