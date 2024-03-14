@@ -29,6 +29,20 @@ export const useUserStore = defineStore("users", {
             errorMessage: "",
             successMessage: "",
         },
+        editData: {
+            params: {
+                name: "",
+                email: "",
+                password: "",
+                accessibilities: [] as Array<number>,
+                employee_id: null,
+                employee_details: {} as Object,
+                accessibilities_name: [] as Array<String>,
+                type: "",
+            } as User,
+            errorMessage: "",
+            successMessage: "",
+        }
         employeeUserList: [] as Array<User>,
         pagination: {},
         getParams: {},
