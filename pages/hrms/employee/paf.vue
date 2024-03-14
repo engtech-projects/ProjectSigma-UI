@@ -1,7 +1,13 @@
-<script setup lang="ts">
+<script setup>
+import { usePersonelActionNotice } from "@/stores/hrms/pan"
 useHead({
     title: "Personal Action Notice",
 })
+
+const pan = usePersonelActionNotice()
+await pan.getAllPan()
+await pan.getPanApprovals()
+await pan.myPanRequest()
 </script>
 
 <template>

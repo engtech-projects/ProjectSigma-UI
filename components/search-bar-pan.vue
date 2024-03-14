@@ -35,7 +35,7 @@ const selectJobApplicant = async (id) => {
                 >
             </div>
         </form>
-        <ul v-if="applicantSearchList.length > 0" id="panContainer" class="mt-1 p-px rounded-lg bg-white dark:bg-gray-800">
+        <ul v-if="searchJobApplicantParams.key" id="panContainer" class="mt-1 p-px rounded-lg bg-white dark:bg-gray-800">
             <li v-for="(applicant, i) in applicantSearchList" :key="i" class="hover:bg-teal-200 rounded-md cursor-pointer p-1" @click="selectJobApplicant(applicant.id)">
                 {{ applicant.lastname }}, {{ applicant.firstname }} {{ applicant.middlename || "" }}
             </li>
