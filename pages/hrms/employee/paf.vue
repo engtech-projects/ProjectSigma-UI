@@ -12,7 +12,11 @@ useHead({
         <hr>
         <div class="md:flex gap-4">
             <HrmsEmployeePanPersonelActionForm />
-            <HrmsEmployeePanPersonelActionFormList />
+            <div class="w-2/3">
+                <HrmsEmployeePanAllPanList />
+                <HrmsEmployeePanApprovalList />
+                <HrmsEmployeePanMyPanList />
+            </div>
         </div>
     </div>
 </template>

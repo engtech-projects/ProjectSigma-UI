@@ -8,7 +8,7 @@ const pan = usePersonelActionNotice()
             <label
                 for="small-input"
                 class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >EMPLOYEE STATUS: </label>
+            >OLD EMPLOYEE STATUS: </label>
         </td>
     </tr>
     <tr>
@@ -34,6 +34,44 @@ const pan = usePersonelActionNotice()
                     for="projectBased"
                     class="text-xs text-gray-900 dark:text-gray-300"
                 >PROJECT BASED</label>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="m-2">
+                <label
+                    for="PromotionPosition"
+                    class="flex text-sm text-black-700 dark:text-white"
+                >OLD POSITION </label>
+            </div>
+        </td>
+        <td colspan="2">
+            <div class="m-2">
+                <label
+                    for="PromotionPosition"
+                    class="flex text-sm text-black-700 dark:text-white"
+                >NEW POSITION : </label>
+                <input id="PromotionPosition" v-model="pan.personelActionNotice.new_position" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="m-2">
+                <label
+                    for="PromotionSalaryGrade"
+                    class="flex text-sm text-black-700 dark:text-white"
+                >OLD SALARY GRADE </label>
+            </div>
+        </td>
+        <td colspan="2">
+            <div class="m-2">
+                <label
+                    for="PromotionSalaryGrade"
+                    class="flex text-sm text-black-700 dark:text-white"
+                >NEW SALARY GRADE : </label>
+                <input id="PromotionSalaryGrade" v-model="pan.personelActionNotice.new_salary_grades" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
             </div>
         </td>
     </tr>

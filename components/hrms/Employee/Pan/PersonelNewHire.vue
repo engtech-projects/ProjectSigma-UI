@@ -9,7 +9,7 @@ const department = useDepartmentStore()
 // const salaryGrade = useSalaryGradeStore()
 pan.personelActionNotice.salary_type = "Fixed Rate"
 pan.personelActionNotice.hire_source = "Internal"
-pan.personelActionNotice.new_employment_status = "Probationary"
+pan.personelActionNotice.employement_status = "Probationary"
 pan.personelActionNotice.work_location = "Office"
 const { departmentList } = storeToRefs(department)
 
@@ -37,7 +37,7 @@ department.getDepartmentList()
                     class="w-full "
                     required
                 >
-                    <option v-for="(dep, index) in departmentList" :key="index" :value="dep.id">
+                    <option v-for="(dep, index) in departmentList" :key="index" :value="dep.department_name">
                         {{ dep.department_name }}
                     </option>
                 </select>
@@ -69,6 +69,7 @@ department.getDepartmentList()
                     v-model="pan.personelActionNotice.salary_grades"
                     type="text"
                     class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
                 >
             </div>
         </td>
@@ -84,22 +85,22 @@ department.getDepartmentList()
     <tr>
         <td colspan="4" class="border border-slate-300 p-2">
             <div class="md:flex gap-2 space-x-2 p-2">
-                <input id="probationary" v-model="pan.personelActionNotice.new_employment_status" class="" type="radio" value="Probationary">
+                <input id="probationary" v-model="pan.personelActionNotice.employement_status" class="" type="radio" value="Probationary">
                 <label
                     for="probationary"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >PROBATIONARY</label>
-                <input id="regularization" v-model="pan.personelActionNotice.new_employment_status" class="" type="radio" value="Regularization">
+                <input id="regularization" v-model="pan.personelActionNotice.employement_status" class="" type="radio" value="Regularization">
                 <label
                     for="regularization"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >REGULARIZATION</label>
-                <input id="weekly" v-model="pan.personelActionNotice.new_employment_status" class="" type="radio" value="Project Base">
+                <input id="weekly" v-model="pan.personelActionNotice.employement_status" class="" type="radio" value="Project Base">
                 <label
                     for="weekly"
                     class="text-xs text-gray-900 dark:text-gray-300"
                 >WEEKLY</label>
-                <input id="projectBased" v-model="pan.personelActionNotice.new_employment_status" type="radio" value="projectBased">
+                <input id="projectBased" v-model="pan.personelActionNotice.employement_status" type="radio" value="projectBased">
                 <label
                     for="projectBased"
                     class="text-xs text-gray-900 dark:text-gray-300"

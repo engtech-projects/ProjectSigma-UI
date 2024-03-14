@@ -2,17 +2,41 @@
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useApprovalStore } from "@/stores/hrms/approvals"
 
+const { data: userData } = useAuth()
 const approval = useApprovalStore()
 const pan = usePersonelActionNotice()
-
-pan.personelActionNotice.date_of_effictivity = Date.now()
-pan.personelActionNotice.type = "newhire"
-
-pan.personelActionNotice.approvals = approval.getApprovalByName("Personnel Action Notice")
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+pan.personelActionNotice.type = "New Hire"
+const approvals = await approval.getApprovalByName("Personnel Action Notice")
+pan.personelActionNotice.approvals = approvals
+const savePan = async () => {
+    snackbar.add({
+        type: "error",
+        text: "asdasd"
+    })
+    try {
+        boardLoading.value = true
+        await pan.savePan()
+        if (pan.successMessage) {
+            snackbar.add({
+                type: "success",
+                text: pan.successMessage
+            })
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error
+        })
+    } finally {
+        boardLoading.value = false
+    }
+}
 </script>
 <template>
     <div
-        class="shadow-md p-4 mt-6 bg-white mb-3 border border-gray-200 rounded-lg w-full md:w-1/2"
+        class="shadow-md p-4 mt-6 bg-white mb-3 border border-gray-200 rounded-lg w-full"
     >
         <div class="flex items-center md:justify-center p-4">
             <div class="text-2xl p-3 lg:text-4xl text-right">
@@ -54,22 +78,22 @@ pan.personelActionNotice.approvals = approval.getApprovalByName("Personnel Actio
                             <td colspan="4" class="border border-slate-300 p-2">
                                 {{ pan.personelActionNotice.type }}
                                 <div class="md:flex gap-2 space-x-2 p-2">
-                                    <input id="newhire" v-model="pan.personelActionNotice.type" class="" type="radio" value="newhire">
+                                    <input id="newhire" v-model="pan.personelActionNotice.type" class="" type="radio" value="New Hire">
                                     <label
                                         for="newhire"
                                         class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                                     >NEW HIRE</label>
-                                    <input id="termination" v-model="pan.personelActionNotice.type" class="" type="radio" value="termination">
+                                    <input id="termination" v-model="pan.personelActionNotice.type" class="" type="radio" value="Termination">
                                     <label
                                         for="termination"
                                         class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                                     >TERMINATION</label>
-                                    <input id="transfer" v-model="pan.personelActionNotice.type" class="" type="radio" value="transfer">
+                                    <input id="transfer" v-model="pan.personelActionNotice.type" class="" type="radio" value="Transfer">
                                     <label
                                         for="transfer"
                                         class="text-xs text-gray-900 dark:text-gray-300"
                                     >TRANSFER</label>
-                                    <input id="promotion" v-model="pan.personelActionNotice.type" type="radio" value="promotion">
+                                    <input id="promotion" v-model="pan.personelActionNotice.type" type="radio" value="Promotion">
                                     <label
                                         for="promotion"
                                         class="text-xs text-gray-900 dark:text-gray-300"
@@ -125,16 +149,16 @@ pan.personelActionNotice.approvals = approval.getApprovalByName("Personnel Actio
                                 </div>
                             </td>
                         </tr>
-                        <template v-if="pan.personelActionNotice.type === 'newhire'">
+                        <template v-if="pan.personelActionNotice.type === 'New Hire'">
                             <HrmsEmployeePanPersonelNewHire />
                         </template>
-                        <template v-if="pan.personelActionNotice.type === 'promotion'">
+                        <template v-if="pan.personelActionNotice.type === 'Promotion'">
                             <HrmsEmployeePanPersonelPromotion />
                         </template>
-                        <template v-if="pan.personelActionNotice.type === 'termination'">
+                        <template v-if="pan.personelActionNotice.type === 'Termination'">
                             <HrmsEmployeePanPersonelTermination />
                         </template>
-                        <template v-if="pan.personelActionNotice.type === 'transfer'">
+                        <template v-if="pan.personelActionNotice.type === 'Transfer'">
                             <HrmsEmployeePanPersonelTransfer />
                         </template>
                         <tr>
@@ -151,6 +175,7 @@ pan.personelActionNotice.approvals = approval.getApprovalByName("Personnel Actio
                                 <div>
                                     <input
                                         id="small-input"
+                                        v-model="pan.personelActionNotice.comment"
                                         type="text"
                                         placeholder="Comments and explanations here"
                                         class="italic block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -167,159 +192,30 @@ pan.personelActionNotice.approvals = approval.getApprovalByName("Personnel Actio
                                 >APPROVAL</label>
                             </td>
                         </tr>
-
-                        <tr>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <label
-                                        for="small-input"
-                                        class="flex justify-center text-xs font-bold text-gray-900 dark:text-white"
-                                    />
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <label
-                                        for="small-input"
-                                        class="flex justify-center text-xs font-bold text-gray-900 dark:text-white"
-                                    >DATE</label>
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <label
-                                        for="small-input"
-                                        class="flex justify-center text-xs font-bold text-gray-900 dark:text-white"
-                                    />
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <label
-                                        for="small-input"
-                                        class="w-12 flex justify-center text-xs font-bold text-gray-900 dark:text-white"
-                                    >DATE</label>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <label
-                                        for=""
-                                        class="flex text-xs font-medium text-gray-900 dark:text-white"
-                                    >Immediate Head:</label>
-                                    <input
-                                        id="small-input"
-                                        type="text"
-                                        class="italic block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    >
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2 w-6">
-                                <div>
-                                    <input type="date" class="w-20 md:w-full">
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2">
-                                <div class="flex h-16">
-                                    <label
-                                        for=""
-                                        class="inline-block align-text-bottom text-xs pt-4 font-medium text-gray-900 dark:text-white"
-                                    >Director: <b>ENGR. RICHIE C. DALAUTA</b></label>
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <input type="date" class="w-20 md:w-full">
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <label
-                                        for=""
-                                        class="inline-block align-text-bottom mt-8 text-xs font-medium text-gray-900 dark:text-white"
-                                    >HR Head: <b>JERMILY C. MOZO</b></label>
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <input type="date" class="w-20 md:w-full">
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2">
-                                <div class="">
-                                    <label
-                                        for=""
-                                        class="inline-block align-text-bottom mt-8 text-xs font-medium text-gray-900 dark:text-white"
-                                    >Director: <b>ENGR. DIONISION JONAS A. RODES</b></label>
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <input type="date" class="w-20 md:w-full">
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <label
-                                        for=""
-                                        class="flex text-xs font-medium text-gray-900 dark:text-white"
-                                    >Director:</label>
-                                    <input
-                                        id="small-input"
-                                        type="text"
-                                        class="italic block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    >
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <input type="date" class="w-20 md:w-full">
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2">
-                                <div class="">
-                                    <label
-                                        for=""
-                                        class="inline-block align-text-bottom mt-8 text-xs font-medium text-gray-900 dark:text-white"
-                                    >President: <b>ENGR. ANGEL A. ABRAU</b></label>
-                                </div>
-                            </td>
-                            <td class="border border-slate-300 p-2">
-                                <div>
-                                    <input type="date" class="w-20 md:w-full">
-                                </div>
-                            </td>
-                        </tr>
-
                         <tr>
                             <td colspan="4">
-                                <label
-                                    for="small-input"
-                                    class="flex justify-center text-md font-medium text-blue-700 dark:text-white"
-                                >EMPLOYEE SIGNATURE</label>
+                                <HrmsEmployeePanPersonelApproval class="w-full" />
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="4" class="border border-slate-300 p-2">
-                                <div>
-                                    <input
-                                        id="small-input"
-                                        type="text"
-                                        class="italic block w-full p-2 text-gray-900 border-0 border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    >
-                                </div>
+                            <td colspan="1">
                                 <label
                                     for="small-input"
-                                    class="flex justify-center text-xs italic font-medium text-gray-900 dark:text-white"
-                                >Name & Signature
-                                </label>
+                                    class="flex justify-left pt-4 px-4 text-md font-medium text-blue-700 dark:text-white"
+                                >CREATED BY: {{ userData.name }}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <div class="flex justify-between p-2">
+                                    <label
+                                        for="small-input"
+                                        class="flex justify-left px-2 text-lg font-medium text-gray-700 dark:text-white"
+                                    />
+                                    <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" @click.prevent="savePan()">
+                                        Submit
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>

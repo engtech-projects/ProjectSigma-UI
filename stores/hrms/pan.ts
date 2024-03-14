@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
-// const { token } = useAuth()
-// const config = useRuntimeConfig()
+
 export interface ApprovalModel {
     id: Number,
     form: String,
@@ -21,6 +20,9 @@ export interface PersonelActionNotice {
     new_section: String,
     new_location: String,
     new_employment_status: String,
+    employement_status: String,
+    employment_status: String,
+    comment: String,
     new_position: String,
     type_of_termination: String,
     reasons_for_termination: String,
@@ -29,7 +31,7 @@ export interface PersonelActionNotice {
     approvals: Array<ApprovalModel>,
     new_salary_grades: String,
     pan_job_applicant_id: Number,
-    salary_grades: String,
+    salary_grades: Number,
     salary_type: String,
     deleted_at: String,
     created_at: String,
@@ -39,7 +41,6 @@ export interface PersonelActionNotice {
 
 export const usePersonelActionNotice = defineStore("personelActionNotice", {
     state: () => ({
-        approvals: [] as Array<ApprovalModel>,
         personelActionNotice: {
             id: null as null | Number,
             employee_id: null as null | Number,
@@ -52,6 +53,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             new_section: "" as String,
             new_location: "" as String,
             new_employment_status: "" as String,
+            employement_status: "" as String,
             new_position: "" as String,
             type_of_termination: "" as String,
             reasons_for_termination: "" as String,
@@ -60,7 +62,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             approvals: [] as Array<ApprovalModel>,
             new_salary_grades: "" as String,
             pan_job_applicant_id: null as null | Number,
-            salary_grades: "" as String,
+            salary_grades: null as null | Number,
             salary_type: "" as String,
             deleted_at: "" as String,
             created_at: "" as String,
@@ -69,7 +71,96 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         } as PersonelActionNotice,
         errorMessage: "",
         successMessage: "",
+        errorHandler: [],
     }),
     actions: {
+        async savePan () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const requestData = JSON.parse(JSON.stringify(this.personelActionNotice))
+            requestData.approvals = JSON.stringify(requestData.approvals)
+            await useHRMSApi(
+                "/api/employee-panrequest",
+                {
+                    method: "POST",
+                    body: requestData,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getAllPan () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const requestData = JSON.parse(JSON.stringify(this.personelActionNotice))
+            requestData.approvals = JSON.stringify(requestData.approvals)
+            await useHRMSApi(
+                "/api/employee-panrequest",
+                {
+                    method: "POST",
+                    body: requestData,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getPanApprovals () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const requestData = JSON.parse(JSON.stringify(this.personelActionNotice))
+            requestData.approvals = JSON.stringify(requestData.approvals)
+            await useHRMSApi(
+                "/api/get-pan-approvals",
+                {
+                    method: "POST",
+                    body: requestData,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async myPanRequest () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const requestData = JSON.parse(JSON.stringify(this.personelActionNotice))
+            requestData.approvals = JSON.stringify(requestData.approvals)
+            await useHRMSApi(
+                "/api/get-panrequest",
+                {
+                    method: "POST",
+                    body: requestData,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
     },
 })

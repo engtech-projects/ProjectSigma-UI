@@ -246,7 +246,8 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         list: [],
         jobApplicantDetails: [],
         searchJobApplicantParams: {
-            key: ""
+            key: "",
+            type: "AllEmployees",
         },
         applicantSearchList: {} as Array<JobApplicantSearch>,
         pagination: {},
