@@ -85,5 +85,43 @@ export const useUserStore = defineStore("users", {
                 }
             )
         },
+        async editEmployeeAccount (id: string) {
+            await useHRMSApiO(
+                "/api/users" + id,
+                {
+                    method: "PATCH",
+                    params: this.editData.params,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.$reset()
+                            this.editData.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.editData.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async setUserAccessibilities (id: string) {
+            await useHRMSApiO(
+                "/api/users_accessibilities" + id,
+                {
+                    method: "PATCH",
+                    params: this.editData.params,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.$reset()
+                            this.editData.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.editData.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
     },
 })

@@ -4,7 +4,7 @@ import { useUserStore } from "@/stores/hrms/users"
 const user = useUserStore()
 const { employeeUserList } = storeToRefs(user)
 
-if (employeeUserList.length <= 0) {
+if (employeeUserList.value.length <= 0) {
     user.getUserEmployees()
 }
 

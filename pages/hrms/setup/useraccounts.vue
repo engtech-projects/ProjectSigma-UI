@@ -1,7 +1,10 @@
 <script setup>
 import { useEmployeeSearch } from "@/stores/hrms/employeeSearch"
+import { useAccessbilities } from "@/stores/hrms/accessibilities"
 const employeeSearch = useEmployeeSearch()
 employeeSearch.searchEmployeesNoAccount()
+const accessbilities = useAccessbilities()
+accessbilities.getListIfEmpty()
 useHead({
     title: "User Accounts",
     meta: [{ name: "description", content: "User Accounts Creation Page" }],

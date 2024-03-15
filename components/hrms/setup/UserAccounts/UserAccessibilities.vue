@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+import { useAccessbilities } from "@/stores/hrms/accessibilities"
+import { useUserStore } from "@/stores/hrms/users"
+
+const accessbilities = useAccessbilities()
+const user = useUserStore()
+
+const { editData } = storeToRefs(user)
+
+</script>
 <template>
     <section class="bg-gray-50 dark:bg-gray-900">
         <div
@@ -10,208 +20,14 @@
                             User Accessibility
                         </span>
                     </div>
-                    <div class="grid grid-cols-2 justify-between overflow-auto h-96">
-                        <div class="items-center ">
-                            <label for="default-checkbox" class="ms-2 text-md font-medium text-green-400 dark:text-green-300">HRMS</label>
-
-                            <div class="grid grid-cols-1 space-y-1 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Dashboard</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Announcement</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Event Calendar</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Leave</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Loans</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Overtime</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Cash Advance</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Reports</span>
-                                </label>
-                            </div>
-
-                            <label for="default-checkbox" class="ms-2 text-md font-medium text-green-400 dark:text-green-300">ATTENDANCE</label>
-
-                            <div class="grid grid-cols-1 space-y-1 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Attendance Portal</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Daily Logs Record</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Failure to Login</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Face Recognition</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Attendance Login</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">QR Code</span>
-                                </label>
-                            </div>
-                            <label for="default-checkbox" class="ms-2 text-md font-medium text-green-400 dark:text-green-300">EMPLOYEE</label>
-                            <div class="grid grid-cols-1 space-y-1 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">201</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">PAN</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Onboarding</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Manpower Request</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="items-center mb-4">
-                            <label for="default-checkbox" class="ms-2 text-md font-medium text-green-400 dark:text-green-300">SETUP</label>
-                            <div class="grid grid-cols-1 space-y-1 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">User Accounts</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Department</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Approvals</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">HMO</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">PhilHealth</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Pag-Ibig</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">SSS</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Withholding Tax</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Leaves</span>
-                                </label>
-                            </div>
-                            <label for="default-checkbox" class="ms-2 text-md font-medium text-green-400 dark:text-green-300">PAYROLL</label>
-                            <div class="grid grid-cols-1 space-y-1 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Generate Payroll</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">13th Month Pay</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Allowance</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Payroll Record</span>
-                                </label>
-                            </div>
-                            <label for="default-checkbox" class="ms-2 text-md font-medium text-green-400 dark:text-green-300">SCHEDULE</label>
-                            <div class="grid grid-cols-1 space-y-1 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Department Sched</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Employee Sched</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Project Sched</span>
-                                </label>
-                                <label class="relative inline-flex items-center w-full cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer">
-                                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">Payroll Record</span>
-                                </label>
-                            </div>
-                        </div>
+                    <div class="grid justify-between overflow-auto h-96">
+                        <HrmsSetupUserAccountsAccessibilityGroup
+                            v-for="acc, accid in accessbilities.formattedAccessibilities"
+                            :key="'accid' + accid"
+                            v-model="editData.params.accessibilities"
+                            :title="accid"
+                            :accessibilities="acc"
+                        />
                     </div>
                 </div>
             </div>
