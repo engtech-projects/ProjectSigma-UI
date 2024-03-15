@@ -1,24 +1,55 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/employee/manpower"
+import { useJobapplicantStore } from "@/stores/employee/jobapplicant"
 
 const manpowers = useManpowerStore()
 const { manpower } = storeToRefs(manpowers)
+const jobapplicantstore = useJobapplicantStore()
+const { jobapplicant } = storeToRefs(jobapplicantstore)
 
-// const snackbar = useSnackbar()
+const snackbar = useSnackbar()
 const boardLoading = ref(false)
+
+const handleStatusChange = async (applicant) => {
+    try {
+        jobapplicant.value = applicant
+        boardLoading.value = true
+        await jobapplicantstore.editJobapplicant()
+        if (jobapplicantstore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: jobapplicantstore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: jobapplicantstore.successMessage
+            })
+        }
+    } catch (error) {
+        errorMessage.value = errorMessage
+        snackbar.add({
+            type: "error",
+            text: jobapplicantstore.errorMessage
+        })
+    } finally {
+        jobapplicantstore.clearMessages()
+        boardLoading.value = false
+    }
+}
 
 </script>
 
 <template>
-    <div class="flex flex-col items-end gap-4">
-        <LayoutEditBoards title="Applicant Details" class="w-full shadow-lg" :loading="boardLoading">
-            <div v-for="(applicant, index) in manpower.job_applicants" :key="index" class="border rounded-lg p-4 mb-8">
-                <h2 class="text-xl font-semibold mb-4">
-                    Applicant {{ index + 1 }}
+    <div>
+        <LayoutDisplayBoards title="Applicant Details" class="w-full shadow-lg" :loading="boardLoading">
+            <div v-for="(applicant, index) in manpower.job_applicants" :key="index" class="border border-teal-500 rounded-lg mb-8">
+                <h2 class="flex text-xl font-semibold mb-2 bg-slate-100 p-2 rounded-t-lg">
+                    Applicant #{{ index + 1 }}
                     <!-- {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }} -->
                 </h2>
-                <div class="grid grid-cols-3 gap-4">
+                <div class="grid grid-cols-3 gap-8 p-4">
                     <div>
                         <p class="font-semibold italic">
                             Application Letter Attachment:
@@ -38,21 +69,7 @@ const boardLoading = ref(false)
                     <div>
                         <p class="font-semibold italic">
                             Status:
-                            <select
-                                v-model="applicant.status"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-cyan-500 focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
-                            >
-                                <option value="select" disabled selected>
-                                    -- Select --
-                                </option>
-                                <option v-for="applicants, statusIndex in STATUS" :key="statusIndex" :value="stats">
-                                    <!-- {{ stats }} -->
-                                    {{ applicants.status }}
-                                </option>
-                            </select>
-                        </p>
-                        <p class="truncate">
-                            {{ applicant.status }}
+                            <HrmsEmployeeJobStatusSet v-model:status="applicant.status" v-model:remarks="applicant.remarks" @change="handleStatusChange(applicant)" />
                         </p>
                     </div>
                     <div>
@@ -67,14 +84,9 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.date_of_application }}</p>
                     </div>
-                    <!-- <div>
-                        <p class="font-semibold italic">
-                            Remarks:
-                            <input v-model="applicant.remarks" type="text" class="truncate border border-gray-300 rounded-md p-1">
-                        </p>
-                    </div> -->
                 </div>
-                <div class="grid grid-cols-2 gap-4 pt-4">
+                <hr>
+                <div class="grid grid-cols-3 gap-8 p-4">
                     <div>
                         <p class="font-semibold italic">
                             Personal Information:
@@ -111,9 +123,6 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.per_address_street }} {{ applicant.per_address_brgy }} {{ applicant.per_address_city }} {{ applicant.per_address_province }} {{ applicant.per_address_zip }}</p>
                     </div>
-                </div>
-                <!-- Spouse and Children -->
-                <div class="grid grid-cols-3 gap-4 pt-4">
                     <div>
                         <p class="font-semibold italic">
                             Name of Spouse:
@@ -140,8 +149,8 @@ const boardLoading = ref(false)
                         <p>Birthdate: {{ child.birthdate }}</p>
                     </div>
                 </div>
-                <!-- Work Experience -->
-                <div class="grid grid-cols-2 gap-4 pt-4">
+                <hr>
+                <div class="grid grid-flow-col auto-cols-max gap-8 p-4">
                     <div v-for="(work, workIndex) in JSON.parse(applicant.workexperience)" :key="workIndex">
                         <p class="font-semibold italic">
                             Work Experience:
@@ -156,7 +165,8 @@ const boardLoading = ref(false)
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4 pt-4">
+                <hr>
+                <div class="grid grid-cols-3 gap-8 p-4">
                     <div>
                         <p class="font-semibold italic">
                             How did your learn about our company?
@@ -169,9 +179,6 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.currently_employed }}</p>
                     </div>
-                </div>
-                <!-- In Case of Emergency -->
-                <div class="grid grid-cols-2 gap-4 pt-4">
                     <div>
                         <p class="font-semibold italic">
                             In Case of Emergency:
@@ -196,14 +203,11 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.telephone_icoe }}</p>
                     </div>
-                </div>
-                <!-- Education -->
-                <div class="grid grid-cols-2 gap-4 pt-4">
                     <div v-for="(educ, educIndex) in JSON.parse(applicant.education)" :key="educIndex">
                         <p class="font-semibold italic">
                             Education:
                         </p>
-                        <div class="flex gap-x-10 min-w-max">
+                        <div class="flex gap-8 min-w-max">
                             <div>
                                 <p class="font-semibold italic">
                                     Elementary
@@ -244,6 +248,6 @@ const boardLoading = ref(false)
                     </div>
                 </div>
             </div>
-        </LayoutEditBoards>
+        </LayoutDisplayBoards>
     </div>
 </template>

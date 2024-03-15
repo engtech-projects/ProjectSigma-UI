@@ -9,7 +9,8 @@ export const CURRENT_EMP = [
     CURRENT_NO,
 ]
 
-export const STATUS_CONTRACTEXT = "Contract Extended"
+export const STATUS_CONTACTEXT = "Contact Extended"
+export const STATUS_CONTRACTSIGNED = "Contract Singed"
 export const STATUS_PENDING = "Pending"
 export const STATUS_INTERVIEWED = "Interviewed"
 export const STATUS_REJECTED = "Rejected"
@@ -20,7 +21,8 @@ export const STATUS_INTERVIEW = "Interview"
 export const STATUS_REFERENCECHECK = "Reference Checking"
 export const STATUS_MEDICALEXAM = "Medical Examination"
 export const STATUS = [
-    STATUS_CONTRACTEXT,
+    STATUS_CONTACTEXT,
+    STATUS_CONTRACTSIGNED,
     STATUS_PENDING,
     STATUS_INTERVIEWED,
     STATUS_REJECTED,
@@ -242,6 +244,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             icoe_province: null,
             icoe_street: null,
             icoe_zip: null,
+            remarks: null,
         },
         list: [],
         jobApplicantDetails: [],
@@ -286,7 +289,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 }
             )
         },
-        async getJobApplicantInformation (id : Number) {
+        async getJobApplicantInformation (id: Number) {
             this.$reset()
             const { data, error } = await useFetch(
                 "/api/job-applicants/" + id,
@@ -384,15 +387,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             formData.append("icoe_city", this.jobapplicant.icoe_city)
             formData.append("icoe_province", this.jobapplicant.icoe_province)
             formData.append("icoe_zip", this.jobapplicant.icoe_zip)
-
-            // this.jobapplicant.education.forEach((edu, index) => {
-            //     formData.append(`education[${index}][elementary_name]`, edu.elementary_name)
-            //     formData.append(`education[${index}][elementary_education]`, edu.elementary_education)
-            //     formData.append(`education[${index}][elementary_period_attendance_to]`, edu.elementary_period_attendance_to)
-            //     formData.append(`education[${index}][secondary_name]`, edu.secondary_name)
-            //     formData.append(`education[${index}][secondary_education]`, edu.secondary_education)
-            //     formData.append(`education[${index}][secondary_period_attendance_to]`, edu.secondary_period_attendance_to)
-            // })
+            formData.append("remarks", this.jobapplicant.remarks)
 
             await useHRMSApiO(
                 "/api/job-applicants",
@@ -404,6 +399,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                             this.errorMessage = response._data.message
                         } else {
                             this.getJobApplicantsDetails()
+                            this.reset()
                             this.successMessage = response._data.message
                         }
                     },
@@ -417,10 +413,9 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         async editJobapplicant () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
-                "/api/manpower-requests/" + this.jobapplicant.id,
+            await useHRMSApiO(
+                "/api/job-applicants/" + this.jobapplicant.id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
                     headers: {
                         Authorization: token.value + "",
@@ -515,12 +510,41 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 icoe_relationship: null,
                 telephone_icoe: null,
                 workexperience: [],
-                education: [],
+                education: [
+                    {
+                        elementary_name: null,
+                        elementary_education: null,
+                        elementary_period_attendance_to: null,
+                        elementary_period_attendance_from: null,
+                        elementary_year_graduated: null,
+                        secondary_name: null,
+                        secondary_education: null,
+                        secondary_period_attendance_to: null,
+                        secondary_period_attendance_from: null,
+                        secondary_year_graduated: null,
+                        vocationalcourse_name: null,
+                        vocationalcourse_education: null,
+                        vocationalcourse_period_attendance_to: null,
+                        vocationalcourse_period_attendance_from: null,
+                        vocationalcourse_year_graduated: null,
+                        college_name: null,
+                        college_education: null,
+                        college_period_attendance_to: null,
+                        college_period_attendance_from: null,
+                        college_year_graduated: null,
+                        graduatestudies_name: null,
+                        graduatestudies_education: null,
+                        graduatestudies_period_attendance_to: null,
+                        graduatestudies_period_attendance_from: null,
+                        graduatestudies_year_graduated: null,
+                    }
+                ],
                 icoe_brgy: null,
                 icoe_city: null,
                 icoe_province: null,
                 icoe_street: null,
                 icoe_zip: null,
+                remarks: null,
 
             }
             this.isEdit = false

@@ -118,6 +118,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 return error
             }
         },
+
         async getManpower () {
             await useFetch(
                 "/api/manpower-requests",

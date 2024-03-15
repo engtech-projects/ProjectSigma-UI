@@ -136,7 +136,6 @@ const handleResumeFileUpload = (event) => {
                         name="floating_date_of_application"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_date_of_application" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Application</label>
                 </div>
@@ -144,58 +143,22 @@ const handleResumeFileUpload = (event) => {
             <div class="grid md:grid-cols-4 md:gap-6">
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-2">
-                        <input
-                            id="floating_lastname"
-                            v-model="jobapplicant.lastname"
-                            type="text"
-                            name="floating_lastname"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_lastname" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last Name</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.lastname" title="Last Name" />
                     </div>
                 </div>
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-2">
-                        <input
-                            id="floating_firstname"
-                            v-model="jobapplicant.firstname"
-                            type="text"
-                            name="floating_firstname"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_firstname" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First Name</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.firstname" title="First Name" />
                     </div>
                 </div>
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-2">
-                        <input
-                            id="floating_middlename"
-                            v-model="jobapplicant.middlename"
-                            type="text"
-                            name="floating_middlename"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_middlename" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Middle Name</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.middlename" title="Middle Name" />
                     </div>
                 </div>
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-2">
-                        <input
-                            id="floating_suffix"
-                            v-model="jobapplicant.name_suffix"
-                            type="text"
-                            name="floating_lastname"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_lastname" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Suffix</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.name_suffix" title="Suffix" />
                     </div>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
@@ -206,7 +169,6 @@ const handleResumeFileUpload = (event) => {
                         name="floating_date_of_birth"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_date_of_birth" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Birth</label>
                 </div>
@@ -215,74 +177,29 @@ const handleResumeFileUpload = (event) => {
             <div class="grid md:grid-cols-3 md:gap-6">
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-3">
-                        <input
-                            id="floating_per_address_street"
-                            v-model="jobapplicant.per_address_street"
-                            type="text"
-                            name="floating_per_address_street"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_per_address_street" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Street</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.per_address_street" title="Street" />
                     </div>
                 </div>
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-3">
-                        <input
-                            id="floating_per_address_barangay"
-                            v-model="jobapplicant.per_address_brgy"
-                            type="text"
-                            name="floating_per_address_barangay"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_per_address_barangay" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Barangay</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.per_address_brgy" title="Barangay" />
                     </div>
                 </div>
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-3">
-                        <input
-                            id="floating_per_address_city"
-                            v-model="jobapplicant.per_address_city"
-                            type="text"
-                            name="floating_per_address_city"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_per_address_city" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">City</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.per_address_city" title="City" />
                     </div>
                 </div>
             </div>
             <div class="grid md:grid-cols-3 md:gap-6">
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-3">
-                        <input
-                            id="floating_per_address_zip"
-                            v-model="jobapplicant.per_address_zip"
-                            type="text"
-                            name="floating_per_address_zip"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_per_address_zip" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">ZIP</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.per_address_zip" title="ZIP" />
                     </div>
                 </div>
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-3">
-                        <input
-                            id="floating_per_address_province"
-                            v-model="jobapplicant.per_address_province"
-                            type="text"
-                            name="floating_per_address_province"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_per_address_province" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Province</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.per_address_province" title="Province" />
                     </div>
                 </div>
             </div>
@@ -290,129 +207,48 @@ const handleResumeFileUpload = (event) => {
             <div class="grid md:grid-cols-3 md:gap-6">
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-3">
-                        <input
-                            id="floating_pre_address_street"
-                            v-model="jobapplicant.pre_address_street"
-                            type="text"
-                            name="floating_pre_address_street"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_pre_address_street" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Street</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.pre_address_street" title="Street" />
                     </div>
                 </div>
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-3">
-                        <input
-                            id="floating_pre_address_brgy"
-                            v-model="jobapplicant.pre_address_brgy"
-                            type="text"
-                            name="floating_pre_address_brgy"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_pre_address_brgy" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Barangay</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.pre_address_brgy" title="Barangay" />
                     </div>
                 </div>
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-3">
-                        <input
-                            id="floating_pre_address_city"
-                            v-model="jobapplicant.pre_address_city"
-                            type="text"
-                            name="floating_pre_address_city"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_pre_address_city" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">City</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.pre_address_city" title="City" />
                     </div>
                 </div>
             </div>
             <div class="grid md:grid-cols-3 md:gap-6">
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-3">
-                        <input
-                            id="floating_pre_address_zip"
-                            v-model="jobapplicant.pre_address_zip"
-                            type="text"
-                            name="floating_pre_address_zip"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_pre_address_zip" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">ZIP</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.pre_address_zip" title="ZIP" />
                     </div>
                 </div>
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-3">
-                        <input
-                            id="floating_pre_address_province"
-                            v-model="jobapplicant.pre_address_province"
-                            type="text"
-                            name="floating_pre_address_province"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" "
-                            required
-                        >
-                        <label for="floating_pre_address_province" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Province</label>
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.pre_address_province" title="Province" />
                     </div>
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_contact_info"
-                        v-model="jobapplicant.contact_info"
-                        type="text"
-                        name="floating_contact_info"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_contact_info" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Contact Information</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.contact_info" title="Contact Information" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_email"
-                        v-model="jobapplicant.email"
-                        type="email"
-                        name="floating_email"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.email" title="Email Address" />
                 </div>
             </div>
             <div class="grid md:grid-cols-3 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group col-span-3">
-                    <input
-                        id="floating_how_did_u_learn_about_our_company"
-                        v-model="jobapplicant.how_did_u_learn_about_our_company"
-                        type="text"
-                        name="floating_how_did_u_learn_about_our_company"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_how_did_u_learn_about_our_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">How did you learn about our company?</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.how_did_u_learn_about_our_company" title="How did you learn about our company?" />
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_desired_position"
-                        v-model="jobapplicant.desired_position"
-                        type="text"
-                        name="floating_desired_position"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_desired_position" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Desired Positon</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.desired_position" title="Desired Position" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <select
@@ -431,27 +267,10 @@ const handleResumeFileUpload = (event) => {
             </div>
             <div class="grid md:grid-cols-3 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_place_of_birth"
-                        v-model="jobapplicant.place_of_birth"
-                        type="text"
-                        name="floating_place_of_birth"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_place_of_birth" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Place of Birth</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.place_of_birth" title="Place of Birth" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_citizenship"
-                        v-model="jobapplicant.citizenship"
-                        type="text"
-                        name="floating_citizenship"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_citizenship" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Citizenship</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.citizenship" title="Citizenship" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <select
@@ -473,28 +292,10 @@ const handleResumeFileUpload = (event) => {
             </div>
             <div class="grid md:grid-cols-3 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_bloodType"
-                        v-model="jobapplicant.blood_type"
-                        type="text"
-                        name="floating_bloodType"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_bloodType" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Blood Type</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.blood_type" title="Blood Type" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_religion"
-                        v-model="jobapplicant.religion"
-                        type="text"
-                        name="floating_religion"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_religion" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Religion</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.religion" title="Religion" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <select
@@ -533,102 +334,34 @@ const handleResumeFileUpload = (event) => {
                     <label for="floating_dateOfMarriage" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Marriage</label>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_height"
-                        v-model="jobapplicant.height"
-                        type="text"
-                        name="floating_heightWeight"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_height" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Height</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.height" title="Height" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_weight"
-                        v-model="jobapplicant.weight"
-                        type="text"
-                        name="floating_weight"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_weight" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Weight</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.weight" title="Weight" />
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_SSS"
-                        v-model="jobapplicant.sss"
-                        type="text"
-                        name="floating_SSS"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_SSS" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">SSS #</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.sss" title="SSS #" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_fathersName"
-                        v-model="jobapplicant.father_name"
-                        type="text"
-                        name="floating_fathersName"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_fathersName" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Father's Name</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.father_name" title="Father's Name" />
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_philhealth"
-                        v-model="jobapplicant.philhealth"
-                        type="text"
-                        name="floating_philhealth"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_philhealth" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">PhilHealth #</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.philhealth" title="PhilHealth #" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_mother_name"
-                        v-model="jobapplicant.mother_name"
-                        type="text"
-                        name="floating_mother_name"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                        required
-                    >
-                    <label for="floating_mother_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Mother's Name</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.mother_name" title="Mother's Name" />
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_pagibig"
-                        v-model="jobapplicant.pagibig"
-                        type="text"
-                        name="floating_pagibig"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_pagibig" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">PagIBIG #</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.pagibig" title="PAGIBIG #" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_tin"
-                        v-model="jobapplicant.tin"
-                        type="text"
-                        name="floating_tin"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_tin" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">TIN #</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.tin" title="TIN #" />
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
@@ -636,50 +369,18 @@ const handleResumeFileUpload = (event) => {
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_name_of_spouse"
-                        v-model="jobapplicant.name_of_spouse"
-                        type="text"
-                        name="floating_name_of_spouse"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_name_of_spouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name of Spouse</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.name_of_spouse" title="Name of Spouse" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_date_of_birth_spouse"
-                        v-model="jobapplicant.date_of_birth_spouse"
-                        type="date"
-                        name="floating_date_of_birth_spouse"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_date_of_birth_spouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Birth</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.date_of_birth_spouse" title="Date of Birth" />
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_occupation_spouse"
-                        v-model="jobapplicant.occupation_spouse"
-                        type="text"
-                        name="floating_occupation_spouse"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_occupation_spouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Occupation(Spouse)</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.occupation_spouse" title="Occupation(Spouse)" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_telephone_spouse"
-                        v-model="jobapplicant.telephone_spouse"
-                        type="text"
-                        name="floating_telephone_spouse"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_telephone_spouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Telephone #</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.telephone_spouse" title="Telephone #" />
                 </div>
             </div>
             <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 italic">Children</label>
@@ -739,7 +440,6 @@ const handleResumeFileUpload = (event) => {
                         name="floating_icoe_name"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_icoe_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
                 </div>
@@ -755,7 +455,6 @@ const handleResumeFileUpload = (event) => {
                                 name="floating_icoe_address"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" "
-                                required
                             >
                             <label for="floating_icoe_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Street</label>
                         </div>
@@ -767,7 +466,6 @@ const handleResumeFileUpload = (event) => {
                                 name="floating_icoe_address"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" "
-                                required
                             >
                             <label for="floating_icoe_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Barangay</label>
                         </div>
@@ -779,7 +477,6 @@ const handleResumeFileUpload = (event) => {
                                 name="floating_icoe_address"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" "
-                                required
                             >
                             <label for="floating_icoe_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">City</label>
                         </div>
@@ -791,7 +488,6 @@ const handleResumeFileUpload = (event) => {
                                 name="floating_icoe_address"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" "
-                                required
                             >
                             <label for="floating_icoe_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Province</label>
                         </div>
@@ -803,7 +499,6 @@ const handleResumeFileUpload = (event) => {
                                 name="floating_icoe_address"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 placeholder=" "
-                                required
                             >
                             <label for="floating_icoe_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">ZIP</label>
                         </div>
@@ -819,7 +514,6 @@ const handleResumeFileUpload = (event) => {
                         name="floating_icoe_relationship"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_icoe_relationship" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Relationship</label>
                 </div>
@@ -831,7 +525,6 @@ const handleResumeFileUpload = (event) => {
                         name="floating_telephone_icoe"
                         class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" "
-                        required
                     >
                     <label for="floating_telephone_icoe" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Telephone #</label>
                 </div>
@@ -840,39 +533,39 @@ const handleResumeFileUpload = (event) => {
 
             <div>
                 <div class="grid grid-cols-5 gap-4">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.elementary_name" title="Name of Elementary School" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.elementary_education" title="Basic Education/Degree/Course" placeholder="" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.elementary_period_attendance_from" title="Period of Attendance (From)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.elementary_period_attendance_to" title="Period of Attendance (To)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.elementary_year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].elementary_name" title="Name of Elementary School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].elementary_education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].elementary_period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].elementary_period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].elementary_year_graduated" title="Year Graduated" />
                 </div>
                 <div class="grid grid-cols-5 gap-4">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.secondary_name" title="Name of Secondary School" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.secondary_education" title="Basic Education/Degree/Course" placeholder="" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.secondary_period_attendance_from" title="Period of Attendance (From)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.secondary_period_attendance_to" title="Period of Attendance (To)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.secondary_year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].secondary_name" title="Name of Secondary School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].secondary_education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].secondary_period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].secondary_period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].secondary_year_graduated" title="Year Graduated" />
                 </div>
                 <div class="grid grid-cols-5 gap-4">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.vocationalcourse_name" title="Name of Vocational School" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.vocationalcourse_education" title="Basic Education/Degree/Course" placeholder="" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.vocationalcourse_period_attendance_from" title="Period of Attendance (From)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.vocationalcourse_period_attendance_to" title="Period of Attendance (To)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.vocationalcourse_year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].vocationalcourse_name" title="Name of Vocational School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].vocationalcourse_education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].vocationalcourse_period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].vocationalcourse_period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].vocationalcourse_year_graduated" title="Year Graduated" />
                 </div>
                 <div class="grid grid-cols-5 gap-4">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.college_name" title="Name of College" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.college_education" title="Basic Education/Degree/Course" placeholder="" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.college_period_attendance_from" title="Period of Attendance (From)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.college_period_attendance_to" title="Period of Attendance (To)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.college_year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].college_name" title="Name of College" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].college_education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].college_period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].college_period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].college_year_graduated" title="Year Graduated" />
                 </div>
                 <div class="grid grid-cols-5 gap-4">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.graduatestudies_name" title="Graduate Studies School" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.graduatestudies_education" title="Basic Education/Degree/Course" placeholder="" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.graduatestudies_period_attendance_from" title="Period of Attendance (From)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.graduatestudies_period_attendance_to" title="Period of Attendance (To)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education.graduatestudies_year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].graduatestudies_name" title="Graduate Studies School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].graduatestudies_education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].graduatestudies_period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].graduatestudies_period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].graduatestudies_year_graduated" title="Year Graduated" />
                 </div>
             </div>
 
