@@ -15,7 +15,7 @@ const handleStatusChange = async (applicant) => {
     try {
         jobapplicant.value = applicant
         boardLoading.value = true
-        await jobapplicantstore.editJobapplicant()
+        await jobapplicantstore.updateJobapplicant()
         if (jobapplicantstore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -66,11 +66,15 @@ const handleStatusChange = async (applicant) => {
                             {{ applicant.resume_attachment }}
                         </p>
                     </div>
-                    <div>
+                    <div class="grid grid-flow-row gap-2">
                         <p class="font-semibold italic">
                             Status:
-                            <HrmsEmployeeJobStatusSet v-model:status="applicant.status" v-model:remarks="applicant.remarks" @change="handleStatusChange(applicant)" />
+                            <HrmsEmployeeJobStatusSet v-model:status="applicant.status" v-model:remarks="applicant.remarks" />
                         </p>
+                        <button class="p-2 bg-teal-200 hover:bg-teal-300 rounded" @click.prevent="handleStatusChange(applicant)">
+                            Update
+                            <Icon name="ic:twotone-system-update-alt" class="h-5 w-5 lg:h-5 lg:w-5" />
+                        </button>
                     </div>
                     <div>
                         <p class="font-semibold italic">

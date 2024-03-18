@@ -21,7 +21,7 @@ const remarks = defineModel("remarks", { required: true, type: String })
         </div>
 
         <div class="flex gap-2">
-            <label for="">Remanks:</label>
+            <label for="">Remarks:</label>
             <textarea v-model="remarks" type="text" />
         </div>
     </div>

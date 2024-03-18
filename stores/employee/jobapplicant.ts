@@ -410,28 +410,29 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             this.errorMessage = ""
             this.successMessage = ""
         },
-        async editJobapplicant () {
+        async updateJobapplicant () {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/job-applicants/" + this.jobapplicant.id,
+                "/api/update-applicant/" + this.jobapplicant.id,
                 {
-                    method: "PATCH",
+                    method: "PUT",
                     headers: {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
                     body: this.jobapplicant,
+                    onResponse: ({ response }) => {
+                        if (response.status !== 200) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getJobApplicantsDetails()
+                            this.reset()
+                            this.successMessage = response._data.message
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.getJobApplicantsDetails()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
         async deleteJobapplicant (id: number) {
             const { data, error } = await useHRMSApiO(
