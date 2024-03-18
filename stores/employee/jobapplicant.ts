@@ -14,7 +14,6 @@ export const STATUS_CONTRACTSIGNED = "Contract Singed"
 export const STATUS_PENDING = "Pending"
 export const STATUS_INTERVIEWED = "Interviewed"
 export const STATUS_REJECTED = "Rejected"
-export const STATUS_HIRED = "Hired"
 export const STATUS_FORHIRING = "For Hiring"
 export const STATUS_TEST = "Test"
 export const STATUS_INTERVIEW = "Interview"
@@ -31,7 +30,6 @@ export const STATUS = [
     STATUS_INTERVIEW,
     STATUS_REFERENCECHECK,
     STATUS_MEDICALEXAM,
-    STATUS_HIRED,
 ]
 
 export interface JobApplicationChildren {
