@@ -177,7 +177,7 @@ export const useManpowerStore = defineStore("manpowers", {
         },
         async getManpowerHiringRequests () {
             await useFetch(
-                "/api/manpower-with-applicant",
+                "/api/manpower/for-hiring",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",

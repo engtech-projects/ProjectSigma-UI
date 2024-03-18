@@ -310,23 +310,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 return error
             }
         },
-        async getJobApplicantsDetails () {
-            await useFetch(
-                "/api/job-applicants-get",
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        this.jobApplicantDetails = response._data.data
-                    },
-                }
-            )
-        },
         async createJobapplicant () {
             this.successMessage = ""
             this.errorMessage = ""
@@ -398,7 +381,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         if (response.status !== 200) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getJobApplicantsDetails()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -426,7 +408,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         if (response.status !== 200) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getJobApplicantsDetails()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -450,7 +431,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 }
             )
             if (data.value) {
-                this.getJobApplicantsDetails()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {

@@ -3,6 +3,7 @@ import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/employee/manpower"
 import { useJobapplicantStore } from "@/stores/employee/jobapplicant"
 
+const config = useRuntimeConfig()
 const manpowers = useManpowerStore()
 const { manpower } = storeToRefs(manpowers)
 const jobapplicantstore = useJobapplicantStore()
@@ -54,16 +55,25 @@ const handleStatusChange = async (applicant) => {
                         <p class="font-semibold italic">
                             Application Letter Attachment:
                         </p>
-                        <p class="truncate">
-                            {{ applicant.application_letter_attachment }}
+                        <p class="truncate hover:cursor-pointer hover:text-blue-500 italic">
+                            <a target="_blank" :href="config.public.HRMS_API_URL + '/storage/' + applicant.application_letter_attachment">
+                                <Icon
+                                    name="mage:file-download-fill"
+                                    class="h-5 w-5 lg:h-5 lg:w-5"
+                                />
+                                Download Application Letter
+                            </a>
                         </p>
                     </div>
                     <div>
                         <p class="font-semibold italic">
                             Resume:
                         </p>
-                        <p class="truncate">
-                            {{ applicant.resume_attachment }}
+                        <p class="truncate hover:cursor-pointer hover:text-blue-500 italic">
+                            <a target="_blank" :href="config.public.HRMS_API_URL + '/storage/' + applicant.resume_attachment">
+                                <Icon name="mage:file-download-fill" class="h-5 w-5 lg:h-5 lg:w-5" />
+                                Download Resume
+                            </a>
                         </p>
                     </div>
                     <div class="grid grid-flow-row gap-2">
