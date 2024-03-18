@@ -14,10 +14,6 @@ pan.personelActionNotice.type = "New Hire"
 const approvals = await approval.getApprovalByName("Personnel Action Notice")
 pan.personelActionNotice.approvals = approvals
 const savePan = async () => {
-    snackbar.add({
-        type: "error",
-        text: "asdasd"
-    })
     try {
         boardLoading.value = true
         await pan.savePan()
