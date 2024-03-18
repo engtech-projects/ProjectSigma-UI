@@ -8,7 +8,7 @@ const { information: employeeInformation } = storeToRefs(employee)
 </script>
 <template>
     <label for="employee_employment" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">CONTACT PERSON IN CASE OF EMERGENCY</label>
-    <form action="">
+    <form v-if="employeeInformation.contact_person" action="">
         <table class="w-full border-collapse border border-slate-400 table-fixed">
             <tbody>
                 <tr>
@@ -52,4 +52,9 @@ const { information: employeeInformation } = storeToRefs(employee)
             </tbody>
         </table>
     </form>
+    <div v-else>
+        <p class="p-2 text-gray-700 text-lg font-light">
+            No Contact Person
+        </p>
+    </div>
 </template>

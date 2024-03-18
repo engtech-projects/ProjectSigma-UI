@@ -33,11 +33,11 @@ department.getDepartmentList()
                 >SECTION:</label>
                 <select
                     id="panSection"
-                    v-model="pan.personelActionNotice.section_department"
+                    v-model="pan.personelActionNotice.section_department_id"
                     class="w-full "
                     required
                 >
-                    <option v-for="(dep, index) in departmentList" :key="index" :value="dep.department_name">
+                    <option v-for="(dep, index) in departmentList" :key="index" :value="dep.section_department_id">
                         {{ dep.department_name }}
                     </option>
                 </select>

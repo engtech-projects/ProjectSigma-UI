@@ -8,12 +8,19 @@ export interface ApprovalModel {
     created_at: String,
     updated_at: String,
 }
+export interface Department
+{
+    id: Number,
+    department_name: String
+    created_at: String,
+    deleted_at: String,
+}
 export interface PersonelActionNotice {
     id: Number,
     employee_id: Number,
     type: String,
     date_of_effictivity: String,
-    section_department: String,
+    section_department_id: null | Number,
     designation_position: String,
     hire_source: String,
     work_location: String,
@@ -23,6 +30,7 @@ export interface PersonelActionNotice {
     employement_status: String,
     employment_status: String,
     comment: String,
+    department: Array<Department>
     new_position: String,
     type_of_termination: String,
     reasons_for_termination: String,
@@ -38,7 +46,6 @@ export interface PersonelActionNotice {
     updated_at: String,
     created_by: String,
 }
-
 export const usePersonelActionNotice = defineStore("personelActionNotice", {
     state: () => ({
         allPanList: [] as Array<PersonelActionNotice>,
@@ -49,7 +56,8 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             employee_id: null as null | Number,
             type: "" as String,
             date_of_effictivity: "" as String,
-            section_department: "" as String,
+            section_department_id: null as null | Number,
+            department: [] as Array<Department>,
             designation_position: "" as String,
             hire_source: "" as String,
             work_location: "" as String,
@@ -126,8 +134,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     method: "GET",
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
-                            this.successMessage = response._data.message
-                            this.approvalPanList = response._data.data.data
+                            this.approvalPanList = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -146,7 +153,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.successMessage = response._data.message
-                            this.myPanList = response._data.data.data
+                            this.myPanList = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -175,16 +182,20 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 return error
             }
         },
-        async deniedPanRequest (id: number) {
+        async deniedPanRequest (id: string, remarks: string) {
             this.successMessage = ""
             this.errorMessage = ""
+            const formData = new FormData()
+            formData.append("id", id)
+            formData.append("remarks", remarks)
             const { data, error } = await useHRMSApiO(
-                "/api/approve-pan-approvals/" + id,
+                "/api/disapprove-pan-approvals/",
                 {
-                    method: "PUT",
+                    method: "POST",
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
                     },
+                    body: formData
                 }
             )
             if (data.value) {

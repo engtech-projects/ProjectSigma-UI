@@ -34,7 +34,7 @@ const selectEmployee = async (id) => {
                 >
             </div>
         </form>
-        <ul v-if="searchJobApplicantParams.key" class="mt-1 p-px rounded-lg bg-white dark:bg-gray-800">
+        <ul v-if="searchEmployeeParams.key" class="mt-1 p-px rounded-lg bg-white dark:bg-gray-800">
             <li v-for="(emp, i) in employeeSearchList" :key="i" class="hover:bg-teal-200 rounded-md cursor-pointer p-1" @click="selectEmployee(emp.id)">
                 {{ emp.family_name }}, {{ emp.first_name }} {{ emp.middle_name || "" }}
             </li>

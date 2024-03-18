@@ -1,12 +1,15 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useApprovalStore } from "@/stores/hrms/approvals"
+import { useUserStore } from "@/stores/hrms/users"
 
 const { data: userData } = useAuth()
 const approval = useApprovalStore()
 const pan = usePersonelActionNotice()
+const users = useUserStore()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
+users.getUserEmployees()
 pan.personelActionNotice.type = "New Hire"
 const approvals = await approval.getApprovalByName("Personnel Action Notice")
 pan.personelActionNotice.approvals = approvals
@@ -37,6 +40,7 @@ const savePan = async () => {
 <template>
     <div
         class="shadow-md p-4 mt-6 bg-white mb-3 border border-gray-200 rounded-lg w-full"
+        :loading="boardLoading"
     >
         <div class="flex items-center md:justify-center p-4">
             <div class="text-2xl p-3 lg:text-4xl text-right">

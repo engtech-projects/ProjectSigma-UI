@@ -1,15 +1,19 @@
 <script setup>
+import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
+
+const config = useRuntimeConfig()
 const employee = useEmployeeInfo()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
+
+const { information } = storeToRefs(employee)
 
 const headers = [
     { text: "employee_uploads", value: "employee_uploads" },
     { text: "Type", value: "upload_type" },
     { text: "Action", value: "actions" },
 ]
-
 const selectedItemDetailsDocs = ref(null)
 
 const viewItemDocs = (item) => {
@@ -17,12 +21,11 @@ const viewItemDocs = (item) => {
 }
 
 const downloadItemDocs = (item) => {
-    const fileUrl = item.file_location // Replace 'file_url' with the actual property name
+    const fileUrl = config.public.HRMS_API_URL + "/storage/" + item.file_location // Replace 'file_url' with the actual property name
 
     const downloadLink = document.createElement("a")
     downloadLink.href = fileUrl
     downloadLink.download = item.document_name // Set the file name for download
-
     document.body.appendChild(downloadLink)
     downloadLink.click()
 
@@ -85,7 +88,7 @@ const handleDocumentUpload = async (event) => {
         <EasyDataTable
             show-index
             :headers="headers"
-            :items="employee.information.docs ?? []"
+            :items=" information.docs ?? []"
             class="mt-5 z-0"
         >
             <template #item-actions="item">
@@ -118,12 +121,6 @@ const handleDocumentUpload = async (event) => {
                             <li><strong class="text-teal-500">Type:</strong> {{ selectedItemDetailsDocs.upload_type }}</li>
                         </ul>
                         <div class="flex gap-2 justify-between">
-                            <button
-                                @click="downloadItemDocs(item)"
-                            >
-                                <Icon name="ic:sharp-file-download" color="green" class="w-4 h-4 " />
-                                Download
-                            </button>
                             <button
                                 @click="closeViewModal"
                             >

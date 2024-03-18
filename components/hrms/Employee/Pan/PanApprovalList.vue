@@ -3,15 +3,14 @@ import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
 
-const { approvalPanList, errorMessage, successMessage } = storeToRefs(pan)
-const snackbar = useSnackbar()
+const { approvalPanList } = storeToRefs(pan)
 const boardLoading = ref(false)
 
-const employeeData = ref(null)
+const panData = ref(null)
 const showInformationModal = ref(false)
 
 const showInformation = (data) => {
-    employeeData.value = data
+    panData.value = data
     showInformationModal.value = true
 }
 const closeViewModal = () => {
@@ -19,45 +18,11 @@ const closeViewModal = () => {
 }
 
 const headers = [
-    { name: "APPLICANT NAME", id: "jobapplicantonly" },
+    { name: "REQUEST TYPE", id: "type" },
+    { name: "NAME", id: "fullname" },
     { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
-    { name: "DEPARTMENT", id: "department_name" },
-    { name: "ACTIONS", id: "actions" },
+    { name: "DEPARTMENT", id: "department" },
 ]
-const approvedRequest = async (id) => {
-    try {
-        boardLoading.value = true
-        await pan.approvedPanRequest(id)
-        snackbar.add({
-            type: "success",
-            text: successMessage
-        })
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
-const deniedRequest = async (id) => {
-    try {
-        boardLoading.value = true
-        await pan.deniedPanRequest(id)
-        snackbar.add({
-            type: "success",
-            text: errorMessage
-        })
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
 
 const actions = {
     showTable: true,
@@ -66,13 +31,12 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="PERSONEL ACTION NOTICE APPROVAL LIST" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="MY APPROVAL ACTION NOTICE LIST" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
                 :datas="approvalPanList"
-                @edit-row="setEdit"
                 @show-table="showInformation"
             />
         </div>
@@ -82,7 +46,7 @@ const actions = {
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
                 <div class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
                     <div class="flex gap-2 justify-between p-2">
-                        <p>Application Information</p>
+                        <p>Personel Action Notice (<span class="text-blue-500">{{ panData.type }}</span>)</p>
                         <button
                             @click="closeViewModal"
                         >
@@ -90,22 +54,8 @@ const actions = {
                             Close
                         </button>
                     </div>
-                    <div>
-                        body here . . .
-                    </div>
-                    <div class="flex gap-2 p-2 justify-end">
-                        <button
-                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                            @click="approvedRequest(employeeData.id)"
-                        >
-                            Approved Request
-                        </button>
-                        <button
-                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                            @click="deniedRequest(employeeData.id)"
-                        >
-                            Denied Request
-                        </button>
+                    <div class="p-2">
+                        <HrmsEmployeePanPersonalActionFormInfo :pan-data="panData" :type="'approval'" />
                     </div>
                 </div>
             </div>
