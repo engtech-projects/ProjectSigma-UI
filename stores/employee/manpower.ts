@@ -259,7 +259,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 return data
             } else if (error.value) {
                 this.errorMessage = error.value.data.message
-                return error
+                throw new Error(this.errorMessage)
             }
         },
         async approveApprovalForm (id: number) {

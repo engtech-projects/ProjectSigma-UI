@@ -35,7 +35,7 @@ const approvedRequest = async (id) => {
         await manpowers.approveApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: mains.successMessage
+            text: manpowers.successMessage
         })
     } catch (error) {
         snackbar.add({
@@ -52,7 +52,7 @@ const deniedRequest = async (id) => {
         await manpowers.denyApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: mains.successMessage
+            text: manpowers.successMessage
         })
     } catch (error) {
         snackbar.add({
