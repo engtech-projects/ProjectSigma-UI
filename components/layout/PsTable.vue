@@ -34,8 +34,15 @@ const showTbl = (data) => {
 const doDetail = (data) => {
     emit("detailRow", data)
 }
-
+const activeIndex = ref(null)
+const setActiveRow = (index) => {
+    activeIndex.value = index
+}
+const isActiveRow = (index) => {
+    return activeIndex.value === index
+}
 </script>
+
 <template>
     <table class="table-auto w-full border-collapse">
         <thead>
@@ -54,7 +61,7 @@ const doDetail = (data) => {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="dataValue, index in datas" :key="index" class="border text-center">
+            <tr v-for="dataValue, index in datas" :key="index" class="border text-center" :class="{ 'active': isActiveRow(index) }" @click="setActiveRow(index)">
                 <td
                     v-for="header in headerColumns"
                     :key="header+'headerRow'"
@@ -81,10 +88,17 @@ const doDetail = (data) => {
                         <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
                     </button>
                     <button v-if="actions.detail" @click="doDetail(dataValue)">
-                        <Icon name="material-symbols:visibility-rounded" color="white" class="bg-green-600 rounded h-8 w-8 p-1" />
+                        <Icon name="material-symbols:visibility-rounded" color="white" class="bg-green-500 rounded h-8 w-8 p-1 " />
                     </button>
                 </td>
             </tr>
         </tbody>
     </table>
 </template>
+<style scoped>
+.active {
+    background-color: #0475816b;
+    color:black;
+    font-weight: 500;
+}
+</style>
