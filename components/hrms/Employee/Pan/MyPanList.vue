@@ -30,7 +30,7 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="MY PERSONEL NOTICE REQUEST" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="MY REQUEST" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
