@@ -19,7 +19,7 @@ const closeViewModal = () => {
 
 const headers = [
     { name: "REQUEST TYPE", id: "type" },
-    { name: "NAME", id: "fullname" },
+    { name: "DATE REQUESTED", id: "created_at" },
     { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
 ]
 
@@ -54,20 +54,28 @@ const actions = {
                         </button>
                     </div>
                     <div class="p-2">
-                        <HrmsEmployeePanPersonalActionFormInfo :pan-data="panData" :type="'myPan'" />
+                        <HrmsEmployeePanPersonalActionFormInfo :pan-data="panData" />
                     </div>
                     <div class="flex gap-2 p-2 justify-end">
                         <button
                             class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                            @click="approvedRequest(employeeData.id)"
+                            @click="approvedRequest(myPanList.id)"
                         >
                             Approved Request
                         </button>
                         <button
                             class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                            @click="deniedRequest(employeeData.id)"
+                            @click="deniedRequest(myPanList.id)"
                         >
                             Denied Request
+                        </button>
+                    </div>
+                    <div class="flex gap-2 justify-end p-2">
+                        <button
+                            @click="closeViewModal"
+                        >
+                            <Icon name="cil:x" color="green" class="w-4 h-4 " />
+                            Close
                         </button>
                     </div>
                 </div>

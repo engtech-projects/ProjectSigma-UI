@@ -4,10 +4,6 @@ defineProps({
         type: Object,
         required: true,
     },
-    type: {
-        type: String,
-        required: true,
-    },
 })
 </script>
 <template>

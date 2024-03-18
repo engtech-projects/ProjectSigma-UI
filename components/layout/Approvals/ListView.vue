@@ -17,7 +17,7 @@ defineProps({
                     {{ apprv.type }}
                 </li>
                 <li class="w-full p-2 text-left">
-                    {{ apprv.fullname }}
+                    {{ apprv.name }}
                 </li>
                 <li class="w-full p-2 text-center">
                     {{ apprv.status }}

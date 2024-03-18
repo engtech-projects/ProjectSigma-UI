@@ -19,9 +19,8 @@ const closeViewModal = () => {
 
 const headers = [
     { name: "REQUEST TYPE", id: "type" },
-    { name: "NAME", id: "fullname" },
+    { name: "DATE REQUESTED", id: "created_at" },
     { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
-    { name: "DEPARTMENT", id: "department" },
 ]
 
 const actions = {
@@ -55,7 +54,15 @@ const actions = {
                         </button>
                     </div>
                     <div class="p-2">
-                        <HrmsEmployeePanPersonalActionFormInfo :pan-data="panData" :type="'approval'" />
+                        <HrmsEmployeePanPersonalActionFormInfo :pan-data="panData" />
+                    </div>
+                    <div class="flex gap-2 justify-end p-2">
+                        <button
+                            @click="closeViewModal"
+                        >
+                            <Icon name="cil:x" color="green" class="w-4 h-4 " />
+                            Close
+                        </button>
                     </div>
                 </div>
             </div>
