@@ -152,7 +152,7 @@ const actions = {
                         </div>
                     </div>
                     <div class="w-full">
-                        <LayoutApprovalsListView :approvals="JSON.parse(manpowerList.approvals)" />
+                        <LayoutApprovalsListView :approvals="employeeData.approvals" />
                     </div>
                     <div class="flex gap-2 p-2 justify-end">
                         <button
