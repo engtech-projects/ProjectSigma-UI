@@ -69,12 +69,8 @@ const handleResumeFileUpload = (event) => {
 </script>
 
 <template>
-    <LayoutCard title=" " :loading="boardLoading">
-        <label class="block text-lg font-medium text-gray-900 dark:text-white pb-4">Application Form</label>
-        <div>
-            <!-- <pre>{{ jobapplicant }}</pre> -->
-        </div>
-        <form @submit.prevent="submitForm">
+    <LayoutCard title="Application Form" :loading="boardLoading">
+        <form class="p-2" @submit.prevent="submitForm">
             <div class="grid md:grid-cols-3 md:gap-6">
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-2">
