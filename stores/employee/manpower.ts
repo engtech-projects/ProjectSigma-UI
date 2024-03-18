@@ -143,7 +143,7 @@ export const useManpowerStore = defineStore("manpowers", {
         },
         async getMyRequests () {
             await useFetch(
-                "/api/get-request",
+                "/api/manpower/my-requests",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -160,7 +160,7 @@ export const useManpowerStore = defineStore("manpowers", {
         },
         async getMyApprovalRequests () {
             await useFetch(
-                "/api/get-approve-request",
+                "/api/manpower/my-approvals",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -266,7 +266,7 @@ export const useManpowerStore = defineStore("manpowers", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useHRMSApiO(
-                "/api/approve-approval-form/" + id,
+                "/api/manpower/approve-approval/" + id,
                 {
                     method: "PUT",
                     onResponse: ({ response }) => {
@@ -287,9 +287,9 @@ export const useManpowerStore = defineStore("manpowers", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useHRMSApiO(
-                "/api/deny-approval-form/" + id,
+                "/api/manpower/deny-approval/" + id,
                 {
-                    method: "PUT",
+                    method: "POST",
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
                     },
