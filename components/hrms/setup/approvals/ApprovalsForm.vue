@@ -71,7 +71,6 @@ const submitApprov = async (approval) => {
                 <tbody>
                     <tr v-for="(approv, index) in approvalsList" :key="index" class="border-2 border-slate-300 ">
                         <td class="p-2">
-                            <!-- {{ approv }} -->
                             {{ approv.form }}
                         </td>
                         <div class="p-2 space-y-2">
