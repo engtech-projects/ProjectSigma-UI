@@ -40,8 +40,6 @@ const boardLoading = ref(false)
                 :header-columns="headers"
                 :actions="actions"
                 :datas="manpowerList"
-                @edit-row="setEdit"
-                @delete-row="deleteManpwr"
                 @show-table="showInformation"
             />
         </div>

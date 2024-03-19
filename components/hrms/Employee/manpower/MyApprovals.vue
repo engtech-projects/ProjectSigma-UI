@@ -7,7 +7,6 @@ const { myApprovalRequestList: manpowerList } = storeToRefs(manpowers)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
 const employeeData = ref(null)
 const showInformationModal = ref(false)
 
@@ -77,8 +76,6 @@ const actions = {
                 :header-columns="headers"
                 :actions="actions"
                 :datas="manpowerList"
-                @edit-row="setEdit"
-                @delete-row="deleteManpwr"
                 @show-table="showInformation"
             />
         </div>
@@ -150,6 +147,9 @@ const actions = {
                         <div class="p-2 flex gap-2">
                             <span class="text-teal-600 text-light"> breakdown_details </span> {{ employeeData.breakdown_details }}
                         </div>
+                        <div class="p-2 flex gap-2">
+                            <span class="text-teal-600 text-light"> breakdown_details </span> {{ employeeData.breakdown_details }}
+                        </div>
                     </div>
                     <div class="w-full">
                         <LayoutApprovalsListView :approvals="employeeData.approvals" />
@@ -162,6 +162,7 @@ const actions = {
                             Approved Request
                         </button>
                         <button
+                            v-show="displayRemarks"
                             class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
                             @click="deniedRequest(employeeData.id)"
                         >
