@@ -25,7 +25,7 @@ const headers = [
     { name: "Date Required", id: "date_required" },
     { name: "Employment Type", id: "employment_type" },
     { name: "Nature of Request", id: "nature_of_request" },
-    { name: "Requested by", id: "requested_by.name" },
+    { name: "Requested by", id: "requested_by_user.name" },
     { name: "Request Status", id: "request_status" },
 ]
 const approvedRequest = async (id) => {
@@ -70,7 +70,7 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="MY APPROVAL LIST" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="My Approval List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"

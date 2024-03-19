@@ -21,7 +21,7 @@ defineProps({
                         {{ apprv.employee.name }}
                     </li>
                     <li class="w-full p-2 text-center">
-                        {{ apprv.status }}
+                        {{ apprv.status }} {{ (apprv.status === 'Approved') ? apprv.date_approved : "" }}
                     </li>
                 </template>
                 <template v-else>
@@ -32,7 +32,7 @@ defineProps({
                         {{ apprv.name }}
                     </li>
                     <li class="w-full p-2 text-center">
-                        {{ apprv.status }}
+                        {{ apprv.status }} {{ (apprv.status === 'Approved') ? apprv.date_approved : "" }}
                     </li>
                 </template>
             </ol>

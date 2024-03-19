@@ -3,12 +3,7 @@
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/employee/manpower"
 const manpowers = useManpowerStore()
-const { list: manpowerList, isEdit, manpower, errorMessage, successMessage, pagination, getParams } = storeToRefs(manpowers)
-
-const setEdit = (manpr) => {
-    isEdit.value = true
-    manpower.value = manpr
-}
+const { list: manpowerList, errorMessage, successMessage, pagination, getParams } = storeToRefs(manpowers)
 const employeeData = ref(null)
 const showInformationModal = ref(false)
 
@@ -19,19 +14,6 @@ const showInformation = (data) => {
 const closeViewModal = () => {
     showInformationModal.value = false
 }
-const deleteManpwr = async (manpr) => {
-    try {
-        boardLoading.value = true
-        await manpowers.deleteManpower(manpr.id)
-        snackbar.add({
-            type: "success",
-            text: manpowers.successMessage
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
-
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
     // getParams.value.syId = newParams.id ?? ""
@@ -47,14 +29,13 @@ const headers = [
     { name: "Date Required", id: "date_required" },
     { name: "Employment Type", id: "employment_type" },
     { name: "Nature of Request", id: "nature_of_request" },
-    { name: "Requested by", id: "requested_by" },
+    { name: "Requested by", id: "requested_by_user.name" },
     { name: "Request Status", id: "request_status" },
 ]
 const actions = {
     showTable: true,
 }
 
-const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 </script>
@@ -66,8 +47,6 @@ const boardLoading = ref(false)
                 :header-columns="headers"
                 :actions="actions"
                 :datas="manpowerList"
-                @edit-row="setEdit"
-                @delete-row="deleteManpwr"
                 @show-table="showInformation"
             />
         </div>
