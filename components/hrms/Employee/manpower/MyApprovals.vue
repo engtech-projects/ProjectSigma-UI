@@ -35,7 +35,7 @@ const approvedRequest = async (id) => {
         await manpowers.approveApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: mains.successMessage
+            text: manpowers.successMessage
         })
     } catch (error) {
         snackbar.add({
@@ -52,7 +52,7 @@ const deniedRequest = async (id) => {
         await manpowers.denyApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: mains.successMessage
+            text: manpowers.successMessage
         })
     } catch (error) {
         snackbar.add({
@@ -152,7 +152,7 @@ const actions = {
                         </div>
                     </div>
                     <div class="w-full">
-                        <LayoutApprovalsListView :approvals="JSON.parse(manpowerList.approvals)" />
+                        <LayoutApprovalsListView :approvals="employeeData.approvals" />
                     </div>
                     <div class="flex gap-2 p-2 justify-end">
                         <button
