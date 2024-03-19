@@ -1,5 +1,4 @@
 <script setup>
-import { initFlowbite } from "flowbite"
 import { useAnnouncements } from "@/stores/hrms/announcements"
 
 const config = useRuntimeConfig()
@@ -32,10 +31,6 @@ const employeesabsencesData = ref([
     { name: "Carrie M. Bags", avatar: "/avatarexample.png", absences: "3" },
     { name: "Ivy Lague", avatar: "/avatarexample.png", absences: "2" },
 ])
-// initialize components based on data attribute selectors
-onMounted(() => {
-    initFlowbite()
-})
 
 useHead({
     title: "Dashboard",

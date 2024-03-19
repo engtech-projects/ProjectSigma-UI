@@ -1,11 +1,4 @@
 <script setup>
-import { initFlowbite, initTabs } from "flowbite"
-
-onMounted(() => {
-    initFlowbite()
-    initTabs()
-})
-
 useHead({
     title: "Department Schedule",
     meta: [{ name: "description", content: "" }],
