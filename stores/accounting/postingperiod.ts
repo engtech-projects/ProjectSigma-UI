@@ -33,7 +33,7 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.posting_periods
+                        this.list = response._data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,

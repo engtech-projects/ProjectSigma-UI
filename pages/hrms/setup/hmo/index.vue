@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { useModalStore } from "~/stores/modal"
+import { useHMOStore } from "@/stores/hrms/hmo"
+const hmoStore = useHMOStore()
+hmoStore.getHmo()
 const modalStore = useModalStore()
 </script>
 

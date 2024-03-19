@@ -38,7 +38,7 @@ export const useHMOStore = defineStore("hmo", {
                 }
             )
             if (data.value) {
-                this.list = data.value.data
+                this.hmolist = data.value.data.data
                 return data
             } else if (error.value) {
                 return error

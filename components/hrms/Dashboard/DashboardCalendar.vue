@@ -133,7 +133,11 @@ export default {
                 }
             )
         },
+        removeEvents () {
+            this.calendarApi.getEvents().forEach((event: { remove: () => any }) => event.remove()) // Remove all event sources
+        },
         loadEvents (events:any) {
+            this.removeEvents()
             events.forEach((ev:any) => {
                 this.addEvent(ev)
             })
@@ -145,7 +149,6 @@ export default {
                 end: event.end_date
             }
             this.calendarApi.addEvent(newEvent)
-            // this.calendarOptions.events.push(newEvent)
         },
         clearForm () {
             this.event = {
