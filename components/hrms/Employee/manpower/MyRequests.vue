@@ -112,6 +112,9 @@ const boardLoading = ref(false)
                             <span class="text-teal-600 text-light"> breakdown_details </span> {{ employeeData.breakdown_details }}
                         </div>
                     </div>
+                    <div class="w-full">
+                        <LayoutApprovalsListView :approvals="employeeData.approvals" />
+                    </div>
                 </div>
             </div>
         </Teleport>
