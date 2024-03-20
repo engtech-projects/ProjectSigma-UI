@@ -288,7 +288,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             )
         },
         async getJobApplicantInformation (id: Number) {
-            this.$reset()
             const { data, error } = await useFetch(
                 "/api/job-applicants/" + id,
                 {
@@ -308,6 +307,28 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 return error
             }
         },
+        async getJobApplicant () {
+            const { data, error } = await useFetch(
+                "/api/job-applicants",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    onResponse: ({ response }) => {
+                        this.list = response._data.data.data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         async createJobapplicant () {
             this.successMessage = ""
             this.errorMessage = ""
@@ -379,6 +400,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         if (response.status !== 200) {
                             this.errorMessage = response._data.message
                         } else {
+                            this.getJobApplicant()
                             this.reset()
                             this.successMessage = response._data.message
                         }
