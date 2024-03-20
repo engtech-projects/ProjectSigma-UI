@@ -1,5 +1,4 @@
 <script setup>
-// import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/employee/manpower"
 import { useDepartmentStore } from "@/stores/hrms/departments"
 import { useUserStore } from "@/stores/hrms/users"
@@ -20,7 +19,7 @@ useHead({
 </script>
 
 <template>
-    <div class="flex flex-col md:flex-row gap-4">
+    <div class="grid grid-flow-col gap-4">
         <HrmsEmployeeJobOpeningList />
     </div>
 </template>

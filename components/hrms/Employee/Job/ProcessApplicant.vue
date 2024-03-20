@@ -1,0 +1,87 @@
+<script setup>
+import { storeToRefs } from "pinia"
+import { useManpowerStore } from "@/stores/employee/manpower"
+import { useJobapplicantStore } from "@/stores/employee/jobapplicant"
+
+const manpowers = useManpowerStore()
+const { manpower } = storeToRefs(manpowers)
+const jobapplicantstore = useJobapplicantStore()
+const { jobapplicant } = storeToRefs(jobapplicantstore)
+
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+
+const handleStatusChange = async (applicant) => {
+    try {
+        jobapplicant.value = applicant
+        boardLoading.value = true
+        await jobapplicantstore.updateJobapplicant()
+        if (jobapplicantstore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: jobapplicantstore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: jobapplicantstore.successMessage
+            })
+        }
+    } catch (error) {
+        errorMessage.value = errorMessage
+        snackbar.add({
+            type: "error",
+            text: jobapplicantstore.errorMessage
+        })
+    } finally {
+        jobapplicantstore.clearMessages()
+        boardLoading.value = false
+    }
+}
+
+</script>
+
+<template>
+    <div>
+        <template v-if="manpower.job_applicants && manpower.job_applicants.length > 0">
+            <div class="overflow--auto">
+                <table class="table-auto border-collapse w-full">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border border-gray-400 p-2">
+                                Applicant Name
+                            </th>
+                            <th class="border border-gray-400 p-2">
+                                Status and Remarks
+                            </th>
+                            <th class="border border-gray-400 p-2">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(applicant, index) in manpower.job_applicants" :key="index" class="bg-white">
+                            <td class="border border-gray-400 p-2">
+                                {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }}
+                            </td>
+                            <td class="border border-gray-400 p-2">
+                                <HrmsEmployeeJobStatusSet v-model:status="applicant.status" v-model:remarks="applicant.remarks" />
+                            </td>
+                            <td class="border border-gray-400 p-2">
+                                <button class="p-2 bg-teal-200 hover:bg-teal-300 rounded" @click.prevent="handleStatusChange(applicant)">
+                                    Update
+                                    <Icon name="ic:twotone-system-update-alt" class="h-5 w-5 lg:h-5 lg:w-5" />
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <template v-else>
+            <div class="flex mx-auto justify-center italic p-6">
+                No applicants available.
+            </div>
+        </template>
+    </div>
+</template>

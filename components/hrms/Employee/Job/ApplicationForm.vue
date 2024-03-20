@@ -368,7 +368,15 @@ const handleResumeFileUpload = (event) => {
                     <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.name_of_spouse" title="Name of Spouse" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.date_of_birth_spouse" title="Date of Birth" />
+                    <input
+                        id="floating_date_of_birth_spouse"
+                        v-model="jobapplicant.date_of_birth_spouse"
+                        type="date"
+                        name="floating_date_of_birth_spouse"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        placeholder=" "
+                    >
+                    <label for="floating_date_of_birth_spouse" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Marriage</label>
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
@@ -382,15 +390,7 @@ const handleResumeFileUpload = (event) => {
             <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 italic">Children</label>
             <div v-for="(child, childIndex) in jobapplicant.children" :key="childIndex" class="grid md:grid-cols-4 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group col-span-2">
-                    <input
-                        id="floating_children_name"
-                        v-model="child.name"
-                        type="text"
-                        name="floating_children_name"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_children_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name of Children</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="child.name" title="Name of Child" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <input
@@ -429,100 +429,36 @@ const handleResumeFileUpload = (event) => {
             <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 italic">In Case of Emergency</label>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_icoe_name"
-                        v-model="jobapplicant.icoe_name"
-                        type="text"
-                        name="floating_icoe_name"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_icoe_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.icoe_name" title="Name" />
                 </div>
             </div>
             <div>
                 <div class="relative z-0 w-full mb-5 group">
                     <div class="grid grid-cols-5">
                         <div>
-                            <input
-                                id="floating_icoe_address"
-                                v-model="jobapplicant.icoe_street"
-                                type="text"
-                                name="floating_icoe_address"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                placeholder=" "
-                            >
-                            <label for="floating_icoe_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Street</label>
+                            <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.icoe_street" title="Street" />
                         </div>
                         <div>
-                            <input
-                                id="floating_icoe_address"
-                                v-model="jobapplicant.icoe_brgy"
-                                type="text"
-                                name="floating_icoe_address"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                placeholder=" "
-                            >
-                            <label for="floating_icoe_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Barangay</label>
+                            <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.icoe_brgy" title="Barangay" />
                         </div>
                         <div>
-                            <input
-                                id="floating_icoe_address"
-                                v-model="jobapplicant.icoe_city"
-                                type="text"
-                                name="floating_icoe_address"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                placeholder=" "
-                            >
-                            <label for="floating_icoe_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">City</label>
+                            <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.icoe_city" title="City" />
                         </div>
                         <div>
-                            <input
-                                id="floating_icoe_address"
-                                v-model="jobapplicant.icoe_province"
-                                type="text"
-                                name="floating_icoe_address"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                placeholder=" "
-                            >
-                            <label for="floating_icoe_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Province</label>
+                            <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.icoe_province" title="Province" />
                         </div>
                         <div>
-                            <input
-                                id="floating_icoe_address"
-                                v-model="jobapplicant.icoe_zip"
-                                type="text"
-                                name="floating_icoe_address"
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                placeholder=" "
-                            >
-                            <label for="floating_icoe_address" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">ZIP</label>
+                            <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.icoe_zip" title="ZIP" />
                         </div>
                     </div>
                 </div>
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_icoe_relationship"
-                        v-model="jobapplicant.icoe_relationship"
-                        type="text"
-                        name="floating_icoe_relationship"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_icoe_relationship" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Relationship</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.icoe_relationship" title="Relationship" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_telephone_icoe"
-                        v-model="jobapplicant.telephone_icoe"
-                        type="text"
-                        name="floating_telephone_icoe"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_telephone_icoe" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Telephone #</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.telephone_icoe" title="Telephone #" />
                 </div>
             </div>
             <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 italic">III. Educational Background</label>
@@ -570,55 +506,38 @@ const handleResumeFileUpload = (event) => {
                 <div class="relative z-0 w-full mb-5 group">
                     <div class="flex-1">
                         From
-                        <input id="inclusive_dates_from" v-model="wrk.inclusive_dates_from" type="text" class="block w-36 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input
+                            id="floating_date_of_application"
+                            v-model="wrk.inclusive_dates_from"
+                            type="date"
+                            name="floating_date_of_application"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                        >
+
                         To
-                        <input id="inclusive_dates_to" v-model="wrk.inclusive_dates_to" type="text" class="block w-36 p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input
+                            id="floating_date_of_application"
+                            v-model="wrk.inclusive_dates_to"
+                            type="date"
+                            name="floating_date_of_application"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" "
+                        >
                     </div>
                     <label for="floating_inclusiveDates" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Inclusive Dates(mm/dd/yyyy)</label>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_positionTitles"
-                        v-model="wrk.position_title"
-                        type="text"
-                        name="floating_positionTitles"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_positionTitles" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Position Title(Write in full)</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="wrk.position_title" title="Position Title(Write in full)" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_dept"
-                        v-model="wrk.dpt_agency_office_company"
-                        type="text"
-                        name="floating_dept"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_dept" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Department/Agency/Office/Company</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="wrk.dpt_agency_office_company" title="Department/Agency/Office/Company" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_monthlySal"
-                        v-model="wrk.monthly_salary"
-                        type="text"
-                        name="floating_monthlySal"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_monthlySal" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Monthly Salary</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="wrk.monthly_salary" title="Monthly Salary" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <input
-                        id="floating_statAppt"
-                        v-model="wrk.status_of_appointment"
-                        type="text"
-                        name="floating_statAppt"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                        placeholder=" "
-                    >
-                    <label for="floating_statAppt" class="peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-1 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Status of Appointment</label>
+                    <LayoutFormPsTextInputTemplate1 v-model="wrk.status_of_appointment" title="Status of Appointment" />
                 </div>
                 <button v-if="index > 0" class="delete-button" @click.prevent="delWork(index)">
                     <svg

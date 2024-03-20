@@ -1,44 +1,12 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/employee/manpower"
-import { useJobapplicantStore } from "@/stores/employee/jobapplicant"
 
 const config = useRuntimeConfig()
 const manpowers = useManpowerStore()
 const { manpower } = storeToRefs(manpowers)
-const jobapplicantstore = useJobapplicantStore()
-const { jobapplicant } = storeToRefs(jobapplicantstore)
 
-const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
-const handleStatusChange = async (applicant) => {
-    try {
-        jobapplicant.value = applicant
-        boardLoading.value = true
-        await jobapplicantstore.updateJobapplicant()
-        if (jobapplicantstore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: jobapplicantstore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: jobapplicantstore.successMessage
-            })
-        }
-    } catch (error) {
-        errorMessage.value = errorMessage
-        snackbar.add({
-            type: "error",
-            text: jobapplicantstore.errorMessage
-        })
-    } finally {
-        jobapplicantstore.clearMessages()
-        boardLoading.value = false
-    }
-}
 
 </script>
 
@@ -75,16 +43,6 @@ const handleStatusChange = async (applicant) => {
                                 Download Resume
                             </a>
                         </p>
-                    </div>
-                    <div class="grid grid-flow-row gap-2">
-                        <p class="font-semibold italic">
-                            Status:
-                            <HrmsEmployeeJobStatusSet v-model:status="applicant.status" v-model:remarks="applicant.remarks" />
-                        </p>
-                        <button class="p-2 bg-teal-200 hover:bg-teal-300 rounded" @click.prevent="handleStatusChange(applicant)">
-                            Update
-                            <Icon name="ic:twotone-system-update-alt" class="h-5 w-5 lg:h-5 lg:w-5" />
-                        </button>
                     </div>
                     <div>
                         <p class="font-semibold italic">
