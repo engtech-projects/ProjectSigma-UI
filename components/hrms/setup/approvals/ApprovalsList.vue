@@ -26,7 +26,7 @@ const model = defineModel({ required: true, type: Object })
                         --Select--
                     </option>
                     <option v-for="userSelect in employeeUserList" :key="userSelect.id" :value="userSelect.id">
-                        {{ userSelect.name }}
+                        {{ userSelect.employee.fullname_first }}
                     </option>
                 </select>
             </div>
