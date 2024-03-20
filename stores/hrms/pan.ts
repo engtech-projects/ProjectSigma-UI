@@ -111,7 +111,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApi(
-                "/api/employee-panrequest",
+                "/api/pan/resource",
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
@@ -129,7 +129,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApi(
-                "/api/get-pan-approvals",
+                "/api/pan/my-approvals",
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
@@ -147,7 +147,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApi(
-                "/api/get-panrequest",
+                "/api/pan/my-request",
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
