@@ -56,7 +56,6 @@ const setDetail = (jobapp) => {
         }
     }
 }
-
 </script>
 
 <template>
@@ -84,6 +83,6 @@ const setDetail = (jobapp) => {
                 {{ successMessage }}
             </p>
         </LayoutBoards>
-        <HrmsEmployeeJobHiringDetails v-if="isDetail" :manpower-data="manpower" class="w-full" />
+        <HrmsEmployeeJobHiringDetails v-show="isDetail" :manpower-data="manpower" class="w-full" />
     </div>
 </template>
