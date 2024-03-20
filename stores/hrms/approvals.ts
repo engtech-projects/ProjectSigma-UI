@@ -60,37 +60,29 @@ export const useApprovalStore = defineStore("approvals", {
         },
 
         async getApprovalByName (approvalName: String) {
-            const { data } = await useFetch(
+            await useHRMSApiO(
                 "/api/get-form-requests/" + approvalName,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 200) {
-                            this.errorMessage = response._data.message
+                        if (response.status >= 200 && response.status <= 299) {
+                            return response._data.data.approvals.map((approv: any) => {
+                                return {
+                                    type: approv.type,
+                                    status: "Pending",
+                                    user_id: approv.user_id,
+                                    userselector: approv.userselector,
+                                    date_approved: "",
+                                    remarks: "",
+                                    employee: approv.employee,
+                                }
+                            })
                         } else {
-                            return response._data.data
+                            this.errorMessage = response._data.message
                         }
                     },
                 }
             )
-            // return data.value.data.approvals
-            return data.value.data.approvals.map((approv: any) => {
-                return {
-                    type: approv.type,
-                    status: "Pending",
-                    user_id: approv.user_id,
-                    userselector: approv.userselector,
-                    date_approved: "",
-                    remarks: "",
-                    employee: approv.employee,
-                }
-            })
         },
 
         async createApproval () {
