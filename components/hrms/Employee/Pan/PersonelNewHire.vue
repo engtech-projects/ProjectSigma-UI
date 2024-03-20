@@ -31,7 +31,7 @@ salaryGrade.getSalarySteps()
         <td class="border border-slate-300 p-2">
             <div>
                 <label
-                    for="small-input"
+                    for="panSection"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                 >SECTION:</label>
                 <select
@@ -40,7 +40,7 @@ salaryGrade.getSalarySteps()
                     class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required
                 >
-                    <option v-for="(dep, index) in departmentList" :key="index" :value="dep.section_department_id">
+                    <option v-for="(dep, index) in departmentList" :key="index" :value="dep.id">
                         {{ dep.department_name }}
                     </option>
                 </select>

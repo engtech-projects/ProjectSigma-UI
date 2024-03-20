@@ -41,7 +41,7 @@ export const useApprovalStore = defineStore("approvals", {
                             return {
                                 id: val.id,
                                 form: val.form,
-                                approvals: JSON.parse(val.approvals),
+                                approvals: val.approvals,
                             }
                         })
                         this.pagination = {
@@ -88,7 +88,7 @@ export const useApprovalStore = defineStore("approvals", {
                     userselector: approv.userselector,
                     date_approved: "",
                     remarks: "",
-                    name: approv.name,
+                    employee: approv.employee,
                 }
             })
         },
