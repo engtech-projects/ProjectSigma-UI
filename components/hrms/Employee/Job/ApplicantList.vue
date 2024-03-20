@@ -81,7 +81,10 @@ const boardLoading = ref(false)
                         <p class="font-semibold italic">
                             Email:
                         </p>
-                        <p>{{ applicant.email }}</p>
+                        <p>
+                            <a :href="'mailto:'+applicant.email" class="cursor-pointer hover:text-blue-500">{{ applicant.email }}</a>
+                            <!-- {{ applicant.email }} -->
+                        </p>
                     </div>
                     <div>
                         <p class="font-semibold italic">
