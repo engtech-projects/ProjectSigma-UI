@@ -91,7 +91,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             const requestData = JSON.parse(JSON.stringify(this.personelActionNotice))
             requestData.approvals = JSON.stringify(requestData.approvals)
             await useHRMSApi(
-                "/api/employee-panrequest",
+                "/api/pan/resource",
                 {
                     method: "POST",
                     body: requestData,

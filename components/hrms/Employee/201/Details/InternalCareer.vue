@@ -1,3 +1,7 @@
+<script setup>
+// import { useEmployeeInfo } from "@/stores/hrms/employee"
+// const employee = useEmployeeInfo()
+</script>
 <template>
     <div>
         <label for="company_info" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">Internal Work Experience/History</label>
