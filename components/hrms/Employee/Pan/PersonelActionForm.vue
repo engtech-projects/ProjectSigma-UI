@@ -26,7 +26,7 @@ const savePan = async () => {
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: error
+            text: error || "something went wrong."
         })
     } finally {
         boardLoading.value = false
@@ -34,7 +34,8 @@ const savePan = async () => {
 }
 </script>
 <template>
-    <div
+    <LayoutBoards
+        title=" "
         class="shadow-md p-4 mt-6 bg-white mb-3 border border-gray-200 rounded-lg w-full"
         :loading="boardLoading"
     >
@@ -222,5 +223,5 @@ const savePan = async () => {
                 </table>
             </form>
         </div>
-    </div>
+    </LayoutBoards>
 </template>

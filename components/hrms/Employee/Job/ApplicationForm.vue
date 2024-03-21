@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useJobapplicantStore, CURRENT_EMP, STATUS } from "@/stores/employee/jobapplicant"
-import { useManpowerStore } from "@/stores/employee/manpower"
+import { useJobapplicantStore, CURRENT_EMP, STATUS } from "@/stores/hrms/employee/jobapplicant"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 
 const manpowers = useManpowerStore()
 const { manpower } = storeToRefs(manpowers)
@@ -38,6 +38,7 @@ const submitForm = async () => {
         })
     } finally {
         jobapplicantstore.clearMessages()
+        manpowers.getManpowerHiringRequests()
         boardLoading.value = false
     }
 }
@@ -108,7 +109,7 @@ const handleResumeFileUpload = (event) => {
                 </div>
             </div>
 
-            <div class="grid md:grid-cols-4 md:gap-6">
+            <div class="grid md:grid-cols-5 md:gap-6">
                 <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 col-span-2">I. Personal Information</label>
                 <div class="relative z-0 w-full mb-5 group">
                     <select
@@ -123,6 +124,11 @@ const handleResumeFileUpload = (event) => {
                         </option>
                     </select>
                     <label for="floating_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Status</label>
+                </div>
+                <div>
+                    <div class="relative z-0 w-full mb-5 group col-span-2">
+                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.remarks" title="Remarks" />
+                    </div>
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <input
@@ -584,3 +590,4 @@ const handleResumeFileUpload = (event) => {
         </p>
     </LayoutCard>
 </template>
+~/stores/hrms/employee/jobapplicant~/stores/hrms/employee/manpower

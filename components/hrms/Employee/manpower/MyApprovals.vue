@@ -1,7 +1,7 @@
 <script setup>
 
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/employee/manpower"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
 const { myApprovalRequestList: manpowerList } = storeToRefs(manpowers)
 
@@ -162,7 +162,6 @@ const actions = {
                             Approved Request
                         </button>
                         <button
-                            v-show="displayRemarks"
                             class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
                             @click="deniedRequest(employeeData.id)"
                         >
@@ -174,3 +173,4 @@ const actions = {
         </Teleport>
     </div>
 </template>
+~/stores/hrms/employee/manpower

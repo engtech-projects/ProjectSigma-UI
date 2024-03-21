@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/employee/manpower"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
 
 const { manpowerHiringList: manpowerList, manpower, getParams, errorMessage, successMessage, pagination, isDetail } = storeToRefs(manpowers)
@@ -56,7 +56,6 @@ const setDetail = (jobapp) => {
         }
     }
 }
-
 </script>
 
 <template>
@@ -84,6 +83,7 @@ const setDetail = (jobapp) => {
                 {{ successMessage }}
             </p>
         </LayoutBoards>
-        <HrmsEmployeeJobHiringDetails v-if="isDetail" :manpower-data="manpower" class="w-full" />
+        <HrmsEmployeeJobHiringDetails v-show="isDetail" :manpower-data="manpower" class="w-full" />
     </div>
 </template>
+~/stores/hrms/employee/manpower

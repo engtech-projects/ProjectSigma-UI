@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/employee/manpower"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 
 const config = useRuntimeConfig()
 const manpowers = useManpowerStore()
@@ -81,7 +81,10 @@ const boardLoading = ref(false)
                         <p class="font-semibold italic">
                             Email:
                         </p>
-                        <p>{{ applicant.email }}</p>
+                        <p>
+                            <a :href="'mailto:'+applicant.email" class="cursor-pointer hover:text-blue-500">{{ applicant.email }}</a>
+                            <!-- {{ applicant.email }} -->
+                        </p>
                     </div>
                     <div>
                         <p class="font-semibold italic">
@@ -113,7 +116,7 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.telephone_spouse }}</p>
                     </div>
-                    <div v-for="(child, childIndex) in JSON.parse(applicant.children)" :key="childIndex">
+                    <div v-for="(child, childIndex) in applicant.children" :key="childIndex">
                         <p class="font-semibold italic">
                             Children:
                         </p>
@@ -123,7 +126,7 @@ const boardLoading = ref(false)
                 </div>
                 <hr>
                 <div class="grid grid-flow-col auto-cols-max gap-8 p-4">
-                    <div v-for="(work, workIndex) in JSON.parse(applicant.workexperience)" :key="workIndex">
+                    <div v-for="(work, workIndex) in applicant.workexperience" :key="workIndex">
                         <p class="font-semibold italic">
                             Work Experience:
                         </p>
@@ -175,7 +178,7 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.telephone_icoe }}</p>
                     </div>
-                    <div v-for="(educ, educIndex) in JSON.parse(applicant.education)" :key="educIndex">
+                    <div v-for="(educ, educIndex) in applicant.education" :key="educIndex">
                         <p class="font-semibold italic">
                             Education:
                         </p>
@@ -223,3 +226,4 @@ const boardLoading = ref(false)
         </LayoutDisplayBoards>
     </div>
 </template>
+~/stores/hrms/employee/manpower

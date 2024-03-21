@@ -26,12 +26,12 @@ const model = defineModel({ required: true, type: Object })
                         --Select--
                     </option>
                     <option v-for="userSelect in employeeUserList" :key="userSelect.id" :value="userSelect.id">
-                        {{ userSelect.name }}
+                        {{ userSelect.employee.fullname_first }}
                     </option>
                 </select>
             </div>
             <div v-else>
-                <span class="font-semibold">{{ model.name }}</span>
+                <span class="font-semibold">{{ model.employee.fullname_first }}</span>
             </div>
         </div>
     </div>

@@ -58,7 +58,7 @@ defineProps({
                         {{ panData.work_location }}
                     </dd>
                 </div>
-                <LayoutApprovalsListView :approvals="JSON.parse(panData.approvals)" />
+                <LayoutApprovalsListView :approvals="panData.approvals" />
             </dl>
         </div>
     </div>

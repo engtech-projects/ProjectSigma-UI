@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useJobapplicantStore } from "@/stores/employee/jobapplicant"
+import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 
 const jobapplicant = useJobapplicantStore()
@@ -42,3 +42,4 @@ const selectJobApplicant = async (id) => {
         </ul>
     </div>
 </template>
+~/stores/hrms/employee/jobapplicant
