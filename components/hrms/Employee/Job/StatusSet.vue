@@ -1,5 +1,5 @@
 <script setup>
-import { STATUS } from "@/stores/employee/jobapplicant"
+import { STATUS } from "@/stores/hrms/employee/jobapplicant"
 
 const status = defineModel("status", { required: true, type: String })
 const remarks = defineModel("remarks", { required: true, type: String })
@@ -24,3 +24,4 @@ const remarks = defineModel("remarks", { required: true, type: String })
         </div>
     </div>
 </template>
+~/stores/hrms/employee/jobapplicant

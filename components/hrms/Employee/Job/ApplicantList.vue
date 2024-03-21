@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/employee/manpower"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 
 const config = useRuntimeConfig()
 const manpowers = useManpowerStore()
@@ -226,3 +226,4 @@ const boardLoading = ref(false)
         </LayoutDisplayBoards>
     </div>
 </template>
+~/stores/hrms/employee/manpower

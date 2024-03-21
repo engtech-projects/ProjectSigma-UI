@@ -1,7 +1,7 @@
 <script setup>
 
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/employee/manpower"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
 const { list: manpowerList, errorMessage, successMessage, pagination, getParams } = storeToRefs(manpowers)
 const employeeData = ref(null)
@@ -140,3 +140,4 @@ const boardLoading = ref(false)
         </Teleport>
     </div>
 </template>
+~/stores/hrms/employee/manpower

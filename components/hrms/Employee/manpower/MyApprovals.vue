@@ -1,7 +1,7 @@
 <script setup>
 
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/employee/manpower"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
 const { myApprovalRequestList: manpowerList } = storeToRefs(manpowers)
 
@@ -173,3 +173,4 @@ const actions = {
         </Teleport>
     </div>
 </template>
+~/stores/hrms/employee/manpower

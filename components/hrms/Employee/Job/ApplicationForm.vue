@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useJobapplicantStore, CURRENT_EMP, STATUS } from "@/stores/employee/jobapplicant"
-import { useManpowerStore } from "@/stores/employee/manpower"
+import { useJobapplicantStore, CURRENT_EMP, STATUS } from "@/stores/hrms/employee/jobapplicant"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 
 const manpowers = useManpowerStore()
 const { manpower } = storeToRefs(manpowers)
@@ -590,3 +590,4 @@ const handleResumeFileUpload = (event) => {
         </p>
     </LayoutCard>
 </template>
+~/stores/hrms/employee/jobapplicant~/stores/hrms/employee/manpower
