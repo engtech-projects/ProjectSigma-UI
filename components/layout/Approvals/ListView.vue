@@ -18,7 +18,7 @@ defineProps({
                         {{ apprv.type }}
                     </li>
                     <li class="w-full p-2 text-left">
-                        {{ apprv.employee.name }}
+                        {{ apprv.employee.fullname_first }}
                     </li>
                     <li class="w-full p-2 text-center">
                         {{ apprv.status }} {{ (apprv.status === 'Approved') ? apprv.date_approved : "" }}
@@ -29,7 +29,7 @@ defineProps({
                         {{ apprv.type }}
                     </li>
                     <li class="w-full p-2 text-left">
-                        {{ apprv.name }}
+                        {{ apprv.fullname_first }}
                     </li>
                     <li class="w-full p-2 text-center">
                         {{ apprv.status }} {{ (apprv.status === 'Approved') ? apprv.date_approved : "" }}

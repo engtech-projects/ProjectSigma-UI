@@ -3,7 +3,7 @@
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
-const { myApprovalRequestList: manpowerList } = storeToRefs(manpowers)
+const { myApprovalRequestList: manpowerList, remarks } = storeToRefs(manpowers)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -45,7 +45,10 @@ const approvedRequest = async (id) => {
         boardLoading.value = false
     }
 }
-const deniedRequest = async (id) => {
+const clearRemarks = () => {
+    remarks.value = ""
+}
+const denyRequest = async (id) => {
     try {
         boardLoading.value = true
         await manpowers.denyApprovalForm(id)
@@ -70,7 +73,7 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="My Approval List" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="My Approval List" class="w-full">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
@@ -83,7 +86,7 @@ const actions = {
     <div v-if="showInformationModal">
         <Teleport to="body">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <div class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
+                <LayoutBoards title="" class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" :loading="boardLoading">
                     <div class="flex gap-2 justify-between p-2">
                         <p>Application Information</p>
                         <button
@@ -159,16 +162,49 @@ const actions = {
                             class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
                             @click="approvedRequest(employeeData.id)"
                         >
-                            Approved Request
+                            Approve Request
                         </button>
                         <button
+                            data-popover-target="popover-deny-manpower-request"
                             class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                            @click="deniedRequest(employeeData.id)"
                         >
-                            Denied Request
+                            Deny Request
                         </button>
                     </div>
-                </div>
+                    <div id="popover-deny-manpower-request" data-popover role="tooltip" class="absolute z-10 invisible inline-block w-96 text-sm text-gray-500 transition-opacity duration-300 bg-gray-800 border border-gray-200 shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 p-4">
+                        <div>
+                            <div class="text-white text-lg">
+                                Manpower Request
+                            </div>
+                            <div>
+                                <div class="w-full">
+                                    <p class="text-md">
+                                        Are you sure you want to deny this process?
+                                    </p>
+                                </div>
+                                <div class="py-2 flex-col flex gap-2">
+                                    <label for="deny-remarks">Your Remarks if deny</label>
+                                    <textarea v-model="remarks" cols="30" rows="10" />
+                                </div>
+                                <div class="w-full py-2 flex gap-2 justify-end">
+                                    <button
+                                        class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
+                                        @click="denyRequest(employeeData.id)"
+                                    >
+                                        Deny Request
+                                    </button>
+                                    <button
+                                        class="bg-yellow-600 p-2 hover:bg-yellow-900 text-white round-sm"
+                                        @click="clearRemarks"
+                                    >
+                                        Clear
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-popper-arrow />
+                    </div>
+                </LayoutBoards>
             </div>
         </Teleport>
     </div>
