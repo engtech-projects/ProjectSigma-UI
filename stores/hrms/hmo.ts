@@ -6,10 +6,13 @@ export const useHMOStore = defineStore("hmo", {
     state: () => ({
         isEdit: false,
         hmo: {
-            hmo_id: null,
+            id: null,
             hmo_name: null,
-            hmo_employee: null,
-            hmo_employeeShare: null,
+            hmo_start: null,
+            hmo_end: null,
+            employee_share: 0,
+            employer_share: 0,
+            hmo_members: []
         },
         editingItem: {
             hmo_id: null,
@@ -112,6 +115,26 @@ export const useHMOStore = defineStore("hmo", {
             if (data.value) {
                 this.getHmo()
                 return data
+            } else if (error.value) {
+                return error
+            }
+        },
+
+        async showHmo (hmoId : number) {
+            const { data, error } = await useFetch(
+                "/api/hmo/" + hmoId,
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                console.log(data.value)
             } else if (error.value) {
                 return error
             }

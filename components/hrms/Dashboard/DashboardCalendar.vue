@@ -43,14 +43,19 @@ export default {
                 headerToolbar: {
                     left: "prev,next today",
                     center: "title",
-                    right: "dayGridMonth",
+                    // right: "dayGridMonth",
                 },
                 initialView: "dayGridMonth",
                 weekends: true,
+                dayGridMonth: true,
                 nowIndicator: true,
                 editable: true,
                 selectable: true,
                 events: [],
+                eventClick: function (info) {
+                    alert(`Event clicked: ${info.event.title}`)
+                    console.log(info.event)
+                },
                 dateClick: (info) => {
                     this.event.start_date = info.dateStr
                     this.event.end_date = info.dateStr
@@ -144,6 +149,7 @@ export default {
         },
         addEvent (event) {
             const newEvent = {
+                id: event.id,
                 title: event.title,
                 start: event.start_date,
                 end: event.end_date

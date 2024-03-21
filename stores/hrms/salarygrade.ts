@@ -63,7 +63,7 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
         async getSalaryGrade () {
             this.isLoading = true
             const { data, error } = await useHRMSApi(
-                "/api/salary-grade-level",
+                "/api/salary/salary-grade-level",
                 {
                     params: this.getParams,
                     onResponse: ({ response }) => {

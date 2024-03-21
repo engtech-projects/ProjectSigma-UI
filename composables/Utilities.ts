@@ -10,6 +10,8 @@ export const useUtilities = () => {
     function formatCurrency (number: Number, locale = "en-US") {
         const formatter = new Intl.NumberFormat(locale, {
             style: "decimal",
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         })
         return formatter.format(number)
     }

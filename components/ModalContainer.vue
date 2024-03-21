@@ -10,6 +10,10 @@ const props = defineProps({
         type: String,
         default: ""
     },
+    header: {
+        type: Boolean,
+        default: true
+    },
 })
 
 </script>
@@ -17,7 +21,7 @@ const props = defineProps({
 <template>
     <div v-if="modalStore.show" class="fixed left-0 bottom-0 w-screen h-screen bg-black/50 z-[9999] flex items-center justify-center">
         <div :class="props.size" class="min-h-48 bg-white rounded flex flex-col text-slate-700">
-            <div class="header border-b px-4 h-12 flex items-center w-full justify-between">
+            <div v-if="props.header" class="header border-b px-4 h-12 flex items-center w-full justify-between">
                 <h1 class="text-l font-bold">
                     {{ props.title }}
                 </h1>

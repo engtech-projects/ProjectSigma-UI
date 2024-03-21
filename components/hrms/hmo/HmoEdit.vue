@@ -1,5 +1,8 @@
 <script setup>
 import { useModalStore } from "~/stores/modal"
+import { useHMOStore } from "~/stores/hrms/hmo"
+
+const hmoStore = useHMOStore()
 const modalStore = useModalStore()
 const employees = ref([])
 const currentEmployee = ref({})
@@ -8,7 +11,7 @@ const newMember = ref({
     middlename: null,
     lastname: null
 })
-
+hmoStore.showHmo(1)
 async function fetchEmployees () {
     await useHRMSApi(
         "/api/employee-list",
