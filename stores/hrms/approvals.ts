@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const APPROVAL_MANPOWERREQ = "Manpower Request"
 
@@ -26,15 +24,10 @@ export const useApprovalStore = defineStore("approvals", {
     }),
     actions: {
         async getApproval () {
-            const { data, error } = await useFetch(
+            const { data, error } = await useHRMSApi(
                 "/api/approvals",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data.map((val: any) => {
@@ -88,24 +81,18 @@ export const useApprovalStore = defineStore("approvals", {
         async createApproval () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useHRMSApiO(
                 "/api/approvals",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.formApproval,
-                    watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 200) {
-                            this.errorMessage = response._data.message
-                        } else {
+                        if (response.status >= 200 && response.status <= 299) {
                             this.getApproval()
-                            this.reset()
+                            this.$reset()
                             this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
                         }
                     },
                 }
@@ -118,31 +105,25 @@ export const useApprovalStore = defineStore("approvals", {
         async editApprovals () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            const { data, error } = await useHRMSApiO(
                 "/api/approvals/" + this.formApproval.id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.formApproval,
-                    watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 200) {
-                            this.errorMessage = response._data.message
-                        } else {
+                        if (response.status >= 200 && response.status <= 299) {
                             this.getApproval()
-                            this.reset()
+                            this.$reset()
                             this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
                         }
                     },
                 }
             )
             if (data.value) {
                 this.getApproval()
-                this.reset()
+                this.$reset()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -151,37 +132,23 @@ export const useApprovalStore = defineStore("approvals", {
             }
         },
         async deleteApproval (id: number) {
-            await useFetch(
+            await useHRMSApiO(
                 "/api/approvals/" + id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    watch: false,
                     onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
-                        this.getApproval()
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.successMessage = response._data.message
+                            this.getApproval()
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
                     },
                     onResponseError: ({ response }) => {
                         this.errorMessage = response._data.message
                     },
                 }
             )
-        },
-
-        reset () {
-            this.approval = {
-                id: null,
-                form: null,
-                approvals: [],
-            }
-            this.approvals = []
-            this.isEdit = false
-            this.successMessage = ""
-            this.errorMessage = ""
         },
 
     },
