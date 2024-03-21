@@ -90,7 +90,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             this.errorMessage = ""
             const requestData = JSON.parse(JSON.stringify(this.personelActionNotice))
             requestData.approvals = JSON.stringify(requestData.approvals)
-            await useHRMSApi(
+            await useHRMSApiO(
                 "/api/pan/resource",
                 {
                     method: "POST",
