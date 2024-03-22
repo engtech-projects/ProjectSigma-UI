@@ -24,14 +24,16 @@ const submitForm = async () => {
                 type: "error",
                 text: jobapplicantstore.errorMessage
             })
+            boardLoading.value = false
         } else {
             snackbar.add({
                 type: "success",
                 text: jobapplicantstore.successMessage
             })
+            errorMessage.value = ""
         }
     } catch (error) {
-        errorMessage.value = errorMessage
+        errorMessage.value = jobapplicantstore.errorMessage
         snackbar.add({
             type: "error",
             text: jobapplicantstore.errorMessage
@@ -590,4 +592,3 @@ const handleResumeFileUpload = (event) => {
         </p>
     </LayoutCard>
 </template>
-~/stores/hrms/employee/jobapplicant~/stores/hrms/employee/manpower
