@@ -10,7 +10,7 @@ export const CURRENT_EMP = [
 ]
 
 export const STATUS_CONTACTEXT = "Contact Extended"
-export const STATUS_CONTRACTSIGNED = "Contract Singed"
+export const STATUS_CONTRACTSIGNED = "Contract Signed"
 export const STATUS_PENDING = "Pending"
 export const STATUS_INTERVIEWED = "Interviewed"
 export const STATUS_REJECTED = "Rejected"
