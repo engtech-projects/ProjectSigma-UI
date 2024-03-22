@@ -57,6 +57,7 @@ export const useApprovalStore = defineStore("approvals", {
                 "/api/get-form-requests/" + approvalName,
                 {
                     method: "GET",
+                    watch: false,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             return response._data.data.approvals.map((approv: any) => {
