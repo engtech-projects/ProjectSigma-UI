@@ -53,7 +53,7 @@ export const useApprovalStore = defineStore("approvals", {
         },
 
         async getApprovalByName (approvalName: String) {
-            const { data } = await useHRMSApiO(
+            const { data } = await useHRMSApi<Approval>(
                 "/api/get-form-requests/" + approvalName,
                 {
                     method: "GET",
@@ -76,8 +76,8 @@ export const useApprovalStore = defineStore("approvals", {
                     },
                 }
             )
-            if (data) {
-                return data.approvals.map((approv: any) => {
+            if (data.value) {
+                return data.value.approvals.map((approv: any) => {
                     return {
                         type: approv.type,
                         status: "Pending",
