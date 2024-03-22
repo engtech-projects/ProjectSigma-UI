@@ -134,7 +134,7 @@ export const useHMOStore = defineStore("hmo", {
                 }
             )
             if (data.value) {
-                console.log(data.value)
+                // console.log(data.value)
             } else if (error.value) {
                 return error
             }

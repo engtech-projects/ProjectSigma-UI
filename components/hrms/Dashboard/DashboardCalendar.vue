@@ -13,8 +13,12 @@ export default {
     },
     data () {
         return {
+            showModal: false,
             calendarApi: null,
             eventsList: [],
+            selectedEventId: null,
+            toEditEvent: {},
+            isEdit: false,
             event: {
                 title: "",
                 event_type: null,
@@ -52,9 +56,9 @@ export default {
                 editable: true,
                 selectable: true,
                 events: [],
-                eventClick: function (info) {
-                    alert(`Event clicked: ${info.event.title}`)
-                    console.log(info.event)
+                eventClick: (info) => {
+                    this.selectedEventId = info.event.id
+                    this.showModal = true
                 },
                 dateClick: (info) => {
                     this.event.start_date = info.dateStr
@@ -66,6 +70,27 @@ export default {
                 },
 
             }
+        },
+        selectEvent () {
+            let event = {}
+            if (this.selectedEventId) {
+                this.eventsList.forEach((el) => {
+                    if (parseInt(el.id) === parseInt(this.selectedEventId)) {
+                        if (el.with_work) {
+                            el.with_work = true
+                        } else {
+                            el.with_work = false
+                        }
+                        if (el.with_pay) {
+                            el.with_pay = true
+                        } else {
+                            el.with_pay = false
+                        }
+                        event = el
+                    }
+                })
+            }
+            return event
         }
     },
     watch: {
@@ -87,6 +112,10 @@ export default {
         this.getEventsList()
     },
     methods: {
+        setEdit () {
+            this.toEditEvent = JSON.parse(JSON.stringify(this.selectEvent))
+            this.isEdit = true
+        },
         async getEventsList () {
             const { data, error } = await useFetch(
                 "/api/events",
@@ -138,6 +167,65 @@ export default {
                 }
             )
         },
+        async editEvent () {
+            this.isLoading = true
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useFetch(
+                "/api/events/" + this.toEditEvent.id,
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "PUT",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    body: this.toEditEvent,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        if (response.status !== 200) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getEventsList()
+                            this.clearForm()
+                            this.isEdit = false
+                            this.showModal = false
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async deleteEvent () {
+            this.isLoading = true
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useFetch(
+                "/api/events/" + this.selectedEventId,
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "DELETE",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    body: this.toEditEvent,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        if (response.status !== 200) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getEventsList()
+                            this.isEdit = false
+                            this.showModal = false
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
         removeEvents () {
             this.calendarApi.getEvents().forEach((event: { remove: () => any }) => event.remove()) // Remove all event sources
         },
@@ -168,7 +256,7 @@ export default {
                 description: ""
             }
         },
-        deleteEvent (info) {
+        removeEvent (info) {
             const index = this.calendarOptions.initialEvents.findIndex(event => event.title === info.event.title)
             if (index !== -1) {
                 this.calendarOptions.initialEvents.splice(index, 1)
@@ -257,5 +345,157 @@ export default {
         <div class="p-2 bg-white border shadow-md rounded-lg w-full md:w-3/4 mb-5">
             <FullCalendar ref="fCalendar" :options="calendarOptions" class="mt-10" />
         </div>
+        <ModalContainer title="Event Details" :loading="isLoading" :local="true" :show="showModal" @hide="showModal=false">
+            <div class="flex flex-col gap-4">
+                <div class="flex flex-col gap">
+                    <label for="" class="text-sm text-slate-600 px-2">
+                        Event Title
+                    </label>
+                    <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
+                        {{ selectEvent.title }}
+                    </span>
+                    <input
+                        v-else
+                        id="eventTitle"
+                        v-model="toEditEvent.title"
+                        type="text"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder=""
+                        required=""
+                    >
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex flex-col gap-1 flex-1">
+                        <label for="" class="text-sm text-slate-600 px-2">
+                            Start Date
+                        </label>
+                        <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
+                            {{ selectEvent.start_date }}
+                        </span>
+                        <input
+                            v-else
+                            id="startDate"
+                            v-model="toEditEvent.start_date"
+                            type="date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder=""
+                            required=""
+                        >
+                    </div>
+                    <div class="flex flex-col gap-1 flex-1">
+                        <label for="" class="text-sm text-slate-600 px-2">
+                            End Date
+                        </label>
+                        <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
+                            {{ selectEvent.end_date }}
+                        </span>
+                        <input
+                            v-else
+                            id="endDate"
+                            v-model="toEditEvent.end_date"
+                            type="date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder=""
+                            required=""
+                        >
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex flex-col gap-1 flex-1">
+                        <label for="" class="text-sm text-slate-600 px-2">
+                            Event Type
+                        </label>
+                        <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
+                            {{ selectEvent.event_type }}
+                        </span>
+                        <select
+                            v-else
+                            id="eventType"
+                            v-model="toEditEvent.event_type"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="Holiday">
+                                Holiday
+                            </option>
+                            <option value="Company Event">
+                                Company Event
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1 flex-1">
+                        <label for="" class="text-sm text-slate-600 px-2">
+                            Repition Type
+                        </label>
+                        <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
+                            {{ selectEvent.repetition_type }}
+                        </span>
+                        <select
+                            v-else
+                            id="repititionType"
+                            v-model="toEditEvent.repetition_type"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                            <option value="One Day">
+                                One Day
+                            </option>
+                            <option value="Long Event">
+                                Long Event
+                            </option>
+                            <option value="Yearly Repeat">
+                                Yearly Repeat
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex flex-col gap-1 flex-1">
+                        <label for="" class="text-sm text-slate-600 px-2">
+                            With Work
+                        </label>
+                        <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
+                            {{ selectEvent.with_work? "Yes" : "No" }}
+                        </span>
+                        <input
+                            v-else
+                            id="withWork"
+                            v-model="toEditEvent.with_work"
+                            type="checkbox"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                    </div>
+                    <div class="flex flex-col gap-1 flex-1">
+                        <label for="" class="text-sm text-slate-600 px-2">
+                            WITH PAY
+                        </label>
+                        <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
+                            {{ selectEvent.with_pay? "Yes" : "No" }}
+                        </span>
+                        <input
+                            v-else
+                            id="withPay"
+                            v-model="toEditEvent.with_pay"
+                            type="checkbox"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                    </div>
+                </div>
+                <div v-if="!isEdit" class="flex justify-end gap-2 pt-8">
+                    <button type="submit" class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" @click="setEdit">
+                        Edit
+                    </button>
+                    <button type="submit" class="text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" @click="deleteEvent">
+                        Delete
+                    </button>
+                </div>
+                <div v-else class="flex justify-end gap-2 pt-8">
+                    <button type="submit" class="text-white bg-green-500 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" @click="editEvent">
+                        Save
+                    </button>
+                    <button type="submit" class="text-white bg-red-500 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800" @click="isEdit=false">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </ModalContainer>
     </div>
 </template>
