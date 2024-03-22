@@ -81,6 +81,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             created_by: "" as String,
         } as PersonelActionNotice,
         errorMessage: "",
+        remarks: "",
         successMessage: "",
         errorHandler: [],
     }),
@@ -168,7 +169,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             const { data, error } = await useHRMSApiO(
                 "/api/approve-pan-approvals/" + id,
                 {
-                    method: "PUT",
+                    method: "POST",
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
                     },
@@ -182,14 +183,14 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 return error
             }
         },
-        async deniedPanRequest (id: string, remarks: string) {
+        async denyRequest (id: string) {
             this.successMessage = ""
             this.errorMessage = ""
             const formData = new FormData()
             formData.append("id", id)
-            formData.append("remarks", remarks)
+            formData.append("remarks", this.remarks)
             const { data, error } = await useHRMSApiO(
-                "/api/disapprove-pan-approvals/",
+                "/api/disapprove-pan-approvals",
                 {
                     method: "POST",
                     onResponse: ({ response }) => {

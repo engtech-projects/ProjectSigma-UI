@@ -89,6 +89,7 @@ export const useManpowerStore = defineStore("manpowers", {
         getParams: {},
         errorMessage: "",
         successMessage: "",
+        remarks: "",
     }),
     actions: {
         async getDepartmentList () {
@@ -283,9 +284,12 @@ export const useManpowerStore = defineStore("manpowers", {
                 return error
             }
         },
-        async denyApprovalForm (id: number) {
+        async denyApprovalForm (id: String) {
             this.successMessage = ""
             this.errorMessage = ""
+            const formData = new FormData()
+            formData.append("id", id)
+            formData.append("remarks", this.remarks)
             const { data, error } = await useHRMSApiO(
                 "/api/manpower/deny-approval/" + id,
                 {
@@ -293,6 +297,7 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
                     },
+                    body: formData
                 }
             )
             if (data.value) {
