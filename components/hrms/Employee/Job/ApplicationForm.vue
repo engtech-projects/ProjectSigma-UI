@@ -590,4 +590,3 @@ const handleResumeFileUpload = (event) => {
         </p>
     </LayoutCard>
 </template>
-~/stores/hrms/employee/jobapplicant~/stores/hrms/employee/manpower
