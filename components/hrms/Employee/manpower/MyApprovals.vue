@@ -78,7 +78,7 @@ const actions = {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="manpowerList"
+                :datas="manpowerList ?? []"
                 @show-table="showInformation"
             />
         </div>

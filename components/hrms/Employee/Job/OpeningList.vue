@@ -64,7 +64,7 @@ const setDetail = (jobapp) => {
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2 ">
                 <LayoutPsTable
                     :header-columns="headers"
-                    :datas="manpowerList"
+                    :datas="manpowerList ?? []"
                     :actions="actions"
                     @detail-row="setDetail"
                 />

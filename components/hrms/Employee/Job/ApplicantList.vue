@@ -116,7 +116,7 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.telephone_spouse }}</p>
                     </div>
-                    <div v-for="(child, childIndex) in applicant.children" :key="childIndex">
+                    <div v-for="(child, childIndex) in JSON.parse(applicant.children)" :key="childIndex">
                         <p class="font-semibold italic">
                             Children:
                         </p>
@@ -126,7 +126,7 @@ const boardLoading = ref(false)
                 </div>
                 <hr>
                 <div class="grid grid-flow-col auto-cols-max gap-8 p-4">
-                    <div v-for="(work, workIndex) in applicant.workexperience" :key="workIndex">
+                    <div v-for="(work, workIndex) in JSON.parse(applicant.workexperience)" :key="workIndex">
                         <p class="font-semibold italic">
                             Work Experience:
                         </p>
@@ -178,7 +178,7 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.telephone_icoe }}</p>
                     </div>
-                    <div v-for="(educ, educIndex) in applicant.education" :key="educIndex">
+                    <div v-for="(educ, educIndex) in JSON.parse(applicant.education)" :key="educIndex">
                         <p class="font-semibold italic">
                             Education:
                         </p>
