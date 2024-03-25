@@ -97,7 +97,7 @@ const isActiveRow = (index) => {
         </table>
     </div>
     <div v-else class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-        <p class="text-left text-lg p-2">
+        <p class="text-center text-lg p-2">
             NO DATA
         </p>
     </div>
