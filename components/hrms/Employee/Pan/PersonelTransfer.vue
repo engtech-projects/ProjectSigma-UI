@@ -1,6 +1,7 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useDepartmentStore } from "@/stores/hrms/departments"
+import { useEmployeeInfo } from "@/stores/hrms/employee"
 const pan = usePersonelActionNotice()
 const department = useDepartmentStore()
 const employee = useEmployeeInfo()
