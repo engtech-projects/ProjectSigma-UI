@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/employee/manpower"
-import { useJobapplicantStore } from "@/stores/employee/jobapplicant"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
+import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 
 const manpowers = useManpowerStore()
 const { manpower } = storeToRefs(manpowers)
@@ -85,3 +85,4 @@ const handleStatusChange = async (applicant) => {
         </template>
     </div>
 </template>
+~/stores/hrms/employee/manpower~/stores/hrms/employee/jobapplicant

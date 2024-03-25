@@ -56,20 +56,6 @@ const actions = {
                     <div class="p-2">
                         <HrmsEmployeePanPersonalActionFormInfo :pan-data="panData" />
                     </div>
-                    <div class="flex gap-2 p-2 justify-end">
-                        <button
-                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                            @click="approvedRequest(myPanList.id)"
-                        >
-                            Approved Request
-                        </button>
-                        <button
-                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                            @click="deniedRequest(myPanList.id)"
-                        >
-                            Denied Request
-                        </button>
-                    </div>
                     <div class="flex gap-2 justify-end p-2">
                         <button
                             @click="closeViewModal"

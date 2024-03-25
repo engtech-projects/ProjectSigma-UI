@@ -117,7 +117,7 @@ const submitApprov = async (approval) => {
                                                     --Select--
                                                 </option>
                                                 <option v-for="userSelect, userSelector in employeeUserList" :key="userSelector" :value="userSelect.id">
-                                                    {{ userSelect.name }}
+                                                    {{ userSelect.employee.fullname_first }}
                                                 </option>
                                             </select>
                                         </div>

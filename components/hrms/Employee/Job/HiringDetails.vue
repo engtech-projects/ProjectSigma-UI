@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useJobapplicantStore } from "@/stores/employee/jobapplicant"
+import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 const jobapplicants = useJobapplicantStore()
 
 const { errorMessage, successMessage } = storeToRefs(jobapplicants)
@@ -105,3 +105,4 @@ const closeApplicantDetail = () => {
         </LayoutEditBoards>
     </div>
 </template>
+~/stores/hrms/employee/jobapplicant

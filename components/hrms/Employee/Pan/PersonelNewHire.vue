@@ -2,18 +2,21 @@
 import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useDepartmentStore } from "@/stores/hrms/departments"
-// import { useSalaryGradeStore } from "~/stores/hrms/salarygrade";
+import { useSalaryGradeStore } from "~/stores/hrms/salarygrade"
 
 const pan = usePersonelActionNotice()
 const department = useDepartmentStore()
+const salaryGrade = useSalaryGradeStore()
 // const salaryGrade = useSalaryGradeStore()
 pan.personelActionNotice.salary_type = "Fixed Rate"
 pan.personelActionNotice.hire_source = "Internal"
 pan.personelActionNotice.employement_status = "Probationary"
 pan.personelActionNotice.work_location = "Office"
 const { departmentList } = storeToRefs(department)
+const { salaryGradeStepList: salaryGradeList } = storeToRefs(salaryGrade)
 
 department.getDepartmentList()
+salaryGrade.getSalarySteps()
 </script>
 <template>
     <tr>
@@ -28,7 +31,7 @@ department.getDepartmentList()
         <td class="border border-slate-300 p-2">
             <div>
                 <label
-                    for="small-input"
+                    for="panSection"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                 >SECTION:</label>
                 <select
@@ -37,7 +40,7 @@ department.getDepartmentList()
                     class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required
                 >
-                    <option v-for="(dep, index) in departmentList" :key="index" :value="dep.section_department_id">
+                    <option v-for="(dep, index) in departmentList" :key="index" :value="dep.id">
                         {{ dep.department_name }}
                     </option>
                 </select>
@@ -63,14 +66,18 @@ department.getDepartmentList()
                 <label
                     for="small-input"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
-                >SALARY GRADE:</label>
-                <input
-                    id="small-input"
+                >SALARY GRADE:
+                </label>
+                <select
+                    id="panSection"
                     v-model="pan.personelActionNotice.salary_grades"
-                    type="text"
                     class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required
                 >
+                    <option v-for="(salary, index) in salaryGradeList" :key="index" :value="salary.id">
+                        Grade {{ salary.salary_grade_level }} - Step {{ salary.step_name }}
+                    </option>
+                </select>
             </div>
         </td>
     </tr>

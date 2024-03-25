@@ -5,7 +5,6 @@ const pan = usePersonelActionNotice()
 const department = useDepartmentStore()
 const employee = useEmployeeInfo()
 const { departmentList } = storeToRefs(department)
-pan.personelActionNotice.section_department_id = emp
 pan.personelActionNotice.section_department_id = employee.information.employee_internal.department_id
 
 </script>

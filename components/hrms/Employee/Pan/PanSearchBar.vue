@@ -1,7 +1,7 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
-import { useJobapplicantStore } from "~/stores/employee/jobapplicant"
+import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 
 const pan = usePersonelActionNotice()
 const employee = useEmployeeInfo()
@@ -17,3 +17,4 @@ jobapplicant.$reset()
         <SearchBar />
     </div>
 </template>
+~/stores/hrms/employee/jobapplicant
