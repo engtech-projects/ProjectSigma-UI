@@ -19,7 +19,7 @@ const closeViewModal = () => {
 
 const headers = [
     { name: "REQUEST TYPE", id: "type" },
-    { name: "DATE REQUESTED", id: "created_at" },
+    { name: "DATE REQUESTED", id: "request_created_at" },
     { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
 ]
 
