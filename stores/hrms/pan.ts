@@ -167,7 +167,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useHRMSApiO(
-                "/api/approve-pan-approvals/" + id,
+                "/api/pan/approve-approval" + id,
                 {
                     method: "POST",
                     onResponse: ({ response }) => {
@@ -190,7 +190,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             formData.append("id", id)
             formData.append("remarks", this.remarks)
             const { data, error } = await useHRMSApiO(
-                "/api/disapprove-pan-approvals",
+                "/api/pan/deny-approval",
                 {
                     method: "POST",
                     onResponse: ({ response }) => {
