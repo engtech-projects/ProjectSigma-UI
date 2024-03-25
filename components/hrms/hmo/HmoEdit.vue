@@ -11,7 +11,7 @@ const newMember = ref({
     middlename: null,
     lastname: null
 })
-hmoStore.showHmo(1)
+// hmoStore.showHmo(1)
 async function fetchEmployees () {
     await useHRMSApi(
         "/api/employee-list",
