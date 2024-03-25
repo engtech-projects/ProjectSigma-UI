@@ -102,11 +102,6 @@ salaryGrade.getSalarySteps()
                     for="regularization"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >REGULARIZATION</label>
-                <input id="weekly" v-model="pan.personelActionNotice.employement_status" class="" type="radio" value="Project Base">
-                <label
-                    for="weekly"
-                    class="text-xs text-gray-900 dark:text-gray-300"
-                >WEEKLY</label>
                 <input id="projectBased" v-model="pan.personelActionNotice.employement_status" type="radio" value="projectBased">
                 <label
                     for="projectBased"
