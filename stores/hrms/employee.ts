@@ -84,9 +84,6 @@ export interface Company_family_members {
     relationship: String,
     position: String
 }
-export interface EmployeeEducationModel {
-
-}
 export interface EmploymentRecord {
     id: Number,
     employee_id: Number,
@@ -138,34 +135,14 @@ export interface EmployeeUpload {
     upload_type: String,
     file_location: String,
 }
-export interface EmployeeElementaryEducationModel {
-    elementary_name: String,
-    elementary_education: String,
-    elementary_period_attendance_to: String,
-    elementary_period_attendance_from: String,
-    elementary_year_graduated: String,
+export interface EmployeeEducationModel {
+    name: String,
+    education: String,
+    period_attendance_to: String,
+    period_attendance_from: String,
+    year_graduated: String,
 }
-export interface EmployeeSecondaryEducationModel {
-    secondary_name: String,
-    secondary_education: String,
-    secondary_period_attendance_to: String,
-    secondary_period_attendance_from: String,
-    secondary_year_graduated: String,
-}
-export interface EmployeeVocationalEducationModel {
-    vocationalcourse_name: String,
-    vocationalcourse_education: String,
-    vocationalcourse_period_attendance_to: String,
-    vocationalcourse_period_attendance_from: String,
-    vocationalcourse_year_graduated: String,
-}
-export interface EmployeeCollegeEducationModel {
-    college_name: String,
-    college_education: String,
-    college_period_attendance_to: String,
-    college_period_attendance_from: String,
-    college_year_graduated: String,
-}
+
 export interface EmployeeGraduateStudiesEducationModel {
     college_name: String,
     college_education: String,
@@ -274,10 +251,10 @@ export interface EmployeeInformation {
     masterstudies: Array<StudiesModel>,
     doctorstudies: Array<StudiesModel>,
     professionalstudies: Array<StudiesModel>,
-    employee_education_elementary: Array<EmployeeElementaryEducationModel>,
-    employee_education_secondary: Array<EmployeeSecondaryEducationModel>,
-    employee_education_vocationalcourse: Array<EmployeeVocationalEducationModel>,
-    employee_education_college: Array<EmployeeCollegeEducationModel>,
+    employee_education_elementary: Array<EmployeeEducationModel>,
+    employee_education_secondary: Array<EmployeeEducationModel>,
+    employee_education_vocationalcourse: Array<EmployeeEducationModel>,
+    employee_education_college: Array<EmployeeEducationModel>,
     employee_education_graduatestudies: Array<EmployeeGraduateStudiesEducationModel>,
     employee_eligibility: Array<EmploymentEligibility>,
     employee_seminartraining: Array<EmployeeSeminarTraining>,
@@ -345,10 +322,10 @@ export const useEmployeeInfo = defineStore("employee", {
             masterstudies: [] as Array<StudiesModel>,
             doctorstudies: [] as Array<StudiesModel>,
             professionalstudies: [] as Array<StudiesModel>,
-            employee_education_elementary: [] as Array<EmployeeElementaryEducationModel>,
-            employee_education_secondary: [] as Array<EmployeeSecondaryEducationModel>,
-            employee_education_vocationalcourse: [] as Array<EmployeeVocationalEducationModel>,
-            employee_education_college: [] as Array<EmployeeCollegeEducationModel>,
+            employee_education_elementary: [] as Array<EmployeeEducationModel>,
+            employee_education_secondary: [] as Array<EmployeeEducationModel>,
+            employee_education_vocationalcourse: [] as Array<EmployeeEducationModel>,
+            employee_education_college: [] as Array<EmployeeEducationModel>,
             employee_education_graduatestudies: [] as Array<EmployeeGraduateStudiesEducationModel>,
             employee_eligibility: [] as Array<EmploymentEligibility>,
             employee_seminartraining: [] as Array<EmployeeSeminarTraining>,

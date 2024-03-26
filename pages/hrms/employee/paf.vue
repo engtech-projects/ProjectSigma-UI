@@ -5,9 +5,7 @@ useHead({
 })
 
 const pan = usePersonelActionNotice()
-pan.getAllPan()
-pan.getPanApprovals()
-pan.myPanRequest()
+pan.fetchPersonelActionList()
 </script>
 
 <template>

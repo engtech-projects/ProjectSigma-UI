@@ -104,6 +104,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
+                        this.fetchPersonelActionList()
                     },
                 }
             )
@@ -122,6 +123,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
+                        this.fetchPersonelActionList()
                     },
                 }
             )
@@ -140,6 +142,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
+                        this.fetchPersonelActionList()
                     },
                 }
             )
@@ -159,6 +162,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
+                        this.fetchPersonelActionList()
                     },
                 }
             )
@@ -166,22 +170,21 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         async approvedPanRequest (id: number) {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useHRMSApiO(
-                "/api/pan/approve-approval" + id,
+            await useHRMSApiO(
+                "/api/pan/approve-approval/" + id,
                 {
                     method: "POST",
                     onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                        this.fetchPersonelActionList()
                     },
                 }
             )
-            if (data.value) {
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
         async denyRequest (id: string) {
             this.successMessage = ""
@@ -189,23 +192,28 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             const formData = new FormData()
             formData.append("id", id)
             formData.append("remarks", this.remarks)
-            const { data, error } = await useHRMSApiO(
-                "/api/pan/deny-approval",
+            await useHRMSApiO(
+                "/api/pan/deny-approval/" + id,
                 {
                     method: "POST",
+                    body: formData,
                     onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                        this.fetchPersonelActionList()
                     },
-                    body: formData
                 }
             )
-            if (data.value) {
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
+        fetchPersonelActionList () {
+            this.$reset()
+            this.getAllPan()
+            this.getPanApprovals()
+            this.myPanRequest()
+        }
     },
 })
