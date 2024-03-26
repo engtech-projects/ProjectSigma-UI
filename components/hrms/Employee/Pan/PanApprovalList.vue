@@ -59,6 +59,8 @@ const approvedRequest = async (id) => {
 }
 const headers = [
     { name: "REQUEST TYPE", id: "type" },
+    { name: "FULLNAME", id: "fullname" },
+    { name: "REQUEST STATUS", id: "request_status" },
     { name: "DATE REQUESTED", id: "request_created_at" },
     { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
 ]
@@ -99,7 +101,7 @@ const actions = {
                     <div class="flex gap-2 p-2 justify-end">
                         <button
                             class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                            @click="approvedRequest(panData.id)"
+                            @click.once="approvedRequest(panData.id)"
                         >
                             Approve Request
                         </button>
@@ -137,7 +139,7 @@ const actions = {
                             <div class="w-full py-2 flex gap-2 justify-end">
                                 <button
                                     class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                                    @click="denydRequest(panData.id)"
+                                    @click.once="denydRequest(panData.id)"
                                 >
                                     Deny Request
                                 </button>
