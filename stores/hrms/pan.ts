@@ -196,12 +196,12 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     body: formData,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
+                            this.fetchPersonelActionList()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
-                        this.fetchPersonelActionList()
                     },
                 }
             )

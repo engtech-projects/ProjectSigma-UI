@@ -48,6 +48,7 @@ const approvedRequest = async (id) => {
             type: "success",
             text: pan.successMessage
         })
+        closeViewModal()
     } catch (error) {
         snackbar.add({
             type: "error",
