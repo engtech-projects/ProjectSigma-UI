@@ -21,6 +21,7 @@ const headers = [
     { name: "REQUEST TYPE", id: "type" },
     { name: "DATE REQUESTED", id: "request_created_at" },
     { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
+    { name: "REQUEST STATUS", id: "request_status" },
 ]
 
 const actions = {
