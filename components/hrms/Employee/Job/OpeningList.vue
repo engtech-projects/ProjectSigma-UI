@@ -86,4 +86,3 @@ const setDetail = (jobapp) => {
         <HrmsEmployeeJobHiringDetails v-show="isDetail" :manpower-data="manpower" class="w-full" />
     </div>
 </template>
-~/stores/hrms/employee/manpower

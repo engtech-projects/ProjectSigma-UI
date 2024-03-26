@@ -105,4 +105,3 @@ const closeApplicantDetail = () => {
         </LayoutEditBoards>
     </div>
 </template>
-~/stores/hrms/employee/jobapplicant
