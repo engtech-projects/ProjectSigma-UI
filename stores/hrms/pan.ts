@@ -123,7 +123,6 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
-                        this.fetchPersonelActionList()
                     },
                 }
             )
@@ -142,7 +141,6 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
-                        this.fetchPersonelActionList()
                     },
                 }
             )
@@ -162,7 +160,6 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
-                        this.fetchPersonelActionList()
                     },
                 }
             )

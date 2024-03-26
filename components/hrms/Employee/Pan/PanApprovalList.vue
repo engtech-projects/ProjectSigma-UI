@@ -59,10 +59,9 @@ const approvedRequest = async (id) => {
 }
 const headers = [
     { name: "REQUEST TYPE", id: "type" },
-    { name: "FULLNAME", id: "fullname" },
-    { name: "REQUEST STATUS", id: "request_status" },
     { name: "DATE REQUESTED", id: "request_created_at" },
     { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
+    { name: "REQUEST STATUS", id: "request_status" },
 ]
 
 const actions = {
