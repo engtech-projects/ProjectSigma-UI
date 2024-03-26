@@ -15,7 +15,13 @@ const { signOut, data: userData } = useAuth()
         </div>
         <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
             <li>
-                <a href="#" class="block py-2 px-4 text-sm   dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My profile</a>
+                <NuxtLink
+                    to="useraccountedit"
+                    class="block py-2 px-4 text-sm   dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white hover:bg-teal-400 hover:text-white"
+                >
+                    <span>My profile</span>
+                </NuxtLink>
+                <!-- <a href="#" class="block py-2 px-4 text-sm   dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My profile</a> -->
             </li>
             <li>
                 <a href="#" class="block py-2 px-4 text-sm   dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Account settings</a>

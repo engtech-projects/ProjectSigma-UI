@@ -226,4 +226,3 @@ const boardLoading = ref(false)
         </LayoutDisplayBoards>
     </div>
 </template>
-~/stores/hrms/employee/manpower
