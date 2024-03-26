@@ -224,6 +224,7 @@ export interface EmploymentEducation {
 }
 
 export interface EmployeeInformation {
+value: any
     id: null | Number,
     employee_id: null | Number,
     first_name: String,

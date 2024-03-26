@@ -85,11 +85,11 @@ export const useUserStore = defineStore("users", {
                 }
             )
         },
-        async editEmployeeAccount (id: string) {
+        async editEmployeeAccount (id: number) {
             await useHRMSApiO(
-                "/api/users" + id,
+                "/api/update-user/" + id,
                 {
-                    method: "PATCH",
+                    method: "PUT",
                     params: this.editData.params,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
