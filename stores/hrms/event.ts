@@ -24,18 +24,8 @@ export const useEventStore = defineStore("eventStore", {
         errorMessage: "",
         successMessage: "",
     }),
-    getters: {
-        departmentsList (state) {
-            return state.departmentList.map((dpt) => {
-                return {
-                    id: dpt.id,
-                    department_name: dpt.department_name,
-                }
-            })
-        }
-    },
     actions: {
-        async getDepartmentList () {
+        async getEventsList () {
             const { data, error } = await useFetch(
                 "/api/events",
                 {
@@ -63,39 +53,12 @@ export const useEventStore = defineStore("eventStore", {
                 return error
             }
         },
-        async getDepartment () {
-            const { data, error } = await useFetch(
-                "/api/departments",
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        this.list = response._data.data.data
-                        this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
-                        }
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
 
-        async createDepartment () {
+        async createEvent () {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/departments",
+                "/api/events",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
@@ -109,7 +72,7 @@ export const useEventStore = defineStore("eventStore", {
                         if (response.status !== 200) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getDepartment()
+                            this.getEventsList()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -121,11 +84,11 @@ export const useEventStore = defineStore("eventStore", {
             this.errorMessage = ""
             this.successMessage = ""
         },
-        async editDepartmentName () {
+        async editEvent () {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/departments/" + this.lid,
+                "/api/departments/" + this.event.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
@@ -133,12 +96,12 @@ export const useEventStore = defineStore("eventStore", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.l
+                    body: this.event
                     watch: false,
                 }
             )
             if (data.value) {
-                this.getDepartment()
+                this.getEventsList()
                 this.reset()
                 this.successMessage = data.value.message
                 return data
@@ -147,9 +110,9 @@ export const useEventStore = defineStore("eventStore", {
                 return error
             }
         },
-        async deleteDepartment (id: number) {
+        async deleteEvent (id: number) {
             const { data, error } = await useFetch(
-                "/api/departments/" + id,
+                "/api/events/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
@@ -164,7 +127,7 @@ export const useEventStore = defineStore("eventStore", {
                 }
             )
             if (data.value) {
-                this.getDepartment()
+                this.getEventsList()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
