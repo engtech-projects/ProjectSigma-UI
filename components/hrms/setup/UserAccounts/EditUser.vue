@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
 import { useUserStore } from "@/stores/hrms/users"
-import type { EmployeeInformation } from "@/stores/hrms/employee"
 
 const userAccountStore = useUserStore()
-const { editData } = storeToRefs(userAccountStore)
-const employeeId = ref<EmployeeInformation>({} as EmployeeInformation)
+const { editCurrent } = storeToRefs(userAccountStore)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -13,34 +11,67 @@ const { data: userData } = useAuth()
 
 const showModal = ref(false)
 
-editData.value.params.employee_id = employeeId.value.id
+// const confirmChanges = async () => {
+//     showModal.value = false
+//     try {
+//         boardLoading.value = true
+//         let typechange = ""
 
-const confirmChanges = async (id: number) => {
+//         if (editCurrent.value.params.name !== userData.name) {
+//             typechange = "name"
+//         } else if (editCurrent.value.params.email !== userData.email) {
+//             typechange = "email"
+//         } else if (editCurrent.value.params.password.trim()`` !== "") {
+//             typechange = "password"
+//         }
+
+//         if (typechange) {
+//             editCurrent.value.params.typechange = typechange
+//             await userAccountStore.editCurrentUser()
+//             snackbar.add({
+//                 type: "success",
+//                 text: editCurrent.value.successMessage
+//             })
+//         } else {
+//             throw new Error("No change detected.")
+//         }
+//     } catch (error) {
+//         snackbar.add({
+//             type: "error",
+//             text: error || "Something went wrong."
+//         })
+//     } finally {
+//         userAccountStore.$reset()
+//         boardLoading.value = false
+//     }
+// }
+const typechange = ref("")
+const confirmChanges = async () => {
     showModal.value = false
-    // if (confirmPassword.value !== userData.password) {
-    //     snackbar.add({
-    //         type: "error",
-    //         text: "Incorrect password. Please try again."
-    //     })
-    //     return
-    // }
-    editData.value.params.employee_id = id
-    // editData.value.params.employee_id = employeeId.value.id
     try {
         boardLoading.value = true
-        await userAccountStore.editEmployeeAccount()
-        snackbar.add({
-            type: "success",
-            text: editData.value.successMessage
-        })
+
+        if (editCurrent.value.params.password !== editCurrent.value.params.confirm_password) {
+            throw new Error("Passwords do not match.")
+        }
+
+        if (typechange.value) {
+            editCurrent.value.params.typechange = typechange.value
+            await userAccountStore.editCurrentUser()
+            snackbar.add({
+                type: "success",
+                text: editCurrent.value.successMessage
+            })
+        } else {
+            throw new Error("No change detected.")
+        }
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: error || "something went wrong."
+            text: error || "Something went wrong."
         })
     } finally {
         userAccountStore.$reset()
-        employeeId.value = {} as EmployeeInformation
         boardLoading.value = false
     }
 }
@@ -49,12 +80,15 @@ const closeModal = () => {
     showModal.value = false
 }
 const saveUsername = () => {
+    typechange.value = "name"
     showModal.value = true
 }
 const saveEmail = () => {
+    typechange.value = "email"
     showModal.value = true
 }
 const savePassword = () => {
+    typechange.value = "password"
     showModal.value = true
 }
 </script>
@@ -86,7 +120,8 @@ const savePassword = () => {
                                 Username: {{ userData.name }}
                             </label>
 
-                            <LayoutFormPsTextInput v-model="editData.params.name" title="New Username" name="name" class="w-48 italic" />
+                            <LayoutFormPsTextInput v-model="editCurrent.params.name" title="New Username" name="text" class="w-64 italic" />
+
                             <button
                                 type="submit"
                                 class="w-32 text-white bg-cyan-600 hover:bg-secondary-base focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -103,8 +138,7 @@ const savePassword = () => {
                                 </p>
                             </label>
 
-                            <LayoutFormPsEmailInput v-model="editData.params.email" title="New Email" name="email1" placeholder="JohnDoe@gmail.com" class="w-64 italic" />
-                            <LayoutFormPsEmailInput v-model="editData.params.email" title="Confirm New Email" name="email2" placeholder="JohnDoe@gmail.com" class="w-64 italic" />
+                            <LayoutFormPsEmailInput v-model="editCurrent.params.email" title="New Email" name="email" class="w-64 italic" />
 
                             <button
                                 type="submit"
@@ -119,8 +153,8 @@ const savePassword = () => {
                             <label class="block text-xl font-semibold text-gray-900 dark:text-white">
                                 Password
                             </label>
-                            <LayoutFormPsPasswordInput v-model="editData.params.password" title="Password" name="password" placeholder="••••••••" class="w-64 italic" />
-                            <LayoutFormPsPasswordInput v-model="editData.params.password" title="Confirm New Password" name="password" placeholder="••••••••" class="w-64 italic" />
+                            <LayoutFormPsPasswordInput v-model="editCurrent.params.password" title="Password" name="password" placeholder="••••••••" class="w-64 italic" />
+                            <LayoutFormPsPasswordInput v-model="editCurrent.params.confirm_password" title="Confirm New Password" name="password" placeholder="••••••••" class="w-64 italic" />
                             <button
                                 type="submit"
                                 class="w-32 text-white bg-cyan-600 hover:bg-secondary-base focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -134,7 +168,7 @@ const savePassword = () => {
                         <div class="bg-white p-4 mt-10 ml-64 gap-4 rounded-md shadow-lg overflow-auto absolute space-x-4">
                             <span class="close cursor-pointer text-md flex justify-end ml-auto" @click="closeModal">&times;</span>
                             <h3>Confirm Password</h3>
-                            <input class="rounded-lg" type="password" placeholder="Enter your password">
+                            <input v-model="editCurrent.params.current_password" class="rounded-lg" type="password" placeholder="Enter your password" required>
                             <button class="w-32 text-white bg-cyan-600 hover:bg-secondary-base focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800" @click="confirmChanges">
                                 Confirm
                             </button>

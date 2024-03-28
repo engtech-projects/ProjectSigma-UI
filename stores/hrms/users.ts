@@ -43,6 +43,18 @@ export const useUserStore = defineStore("users", {
             errorMessage: "",
             successMessage: "",
         },
+        editCurrent: {
+            params: {
+                name: "",
+                email: "",
+                password: "",
+                confirm_password: "",
+                current_password: "",
+                typechange: "",
+            },
+            errorMessage: "",
+            successMessage: "",
+        },
         employeeUserList: [] as Array<User>,
         pagination: {},
         getParams: {},
@@ -85,11 +97,11 @@ export const useUserStore = defineStore("users", {
                 }
             )
         },
-        async editEmployeeAccount (id: number) {
+        async editEmployeeAccount (id: string) {
             await useHRMSApiO(
-                "/api/update-user/" + id,
+                "/api/user" + id,
                 {
-                    method: "PUT",
+                    method: "PATCH",
                     params: this.editData.params,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
@@ -104,6 +116,26 @@ export const useUserStore = defineStore("users", {
                 }
             )
         },
+        async editCurrentUser () {
+            await useHRMSApiO(
+                "/api/update-user",
+                {
+                    method: "PUT",
+                    params: this.editCurrent.params,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.$reset()
+                            this.editCurrent.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.editCurrent.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+
         async setUserAccessibilities (id: string) {
             await useHRMSApiO(
                 "/api/users_accessibilities" + id,
