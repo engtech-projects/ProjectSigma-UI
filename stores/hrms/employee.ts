@@ -446,7 +446,7 @@ export const useEmployeeInfo = defineStore("employee", {
     actions: {
         async searchEmployees () {
             await useFetch(
-                "/api/employee-search",
+                "/api/employee/search",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
@@ -469,7 +469,7 @@ export const useEmployeeInfo = defineStore("employee", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/employee-uploads",
+                "/api/employee/uploads",
                 {
                     method: "POST",
                     body: formData,
@@ -488,7 +488,7 @@ export const useEmployeeInfo = defineStore("employee", {
         async getEmployeeInformation (id : Number) {
             this.$reset()
             const { data, error } = await useFetch(
-                "/api/employee/" + id,
+                "/api/employee/list/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",

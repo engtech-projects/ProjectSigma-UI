@@ -64,7 +64,7 @@ export const useUserStore = defineStore("users", {
     actions: {
         async getUserEmployees () {
             await useHRMSApi(
-                "/api/users-employees-list",
+                "/api/employee/users-list",
                 {
                     method: "GET",
                     params: this.getParams,

@@ -27,7 +27,7 @@ export const useEmployeeSearch = defineStore("employee", {
         async searchEmployees () {
             this.searchResultList = [] as EmployeeSearch[]
             await useHRMSApi(
-                "/api/employee-search",
+                "/api/employee/search",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
@@ -50,7 +50,7 @@ export const useEmployeeSearch = defineStore("employee", {
         async searchEmployeesNoAccount () {
             this.searchResultList = [] as EmployeeSearch[]
             await useHRMSApi(
-                "/api/employee-search",
+                "/api/employee/search",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
