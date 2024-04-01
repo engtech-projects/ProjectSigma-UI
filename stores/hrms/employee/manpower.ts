@@ -269,7 +269,7 @@ export const useManpowerStore = defineStore("manpowers", {
             const { data, error } = await useHRMSApiO(
                 "/api/approvals/approve/ManpowerRequest/" + id,
                 {
-                    method: "PUT",
+                    method: "POST",
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
                     },
