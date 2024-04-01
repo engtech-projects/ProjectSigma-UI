@@ -7,7 +7,7 @@ defineProps({
 })
 </script>
 <template>
-    <div class="p-2 w-full">
+    <div class="LayoutApprovalListView p-2 w-full">
         <p class="text-blue-700 text-center">
             Approvals
         </p>
