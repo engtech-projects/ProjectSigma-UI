@@ -29,7 +29,7 @@ export const useHMOStore = defineStore("hmo", {
     actions: {
         async getHmo () {
             const { data, error } = await useFetch(
-                "/api/hmo",
+                "/api/hmo/resource",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -52,7 +52,7 @@ export const useHMOStore = defineStore("hmo", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/hmo",
+                "/api/hmo/resource",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
@@ -78,7 +78,7 @@ export const useHMOStore = defineStore("hmo", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/hmo/" + this.hmo.hmo_id,
+                "/api/hmo/members" + this.hmo.hmo_id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
@@ -101,7 +101,7 @@ export const useHMOStore = defineStore("hmo", {
         },
         async deleteHmo (hmoId : number) {
             const { data, error } = await useFetch(
-                "/api/hmo/" + hmoId,
+                "/api/hmo/members" + hmoId,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
@@ -122,7 +122,7 @@ export const useHMOStore = defineStore("hmo", {
 
         async showHmo (hmoId : number) {
             const { data, error } = await useFetch(
-                "/api/hmo/" + hmoId,
+                "/api/hmo/resource" + hmoId,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",

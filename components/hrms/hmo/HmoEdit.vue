@@ -14,7 +14,7 @@ const newMember = ref({
 // hmoStore.showHmo(1)
 async function fetchEmployees () {
     await useHRMSApi(
-        "/api/employee-list",
+        "/api/employee/resource",
         {
             onResponse: ({ response }) => {
                 if (response.status >= 200 && response.status <= 299) {
