@@ -64,7 +64,7 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
         async getSalaryGrade () {
             this.isLoading = true
             const { data, error } = await useHRMSApi(
-                "/api/salary/salary-grade-level",
+                "/api/salary/resource",
                 {
                     params: this.getParams,
                     onResponse: ({ response }) => {
@@ -87,7 +87,7 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
         async getSalarySteps () {
             this.isLoading = true
             const { data, error } = await useHRMSApi(
-                "/api/salary/salary-grade-level-list",
+                "/api/salary/list",
                 {
                     params: this.getParams,
                     onResponse: ({ response }) => {
@@ -107,7 +107,7 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApi(
-                "/api/salary-grade-level",
+                "/api/salary/resource",
                 {
                     method: "POST",
                     body: this.salaryGrade,
@@ -133,7 +133,7 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useHRMSApi(
-                "/api/salary-grade-level/" + this.salaryGrade.id,
+                "/api/salary/resource/" + this.salaryGrade.id,
                 {
                     method: "PATCH",
                     body: this.salaryGrade,
@@ -153,7 +153,7 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
 
         async deleteSalaryGrade (id: number) {
             const { data, error } = await useHRMSApi(
-                "/api/salary-grade-level/" + id,
+                "/api/salary/resource/" + id,
                 {
                     method: "DELETE",
                     watch: false,
