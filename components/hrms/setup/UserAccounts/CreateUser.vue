@@ -47,7 +47,7 @@ const register = async () => {
                         </span>
                     </div>
 
-                    <for
+                    <form
                         class="space-y-4 md:space-y-6"
                         action="#"
                         @submit.prevent="register"
