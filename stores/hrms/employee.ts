@@ -488,7 +488,7 @@ export const useEmployeeInfo = defineStore("employee", {
         async getEmployeeInformation (id : Number) {
             this.$reset()
             const { data, error } = await useFetch(
-                "/api/employee/list/" + id,
+                "/api/employee/resource/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
