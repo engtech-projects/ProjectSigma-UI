@@ -16,7 +16,7 @@ const { signOut, data: userData } = useAuth()
         <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
             <li>
                 <NuxtLink
-                    to="useraccountedit"
+                    to="hrms/setup/useraccountedit"
                     class="block py-2 px-4 text-sm   dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white hover:bg-teal-400 hover:text-white"
                 >
                     <span>Account settings</span>
