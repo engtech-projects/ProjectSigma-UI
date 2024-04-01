@@ -11,40 +11,6 @@ const { data: userData } = useAuth()
 
 const showModal = ref(false)
 
-// const confirmChanges = async () => {
-//     showModal.value = false
-//     try {
-//         boardLoading.value = true
-//         let typechange = ""
-
-//         if (editCurrent.value.params.name !== userData.name) {
-//             typechange = "name"
-//         } else if (editCurrent.value.params.email !== userData.email) {
-//             typechange = "email"
-//         } else if (editCurrent.value.params.password.trim()`` !== "") {
-//             typechange = "password"
-//         }
-
-//         if (typechange) {
-//             editCurrent.value.params.typechange = typechange
-//             await userAccountStore.editCurrentUser()
-//             snackbar.add({
-//                 type: "success",
-//                 text: editCurrent.value.successMessage
-//             })
-//         } else {
-//             throw new Error("No change detected.")
-//         }
-//     } catch (error) {
-//         snackbar.add({
-//             type: "error",
-//             text: error || "Something went wrong."
-//         })
-//     } finally {
-//         userAccountStore.$reset()
-//         boardLoading.value = false
-//     }
-// }
 const typechange = ref("")
 const confirmChanges = async () => {
     showModal.value = false
