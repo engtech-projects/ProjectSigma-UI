@@ -267,7 +267,7 @@ export const useManpowerStore = defineStore("manpowers", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useHRMSApiO(
-                "/api/manpower/approve-approval/" + id,
+                "/api/approvals/approve/ManpowerRequest/" + id,
                 {
                     method: "PUT",
                     onResponse: ({ response }) => {
@@ -291,7 +291,7 @@ export const useManpowerStore = defineStore("manpowers", {
             formData.append("id", id)
             formData.append("remarks", this.remarks)
             const { data, error } = await useHRMSApiO(
-                "/api/manpower/deny-approval/" + id,
+                "/api/approvals/disapprove/ManpowerRequest/" + id,
                 {
                     method: "POST",
                     onResponse: ({ response }) => {
