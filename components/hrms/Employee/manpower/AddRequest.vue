@@ -210,4 +210,3 @@ const addManpwr = async () => {
         </div>
     </LayoutBoards>
 </template>
-~/stores/hrms/employee/manpower

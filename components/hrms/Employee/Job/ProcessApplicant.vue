@@ -85,4 +85,3 @@ const handleStatusChange = async (applicant) => {
         </template>
     </div>
 </template>
-~/stores/hrms/employee/manpower~/stores/hrms/employee/jobapplicant

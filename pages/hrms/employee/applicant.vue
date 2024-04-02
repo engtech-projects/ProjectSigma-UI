@@ -23,4 +23,3 @@ useHead({
         <HrmsEmployeeJobOpeningList />
     </div>
 </template>
-~/stores/hrms/employee/manpower

@@ -20,4 +20,3 @@ useHead({
         <HrmsSetupApprovalsForm v-show="!isEdit" />
     </div>
 </template>
-~/stores/hrms/users

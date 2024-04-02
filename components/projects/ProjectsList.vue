@@ -73,4 +73,3 @@ const boardLoading = ref(false)
         </p>
     </LayoutBoards>
 </template>
-~/stores/projects/projects

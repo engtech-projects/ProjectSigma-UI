@@ -20,4 +20,3 @@ jobapplicant.$reset()
         <SearchBar />
     </div>
 </template>
-~/stores/hrms/employee/jobapplicant
