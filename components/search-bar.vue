@@ -2,8 +2,11 @@
 import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
+import { useLeaveRequest } from "~/stores/hrms/leaveRequest"
+
 const employee = useEmployeeInfo()
 const pan = usePersonelActionNotice()
+const leaveRequest = useLeaveRequest()
 employee.searchEmployees()
 const { employeeSearchList, searchEmployeeParams } = storeToRefs(employee)
 
@@ -13,6 +16,9 @@ const selectEmployee = async (id) => {
     await employee.getEmployeeInformation(id)
     pan.personelActionNotice.employee_id = employee.information.id
     pan.personelActionNotice.employee = employee.fullname
+
+    leaveRequest.LeaveRequest.employee_id = employee.information.id
+    leaveRequest.LeaveRequest.department_id = employee.information.employee_internal.department_id
 }
 </script>
 <template>
