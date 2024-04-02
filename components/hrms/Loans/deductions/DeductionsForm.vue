@@ -157,7 +157,7 @@ const AddItem = ref([
     }
 ])
 
-const AddEmployeeItem = (index:any) => {
+const AddEmployeeItem = (index) => {
     AddItem.value[index].addisnotActive = true
     AddItem.value[index].removeisnotActive = false
     AddItem.value.push(
@@ -171,7 +171,7 @@ const AddEmployeeItem = (index:any) => {
     )
     // isActive.value = !isActive.value;
 }
-const RemoveEmployeeItem = (index:any) => {
+const RemoveEmployeeItem = (index) => {
     AddItem.value.splice(index, 1)
 }
 
