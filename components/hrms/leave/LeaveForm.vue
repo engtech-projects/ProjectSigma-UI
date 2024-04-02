@@ -14,72 +14,15 @@ const items = ref([
         used: "",
         balance: "",
     },
-    {
-        credits: "Sick Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Service Incentive Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Emergency Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Paternity Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Maternity Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Birthday Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Solo Parent Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Educational Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Menstrual Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Others",
-        earned: "",
-        used: "",
-        balance: "",
-    },
 ])
 const submitAdd = () => {
 }
 </script>
 
 <template>
+    <div class="w-full">
+        <SearchBar />
+    </div>
     <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
         <label for="" class="text-xl font-semibold text-gray-900">Leave Application Form</label>
         <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
