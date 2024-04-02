@@ -126,7 +126,7 @@
 
 <script setup>
 
-const headers: [
+const headers = [
     {
         text: "Employee Name", value: "name",
     },
