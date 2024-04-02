@@ -33,4 +33,3 @@ useHead({
         </div>
     </div>
 </template>
-~/stores/hrms/employee/manpower

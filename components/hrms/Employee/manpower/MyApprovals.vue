@@ -209,4 +209,3 @@ const actions = {
         </Teleport>
     </div>
 </template>
-~/stores/hrms/employee/manpower
