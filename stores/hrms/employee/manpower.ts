@@ -92,34 +92,6 @@ export const useManpowerStore = defineStore("manpowers", {
         remarks: "",
     }),
     actions: {
-        async getDepartmentList () {
-            const { data, error } = await useFetch(
-                "/api/manpower-requests",
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        this.getDepartmentList = response._data.data
-                        this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
-                        }
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
-
         async getManpower () {
             await useFetch(
                 "/api/manpower-requests",
@@ -266,23 +238,28 @@ export const useManpowerStore = defineStore("manpowers", {
         async approveApprovalForm (id: number) {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useHRMSApiO(
+            await useHRMSApiO(
                 "/api/approvals/approve/ManpowerRequest/" + id,
                 {
                     method: "POST",
                     onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            this.getManpower()
+                            this.getMyRequests()
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
                     },
                 }
             )
-            if (data.value) {
-                this.getManpower()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
         async denyApprovalForm (id: String) {
             this.successMessage = ""
