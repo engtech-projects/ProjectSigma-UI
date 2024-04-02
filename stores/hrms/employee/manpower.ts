@@ -194,12 +194,12 @@ export const useManpowerStore = defineStore("manpowers", {
                     method: "POST",
                     body: formData,
                     onResponse: ({ response }) => {
-                        if (response.status !== 200) {
-                            this.errorMessage = response._data.message
-                        } else {
+                        if (response.ok) {
                             this.getManpower()
                             this.reset()
                             this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
                         }
                     },
                 }
