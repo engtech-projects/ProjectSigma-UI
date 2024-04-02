@@ -242,8 +242,12 @@ export const useManpowerStore = defineStore("manpowers", {
                 "/api/approvals/approve/ManpowerRequest/" + id,
                 {
                     method: "POST",
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.successMessage = response._data.message
                             this.getMyApprovalRequests()
                             this.getManpower()
@@ -254,10 +258,6 @@ export const useManpowerStore = defineStore("manpowers", {
                             throw new Error(response._data.message)
                         }
                     },
-                    onResponseError: ({ response }) => {
-                        this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
                 }
             )
         },
@@ -267,24 +267,26 @@ export const useManpowerStore = defineStore("manpowers", {
             const formData = new FormData()
             formData.append("id", id)
             formData.append("remarks", this.remarks)
-            const { data, error } = await useHRMSApiO(
+            await useHRMSApiO(
                 "/api/approvals/disapprove/ManpowerRequest/" + id,
                 {
                     method: "POST",
-                    onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
+                    body: formData,
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
                     },
-                    body: formData
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            this.getManpower()
+                            this.getMyRequests()
+                            return response._data
+                        }
+                    },
                 }
             )
-            if (error) {
-                this.errorMessage = error.data.message
-                return error.value.data.message
-            } else if (data) {
-                this.getManpower()
-                this.successMessage = data.message
-                return data
-            }
         },
         async deleteManpower (id: number) {
             const { data, error } = await useFetch(
