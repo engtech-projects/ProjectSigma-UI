@@ -65,12 +65,11 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { Header, Item } from "vue3-easy-data-table"
+<script setup>
 
-const itemsSelected = ref<Item[]>([])
+const itemsSelected = ref([])
 
-const headers: Header[] = [
+const headers = [
     {
         text: "Employee Name", value: "name",
     },
@@ -80,7 +79,7 @@ const submitAdd = () => {
 
 }
 
-const items: Item[any] = ref([
+const items = ref([
     {
         name: "Jose Sheeran",
     },
@@ -95,80 +94,15 @@ const items: Item[any] = ref([
     },
 ])
 
-// <EasyDataTable
-//       id="overtime_form"
-//       class="mt-5"
-//       table-class-name="customize-table"
-//       :headers="headers"
-//       :items="items">
-//             <template #item-name="item" >
-//               <div v-for="(data, index) in AddItem" :key="index" class="flex flex-row gap-1">
-//                 <input v-model="data.name" placeholder="Select Employee" type="text" id="employee_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-//                 <div class="flex flex-row justify-between gap-2">
-//                   <button
-//                     @click="AddEmployeeItem(index)"
-//                     :id='"add-employee-btn-"+index'
-//                     :class="{'add-btn-not-active':data.addisnotActive}"
-//                     class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm w-full sm:w-auto px-2 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-//                     >
-//                     <Icon class="text-lg" name="ic:baseline-plus" />
-//                   </button>
-//                   <button
-//                     @click="RemoveEmployeeItem(index)"
-//                     :id='"remove-employee-btn-"+index'
-//                     :class="{'remove-btn-not-active':data.removeisnotActive}"
-//                     class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium text-sm w-full sm:w-auto px-2 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-//                   >
-//                   <Icon class="text-lg" name="ic:baseline-minus" />
-//                   </button>
-//                 </div>
-//               </div>
-//             </template>
-//     </EasyDataTable>
-
-// const AddItem = ref([
-//   {
-//     name: "",
-//     addisnotActive: false,
-//     removeisnotActive: true
-//   }
-// ])
-
-// const deleteItem = (val: Item) => {
-// //   items.value.splice(val.id,1);
-// }
-
-// const submitEdit = () => {
-//   // const item = items.value.find((item: { id: number; }) => item.id === editingItem.id);
-//   // item.name = editingItem.name;
-// }
-
-// const AddEmployeeItem = (index:any)=> {
-
-//   AddItem.value[index].addisnotActive=true
-//   AddItem.value[index].removeisnotActive=false
-//   AddItem.value.push(
-//     {
-//       name:"",
-//       addisnotActive: false,
-//       removeisnotActive: true
-//     }
-//   )
-//   console.log(AddItem.value);
-//   // isActive.value = !isActive.value;
-// }
-// const RemoveEmployeeItem = (index:any) => {
-//   AddItem.value.splice(index, 1);
-// }
 </script>
 
 <style scoped>
 
 #overtime_form .vue3-easy-data-table__footer{
-  display: none !important;
+    display: none !important;
 }
 
 .add-btn-not-active, .remove-btn-not-active{
-  display: none;
+    display: none;
 }
 </style>

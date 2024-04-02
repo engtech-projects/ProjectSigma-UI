@@ -23,9 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import { Header, Item } from "vue3-easy-data-table"
 
-const headers: Header[] = [
+const headers = [
     { text: "Employee Name", value: "employee_name" },
     { text: "Date Filed", value: "date_filed", width: 150 },
     { text: "Overtime Date", value: "overtime_date", width: 150 },
@@ -36,7 +35,7 @@ const headers: Header[] = [
     { text: "Action", value: "actions" },
 ]
 
-const items: Item[any] = ref([
+const items = ref([
     {
         employee_name: "Oscar Lott",
         date_filed: "2017-10-10",
@@ -110,6 +109,6 @@ const deleted = (val: Item) => {
 
 <style scoped>
 .customize-table {
-  --easy-table-header-item-padding: 10px 15px;
+    --easy-table-header-item-padding: 10px 15px;
 }
 </style>

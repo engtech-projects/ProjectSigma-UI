@@ -48,10 +48,9 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { Header, Item } from "vue3-easy-data-table"
+<script setup>
 
-const headers: Header[] = [
+const headers = [
     { text: "Employee Name", value: "employee_name" },
     { text: "Date Filed", value: "date_filed", width: 150 },
     { text: "Leave Availed", value: "leave_availed", width: 150 },
@@ -65,7 +64,7 @@ const headers: Header[] = [
     { text: "Action", value: "actions" },
 ]
 
-const items: Item[any] = ref([
+const items = ref([
     {
         employee_name: "Claire Asday",
         date_filed: "2017-10-10",
@@ -164,6 +163,6 @@ const reject = () => {
 
 <style scoped>
 .customize-table {
-  --easy-table-header-item-padding: 10px 15px;
+    --easy-table-header-item-padding: 10px 15px;
 }
 </style>

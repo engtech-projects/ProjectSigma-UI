@@ -51,19 +51,6 @@
                 <input id="position" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
             </div>
         </div>
-
-        <!-- <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div class="mt-5">
-          <label for="amt" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount To Deduct</label>
-          <input type="number" id="amt" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-        </div>
-
-        <div class="mt-5">
-          <label for="amt" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount Loaned</label>
-          <input type="number" id="amt" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-        </div>
-    </div> -->
-
         <EasyDataTable
             id="overtime_form"
             class="mt-5"
@@ -137,11 +124,9 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 
-import { Header, Item } from "vue3-easy-data-table"
-
-const headers: Header[] = [
+const headers: [
     {
         text: "Employee Name", value: "name",
     },
@@ -156,7 +141,7 @@ const headers: Header[] = [
     }
 ]
 
-const items: Item[any] = ref([
+const items = ref([
     {
 
     }
@@ -196,14 +181,14 @@ const submitAdd = () => {
 
 <style scoped>
 .customize-table {
-  --easy-table-body-row-hover-font-color:none !important;
-  --easy-table-body-row-hover-background-color:none !important;
+    --easy-table-body-row-hover-font-color:none !important;
+    --easy-table-body-row-hover-background-color:none !important;
 }
 #overtime_form .vue3-easy-data-table__footer{
-  display: none !important;
+    display: none !important;
 }
 
 .add-btn-not-active, .remove-btn-not-active{
-  display: none;
+    display: none;
 }
 </style>

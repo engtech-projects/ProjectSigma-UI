@@ -1,3 +1,84 @@
+<script setup>
+
+const headers = [
+    { text: "CREDITS", value: "credits" },
+    { text: "EARNED", value: "earned" },
+    { text: "USED", value: "used" },
+    { text: "BALANCE", value: "balance" },
+]
+
+const items = ref([
+    {
+        credits: "Vacation Leave",
+        earned: "",
+        used: "",
+        balance: "",
+    },
+    {
+        credits: "Sick Leave",
+        earned: "",
+        used: "",
+        balance: "",
+    },
+    {
+        credits: "Service Incentive Leave",
+        earned: "",
+        used: "",
+        balance: "",
+    },
+    {
+        credits: "Emergency Leave",
+        earned: "",
+        used: "",
+        balance: "",
+    },
+    {
+        credits: "Paternity Leave",
+        earned: "",
+        used: "",
+        balance: "",
+    },
+    {
+        credits: "Maternity Leave",
+        earned: "",
+        used: "",
+        balance: "",
+    },
+    {
+        credits: "Birthday Leave",
+        earned: "",
+        used: "",
+        balance: "",
+    },
+    {
+        credits: "Solo Parent Leave",
+        earned: "",
+        used: "",
+        balance: "",
+    },
+    {
+        credits: "Educational Leave",
+        earned: "",
+        used: "",
+        balance: "",
+    },
+    {
+        credits: "Menstrual Leave",
+        earned: "",
+        used: "",
+        balance: "",
+    },
+    {
+        credits: "Others",
+        earned: "",
+        used: "",
+        balance: "",
+    },
+])
+const submitAdd = () => {
+}
+</script>
+
 <template>
     <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
         <label for="" class="text-xl font-semibold text-gray-900">Leave Application Form</label>
@@ -126,92 +207,8 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { Header, Item } from "vue3-easy-data-table"
-
-const headers: Header[] = [
-    { text: "CREDITS", value: "credits" },
-    { text: "EARNED", value: "earned" },
-    { text: "USED", value: "used" },
-    { text: "BALANCE", value: "balance" },
-]
-
-const items: Item[any] = ref([
-    {
-        credits: "Vacation Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Sick Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Service Incentive Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Emergency Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Paternity Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Maternity Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Birthday Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Solo Parent Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Educational Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Menstrual Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Others",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-])
-const submitAdd = () => {
-}
-</script>
-
 <style scoped>
-
 #employee_leave_table .vue3-easy-data-table__footer{
-  display: none !important;
+    display: none !important;
 }
-
 </style>
