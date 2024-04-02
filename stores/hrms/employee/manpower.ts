@@ -277,13 +277,13 @@ export const useManpowerStore = defineStore("manpowers", {
                     body: formData
                 }
             )
-            if (data.value) {
-                this.getManpower()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
+            if (error) {
+                this.errorMessage = error.data.message
                 return error.value.data.message
+            } else if (data) {
+                this.getManpower()
+                this.successMessage = data.message
+                return data
             }
         },
         async deleteManpower (id: number) {
