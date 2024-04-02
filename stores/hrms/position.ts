@@ -28,7 +28,7 @@ export const usePositionStore = defineStore("positions", {
     actions: {
         async getPosition () {
             const { data, error } = await useFetch(
-                "/api/position",
+                "/api/position/resource",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -58,7 +58,7 @@ export const usePositionStore = defineStore("positions", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/position",
+                "/api/position/resource",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
@@ -88,7 +88,7 @@ export const usePositionStore = defineStore("positions", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/position/" + this.position.id,
+                "/api/position/resource/" + this.position.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
@@ -112,7 +112,7 @@ export const usePositionStore = defineStore("positions", {
         },
         async deletePosition (id: number) {
             const { data, error } = await useFetch(
-                "/api/position/" + id,
+                "/api/position/resource/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
