@@ -1,9 +1,13 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useSalaryGradeStore } from "~/stores/hrms/salarygrade"
+import { useEmployeeInfo } from "@/stores/hrms/employee"
+
 const salaryGrade = useSalaryGradeStore()
+const employee = useEmployeeInfo()
 const { salaryGradeStepList: salaryGradeList } = storeToRefs(salaryGrade)
 const pan = usePersonelActionNotice()
+
 </script>
 <template>
     <tr>
@@ -39,15 +43,14 @@ const pan = usePersonelActionNotice()
         <td colspan="2">
             <div class="m-2">
                 <label
-                    for="PromotionPosition"
                     class="flex text-sm text-black-700 dark:text-white"
                 >OLD POSITION </label>
+                <p>{{ employee.information.employee_internal.position_title }}</p>
             </div>
         </td>
         <td colspan="2">
             <div class="m-2">
                 <label
-                    for="PromotionPosition"
                     class="flex text-sm text-black-700 dark:text-white"
                 >NEW POSITION : </label>
                 <input id="PromotionPosition" v-model="pan.personelActionNotice.new_position" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
@@ -61,6 +64,7 @@ const pan = usePersonelActionNotice()
                     for="PromotionSalaryGrade"
                     class="flex text-sm text-black-700 dark:text-white"
                 >OLD SALARY GRADE </label>
+                <p>{{ employee.information.employee_internal.employee_salarygrade.monthly_salary_amount }}</p>
             </div>
         </td>
         <td colspan="2">
