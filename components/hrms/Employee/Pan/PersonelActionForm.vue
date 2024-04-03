@@ -1,6 +1,6 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
-import { useApprovalStore } from "@/stores/hrms/approvals"
+import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 import { useUserStore } from "@/stores/hrms/users"
 
 const { data: userData } = useAuth()

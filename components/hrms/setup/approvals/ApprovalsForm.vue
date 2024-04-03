@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useApprovalStore } from "@/stores/hrms/approvals"
+import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 import { useUserStore } from "@/stores/hrms/users"
 
 const approvals = useApprovalStore()
