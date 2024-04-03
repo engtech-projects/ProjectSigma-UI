@@ -1,10 +1,20 @@
+<script setup lang="ts">
+const deptProj = ref("")
+const position = ref("")
+const employeeSearched = () => {
+    deptProj.value = ""
+    position.value = ""
+}
+const submitAdd = () => {
+}
+</script>
 <template>
     <div class="md:mt-0 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
         <label for="" class="text-xl font-semibold text-gray-900">Loan Form</label>
         <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
                 <label for="employee_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee Name</label>
-                <input id="employee_name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                <SearchBar @search-changed="employeeSearched" />
             </div>
             <div>
                 <label for="date_fill" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Filed</label>
@@ -13,26 +23,22 @@
         </div>
         <div class="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-                <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                <input
-                    id="department"
-                    disabled
-                    readonly
-                    type="text"
+                <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department/Project</label>
+                <label
+                    id="departmentproj"
                     class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
                 >
+                    {{ deptProj }}
+                </label>
             </div>
             <div>
                 <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
-                <input
+                <label
                     id="position"
-                    disabled
-                    readonly
-                    type="text"
                     class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
                 >
+                    {{ position }}
+                </label>
             </div>
         </div>
         <div class="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -73,8 +79,3 @@
         </div>
     </div>
 </template>
-
-<script setup lang="ts">
-const submitAdd = () => {
-}
-</script>
