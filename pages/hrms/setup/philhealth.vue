@@ -1,6 +1,6 @@
 <script  setup>
 import { storeToRefs } from "pinia"
-import { usePhilhealthStore } from "@/stores/hrms/philhealth"
+import { usePhilhealthStore } from "@/stores/hrms/setup/philhealth"
 
 const contributions = usePhilhealthStore()
 const { isEdit } = storeToRefs(contributions)
