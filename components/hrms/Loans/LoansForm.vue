@@ -1,9 +1,9 @@
 <script setup lang="ts">
-const deptProj = ref("")
-const position = ref("")
+const deptProj = ref(" ")
+const position = ref(" ")
 const employeeSearched = () => {
-    deptProj.value = ""
-    position.value = ""
+    deptProj.value = "EMPL POSITION/PROJECT"
+    position.value = "EMPL POSITION"
 }
 const submitAdd = () => {
 }
