@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useLeaveRequest } from "~/stores/hrms/leaveRequest"
 const leaveRequest = useLeaveRequest()
 
-const { requestList } = storeToRefs(leaveRequest)
+const { allList } = storeToRefs(leaveRequest)
 const boardLoading = ref(false)
 
 const leaveRequestData = ref(null)
@@ -31,12 +31,12 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="ALL APPROVAL REQUEST" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="ALL LEAVE LIST" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="requestList ?? []"
+                :datas="allList ?? []"
                 @show-table="showInformation"
             />
         </div>

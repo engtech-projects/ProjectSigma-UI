@@ -10,18 +10,18 @@ useHead({
 const leaveRequest = useLeaveRequest()
 leaveRequest.allLeaves()
 leaveRequest.allApprovals()
-leaveRequest.allRequest()
+leaveRequest.myRequest()
 </script>
 
 <template>
     <div class="w-full flex p-2">
-        <div class="md:w-2/3 p-2 w-full">
+        <div class="md:w-3/5 p-2 w-full">
             <HrmsLeaveForm />
         </div>
-        <div class="md:w-1/3 p-2 w-full">
-            <HrmsLeaveAllLeaveList />
+        <div class="md:w-2/5 p-2 w-full">
+            <HrmsLeaveAllList />
             <HrmsLeaveApprovalList />
-            <HrmsLeaveMyLeaveList />
+            <HrmsLeaveMyLeaveRequest />
         </div>
     </div>
 </template>
