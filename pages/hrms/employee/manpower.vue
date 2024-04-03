@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
-import { useDepartmentStore } from "@/stores/hrms/departments"
+import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useUserStore } from "@/stores/hrms/users"
 
 const departments = useDepartmentStore()
