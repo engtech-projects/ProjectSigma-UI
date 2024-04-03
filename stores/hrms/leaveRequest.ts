@@ -21,9 +21,9 @@ export const EMPLOYEE_REQUEST_TYPE_RELEASED = "Released"
 
 export interface LeaveRequest {
     id: String,
-    employee_id: String,
-    department_id: String,
-    project_id: String,
+    employee_id: Number,
+    department_id: Number,
+    project_id: Number,
     type: String,
     other_absence: String,
     date_of_absence_from: Date,

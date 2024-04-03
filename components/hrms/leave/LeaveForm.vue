@@ -1,6 +1,9 @@
 <script setup>
 import { useEmployeeInfo } from "~/stores/hrms/employee"
 import { useApprovalStore } from "~/stores/hrms/setup/approvals"
+import { useDepartmentStore } from "@/stores/hrms/setup/departments"
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+
 import {
     useLeaveRequest,
     EMPLOYEE_VACATION,
@@ -12,18 +15,24 @@ import {
     EMPLOYEE_OTHER,
     EMPLOYEE_WITH_PAY,
     EMPLOYEE_WITHOUT_PAY,
-    EMPLOYEE_APPROVAL_REQ
+    EMPLOYEE_APPROVAL_REQ,
+    EMPLOYEE_REQUEST_TYPE_PENDING
 } from "~/stores/hrms/leaveRequest"
-
+const departments = useDepartmentStore()
 const employee = useEmployeeInfo()
 const approval = useApprovalStore()
 const leaveRequest = useLeaveRequest()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
+departments.getDepartmentList()
+const projects = useProjectStore()
+const { list: projectList } = storeToRefs(projects)
+projects.getProject()
 leaveRequest.payload.type = EMPLOYEE_VACATION
-leaveRequest.payload.request_status = EMPLOYEE_WITH_PAY
+leaveRequest.payload.with_pay = EMPLOYEE_WITH_PAY
+leaveRequest.payload.request_status = EMPLOYEE_REQUEST_TYPE_PENDING
 leaveRequest.payload.approvals = await approval.getApprovalByName(EMPLOYEE_APPROVAL_REQ)
+const { departmentList } = storeToRefs(departments)
 const headers = [
     { text: "CREDITS", value: "credits" },
     { text: "EARNED", value: "earned" },
@@ -91,8 +100,40 @@ const submitAdd = async () => {
             </div>
             <div class="grid gap-6 mb-6 md:grid-cols-2">
                 <div class="mb-6">
-                    <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                    <p>{{ employee.information?.employee_internal?.employee_department?.department_name }}</p>
+                    <div>
+                        <label
+                            for="panSection"
+                            class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
+                        >Department:</label>
+                        <select
+                            id="panSection"
+                            v-model="leaveRequest.payload.department_id"
+                            class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                        >
+                            <option v-for="(dep, index) in departmentList" :key="index" :value="dep.id">
+                                {{ dep.department_name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <div>
+                        <label
+                            for="panSection"
+                            class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
+                        >Project:</label>
+                        <select
+                            id="panSection"
+                            v-model="leaveRequest.payload.project_id"
+                            class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                        >
+                            <option v-for="(project, index) in projectList" :key="index" :value="project.id">
+                                {{ project.contract_id }}
+                            </option>
+                        </select>
+                    </div>
                 </div>
                 <div class="mb-6">
                     <label for="date_filed" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Filed</label>
@@ -192,7 +233,7 @@ const submitAdd = async () => {
                             </div>
                             <div class="mb-6">
                                 <label for="emp_reason_remarks" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">REASONS/REMARKS</label>
-                                <input id="emp_reason_remarks" v-model="leaveRequest.payload.reason_for_absence" type="text" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="renarks">
+                                <input id="emp_reason_remarks" v-model="leaveRequest.payload.reason_for_absence" type="text" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="remarks">
                             </div>
                         </div>
                         <div class="w-full">
@@ -230,7 +271,7 @@ const submitAdd = async () => {
                                 <div class="mb-6">
                                     <input
                                         id="emp_with_pay"
-                                        v-model="leaveRequest.payload.request_status"
+                                        v-model="leaveRequest.payload.with_pay"
                                         :value="EMPLOYEE_WITH_PAY"
                                         type="radio"
                                         name="emp_with_pay"
@@ -241,7 +282,7 @@ const submitAdd = async () => {
                                 <div class="mb-6">
                                     <input
                                         id="emp_without_pay"
-                                        v-model="leaveRequest.payload.request_status"
+                                        v-model="leaveRequest.payload.with_pay"
                                         :value="EMPLOYEE_WITHOUT_PAY"
                                         type="radio"
                                         name="emp_without_pay"
@@ -253,7 +294,9 @@ const submitAdd = async () => {
                         </div>
                     </div>
                 </div>
-
+                <div class="w-full p-2">
+                    <HrmsLeaveApproval />
+                </div>
                 <div class="w-full">
                     <label for="" class="text-xl font-semibold text-gray-900">EMPLOYEE'S LEAVE RECORD (HRD use only)</label>
                     <EasyDataTable
