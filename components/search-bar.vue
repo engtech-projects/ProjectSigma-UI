@@ -11,7 +11,7 @@ const employeeId = ref<EmployeeInformation>({} as EmployeeInformation)
 const emit = defineEmits(["searchChanged"])
 watch(employeeId, async (newValue) => {
     if (newValue) {
-        await employee.getEmployeeInformation(newValue)
+        await employee.getEmployeeInformation(newValue.id)
         emit("searchChanged", newValue)
     }
 })
