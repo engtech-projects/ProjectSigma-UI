@@ -53,8 +53,6 @@ const attach = async () => {
 
 <template>
     <LayoutBoards title="Assign Employee to Project" class="w-1/4" :loading="boardLoading">
-        <!-- <SearchBar class="pt-2" /> -->
-        <!-- <pre>{{ selectedEmployees }}</pre> -->
         <div class="text-gray-500">
             <form @submit.prevent="attach">
                 <div class="pt-2">
