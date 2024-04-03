@@ -1,7 +1,7 @@
 <script setup>
 
 import { storeToRefs } from "pinia"
-import { useMain } from "@/stores/hrms/settings"
+import { useMain } from "@/stores/hrms/setup/settings"
 
 const mains = useMain()
 
@@ -84,3 +84,4 @@ const edit = async () => {
         </form>
     </LayoutBoards>
 </template>
+~/stores/hrms/setup/settings
