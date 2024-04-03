@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useAccessbilities } from "@/stores/hrms/accessibilities"
-import { useUserStore } from "@/stores/hrms/users"
+import { useUserStore } from "@/stores/hrms/setup/users"
 
 const accessbilities = useAccessbilities()
 const user = useUserStore()

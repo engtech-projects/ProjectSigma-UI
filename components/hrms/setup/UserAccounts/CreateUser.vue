@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
 import { useEmployeeSearch } from "@/stores/hrms/employeeSearch"
-import { useUserStore } from "@/stores/hrms/users"
+import { useUserStore } from "@/stores/hrms/setup/users"
 import PsSelectSearch from "~/components/layout/Form/PsSelectSearch.vue"
 import type { EmployeeInformation } from "@/stores/hrms/employee"
 const employeeSearch = useEmployeeSearch()

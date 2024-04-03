@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import { useUserStore } from "@/stores/hrms/users"
+import { useUserStore } from "@/stores/hrms/setup/users"
 
 const userAccountStore = useUserStore()
 const { editCurrent } = storeToRefs(userAccountStore)
