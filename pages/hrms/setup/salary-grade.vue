@@ -1,5 +1,5 @@
 <script setup>
-import { useSalaryGradeStore } from "~/stores/hrms/salarygrade"
+import { useSalaryGradeStore } from "~/stores/hrms/setup/salarygrade"
 
 useHead({
     title: "Salary Grade",
