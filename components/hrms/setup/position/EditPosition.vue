@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { usePositionStore, POSITION_TYPES } from "@/stores/hrms/position"
+import { usePositionStore, POSITION_TYPES } from "@/stores/hrms/setup/position"
 import { useDepartmentStore } from "@/stores/hrms/departments"
 
 const departments = useDepartmentStore()
