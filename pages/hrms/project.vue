@@ -1,18 +1,22 @@
 <script setup>
+import { useEmployeeInfo } from "@/stores/hrms/employee"
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+
+const projects = useProjectStore()
+projects.getProject()
+
+const employee = useEmployeeInfo()
+employee.getEmployeeList()
+
 useHead({
-    title: "Project",
-    meta: [
-        { name: "description", content: "" }
-    ],
-
+    title: "Projects",
 })
-
 </script>
 
 <template>
-    <div class="mt-10 md:flex gap-2">
-        <HrmsProjectCreateEmployee />
+    <div class="md:flex gap-2">
+        <!-- <HrmsProjectCreateEmployee /> -->
         <HrmsProjectAssign />
-        <HrmsProjectAttendanceScheduleForm />
+        <!-- <HrmsProjectAttendanceScheduleForm /> -->
     </div>
 </template>

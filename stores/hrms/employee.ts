@@ -361,6 +361,8 @@ export const useEmployeeInfo = defineStore("employee", {
             key: "",
             type: "AllEmployees",
         },
+        employeeList: [],
+        getParams: {},
         errorMessage: "",
         successMessage: "",
     }),
@@ -442,8 +444,41 @@ export const useEmployeeInfo = defineStore("employee", {
             }
             return state.information.spouse
         },
+        employeesList (state) {
+            return state.employeeList.map((dpt) => {
+                return {
+                    id: dpt.id,
+                    employee_id: dpt.employee_id,
+                    first_name: dpt.first_name,
+                    middle_name: dpt.middle_name,
+                    last_name: dpt.last_name,
+                }
+            })
+        }
     },
     actions: {
+        async getEmployeeList () {
+            const { data, error } = await useFetch(
+                "/api/employee/list",
+                {
+                    baseURL: config.public.HRMS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.employeeList = response._data.data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
         async searchEmployees () {
             await useFetch(
                 "/api/employee/search",

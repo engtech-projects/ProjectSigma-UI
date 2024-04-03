@@ -20,8 +20,8 @@ export const useProjectStore = defineStore("projects", {
             date_of_noa: null,
             date_of_contract: null,
             date_of_ntp: null,
-            license: null
-
+            license: null,
+            employee_id: []
         },
         list: [],
         pagination: {},
@@ -142,6 +142,62 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
+
+        async attachEmployee (projectId: number, employeeIds: number[]) {
+            this.successMessage = ""
+            this.errorMessage = ""
+
+            try {
+                const { response, error } = await useHRMSApi(
+                    `/api/project-monitoring/attach-employee/${projectId}`,
+                    {
+                        method: "PUT",
+                        body: { employee_id: employeeIds },
+                        watch: false,
+                    }
+                )
+
+                if (error) {
+                    throw new Error(error.message || "Failed to attach employee.")
+                }
+
+                if (response.status !== 200) {
+                    this.errorMessage = response.data.message || "Failed to attach employee."
+                } else {
+                    this.getProject()
+                    this.reset()
+                    this.successMessage = response.data.message || "Employee attached successfully."
+                }
+            } catch (error) {
+                this.errorMessage = error.message || "Error occurred while attaching employees."
+            }
+        },
+
+        // async attachEmployee () {
+        //     this.successMessage = ""
+        //     this.errorMessage = ""
+        //     await useFetch(
+        //         "/api/project-monitoring/attach-employee/" + this.project.id,
+        //         {
+        //             baseURL: config.public.HRMS_API_URL,
+        //             method: "PUT",
+        //             headers: {
+        //                 Authorization: token.value + "",
+        //                 Accept: "application/json"
+        //             },
+        //             body: this.project,
+        //             onResponse: ({ response }) => {
+        //                 if (response.status !== 200) {
+        //                     this.errorMessage = response._data.message
+        //                 } else {
+        //                     this.getProject()
+        //                     this.reset()
+        //                     this.successMessage = response._data.message
+        //                 }
+        //             },
+        //         }
+        //     )
+        // },
 
         reset () {
             this.project = {

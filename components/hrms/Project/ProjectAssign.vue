@@ -1,63 +1,122 @@
-<template>
-    <div class="border-2 p-2 rounded-lg shadow w-full  mb-4 ">
-        <div>
-            <h2>Assign Employee to Project</h2>
-            <form @submit.prevent="assignEmployeeToProject">
-                <!-- Project and employee selection fields go here -->
-                <label>Select Employee:</label>
-                <select v-model="selectedEmployee">
-                    <!-- Populate this dropdown with employees from your API -->
-                    <option v-for="employee in employees" :key="employee.id" :value="employee.id">
-                        {{ employee.name }}
-                    </option>
-                </select>
+<script setup lang="ts">
+import type { Item, Header } from "vue3-easy-data-table"
+import { useEmployeeInfo } from "@/stores/hrms/employee"
+import { useProjectStore } from "@/stores/project-monitoring/projects"
 
-                <label>Select Project:</label>
-                <select v-model="selectedProject">
-                    <!-- Populate this dropdown with projects from your API -->
-                    <option v-for="project in projects" :key="project.id" :value="project.id">
-                        {{ project.name }}
-                    </option>
-                </select>
+const projects = useProjectStore()
+const { project, list: projectList } = storeToRefs(projects)
 
-                <button type="submit">
-                    Assign Employee
-                </button>
-            </form>
-        </div>
-    </div>
-</template>
+const employee = useEmployeeInfo()
+const { employeeList } = storeToRefs(employee)
 
-<script>
-export default {
-    data () {
-        return {
-            selectedEmployee: null,
-            selectedProject: null,
-            // You need to fetch the employee and project data from your API
-            employees: [], // Populate this array with employees from your API
-            projects: [], // Populate this array with projects from your API
+const selectedEmployees = ref<Item[]>([])
+
+const headers: Header[] = [
+    {
+        text: "Employee Name", value: "fullname_last",
+    },
+]
+
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+
+// const attach = async () => {
+//     try {
+//         boardLoading.value = true
+//         await projects.attachEmployee()
+//         if (projects.errorMessage !== "") {
+//             snackbar.add({
+//                 type: "error",
+//                 text: projects.errorMessage
+//             })
+//         } else {
+//             snackbar.add({
+//                 type: "success",
+//                 text: projects.successMessage
+//             })
+//         }
+//     } catch {
+//         snackbar.add({
+//             type: "error",
+//             text: projects.errorMessage
+//         })
+//     } finally {
+//         projects.clearMessages()
+//         boardLoading.value = false
+//     }
+// }
+
+const attach = async () => {
+    try {
+        boardLoading.value = true
+
+        const employeeIds = selectedEmployees.value.map(emp => emp.id)
+
+        await projects.attachEmployee(project.value.id, employeeIds)
+
+        if (projects.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: projects.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: projects.successMessage
+            })
         }
-    },
-    methods: {
-        assignEmployeeToProject () {
-            // Make an API request to assign an employee to a project
-            // Example: Assume you have an API endpoint '/api/assignEmployeeToProject'
-            const data = {
-                employeeId: this.selectedEmployee,
-                projectId: this.selectedProject,
-            }
-
-            this.$axios.post("/api/assignEmployeeToProject", data)
-                .then((response) => {
-                    return response.data
-                    // Reset the form or perform other actions as needed
-                })
-                .catch((error) => {
-                    return error
-                    // Handle errors and display a message to the user
-                })
-        },
-    },
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: projects.errorMessage
+        })
+    } finally {
+        projects.clearMessages()
+        boardLoading.value = false
+    }
 }
 </script>
+
+<template>
+    <LayoutBoards title="Assign Employee to Project" class="w-1/4" :loading="boardLoading">
+        <!-- <SearchBar class="pt-2" /> -->
+        <!-- <pre>{{ selectedEmployees }}</pre> -->
+        <div class="text-gray-500">
+            <form @submit.prevent="attach">
+                <div class="pt-2">
+                    <select id="project_name" v-model="project.id" :value="project" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <option value="" disabled selected>
+                            Choose Project
+                        </option>
+                        <option v-for="proj in projectList" :key="proj.id" :value="proj.id">
+                            {{ proj.contract_name }}
+                        </option>
+                    </select>
+                </div>
+                <EasyDataTable
+                    v-model:items-selected="selectedEmployees"
+                    class="mt-5"
+                    :headers="headers"
+                    :items="employeeList"
+                />
+
+                <div class="max-w-full flex flex-row-reverse mt-5">
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Assign Employee
+                    </button>
+                </div>
+            </form>
+        </div>
+    </LayoutBoards>
+</template>
+
+<style scoped>
+
+#overtime_form .vue3-easy-data-table__footer{
+  display: none !important;
+}
+
+.add-btn-not-active, .remove-btn-not-active{
+  display: none;
+}
+</style>

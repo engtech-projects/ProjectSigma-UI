@@ -99,7 +99,6 @@ const config = useRuntimeConfig()
                 />
             </LayoutNavGroup>
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/project"
                 icon="material-symbols:construction"
                 single-nav-title="Project"
