@@ -20,32 +20,6 @@ const headers: Header[] = [
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-// const attach = async () => {
-//     try {
-//         boardLoading.value = true
-//         await projects.attachEmployee()
-//         if (projects.errorMessage !== "") {
-//             snackbar.add({
-//                 type: "error",
-//                 text: projects.errorMessage
-//             })
-//         } else {
-//             snackbar.add({
-//                 type: "success",
-//                 text: projects.successMessage
-//             })
-//         }
-//     } catch {
-//         snackbar.add({
-//             type: "error",
-//             text: projects.errorMessage
-//         })
-//     } finally {
-//         projects.clearMessages()
-//         boardLoading.value = false
-//     }
-// }
-
 const attach = async () => {
     try {
         boardLoading.value = true
