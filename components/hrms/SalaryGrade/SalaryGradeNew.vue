@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSalaryGradeStore } from "~/stores/hrms/salarygrade"
+import { useSalaryGradeStore } from "~/stores/hrms/setup/salarygrade"
 
 const salaryGradeStore = useSalaryGradeStore()
 const boardLoading = ref(false)

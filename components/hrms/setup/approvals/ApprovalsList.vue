@@ -1,5 +1,5 @@
 <script setup>
-import { useUserStore } from "@/stores/hrms/users"
+import { useUserStore } from "@/stores/hrms/setup/users"
 
 const user = useUserStore()
 const { employeeUserList } = storeToRefs(user)

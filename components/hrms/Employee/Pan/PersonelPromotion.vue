@@ -1,6 +1,6 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
-import { useSalaryGradeStore } from "~/stores/hrms/salarygrade"
+import { useSalaryGradeStore } from "~/stores/hrms/setup/salarygrade"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 
 const salaryGrade = useSalaryGradeStore()

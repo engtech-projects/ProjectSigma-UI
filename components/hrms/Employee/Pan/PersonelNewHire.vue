@@ -1,8 +1,8 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
-import { useDepartmentStore } from "@/stores/hrms/departments"
-import { useSalaryGradeStore } from "~/stores/hrms/salarygrade"
+import { useDepartmentStore } from "@/stores/hrms/setup/departments"
+import { useSalaryGradeStore } from "~/stores/hrms/setup/salarygrade"
 
 const pan = usePersonelActionNotice()
 const department = useDepartmentStore()
