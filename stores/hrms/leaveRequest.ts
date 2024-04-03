@@ -14,6 +14,11 @@ export const EMPLOYEE_MATERNITY_PATERNITY = "Maternity/Paternity"
 export const EMPLOYEE_OTHER = "Other"
 export const EMPLOYEE_APPROVAL_REQ = "Leave"
 
+export const EMPLOYEE_REQUEST_TYPE_APPROVED = "Approved"
+export const EMPLOYEE_REQUEST_TYPE_PENDING = "Pending"
+export const EMPLOYEE_REQUEST_TYPE_DENIED = "Denied"
+export const EMPLOYEE_REQUEST_TYPE_RELEASED = "Released"
+
 export interface LeaveRequest {
     id: String,
     employee_id: String,
@@ -27,6 +32,7 @@ export interface LeaveRequest {
     approvals: String,
     request_status: String,
     number_of_days: Number,
+    with_pay: Boolean,
 }
 
 export const useLeaveRequest = defineStore("LeaveRequest", {
