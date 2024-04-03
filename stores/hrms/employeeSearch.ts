@@ -9,7 +9,7 @@ export interface EmployeeSearch {
     middle_name: String,
     last_name: String,
 }
-export const useEmployeeSearch = defineStore("employee", {
+export const useEmployeeSearch = defineStore("employeeSearchStore", {
     state: () => ({
         searchEmployeeParams: {
             key: "",
