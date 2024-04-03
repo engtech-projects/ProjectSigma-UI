@@ -245,4 +245,3 @@ const addProject = async () => {
     opacity: 0;
 }
 </style>
-~/stores/projects/projects

@@ -473,39 +473,49 @@ const handleResumeFileUpload = (event) => {
 
             <div>
                 <div class="grid grid-cols-5 gap-4">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].elementary_name" title="Name of Elementary School" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].elementary_education" title="Basic Education/Degree/Course" placeholder="" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].elementary_period_attendance_from" title="Period of Attendance (From)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].elementary_period_attendance_to" title="Period of Attendance (To)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].elementary_year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].name" title="Name of Elementary School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].honors_received" title="Honors Received" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].degree_earned_of_school" title="Degree Earned" />
                 </div>
                 <div class="grid grid-cols-5 gap-4">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].secondary_name" title="Name of Secondary School" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].secondary_education" title="Basic Education/Degree/Course" placeholder="" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].secondary_period_attendance_from" title="Period of Attendance (From)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].secondary_period_attendance_to" title="Period of Attendance (To)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].secondary_year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[1].name" title="Name of Secondary School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[1].education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[1].period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[1].period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[1].year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[1].honors_received" title="Honors Received" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[1].degree_earned_of_school" title="Degree Earned" />
                 </div>
                 <div class="grid grid-cols-5 gap-4">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].vocationalcourse_name" title="Name of Vocational School" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].vocationalcourse_education" title="Basic Education/Degree/Course" placeholder="" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].vocationalcourse_period_attendance_from" title="Period of Attendance (From)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].vocationalcourse_period_attendance_to" title="Period of Attendance (To)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].vocationalcourse_year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[2].name" title="Name of Vocational School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[2].education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[2].period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[2].period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[2].year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[2].honors_received" title="Honors Received" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[2].degree_earned_of_school" title="Degree Earned" />
                 </div>
                 <div class="grid grid-cols-5 gap-4">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].college_name" title="Name of College" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].college_education" title="Basic Education/Degree/Course" placeholder="" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].college_period_attendance_from" title="Period of Attendance (From)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].college_period_attendance_to" title="Period of Attendance (To)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].college_year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[3].name" title="Name of College" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[3].education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[3].period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[3].period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[3].year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[3].honors_received" title="Honors Received" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[3].degree_earned_of_school" title="Degree Earned" />
                 </div>
                 <div class="grid grid-cols-5 gap-4">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].graduatestudies_name" title="Graduate Studies School" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].graduatestudies_education" title="Basic Education/Degree/Course" placeholder="" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].graduatestudies_period_attendance_from" title="Period of Attendance (From)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].graduatestudies_period_attendance_to" title="Period of Attendance (To)" />
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[0].graduatestudies_year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[4].name" title="Graduate Studies School" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[4].education" title="Basic Education/Degree/Course" placeholder="" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[4].period_attendance_from" title="Period of Attendance (From)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[4].period_attendance_to" title="Period of Attendance (To)" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[4].year_graduated" title="Year Graduated" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[4].honors_received" title="Honors Received" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.education[4].degree_earned_of_school" title="Degree Earned" />
                 </div>
             </div>
 

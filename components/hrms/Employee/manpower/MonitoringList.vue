@@ -140,4 +140,3 @@ const boardLoading = ref(false)
         </Teleport>
     </div>
 </template>
-~/stores/hrms/employee/manpower

@@ -248,4 +248,3 @@ const editProject = async () => {
     opacity: 0;
 }
 </style>
-~/stores/projects/projects
