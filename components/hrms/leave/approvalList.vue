@@ -56,7 +56,7 @@ const denydRequest = async (id) => {
 }
 
 const headers = [
-    { name: "EMPLOYEE NAME", id: "employee.fullname_first" },
+    { name: "EMPLOYEE NAME", id: "employee.fullname_last" },
     { name: "DATE FILED", id: "created_at" },
     { name: "LEAVE AVAILITY", id: "type" },
     { name: "DATE FROM ", id: "date_of_absence_from" },
@@ -74,7 +74,7 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="ALL APPROVAL REQUEST" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="ALL APPROVAL REQUEST" class="w-full mt-4" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
