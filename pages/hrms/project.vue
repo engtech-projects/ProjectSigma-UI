@@ -1,12 +1,12 @@
 <script setup>
-import { useEmployeeInfo } from "@/stores/hrms/employee"
+import { useEnumsStore } from "@/stores/hrms/enum"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
 projects.getProject()
 
-const employee = useEmployeeInfo()
-employee.getEmployeeList()
+const enums = useEnumsStore()
+enums.getEmployeeEnum()
 
 useHead({
     title: "Projects",

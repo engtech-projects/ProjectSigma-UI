@@ -46,11 +46,19 @@ export const useEnumsStore = defineStore("enums", {
         employeeEnum: {
             list: [],
             params: {},
+            filter: "",
             successMessage: "",
             errorMessage: "",
         },
     }),
 
+    getters: {
+        filteredEmployeesList (state) : any[] {
+            return state.employeeEnum.list.filter((employee:any) => {
+                return employee.fullname_last.includes(state.employeeEnum.filter)
+            })
+        },
+    },
     actions: {
         async getPositionEnums () {
             await useHRMSApiO(
@@ -173,7 +181,7 @@ export const useEnumsStore = defineStore("enums", {
         },
         async getEmployeeEnum () {
             await useHRMSApiO(
-                "/api/position/list",
+                "/api/employee/list",
                 {
                     method: "GET",
                     params: this.employeeEnum.params,
@@ -182,7 +190,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.employeeEnum.list = response._data.data.data
+                            this.employeeEnum.list = response._data.data
                         }
                     },
                 }

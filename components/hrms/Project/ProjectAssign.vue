@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { Item, Header } from "vue3-easy-data-table"
-import { useEmployeeInfo } from "@/stores/hrms/employee"
+import { useEnumsStore } from "@/stores/hrms/enum"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
 const { project, list: projectList } = storeToRefs(projects)
 
-const employee = useEmployeeInfo()
-const { employeeList } = storeToRefs(employee)
+const enums = useEnumsStore()
+const { employeeEnum } = storeToRefs(enums)
 
 const selectedEmployees = ref<Item[]>([])
 
@@ -56,20 +56,21 @@ const attach = async () => {
         <div class="text-gray-500">
             <form @submit.prevent="attach">
                 <div class="pt-2">
-                    <select id="project_name" v-model="project.id" :value="project" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <select id="project_name" v-model="project.id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                         <option value="" disabled selected>
                             Choose Project
                         </option>
-                        <option v-for="proj in projectList" :key="proj.id" :value="proj.id">
+                        <option v-for="proj, id in projectList" :key="id + 'projectlist'" :value="proj.id">
                             {{ proj.contract_name }}
                         </option>
                     </select>
                 </div>
                 <EasyDataTable
                     v-model:items-selected="selectedEmployees"
+                    rows-per-page="10"
                     class="mt-5"
                     :headers="headers"
-                    :items="employeeList"
+                    :items="employeeEnum.list"
                 />
 
                 <div class="max-w-full flex flex-row-reverse mt-5">

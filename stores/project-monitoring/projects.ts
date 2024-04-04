@@ -1,6 +1,23 @@
 import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
+interface Project {
+    id: null | number,
+    contract_name: null | String,
+    contract_id: null | String
+    contract_location: null | String
+    contract_amount: null | number,
+    contract_duration: null | String
+    project_code: null | String
+    project_identifier: null | String
+    implementing_office: null | String
+    nature_of_work: null | String
+    date_of_noa: null | String
+    date_of_contract: null | String
+    date_of_ntp: null | String
+    license: null | String
+    employee_id: number[]
+}
 
 export const useProjectStore = defineStore("projects", {
     state: () => ({
@@ -22,8 +39,8 @@ export const useProjectStore = defineStore("projects", {
             date_of_ntp: null,
             license: null,
             employee_id: []
-        },
-        list: [],
+        } as Project,
+        list: [] as Project[],
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -79,8 +96,8 @@ export const useProjectStore = defineStore("projects", {
                         if (response.status !== 201) {
                             this.errorMessage = response._data.message
                         } else {
+                            this.$reset()
                             this.getProject()
-                            this.reset()
                             this.successMessage = response._data.message
                         }
                     },
@@ -95,7 +112,7 @@ export const useProjectStore = defineStore("projects", {
         async editProject () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            const { data, error } = await useFetch<any>(
                 "/api/projects/" + this.project.id,
                 {
                     baseURL: config.public.PROJECT_API_URL,
@@ -108,8 +125,8 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
             if (data.value) {
+                this.$reset()
                 this.getProject()
-                this.reset()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -119,7 +136,7 @@ export const useProjectStore = defineStore("projects", {
         },
 
         async deleteProject (id: number) {
-            const { data, error } = await useFetch(
+            const { data, error } = await useFetch<any>(
                 "/api/projects/" + id,
                 {
                     baseURL: config.public.PROJECT_API_URL,
@@ -143,72 +160,28 @@ export const useProjectStore = defineStore("projects", {
             }
         },
 
-        async attachEmployee (projectId: number, employeeIds: number[]) {
+        async attachEmployee (projectId: number | null, employeeIds: number[]) {
             this.successMessage = ""
             this.errorMessage = ""
-
-            try {
-                const { response, error } = await useHRMSApi(
-                    `/api/project-monitoring/attach-employee/${projectId}`,
-                    {
-                        method: "PUT",
-                        body: { employee_id: employeeIds },
-                        watch: false,
-                    }
-                )
-
-                if (error) {
-                    throw new Error(error.message || "Failed to attach employee.")
+            await useHRMSApi(
+                `/api/project-monitoring/attach-employee/${projectId}`,
+                {
+                    method: "PUT",
+                    body: { employee_id: employeeIds },
+                    watch: false,
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data.message || "Failed to attach employee."
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.$reset()
+                            this.getProject()
+                            this.successMessage = response._data.message || "Employee attached successfully."
+                        }
+                    },
                 }
-
-                if (response.status !== 200) {
-                    this.errorMessage = response.data.message || "Failed to attach employee."
-                } else {
-                    this.getProject()
-                    this.reset()
-                    this.successMessage = response.data.message || "Employee attached successfully."
-                }
-            } catch (error) {
-                this.errorMessage = error.message || "Error occurred while attaching employees."
-            }
-        },
-
-        // async attachEmployee () {
-        //     this.successMessage = ""
-        //     this.errorMessage = ""
-        //     await useFetch(
-        //         "/api/project-monitoring/attach-employee/" + this.project.id,
-        //         {
-        //             baseURL: config.public.HRMS_API_URL,
-        //             method: "PUT",
-        //             headers: {
-        //                 Authorization: token.value + "",
-        //                 Accept: "application/json"
-        //             },
-        //             body: this.project,
-        //             onResponse: ({ response }) => {
-        //                 if (response.status !== 200) {
-        //                     this.errorMessage = response._data.message
-        //                 } else {
-        //                     this.getProject()
-        //                     this.reset()
-        //                     this.successMessage = response._data.message
-        //                 }
-        //             },
-        //         }
-        //     )
-        // },
-
-        reset () {
-            this.project = {
-                id: null,
-                contract_name: null,
-                contract_id: null,
-                contract_location: null
-            }
-            this.isEdit = false
-            this.successMessage = ""
-            this.errorMessage = ""
+            )
         },
 
     },
