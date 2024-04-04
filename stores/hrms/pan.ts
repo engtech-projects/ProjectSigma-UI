@@ -27,7 +27,7 @@ export interface PersonelActionNotice {
     new_section: String,
     new_location: String,
     new_employment_status: String,
-    employement_status: String,
+    employment_status: String,
     employment_status: String,
     comment: String,
     department: Array<Department>
@@ -64,7 +64,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             new_section: "" as String,
             new_location: "" as String,
             new_employment_status: "" as String,
-            employement_status: "" as String,
+            employment_status: "" as String,
             new_position: "" as String,
             type_of_termination: "" as String,
             reasons_for_termination: "" as String,

@@ -10,7 +10,7 @@ const salaryGrade = useSalaryGradeStore()
 // const salaryGrade = useSalaryGradeStore()
 pan.personelActionNotice.salary_type = "Fixed Rate"
 pan.personelActionNotice.hire_source = "Internal"
-pan.personelActionNotice.employement_status = "Probationary"
+pan.personelActionNotice.employment_status = "Probationary"
 pan.personelActionNotice.work_location = "Office"
 const { departmentList } = storeToRefs(department)
 const { salaryGradeStepList: salaryGradeList } = storeToRefs(salaryGrade)
@@ -92,17 +92,17 @@ salaryGrade.getSalarySteps()
     <tr>
         <td colspan="4" class="border border-slate-300 p-2">
             <div class="md:flex gap-2 space-x-2 p-2">
-                <input id="probationary" v-model="pan.personelActionNotice.employement_status" class="" type="radio" value="Probationary">
+                <input id="probationary" v-model="pan.personelActionNotice.employment_status" class="" type="radio" value="Probationary">
                 <label
                     for="probationary"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >PROBATIONARY</label>
-                <input id="regularization" v-model="pan.personelActionNotice.employement_status" class="" type="radio" value="Regularization">
+                <input id="regularization" v-model="pan.personelActionNotice.employment_status" class="" type="radio" value="Regularization">
                 <label
                     for="regularization"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >REGULARIZATION</label>
-                <input id="projectBased" v-model="pan.personelActionNotice.employement_status" type="radio" value="projectBased">
+                <input id="projectBased" v-model="pan.personelActionNotice.employment_status" type="radio" value="projectBased">
                 <label
                     for="projectBased"
                     class="text-xs text-gray-900 dark:text-gray-300"

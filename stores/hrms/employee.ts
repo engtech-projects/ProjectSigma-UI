@@ -356,13 +356,6 @@ export const useEmployeeInfo = defineStore("employee", {
             employee_uploads: [] as Array<EmployeeUpload>
         } as EmployeeInformation,
         employeeIsSearched: false as Boolean,
-        employeeSearchList: [] as Array<EmployeeSearch>,
-        searchEmployeeParams: {
-            key: "",
-            type: "AllEmployees",
-        },
-        employeeList: [],
-        getParams: {},
         errorMessage: "",
         successMessage: "",
     }),
