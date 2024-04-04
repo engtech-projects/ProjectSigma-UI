@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 
 export const APPROVAL_MANPOWERREQ = "Manpower Request"
+export const APPROVAL_TRAVELORDER = "Travel Order"
 
 export interface Approver {
     type: string,
