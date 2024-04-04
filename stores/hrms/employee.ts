@@ -472,27 +472,6 @@ export const useEmployeeInfo = defineStore("employee", {
                 return error
             }
         },
-        async searchEmployees () {
-            await useFetch(
-                "/api/employee/search",
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    body: this.searchEmployeeParams,
-                    onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
-                            this.employeeSearchList = response._data?.data
-                        } else {
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
         async uploadDoc (formData : FormData) {
             this.successMessage = ""
             this.errorMessage = ""
