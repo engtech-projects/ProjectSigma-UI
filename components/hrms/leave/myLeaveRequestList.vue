@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useLeaveRequest } from "~/stores/hrms/leaveRequest"
 const leaveRequest = useLeaveRequest()
 
-const { allList } = storeToRefs(leaveRequest)
+const { myRequest } = storeToRefs(leaveRequest)
 const boardLoading = ref(false)
 
 const leaveRequestData = ref(null)
@@ -18,15 +18,10 @@ const closeViewModal = () => {
 }
 
 const headers = [
-    { name: "EMPLOYEE NAME", id: "employee.fullname_last" },
-    { name: "DATE FILED", id: "created_at" },
-    { name: "LEAVE AVAILITY", id: "type" },
-    { name: "DATE FROM ", id: "date_of_absence_from" },
-    { name: "DATE TO ", id: "date_of_absence_to" },
-    { name: "REASONS", id: "reason_for_absence" },
-    { name: "WITH PAY", id: "with_pay" },
-    { name: "LEAVE STATUS", id: "request_status" },
-
+    { name: "REQUEST TYPE", id: "type" },
+    { name: "DATE REQUESTED", id: "request_created_at" },
+    { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
+    { name: "REQUEST STATUS", id: "request_status" },
 ]
 
 const actions = {
@@ -36,12 +31,12 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="ALL LEAVE LIST" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="MY REQUEST LIST" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="allList ?? []"
+                :datas="myRequest ?? []"
                 @show-table="showInformation"
             />
         </div>
@@ -60,7 +55,7 @@ const actions = {
                         </button>
                     </div>
                     <div class="p-2">
-                        <HrmsLeaveRequestInformation :leave-data="leaveRequestData" />
+                        <HrmsEmployeePanPersonalActionFormInfo :pan-data="leaveRequestData" />
                     </div>
                     <div class="flex gap-2 justify-end p-2">
                         <button

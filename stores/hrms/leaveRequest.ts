@@ -111,17 +111,16 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 }
             )
         },
-        async myRequest () {
+        async approvedRequest () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApi(
-                "/api/leave-request/my-request",
+            await useHRMSApiO(
+                "/api/approvals/approve/EmployeePanRequest/" + id,
                 {
-                    method: "GET",
+                    method: "POST",
                     onResponse: ({ response }) => {
-                        if (response.ok) {
+                        if (response.status >= 200 && response.status <= 299) {
                             this.successMessage = response._data.message
-                            this.myRequest = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -130,5 +129,23 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 }
             )
         },
+        async denyRequest () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/approvals/approve/EmployeePanRequest/" + id,
+                {
+                    method: "POST",
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        }
     },
 })
