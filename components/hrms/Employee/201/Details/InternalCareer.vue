@@ -1,6 +1,13 @@
 <script setup>
 // import { useEmployeeInfo } from "@/stores/hrms/employee"
 // const employee = useEmployeeInfo()
+const emprecords = ref([])
+const addEmprecords = () => {
+
+}
+const deleteEmprecords = () => {
+
+}
 </script>
 <template>
     <div>
@@ -120,21 +127,3 @@
         </form>
     </div>
 </template>
-
-<script>
-export default {
-    data () {
-        return {
-            emprecords: [{ compname: "", imdtsuperior: "", from: "", salarystart: "", compaddr: "", compcont: "", to: "", salaryfinal: "", duties: "" }],
-        }
-    },
-    methods: {
-        addEmprecords () {
-            this.emprecords.push({ compname: "", imdtsuperior: "", from: "", salarystart: "", compaddr: "", compcont: "", to: "", salaryfinal: "", duties: "" })
-        },
-        deleteEmprecords (index) {
-            this.emprecords.splice(index, 1)
-        },
-    },
-}
-</script>
