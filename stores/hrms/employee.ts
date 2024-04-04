@@ -1,7 +1,4 @@
 import { defineStore } from "pinia"
-
-const { token } = useAuth()
-const config = useRuntimeConfig()
 export interface Data {
     value : Array<{
         data: Array<{}>,
@@ -453,15 +450,10 @@ export const useEmployeeInfo = defineStore("employee", {
     },
     actions: {
         async getEmployeeList () {
-            const { data, error } = await useFetch(
+            const { data, error } = await useHRMSApi(
                 "/api/employee/list",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.employeeList = response._data.data
@@ -496,23 +488,19 @@ export const useEmployeeInfo = defineStore("employee", {
         },
         async getEmployeeInformation (id : Number) {
             this.$reset()
-            const { data, error } = await useFetch<any>(
+            const { data, error } = await useHRMSApi<any>(
                 "/api/employee/resource/" + id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
+                    watch: false,
                 }
             )
-            if (data.value) {
+            if (error.value) {
+                return error
+            } else if (data.value) {
                 this.employeeIsSearched = true
                 this.information = data.value.data
                 return data
-            } else if (error.value) {
-                return error
             }
         },
     },
