@@ -28,7 +28,6 @@ export interface PersonelActionNotice {
     new_location: String,
     new_employment_status: String,
     employment_status: String,
-    employment_status: String,
     comment: String,
     department: Array<Department>
     new_position: String,
@@ -118,7 +117,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     method: "GET",
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
-                            this.allPanList = response._data.data.data
+                            this.allPanList = response._data.data.data ?? []
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -136,7 +135,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     method: "GET",
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
-                            this.approvalPanList = response._data.data
+                            this.approvalPanList = response._data.data ?? []
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -155,7 +154,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.successMessage = response._data.message
-                            this.myPanList = response._data.data
+                            this.myPanList = response._data.data ?? []
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
