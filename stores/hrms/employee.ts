@@ -358,6 +358,8 @@ export const useEmployeeInfo = defineStore("employee", {
         employeeIsSearched: false as Boolean,
         errorMessage: "",
         successMessage: "",
+        employeeList: [],
+        getParams: {},
     }),
     getters: {
         fullname (state) {
