@@ -440,7 +440,7 @@ export const useEmployeeInfo = defineStore("employee", {
             return state.information.spouse
         },
         employeesList (state) {
-            return state.employeeList.map((dpt) => {
+            return state.employeeList.map((dpt:any) => {
                 return {
                     id: dpt.id,
                     employee_id: dpt.employee_id,
@@ -496,7 +496,7 @@ export const useEmployeeInfo = defineStore("employee", {
         },
         async getEmployeeInformation (id : Number) {
             this.$reset()
-            const { data, error } = await useFetch(
+            const { data, error } = await useFetch<any>(
                 "/api/employee/resource/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
