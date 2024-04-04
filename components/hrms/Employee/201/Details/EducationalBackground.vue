@@ -207,18 +207,34 @@ const employee = useEmployeeInfo()
                             </p>
                         </div>
                     </td>
-                    <td colspan="2" class="border border-slate-300 p-1">
-                        <div>
-                            <label for="master_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
-                            <input id="master_title" v-model="employee.information.masterstudies.title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td colspan="2" class="border border-slate-300 p-1">
-                        <div>
-                            <label for="masters_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
-                            <input id="masters_date" v-model="employee.information.masterstudies.date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
+                    <template v-if="employee.information.masterstudies">
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="master_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
+                                <input id="master_title" v-model="employee.information.masterstudies.title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="masters_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
+                                <input id="masters_date" v-model="employee.information.masterstudies.date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                    </template>
+                    <template v-else>
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="master_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
+                                <input id="master_title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="masters_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
+                                <input id="masters_date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                    </template>
                 </tr>
                 <tr>
                     <td class="border border-slate-300 p-1">
@@ -228,18 +244,35 @@ const employee = useEmployeeInfo()
                             </p>
                         </div>
                     </td>
-                    <td colspan="2" class="border border-slate-300 p-1">
-                        <div>
-                            <label for="doctor_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
-                            <input id="doctor_title" v-model="employee.information.doctorstudies.title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td colspan="2" class="border border-slate-300 p-1">
-                        <div>
-                            <label for="doctor_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
-                            <input id="doctor_date" v-model="employee.information.doctorstudies.date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
+
+                    <template v-if="employee.information.doctorstudies">
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="doctor_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
+                                <input id="doctor_title" v-model="employee.information.doctorstudies.title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="doctor_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
+                                <input id="doctor_date" v-model="employee.information.doctorstudies.date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                    </template>
+                    <template v-else>
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="doctor_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
+                                <input id="doctor_title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="doctor_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
+                                <input id="doctor_date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                    </template>
                 </tr>
                 <tr>
                     <td class="border border-slate-300 p-1">
@@ -249,18 +282,34 @@ const employee = useEmployeeInfo()
                             </p>
                         </div>
                     </td>
-                    <td colspan="2" class="border border-slate-300 p-1">
-                        <div>
-                            <label for="proflicence_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
-                            <input id="proflicence_title" v-model="employee.information.professionalstudies.title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
-                    <td colspan="2" class="border border-slate-300 p-1">
-                        <div>
-                            <label for="proflicence_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
-                            <input id="proflicence_date" v-model="employee.information.professionalstudies.date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                    </td>
+                    <template v-if="employee.information.professionalstudies">
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="proflicence_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
+                                <input id="proflicence_title" v-model="employee.information.professionalstudies.title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="proflicence_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
+                                <input id="proflicence_date" v-model="employee.information.professionalstudies.date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                    </template>
+                    <template v-else>
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="proflicence_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
+                                <input id="proflicence_title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                        <td colspan="2" class="border border-slate-300 p-1">
+                            <div>
+                                <label for="proflicence_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
+                                <input id="proflicence_date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                        </td>
+                    </template>
                 </tr>
             </tbody>
         </table>
