@@ -53,7 +53,7 @@ export const useApprovalStore = defineStore("approvals", {
         },
 
         async getApprovalByName (approvalName: String) {
-            const { data } = await useHRMSApi<Approval>(
+            const { data } = await useHRMSApi<any>(
                 "/api/get-form-requests/" + approvalName,
                 {
                     method: "GET",
@@ -119,7 +119,7 @@ export const useApprovalStore = defineStore("approvals", {
         async editApprovals () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useHRMSApiO(
+            await useHRMSApiO(
                 "/api/approvals/" + this.formApproval.id,
                 {
                     method: "PATCH",
@@ -135,15 +135,6 @@ export const useApprovalStore = defineStore("approvals", {
                     },
                 }
             )
-            if (data.value) {
-                this.getApproval()
-                this.$reset()
-                this.successMessage = data.value.message
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.message
-                return error
-            }
         },
         async deleteApproval (id: number) {
             await useHRMSApiO(
