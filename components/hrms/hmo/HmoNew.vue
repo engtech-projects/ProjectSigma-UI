@@ -1,4 +1,4 @@
-<script setup>
+<script type="ts" setup>
 import { useModalStore } from "~/stores/modal"
 import { useHMOStore } from "~/stores/hrms/setup/hmo"
 
@@ -7,6 +7,8 @@ const modalStore = useModalStore()
 const employees = ref([])
 const currentEmployee = ref({})
 const isLoading = ref(false)
+const searchInput = ref("")
+const snackbar = useSnackbar()
 const newMember = ref({
     hmo_id: null,
     member_type: null,
@@ -30,7 +32,7 @@ function generateFinalMembers () {
                 emp.members.forEach((mem) => {
                     members.value.push({
                         hmo_id: null,
-                        member_type: "employee",
+                        member_type: "external(addon)",
                         employee_id: null,
                         member_name: mem.firstname + " " + mem.lastname,
                         member_belongs_to: emp.id
@@ -39,7 +41,7 @@ function generateFinalMembers () {
             }
         }
     })
-    return members.value
+    return JSON.stringify(members.value)
 }
 
 async function handleSubmit () {
@@ -66,22 +68,33 @@ async function handleSubmit () {
         })
     } finally {
         isLoading.value = false
+        await navigateTo("/hrms/setup/hmo")
     }
 }
 
 async function fetchEmployees () {
     await useHRMSApi(
-        "/api/employee/resource",
+        "/api/employee/list",
         {
             onResponse: ({ response }) => {
                 if (response.status >= 200 && response.status <= 299) {
-                    employees.value = response._data?.data
+                    employees.value = setEmployees(response._data?.data)
                 } else {
                     throw new Error(response._data.message)
                 }
             },
         }
     )
+}
+
+function setEmployees (employees) {
+    const empList = []
+    employees.forEach((emp) => {
+        emp.members = []
+        emp.checked = true
+        empList.push(emp)
+    })
+    return empList
 }
 
 function addMember () {
@@ -108,6 +121,14 @@ const hmoEmployees = computed(() => {
         emp.checked = true
         empList.push(emp)
     })
+    if (searchInput.value.length > 2) {
+        return empList.filter(val =>
+            val.first_name.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+            val.family_name.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+            (val.family_name.toLowerCase() + " " + val.first_name.toLowerCase()).includes(searchInput.value.toLowerCase()) ||
+            (val.first_name.toLowerCase() + " " + val.family_name.toLowerCase()).includes(searchInput.value.toLowerCase())
+        )
+    }
     return empList
 })
 
@@ -117,7 +138,14 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div>
+    <div class="relative">
+        <div v-if="isLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center z-50">
+            <img
+                class="flex justify-center w-28 rounded-md"
+                src="/loader.gif"
+                alt="logo"
+            >
+        </div>
         <form @submit.prevent="handleSubmit">
             <div
                 class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto"
@@ -205,18 +233,17 @@ onMounted(async () => {
                 </div>
 
                 <div class="mt-5 mb-6">
-                    <div class="flex items-center justify-between">
-                        <label
+                    <div class="flex items-center gap-4 justify-between">
+                        <span
                             for="employee"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >Employees</label>
+                        >Employees</span>
                         <input
                             id="searchEmployees"
-                            v-model="hmoStore.hmo.hmo_end"
+                            v-model="searchInput"
                             type="text"
-                            class="w-72 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Employee Search"
-                            required
                         >
                     </div>
                     <div class="flex flex-col p-4">
@@ -225,7 +252,7 @@ onMounted(async () => {
                                 <div class="flex gap-2 items-center">
                                     <input v-model="emp.checked" type="checkbox">
                                     <span class="text-md text-slate-800">
-                                        {{ emp.family_name + ", " + emp.first_name + " " + emp.middle_name[0].toUpperCase() + "." }}
+                                        {{ emp.family_name + ", " + emp.first_name + " " }}
                                     </span>
                                 </div>
                                 <Icon name="iconoir:plus" class="text-2xl text-slate-800 hover:text-blue-500 cursor-pointer" @click="setAddEmployee(emp)" />

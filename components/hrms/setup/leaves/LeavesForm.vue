@@ -72,7 +72,7 @@ const addLeave = async () => {
                         <label
                             for="employment_type"
                             class="text-sm italic"
-                        >Employement Type</label>
+                        >Employment Type</label>
                         <select
                             id="employment_type"
                             v-model="leave.employment_type"
