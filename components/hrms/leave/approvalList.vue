@@ -3,11 +3,13 @@ import { storeToRefs } from "pinia"
 import { useLeaveRequest } from "~/stores/hrms/leaveRequest"
 const leaveRequest = useLeaveRequest()
 
-const { approvalList } = storeToRefs(leaveRequest)
+const { approvalList, remarks } = storeToRefs(leaveRequest)
 const boardLoading = ref(false)
+const approvalLoading = ref(false)
 
 const leaveRequestData = ref(null)
 const showInformationModal = ref(false)
+const snackbar = useSnackbar()
 
 const showInformation = (data) => {
     leaveRequestData.value = data
@@ -39,7 +41,7 @@ const approvedRequest = async (id) => {
 const denydRequest = async (id) => {
     try {
         approvalLoading.value = true
-        await pan.denyRequest(id)
+        await leaveRequest.denyRequest(id)
         snackbar.add({
             type: "success",
             text: leaveRequest.successMessage
@@ -53,6 +55,9 @@ const denydRequest = async (id) => {
         approvalLoading.value = false
     }
     clearRemarks()
+}
+const clearRemarks = () => {
+    remarks.value = ""
 }
 
 const headers = [
