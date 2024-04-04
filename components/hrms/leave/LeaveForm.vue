@@ -67,10 +67,10 @@ const submitAdd = async () => {
     try {
         boardLoading.value = true
         await leaveRequest.createRequest()
-        if (pan.successMessage) {
+        if (leaveRequest.successMessage) {
             snackbar.add({
                 type: "success",
-                text: pan.successMessage
+                text: leaveRequest.successMessage
             })
         }
     } catch (error) {
@@ -102,11 +102,11 @@ const submitAdd = async () => {
                 <div class="mb-6">
                     <div>
                         <label
-                            for="panSection"
+                            for="leaveDepartmentSection"
                             class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                         >Department:</label>
                         <select
-                            id="panSection"
+                            id="leaveDepartmentSection"
                             v-model="leaveRequest.payload.department_id"
                             class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required
@@ -120,11 +120,11 @@ const submitAdd = async () => {
                 <div class="mb-6">
                     <div>
                         <label
-                            for="panSection"
+                            for="leaveRequestProject"
                             class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                         >Project:</label>
                         <select
-                            id="panSection"
+                            id="leaveRequestProject"
                             v-model="leaveRequest.payload.project_id"
                             class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required
