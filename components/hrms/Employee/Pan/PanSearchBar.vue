@@ -12,7 +12,7 @@ const { personelActionNotice } = storeToRefs(pan)
 employee.$reset()
 jobapplicant.$reset()
 const setEmployee = (employeeId) => {
-    personelActionNotice.value.employee_id = employeeId
+    personelActionNotice.value.employee_id = employeeId.id
     personelActionNotice.value.employee = employee.fullname
 }
 </script>
