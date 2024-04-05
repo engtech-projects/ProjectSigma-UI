@@ -15,10 +15,18 @@ const pan = usePersonelActionNotice()
             <label
                 for="small-input"
                 class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >OLD EMPLOYEE STATUS: </label>
+            >PROMOTION: </label>
         </td>
     </tr>
     <tr>
+        <td colspan="2">
+            <div class="m-2">
+                <label
+                    class="flex text-sm text-black-700 dark:text-white"
+                >OLD EMPLOYMENT STATUS: </label>
+                <p>{{ employee.information.current_employment.position_title }}</p>
+            </div>
+        </td>
         <td colspan="4" class="border border-slate-300 p-2">
             <div class="md:flex gap-2 space-x-2 p-2">
                 <input id="probationary" v-model="pan.personelActionNotice.new_employment_status" class="" type="radio" value="Probationary">
@@ -44,8 +52,8 @@ const pan = usePersonelActionNotice()
             <div class="m-2">
                 <label
                     class="flex text-sm text-black-700 dark:text-white"
-                >OLD POSITION </label>
-                <p>{{ employee.information.employee_internal.position_title }}</p>
+                >OLD POSITION: </label>
+                <p>{{ employee.information.current_employment.position_title }}</p>
             </div>
         </td>
         <td colspan="2">
@@ -63,7 +71,7 @@ const pan = usePersonelActionNotice()
                 <label
                     for="PromotionSalaryGrade"
                     class="flex text-sm text-black-700 dark:text-white"
-                >OLD SALARY GRADE </label>
+                >OLD SALARY GRADE: </label>
                 <template v-if="employee.information.current_employment">
                     <p>Salary Grade {{ employee.information.current_employment.employee_salarygrade.salary_grade_level.salary_grade_level }} - Step {{ employee.information.current_employment.employee_salarygrade.step_name }}</p>
                 </template>
