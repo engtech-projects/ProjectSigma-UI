@@ -2,6 +2,15 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
+export const APPROVED = "Approved"
+export const PENDING = "Pending"
+export const DENIED = "Denied"
+export const REQ_STATUS = [
+    APPROVED,
+    PENDING,
+    DENIED,
+]
+
 export const useTravelorderStore = defineStore("travels", {
     state: () => ({
         isEdit: false,
@@ -17,6 +26,7 @@ export const useTravelorderStore = defineStore("travels", {
             remarks: null,
             requested_by: null,
             approvals: null,
+            request_status: ""
         },
         list: [],
         myApprovalRequestList: [],
@@ -25,6 +35,7 @@ export const useTravelorderStore = defineStore("travels", {
         getParams: {},
         errorMessage: "",
         successMessage: "",
+        remarks: "",
     }),
     actions: {
         async getTravelorders () {
@@ -94,7 +105,7 @@ export const useTravelorderStore = defineStore("travels", {
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.getTravelorders()
-                            this.reset()
+                            this.$reset()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -107,72 +118,103 @@ export const useTravelorderStore = defineStore("travels", {
             this.errorMessage = ""
             this.successMessage = ""
         },
-        // async editApprovals () {
-        //     this.successMessage = ""
-        //     this.errorMessage = ""
-        //     const { data, error } = await useHRMSApiO(
-        //         "/api/approvals/" + this.formApproval.id,
-        //         {
-        //             method: "PATCH",
-        //             body: this.formApproval,
-        //             onResponse: ({ response }) => {
-        //                 if (response.status >= 200 && response.status <= 299) {
-        //                     this.getApproval()
-        //                     this.$reset()
-        //                     this.successMessage = response._data.message
-        //                 } else {
-        //                     this.errorMessage = response._data.message
-        //                 }
-        //             },
-        //         }
-        //     )
-        //     if (data.value) {
-        //         this.getApproval()
-        //         this.$reset()
-        //         this.successMessage = data.value.message
-        //         return data
-        //     } else if (error.value) {
-        //         this.errorMessage = error.value.message
-        //         return error
-        //     }
-        // },
-        // async deleteApproval (id: number) {
-        //     await useHRMSApiO(
-        //         "/api/approvals/" + id,
-        //         {
-        //             method: "DELETE",
-        //             onResponse: ({ response }) => {
-        //                 if (response.status >= 200 && response.status <= 299) {
-        //                     this.successMessage = response._data.message
-        //                     this.getApproval()
-        //                 } else {
-        //                     this.errorMessage = response._data.message
-        //                 }
-        //             },
-        //             onResponseError: ({ response }) => {
-        //                 this.errorMessage = response._data.message
-        //             },
-        //         }
-        //     )
-        // },.
-        reset () {
-            this.travel = {
-                id: null,
-                name: null,
-                requesting_office: null,
-                destination: null,
-                purpose_of_travel: null,
-                date_and_time_of_travel: null,
-                duration_of_travel: null,
-                means_of_transportation: null,
-                remarks: null,
-                requested_by: null,
-                approvals: null,
-            }
-            this.isEdit = false
+        async editRequest () {
             this.successMessage = ""
             this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/travelorder-request/resource/" + this.travel.id,
+                {
+                    method: "PATCH",
+                    body: this.travel,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.getTravelorders()
+                            this.$reset()
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
         },
-
+        async deleteRequest (id: number) {
+            const { data, error } = await useHRMSApi(
+                "/api/travelorder-request/resource/" + id,
+                {
+                    method: "DELETE",
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.status >= 200 && response.status <= 299) {
+                            this.$reset()
+                            this.getTravelorders()
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+            if (error.value) {
+                this.errorMessage = error.value.data.message
+                throw new Error(this.errorMessage)
+                return error
+            }
+            if (data.value) {
+                this.getTravelorders()
+                return data
+            }
+        },
+        async approveApprovalForm (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/approvals/approve/ManpowerRequest/" + id,
+                {
+                    method: "POST",
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            this.getManpower()
+                            this.getMyRequests()
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async denyApprovalForm (id: String) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const formData = new FormData()
+            formData.append("id", id)
+            formData.append("remarks", this.remarks)
+            await useHRMSApiO(
+                "/api/approvals/disapprove/ManpowerRequest/" + id,
+                {
+                    method: "POST",
+                    body: formData,
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            this.getManpower()
+                            this.getMyRequests()
+                            return response._data
+                        }
+                    },
+                }
+            )
+        },
     },
 })

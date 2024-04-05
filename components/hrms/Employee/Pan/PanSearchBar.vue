@@ -14,6 +14,7 @@ jobapplicant.$reset()
 const setEmployee = (employeeId) => {
     personelActionNotice.value.employee_id = employeeId.id
     personelActionNotice.value.employee = employee.fullname
+    pan.personelActionNotice.new_section_id = employee.information.current_employment.department_id
 }
 </script>
 <template>
