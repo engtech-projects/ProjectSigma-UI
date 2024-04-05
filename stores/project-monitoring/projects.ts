@@ -1,6 +1,9 @@
 import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
+interface Employee {
+    name: String,
+}
 interface Project {
     id: null | number,
     contract_name: null | String,
@@ -16,13 +19,13 @@ interface Project {
     date_of_contract: null | String
     date_of_ntp: null | String
     license: null | String
-    employee_id: number[]
+    employees: Array<Employee>
 }
 
 export const useProjectStore = defineStore("projects", {
     state: () => ({
         isEdit: false,
-        project:
+        information:
         {
             id: null,
             contract_name: null,
@@ -38,7 +41,7 @@ export const useProjectStore = defineStore("projects", {
             date_of_contract: null,
             date_of_ntp: null,
             license: null,
-            employee_id: []
+            employees: []
         } as Project,
         list: [] as Project[],
         pagination: {},
@@ -48,6 +51,31 @@ export const useProjectStore = defineStore("projects", {
         isLoading: false,
     }),
     actions: {
+        async getProjectInformation (id: any) {
+            this.isLoading = true
+            const { data, error } = await useFetch(
+                "/api/projects/" + id,
+                {
+                    baseURL: config.public.PROJECT_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.information = response._data.data
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
         async getProject () {
             this.isLoading = true
             const { data, error } = await useFetch(
@@ -159,7 +187,21 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
-
+        async projectMemberList (id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "api/project-monitoring/project-member-list/" + id,
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.information.employees = response._data.data
+                        }
+                    },
+                }
+            )
+        },
         async attachEmployee (projectId: number | null, employeeIds: number[]) {
             this.successMessage = ""
             this.errorMessage = ""
@@ -175,8 +217,8 @@ export const useProjectStore = defineStore("projects", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.$reset()
-                            this.getProject()
+                            this.getProjectInformation(projectId)
+                            this.projectMemberList(projectId)
                             this.successMessage = response._data.message || "Employee attached successfully."
                         }
                     },
