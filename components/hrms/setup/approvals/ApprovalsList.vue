@@ -21,7 +21,7 @@ const model = defineModel({ required: true, type: Object })
 
         <div class="flex flex-col">
             <div v-if="model.userselector">
-                <select v-model="model.user_id" class="w-full">
+                <select v-model="model.user_id" class="w-full rounded-lg cursor-pointer focus:outline focus:outline-color1 focus:bg-white">
                     <option disabled selected>
                         --Select--
                     </option>

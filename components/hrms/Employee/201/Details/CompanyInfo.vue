@@ -14,9 +14,9 @@ const { information: employeeInformation } = storeToRefs(employee)
                 <tbody>
                     <tr>
                         <HrmsEmployee201FormDisabledTextInput v-model="employeeInformation.company_employments.date_hired" title="Date Hired" />
-                        <HrmsEmployee201FormDisabledTextInput v-model="employeeInformation.company_employments.position" title="Position" />
-                        <HrmsEmployee201FormDisabledTextInput v-model="employeeInformation.company_employments.department" title="Department" />
-                        <HrmsEmployee201FormDisabledTextInput v-model="employeeInformation.company_employments.imidiate_supervisor" title="Immediate Supervisor" />
+                        <HrmsEmployee201FormDisabledTextInput v-model="employeeInformation.company_employments.employeedisplay_id" title="ID" />
+                        <HrmsEmployee201FormDisabledTextInput v-model="employeeInformation.company_employments.atm" title="ATM" />
+                        <HrmsEmployee201FormDisabledTextInput v-model="employeeInformation.company_employments.status" title="Status" />
                     </tr>
                     <tr>
                         <HrmsEmployee201FormTextInput v-model="employeeInformation.company_employments.phic_number" title="PHIC #" />

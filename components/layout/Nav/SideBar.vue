@@ -258,6 +258,11 @@ const config = useRuntimeConfig()
                     single-nav-title="Bulk Upload Employee"
                 />
             </LayoutNavGroup>
+            <LayoutNavSingle
+                linkarea="/hrms/travelorder"
+                icon="material-symbols:googler-travel"
+                single-nav-title="Travel Order"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Inventory / Warehouse -->
