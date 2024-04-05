@@ -26,8 +26,8 @@ useHead({
             <HrmsTravelOrderRequestForm v-show="!isEdit" />
             <!-- <HrmsTravelOrderEditRequest v-show="isEdit" /> -->
         </div>
-        <div>
-            <!-- <HrmsTravelOrderRequestList /> -->
+        <div class="flex flex-col gap-2">
+            <HrmsTravelOrderRequestList />
         </div>
     </div>
 </template>

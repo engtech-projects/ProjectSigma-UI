@@ -2,8 +2,6 @@
 import { storeToRefs } from "pinia"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 
-// const { list: contributionList, isEdit, contribution, getParams, pagination, errorMessage, successMessage } = storeToRefs(contributions)
-
 const travels = useTravelorderStore()
 const { travel, list: travelList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(travels)
 
@@ -15,10 +13,10 @@ const setEdit = (trv) => {
     travel.value = trv
 }
 
-const deleteReq = async (cont) => {
+const deleteReq = async (req) => {
     try {
         boardLoading.value = true
-        await travels.deleteContribution(cont.id)
+        await travels.deleteRequest(req.id)
         snackbar.add({
             type: "success",
             text: travels.successMessage
@@ -37,12 +35,12 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Requesting Office", id: "range_from" },
-    { name: "Range To", id: "range_to" },
-    { name: "Employer Share", id: "employer_share" },
-    { name: "Employer Contribution", id: "employer_contribution" },
-    { name: "Employee Share", id: "employee_share" },
-    { name: "Employee Contribution", id: "employee_contribution" },
+    { name: "Requested by", id: "requested_by" },
+    { name: "Requesting Office", id: "requesting_office" },
+    { name: "Destination", id: "destination" },
+    { name: "Purpose", id: "purpose_of_travel" },
+    { name: "Duration", id: "duration_of_travel" },
+    { name: "Remarks", id: "remarks" },
 ]
 const actions = {
     edit: true,
