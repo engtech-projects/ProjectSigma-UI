@@ -38,7 +38,15 @@ const handleStatusChange = async (applicant) => {
         boardLoading.value = false
     }
 }
-
+const applicantInfo = ref({})
+const applicantDetail = ref(false)
+const applicantDetails = (applic) => {
+    applicantDetail.value = true
+    applicantInfo.value = applic
+}
+const closeApplicantDetail = () => {
+    applicantDetail.value = false
+}
 </script>
 
 <template>
@@ -62,7 +70,9 @@ const handleStatusChange = async (applicant) => {
                     <tbody>
                         <tr v-for="(applicant, index) in manpower.job_applicants" :key="index" class="bg-white">
                             <td class="border border-gray-400 p-2">
-                                {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }}
+                                <span class="cursor-pointer text-blue-500" @click="applicantDetails(applicant)">
+                                    {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }}
+                                </span>
                             </td>
                             <td class="border border-gray-400 p-2">
                                 <HrmsEmployeeJobStatusSet v-model:status="applicant.status" v-model:remarks="applicant.remarks" />
@@ -83,5 +93,19 @@ const handleStatusChange = async (applicant) => {
                 No applicants available.
             </div>
         </template>
+
+        <Teleport to="body">
+            <div v-if="applicantDetail" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70" @click="closeApplicantDetail">
+                <div class="p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" @click.stop>
+                    <div v-if="applicantDetail">
+                        <div v-for="(applicant, key) in applicantDetail" :key="key" class="border px-4 py-2">
+                            <span class="font-semibold">{{ key }}:</span>
+                            <span>{{ applicant }}</span>
+                        </div>
+                    </div>
+                    <HrmsEmployeeJobApplicantList :applicant="applicantInfo" />
+                </div>
+            </div>
+        </Teleport>
     </div>
 </template>

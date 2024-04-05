@@ -1,22 +1,20 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/hrms/employee/manpower"
-
 const config = useRuntimeConfig()
-const manpowers = useManpowerStore()
-const { manpower } = storeToRefs(manpowers)
-
 const boardLoading = ref(false)
-
+defineProps({
+    applicant: {
+        type: Object,
+        required: true,
+    },
+})
 </script>
 
 <template>
     <div>
         <LayoutDisplayBoards title="Applicant Details" class="w-full shadow-lg" :loading="boardLoading">
-            <div v-for="(applicant, index) in manpower.job_applicants" :key="index" class="border border-teal-500 rounded-lg mb-8">
+            <div class="border border-teal-500 rounded-lg mb-8">
                 <h2 class="flex text-xl font-semibold mb-2 bg-slate-100 p-2 rounded-t-lg">
-                    Applicant #{{ index + 1 }}
-                    <!-- {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }} -->
+                    Applicant {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }}
                 </h2>
                 <div class="grid grid-cols-3 gap-8 p-4">
                     <div>
@@ -116,7 +114,7 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.telephone_spouse }}</p>
                     </div>
-                    <div v-for="(child, childIndex) in JSON.parse(applicant.children)" :key="childIndex">
+                    <div v-for="(child, childIndex) in applicant.children" :key="childIndex">
                         <p class="font-semibold italic">
                             Children:
                         </p>
@@ -126,10 +124,10 @@ const boardLoading = ref(false)
                 </div>
                 <hr>
                 <div class="grid grid-flow-col auto-cols-max gap-8 p-4">
-                    <div v-for="(work, workIndex) in JSON.parse(applicant.workexperience)" :key="workIndex">
-                        <p class="font-semibold italic">
-                            Work Experience:
-                        </p>
+                    <p class="font-semibold italic">
+                        Work Experience:
+                    </p>
+                    <div v-for="(work, workIndex) in applicant.workexperience" :key="workIndex">
                         <div>
                             <p>Position: {{ work.position_title }}</p>
                             <p>Department/Agency/Office/Company: {{ work.dpt_agency_office_company }}</p>
@@ -178,46 +176,19 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.telephone_icoe }}</p>
                     </div>
-                    <div v-for="(educ, educIndex) in JSON.parse(applicant.education)" :key="educIndex">
-                        <p class="font-semibold italic">
-                            Education:
-                        </p>
+                    <p class="font-semibold italic">
+                        Education:
+                    </p>
+                    <div v-for="(educ, educIndex) in applicant.education" :key="educIndex">
                         <div class="flex gap-8 min-w-max">
                             <div>
                                 <p class="font-semibold italic">
-                                    Elementary
+                                    {{ educ.type.toUpperCase() }}
                                 </p>
-                                <p>Name of School: {{ educ.elementary_name }}</p>
-                                <p>From: {{ educ.elementary_period_attendance_from }}</p>
-                                <p>To: {{ educ.elementary_period_attendance_to }}</p>
-                                <p>Year Graduated: {{ educ.elementary_year_graduated }}</p>
-                            </div>
-                            <div>
-                                <p class="font-semibold italic">
-                                    Secondary
-                                </p>
-                                <p>Name of School: {{ educ.secondary_name }}</p>
-                                <p>From: {{ educ.secondary_period_attendance_from }}</p>
-                                <p>To: {{ educ.secondary_period_attendance_to }}</p>
-                                <p>Year Graduated: {{ educ.secondary_year_graduated }}</p>
-                            </div>
-                            <div>
-                                <p class="font-semibold italic">
-                                    Vocational Course
-                                </p>
-                                <p>{{ educ.vocationalcourse_name }}</p>
-                                <p>From: {{ educ.vocationalcourse_period_attendance_from }}</p>
-                                <p>To: {{ educ.vocationalcourse_period_attendance_to }}</p>
-                                <p>Year Graduated: {{ educ.vocationalcourse_year_graduated }}</p>
-                            </div>
-                            <div>
-                                <p class="font-semibold italic">
-                                    College
-                                </p>
-                                <p>{{ educ.college_name }}</p>
-                                <p>From: {{ educ.college_period_attendance_from }}</p>
-                                <p>To: {{ educ.college_period_attendance_to }}</p>
-                                <p>Year Graduated: {{ educ.college_year_graduated }}</p>
+                                <p>Name of School: {{ educ.name }}</p>
+                                <p>From: {{ educ.period_attendance_from }}</p>
+                                <p>To: {{ educ.period_attendance_to }}</p>
+                                <p>Year Graduated: {{ educ.year_graduated }}</p>
                             </div>
                         </div>
                     </div>
