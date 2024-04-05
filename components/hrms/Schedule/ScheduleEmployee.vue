@@ -119,10 +119,10 @@ export default {
         fCalendar.addEventListener("click", (e) => {
             if (e.target.classList.contains("event-edit")) {
                 this.setEdit(e.target.dataset.event)
-                console.log(this.newEvent)
+                // console.log(this.newEvent)
             }
             if (e.target.classList.contains("event-trash")) {
-                console.log("Delete " + e.target.dataset.event)
+                // console.log("Delete " + e.target.dataset.event)
                 this.deleteSchedule(e.target.dataset.event)
             }
         })
@@ -170,7 +170,6 @@ export default {
                         if (response.status !== 200) {
                             this.errorMessage = response._data.message
                         } else {
-                            console.log(response._data.data)
                             this.employees = response._data.data
                         }
                     },
@@ -536,7 +535,7 @@ export default {
                                     <button v-else type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">
                                         Set Schedule
                                     </button>
-                                    <button @click="resetEvents" type="reset" class="px-4 py-2 ml-2 bg-gray-300 text-gray-700 rounded-md">
+                                    <button type="reset" class="px-4 py-2 ml-2 bg-gray-300 text-gray-700 rounded-md" @click="resetEvents">
                                         Reset
                                     </button>
                                 </div>
