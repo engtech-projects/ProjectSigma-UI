@@ -3,11 +3,13 @@ import { storeToRefs } from "pinia"
 import { useLeaveRequest } from "~/stores/hrms/leaveRequest"
 const leaveRequest = useLeaveRequest()
 
-const { approvalList } = storeToRefs(leaveRequest)
+const { approvalList, remarks } = storeToRefs(leaveRequest)
 const boardLoading = ref(false)
+const approvalLoading = ref(false)
 
 const leaveRequestData = ref(null)
 const showInformationModal = ref(false)
+const snackbar = useSnackbar()
 
 const showInformation = (data) => {
     leaveRequestData.value = data
@@ -39,7 +41,7 @@ const approvedRequest = async (id) => {
 const denydRequest = async (id) => {
     try {
         approvalLoading.value = true
-        await pan.denyRequest(id)
+        await leaveRequest.denyRequest(id)
         snackbar.add({
             type: "success",
             text: leaveRequest.successMessage
@@ -54,9 +56,12 @@ const denydRequest = async (id) => {
     }
     clearRemarks()
 }
+const clearRemarks = () => {
+    remarks.value = ""
+}
 
 const headers = [
-    { name: "EMPLOYEE NAME", id: "employee.fullname_first" },
+    { name: "EMPLOYEE NAME", id: "employee.fullname_last" },
     { name: "DATE FILED", id: "created_at" },
     { name: "LEAVE AVAILITY", id: "type" },
     { name: "DATE FROM ", id: "date_of_absence_from" },
@@ -74,7 +79,7 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="ALL APPROVAL REQUEST" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="ALL APPROVAL REQUEST" class="w-full mt-4" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
