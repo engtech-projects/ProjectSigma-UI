@@ -64,7 +64,9 @@ const pan = usePersonelActionNotice()
                     for="PromotionSalaryGrade"
                     class="flex text-sm text-black-700 dark:text-white"
                 >OLD SALARY GRADE </label>
-                <p>Salary Grade {{ employee.information.current_employment.employee_salarygrade.salary_grade_level.salary_grade_level }} - Step {{ employee.information.current_employment.employee_salarygrade.step_name }}</p>
+                <template v-if="employee.information.current_employment">
+                    <p>Salary Grade {{ employee.information.current_employment.employee_salarygrade.salary_grade_level.salary_grade_level }} - Step {{ employee.information.current_employment.employee_salarygrade.step_name }}</p>
+                </template>
             </div>
         </td>
         <td colspan="2">
