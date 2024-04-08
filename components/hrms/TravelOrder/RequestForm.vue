@@ -100,10 +100,20 @@ const headers: Header[] = [
                             <LayoutFormPsTextInput v-model="travel.purpose_of_travel" title="Purpose of Travel" />
                         </div>
                         <div>
-                            <LayoutFormPsTextInput v-model="travel.date_and_time_of_travel" title="Date and Time of Travel" />
+                            <label for="requstedBy" class="text-sm italic font-semibold text-gray-700">Date and Time of Travel</label>
+                            <input
+                                v-model="travel.date_and_time_of_travel"
+                                type="date"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            >
                         </div>
                         <div>
-                            <LayoutFormPsTextInput v-model="travel.duration_of_travel" title="Duration of Travel (days)" />
+                            <label for="requstedBy" class="text-sm italic font-semibold text-gray-700">Duration of Travel (days)</label>
+                            <input
+                                v-model="travel.duration_of_travel"
+                                type="number"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            >
                         </div>
                         <div>
                             <LayoutFormPsTextInput v-model="travel.means_of_transportation" title="Means of Transportation" />
