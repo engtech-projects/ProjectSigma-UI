@@ -35,7 +35,6 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Requested by", id: "requesting_office" },
     { name: "Requesting Office", id: "requesting_office" },
     { name: "Destination", id: "destination" },
     { name: "Purpose", id: "purpose_of_travel" },
