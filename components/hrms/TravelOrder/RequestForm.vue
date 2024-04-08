@@ -5,7 +5,7 @@ import type { Item, Header } from "vue3-easy-data-table"
 // import "@vuepic/vue-datepicker/dist/main.css"
 import { useEnumsStore } from "@/stores/hrms/enum"
 import { useDepartmentStore } from "@/stores/hrms/setup/departments"
-import { useTravelorderStore, REQ_STATUS } from "@/stores/hrms/travelorder"
+import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
 
 const enums = useEnumsStore()
@@ -126,17 +126,6 @@ const headers: Header[] = [
                             </option>
                             <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
                                 {{ dpt.department_name }}
-                            </option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="requestStatus" class="text-sm italic font-semibold text-gray-700">Request Status</label>
-                        <select id="requestStatus" v-model="travel.request_status" class="w-full rounded-lg bg-slate-100 border border-slate-300 cursor-pointer focus:outline focus:outline-color1 focus:bg-white">
-                            <option value="" disabled selected>
-                                Select Status
-                            </option>
-                            <option v-for="reqStats, index in REQ_STATUS" :key="index" :value="reqStats">
-                                {{ reqStats }}
                             </option>
                         </select>
                     </div>
