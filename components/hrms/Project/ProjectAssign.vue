@@ -136,7 +136,7 @@ const attach = async () => {
                     <span class="text-gray-700 text-lg font-medium mr-4"> {{ index + 1 }} </span>
                     <div class="flex-1">
                         <h3 class="text-lg font-medium text-gray-800">
-                            {{ member.fullname_first }}
+                            {{ member.fullname_last }}
                         </h3>
                     </div>
                 </div>
