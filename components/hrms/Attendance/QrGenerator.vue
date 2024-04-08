@@ -38,21 +38,22 @@ const generateQRCode = () => {
 
         <div class="rounded-lg w-full md:w-2/3 flex">
             <div class="flex flex-col w-full justify-center bg-white shadow-lg">
+                <div v-if="qrCodeData" class="flex justify-center mt-4">
+                    <a
+                        :href="qrCodeData"
+                        download="generated_qr_code.png"
+                        class="text-teal-700 underline cursor-pointer w-96"
+                    >
+                        Download QR Code
+                    </a>
+                </div>
                 <vue-qr
+                    v-if="qrCodeData"
                     id="employee-qr-code"
                     class="w-full"
                     :logo-src="src"
                     :text="qrCodeData??''"
                 />
-                <div v-if="qrCodeData" class="flex justify-center mt-4">
-                    <a
-                        :href="qrCodeData"
-                        download="generated_qr_code.png"
-                        class="text-teal-700 underline cursor-pointer"
-                    >
-                        Download QR Code
-                    </a>
-                </div>
             </div>
         </div>
     </div>
