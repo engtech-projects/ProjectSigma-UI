@@ -121,23 +121,21 @@ const headers: Header[] = [
                         <div>
                             <LayoutFormPsTextInput v-model="travel.remarks" title="Remarks" />
                         </div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 justify-between gap-4 pb-4">
-                    <div>
-                        <label for="requstedBy" class="text-sm italic font-semibold text-gray-700">Requested By</label>
-                        <select
-                            id="department"
-                            v-model="travel.requested_by"
-                            class="w-full rounded-lg bg-slate-100 border border-slate-300 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                        >
-                            <option value="" disabled selected>
-                                Choose Department
-                            </option>
-                            <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
-                                {{ dpt.department_name }}
-                            </option>
-                        </select>
+                        <div>
+                            <label for="requstedBy" class="text-sm italic font-semibold text-gray-700">Requested By</label>
+                            <select
+                                id="department"
+                                v-model="travel.requested_by"
+                                class="w-full rounded-lg bg-slate-100 border border-slate-300 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
+                            >
+                                <option value="" disabled selected>
+                                    Choose Department
+                                </option>
+                                <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
+                                    {{ dpt.department_name }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="w-full rounded-lg p-4 bg-slate-100 ">
