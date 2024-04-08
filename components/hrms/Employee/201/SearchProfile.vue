@@ -42,7 +42,7 @@ const { information: employeeInformation, employeeIsSearched } = storeToRefs(emp
                                 for="text"
                                 class="block text-sm font-medium italic text-teal-700"
                             >
-                                {{ employeeInformation.current_employment.position_title }} - {{ employeeInformation.current_employment.employment_status }}
+                                {{ employeeInformation.current_employment?.position_title }} - {{ employeeInformation.current_employment?.employment_status }}
                             </label>
                         </div>
                         <div>
