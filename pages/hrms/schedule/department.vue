@@ -12,7 +12,7 @@ useHead({
         </div>
         <hr>
         <div>
-            <HrmsScheduleDepartment />
+            <HrmsScheduleDept />
         </div>
     </div>
 </template>

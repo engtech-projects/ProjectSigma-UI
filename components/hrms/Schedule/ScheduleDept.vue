@@ -1,348 +1,249 @@
-<script lang="ts">
+<script lang="ts" setup>
+import { ref, onMounted } from "vue"
 import FullCalendar from "@fullcalendar/vue3"
 import interactionPlugin from "@fullcalendar/interaction"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
-import VueDatePicker from "@vuepic/vue-datepicker"
+// import VueDatePicker from "@vuepic/vue-datepicker"
+import { useDepartmentStore } from "~/stores/hrms/setup/departments"
 import "@vuepic/vue-datepicker/dist/main.css"
-
+const utils = useUtilities()
+const departmentStore = useDepartmentStore()
+departmentStore.getDepartment()
+const snackbar = useSnackbar()
 const { token } = useAuth()
 const config = useRuntimeConfig()
-
-export default {
-    components: {
-        FullCalendar,
-        VueDatePicker
+const calendarApi = ref(null)
+const daysOfWeek = ref([false, false, false, false, false, false, false])
+const newEvent = ref({
+    id: 1,
+    groupType: "department",
+    department_id: 1,
+    project_id: null,
+    employee_id: null,
+    scheduleType: "Regular",
+    daysOfWeek: [],
+    startTime: "",
+    endTime: "",
+    startRecur: "",
+    endRecur: ""
+})
+const events = ref([])
+const errorMessage = ref("")
+const successMessage = ref("")
+const isLoading = ref(false)
+const isCalendarLoading = ref(false)
+const isEdit = ref(false)
+const calendarOptions = ref({
+    plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin],
+    headerToolbar: {
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth,timeGridWeek,timeGridDay",
     },
-    data () {
-        return {
-            calendarApi: null,
-            daysOfWeek: [false, false, false, false, false, false, false],
-            calendarOptions: {
-                plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin],
-                headerToolbar: {
-                    left: "prev,next today",
-                    center: "title",
-                    right: "dayGridMonth,timeGridWeek,timeGridDay",
-                },
-                initialView: "dayGridMonth",
-                weekends: true,
-                nowIndicator: true,
-                editable: true,
-                selectable: true,
-                dateClick: (info) => {
-                    // alert("clicked " + info.dateStr)
-                    this.newEvent.startRecur = info.dateStr
-                },
-                select: (info) => {
-                    this.newEvent.startRecur = info.startStr
-                    this.newEvent.endRecur = info.endStr
-                    // alert("selected " + this.newEvent.startRecur + " to " + this.newEvent.endRecur)
-                },
-                eventContent: function (info) {
-                    const startTimeStr = info.event.start.toLocaleString([], {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    })
-                    const endTimeStr = info.event.end.toLocaleString([], {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    })
-                    return {
-                        html: `<div  class="event-container flex flex-col justify-between items-center p-1 event-container bg-blue-600 text-[10px] overflow-hidden text-white rounded-md">
-                                    ${startTimeStr + " - " + endTimeStr}
-                                    <div class="flex gap-[5px]">
-                                        <i class="fa fa-edit text-slate-200 hover:text-white text-[10px] event-edit edit-${info.event.id}" data-event="${info.event.id}"></i>
-                                        <i class="fa fa-trash text-slate-200 hover:text-white text-[10px] event-trash delete-${info.event.id}" data-event="${info.event.id}"></i>
-                                    </div>
-                                </div>`
-                    }
-                },
-            },
-            events: [],
-            departments: [],
-            employees: [],
-            employee: {},
-            newEvent: {
-                id: 1,
-                groupType: "employee",
-                department_id: 1,
-                project_id: null,
-                employee_id: null,
-                scheduleType: "Regular",
-                daysOfWeek: [],
-                startTime: "",
-                endTime: "",
-                startRecur: "",
-                endRecur: ""
-            },
-            errorMessage: "",
-            successMessage: "",
-            isLoading: false,
-            isCalendarLoading: false,
-            isEdit: false
-        }
+    initialView: "dayGridMonth",
+    weekends: true,
+    nowIndicator: true,
+    editable: true,
+    selectable: true,
+    dateClick: (info) => {
+        // alert("clicked " + info.dateStr)
+        newEvent.value.startRecur = info.dateStr
     },
-    computed: {
-        employeeList () {
-            const list = []
-            this.employees.forEach((emp) => {
-                emp.fullName = emp.family_name + ", " + emp.first_name
-                list.push(emp)
-            })
-            return list
-        }
+    select: (info) => {
+        newEvent.value.startRecur = info.startStr
+        newEvent.value.endRecur = info.endStr
+        // alert("selected " + newEvent.startRecur + " to " + newEvent.endRecur)
     },
-    watch: {
-        "successMessage" () {
-            if (this.successMessage !== "") {
-                this.$snackbar.add({
-                    type: "success",
-                    text: this.successMessage
-                })
-                this.successMessage = ""
-            }
-        },
-        "errorMessage" () {
-            if (this.successMessage !== "") {
-                this.$snackbar.add({
-                    type: "success",
-                    text: this.errorMessage
-                })
-                this.errorMessage = ""
-            }
-        },
-    },
-    mounted () {
-        this.calendarApi = this.$refs.fCalendar.getApi()
-        const fCalendar = document.getElementById("fCalendar")
-        fCalendar.addEventListener("click", (e) => {
-            if (e.target.classList.contains("event-edit")) {
-                this.setEdit(e.target.dataset.event)
-            }
-            if (e.target.classList.contains("event-trash")) {
-                this.deleteSchedule(e.target.dataset.event)
-            }
+    eventContent: function (info) {
+        const startTimeStr = info.event.start.toLocaleString([], {
+            hour: "2-digit",
+            minute: "2-digit"
         })
-        this.calendarApi = this.$refs.fCalendar.getApi()
-        this.fetchSchedules()
-        this.fetchDepartments()
-        this.fetchEmployees()
-    },
-    methods: {
-        async fetchDepartments () {
-            await useFetch(
-                "/api/departments",
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.isCalendarLoading = false
-                        if (response.status !== 200) {
-                            this.errorMessage = response._data.message
-                        } else {
-                            this.departments = response._data.data.data
-                        }
-                    },
-                }
-            )
-        },
-        async fetchEmployees () {
-            await useFetch(
-                "/api/employee/list",
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.isCalendarLoading = false
-                        if (response.status !== 200) {
-                            this.errorMessage = response._data.message
-                        } else {
-                            this.employees = response._data.data
-                        }
-                    },
-                }
-            )
-        },
-        async fetchSchedules () {
-            this.isCalendarLoading = true
-            await useFetch(
-                "/api/schedule",
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.isCalendarLoading = false
-                        if (response.status !== 200) {
-                            this.errorMessage = response._data.message
-                        } else {
-                            this.events = []
-                            response._data.data.data.forEach((ev) => {
-                                // ev.daysOfWeek = JSON.parse(ev.daysOfWeek)
-                                if (ev.groupType === "employee") {
-                                    this.events.push(ev)
-                                    // this.calendarApi.addEvent(ev)
-                                }
-                                this.loadEvents()
-                            })
-                        }
-                    },
-                }
-            )
-        },
-        async handleSubmit () {
-            for (const i in this.daysOfWeek) {
-                if (this.daysOfWeek[i]) {
-                    this.newEvent.daysOfWeek.push(i.toString())
-                }
-            }
-            this.newEvent.endRecur = this.newEvent.endRecur === "" ? this.newEvent.startRecur : this.newEvent.endRecur
-            const url = this.isEdit ? "/api/schedule/" + this.newEvent.id : "/api/schedule"
-            this.newEvent.startTime = this.formatTime(this.newEvent.startTime)
-            this.newEvent.endTime = this.formatTime(this.newEvent.endTime)
-            this.isLoading = true
-            await useFetch(
-                url,
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: this.isEdit ? "PUT" : "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    body: this.newEvent,
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.isLoading = false
-                        if (response.status !== 200) {
-                            this.errorMessage = response._data.message
-                        } else {
-                            this.removeEvents()
-                            this.successMessage = response._data.message
-                            this.resetEvents()
-                            this.fetchSchedules()
-                        }
-                    },
-                }
-            )
-        },
-        setEdit (id) {
-            this.daysOfWeek = [false, false, false, false, false, false, false]
-            this.events.forEach((ev) => {
-                if (parseInt(ev.id) === parseInt(id)) {
-                    ev.daysOfWeek = JSON.parse(ev.daysOfWeek)
-                    ev.daysOfWeek.forEach((d) => {
-                        this.daysOfWeek[d] = true
-                    })
-                    this.newEvent = ev
-                    this.isEdit = true
-                }
-            })
-        },
-        async deleteSchedule (id) {
-            await useFetch(
-                "/api/schedule/" + id,
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "DELETE",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    body: this.newEvent,
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.isLoading = false
-                        if (response.status !== 200) {
-                            this.errorMessage = response._data.message
-                        } else {
-                            this.removeEvents()
-                            this.successMessage = response._data.message
-                            this.fetchSchedules()
-                        }
-                    },
-                }
-            )
-        },
-        removeEvents () {
-            this.calendarApi.getEvents().forEach((event: { remove: () => any }) => event.remove()) // Remove all event sources
-        },
-        resetEvents () {
-            this.isEdit = false
-            this.daysOfWeek = [false, false, false, false, false, false, false]
-            this.newEvent = {
-                id: 1,
-                groupType: "employee",
-                department_id: 1,
-                project_id: null,
-                employee_id: null,
-                scheduleType: "Regular",
-                daysOfWeek: [],
-                startTime: "",
-                endTime: "",
-                startRecur: "",
-                endRecur: ""
-            }
-        },
-        formatTime (time) {
-            // Handle potential seconds in the input string
-            const timeParts = time.split(":")
-
-            if (timeParts.length === 3) {
-                const hours = parseInt(timeParts[0], 10)
-                const minutes = parseInt(timeParts[1], 10)
-                const seconds = parseInt(timeParts[2], 10)
-
-                if (isNaN(hours) || isNaN(minutes) || isNaN(seconds) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59 || seconds < 0 || seconds > 59) {
-                    return "Invalid time value. Hours (0-23), Minutes (0-59), Seconds (0-59)"
-                }
-
-                return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
-            } else if (timeParts.length === 2) {
-                // Handle H:m format for input
-                const hours = parseInt(timeParts[0], 10)
-                const minutes = parseInt(timeParts[1], 10)
-
-                if (isNaN(hours) || isNaN(minutes) || hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
-                    return "Invalid time value. Hours (0-23), Minutes (0-59)"
-                }
-
-                return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:00` // Add default seconds if no seconds provided
-            } else {
-                // Handle invalid input format
-                return "Invalid time format. Please use HH:mm or HH:mm:ss"
-            }
-        },
-        loadEvents () {
-            this.removeEvents()
-            this.events.forEach((ev) => {
-                if (ev.employee_id === this.employee.id) {
-                    this.calendarApi.addEvent(ev)
-                }
-            })
-        },
-        selectEmployee (arg) {
-            this.employee = arg
-            this.newEvent.employee_id = arg.id
-            this.loadEvents()
+        const endTimeStr = info.event.end.toLocaleString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+        })
+        return {
+            html: `<div  class="event-container flex flex-col justify-between items-center p-1 event-container bg-blue-600 text-[10px] overflow-hidden text-white rounded-md">
+                        ${startTimeStr + " - " + endTimeStr}
+                        <div class="flex gap-[5px]">
+                            <i class="fa fa-edit text-slate-200 hover:text-white text-[10px] event-edit edit-${info.event.id}" data-event="${info.event.id}"></i>
+                            <i class="fa fa-trash text-slate-200 hover:text-white text-[10px] event-trash delete-${info.event.id}" data-event="${info.event.id}"></i>
+                        </div>
+                    </div>`
         }
+    },
+})
+
+async function fetchSchedules () {
+    isCalendarLoading.value = true
+    await useFetch(
+        "/api/schedule",
+        {
+            baseURL: config.public.HRMS_API_URL,
+            method: "GET",
+            headers: {
+                Authorization: token.value + "",
+                Accept: "application/json"
+            },
+            watch: false,
+            onResponse: ({ response }) => {
+                isCalendarLoading.value = false
+                if (response.status !== 200) {
+                    errorMessage.value = response._data.message
+                } else {
+                    events.value = []
+                    response._data.data.forEach((ev) => {
+                        if (ev.groupType === "department") {
+                            events.value.push(ev)
+                        }
+                    })
+                    loadEvents()
+                }
+            },
+        }
+    )
+}
+function loadEvents () {
+    removeEvents()
+    events.value.forEach((ev) => {
+        if (ev.department_id.toString() === newEvent.value.department_id.toString()) {
+            calendarApi.value.addEvent(ev)
+        }
+    })
+}
+function setEdit (id) {
+    daysOfWeek.value = [false, false, false, false, false, false, false]
+    events.value.forEach((ev) => {
+        if (parseInt(ev.id) === parseInt(id)) {
+            ev.daysOfWeek = JSON.parse(ev.daysOfWeek)
+            ev.daysOfWeek.forEach((d) => {
+                daysOfWeek.value[d] = true
+            })
+            newEvent.value = ev
+            isEdit.value = true
+        }
+    })
+}
+async function deleteSchedule (id) {
+    await useFetch(
+        "/api/schedule/" + id,
+        {
+            baseURL: config.public.HRMS_API_URL,
+            method: "DELETE",
+            headers: {
+                Authorization: token.value + "",
+                Accept: "application/json"
+            },
+            body: newEvent.value,
+            watch: false,
+            onResponse: ({ response }) => {
+                isLoading.value = false
+                if (response.status !== 200) {
+                    errorMessage.value = response._data.message
+                } else {
+                    removeEvents()
+                    successMessage.value = response._data.message
+                    fetchSchedules()
+                }
+            },
+        }
+    )
+}
+function removeEvents () {
+    calendarApi.value.getEvents().forEach((event: { remove: () => any }) => event.remove()) // Remove all event sources
+}
+function resetEvents () {
+    isEdit.value = false
+    daysOfWeek.value = [false, false, false, false, false, false, false]
+    newEvent.value = {
+        id: 1,
+        groupType: "department",
+        department_id: 1,
+        project_id: null,
+        employee_id: null,
+        scheduleType: "Regular",
+        daysOfWeek: [],
+        startTime: "",
+        endTime: "",
+        startRecur: "",
+        endRecur: ""
     }
 }
+async function handleSubmit () {
+    for (const i in daysOfWeek.value) {
+        if (daysOfWeek.value[i]) {
+            newEvent.value.daysOfWeek.push(i.toString())
+        }
+    }
+    newEvent.value.endRecur = newEvent.value.endRecur === "" ? newEvent.value.startRecur : newEvent.value.endRecur
+    const url = isEdit.value ? "/api/schedule/" + newEvent.value.id : "/api/schedule"
+    newEvent.value.startTime = utils.value.formatTime(newEvent.value.startTime)
+    newEvent.value.endTime = utils.value.formatTime(newEvent.value.endTime)
+    isLoading.value = true
+    await useFetch(
+        url,
+        {
+            baseURL: config.public.HRMS_API_URL,
+            method: isEdit.value ? "PUT" : "POST",
+            headers: {
+                Authorization: token.value + "",
+                Accept: "application/json"
+            },
+            body: newEvent.value,
+            watch: false,
+            onResponse: ({ response }) => {
+                isLoading.value = false
+                if (response.status !== 200) {
+                    errorMessage.value = response._data.message
+                } else {
+                    removeEvents()
+                    successMessage.value = response._data.message
+                    resetEvents()
+                    fetchSchedules()
+                }
+            },
+        }
+    )
+}
+const departmentsList = computed(() => {
+    return departmentStore.list
+})
+
+const fCalendar = ref()
+onMounted(() => {
+    calendarApi.value = fCalendar.value.getApi()
+    const ffCalendar = document.getElementById("fCalendar")
+    ffCalendar.addEventListener("click", (e) => {
+        if (e.target.classList.contains("event-edit")) {
+            setEdit(e.target.dataset.event)
+        }
+        if (e.target.classList.contains("event-trash")) {
+            deleteSchedule(e.target.dataset.event)
+        }
+    })
+    fetchSchedules()
+    departmentStore.getDepartmentList()
+})
+watch(successMessage, (msg) => {
+    if (msg !== "") {
+        snackbar.add({
+            type: "success",
+            text: successMessage.value
+        })
+        successMessage.value = ""
+    }
+})
+watch(errorMessage, (msg) => {
+    if (msg !== "") {
+        snackbar.add({
+            type: "error",
+            text: errorMessage.value
+        })
+        errorMessage.value = ""
+    }
+})
 </script>
 
 <template>
@@ -358,14 +259,12 @@ export default {
                     alt="logo"
                 >
             </div>
-
-            <div class="p-4 flex flex-col gap-4" :class="isEdit? 'border-t-8 border-green-500 rounded-md' : ''">
-                <AccountingSelectSearch :options="employeeList" title="fullName" opid="id" :selected-id="employee.id" @select="selectEmployee" />
-                <select id="schedule" v-model="newEvent.department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+            <div class="p-4" :class="isEdit? 'border-t-8 border-green-500 rounded-md' : ''">
+                <select id="schedule" v-model="newEvent.department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required @change="loadEvents">
                     <option value="" disabled selected>
                         -- SELECT --
                     </option>
-                    <option v-for="d in departments" :key="d.id" :value="d.id">
+                    <option v-for="d in departmentsList" :key="d.id" :value="d.id">
                         {{ d.department_name }}
                     </option>
                 </select>
@@ -376,7 +275,7 @@ export default {
                     <summary
                         class="flex cursor-pointer list-none items-center justify-between text-lg font-medium text-gray-900 bg-teal-100 rounded-sm"
                     >
-                        <label for="" class="text-lg font-medium p-2">Set Employee Schedule</label>
+                        <label for="" class="text-lg font-medium p-2">Set Schedule</label>
 
                         <div class="text-gray-500">
                             <svg
@@ -391,7 +290,6 @@ export default {
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
                                     d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                                    :class="{ 'rotate-180': isOpen2 }"
                                 />
                             </svg>
                         </div>
@@ -524,14 +422,14 @@ export default {
                                     </div>
 
                                     <input id="scheduledDates" v-model="newEvent.startRecur" type="date" class="w-full rounded-lg">
-                                    <VueDatePicker v-model="date" multi-dates multi-dates-limit="3" class="rounded-lg hidden" />
+                                    <!-- <VueDatePicker v-model="date" multi-dates multi-dates-limit="3" class="rounded-lg hidden" /> -->
                                 </div>
                                 <div class="flex justify-end mt-4">
                                     <button v-if="isEdit" type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">
                                         Update
                                     </button>
                                     <button v-else type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md">
-                                        Set Schedule
+                                        Submit
                                     </button>
                                     <button type="reset" class="px-4 py-2 ml-2 bg-gray-300 text-gray-700 rounded-md" @click="resetEvents">
                                         Reset
