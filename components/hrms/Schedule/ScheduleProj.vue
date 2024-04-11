@@ -96,6 +96,7 @@ async function fetchSchedules () {
                     events.value = []
                     response._data.data.forEach((ev) => {
                         if (ev.groupType === "project") {
+                            ev.daysOfWeek = JSON.parse(ev.daysOfWeek)
                             events.value.push(ev)
                         }
                     })
@@ -108,7 +109,10 @@ async function fetchSchedules () {
 function loadEvents () {
     removeEvents()
     events.value.forEach((ev) => {
-        if (ev.project_id.toString() === newEvent.value.department_id.toString()) {
+        if (parseInt(ev.project_id) === parseInt(newEvent.value.project_id)) {
+            if (ev.scheduleType === "Irregular") {
+                ev.daysOfWeek = null
+            }
             calendarApi.value.addEvent(ev)
         }
     })
@@ -117,7 +121,6 @@ function setEdit (id) {
     daysOfWeek.value = [false, false, false, false, false, false, false]
     events.value.forEach((ev) => {
         if (parseInt(ev.id) === parseInt(id)) {
-            ev.daysOfWeek = JSON.parse(ev.daysOfWeek)
             ev.daysOfWeek.forEach((d) => {
                 daysOfWeek.value[d] = true
             })
@@ -160,8 +163,8 @@ function resetEvents () {
     newEvent.value = {
         id: null,
         groupType: "project",
-        department_id: 1,
-        project_id: null,
+        department_id: null,
+        project_id: newEvent.value.project_id,
         employee_id: null,
         scheduleType: "Regular",
         daysOfWeek: [],
@@ -179,9 +182,14 @@ async function handleSubmit () {
     }
     newEvent.value.endRecur = newEvent.value.endRecur === "" ? newEvent.value.startRecur : newEvent.value.endRecur
     const url = isEdit.value ? "/api/schedule/" + newEvent.value.id : "/api/schedule"
-    newEvent.value.startTime = utils.value.formatTime(newEvent.value.startTime)
-    newEvent.value.endTime = utils.value.formatTime(newEvent.value.endTime)
+    const eventData = JSON.parse(JSON.stringify(newEvent.value))
+    eventData.startTime = utils.value.formatTime(eventData.startTime)
+    eventData.endTime = utils.value.formatTime(eventData.endTime)
     isLoading.value = true
+    if (newEvent.value.scheduleType === "Irregular") {
+        newEvent.value.endRecur = utils.value.addOneDay(newEvent.value.startRecur)
+        newEvent.value.daysOfWeek = null
+    }
     await useFetch(
         url,
         {
@@ -191,7 +199,7 @@ async function handleSubmit () {
                 Authorization: token.value + "",
                 Accept: "application/json"
             },
-            body: newEvent.value,
+            body: eventData,
             watch: false,
             onResponse: ({ response }) => {
                 isLoading.value = false
@@ -257,7 +265,7 @@ watch(errorMessage, (msg) => {
             </div>
             <div class="p-4" :class="isEdit? 'border-t-8 border-green-500 rounded-md' : ''">
                 <label for="" class="text-md font-medium p-2">Select Project</label>
-                <select id="schedule" v-model="newEvent.project_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                <select id="schedule" v-model="newEvent.project_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required @change="loadEvents">
                     <option value="" disabled selected>
                         -- SELECT --
                     </option>

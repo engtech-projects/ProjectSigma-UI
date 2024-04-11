@@ -25,8 +25,8 @@ const newEvent = ref({
     daysOfWeek: [],
     startTime: "",
     endTime: "",
-    startRecur: "",
-    endRecur: ""
+    startRecur: null,
+    endRecur: null
 })
 const events = ref([])
 const errorMessage = ref("")
@@ -51,8 +51,13 @@ const calendarOptions = ref({
         newEvent.value.startRecur = info.dateStr
     },
     select: (info) => {
-        newEvent.value.startRecur = info.startStr
-        newEvent.value.endRecur = info.endStr
+        if (newEvent.value.scheduleType === "Irregular") {
+            // newEvent.value.endRecur = info.start.clone().add(1, "day")
+        } else {
+            newEvent.value.startRecur = info.startStr
+            newEvent.value.endRecur = info.endStr
+        }
+
         // alert("selected " + newEvent.startRecur + " to " + newEvent.endRecur)
     },
     eventContent: function (info) {
@@ -96,6 +101,7 @@ async function fetchSchedules () {
                     events.value = []
                     response._data.data.forEach((ev) => {
                         if (ev.groupType === "department") {
+                            ev.daysOfWeek = JSON.parse(ev.daysOfWeek)
                             events.value.push(ev)
                         }
                     })
@@ -109,6 +115,9 @@ function loadEvents () {
     removeEvents()
     events.value.forEach((ev) => {
         if (ev.department_id.toString() === newEvent.value.department_id.toString()) {
+            if (ev.scheduleType === "Irregular") {
+                ev.daysOfWeek = null
+            }
             calendarApi.value.addEvent(ev)
         }
     })
@@ -117,7 +126,6 @@ function setEdit (id) {
     daysOfWeek.value = [false, false, false, false, false, false, false]
     events.value.forEach((ev) => {
         if (parseInt(ev.id) === parseInt(id)) {
-            ev.daysOfWeek = JSON.parse(ev.daysOfWeek)
             ev.daysOfWeek.forEach((d) => {
                 daysOfWeek.value[d] = true
             })
@@ -167,8 +175,8 @@ function resetEvents () {
         daysOfWeek: [],
         startTime: "",
         endTime: "",
-        startRecur: "",
-        endRecur: ""
+        startRecur: null,
+        endRecur: null
     }
 }
 async function handleSubmit () {
@@ -177,11 +185,13 @@ async function handleSubmit () {
             newEvent.value.daysOfWeek.push(i.toString())
         }
     }
-    newEvent.value.endRecur = newEvent.value.endRecur === "" ? newEvent.value.startRecur : newEvent.value.endRecur
     const url = isEdit.value ? "/api/schedule/" + newEvent.value.id : "/api/schedule"
     newEvent.value.startTime = utils.value.formatTime(newEvent.value.startTime)
     newEvent.value.endTime = utils.value.formatTime(newEvent.value.endTime)
     isLoading.value = true
+    if (newEvent.value.scheduleType === "Irregular") {
+        newEvent.value.endRecur = utils.value.addOneDay(newEvent.value.startRecur)
+    }
     await useFetch(
         url,
         {
