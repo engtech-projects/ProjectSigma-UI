@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
 import type { Item, Header } from "vue3-easy-data-table"
-// import VueDatePicker from "@vuepic/vue-datepicker"
-// import "@vuepic/vue-datepicker/dist/main.css"
 import { useEnumsStore } from "@/stores/hrms/enum"
 import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
