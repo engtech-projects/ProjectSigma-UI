@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useLeaveStore } from "@/stores/hrms/setup/leaves"
+import { EMPLOYMENT_TYPE, useLeaveStore } from "@/stores/hrms/setup/leaves"
 
 const leaves = useLeaveStore()
 const { leave, errorMessage, successMessage } = storeToRefs(leaves)
