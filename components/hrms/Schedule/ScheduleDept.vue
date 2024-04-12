@@ -115,20 +115,28 @@ function loadEvents () {
     removeEvents()
     events.value.forEach((ev) => {
         if (ev.department_id.toString() === newEvent.value.department_id.toString()) {
+            const event = JSON.parse(JSON.stringify(ev))
             if (ev.scheduleType === "Irregular") {
-                ev.daysOfWeek = null
+                event.daysOfWeek = null
             }
-            calendarApi.value.addEvent(ev)
+            calendarApi.value.addEvent(event)
         }
     })
 }
 function setEdit (id) {
     daysOfWeek.value = [false, false, false, false, false, false, false]
+    const regularTab = document.getElementById("regular-tab")
+    const irregularTab = document.getElementById("irregular-tab")
     events.value.forEach((ev) => {
         if (parseInt(ev.id) === parseInt(id)) {
             ev.daysOfWeek.forEach((d) => {
                 daysOfWeek.value[d] = true
             })
+            if (ev.scheduleType === "Irregular") {
+                irregularTab.click()
+            } else {
+                regularTab.click()
+            }
             newEvent.value = ev
             isEdit.value = true
         }
@@ -189,6 +197,11 @@ async function handleSubmit () {
     newEvent.value.startTime = utils.value.formatTime(newEvent.value.startTime)
     newEvent.value.endTime = utils.value.formatTime(newEvent.value.endTime)
     isLoading.value = true
+    if (newEvent.value.daysOfWeek.length === 0) {
+        newEvent.value.scheduleType = "Irregular"
+    } else {
+        newEvent.value.scheduleType = "Regular"
+    }
     if (newEvent.value.scheduleType === "Irregular") {
         newEvent.value.endRecur = utils.value.addOneDay(newEvent.value.startRecur)
     }
@@ -322,13 +335,21 @@ watch(errorMessage, (msg) => {
                                         id="eventTitleIn"
                                         v-model="newEvent.startTime"
                                         type="time"
+                                        step="1"
                                         class="w-36 md:w-32 rounded-lg"
                                         required
                                     >
                                 </div>
                                 <div class="p-2  gap-4 items-center">
                                     <label for="eventTitleOut" class="block text-xs text-center italic">Out</label>
-                                    <input id="eventTitleOut" v-model="newEvent.endTime" type="time" class="w-36 md:w-32 rounded-lg" required>
+                                    <input
+                                        id="eventTitleOut"
+                                        v-model="newEvent.endTime"
+                                        type="time"
+                                        step="1"
+                                        class="w-36 md:w-32 rounded-lg"
+                                        required
+                                    >
                                 </div>
                             </div>
 
@@ -350,7 +371,6 @@ watch(errorMessage, (msg) => {
                                             role="tab"
                                             aria-controls="regular"
                                             aria-selected="false"
-                                            @click="newEvent.scheduleType='Regular'"
                                         >
                                             Regular
                                         </button>
@@ -364,7 +384,6 @@ watch(errorMessage, (msg) => {
                                             role="tab"
                                             aria-controls="irregular"
                                             aria-selected="false"
-                                            @click="newEvent.scheduleType='Irregular'"
                                         >
                                             Irregular
                                         </button>
@@ -372,7 +391,7 @@ watch(errorMessage, (msg) => {
                                 </ul>
                             </div>
                             <div id="default-tab-content">
-                                <div id="regular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" :class="newEvent.scheduleType==='Regular' ? '' : 'hidden' " role="tabpanel" aria-labelledby="regular-tab">
+                                <div id="regular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="regular-tab">
                                     <div class="border-b w-full h-[14px] text-center p-3 mb-2">
                                         <span class="text-sm bg-slate-50 text-black px-10 italic">
                                             Days
@@ -424,7 +443,7 @@ watch(errorMessage, (msg) => {
                                     </div>
                                 </div>
 
-                                <div id="irregular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" :class="newEvent.scheduleType==='Regular' ? 'hidden' : '' " role="tabpanel" aria-labelledby="irregular-tab">
+                                <div id="irregular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="irregular-tab">
                                     <div class="border-b w-full h-[14px] text-center p-3 mb-5">
                                         <span class="text-sm bg-slate-50 text-black px-10 italic">
                                             Schedule Dates
