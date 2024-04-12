@@ -44,5 +44,22 @@ export const useUtilities = () => {
             return "Invalid time format. Please use HH:mm or HH:mm:ss"
         }
     }
-    return ref({ upperFirst, upperWords, formatCurrency, formatTime })
+    function addOneDay (dateString) {
+        try {
+            // Parse the date string into a Date object
+            const dateObj = new Date(dateString)
+            // Check if the date is valid
+            if (isNaN(dateObj.getTime())) {
+                alert("Invalid date format. Please use YYYY-MM-DD.")
+            }
+            // Add one day using Date methods
+            dateObj.setDate(dateObj.getDate() + 1)
+            // Format the new date object back to YYYY-MM-DD string
+            return dateObj.toISOString().slice(0, 10)
+        } catch (error) {
+            alert(error.message)
+            return null// Or return any other default value on error
+        }
+    }
+    return ref({ upperFirst, upperWords, formatCurrency, formatTime, addOneDay })
 }
