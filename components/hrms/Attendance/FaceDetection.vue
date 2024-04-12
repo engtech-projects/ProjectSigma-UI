@@ -1,14 +1,21 @@
 <script setup>
 import * as faceapi from "face-api.js"
+import { storeToRefs } from "pinia"
+import { useEmployeeInfo } from "@/stores/hrms/employee"
 
-const MODEL_URL = "/models"
+const employee = useEmployeeInfo()
+const { information } = storeToRefs(employee)
+const MODEL_URL = "/faceapimodels"
 const imageUrl = "/avatarexample.png"
+
 const videoStream = ref(null)
 const cameraStarted = ref(false)
 
 const startCamera = () => {
     Promise.all([
-        faceapi.loadTinyFaceDetectorModel(MODEL_URL),
+        faceapi.loadSsdMobilenetv1Model(MODEL_URL),
+        faceapi.loadFaceLandmarkModel(MODEL_URL),
+        faceapi.loadFaceRecognitionModel(MODEL_URL),
     ]).then(async () => {
         const video = document.getElementById("cameraPreview")
         const stream = await navigator.mediaDevices.getUserMedia({ video: true })
@@ -23,6 +30,24 @@ const startCamera = () => {
             }
         })
         cameraStarted.value = true
+
+        video.addEventListener("play", () => {
+            const faceAPICanvas = faceapi.createCanvasFromMedia(video)
+            const displaySize = { width: video.clientWidth, height: video.clientHeight }
+            document.getElementById("canvasDiv").appendChild(faceAPICanvas)
+            faceapi.matchDimensions(faceAPICanvas, displaySize)
+        })
+
+        setInterval(async () => {
+            // const fullFaceDescription = await faceapi.detectSingleFace(video).withFaceLandmarks().withFaceDescriptor()
+            // const faceDescriptor = faceapi.LabeledFaceDescriptors(faceId, fullFaceDescription.descriptor)
+            // // console.log(faceDescriptor)
+            // if (fullFaceDescription) {
+            //     // const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, maxDescriptorDistance)
+            //     const result = faceMatcher.findBestMatch(fullFaceDescriptions.descriptor)
+            //     console.log(result)
+            // }
+        }, 500)
     })
 }
 
@@ -54,7 +79,10 @@ const captureImage = () => {
 }
 </script>
 <template>
-    <div>
+    <div class="w-1/2 justify-center mx-auto p-4">
+        <SearchBar />
+    </div>
+    <div class="md:flex flex-col">
         <video
             id="cameraPreview"
             class="md:h-56 p-1 mb-6 rounded-md ring-2 ring-teal-300 dark:ring-teal-500 mx-auto"
@@ -65,9 +93,13 @@ const captureImage = () => {
         <div>
             <img id="capturedImage" alt="Captured Image" class=" p-4 justify-center mx-auto hidden">
         </div>
-
+        <div id="canvasDiv" />
         <!-- Add a placeholder for the captured image -->
-
+        <div class="w-full text-center">
+            <p class="text-3xl p-4">
+                {{ information.fullname_first }}
+            </p>
+        </div>
         <div class="flex justify-center">
             <div class="flex gap-2">
                 <button
