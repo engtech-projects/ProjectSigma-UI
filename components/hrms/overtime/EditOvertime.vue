@@ -23,7 +23,6 @@ const approvals = useApprovalStore()
 const overtimes = useOvertimeStore()
 const { overtime, errorMessage, successMessage } = storeToRefs(overtimes)
 
-overtime.value.prepared_by = userData.value.id
 overtime.value.approvals = await approvals.getApprovalByName(APPROVAL_OVERTIME)
 
 const snackbar = useSnackbar()

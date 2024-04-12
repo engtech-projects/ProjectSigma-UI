@@ -123,7 +123,6 @@ const headers: Header[] = [
                             <label for="requstedBy" class="text-sm italic font-semibold text-gray-700">Requested By</label>
                             <select
                                 id="department"
-                                v-model="travel.requested_by"
                                 class="w-full rounded-lg bg-slate-100 border border-slate-300 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
                             >
                                 <option value="" disabled selected>

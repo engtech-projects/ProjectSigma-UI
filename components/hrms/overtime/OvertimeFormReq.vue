@@ -23,7 +23,6 @@ const { overtime, errorMessage, successMessage } = storeToRefs(overtimes)
 const projects = useProjectStore()
 const { list: projectList } = storeToRefs(projects)
 
-overtime.value.prepared_by = userData.value.id
 overtime.value.approvals = await approvals.getApprovalByName(APPROVAL_OVERTIME)
 
 const snackbar = useSnackbar()

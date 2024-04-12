@@ -13,7 +13,6 @@ const approvals = useApprovalStore()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-manpower.value.requested_by = userData.value.id
 manpower.value.approvals = await approvals.getApprovalByName(APPROVAL_MANPOWERREQ)
 
 const handleFileUpload = (event) => {

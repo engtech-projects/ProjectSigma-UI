@@ -23,7 +23,6 @@ export const useOvertimeStore = defineStore("overtimes", {
             overtime_start_time: "",
             overtime_end_time: "",
             reason: null,
-            prepared_by: null,
             approvals: null,
             request_status: ""
         },

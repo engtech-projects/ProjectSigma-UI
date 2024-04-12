@@ -78,7 +78,6 @@ export const useManpowerStore = defineStore("manpowers", {
             request_status: "",
             charged_to: null,
             breakdown_details: null,
-            requested_by: null
         },
         list: [],
         myApprovalRequestList: [],
@@ -185,7 +184,6 @@ export const useManpowerStore = defineStore("manpowers", {
             formData.append("request_status", this.manpower.request_status)
             formData.append("charged_to", this.manpower.charged_to)
             formData.append("breakdown_details", this.manpower.breakdown_details)
-            formData.append("requested_by", this.manpower.requested_by)
             formData.append("job_description_attachment", this.manpower.job_description_attachment)
             formData.append("approvals", JSON.stringify(this.manpower.approvals))
             await useHRMSApiO(
@@ -335,7 +333,6 @@ export const useManpowerStore = defineStore("manpowers", {
                 request_status: "",
                 charged_to: null,
                 breakdown_details: null,
-                requested_by: null
             }
             this.isEdit = false
             this.successMessage = ""
