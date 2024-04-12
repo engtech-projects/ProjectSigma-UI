@@ -45,7 +45,10 @@ export const useEnumsStore = defineStore("enums", {
         },
         employeeEnum: {
             list: [],
-            params: {},
+            params: {
+                filterType: "",
+                filterData: "",
+            },
             filter: "",
             successMessage: "",
             errorMessage: "",
@@ -79,7 +82,7 @@ export const useEnumsStore = defineStore("enums", {
         },
         async getDepartmentEnums () {
             await useHRMSApiO(
-                "/api/position/list",
+                "/api/department-list",
                 {
                     method: "GET",
                     params: this.departmentEnum.params,
@@ -88,7 +91,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.departmentEnum.list = response._data.data.data
+                            this.departmentEnum.list = response._data.data
                         }
                     },
                 }
@@ -122,7 +125,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.projectEnum.list = response._data.data.data
+                            this.projectEnum.list = response._data.data
                         }
                     },
                 }
