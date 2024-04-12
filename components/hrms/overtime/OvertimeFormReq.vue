@@ -54,8 +54,7 @@ const submitForm = async () => {
         boardLoading.value = true
         overtime.value.overtime_start_time = formatTime(overtime.value.overtime_start_time)
         overtime.value.overtime_end_time = formatTime(overtime.value.overtime_end_time)
-        const empId = selectedEmployees.value.map(emp => emp.id)
-        overtime.value.employee_id = empId
+        overtime.value.employees = selectedEmployees.value.map(emp => emp.id)
         await overtimes.createRequest()
         if (overtimes.errorMessage !== "") {
             snackbar.add({

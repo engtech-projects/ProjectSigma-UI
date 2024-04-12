@@ -16,14 +16,15 @@ export const useTravelorderStore = defineStore("travels", {
         isEdit: false,
         travel: {
             id: null,
-            name: null,
+            name: "",
+            employees: [] as any[],
             requesting_office: null,
             destination: null,
-            purpose_of_travel: null,
+            purpose_of_travel: "",
             date_and_time_of_travel: null,
             duration_of_travel: null,
             means_of_transportation: null,
-            remarks: null,
+            remarks: "",
             approvals: [],
             request_status: ""
         },
