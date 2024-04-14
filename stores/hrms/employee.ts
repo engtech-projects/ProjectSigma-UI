@@ -1,4 +1,12 @@
 import { defineStore } from "pinia"
+export const EMPLOYEMENT_MOTHER = "mother"
+export const EMPLOYEMENT_FATHER = "father"
+export const EMPLOYEMENT_CONTACT_PERSON = "contact person"
+export const EMPLOYEMENT_SPOUSE = "spouse"
+export const EMPLOYEMENT_REFERENCE = "reference"
+export const EMPLOYEMENT_GUARDIAN = "guardian"
+export const EMPLOYEMENT_CHILD = "dependent/children"
+
 export interface Data {
     value : Array<{
         data: Array<{}>,
@@ -273,6 +281,7 @@ export interface EmployeeSearch {
 }
 export const useEmployeeInfo = defineStore("employee", {
     state: () => ({
+        editable: false as boolean,
         spouseData: {} as Spouse,
         information: {
             id: null as null | Number,
@@ -503,5 +512,64 @@ export const useEmployeeInfo = defineStore("employee", {
                 return data
             }
         },
+        async saveChildData (formData : FormData) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/relatedperson",
+                {
+                    method: "POST",
+                    body: formData,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async updateChildData (formData : FormData, id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/relatedperson/" + id,
+                {
+                    method: "PUT",
+                    body: formData,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async deleteChildData (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/relatedperson/" + id,
+                {
+                    method: "DELETE",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        }
     },
 })

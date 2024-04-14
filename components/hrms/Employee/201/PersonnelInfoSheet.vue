@@ -2,6 +2,9 @@
     <div class="overflow-auto">
         <EvenparNologo />
         <HrmsEmployee201DetailsEmployeeInfo />
+        <HrmsEmployee201DetailsEmployeePermanentAddress />
+        <HrmsEmployee201DetailsEmployeePresentAddress />
+        <HrmsEmployee201DetailsEmployeeChildren />
         <HrmsEmployee201DetailsEducationalBackground />
         <HrmsEmployee201DetailsSpouseInfo />
         <HrmsEmployee201DetailsDependentsInfo />
