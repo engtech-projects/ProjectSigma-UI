@@ -18,7 +18,8 @@ export interface Project {
 }
 export interface SalaryGrade {
     id: number,
-    fullname_last: string,
+    salary_grade_level: string,
+    step_name: string,
 }
 export interface UserEmployee {
     id: Number | null,
@@ -147,7 +148,7 @@ export const useEnumsStore = defineStore("enums", {
         },
         async getProjectEnums () {
             await useProjectsApiO(
-                "/api/projects/list",
+                "/api/projects",
                 {
                     method: "GET",
                     params: this.projectEnum.params,
@@ -162,9 +163,9 @@ export const useEnumsStore = defineStore("enums", {
                 }
             )
         },
-        async getSalarygradeEnum () {
+        async getSalarygradeEnums () {
             await useHRMSApiO(
-                "/api/position/list",
+                "/api/salary/list",
                 {
                     method: "GET",
                     params: this.salarygradeEnum.params,
@@ -196,30 +197,13 @@ export const useEnumsStore = defineStore("enums", {
                 }
             )
         },
-        async getNonuserEmployeeEnum () {
-            await useHRMSApiO(
-                "/api/position/list",
-                {
-                    method: "GET",
-                    params: this.allEmployeeEnum.params,
-                    onResponseError: ({ response }) => {
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.allEmployeeEnum.list = response._data.data
-                        }
-                    },
-                }
-            )
-        },
         async getEmployeeEnum () {
             await useHRMSApiO(
                 "/api/employee/list",
                 {
                     method: "GET",
                     params: this.allEmployeeEnum.params,
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }) => {

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useOvertimeStore } from "@/stores/hrms/overtime"
 import { useEnumsStore } from "@/stores/hrms/enum"
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 
 const overtimes = useOvertimeStore()
 const { isEdit } = storeToRefs(overtimes)
@@ -12,12 +10,8 @@ overtimes.getOvertime()
 
 const enums = useEnumsStore()
 enums.getEmployeeEnum()
-
-const projects = useProjectStore()
-projects.getProject()
-
-const departments = useDepartmentStore()
-departments.getDepartmentList()
+enums.getDepartmentEnums()
+enums.getProjectEnums()
 
 useHead({
     title: "Overtime"

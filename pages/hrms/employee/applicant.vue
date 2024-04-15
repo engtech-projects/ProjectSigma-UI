@@ -1,16 +1,14 @@
 <script setup>
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
-import { useUserStore } from "@/stores/hrms/setup/users"
+import { useEnumsStore } from "@/stores/hrms/enum"
+const enums = useEnumsStore()
+enums.getUserEmployeeEnum()
+enums.getDepartmentEnums()
 
 const manpowers = useManpowerStore()
-const departments = useDepartmentStore()
-const user = useUserStore()
 
 manpowers.getManpower()
 manpowers.getManpowerHiringRequests()
-departments.getDepartmentList()
-user.getUserEmployees()
 
 useHead({
     title: "Job Applicants",
