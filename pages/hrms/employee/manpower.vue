@@ -13,7 +13,7 @@ enums.getPositionEnums()
 enums.getDepartmentEnums()
 enums.getPositionEnums()
 enums.getDepartmentEnums()
-enums.getUserEmployeeEnum()
+enums.getUserEmployeeEnums()
 
 useHead({
     title: "Manpower Request",

@@ -10,7 +10,9 @@ travels.getTravelorders()
 
 const enums = useEnumsStore()
 enums.getEmployeeEnum()
+enums.getUserEmployeeEnums()
 enums.getDepartmentEnums()
+enums.getProjectEnums()
 useHead({
     title: "Travel Order",
 })

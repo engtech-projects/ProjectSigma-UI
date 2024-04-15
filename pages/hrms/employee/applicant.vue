@@ -2,7 +2,7 @@
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 import { useEnumsStore } from "@/stores/hrms/enum"
 const enums = useEnumsStore()
-enums.getUserEmployeeEnum()
+enums.getUserEmployeeEnums()
 enums.getDepartmentEnums()
 
 const manpowers = useManpowerStore()

@@ -14,7 +14,10 @@ export interface Leave {
 }
 export interface Project {
     id: number,
-    fullname_last: string,
+    project_monitoring_id: number,
+    project_code: string,
+    contract_name: string,
+    contract_id: string,
 }
 export interface SalaryGrade {
     id: number,
@@ -149,8 +152,8 @@ export const useEnumsStore = defineStore("enums", {
             )
         },
         async getProjectEnums () {
-            await useProjectsApiO(
-                "/api/projects",
+            await useHRMSApiO(
+                "/api/project-monitoring/list",
                 {
                     method: "GET",
                     params: this.projectEnum.params,
@@ -159,7 +162,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.projectEnum.list = response._data.data
+                            this.projectEnum.list = response._data.projects
                         }
                     },
                 }
@@ -182,7 +185,7 @@ export const useEnumsStore = defineStore("enums", {
                 }
             )
         },
-        async getUserEmployeeEnum () {
+        async getUserEmployeeEnums () {
             await useHRMSApiO(
                 "/api/employee/users-list",
                 {
