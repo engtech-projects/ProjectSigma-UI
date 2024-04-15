@@ -1,15 +1,15 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useApprovalStore } from "@/stores/hrms/setup/approvals"
-import { useUserStore } from "@/stores/hrms/setup/users"
+import { useEnumsStore } from "@/stores/hrms/enum"
 
+const enums = useEnumsStore()
+enums.getUserEmployeeEnum()
 const { data: userData } = useAuth()
 const approval = useApprovalStore()
 const pan = usePersonelActionNotice()
-const users = useUserStore()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-users.getUserEmployees()
 pan.personelActionNotice.type = "New Hire"
 const approvals = await approval.getApprovalByName("Personnel Action Notice")
 pan.personelActionNotice.approvals = approvals

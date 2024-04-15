@@ -5,7 +5,7 @@ const { userEmployeeEnum } = storeToRefs(enums)
 // if (userEmployeeEnum.value.list?.length <= 0) {
 //     enums.getUserEmployeeEnum()
 // }
-const model = defineModel({ required: true, type: Array<Number> })
+const model = defineModel({ required: false, type: Number, default: null })
 </script>
 <template>
     <div>
