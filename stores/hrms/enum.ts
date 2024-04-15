@@ -36,6 +36,8 @@ export interface UserEmployee {
 export interface Employee {
     id: number,
     fullname_last: string,
+    department: any,
+    project: any,
 }
 export const useEnumsStore = defineStore("enums", {
     state: () => ({
