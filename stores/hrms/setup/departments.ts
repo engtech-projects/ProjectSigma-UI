@@ -30,7 +30,7 @@ export const useDepartmentStore = defineStore("departments", {
     actions: {
         async getDepartmentList () {
             const { data, error } = await useFetch(
-                "/api/department-list",
+                "/api/department/list",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -52,7 +52,7 @@ export const useDepartmentStore = defineStore("departments", {
         },
         async getDepartment () {
             const { data, error } = await useFetch(
-                "/api/departments",
+                "/api/department/resource",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -82,7 +82,7 @@ export const useDepartmentStore = defineStore("departments", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/departments",
+                "/api/department/resource",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "POST",
@@ -112,7 +112,7 @@ export const useDepartmentStore = defineStore("departments", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/departments/" + this.department.id,
+                "/api/department/resource/" + this.department.id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "PATCH",
@@ -136,7 +136,7 @@ export const useDepartmentStore = defineStore("departments", {
         },
         async deleteDepartment (id: number) {
             const { data, error } = await useFetch(
-                "/api/departments/" + id,
+                "/api/department/resource/" + id,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
