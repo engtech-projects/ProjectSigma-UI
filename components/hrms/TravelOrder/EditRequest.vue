@@ -47,7 +47,7 @@ const editRequest = async () => {
             <form @submit.prevent="editRequest">
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <HrmsCommonEmployeeSelector v-model="travel.employee_ids" />
+                        <HrmsCommonMultipleEmployeeSelector v-model="travel.employee_ids" />
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">
                         <div>

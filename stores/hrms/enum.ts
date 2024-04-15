@@ -21,6 +21,7 @@ export interface SalaryGrade {
     fullname_last: string,
 }
 export interface UserEmployee {
+    id: Number | null,
     name: String,
     email: String,
     type: String,
@@ -29,6 +30,7 @@ export interface UserEmployee {
     accessibilities_name: Array<String>,
     employee_id: Number | null,
     employee_details: Object,
+    employee: any,
 }
 export interface Employee {
     id: number,
@@ -137,7 +139,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.leaveEnum.list = response._data.data.data
+                            this.leaveEnum.list = response._data.data
                         }
                     },
                 }
@@ -171,7 +173,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.salarygradeEnum.list = response._data.data.data
+                            this.salarygradeEnum.list = response._data.data
                         }
                     },
                 }
@@ -179,7 +181,7 @@ export const useEnumsStore = defineStore("enums", {
         },
         async getUserEmployeeEnum () {
             await useHRMSApiO(
-                "/api/position/list",
+                "/api/employee/users-list",
                 {
                     method: "GET",
                     params: this.userEmployeeEnum.params,
@@ -188,7 +190,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.userEmployeeEnum.list = response._data.data.data
+                            this.userEmployeeEnum.list = response._data.data
                         }
                     },
                 }
@@ -205,7 +207,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.allEmployeeEnum.list = response._data.data.data
+                            this.allEmployeeEnum.list = response._data.data
                         }
                     },
                 }

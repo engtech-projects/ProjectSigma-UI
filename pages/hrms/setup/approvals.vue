@@ -2,13 +2,14 @@
 
 import { storeToRefs } from "pinia"
 import { useApprovalStore } from "@/stores/hrms/setup/approvals"
-import { useUserStore } from "@/stores/hrms/setup/users"
+import { useEnumsStore } from "@/stores/hrms/enum"
 
 const approvals = useApprovalStore()
-const users = useUserStore()
 const { isEdit } = storeToRefs(approvals)
 approvals.getApproval()
-users.getUserEmployees()
+
+const enums = useEnumsStore()
+enums.getUserEmployeeEnum()
 
 useHead({
     title: "Approvals",

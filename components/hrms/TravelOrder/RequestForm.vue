@@ -52,7 +52,7 @@ const submitForm = async () => {
                 <div class="grid grid-cols-2 gap-2">
                     <div class="flex-1">
                         <div>
-                            <HrmsCommonEmployeeSelector v-model="travel.employee_ids" />
+                            <HrmsCommonMultipleEmployeeSelector v-model="travel.employee_ids" />
                         </div>
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">

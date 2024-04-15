@@ -148,7 +148,7 @@ export const useManpowerStore = defineStore("manpowers", {
         async createManpower () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApiO(
+            await useHRMSApi(
                 "/api/manpower/resource",
                 {
                     method: "POST",
