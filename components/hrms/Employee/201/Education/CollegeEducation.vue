@@ -18,16 +18,6 @@ const { information, editable } = storeToRefs(employee)
         <tbody>
             <tr>
                 <td class="border border-slate-300 p-1">
-                    <p for="college_type" class="flex-1 mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">
-                        TYPE OF SCHOOL
-                    </p>
-                    <select id="college_type" name="college_type" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
-                        <option value="college">
-                            COLLEGE
-                        </option>
-                    </select>
-                </td>
-                <td class="border border-slate-300 p-1">
                     <p for="college_name" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">
                         NAME OF SCHOOL
                     </p>

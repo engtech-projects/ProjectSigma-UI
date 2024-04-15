@@ -1,13 +1,11 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
-
 const employee = useEmployeeInfo()
-
-const saveEmployeeInformation = () => {
+const updateContactPerson = () => {
     return true
 }
-const { information } = storeToRefs(employee)
+const { information, editable } = storeToRefs(employee)
 
 </script>
 <template>
@@ -16,7 +14,7 @@ const { information } = storeToRefs(employee)
             Employee Contact Information
         </label>
         <div class="mt-2">
-            <button v-if="editable" class=" bg-green-600 text-white w-8 h-8" @click="saveEmployeeInformation()">
+            <button v-if="editable" class=" bg-green-600 text-white w-8 h-8" @click="updateContactPerson()">
                 <Icon name="ion:save" color="white" class="rounded h-6 w-6 p-1" />
             </button>
         </div>

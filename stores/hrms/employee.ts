@@ -362,6 +362,26 @@ export const useEmployeeInfo = defineStore("employee", {
             employee_uploads: [] as Array<EmployeeUpload>
         } as EmployeeInformation,
         employeeIsSearched: false as Boolean,
+        permanentAddressParams: {
+            id: null as null| Number,
+            employee_id: null as null| Number,
+            street: null as null| String,
+            brgy: null as null| String,
+            city: null as null| String,
+            zip: null as null| String,
+            province: null as null| String,
+            type: null as null| String,
+        } as EmployeeAddress,
+        presentAddressParams: {
+            id: null as null| Number,
+            employee_id: null as null| Number,
+            street: null as null| String,
+            brgy: null as null| String,
+            city: null as null| String,
+            zip: null as null| String,
+            province: null as null| String,
+            type: null as null| String,
+        } as EmployeeAddress,
         errorMessage: "",
         successMessage: "",
         employeeList: [],
@@ -458,6 +478,34 @@ export const useEmployeeInfo = defineStore("employee", {
         }
     },
     actions: {
+        getPresentAddress () {
+            let preAddress = {} as EmployeeAddress
+            if (!this.information) {
+                return preAddress
+            }
+            if (this.information.employee_address) {
+                this.information.employee_address.forEach((item) => {
+                    if (item.type === "present") {
+                        preAddress = item
+                    }
+                })
+            }
+            this.presentAddressParams = preAddress
+        },
+        getPermanentAddress () {
+            let perAddress = {} as EmployeeAddress
+            if (!this.information) {
+                return ""
+            }
+            if (this.information.employee_address) {
+                this.information.employee_address.forEach((item) => {
+                    if (item.type === "both" || item.type === "permanent") {
+                        perAddress = item
+                    }
+                })
+            }
+            this.permanentAddressParams = perAddress
+        },
         async getEmployeeList () {
             const { data, error } = await useHRMSApi(
                 "/api/employee/list",
@@ -483,7 +531,7 @@ export const useEmployeeInfo = defineStore("employee", {
                 {
                     method: "POST",
                     body: formData,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.successMessage = response._data.message
                             return response._data
@@ -509,6 +557,8 @@ export const useEmployeeInfo = defineStore("employee", {
             } else if (data.value) {
                 this.employeeIsSearched = true
                 this.information = data.value.data
+                this.getPresentAddress()
+                this.getPermanentAddress()
                 return data
             }
         },
@@ -520,7 +570,7 @@ export const useEmployeeInfo = defineStore("employee", {
                 {
                     method: "POST",
                     body: formData,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data
@@ -540,7 +590,7 @@ export const useEmployeeInfo = defineStore("employee", {
                 {
                     method: "PUT",
                     body: formData,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data
@@ -559,7 +609,77 @@ export const useEmployeeInfo = defineStore("employee", {
                 "/api/employee/relatedperson/" + id,
                 {
                     method: "DELETE",
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async updateEmployeeInformation (id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/resource/" + id,
+                {
+                    method: "PUT",
+                    body: this.information,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async saveEmployeeAddress (category: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            let params = {}
+            if (category === "present") {
+                this.presentAddressParams.employee_id = this.information.id
+                this.presentAddressParams.type = "present"
+                params = this.presentAddressParams
+            } else {
+                this.permanentAddressParams.employee_id = this.information.id
+                this.permanentAddressParams.type = "permanent"
+                params = this.permanentAddressParams
+            }
+            await useHRMSApiO(
+                "/api/employee/address",
+                {
+                    method: "POST",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async updateEmployeeAddress (id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/address/" + id,
+                {
+                    method: "PUT",
+                    body: this.permanentAddressParams,
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data
