@@ -1,11 +1,12 @@
 import { defineStore } from "pinia"
 export interface Position {
     id: number,
-    fullname_last: string,
+    name: string,
+    position_type: string,
 }
 export interface Department {
     id: number,
-    fullname_last: string,
+    department_name: string,
 }
 export interface Leave {
     id: number,
@@ -20,8 +21,14 @@ export interface SalaryGrade {
     fullname_last: string,
 }
 export interface UserEmployee {
-    id: number,
-    fullname_last: string,
+    name: String,
+    email: String,
+    type: String,
+    password: String,
+    accessibilities: Array<number>,
+    accessibilities_name: Array<String>,
+    employee_id: Number | null,
+    employee_details: Object,
 }
 export interface Employee {
     id: number,
@@ -96,7 +103,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.positionEnum.list = response._data.data.data
+                            this.positionEnum.list = response._data.data
                         }
                     },
                 }
