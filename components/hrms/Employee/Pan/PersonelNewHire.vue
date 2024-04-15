@@ -1,22 +1,17 @@
 <script setup>
-import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
-import { useSalaryGradeStore } from "~/stores/hrms/setup/salarygrade"
+import { useEnumsStore } from "@/stores/hrms/enum"
+const enums = useEnumsStore()
+enums.getSalarygradeEnums()
+enums.getDepartmentEnums()
 
 const pan = usePersonelActionNotice()
-const department = useDepartmentStore()
-const salaryGrade = useSalaryGradeStore()
 // const salaryGrade = useSalaryGradeStore()
 pan.personelActionNotice.salary_type = "Fixed Rate"
 pan.personelActionNotice.hire_source = "Internal"
 pan.personelActionNotice.employment_status = "Probationary"
 pan.personelActionNotice.work_location = "Office"
-const { departmentList } = storeToRefs(department)
-const { salaryGradeStepList: salaryGradeList } = storeToRefs(salaryGrade)
 
-department.getDepartmentList()
-salaryGrade.getSalarySteps()
 </script>
 <template>
     <tr>
@@ -33,58 +28,39 @@ salaryGrade.getSalarySteps()
                 <label
                     for="panSection"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
-                >SECTION:</label>
-                <select
+                >Department:</label>
+                <HrmsCommonDepartmentSelector
                     id="panSection"
                     v-model="pan.personelActionNotice.section_department_id"
-                    class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
-                >
-                    <option v-for="(dep, index) in departmentList" :key="index" :value="dep.id">
-                        {{ dep.department_name }}
-                    </option>
-                </select>
+                />
             </div>
         </td>
         <td class="border border-slate-300 p-2">
             <div>
                 <label
-                    for="small-input"
+                    for="small-input-Position"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
-                >DESIGNATION:</label>
-                <input
-                    id="small-input"
-                    v-model="pan.personelActionNotice.designation_position"
-                    type="text"
-                    class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
-                >
+                >Position:</label>
+                <HrmsCommonPositionSelector id="small-input-Position" v-model="pan.personelActionNotice.designation_position" />
             </div>
         </td>
         <td class="border border-slate-300 p-2">
             <div>
                 <label
-                    for="small-input"
+                    for="salarygradeSel"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                 >SALARY GRADE:
                 </label>
-                <select
-                    id="panSection"
+                <HrmsCommonSalaryGradeSelector
+                    id="salarygradeSel"
                     v-model="pan.personelActionNotice.salary_grades"
-                    class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
-                >
-                    <option v-for="(salary, index) in salaryGradeList" :key="index" :value="salary.id">
-                        Grade {{ salary.salary_grade_level }} - Step {{ salary.step_name }}
-                    </option>
-                </select>
+                />
             </div>
         </td>
     </tr>
     <tr>
         <td colspan="4">
             <label
-                for="small-input"
                 class="flex text-md font-medium text-blue-700 dark:text-white p-2"
             >EMPLOYEE STATUS: </label>
         </td>

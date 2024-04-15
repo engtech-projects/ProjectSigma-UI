@@ -14,11 +14,15 @@ export interface Leave {
 }
 export interface Project {
     id: number,
-    fullname_last: string,
+    project_monitoring_id: number,
+    project_code: string,
+    contract_name: string,
+    contract_id: string,
 }
 export interface SalaryGrade {
     id: number,
-    fullname_last: string,
+    salary_grade_level: string,
+    step_name: string,
 }
 export interface UserEmployee {
     id: Number | null,
@@ -35,6 +39,8 @@ export interface UserEmployee {
 export interface Employee {
     id: number,
     fullname_last: string,
+    department: any,
+    project: any,
 }
 export const useEnumsStore = defineStore("enums", {
     state: () => ({
@@ -146,8 +152,8 @@ export const useEnumsStore = defineStore("enums", {
             )
         },
         async getProjectEnums () {
-            await useProjectsApiO(
-                "/api/projects/list",
+            await useHRMSApiO(
+                "/api/project-monitoring/list",
                 {
                     method: "GET",
                     params: this.projectEnum.params,
@@ -156,15 +162,15 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.projectEnum.list = response._data.data
+                            this.projectEnum.list = response._data.projects
                         }
                     },
                 }
             )
         },
-        async getSalarygradeEnum () {
+        async getSalarygradeEnums () {
             await useHRMSApiO(
-                "/api/position/list",
+                "/api/salary/list",
                 {
                     method: "GET",
                     params: this.salarygradeEnum.params,
@@ -179,7 +185,7 @@ export const useEnumsStore = defineStore("enums", {
                 }
             )
         },
-        async getUserEmployeeEnum () {
+        async getUserEmployeeEnums () {
             await useHRMSApiO(
                 "/api/employee/users-list",
                 {
@@ -196,30 +202,13 @@ export const useEnumsStore = defineStore("enums", {
                 }
             )
         },
-        async getNonuserEmployeeEnum () {
-            await useHRMSApiO(
-                "/api/position/list",
-                {
-                    method: "GET",
-                    params: this.allEmployeeEnum.params,
-                    onResponseError: ({ response }) => {
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.allEmployeeEnum.list = response._data.data
-                        }
-                    },
-                }
-            )
-        },
         async getEmployeeEnum () {
             await useHRMSApiO(
                 "/api/employee/list",
                 {
                     method: "GET",
                     params: this.allEmployeeEnum.params,
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }) => {
