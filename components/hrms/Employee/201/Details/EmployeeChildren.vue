@@ -86,11 +86,6 @@ const deleteChildData = async () => {
         <label for="employeeinfo" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-4 italic">
             Employee Children Information
         </label>
-        <div class="mt-2">
-            <button v-if="editable" class=" bg-green-600 text-white w-8 h-8" @click="saveEmployeeInformation()">
-                <Icon name="ion:save" color="white" class="rounded h-6 w-6 p-1" />
-            </button>
-        </div>
     </div>
     <table class="w-full border-collapse border border-slate-300 table-fixed">
         <tbody>
@@ -114,7 +109,7 @@ const deleteChildData = async () => {
                         <button v-if="editable && !child.id" class="bg-green-600 text-white" @click="saveUpdateChild()">
                             <Icon name="ion:save" color="white" class="rounded h-6 w-6 p-1" />
                         </button>
-                        <button v-if="editable && child.id" class="bg-yellow-600 text-white" @click="updateChildData()">
+                        <button v-if="editable && child.id" class="bg-yellow-400 text-white" @click="updateChildData()">
                             <Icon name="ion:pencil" color="white" class="rounded h-6 w-6 p-1" />
                         </button>
                         <button v-if="editable && child.id" class="bg-red-600 text-white" @click="deleteChildData()">
