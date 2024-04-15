@@ -45,7 +45,7 @@ export function useHRMSApi<T> (url: string, options: AsyncDataOptions<T>|UseFetc
     const params = defu(options, defaults)
     return useFetch(url, params)
 }
-export function useHRMSApiO (url: string, params: any) {
+export function useHRMSApiO<T> (url: string, params: AsyncDataOptions<T>|UseFetchOptions<T>) {
     const ofetchApi = ofetch.create({
         baseURL: config.public.HRMS_API_URL,
         headers: {
