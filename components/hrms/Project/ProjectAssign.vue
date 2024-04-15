@@ -1,23 +1,18 @@
 <script setup>
-import { useEnumsStore } from "@/stores/hrms/enum"
+// import { useEnumsStore } from "@/stores/hrms/enum"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
+// const enums = useEnumsStore()
 const { list: projectList, information } = storeToRefs(projects)
-const rowsPerPage = ref(10)
-const enums = useEnumsStore()
-const { employeeEnum } = storeToRefs(enums)
+// const { projectEnum } = storeToRefs(enums)
 
 const selectedEmployees = ref([])
 
-const headers = [
-    {
-        text: "Employee Name", value: "fullname_last",
-    },
-]
 const showProjectInformation = async () => {
     await projects.getProjectInformation(projects.information.id)
     await projects.projectMemberList(projects.information.id)
+    selectedEmployees.value = information.value.employees.project_members_ids
 }
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -25,8 +20,7 @@ const boardLoading = ref(false)
 const attach = async () => {
     try {
         boardLoading.value = true
-        const employeeIds = selectedEmployees.value.map(emp => emp.id)
-        await projects.attachEmployee(projects.information.id, employeeIds)
+        await projects.attachEmployee(projects.information.id, selectedEmployees)
 
         if (projects.errorMessage !== "") {
             snackbar.add({
@@ -65,13 +59,7 @@ const attach = async () => {
                         </option>
                     </select>
                 </div>
-                <EasyDataTable
-                    v-model:items-selected="selectedEmployees"
-                    :rows-per-page="rowsPerPage"
-                    class="mt-5"
-                    :headers="headers"
-                    :items="employeeEnum.list"
-                />
+                <HrmsEmployeeSelector v-model="selectedEmployees" />
                 <div class="max-w-full flex flex-row-reverse mt-5">
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Assign Employee
@@ -80,7 +68,7 @@ const attach = async () => {
             </form>
         </div>
     </LayoutBoards>
-    <LayoutBoards title="Project Information" class="w-3/4" :loading="boardLoading">
+    <LayoutBoards v-if="information" title="Project Information" class="w-3/4" :loading="boardLoading">
         <div class="w-full m-2 flex justify-between">
             <p class="text-3xl font-light">
                 {{ information.project_identifier }} <span class="text-sm font-thin">Code : <span class="text-cyan-700">{{ information.project_code }}</span> </span>

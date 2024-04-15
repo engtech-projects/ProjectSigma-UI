@@ -1,50 +1,72 @@
 import { defineStore } from "pinia"
+export interface Position {
+    id: number,
+    fullname_last: string,
+}
+export interface Department {
+    id: number,
+    fullname_last: string,
+}
+export interface Leave {
+    id: number,
+    fullname_last: string,
+}
+export interface Project {
+    id: number,
+    fullname_last: string,
+}
+export interface SalaryGrade {
+    id: number,
+    fullname_last: string,
+}
+export interface UserEmployee {
+    id: number,
+    fullname_last: string,
+}
+export interface Employee {
+    id: number,
+    fullname_last: string,
+}
 export const useEnumsStore = defineStore("enums", {
     state: () => ({
         positionEnum: {
-            list: [],
+            list: [] as Position[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         departmentEnum: {
-            list: [],
+            list: [] as Department[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         leaveEnum: {
-            list: [],
+            list: [] as Leave[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         projectEnum: {
-            list: [],
+            list: [] as Project[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         salarygradeEnum: {
-            list: [],
+            list: [] as SalaryGrade[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         userEmployeeEnum: {
-            list: [],
+            list: [] as UserEmployee[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
-        nonuserEmployeeEnum: {
-            list: [],
-            params: {},
-            successMessage: "",
-            errorMessage: "",
-        },
-        employeeEnum: {
-            list: [],
+        allEmployeeEnum: {
+            list: [] as Employee[],
             params: {
                 filterType: "",
                 filterData: "",
@@ -57,8 +79,8 @@ export const useEnumsStore = defineStore("enums", {
 
     getters: {
         filteredEmployeesList (state) : any[] {
-            return state.employeeEnum.list.filter((employee:any) => {
-                return employee.fullname_last.includes(state.employeeEnum.filter)
+            return state.allEmployeeEnum.list.filter((employee:any) => {
+                return employee.fullname_last.includes(state.allEmployeeEnum.filter)
             })
         },
     },
@@ -82,7 +104,7 @@ export const useEnumsStore = defineStore("enums", {
         },
         async getDepartmentEnums () {
             await useHRMSApiO(
-                "/api/department-list",
+                "/api/department/list",
                 {
                     method: "GET",
                     params: this.departmentEnum.params,
@@ -114,9 +136,9 @@ export const useEnumsStore = defineStore("enums", {
                 }
             )
         },
-        async getProjectEnum () {
-            await useHRMSApiO(
-                "/api/position/list",
+        async getProjectEnums () {
+            await useProjectsApiO(
+                "/api/projects/list",
                 {
                     method: "GET",
                     params: this.projectEnum.params,
@@ -170,13 +192,13 @@ export const useEnumsStore = defineStore("enums", {
                 "/api/position/list",
                 {
                     method: "GET",
-                    params: this.nonuserEmployeeEnum.params,
+                    params: this.allEmployeeEnum.params,
                     onResponseError: ({ response }) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.nonuserEmployeeEnum.list = response._data.data.data
+                            this.allEmployeeEnum.list = response._data.data.data
                         }
                     },
                 }
@@ -187,13 +209,13 @@ export const useEnumsStore = defineStore("enums", {
                 "/api/employee/list",
                 {
                     method: "GET",
-                    params: this.employeeEnum.params,
+                    params: this.allEmployeeEnum.params,
                     onResponseError: ({ response }) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.employeeEnum.list = response._data.data
+                            this.allEmployeeEnum.list = response._data.data
                         }
                     },
                 }

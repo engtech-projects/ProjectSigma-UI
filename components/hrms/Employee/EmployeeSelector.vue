@@ -1,13 +1,12 @@
-<script setup>
+<script lang="ts" setup>
 import { useEnumsStore } from "@/stores/hrms/enum"
 const enums = useEnumsStore()
-const { employeeEnum, projectEnum, departmentEnum } = storeToRefs(enums)
+const { allEmployeeEnum, projectEnum, departmentEnum } = storeToRefs(enums)
 const model = defineModel({ required: true, type: Array<Number> })
 </script>
 <template>
     <div>
-        Filters Here
-        <select v-model="employeeEnum.params.filterType">
+        <select v-model="allEmployeeEnum.params.filterType">
             <option value="Project">
                 Project
             </option>
@@ -15,17 +14,17 @@ const model = defineModel({ required: true, type: Array<Number> })
                 Department
             </option>
         </select>
-        <select v-model="employeeEnum.params.filterData">
+        <select v-if="allEmployeeEnum.params.filterType === 'Department'" v-model="allEmployeeEnum.params.filterData">
             <option value="">
-                All
+                All Departments
             </option>
             <option v-for="deps, vfkey in departmentEnum.list" :key="vfkey">
                 {{ deps.name }}
             </option>
         </select>
-        <select v-model="employeeEnum.params.filterData">
+        <select v-if="allEmployeeEnum.params.filterType === 'Project'" v-model="allEmployeeEnum.params.filterData">
             <option value="">
-                All
+                All Projects
             </option>
             <option v-for="proj, vfkey in projectEnum.list" :key="vfkey">
                 {{ proj.name }}
@@ -34,14 +33,14 @@ const model = defineModel({ required: true, type: Array<Number> })
 
         <table>
             <tr>
-                <th>Name</th>
+                <th>Employee Name</th>
             </tr>
-            <tr v-for="employee, vfkey in employeeEnum.list" :key="vfkey">
+            <tr v-for="employee, vfkey in enums.filteredEmployeesList" :key="vfkey">
                 <td>
-                    <input v-model="model" type="checkbox" name="employeeSelectorCheckBoxes" :value="employee.fullname_last">
+                    <input v-model="model" type="checkbox" name="employeeSelectorCheckBoxes" :value="employee.id">
+                    <label :for="'employeeSelectorCheckBox'+vfkey">{{ employee.fullname_last }}</label>
                 </td>
             </tr>
         </table>
-        <h1>Hello World</h1>
     </div>
 </template>

@@ -10,7 +10,7 @@ import { useApprovalStore, APPROVAL_OVERTIME } from "@/stores/hrms/setup/approva
 const { data: userData } = useAuth()
 
 const enums = useEnumsStore()
-const { employeeEnum } = storeToRefs(enums)
+const { allEmployeeEnum } = storeToRefs(enums)
 
 const departments = useDepartmentStore()
 const { departmentsList } = storeToRefs(departments)
@@ -102,7 +102,7 @@ const submitForm = async () => {
                             :rows-per-page="10"
                             class="mt-5"
                             :headers="headers"
-                            :items="employeeEnum.list"
+                            :items="allEmployeeEnum.list"
                         />
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">

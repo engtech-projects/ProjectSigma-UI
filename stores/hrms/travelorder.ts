@@ -17,7 +17,7 @@ export const useTravelorderStore = defineStore("travels", {
         travel: {
             id: null,
             name: "",
-            employees: [] as any[],
+            employee_ids: [] as any[],
             requesting_office: null,
             destination: null,
             purpose_of_travel: "",

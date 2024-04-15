@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import type { Item, Header } from "vue3-easy-data-table"
-import { useEnumsStore } from "@/stores/hrms/enum"
 import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
 const { data: userData } = useAuth()
-
-const enums = useEnumsStore()
-const { employeeEnum } = storeToRefs(enums)
 
 const departments = useDepartmentStore()
 const { departmentsList } = storeToRefs(departments)
@@ -22,13 +17,6 @@ travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-const selectedEmployees = ref<Item[]>([])
-
-const headers: Header[] = [
-    {
-        text: "Employee Name", value: "fullname_last",
-    },
-]
 
 const cancelEdit = () => {
     travels.$reset()
@@ -36,7 +24,6 @@ const cancelEdit = () => {
 const editRequest = async () => {
     try {
         boardLoading.value = true
-        travel.value.employees = selectedEmployees.value.map(emp => emp.id)
         await travels.editRequest()
         snackbar.add({
             type: "success",
@@ -60,14 +47,7 @@ const editRequest = async () => {
             <form @submit.prevent="editRequest">
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label for="name" class="text-sm italic font-semibold text-gray-700">Name</label>
-                        <EasyDataTable
-                            v-model:items-selected="selectedEmployees"
-                            class="mt-3"
-                            rows-per-page="10"
-                            :headers="headers"
-                            :items="employeeEnum.list"
-                        />
+                        <HrmsEmployeeSelector v-model="travel.employee_ids" />
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">
                         <div>
