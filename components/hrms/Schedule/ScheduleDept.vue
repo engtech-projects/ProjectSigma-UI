@@ -5,11 +5,8 @@ import interactionPlugin from "@fullcalendar/interaction"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
 // import VueDatePicker from "@vuepic/vue-datepicker"
-import { useDepartmentStore } from "~/stores/hrms/setup/departments"
 import "@vuepic/vue-datepicker/dist/main.css"
 const utils = useUtilities()
-const departmentStore = useDepartmentStore()
-departmentStore.getDepartment()
 const snackbar = useSnackbar()
 const { token } = useAuth()
 const config = useRuntimeConfig()
@@ -230,9 +227,6 @@ async function handleSubmit () {
         }
     )
 }
-const departmentsList = computed(() => {
-    return departmentStore.list
-})
 
 const fCalendar = ref()
 onMounted(() => {
