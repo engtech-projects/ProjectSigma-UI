@@ -1,5 +1,4 @@
 <script setup>
-import { VueSignaturePad } from "vue-signature-pad"
 import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 const employee = useEmployeeInfo()
@@ -95,7 +94,6 @@ const setEdit = () => {
                 </div>
                 <div id="employeeId" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="docsmemo-tab">
                     <HrmsEmployee201IdentificationCard />
-                    <VueSignaturePad />
                 </div>
             </div>
         </div>

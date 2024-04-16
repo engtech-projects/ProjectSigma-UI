@@ -750,7 +750,7 @@ export const useEmployeeInfo = defineStore("employee", {
             await useHRMSApiO(
                 "/api/employee/companyemployment/" + id,
                 {
-                    method: "DELETE",
+                    method: "PUT",
                     body: params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
