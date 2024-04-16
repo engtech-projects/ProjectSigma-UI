@@ -77,7 +77,6 @@ const savePan = async () => {
                     <tbody>
                         <tr>
                             <td colspan="4" class="border border-slate-300 p-2">
-                                {{ pan.personelActionNotice.type }}
                                 <div class="md:flex gap-2 space-x-2 p-2">
                                     <input id="newhire" v-model="pan.personelActionNotice.type" class="" type="radio" value="New Hire">
                                     <label
