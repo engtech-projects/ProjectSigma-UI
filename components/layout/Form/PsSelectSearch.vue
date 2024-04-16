@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 const props = defineProps({
+    placeholder: {
+        type: String,
+        default: "Search",
+    },
     title: {
         type: String,
         default: "",
@@ -25,7 +29,7 @@ function selectOption (option: any) {
 <template>
     <div class="border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer">
         <div class="flex flex-1 items-center overflow-hidden py-[9px]" @click="toggleDD">
-            <span class="flex-1">{{ result ? result[title] : '' }}</span>
+            <span class="flex-1">{{ result ? result[title] : placeholder }}</span>
             <Icon name="iconoir:nav-arrow-down" class="font-bold text-xl" />
         </div>
         <div
