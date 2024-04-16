@@ -6,10 +6,10 @@ const employee = useEmployeeInfo()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-const updateEmployeeAddress = async (id) => {
+const updateEmployeeAddress = async (id, params) => {
     boardLoading.value = true
     try {
-        await employee.updateEmployeeAddress(id)
+        await employee.updateEmployeeAddress(id, params)
         snackbar.add({
             type: "success",
             text: employee.successMessage
@@ -23,11 +23,12 @@ const updateEmployeeAddress = async (id) => {
         boardLoading.value = false
     }
 }
-
-const saveEmployeeAddress = async (category) => {
+const saveEmployeeAddress = async (params) => {
     boardLoading.value = true
+    params.type = "permanent"
+    params.employee_id = employee.information.id
     try {
-        await employee.saveEmployeeAddress(category)
+        await employee.saveEmployeeAddress(params)
         snackbar.add({
             type: "success",
             text: employee.successMessage
@@ -49,10 +50,10 @@ const { editable } = storeToRefs(employee)
             Employee Permanent Address
         </label>
         <div v-if="editable" class="mt-2">
-            <button v-if="employee.permanentAddressParams.id" class=" bg-yellow-400 text-white w-8 h-8" @click="updateEmployeeAddress(employee.permanentAddressParams.id)">
+            <button v-if="employee.permanentAddressParams.id" class=" bg-yellow-400 text-white w-8 h-8" @click="updateEmployeeAddress(employee.permanentAddressParams.id, employee.permanentAddressParams)">
                 <Icon name="ion:pencil" color="white" class="rounded h-6 w-6 p-1" />
             </button>
-            <button v-else class=" bg-green-600 text-white w-8 h-8" @click="saveEmployeeAddress('permanent')">
+            <button v-else class=" bg-green-600 text-white w-8 h-8" @click="saveEmployeeAddress(employee.permanentAddressParams)">
                 <Icon name="ion:save" color="white" class="rounded h-6 w-6 p-1" />
             </button>
         </div>

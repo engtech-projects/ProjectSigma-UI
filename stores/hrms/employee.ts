@@ -146,6 +146,9 @@ export interface EmployeeEducationModel {
     period_attendance_to: String,
     period_attendance_from: String,
     year_graduated: String,
+    type:String,
+    honors_received: String,
+    employee_id: Number
 }
 
 export interface EmployeeGraduateStudiesEducationModel {
@@ -257,10 +260,10 @@ value: any
     masterstudies: Array<StudiesModel>,
     doctorstudies: Array<StudiesModel>,
     professionalstudies: Array<StudiesModel>,
-    employee_education_elementary: Array<EmployeeEducationModel>,
-    employee_education_secondary: Array<EmployeeEducationModel>,
-    employee_education_vocationalcourse: Array<EmployeeEducationModel>,
-    employee_education_college: Array<EmployeeEducationModel>,
+    employee_education_elementary:EmployeeEducationModel,
+    employee_education_secondary: EmployeeEducationModel,
+    employee_education_vocationalcourse: EmployeeEducationModel,
+    employee_education_college: EmployeeEducationModel,
     employee_education_graduatestudies: Array<EmployeeGraduateStudiesEducationModel>,
     employee_eligibility: Array<EmploymentEligibility>,
     employee_seminartraining: Array<EmployeeSeminarTraining>,
@@ -329,10 +332,10 @@ export const useEmployeeInfo = defineStore("employee", {
             masterstudies: [] as Array<StudiesModel>,
             doctorstudies: [] as Array<StudiesModel>,
             professionalstudies: [] as Array<StudiesModel>,
-            employee_education_elementary: [] as Array<EmployeeEducationModel>,
-            employee_education_secondary: [] as Array<EmployeeEducationModel>,
-            employee_education_vocationalcourse: [] as Array<EmployeeEducationModel>,
-            employee_education_college: [] as Array<EmployeeEducationModel>,
+            employee_education_elementary: {} as EmployeeEducationModel,
+            employee_education_secondary: {} as EmployeeEducationModel,
+            employee_education_vocationalcourse: {} as EmployeeEducationModel,
+            employee_education_college: {} as EmployeeEducationModel,
             employee_education_graduatestudies: [] as Array<EmployeeGraduateStudiesEducationModel>,
             employee_eligibility: [] as Array<EmploymentEligibility>,
             employee_seminartraining: [] as Array<EmployeeSeminarTraining>,
@@ -562,7 +565,7 @@ export const useEmployeeInfo = defineStore("employee", {
                 return data
             }
         },
-        async saveChildData (formData : FormData) {
+        async saveRelatedPerson (formData : FormData) {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
@@ -582,7 +585,7 @@ export const useEmployeeInfo = defineStore("employee", {
                 }
             )
         },
-        async updateChildData (formData : FormData, id: any) {
+        async updateRelatedPerson (formData : FormData, id: any) {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
@@ -602,7 +605,7 @@ export const useEmployeeInfo = defineStore("employee", {
                 }
             )
         },
-        async deleteChildData (id: number) {
+        async deleteRelatedPerson (id: any) {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
@@ -641,19 +644,9 @@ export const useEmployeeInfo = defineStore("employee", {
                 }
             )
         },
-        async saveEmployeeAddress (category: any) {
+        async saveEmployeeAddress (params: any) {
             this.successMessage = ""
             this.errorMessage = ""
-            let params = {}
-            if (category === "present") {
-                this.presentAddressParams.employee_id = this.information.id
-                this.presentAddressParams.type = "present"
-                params = this.presentAddressParams
-            } else {
-                this.permanentAddressParams.employee_id = this.information.id
-                this.permanentAddressParams.type = "permanent"
-                params = this.permanentAddressParams
-            }
             await useHRMSApiO(
                 "/api/employee/address",
                 {
@@ -671,13 +664,73 @@ export const useEmployeeInfo = defineStore("employee", {
                 }
             )
         },
-        async updateEmployeeAddress (id: any) {
+        async updateEmployeeAddress (id: any, params: any) {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
                 "/api/employee/address/" + id,
                 {
                     method: "PUT",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async saveEmployeeSchool (params: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/education",
+                {
+                    method: "POST",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async updateEmployeeSchool (id: any, params: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/education/" + id,
+                {
+                    method: "PUT",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async deleteEmployeeSchool (id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/address/" + id,
+                {
+                    method: "DELETE",
                     body: this.permanentAddressParams,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
@@ -690,6 +743,46 @@ export const useEmployeeInfo = defineStore("employee", {
                     },
                 }
             )
-        }
+        },
+        async updateEmployeeCompanyInfo (params: any, id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/companyemployment/" + id,
+                {
+                    method: "DELETE",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async saveEmployeeCompanyInfo (params: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/companyemployment",
+                {
+                    method: "POST",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
     },
 })

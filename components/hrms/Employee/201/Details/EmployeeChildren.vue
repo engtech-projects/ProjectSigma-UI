@@ -36,7 +36,7 @@ const saveUpdateChild = async () => {
     try {
         const formData = new FormData()
         formData.append("children", information.value.child)
-        await employee.saveChildData(formData)
+        await employee.saveRelatedPerson(formData)
         snackbar.add({
             type: "success",
             text: employee.successMessage
@@ -52,7 +52,7 @@ const updateChildData = async (id) => {
     try {
         const formData = new FormData()
         formData.append("children", information.value.child)
-        await employee.updateChildData(formData, id)
+        await employee.updateRelatedPerson(formData, id)
         snackbar.add({
             type: "success",
             text: employee.successMessage
@@ -68,7 +68,7 @@ const deleteChildData = async () => {
     try {
         const formData = new FormData()
         formData.append("children", information.value.child)
-        await employee.saveOrUpdateChild(formData)
+        await employee.deleteRelatedPerson(formData)
         snackbar.add({
             type: "success",
             text: employee.successMessage
