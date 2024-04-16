@@ -4,7 +4,6 @@ import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
 const { data: userData } = useAuth()
 
-
 const approvals = useApprovalStore()
 
 const travels = useTravelorderStore()
