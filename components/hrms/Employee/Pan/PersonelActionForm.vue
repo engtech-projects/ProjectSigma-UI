@@ -186,6 +186,11 @@ const savePan = async () => {
                         </tr>
 
                         <tr>
+                            <td colspan="1">
+                                <HrmsCommonRequestedBy />
+                            </td>
+                        </tr>
+                        <tr>
                             <td colspan="4">
                                 <label
                                     for="small-input"
@@ -196,14 +201,6 @@ const savePan = async () => {
                         <tr>
                             <td colspan="4">
                                 <HrmsEmployeePanPersonelApproval class="w-full" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="1">
-                                <label
-                                    for="small-input"
-                                    class="flex justify-left pt-4 px-4 text-md font-medium text-blue-700 dark:text-white"
-                                >CREATED BY: {{ userData.name }}</label>
                             </td>
                         </tr>
                         <tr>
