@@ -86,7 +86,7 @@ export const useEnumsStore = defineStore("enums", {
                 filterType: "",
                 filterData: "",
             },
-            filter: "",
+            nameFilter: "",
             successMessage: "",
             errorMessage: "",
         },
@@ -95,7 +95,17 @@ export const useEnumsStore = defineStore("enums", {
     getters: {
         filteredEmployeesList (state) : any[] {
             return state.allEmployeeEnum.list.filter((employee:any) => {
-                return employee.fullname_last.includes(state.allEmployeeEnum.filter)
+                return employee.fullname_last.includes(state.allEmployeeEnum.nameFilter) &&
+                (
+                    (
+                        state.allEmployeeEnum.params.filterType === "Department" &&
+                        employee.department.id === state.allEmployeeEnum.params.filterData
+                    ) ||
+                    (
+                        state.allEmployeeEnum.params.filterType === "Project" &&
+                        employee.project.id === state.allEmployeeEnum.params.filterData
+                    )
+                )
             })
         },
     },

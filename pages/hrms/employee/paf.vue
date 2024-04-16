@@ -1,5 +1,12 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
+import { useEnumsStore } from "@/stores/hrms/enum"
+const enums = useEnumsStore()
+enums.getSalarygradeEnums()
+enums.getDepartmentEnums()
+enums.getPositionEnums()
+enums.getEmployeeEnum()
+enums.getUserEmployeeEnums()
 useHead({
     title: "Personal Action Notice",
 })

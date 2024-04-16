@@ -89,7 +89,6 @@ const setEdit = () => {
                 <div id="staff" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="staff-tab">
                     <HrmsEmployee201StaffInfoSheet />
                 </div>
-
                 <div id="docsmemo" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="docsmemo-tab">
                     <HrmsEmployee201DocumentsMemo />
                 </div>

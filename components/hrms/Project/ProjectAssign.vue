@@ -9,7 +9,7 @@ const { information } = storeToRefs(projects)
 
 const selectedEmployees = ref([])
 
-watch(information.id, async () => {
+watch(information.value.id, async () => {
     await promise.all([
         projects.getProjectInformation(projects.information.id),
         projects.projectMemberList(projects.information.id)

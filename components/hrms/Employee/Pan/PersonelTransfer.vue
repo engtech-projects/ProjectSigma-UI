@@ -1,11 +1,8 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 const pan = usePersonelActionNotice()
-const department = useDepartmentStore()
 const employee = useEmployeeInfo()
-const { departmentList } = storeToRefs(department)
 
 </script>
 <template>
@@ -30,19 +27,13 @@ const { departmentList } = storeToRefs(department)
         <td colspan="2" class="border border-slate-300 p-2">
             <div>
                 <label
-                    for="small-input"
+                    for="transferDepartment"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                 >New Department:</label>
-                <select
-                    id="panSection"
+                <HrmsCommonDepartmentSelector
+                    id="transferDepartment"
                     v-model="pan.personelActionNotice.new_section_id"
-                    class="w-full "
-                    required
-                >
-                    <option v-for="(dep, index) in departmentList" :key="index" :value="dep.id">
-                        {{ dep.department_name }}
-                    </option>
-                </select>
+                />
             </div>
         </td>
     </tr>

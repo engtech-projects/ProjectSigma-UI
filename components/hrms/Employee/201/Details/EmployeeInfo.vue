@@ -2,10 +2,28 @@
 import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+
 const employee = useEmployeeInfo()
-const saveEmployeeInformation = () => {
-    return true
+const updateEmployeeInformation = async (id) => {
+    boardLoading.value = true
+    try {
+        await employee.updateEmployeeInformation(id)
+        snackbar.add({
+            type: "success",
+            text: employee.successMessage
+        })
+        boardLoading.value = false
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error
+        })
+        boardLoading.value = false
+    }
 }
+
 const { information, editable } = storeToRefs(employee)
 </script>
 <template>
@@ -14,7 +32,7 @@ const { information, editable } = storeToRefs(employee)
             Employee Information
         </label>
         <div class="mt-2">
-            <button v-if="editable " class=" bg-green-600 text-white w-8 h-8" @click="saveEmployeeInformation()">
+            <button v-if="editable " class=" bg-green-600 text-white w-8 h-8" @click="updateEmployeeInformation(information.id)">
                 <Icon name="ion:save" color="white" class="rounded h-6 w-6 p-1" />
             </button>
         </div>

@@ -1,9 +1,5 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
-import { useEnumsStore } from "@/stores/hrms/enum"
-const enums = useEnumsStore()
-enums.getSalarygradeEnums()
-enums.getDepartmentEnums()
 
 const pan = usePersonelActionNotice()
 // const salaryGrade = useSalaryGradeStore()
@@ -41,7 +37,10 @@ pan.personelActionNotice.work_location = "Office"
                     for="small-input-Position"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                 >Position:</label>
-                <HrmsCommonPositionSelector id="small-input-Position" v-model="pan.personelActionNotice.designation_position" />
+                <HrmsCommonPositionSelector
+                    id="small-input-Position"
+                    v-model="pan.personelActionNotice.designation_position"
+                />
             </div>
         </td>
         <td class="border border-slate-300 p-2">
