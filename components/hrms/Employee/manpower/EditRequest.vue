@@ -1,11 +1,8 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useManpowerStore, EMPLOYMENT_TYPE, NATURE_REQUESTS, STATUS, GENDER } from "@/stores/hrms/employee/manpower"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 
 const { data: userData } = useAuth()
-const departments = useDepartmentStore()
-const { departmentsList } = storeToRefs(departments)
 const manpowers = useManpowerStore()
 const { manpower, errorMessage, successMessage } = storeToRefs(manpowers)
 
