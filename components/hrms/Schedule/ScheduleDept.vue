@@ -247,7 +247,6 @@ onMounted(() => {
         }
     })
     fetchSchedules()
-    departmentStore.getDepartmentList()
 })
 watch(successMessage, (msg) => {
     if (msg !== "") {
@@ -283,14 +282,10 @@ watch(errorMessage, (msg) => {
                 >
             </div>
             <div class="p-4" :class="isEdit? 'border-t-8 border-green-500 rounded-md' : ''">
-                <select id="schedule" v-model="newEvent.department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required @change="loadEvents">
-                    <option value="" disabled selected>
-                        -- SELECT --
-                    </option>
-                    <option v-for="d in departmentsList" :key="d.id" :value="d.id">
-                        {{ d.department_name }}
-                    </option>
-                </select>
+                <HrmsCommonDepartmentSelector
+                    id="schedule"
+                    v-model="newEvent.department_id"
+                />
             </div>
 
             <div class="p-4">
