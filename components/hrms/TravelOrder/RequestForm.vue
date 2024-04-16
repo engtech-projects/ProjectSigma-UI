@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
 const { data: userData } = useAuth()
 
-const departments = useDepartmentStore()
-const { departmentsList } = storeToRefs(departments)
 
 const approvals = useApprovalStore()
 
