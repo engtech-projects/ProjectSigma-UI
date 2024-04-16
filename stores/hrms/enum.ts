@@ -99,11 +99,11 @@ export const useEnumsStore = defineStore("enums", {
                 (
                     (
                         state.allEmployeeEnum.params.filterType === "Department" &&
-                        employee.department.department_name === state.allEmployeeEnum.params.filterData
+                        employee.department.id === state.allEmployeeEnum.params.filterData
                     ) ||
                     (
                         state.allEmployeeEnum.params.filterType === "Project" &&
-                        employee.project.project_code === state.allEmployeeEnum.params.filterData
+                        employee.project.id === state.allEmployeeEnum.params.filterData
                     )
                 )
             })
