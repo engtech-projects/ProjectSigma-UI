@@ -5,12 +5,9 @@ import interactionPlugin from "@fullcalendar/interaction"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
 // import VueDatePicker from "@vuepic/vue-datepicker"
-import { useDepartmentStore } from "~/stores/hrms/setup/departments"
 import "@vuepic/vue-datepicker/dist/main.css"
 import { useEmployeeInfo } from "~/stores/hrms/employee"
 const utils = useUtilities()
-const departmentStore = useDepartmentStore()
-departmentStore.getDepartment()
 const snackbar = useSnackbar()
 const { token } = useAuth()
 const config = useRuntimeConfig()
@@ -80,23 +77,17 @@ const calendarOptions = ref({
 
 async function fetchSchedules () {
     isCalendarLoading.value = true
-    await useFetch(
+    await useHRMSApi(
         "/api/schedule",
         {
-            baseURL: config.public.HRMS_API_URL,
-            method: "GET",
-            headers: {
-                Authorization: token.value + "",
-                Accept: "application/json"
-            },
             watch: false,
             onResponse: ({ response }) => {
                 isCalendarLoading.value = false
-                if (response.status !== 200) {
+                if (response.ok) {
                     errorMessage.value = response._data.message
                 } else {
                     events.value = []
-                    response._data.data.forEach((ev) => {
+                    response._data.data.forEach((ev: any) => {
                         if (ev.groupType === "employee") {
                             ev.daysOfWeek = JSON.parse(ev.daysOfWeek)
                             events.value.push(ev)
@@ -228,9 +219,6 @@ async function handleSubmit () {
         }
     )
 }
-const departmentsList = computed(() => {
-    return departmentStore.list
-})
 
 const employeeInfo = useEmployeeInfo()
 employeeInfo.getEmployeeList()
@@ -264,7 +252,6 @@ onMounted(() => {
         }
     })
     fetchSchedules()
-    departmentStore.getDepartmentList()
 })
 watch(successMessage, (msg) => {
     if (msg !== "") {
@@ -301,14 +288,10 @@ watch(errorMessage, (msg) => {
             </div>
             <div class="p-4 flex flex-col gap-4" :class="isEdit? 'border-t-8 border-green-500 rounded-md' : ''">
                 <AccountingSelectSearch :options="employeeList" title="fullName" opid="id" :selected-id="employee.id" @select="selectEmployee" />
-                <select id="schedule" v-model="newEvent.department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required @change="loadEvents">
-                    <option value="" disabled selected>
-                        -- SELECT --
-                    </option>
-                    <option v-for="d in departmentsList" :key="d.id" :value="d.id" @chane="loadEvents">
-                        {{ d.department_name }}
-                    </option>
-                </select>
+                <HrmsCommonDepartmentSelector
+                    id="schedule"
+                    v-model="newEvent.department_id"
+                />
             </div>
 
             <div class="p-4">

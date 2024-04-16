@@ -1,3 +1,12 @@
+<script setup>
+defineProps({
+    employees: {
+        type: Array,
+        required: true,
+    },
+})
+const date = ref()
+</script>
 <template>
     <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex flex-col justify-evenly gap-2">
@@ -23,12 +32,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-defineProps({
-    employees: {
-        type: Array,
-        required: true,
-    },
-})
-</script>

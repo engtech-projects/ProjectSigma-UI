@@ -44,13 +44,13 @@ const login = async () => {
         })
         snackbar.add({
             type: "success",
-            text: userCredentials.response = response.message
+            text: response.message
         })
         // userCredentials.response = response.message
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: userCredentials.response = error.data.message
+            text: error
         })
         // userCredentials.response = error.data.message
     } finally {

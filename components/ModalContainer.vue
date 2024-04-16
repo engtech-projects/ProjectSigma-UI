@@ -74,7 +74,7 @@ const hideModal = () => {
     .modal-md {
         width: 40rem
     }
-    .modal-l {
+    .modal-lg {
         width: 50rem
     }
     .modal-xl {

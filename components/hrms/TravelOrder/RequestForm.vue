@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
-const { data: userData } = useAuth()
-
-const departments = useDepartmentStore()
-const { departmentsList } = storeToRefs(departments)
 
 const approvals = useApprovalStore()
 
@@ -52,24 +47,16 @@ const submitForm = async () => {
                 <div class="grid grid-cols-2 gap-2">
                     <div class="flex-1">
                         <div>
-                            <HrmsCommonEmployeeSelector v-model="travel.employee_ids" />
+                            <HrmsCommonMultipleEmployeeSelector v-model="travel.employee_ids" />
                         </div>
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">
                         <div>
                             <label for="requestingOffice" class="text-sm italic font-semibold text-gray-700">Requesting Office</label>
-                            <select
+                            <HrmsCommonDepartmentSelector
                                 id="department"
                                 v-model="travel.requesting_office"
-                                class="w-full rounded-lg bg-slate-100 border border-slate-300 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                            >
-                                <option value="" disabled selected>
-                                    Choose Department
-                                </option>
-                                <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
-                                    {{ dpt.department_name }}
-                                </option>
-                            </select>
+                            />
                         </div>
                         <div>
                             <LayoutFormPsTextInput v-model="travel.destination" title="Destination" />
@@ -100,13 +87,7 @@ const submitForm = async () => {
                             <LayoutFormPsTextInput v-model="travel.remarks" title="Remarks" />
                         </div>
                         <div>
-                            <label for="requestedBy" class="text-sm italic font-semibold text-gray-700">Requested By</label>
-                            <input
-                                :value="userData.name"
-                                type="number"
-                                disabled
-                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            >
+                            <HrmsCommonRequestedBy title="Prepared by" />
                         </div>
                     </div>
                 </div>

@@ -62,29 +62,13 @@ export const useUserStore = defineStore("users", {
         successMessage: "",
     }),
     actions: {
-        async getUserEmployees () {
-            await useHRMSApi(
-                "/api/employee/users-list",
-                {
-                    method: "GET",
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) { // Success
-                            this.employeeUserList = response._data.data
-                        } else { // Error
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
         async createEmployeeAccount () {
             await useHRMSApiO(
                 "/api/users",
                 {
                     method: "POST",
                     params: this.createData.params,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response } : any) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.$reset()
                             this.createData.successMessage = response._data.message

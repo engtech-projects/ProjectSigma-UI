@@ -1,7 +1,6 @@
 <script setup>
 import { useEmployeeInfo } from "~/stores/hrms/employee"
 import { useApprovalStore } from "~/stores/hrms/setup/approvals"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 import {
@@ -18,13 +17,12 @@ import {
     EMPLOYEE_APPROVAL_REQ,
     EMPLOYEE_REQUEST_TYPE_PENDING
 } from "~/stores/hrms/leaveRequest"
-const departments = useDepartmentStore()
+
 const employee = useEmployeeInfo()
 const approval = useApprovalStore()
 const leaveRequest = useLeaveRequest()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-departments.getDepartmentList()
 const projects = useProjectStore()
 const { list: projectList } = storeToRefs(projects)
 projects.getProject()
@@ -32,7 +30,6 @@ leaveRequest.payload.type = EMPLOYEE_VACATION
 leaveRequest.payload.with_pay = EMPLOYEE_WITH_PAY
 leaveRequest.payload.request_status = EMPLOYEE_REQUEST_TYPE_PENDING
 leaveRequest.payload.approvals = await approval.getApprovalByName(EMPLOYEE_APPROVAL_REQ)
-const { departmentList } = storeToRefs(departments)
 const headers = [
     { text: "CREDITS", value: "credits" },
     { text: "EARNED", value: "earned" },
@@ -105,16 +102,10 @@ const submitAdd = async () => {
                             for="leaveDepartmentSection"
                             class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                         >Department:</label>
-                        <select
+                        <HrmsCommonDepartmentSelector
                             id="leaveDepartmentSection"
                             v-model="leaveRequest.payload.department_id"
-                            class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            required
-                        >
-                            <option v-for="(dep, index) in departmentList" :key="index" :value="dep.id">
-                                {{ dep.department_name }}
-                            </option>
-                        </select>
+                        />
                     </div>
                 </div>
                 <div class="mb-6">

@@ -54,7 +54,6 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
         } as SalaryGrade,
         list: [] as SalaryGrade[],
         pagination: {},
-        salaryGradeStepList: [] as SalaryGradeStep[],
         getParams: {},
         errorMessage: "",
         successMessage: "",
@@ -75,24 +74,6 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
                             pages: response._data.links,
                             last_page: response._data.last_page_url,
                         }
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
-        async getSalarySteps () {
-            this.isLoading = true
-            const { data, error } = await useHRMSApi(
-                "/api/salary/list",
-                {
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        this.isLoading = false
-                        this.salaryGradeStepList = response._data.data
                     },
                 }
             )

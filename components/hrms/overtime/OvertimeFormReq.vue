@@ -2,18 +2,12 @@
 import { storeToRefs } from "pinia"
 import type { Item, Header } from "vue3-easy-data-table"
 import { useEnumsStore } from "@/stores/hrms/enum"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useOvertimeStore } from "@/stores/hrms/overtime"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 import { useApprovalStore, APPROVAL_OVERTIME } from "@/stores/hrms/setup/approvals"
 
-const { data: userData } = useAuth()
-
 const enums = useEnumsStore()
 const { allEmployeeEnum } = storeToRefs(enums)
-
-const departments = useDepartmentStore()
-const { departmentsList } = storeToRefs(departments)
 
 const approvals = useApprovalStore()
 
@@ -108,18 +102,10 @@ const submitForm = async () => {
                     <div class="flex-1 flex-col gap-4 p-2">
                         <div>
                             <label for="requestingOffice" class="text-sm italic font-semibold text-gray-700">Requesting Office</label>
-                            <select
-                                id="department"
+                            <HrmsCommonDepartmentSelector
+                                id="requestingOffice"
                                 v-model="overtime.department_id"
-                                class="w-full rounded-lg bg-slate-100 border border-slate-300 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                            >
-                                <option value="" disabled selected>
-                                    Choose Department
-                                </option>
-                                <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
-                                    {{ dpt.department_name }}
-                                </option>
-                            </select>
+                            />
                         </div>
                         <div>
                             <label for="requstedBy" class="text-sm font-semibold text-gray-700">Date of Overtime</label>
@@ -152,20 +138,7 @@ const submitForm = async () => {
                         <div>
                             <LayoutFormPsTextInput v-model="overtime.reason" title="Purpose/Reason" name="Purpose/Reason" />
                         </div>
-                        <div>
-                            <label
-                                for="small-input"
-                                class="flex pt-2 font-medium text-blue-700 dark:text-white italic"
-                            >Prepared by:
-                            </label>
-                            <input
-                                id="preparedBy"
-                                :value="userData.name"
-                                type="text"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                disabled
-                            >
-                        </div>
+                        <HrmsCommonRequestedBy title="Prepared by" />
                     </div>
                 </div>
                 <div class="w-full rounded-lg p-4 bg-slate-100 ">

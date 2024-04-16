@@ -1,13 +1,13 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { usePositionStore } from "@/stores/hrms/setup/position"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
+import { useEnumsStore } from "@/stores/hrms/enum"
+const enums = useEnumsStore()
+enums.getDepartmentEnums()
 
-const departments = useDepartmentStore()
 const positions = usePositionStore()
 const { isEdit } = storeToRefs(positions)
 positions.getPosition()
-departments.getDepartmentList()
 
 useHead({
     title: "Position",

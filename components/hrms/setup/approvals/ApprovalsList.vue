@@ -1,13 +1,4 @@
 <script setup>
-import { useUserStore } from "@/stores/hrms/setup/users"
-
-const user = useUserStore()
-const { employeeUserList } = storeToRefs(user)
-
-if (employeeUserList.value.length <= 0) {
-    user.getUserEmployees()
-}
-
 const model = defineModel({ required: true, type: Object })
 </script>
 
@@ -21,14 +12,7 @@ const model = defineModel({ required: true, type: Object })
 
         <div class="flex flex-col">
             <div v-if="model.userselector">
-                <select v-model="model.user_id" class="w-full rounded-lg cursor-pointer focus:outline focus:outline-color1 focus:bg-white">
-                    <option disabled selected>
-                        --Select--
-                    </option>
-                    <option v-for="userSelect in employeeUserList" :key="userSelect.id" :value="userSelect.id">
-                        {{ userSelect.employee.fullname_first }}
-                    </option>
-                </select>
+                <HrmsCommonUserEmployeeSelector v-model="model.user_id" />
             </div>
             <div v-else>
                 <span class="font-semibold">{{ model.employee.fullname_first }}</span>

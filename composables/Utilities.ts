@@ -44,6 +44,12 @@ export const useUtilities = () => {
             return "Invalid time format. Please use HH:mm or HH:mm:ss"
         }
     }
+    function dateToString (date) {
+        const year = date.getFullYear()
+        const month = String(date.getMonth() + 1).padStart(2, "0") // Pad month with zero
+        const day = String(date.getDate()).padStart(2, "0") // Pad day with zero
+        return `${year}-${month}-${day}`
+    }
     function addOneDay (dateString) {
         try {
             // Parse the date string into a Date object
@@ -61,5 +67,29 @@ export const useUtilities = () => {
             return null// Or return any other default value on error
         }
     }
-    return ref({ upperFirst, upperWords, formatCurrency, formatTime, addOneDay })
+    function addDaysToDate (date, days) {
+        try {
+            // Check if date is a valid number
+            if (isNaN(date)) {
+                alert("Invalid date. Please provide a valid number of days.")
+            }
+
+            // Create a copy of the date object to avoid modifying the original
+            const newDate = new Date(date)
+
+            // Add the specified number of days
+            newDate.setDate(newDate.getDate() + days)
+
+            // Format the new date object to YYYY-MM-DD string
+            const year = newDate.getFullYear()
+            const month = String(newDate.getMonth() + 1).padStart(2, "0") // Pad month with zero
+            const day = String(newDate.getDate()).padStart(2, "0") // Pad day with zero
+
+            return `${year}-${month}-${day}`
+        } catch (error) {
+            alert(error.message)
+            return "" // Or return any other default value on error
+        }
+    }
+    return ref({ upperFirst, upperWords, formatCurrency, formatTime, addOneDay, dateToString, addDaysToDate })
 }
