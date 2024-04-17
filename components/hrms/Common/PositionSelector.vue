@@ -2,6 +2,9 @@
 import { useEnumsStore } from "@/stores/hrms/enum"
 const enums = useEnumsStore()
 const { positionEnum } = storeToRefs(enums)
+if (positionEnum.value.list.length <= 0) {
+    enums.getPositionEnums()
+}
 const model = defineModel({ required: false, type: Number, default: null })
 </script>
 <template>

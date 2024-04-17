@@ -128,7 +128,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.positionEnum.list = response._data.data
+                            this.positionEnum.list = response._data.data ?? []
                         }
                     },
                 }
@@ -145,7 +145,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.departmentEnum.list = response._data.data
+                            this.departmentEnum.list = response._data.data ?? []
                         }
                     },
                 }
@@ -162,7 +162,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.leaveEnum.list = response._data.data
+                            this.leaveEnum.list = response._data.data ?? []
                         }
                     },
                 }
@@ -179,7 +179,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.projectEnum.list = response._data.projects
+                            this.projectEnum.list = response._data.projects ?? []
                         }
                     },
                 }
@@ -196,7 +196,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.salarygradeEnum.list = response._data.data
+                            this.salarygradeEnum.list = response._data.data ?? []
                         }
                     },
                 }
@@ -213,7 +213,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.userEmployeeEnum.list = response._data.data
+                            this.userEmployeeEnum.list = response._data.data ?? []
                         }
                     },
                 }
@@ -230,7 +230,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.allEmployeeEnum.list = response._data.data
+                            this.allEmployeeEnum.list = response._data.data ?? []
                         }
                     },
                 }

@@ -2,6 +2,9 @@
 import { useEnumsStore } from "@/stores/hrms/enum"
 const enums = useEnumsStore()
 const { allEmployeeEnum } = storeToRefs(enums)
+if (allEmployeeEnum.value.list.length <= 0) {
+    enums.getPositionEnums()
+}
 const model = defineModel({ required: true, type: Array<Number> })
 </script>
 <template>
@@ -24,11 +27,13 @@ const model = defineModel({ required: true, type: Array<Number> })
         <template v-if="allEmployeeEnum.params.filterType === 'Department'">
             <HrmsCommonDepartmentSelector
                 v-model="allEmployeeEnum.params.filterData"
+                :show-all="true"
             />
         </template>
         <template v-if="allEmployeeEnum.params.filterType === 'Project'">
             <HrmsCommonProjectSelector
                 v-model="allEmployeeEnum.params.filterData"
+                :show-all="true"
             />
         </template>
 
