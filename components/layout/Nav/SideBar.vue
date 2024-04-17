@@ -64,7 +64,6 @@ const config = useRuntimeConfig()
                 </LayoutNavGroup> -->
             </LayoutNavGroup>
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/calendar"
                 icon="ic:round-calendar-month"
                 single-nav-title="Event Calendar"
@@ -76,7 +75,6 @@ const config = useRuntimeConfig()
                     single-nav-title="201"
                 />
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/employee/paf"
                     icon="ic:round-add-card"
                     single-nav-title="Personnel Action Notice"
@@ -103,13 +101,10 @@ const config = useRuntimeConfig()
                 icon="material-symbols:construction"
                 single-nav-title="Project"
             />
-            <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
-                linkarea="/hrms/leave"
-                icon="fluent-mdl2:leave-user"
-                single-nav-title="Leave"
-            />
-            <LayoutNavGroup v-if="config.public.APP_ENV == 'local'" icon="mdi:cash" title="Loans and Advances">
+            <LayoutNavGroup
+                icon="mdi:cash"
+                title="Loans and Advances"
+            >
                 <LayoutNavSingle
                     linkarea="/hrms/loans/cashadvance"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -126,13 +121,30 @@ const config = useRuntimeConfig()
                     single-nav-title="Other Deductions"
                 />
             </LayoutNavGroup>
-            <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
-                linkarea="/hrms/overtime"
-                icon="mingcute:time-line"
-                single-nav-title="Overtime"
-            />
-            <LayoutNavGroup v-if="config.public.APP_ENV == 'local'" icon="ion:ios-people" title="Payroll">
+            <LayoutNavGroup
+                icon="mdi:time"
+                title="Leaves and Overtime"
+            >
+                <LayoutNavSingle
+                    linkarea="/hrms/leave"
+                    icon="fluent-mdl2:leave-user"
+                    single-nav-title="Leave"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/overtime"
+                    icon="mingcute:time-line"
+                    single-nav-title="Overtime"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/travelorder"
+                    icon="material-symbols:googler-travel"
+                    single-nav-title="Travel Order"
+                />
+            </LayoutNavGroup>
+            <LayoutNavGroup
+                icon="ion:ios-people"
+                title="Payroll"
+            >
                 <LayoutNavSingle
                     linkarea="/hrms/payroll/generatepayroll"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -160,7 +172,10 @@ const config = useRuntimeConfig()
                 icon="ic:sharp-add-chart"
                 single-nav-title="Reports"
             />
-            <LayoutNavGroup v-if="config.public.APP_ENV == 'local'" icon="uim:schedule" title="Schedule">
+            <LayoutNavGroup
+                icon="uim:schedule"
+                title="Schedule"
+            >
                 <LayoutNavSingle
                     linkarea="/hrms/schedule/department"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -179,7 +194,6 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup icon="ion:ios-people" title="Setup">
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/setup/useraccounts"
                     icon="ic:round-manage-accounts"
                     single-nav-title="User Accounts"
@@ -196,7 +210,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Division"
                 />
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/setup/hmo"
                     icon="ic:baseline-health-and-safety"
                     single-nav-title="HMO"
@@ -258,11 +271,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Bulk Upload Employee"
                 />
             </LayoutNavGroup>
-            <LayoutNavSingle
-                linkarea="/hrms/travelorder"
-                icon="material-symbols:googler-travel"
-                single-nav-title="Travel Order"
-            />
         </LayoutNavModuleGroup>
 
         <!-- Inventory / Warehouse -->
