@@ -8,7 +8,7 @@ if (projectEnum.value.list.length <= 0) {
 const model = defineModel({ required: false, type: Number, default: null })
 defineProps({
     showAll: { type: Boolean, default: false },
-    useHrmsId: { type: Boolean, default: false },
+    useHrmsId: { type: Boolean, default: true },
 })
 </script>
 <template>
