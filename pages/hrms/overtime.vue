@@ -20,13 +20,16 @@ useHead({
 </script>
 
 <template>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
         <div>
             <HrmsOvertimeFormReq v-show="!isEdit" />
             <HrmsEditOvertime v-show="isEdit" />
         </div>
-        <!-- <HrmsOvertimeForm /> -->
-        <HrmsOvertimeList />
-        <!-- <HrmsOvertimeTable /> -->
+        <div>
+            <HrmsOvertimeTabs />
+            <!-- <HrmsOvertimeMyRequest />
+            <HrmsOvertimeMyApprovals />
+            <HrmsOvertimeList /> -->
+        </div>
     </div>
 </template>
