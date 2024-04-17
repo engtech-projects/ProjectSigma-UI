@@ -19,7 +19,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             employee_id: null,
             project_id: null,
             department_id: null,
-            overtime_date: null,
             amount_requested: null,
             amount_approved: null,
             purpose: null,
@@ -27,7 +26,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             remarks: null,
             approvals: null,
             request_status: "",
-            released_by: null
+            released_by: ""
         },
         list: [],
         myApprovalRequestList: [],
