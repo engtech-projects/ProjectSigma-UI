@@ -1,11 +1,8 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useManpowerStore, EMPLOYMENT_TYPE, NATURE_REQUESTS, STATUS, GENDER } from "@/stores/hrms/employee/manpower"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 
 const { data: userData } = useAuth()
-const departments = useDepartmentStore()
-const { departmentsList } = storeToRefs(departments)
 const manpowers = useManpowerStore()
 const { manpower, errorMessage, successMessage } = storeToRefs(manpowers)
 
@@ -46,14 +43,7 @@ const editManpwr = async () => {
                 <div class="grid grid-cols-2 gap-2 sm:grid-cols-2">
                     <div class="pb-4">
                         <label for="reqDepartment" class="block text-sm font-medium text-gray-900 dark:text-white">Requesting Department</label>
-                        <select id="reqDepartment" v-model="manpower.requesting_department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option value="" disabled selected>
-                                Choose Department
-                            </option>
-                            <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
-                                {{ dpt.department_name }}
-                            </option>
-                        </select>
+                        <HrmsCommonDepartmentSelector id="reqDepartment" v-model="manpower.requesting_department" />
                     </div>
                     <div>
                         <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -147,99 +137,8 @@ const editManpwr = async () => {
                     <textarea id="remarks" v-model="manpower.remarks" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
                 </div>
                 <div class="pb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    <div>
-                        <label for="requested_by" class="block  text-sm font-medium text-gray-900 dark:text-white">Requested by</label>
-                        <input
-                            id="requested_by"
-                            :value="userData.name"
-                            type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            disabled
-                        >
-                    </div>
-                    <!-- <div>
-                        <label for="approved_by" class="block  text-sm font-medium text-gray-900 dark:text-white">Approvals</label>
-                        <select id="approved_by" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" >
-                            <option value="">
-                                Select options
-                            </option>
-                            <option value="1">
-                                Lorem 1
-                            </option>
-                            <option value="2">
-                                Lorem 2
-                            </option>
-                            <option value="3">
-                                Lorem 3
-                            </option>
-                        </select>
-                    </div> -->
+                    <HrmsCommonRequestedBy title="Prepared by" />
                 </div>
-                <!-- <div class="pb-4 grid grid-cols-1 gap-6 sm:grid-cols-3">
-                    <div class="pb-4">
-                        <label for="requested_status" class="block  text-sm font-medium text-gray-900 dark:text-white">Requested Status</label>
-                        <select id="requested_status" v-model="manpower.request_status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option value="" disabled selected>
-                                Choose Request Status
-                            </option>
-                            <option v-for="requestStatus, reqStats in REQUEST_STATUS" :key="reqStats" :value="requestStatus">
-                                {{ requestStatus }}
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="pb-4">
-                        <label for="charged_to" class="block whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">Charged to (Department)</label>
-                        <select id="charged_to" v-model="manpower.charged_to" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option value="" disabled selected>
-                                Choose Department
-                            </option>
-                            <option v-for="dpt, chargedTo in departmentsList" :key="chargedTo" :value=" dpt.id">
-                                {{ dpt.department_name }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="pb-4">
-                        <label for="breakdown_details" class="block  text-sm font-medium text-gray-900 dark:text-white">Breakdown Details</label>
-                        <input id="breakdown_details" v-model="manpower.breakdown_details" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                    </div>
-                </div> -->
-                <!-- <div class="pb-4 grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    <div class="pb-4">
-                        <label for="processed_by" class="block  text-sm font-medium text-gray-900 dark:text-white">Processed by</label>
-                        <select id="processed_by" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option value="">
-                                Select options
-                            </option>
-                            <option value="1">
-                                Lorem 1
-                            </option>
-                            <option value="2">
-                                Lorem 2
-                            </option>
-                            <option value="3">
-                                Lorem 3
-                            </option>
-                        </select>
-                    </div>
-                    <div class="pb-4">
-                        <label for="checked_by" class="block  text-sm font-medium text-gray-900 dark:text-white">Checked / Approved by</label>
-                        <select id="checked_by" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option value="">
-                                Select options
-                            </option>
-                            <option value="1">
-                                Lorem 1
-                            </option>
-                            <option value="2">
-                                Lorem 2
-                            </option>
-                            <option value="3">
-                                Lorem 3
-                            </option>
-                        </select>
-                    </div>
-                </div> -->
                 <div class="flex justify-end gap-2">
                     <button
                         type="submit"

@@ -1,7 +1,6 @@
 <script setup>
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useEnumsStore } from "@/stores/hrms/enum"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 
 const travels = useTravelorderStore()
 const { isEdit } = storeToRefs(travels)
@@ -11,10 +10,9 @@ travels.getTravelorders()
 
 const enums = useEnumsStore()
 enums.getEmployeeEnum()
-
-const departments = useDepartmentStore()
-departments.getDepartmentList()
-
+enums.getUserEmployeeEnums()
+enums.getDepartmentEnums()
+enums.getProjectEnums()
 useHead({
     title: "Travel Order",
 })

@@ -1,19 +1,19 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
-import { useUserStore } from "@/stores/hrms/setup/users"
 import { useEnumsStore } from "@/stores/hrms/enum"
 
 const enums = useEnumsStore()
 const manpowers = useManpowerStore()
-const user = useUserStore()
 const { isEdit } = storeToRefs(manpowers)
 manpowers.getManpower()
 manpowers.getMyRequests()
 manpowers.getMyApprovalRequests()
 enums.getPositionEnums()
 enums.getDepartmentEnums()
-user.getUserEmployees()
+enums.getPositionEnums()
+enums.getDepartmentEnums()
+enums.getUserEmployeeEnums()
 
 useHead({
     title: "Manpower Request",

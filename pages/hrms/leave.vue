@@ -1,15 +1,19 @@
 <script setup>
 import { useLeaveRequest } from "@/stores/hrms/leaveRequest"
+import { useEnumsStore } from "@/stores/hrms/enum"
 
+const enums = useEnumsStore()
+enums.getEmployeeEnum()
+enums.getDepartmentEnums()
+const leaveRequest = useLeaveRequest()
+leaveRequest.allLeaves()
+leaveRequest.allApprovals()
 useHead({
     title: "Leave",
     meta: [
         { name: "description", content: "" }
     ],
 })
-const leaveRequest = useLeaveRequest()
-leaveRequest.allLeaves()
-leaveRequest.allApprovals()
 </script>
 
 <template>

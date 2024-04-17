@@ -32,7 +32,7 @@ const closeForm = () => {
 
 <template>
     <div>
-        <LayoutEditBoards title="Detailed List" class="w-full" :loading="boardLoading">
+        <LayoutEditBoards title="Job Opening Details" class="w-full" :loading="boardLoading">
             <div class="text-gray-600 text-sm p-2">
                 <div class="rounded p-2 grid grid-cols-2 " @change="setDetail">
                     <div v-for="(detailList, index) in manpowerData" :key="index" class="border px-4 py-2">
@@ -44,6 +44,9 @@ const closeForm = () => {
                             <span class="hidden">
                                 {{ detailList }}
                             </span>
+                        </template>
+                        <template v-else-if="index === 'Position'">
+                            {{ detailList.name }}
                         </template>
                         <template v-else>
                             {{ detailList }}

@@ -106,6 +106,7 @@ const setEdit = () => {
                 </div>
                 <div id="employeeId" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="employee-id">
                     <HrmsEmployee201IdentificationCard />
+                    <LayoutFormPsSignaturePad />
                 </div>
                 <div id="employeeSignature" class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="employee-signature">
                     <LayoutFormPsSignaturePad />

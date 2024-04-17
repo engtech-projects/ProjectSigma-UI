@@ -4,16 +4,19 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
 // const enums = useEnumsStore()
-const { list: projectList, information } = storeToRefs(projects)
+const { information } = storeToRefs(projects)
 // const { projectEnum } = storeToRefs(enums)
 
 const selectedEmployees = ref([])
 
-const showProjectInformation = async () => {
-    await projects.getProjectInformation(projects.information.id)
-    await projects.projectMemberList(projects.information.id)
-    selectedEmployees.value = information.value.employees.project_members_ids
-}
+watch(information.value.id, async () => {
+    await promise.all([
+        projects.getProjectInformation(projects.information.id),
+        projects.projectMemberList(projects.information.id)
+    ]).then(() => {
+        selectedEmployees.value = information.value.employees.project_members_ids
+    })
+})
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
@@ -50,16 +53,9 @@ const attach = async () => {
         <div class="text-gray-500">
             <form @submit.prevent="attach">
                 <div class="pt-2">
-                    <select id="project_name" v-model="projects.information.id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" @change="showProjectInformation()">
-                        <option value="" disabled selected>
-                            Choose Project
-                        </option>
-                        <option v-for="proj, id in projectList" :key="id + 'projectlist'" :value="proj.id">
-                            {{ proj.contract_name }}
-                        </option>
-                    </select>
+                    <HrmsCommonProjectSelector v-model="projects.information.id" />
                 </div>
-                <HrmsCommonEmployeeSelector v-model="selectedEmployees" />
+                <HrmsCommonMultipleEmployeeSelector v-model="selectedEmployees" />
                 <div class="max-w-full flex flex-row-reverse mt-5">
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Assign Employee

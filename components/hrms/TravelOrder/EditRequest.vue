@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
+// import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
 const { data: userData } = useAuth()
 
-const departments = useDepartmentStore()
-const { departmentsList } = storeToRefs(departments)
+// const departments = useDepartmentStore()
+// const { departmentsList } = storeToRefs(departments)
 
 const approvals = useApprovalStore()
 
@@ -47,23 +47,12 @@ const editRequest = async () => {
             <form @submit.prevent="editRequest">
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <HrmsCommonEmployeeSelector v-model="travel.employee_ids" />
+                        <HrmsCommonMultipleEmployeeSelector v-model="travel.employee_ids" />
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">
                         <div>
                             <label for="requestingOffice" class="text-sm italic font-semibold text-gray-700">Requesting Office</label>
-                            <select
-                                id="department"
-                                v-model="travel.requesting_office"
-                                class="w-full rounded-lg bg-slate-100 border border-slate-300 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                            >
-                                <option value="" disabled selected>
-                                    Choose Department
-                                </option>
-                                <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
-                                    {{ dpt.department_name }}
-                                </option>
-                            </select>
+                            <HrmsCommonDepartmentSelector id="requestingOffice" v-model="travel.requesting_office" />
                         </div>
                         <div>
                             <label for="destination" class="text-sm italic font-semibold text-gray-700">Destination</label>

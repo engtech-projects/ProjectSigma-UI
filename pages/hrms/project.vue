@@ -8,6 +8,7 @@ projects.getProject()
 const enums = useEnumsStore()
 enums.getEmployeeEnum()
 enums.getProjectEnums()
+enums.getDepartmentEnums()
 
 useHead({
     title: "Projects",
