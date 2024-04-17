@@ -230,11 +230,24 @@ export interface EmploymentEducation {
     graduatestudies_year_graduated: String,
 
 }
+export interface EmployeeSearch {
+    employee_id: number,
+    first_name: String,
+    middle_name: String,
+    last_name: String,
+}
+export interface DigitalSignature {
+    id: null | number,
+    url: string,
+    image_type: string,
+}
 
 export interface EmployeeInformation {
 value: any
     id: null | Number,
     employee_id: null | Number,
+    profile_photo: DigitalSignature,
+    digital_signature: DigitalSignature,
     first_name: String,
     middle_name: String,
     family_name: String,
@@ -276,18 +289,23 @@ value: any
     company_employments: CompanyEmployments,
     employee_uploads: Array<EmployeeUpload>
 }
-export interface EmployeeSearch {
-    employee_id: number,
-    first_name: String,
-    middle_name: String,
-    last_name: String,
-}
+
 export const useEmployeeInfo = defineStore("employee", {
     state: () => ({
         editable: false as boolean,
         spouseData: {} as Spouse,
         information: {
             id: null as null | Number,
+            profile_photo: {
+                id: null as null | number,
+                url: "" as string,
+                image_type: "" as string
+            } as DigitalSignature,
+            digital_signature: {
+                id: null as null | number,
+                url: "" as string,
+                image_type: "" as string
+            } as DigitalSignature,
             employee_id: null as null | Number,
             first_name: "" as String,
             middle_name: "" as String,
@@ -779,6 +797,46 @@ export const useEmployeeInfo = defineStore("employee", {
             this.errorMessage = ""
             await useHRMSApiO(
                 "/api/employee/companyemployment",
+                {
+                    method: "POST",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async saveDigitalSignatureUpload (params: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/images/upload/digital-signature/" + this.information.id,
+                {
+                    method: "POST",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async saveEmployeeProfilePicture (params: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/images/upload/profile-picture/" + this.information.id,
                 {
                     method: "POST",
                     body: params,
