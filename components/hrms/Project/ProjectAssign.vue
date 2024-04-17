@@ -49,7 +49,7 @@ const attach = async () => {
         <div class="text-gray-500">
             <form @submit.prevent="attach">
                 <div class="pt-2">
-                    <HrmsCommonProjectSelector v-model="projId" />
+                    <HrmsCommonProjectSelector v-model="projId" :use-hrms-id="false" />
                 </div>
                 <HrmsCommonMultipleEmployeeSelector v-model="selectedEmployees" />
                 <div class="max-w-full flex flex-row-reverse mt-5">
