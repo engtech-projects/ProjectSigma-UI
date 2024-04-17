@@ -20,7 +20,7 @@ defineProps({
             All
         </option>
         <option v-for="data, index in projectEnum.list" :key="index" :value="useHrmsId ? data.id : data.project_monitoring_id">
-            {{ data.project_code }} - {{ data.contract_name }}
+            {{ data.project_code ?? data.projects.project_code }} - {{ data.contract_name ?? data.projects.contract_name }}
         </option>
     </select>
 </template>
