@@ -8,7 +8,7 @@ const handleDocumentUpload = async (event: any) => {
     try {
         const file = event.target.files[0]
         const formData = new FormData()
-        formData.append("file", file)
+        formData.append("file_image", file)
         await employee.saveEmployeeProfilePicture(formData)
         snackbar.add({
             type: "success",
