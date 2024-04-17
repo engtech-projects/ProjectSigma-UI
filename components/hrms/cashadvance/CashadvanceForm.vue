@@ -1,91 +1,144 @@
-<template>
-    <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-        <label for="" class="text-xl font-semibold text-gray-900">Cash Advance Request Form</label>
-        <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-                <label for="date_fill" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-                <input id="date_fill" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-            </div>
-            <div>
-                <label for="employee_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee Name</label>
-                <input id="employee_name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-            </div>
-        </div>
-        <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-                <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
-                <input
-                    id="position"
-                    disabled
-                    readonly
-                    type="text"
-                    class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
-                >
-            </div>
-            <div>
-                <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                <input
-                    id="department"
-                    disabled
-                    readonly
-                    type="text"
-                    class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
-                >
-            </div>
-        </div>
-        <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-                <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount Requested</label>
-                <input id="position" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-            </div>
-            <div>
-                <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount Approved</label>
-                <input id="department" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-            </div>
-        </div>
-        <div class="mt-5">
-            <div>
-                <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Purpose/Reason(s)</label>
-                <textarea id="position" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
-            </div>
-        </div>
-        <div class="mt-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-                <label for="repayment_sched" class="block mb-2 text-md font-bold text-gray-900 dark:text-white">Repayment Schedule</label>
-                <label for="first_name" class="block mb-2 text-md font-medium text-gray-900 dark:text-white">Terms</label>
-                <div class="flex flex-col">
-                    <div class="mt-5 flex flex-wrap items-center mb-4 gap-3">
-                        <input id="leave-availment-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="leave-availment-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Monthly</label>
-                    </div>
-                    <div class="flex items-center mb-4 gap-3">
-                        <input id="leave-availment-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="leave-availment-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Semi-monthly</label>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-col">
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payroll Deduction:</label>
-                    <input id="repayment_sched" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                </div>
-                <div class="mt-5">
-                    <label for="amt" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
-                    <input id="amt" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                </div>
-            </div>
-        </div>
-        <div class="max-w-full flex flex-row-reverse mt-5">
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" @click="submitAdd">
-                Add
-            </button>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
-const submitAdd = () => {
+import { storeToRefs } from "pinia"
+import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
+import { useApprovalStore, APPROVAL_CA } from "@/stores/hrms/setup/approvals"
+
+const { data: userData } = useAuth()
+
+const approvals = useApprovalStore()
+
+const cashadvances = useCashadvanceStore()
+const { cashadvance, errorMessage, successMessage } = storeToRefs(cashadvances)
+
+cashadvance.value.approvals = await approvals.getApprovalByName(APPROVAL_CA)
+
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+
+const submitForm = async () => {
+    try {
+        boardLoading.value = true
+        await cashadvances.createRequest()
+        if (cashadvances.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: cashadvances.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: cashadvances.successMessage
+            })
+        }
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: cashadvances.errorMessage
+        })
+    } finally {
+        cashadvances.clearMessages()
+        boardLoading.value = false
+    }
 }
 </script>
+
+<template>
+    <LayoutBoards title="Cash Advance Request Form" class="w-full" :loading="boardLoading">
+        <div class="text-gray-500">
+            <form @submit.prevent="submitForm">
+                <div class="grid grid-cols-2 gap-2 p-2">
+                    <div>
+                        <label for="empName" class="text-sm font-semibold text-gray-700">Employee Name</label>
+                        <HrmsCommonUserEmployeeSelector v-model="cashadvance.employee_id" title="Employee Name" name="Employee Name" />
+
+                        <label for="empName" class="text-sm font-semibold text-gray-700">Designation</label>
+                        <HrmsCommonPositionSelector v-model="cashadvance.designation" title="Designation" name="Designation" />
+                    </div>
+                    <div>
+                        <LayoutFormPsDateInput v-model="cashadvance.date" title="Date" name="Date" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 p-2">
+                    <div>
+                        <label for="dept" class="text-sm font-semibold text-gray-700">Department</label>
+                        <HrmsCommonDepartmentSelector v-model="cashadvance.department_id" />
+
+                        <LayoutFormPsNumberInput v-model="cashadvance.amount_requested" title="Amount Requested" name="Amount Requested" />
+
+                        <LayoutFormPsTextInput v-model="cashadvance.purpose" title="Purpose/Reason(s)" name="Purpose/Reason(s)" />
+
+                        <LayoutFormPsTextInput v-model="cashadvance.remarks" title="Remarks" name="Remarks" />
+                    </div>
+                    <div>
+                        <label for="project" class="text-sm font-semibold text-gray-700">Project</label>
+                        <HrmsCommonProjectSelector v-model="cashadvance.project_id" />
+
+                        <LayoutFormPsNumberInput v-model="cashadvance.amount_approved" title="Amount Approved" name="Amount Approved" />
+
+                        <LayoutFormPsTextInput v-model="cashadvance.terms_of_cash_advance" title="Terms of Cash Advance" name="Amount Requested" />
+                    </div>
+                </div>
+                <div class="p-2">
+                    <div class="border-b w-full h-[14px] text-center p-3 ">
+                        <span class="text-md bg-white font-semibold text-gray-700 px-3 italic">
+                            Releasing Details
+                        </span>
+                    </div>
+                    <div class="pt-2">
+                        <!-- <HrmsCommonRequestedBy title="Released By" /> -->
+                        <label for="releasedBy" class="text-sm font-semibold text-blue-700 italic">Released By</label>
+                        <input
+                            id="releasedBy"
+                            :value="userData.name"
+                            type="text"
+                            class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            disabled
+                        >
+                    </div>
+                </div>
+                <div class="w-full rounded-lg p-4 bg-slate-100 ">
+                    <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Recommending Approval:</label>
+                    <HrmsSetupApprovalsList
+                        v-for="(approv, apr) in cashadvance.approvals"
+                        :key="'hrmsetupapprovallist'+apr"
+                        v-model="cashadvance.approvals[apr]"
+                    />
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" class="flex-1 text-white p-2 rounded-lg bg-teal-600 content-center mt-5">
+                        Submit Form
+                    </button>
+                </div>
+            </form>
+            <p
+                hidden
+                class=" text-red-600 text-center font-semibold mt-2 italic"
+                :class="{ 'fade-out': !errorMessage }"
+            >
+                {{ errorMessage }}
+            </p>
+            <p
+                v-show="successMessage"
+                hidden
+                class=" text-green-600 text-center font-semibold italic transition-opacity delay-1000"
+            >
+                {{ successMessage }}
+            </p>
+        </div>
+    </LayoutBoards>
+</template>
+
+<style scoped>
+.error-message,
+.success-message {
+    transition: opacity 1s ease;
+}
+
+.error-message.fade-out,
+.success-message.fade-out {
+    animation-duration: 1s;
+    opacity: 0;
+}
+</style>
