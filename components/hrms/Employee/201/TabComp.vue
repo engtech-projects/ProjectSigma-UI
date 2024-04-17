@@ -67,19 +67,6 @@ const setEdit = () => {
                             Employee Identification Card
                         </button>
                     </li>
-                    <li class="mr-2" role="presentation">
-                        <button
-                            id="employeeSignatureTab"
-                            class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
-                            data-tabs-target="#employeeSignature"
-                            type="button"
-                            role="tab"
-                            aria-controls="employeeSignature"
-                            aria-selected="false"
-                        >
-                            Employee Digital Signature
-                        </button>
-                    </li>
                 </ul>
             </div>
             <div v-show="employee.information.id" class="w-full p-2">
@@ -105,11 +92,15 @@ const setEdit = () => {
                     <HrmsEmployee201DocumentsMemo />
                 </div>
                 <div id="employeeId" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="employee-id">
-                    <HrmsEmployee201IdentificationCard />
-                    <LayoutFormPsSignaturePad />
-                </div>
-                <div id="employeeSignature" class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="employee-signature">
-                    <LayoutFormPsSignaturePad />
+                    <div v-if="employee.information.id">
+                        <HrmsEmployee201IdentificationCard />
+                        <LayoutFormPsSignaturePad v-if="editable" />
+                    </div>
+                    <div v-else>
+                        <p class="text-lg text-gray-400">
+                            Employee Identification Card
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

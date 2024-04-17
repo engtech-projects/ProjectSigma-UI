@@ -425,6 +425,16 @@ export const useEmployeeInfo = defineStore("employee", {
             }
             return perAddress
         },
+        contactPersonAddress (state) {
+            let contactAddress = ""
+            if (!state.information) {
+                return ""
+            }
+            if (state.information.contact_person) {
+                contactAddress = state.information.contact_person.street + " " + state.information.contact_person.brgy + " " + state.information.contact_person.city + " " + state.information.contact_person.province
+            }
+            return contactAddress
+        },
         presentAddressData (state) {
             let preAddress = {} as EmployeeAddress
             if (!state.information) {

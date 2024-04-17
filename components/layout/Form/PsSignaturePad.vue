@@ -20,7 +20,7 @@ const undo = () => {
             :width="'500'"
             :height="'300'"
             :options="{ onBegin: () => { signature.resizeCanvas() } }"
-            class="z-50 m-auto bg-red-500"
+            class="z-50 m-auto shadow-lg"
         />
         <div class="w-full flex justify-end gap-2 mt-5">
             <button class="p-2 bg-green-600 text-white hover:bg-green-400" @click="save()">
