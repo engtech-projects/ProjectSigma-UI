@@ -1,21 +1,20 @@
 <script setup>
-// import { useEnumsStore } from "@/stores/hrms/enum"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
-// const enums = useEnumsStore()
 const { information } = storeToRefs(projects)
-// const { projectEnum } = storeToRefs(enums)
-
+const projId = ref()
 const selectedEmployees = ref([])
 
-watch(information.value.id, async () => {
-    await promise.all([
-        projects.getProjectInformation(projects.information.id),
-        projects.projectMemberList(projects.information.id)
-    ]).then(() => {
-        selectedEmployees.value = information.value.employees.project_members_ids
-    })
+watch(projId, async (newValue, oldValue) => {
+    if (oldValue !== newValue) {
+        await Promise.all([
+            projects.getProjectInformation(newValue),
+            projects.projectMemberList(newValue)
+        ]).then(() => {
+            selectedEmployees.value = information.value.employees.project_members_ids
+        })
+    }
 })
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -53,7 +52,7 @@ const attach = async () => {
         <div class="text-gray-500">
             <form @submit.prevent="attach">
                 <div class="pt-2">
-                    <HrmsCommonProjectSelector v-model="projects.information.id" />
+                    <HrmsCommonProjectSelector v-model="projId" />
                 </div>
                 <HrmsCommonMultipleEmployeeSelector v-model="selectedEmployees" />
                 <div class="max-w-full flex flex-row-reverse mt-5">
