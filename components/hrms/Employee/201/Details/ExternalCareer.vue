@@ -1,6 +1,25 @@
+<script>
+export default {
+    data () {
+        return {
+            emprecords: [{ compname: "", imdtsuperior: "", from: "", salarystart: "", compaddr: "", compcont: "", to: "", salaryfinal: "", duties: "" }],
+        }
+    },
+    methods: {
+        addEmprecords () {
+            this.emprecords.push({ compname: "", imdtsuperior: "", from: "", salarystart: "", compaddr: "", compcont: "", to: "", salaryfinal: "", duties: "" })
+        },
+        deleteEmprecords (index) {
+            this.emprecords.splice(index, 1)
+        },
+    },
+}
+</script>
 <template>
     <div>
-        <label for="company_info" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">External Work Experience</label>
+        <label for="company_info" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">
+            External Work Experience
+        </label>
         <form v-for="(emprecord, index) in emprecords" :key="index" action="">
             <div class="flex items-center justify-end">
                 <button v-if="index > 0" class="delete-button" @click.prevent="deleteEmprecords(index)">
@@ -14,21 +33,6 @@
                     >
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                </button>
-                <button v-if="index === emprecords.length - 1" class="add-button" @click="addEmprecords">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="w-6 h-6 text-green-600 "
-                    >
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </button>
-                <button v-if="index === emprecords.length - 1" class="add-button" @click="addEmprecords">
-                    <span class="text-green-500 hover:text-green-700">Add Employment</span>
                 </button>
             </div>
 
@@ -114,23 +118,20 @@
                 </tbody>
             </table>
         </form>
+        <button class="add-button" @click="addEmprecords">
+            <span class="text-green-500 hover:text-green-700 flex">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 text-green-600 "
+                >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Add Work Experience
+            </span>
+        </button>
     </div>
 </template>
-
-<script>
-export default {
-    data () {
-        return {
-            emprecords: [{ compname: "", imdtsuperior: "", from: "", salarystart: "", compaddr: "", compcont: "", to: "", salaryfinal: "", duties: "" }],
-        }
-    },
-    methods: {
-        addEmprecords () {
-            this.emprecords.push({ compname: "", imdtsuperior: "", from: "", salarystart: "", compaddr: "", compcont: "", to: "", salaryfinal: "", duties: "" })
-        },
-        deleteEmprecords (index) {
-            this.emprecords.splice(index, 1)
-        },
-    },
-}
-</script>

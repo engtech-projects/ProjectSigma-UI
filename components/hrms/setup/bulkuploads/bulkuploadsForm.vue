@@ -179,7 +179,7 @@ const handleUploadEmployeesData = async (event : any) => {
 }
 
 const bodyRowClassNameFunction = (item: any) => {
-    if (item.status === "duplicate") {
+    if (item._status === "duplicate") {
         return "duplicate-row"
     }
 }

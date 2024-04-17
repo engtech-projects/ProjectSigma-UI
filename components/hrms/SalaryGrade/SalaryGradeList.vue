@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSalaryGradeStore } from "~/stores/hrms/salarygrade"
+import { useSalaryGradeStore } from "~/stores/hrms/setup/salarygrade"
 import { useModalStore } from "~/stores/modal"
 const modalStore = useModalStore()
 const salaryGradeStore = useSalaryGradeStore()
@@ -8,7 +8,7 @@ const utils = useUtilities()
 const snackbar = useSnackbar()
 const toDelete = ref({})
 
-function setEdit (sg:any) {
+function setEdit (sg: any) {
     salaryGradeStore.salaryGrade = sg
     salaryGradeStore.isEdit = true
 }
@@ -26,7 +26,7 @@ const deleteSalaryGrade = async () => {
         salaryGradeStore.isLoading = false
     }
 }
-function setDelete (sg:any) {
+function setDelete (sg: any) {
     toDelete.value = sg
     modalStore.showModal()
 }
@@ -66,12 +66,20 @@ function setDelete (sg:any) {
                             {{ sg.salary_grade_level }}
                         </td>
                         <td v-for="st in sg.salary_grade_step" :key="st.id" class="p-2 text-left border">
-                            {{ utils.formatCurrency(st.step_name) }}
+                            {{ utils.formatCurrency(st.monthly_salary_amount) }}
                         </td>
                         <td>
                             <div class="flex gap-2 items-center pl-2">
-                                <Icon name="iconoir:edit" class="text-xl text-green-500 cursor-pointer hover:text-green-700" @click="setEdit(sg)" />
-                                <Icon name="iconoir:bin-minus-in" class="text-red-500 cursor-pointer hover:text-red-700" @click="setDelete(sg)" />
+                                <Icon
+                                    name="iconoir:edit"
+                                    class="text-xl text-green-500 cursor-pointer hover:text-green-700"
+                                    @click="setEdit(sg)"
+                                />
+                                <Icon
+                                    name="iconoir:bin-minus-in"
+                                    class="text-red-500 cursor-pointer hover:text-red-700"
+                                    @click="setDelete(sg)"
+                                />
                             </div>
                         </td>
                     </tr>

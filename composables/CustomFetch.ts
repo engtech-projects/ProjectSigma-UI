@@ -3,6 +3,30 @@ import { defu } from "defu"
 import type { AsyncDataOptions, UseFetchOptions } from "#app"
 const config = useRuntimeConfig()
 const { token } = useAuth()
+export interface CallBackData {
+    data: {
+        message: String,
+        data: {}[],
+    },
+    error: {
+        message: String,
+        data: {}[],
+    },
+}
+export interface CallBackDataO {
+        data: {
+            value: {
+                message: string,
+                data: {}[],
+            }
+        },
+        error: {
+            value: {
+                message: string,
+                data: {}[],
+            }
+        },
+}
 export function useHRMSApi<T> (url: string, options: AsyncDataOptions<T>|UseFetchOptions<T> = {}) {
     const defaults: UseFetchOptions<T> = {
         baseURL: config.public.HRMS_API_URL,
@@ -21,13 +45,16 @@ export function useHRMSApi<T> (url: string, options: AsyncDataOptions<T>|UseFetc
     const params = defu(options, defaults)
     return useFetch(url, params)
 }
-export const useHRMSApiO = ofetch.create({
-    baseURL: config.public.HRMS_API_URL,
-    headers: {
-        Authorization: token.value + "",
-        Accept: "application/json"
-    },
-})
+export function useHRMSApiO (url: string, params: any) {
+    const ofetchApi = ofetch.create({
+        baseURL: config.public.HRMS_API_URL,
+        headers: {
+            Authorization: token.value + "",
+            Accept: "application/json"
+        },
+    })
+    return ofetchApi(url, params)
+}
 export function useProjectsApi<T> (url: string, options: AsyncDataOptions<T>|UseFetchOptions<T> = {}) {
     const defaults: UseFetchOptions<T> = {
         baseURL: config.public.PROJECT_API_URL,

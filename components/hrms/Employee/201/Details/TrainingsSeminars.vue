@@ -5,10 +5,8 @@ const employee = useEmployeeInfo()
 
 const { information: employeeInformation } = storeToRefs(employee)
 
-const emprecords = ref(null)
-emprecords.value = employee.employee_seminartraining
 const addEmprecords = () => {
-    emprecords.value.push(
+    employee.employee_seminartraining.value.push(
         {
             id: "",
             employee_id: "",
@@ -20,7 +18,7 @@ const addEmprecords = () => {
     )
 }
 const deleteEmprecords = (index) => {
-    this.emprecords.splice(index, 1)
+    employee.employee_seminartraining.splice(index, 1)
 }
 </script>
 <template>
@@ -68,21 +66,6 @@ const deleteEmprecords = (index) => {
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </button>
-                <button v-if="index === emprecords.length - 1" class="add-button" @click="addEmprecords">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="w-6 h-6 text-green-600 "
-                    >
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </button>
-                <button v-if="index === emprecords.length - 1" class="add-button" @click="addEmprecords">
-                    <span class="text-green-500 hover:text-green-700">Add Trainings & Seminars Record</span>
-                </button>
             </div>
             <table class="w-full border-collapse border border-slate-400 table-fixed">
                 <tbody>
@@ -107,5 +90,20 @@ const deleteEmprecords = (index) => {
                 </tbody>
             </table>
         </form>
+        <button class="add-button" @click="addEmprecords">
+            <span class="text-green-500 hover:text-green-700 flex">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6 text-green-600 "
+                >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Add Trainings & Seminars Record
+            </span>
+        </button>
     </div>
 </template>

@@ -1,51 +1,45 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { useJobapplicantStore } from "@/stores/employee/jobapplicant"
-const jobapplicants = useJobapplicantStore()
-const { jobApplicantDetails: applicantDetail } = storeToRefs(jobapplicants)
-
-// const snackbar = useSnackbar()
+const config = useRuntimeConfig()
 const boardLoading = ref(false)
-
+defineProps({
+    applicant: {
+        type: Object,
+        required: true,
+    },
+})
 </script>
 
 <template>
-    <div class="flex flex-col items-end gap-4">
-        <LayoutEditBoards title="Applicant Details" class="w-full shadow-lg" :loading="boardLoading">
-            <div v-for="(applicant, index) in applicantDetail" :key="index" class="border rounded-lg p-4 mb-8">
-                <h2 class="text-xl font-semibold mb-4">
-                    <!-- Applicant {{ index + 1 }} -->
-                    {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }}
+    <div>
+        <LayoutDisplayBoards title="Applicant Details" class="w-full shadow-lg" :loading="boardLoading">
+            <div class="border border-teal-500 rounded-lg mb-8">
+                <h2 class="flex text-xl font-semibold mb-2 bg-slate-100 p-2 rounded-t-lg">
+                    Applicant {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }}
                 </h2>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <p class="font-semibold italic">
-                            Application Name:
-                        </p>
-                        <p>{{ applicant.application_name }}</p>
-                    </div>
+                <div class="grid grid-cols-3 gap-8 p-4">
                     <div>
                         <p class="font-semibold italic">
                             Application Letter Attachment:
                         </p>
-                        <p class="truncate">
-                            {{ applicant.application_letter_attachment }}
+                        <p class="truncate hover:cursor-pointer hover:text-blue-500 italic">
+                            <a target="_blank" :href="config.public.HRMS_API_URL + '/storage/' + applicant.application_letter_attachment">
+                                <Icon
+                                    name="mage:file-download-fill"
+                                    class="h-5 w-5 lg:h-5 lg:w-5"
+                                />
+                                Download Application Letter
+                            </a>
                         </p>
                     </div>
                     <div>
                         <p class="font-semibold italic">
                             Resume:
                         </p>
-                        <p class="truncate">
-                            {{ applicant.resume_attachment }}
-                        </p>
-                    </div>
-                    <div>
-                        <p class="font-semibold italic">
-                            Status:
-                        </p>
-                        <p class="truncate">
-                            {{ applicant.status }}
+                        <p class="truncate hover:cursor-pointer hover:text-blue-500 italic">
+                            <a target="_blank" :href="config.public.HRMS_API_URL + '/storage/' + applicant.resume_attachment">
+                                <Icon name="mage:file-download-fill" class="h-5 w-5 lg:h-5 lg:w-5" />
+                                Download Resume
+                            </a>
                         </p>
                     </div>
                     <div>
@@ -61,58 +55,13 @@ const boardLoading = ref(false)
                         <p>{{ applicant.date_of_application }}</p>
                     </div>
                 </div>
-                <!-- Education -->
-                <div class="grid grid-cols-2 gap-4 pt-4">
-                    <div v-for="(educ, educIndex) in JSON.parse(applicant.education)" :key="educIndex">
-                        <p class="font-semibold italic">
-                            Education:
-                        </p>
-                        <div class="flex gap-x-10 min-w-max">
-                            <div>
-                                <p class="font-semibold italic">
-                                    Elementary
-                                </p>
-                                <p>Name of School: {{ educ.elementary_name }}</p>
-                                <p>From: {{ educ.elementary_period_attendance_from }}</p>
-                                <p>To: {{ educ.elementary_period_attendance_to }}</p>
-                                <p>Year Graduated: {{ educ.elementary_year_graduated }}</p>
-                            </div>
-                            <div>
-                                <p class="font-semibold italic">
-                                    Secondary
-                                </p>
-                                <p>Name of School: {{ educ.secondary_name }}</p>
-                                <p>From: {{ educ.secondary_period_attendance_from }}</p>
-                                <p>To: {{ educ.secondary_period_attendance_to }}</p>
-                                <p>Year Graduated: {{ educ.secondary_year_graduated }}</p>
-                            </div>
-                            <div>
-                                <p class="font-semibold italic">
-                                    Vocational Course
-                                </p>
-                                <p>{{ educ.vocationalcourse_name }}</p>
-                                <p>From: {{ educ.vocationalcourse_period_attendance_from }}</p>
-                                <p>To: {{ educ.vocationalcourse_period_attendance_to }}</p>
-                                <p>Year Graduated: {{ educ.vocationalcourse_year_graduated }}</p>
-                            </div>
-                            <div>
-                                <p class="font-semibold italic">
-                                    College
-                                </p>
-                                <p>{{ educ.college_name }}</p>
-                                <p>From: {{ educ.college_period_attendance_from }}</p>
-                                <p>To: {{ educ.college_period_attendance_to }}</p>
-                                <p>Year Graduated: {{ educ.college_year_graduated }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4 pt-4">
+                <hr>
+                <div class="grid grid-cols-3 gap-8 p-4">
                     <div>
                         <p class="font-semibold italic">
-                            Full Name:
+                            Personal Information:
                         </p>
-                        <p>{{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }}</p>
+                        <p>{{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }} {{ applicant.name_suffix }}</p>
                     </div>
                     <div>
                         <p class="font-semibold italic">
@@ -130,7 +79,10 @@ const boardLoading = ref(false)
                         <p class="font-semibold italic">
                             Email:
                         </p>
-                        <p>{{ applicant.email }}</p>
+                        <p>
+                            <a :href="'mailto:'+applicant.email" class="cursor-pointer hover:text-blue-500">{{ applicant.email }}</a>
+                            <!-- {{ applicant.email }} -->
+                        </p>
                     </div>
                     <div>
                         <p class="font-semibold italic">
@@ -144,9 +96,6 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.per_address_street }} {{ applicant.per_address_brgy }} {{ applicant.per_address_city }} {{ applicant.per_address_province }} {{ applicant.per_address_zip }}</p>
                     </div>
-                </div>
-                <!-- Spouse and Children -->
-                <div class="grid grid-cols-2 gap-4 pt-4">
                     <div>
                         <p class="font-semibold italic">
                             Name of Spouse:
@@ -165,7 +114,7 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.telephone_spouse }}</p>
                     </div>
-                    <div v-for="(child, childIndex) in JSON.parse(applicant.children)" :key="childIndex">
+                    <div v-for="(child, childIndex) in applicant.children" :key="childIndex">
                         <p class="font-semibold italic">
                             Children:
                         </p>
@@ -173,12 +122,12 @@ const boardLoading = ref(false)
                         <p>Birthdate: {{ child.birthdate }}</p>
                     </div>
                 </div>
-                <!-- Work Experience -->
-                <div class="grid grid-cols-2 gap-4 pt-4">
-                    <div v-for="(work, workIndex) in JSON.parse(applicant.workexperience)" :key="workIndex">
-                        <p class="font-semibold italic">
-                            Work Experience:
-                        </p>
+                <hr>
+                <div class="grid grid-flow-col auto-cols-max gap-8 p-4">
+                    <p class="font-semibold italic">
+                        Work Experience:
+                    </p>
+                    <div v-for="(work, workIndex) in applicant.workexperience" :key="workIndex">
                         <div>
                             <p>Position: {{ work.position_title }}</p>
                             <p>Department/Agency/Office/Company: {{ work.dpt_agency_office_company }}</p>
@@ -189,7 +138,8 @@ const boardLoading = ref(false)
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4 pt-4">
+                <hr>
+                <div class="grid grid-cols-3 gap-8 p-4">
                     <div>
                         <p class="font-semibold italic">
                             How did your learn about our company?
@@ -202,9 +152,6 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.currently_employed }}</p>
                     </div>
-                </div>
-                <!-- In Case of Emergency -->
-                <div class="grid grid-cols-2 gap-4 pt-4">
                     <div>
                         <p class="font-semibold italic">
                             In Case of Emergency:
@@ -215,7 +162,7 @@ const boardLoading = ref(false)
                         <p class="font-semibold italic">
                             Address:
                         </p>
-                        <p>{{ applicant.icoe_address }}</p>
+                        <p>{{ applicant.icoe_street }} {{ applicant.icoe_brgy }} {{ applicant.icoe_city }}, {{ applicant.icoe_province }}, {{ applicant.icoe_zip }}</p>
                     </div>
                     <div>
                         <p class="font-semibold italic">
@@ -229,8 +176,24 @@ const boardLoading = ref(false)
                         </p>
                         <p>{{ applicant.telephone_icoe }}</p>
                     </div>
+                    <p class="font-semibold italic">
+                        Education:
+                    </p>
+                    <div v-for="(educ, educIndex) in applicant.education" :key="educIndex">
+                        <div class="flex gap-8 min-w-max">
+                            <div>
+                                <p class="font-semibold italic">
+                                    {{ educ.type.toUpperCase() }}
+                                </p>
+                                <p>Name of School: {{ educ.name }}</p>
+                                <p>From: {{ educ.period_attendance_from }}</p>
+                                <p>To: {{ educ.period_attendance_to }}</p>
+                                <p>Year Graduated: {{ educ.year_graduated }}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </LayoutEditBoards>
+        </LayoutDisplayBoards>
     </div>
 </template>

@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/employee/manpower"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
 
 const { manpowerHiringList: manpowerList, manpower, getParams, errorMessage, successMessage, pagination, isDetail } = storeToRefs(manpowers)
@@ -14,11 +14,10 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Position/Title", id: "position" },
+    { name: "Position/Title", id: "position.name" },
     { name: "Requesting Department", id: "requesting_department" },
     { name: "Employment Type", id: "employment_type" },
     { name: "Nature of Request", id: "nature_of_request" },
-    // { name: "Number of Applicants", id: "jobapplicants" },
 ]
 const actions = {
     showTable: false,
@@ -33,11 +32,10 @@ const setDetail = (jobapp) => {
     isDetail.value = true
     manpower.value = jobapp
     if (jobapp && typeof jobapp === "object") {
-        const formattedApplicants = jobapp.job_applicants.map((applicant, index) => {
-            return `${index + 1}. ${applicant.lastname}, ${applicant.firstname} ${applicant.middlename}`
-        })
+        const applicantCount = jobapp.job_applicants.length
 
         manpower.value = {
+            id: jobapp.id,
             Position: jobapp.position,
             "Requesting Department": jobapp.requesting_department,
             "Brief Description": jobapp.brief_description,
@@ -47,17 +45,17 @@ const setDetail = (jobapp) => {
             "Date Requested": jobapp.date_requested,
             "Date Required": jobapp.date_required,
             "Age Range": jobapp.age_range,
-            Status: jobapp.status,
+            "Civil Status": jobapp.status,
             Gender: jobapp.gender,
             "Prefered Qualifications": jobapp.prefered_qualifications,
             "Educational Requirement": jobapp.educational_requirement,
             Remarks: jobapp.remarks,
             "Request Status": jobapp.request_status,
-            Applicants: formattedApplicants.join("\n\n\n")
+            "Total Applicants": applicantCount > 0 ? applicantCount : null,
+            job_applicants: jobapp.job_applicants
         }
     }
 }
-
 </script>
 
 <template>
@@ -66,7 +64,7 @@ const setDetail = (jobapp) => {
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2 ">
                 <LayoutPsTable
                     :header-columns="headers"
-                    :datas="manpowerList"
+                    :datas="manpowerList ?? []"
                     :actions="actions"
                     @detail-row="setDetail"
                 />
@@ -85,6 +83,6 @@ const setDetail = (jobapp) => {
                 {{ successMessage }}
             </p>
         </LayoutBoards>
-        <HrmsEmployeeJobHiringDetails v-if="isDetail" :manpower-data="manpower" class="w-full" @detail-selected="setDetail" />
+        <HrmsEmployeeJobHiringDetails v-show="isDetail" :manpower-data="manpower" class="w-full" />
     </div>
 </template>

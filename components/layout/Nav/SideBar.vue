@@ -99,7 +99,6 @@ const config = useRuntimeConfig()
                 />
             </LayoutNavGroup>
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/project"
                 icon="material-symbols:construction"
                 single-nav-title="Project"
@@ -259,6 +258,11 @@ const config = useRuntimeConfig()
                     single-nav-title="Bulk Upload Employee"
                 />
             </LayoutNavGroup>
+            <LayoutNavSingle
+                linkarea="/hrms/travelorder"
+                icon="material-symbols:googler-travel"
+                single-nav-title="Travel Order"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Inventory / Warehouse -->

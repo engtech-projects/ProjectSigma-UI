@@ -1,7 +1,7 @@
 <script setup>
 
 import { storeToRefs } from "pinia"
-import { useLeaveStore } from "@/stores/hrms/leaves"
+import { useLeaveStore } from "@/stores/hrms/setup/leaves"
 
 const leaves = useLeaveStore()
 const { isEdit } = storeToRefs(leaves)

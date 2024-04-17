@@ -1,14 +1,15 @@
 <script setup>
 
 import { storeToRefs } from "pinia"
-import { useApprovalStore } from "@/stores/hrms/approvals"
-import { useUserStore } from "@/stores/hrms/users"
+import { useApprovalStore } from "@/stores/hrms/setup/approvals"
+import { useEnumsStore } from "@/stores/hrms/enum"
 
 const approvals = useApprovalStore()
-const users = useUserStore()
 const { isEdit } = storeToRefs(approvals)
 approvals.getApproval()
-users.getUserEmployees()
+
+const enums = useEnumsStore()
+enums.getUserEmployeeEnums()
 
 useHead({
     title: "Approvals",
@@ -20,4 +21,3 @@ useHead({
         <HrmsSetupApprovalsForm v-show="!isEdit" />
     </div>
 </template>
-~/stores/hrms/users

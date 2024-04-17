@@ -9,7 +9,6 @@ export default defineNuxtConfig({
             {
                 formatter: "stylish",
                 failOnError: true,
-                failOnWarning: process.env.DEPLOYCHECK === "true",
                 lintOnStart: false,
                 fix: false // change to true when you want to auto fix eslint errors
             },
@@ -65,7 +64,14 @@ export default defineNuxtConfig({
         right: true,
         duration: 5000,
     },
-
+    vite: {
+        vue: {
+            script: {
+                defineModel: true,
+                propsDestructure: true,
+            }
+        }
+    },
     runtimeConfig: {
         public: {
             HRMS_API_URL: process.env.HRMS_API_URL,

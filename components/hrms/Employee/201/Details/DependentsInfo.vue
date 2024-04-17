@@ -3,11 +3,11 @@ import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 
 const employee = useEmployeeInfo()
-const { information: employeeInformation } = storeToRefs(employee)
+const { information } = storeToRefs(employee)
 </script>
 <template>
     <label for="employee_employment" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-6 italic">Dependents</label>
-    <form v-for="(dependent, index) in employeeInformation.child" :key="index" action="">
+    <form v-for="(dependent, index) in information.child" :key="index" action="">
         <table class="w-full border-collapse border border-slate-400 table-fixed ">
             <tbody>
                 <tr>

@@ -4,7 +4,6 @@ import { useEmployeeInfo } from "@/stores/hrms/employee"
 
 const employee = useEmployeeInfo()
 const { information: employeeInformation, employeeIsSearched } = storeToRefs(employee)
-
 </script>
 <template>
     <div class="w-full py-4 px-2 bg-slate-100 rounded-sm border-t-4 border-teal-500 sticky top-0">
@@ -42,7 +41,9 @@ const { information: employeeInformation, employeeIsSearched } = storeToRefs(emp
                             <label
                                 for="text"
                                 class="block text-sm font-medium italic text-teal-700"
-                            >{{ employeeInformation.current_employment }}</label>
+                            >
+                                {{ employeeInformation.current_employment?.position_title }} - {{ employeeInformation.current_employment?.employment_status }}
+                            </label>
                         </div>
                         <div>
                             <label

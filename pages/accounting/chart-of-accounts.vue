@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useAccountStore } from "~/stores/accounting/account"
-import { useChartOfAccountsStore } from "~/stores/accounting/chartofaccounts"
+import { useAccountStore } from "@/stores/accounting/account"
+import { useChartOfAccountsStore } from "@/stores/accounting/chartofaccounts"
 
 const accounts = useChartOfAccountsStore()
 const accountStore = useAccountStore()

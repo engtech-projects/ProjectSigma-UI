@@ -32,17 +32,7 @@ export default {
     },
     methods: {
         addAttendanceSchedule () {
-            // Make an API request to add a new attendance schedule
-            // Example: Assume you have an API endpoint '/api/addAttendanceSchedule'
-            this.$axios.post("/api/addAttendanceSchedule", this.attendanceSchedule)
-                .then((response) => {
-                    return ["Attendance schedule added successfully:", response.data]
-                    // Reset the form or perform other actions as needed
-                })
-                .catch((error) => {
-                    return ["Error adding attendance schedule:", error]
-                    // Handle errors and display a message to the user
-                })
+            // Code Here
         },
     },
 }

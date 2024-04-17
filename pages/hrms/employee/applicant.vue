@@ -1,20 +1,14 @@
 <script setup>
-// import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/employee/manpower"
-import { useDepartmentStore } from "@/stores/hrms/departments"
-import { useUserStore } from "@/stores/hrms/users"
-import { useJobapplicantStore } from "~/stores/employee/jobapplicant"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
+import { useEnumsStore } from "@/stores/hrms/enum"
+const enums = useEnumsStore()
+enums.getUserEmployeeEnums()
+enums.getDepartmentEnums()
 
 const manpowers = useManpowerStore()
-const departments = useDepartmentStore()
-const user = useUserStore()
-const ApplicantInformation = useJobapplicantStore()
 
 manpowers.getManpower()
 manpowers.getManpowerHiringRequests()
-ApplicantInformation.getJobApplicantsDetails()
-departments.getDepartmentList()
-user.getUserEmployees()
 
 useHead({
     title: "Job Applicants",
@@ -23,7 +17,7 @@ useHead({
 </script>
 
 <template>
-    <div class="flex flex-col md:flex-row gap-4">
+    <div class="grid grid-flow-col gap-4">
         <HrmsEmployeeJobOpeningList />
     </div>
 </template>

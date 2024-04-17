@@ -14,6 +14,7 @@ env:
   APPLICATION_NAME: "ProjectSigma_UI"
   GIT_USERNAME: "engtech-projects"
   REPOSITORY_NAME: "ProjectSigma_UI"
+  NODE_VERSION: '20.11.1'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -47,10 +48,16 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ steps.vars.outputs.short_ref }}
+      - run: corepack enable
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
       - name: Build Nuxt
         run: |
               npm ci;
-              npm run generate;
+              npm install;
+              npx nuxt build --preset github_pages;
               cd dist
               git config --global user.email "engtechsolutions2020@gmail.com"
               git config --global user.name "EngtechDeploy"
@@ -77,10 +84,16 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ steps.vars.outputs.short_ref }}
+      - run: corepack enable
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
       - name: Build Nuxt
         run: |
               npm ci;
-              npm run generate;
+              npm install;
+              npx nuxt build --preset github_pages;
               cd dist
               git config --global user.email "engtechsolutions2020@gmail.com"
               git config --global user.name "EngtechDeploy"

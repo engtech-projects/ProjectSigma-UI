@@ -1,5 +1,5 @@
 <script setup>
-import { useSalaryGradeStore } from "~/stores/hrms/salarygrade"
+import { useSalaryGradeStore } from "~/stores/hrms/setup/salarygrade"
 
 useHead({
     title: "Salary Grade",
@@ -9,10 +9,10 @@ const salaryGradeStore = useSalaryGradeStore()
 </script>
 
 <template>
-    <div class="mt-10 md:flex gap-4">
-        <HrmsSalaryGradeEdit v-if="salaryGradeStore.isEdit" class="flex-1" />
-        <HrmsSalaryGradeNew v-else class="flex-1" />
-        <HrmsSalaryGradeList class="flex-2" />
+    <div class="mt-10 md:flex gap-4 overflow-auto">
+        <HrmsSalaryGradeEdit v-if="salaryGradeStore.isEdit" class="flex-1 w-1/3" />
+        <HrmsSalaryGradeNew v-else class="flex-1 w-1/3" />
+        <HrmsSalaryGradeList class="flex-1 w-2/3" />
     </div>
 </template>
 

@@ -1,18 +1,24 @@
 <script setup>
+import { useEnumsStore } from "@/stores/hrms/enum"
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+
+const projects = useProjectStore()
+projects.getProject()
+
+const enums = useEnumsStore()
+enums.getEmployeeEnum()
+enums.getProjectEnums()
+enums.getDepartmentEnums()
+
 useHead({
-    title: "Project",
-    meta: [
-        { name: "description", content: "" }
-    ],
-
+    title: "Projects",
 })
-
 </script>
 
 <template>
-    <div class="mt-10 md:flex gap-2">
-        <HrmsProjectCreateEmployee />
+    <div class="md:flex gap-2">
+        <!-- <HrmsProjectCreateEmployee /> -->
         <HrmsProjectAssign />
-        <HrmsProjectAttendanceScheduleForm />
+        <!-- <HrmsProjectAttendanceScheduleForm /> -->
     </div>
 </template>
