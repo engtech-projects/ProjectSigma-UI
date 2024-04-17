@@ -9,7 +9,7 @@ const signature = ref()
 const save = async () => {
     try {
         const formData = new FormData()
-        formData.append("file_image", signature.value.saveSignature().data)
+        formData.append("image_file", signature.value.saveSignature().data)
         await employee.saveDigitalSignatureUpload(formData)
         snackbar.add({
             type: "success",
