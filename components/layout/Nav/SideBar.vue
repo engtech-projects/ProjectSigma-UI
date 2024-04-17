@@ -122,7 +122,7 @@ const config = useRuntimeConfig()
                 />
             </LayoutNavGroup>
             <LayoutNavGroup
-                icon="mdi:time"
+                icon="mdi:account-clock"
                 title="Leaves and Overtime"
             >
                 <LayoutNavSingle
