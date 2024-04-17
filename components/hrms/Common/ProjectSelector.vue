@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { useEnumsStore } from "@/stores/hrms/enum"
 const enums = useEnumsStore()
 const { projectEnum } = storeToRefs(enums)
@@ -7,7 +7,8 @@ if (projectEnum.value.list.length <= 0) {
 }
 const model = defineModel({ required: false, type: Number, default: null })
 defineProps({
-    showAll: { type: Boolean, default: false }
+    showAll: { type: Boolean, default: false },
+    useHrmsId: { type: Boolean, default: true },
 })
 </script>
 <template>
@@ -18,7 +19,7 @@ defineProps({
         <option v-if="showAll" :value="null">
             All
         </option>
-        <option v-for="data, index in projectEnum.list" :key="index" :value=" data.id">
+        <option v-for="data, index in projectEnum.list" :key="index" :value="useHrmsId ? data.id : data.project_monitoring_id">
             {{ data.project_code }} - {{ data.contract_name }}
         </option>
     </select>

@@ -8,12 +8,9 @@ const selectedEmployees = ref([])
 
 watch(projId, async (newValue, oldValue) => {
     if (oldValue !== newValue) {
-        await Promise.all([
-            projects.getProjectInformation(newValue),
-            projects.projectMemberList(newValue)
-        ]).then(() => {
-            selectedEmployees.value = information.value.employees.project_members_ids
-        })
+        await projects.getProjectInformation(newValue)
+        await projects.projectMemberList(newValue)
+        selectedEmployees.value = information.value.employees.project_members_ids
     }
 })
 const snackbar = useSnackbar()
@@ -114,9 +111,9 @@ const attach = async () => {
                     Project Members
                 </h2>
             </div>
-            <div v-if="information.employees?.project_members" class="divide-gray-200 flex gap-2">
-                <div v-for="(member, index) in information.employees.project_members" :key="index" class="flex items-left p-8">
-                    <span class="text-gray-700 text-lg font-medium mr-4"> {{ index + 1 }} </span>
+            <div v-if="information.employees?.project_members" class="divide-gray-200 p-4">
+                <div v-for="(member, index) in information.employees.project_members" :key="index" class="flex items-left">
+                    <span class="text-gray-700 text-lg font-medium mr-4"> {{ index + 1 }}. </span>
                     <div class="flex-1">
                         <h3 class="text-lg font-medium text-gray-800">
                             {{ member.fullname_last }}
