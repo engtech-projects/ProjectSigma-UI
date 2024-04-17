@@ -1,5 +1,5 @@
 <template>
-    <LayoutBoards title="Cash Advances" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="Cash Advance" class="w-full" :loading="boardLoading">
         <div class="w-full">
             <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
                 <ul id="default-tab" class="flex flex-wrap -mb-px text-sm font-medium text-center" data-tabs-toggle="#default-tab-content" role="tablist">

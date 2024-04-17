@@ -36,8 +36,7 @@ const changePaginate = (newParams) => {
 
 const headers = [
     { name: "Employee Name", id: "employee_id" },
-    { name: "Designation", id: "designation" },
-    { name: "Department", id: "department_id" },
+    // { name: "Department", id: "department_id" },
     { name: "Project", id: "project_id" },
     { name: "Amount Requested", id: "amount_requested" },
     { name: "Amount Approved", id: "amount_approved" },
@@ -53,7 +52,7 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="Overtime Request List" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="Cash Advance List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable :header-columns="headers" :datas="cashadvanceList" :actions="actions" @edit-row="setEdit" @delete-row="deleteReq" />
         </div>
