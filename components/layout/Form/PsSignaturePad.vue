@@ -1,8 +1,26 @@
 <script setup lang="ts">
+import { useEmployeeInfo } from "@/stores/hrms/employee"
+
+const snackbar = useSnackbar()
+const employee = useEmployeeInfo()
+
 const compId = useId()
 const signature = ref()
-const save = () => {
-    // signature.value.saveSignature().data
+const save = async () => {
+    try {
+        const formData = new FormData()
+        formData.append("file_image", signature.value.saveSignature().data)
+        await employee.saveDigitalSignatureUpload(formData)
+        snackbar.add({
+            type: "success",
+            text: employee.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error
+        })
+    }
 }
 const undo = () => {
     signature.value.undoSignature()

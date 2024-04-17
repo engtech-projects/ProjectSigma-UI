@@ -13,14 +13,52 @@ const { information } = storeToRefs(employee)
                 {{ information.company_employments.employeedisplay_id }}
             </p>
         </div>
+        <div class="w-full absolute md:top-[33%] top-[32.5%] m-auto">
+            <p class="text-xl font-bold text-center">
+                <img
+                    v-if="information.profile_photo"
+                    draggable="false"
+                    class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
+                    :src="information.profile_photo.url"
+                    alt="profile pic"
+                >
+                <img
+                    v-else-if="information.gender.toLowerCase() === 'female'"
+                    draggable="false"
+                    class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
+                    :src="'/avatarexample.png'"
+                    alt="profile pic"
+                >
+                <img
+                    v-else
+                    draggable="false"
+                    class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
+                    :src="'/avatarexample.png'"
+                    alt="profile pic"
+                >
+            </p>
+        </div>
         <div class="w-full absolute md:top-[70.5%] top-[70.5%] text-center">
             <p class="text-xl font-bold">
                 {{ information.fullname_first }}
             </p>
         </div>
         <div class="w-full absolute md:top-[75.5%] top-[75.5%] text-center">
+            <p class="text-lg">
+                {{ information.current_employment?.position_title}}
+            </p>
+            <p class="text-xs">
+                {{ information.current_employment?.employee_department.department_name}}
+            </p>
+        </div>
+        <div class="w-full absolute md:top-[80.5%] top-[80.5%] text-center">
             <p class="text-xl font-bold">
-                DIVISION SUPERVISOR
+                <img
+                    draggable="false"
+                    class="md:h-24 w-1/3 bg-transparent rounded-lg m-auto"
+                    :src="information.digital_signature?.url ?? '/signature_example.png'"
+                    alt="profile pic"
+                >
             </p>
         </div>
     </div>
