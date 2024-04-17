@@ -25,3 +25,9 @@ const { information } = storeToRefs(employee)
         </div>
     </div>
 </template>
+<style scoped>
+div, p, img {
+    /* remove border in image */
+    border: hidden;
+}
+</style>

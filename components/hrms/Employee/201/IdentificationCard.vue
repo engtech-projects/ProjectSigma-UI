@@ -1,7 +1,5 @@
-<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup>
 import domtoimage from "dom-to-image-more"
-const snackbar = useSnackbar()
 const printFront = () => {
     const node = document.getElementById("front-id")
     domtoimage
@@ -9,7 +7,7 @@ const printFront = () => {
         .then(function (dataUrl) {
             const a = document.createElement("a")
             a.href = dataUrl
-            a.download = "output.jpeg"
+            a.download = "front.jpeg"
             document.body.appendChild(a)
             a.click()
             document.body.removeChild(a)
@@ -25,7 +23,7 @@ const printBack = () => {
         .then(function (dataUrl) {
             const a = document.createElement("a")
             a.href = dataUrl
-            a.download = "output.jpeg"
+            a.download = "back.jpeg"
             document.body.appendChild(a)
             a.click()
             document.body.removeChild(a)

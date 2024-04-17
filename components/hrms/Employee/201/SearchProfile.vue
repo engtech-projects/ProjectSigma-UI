@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 
 const employee = useEmployeeInfo()
-const { information: employeeInformation, employeeIsSearched } = storeToRefs(employee)
+const { information: employeeInformation, employeeIsSearched, editable } = storeToRefs(employee)
 </script>
 <template>
     <div class="w-full py-4 px-2 bg-slate-100 rounded-sm border-t-4 border-teal-500 sticky top-0">
@@ -33,6 +33,9 @@ const { information: employeeInformation, employeeIsSearched } = storeToRefs(emp
                         src="/avatarexample.png"
                         alt="profile pic"
                     >
+                    <div class="p-2">
+                        <LayoutFormPsUploadPicture v-if="editable" />
+                    </div>
                     <div class="flex flex-col">
                         <div>
                             <p class="text-xl font-bold">

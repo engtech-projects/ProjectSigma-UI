@@ -7,79 +7,76 @@ const employee = useEmployeeInfo()
 const { information } = storeToRefs(employee)
 </script>
 <template>
-    <div id="back-id" class="w-full shadow-lg relative bg-white border-none">
+    <div id="back-id" class="w-full shadow-lg relative bg-white">
         <img class="w-full min-w-80 cover" src="/back.fw.png" alt="front" draggable="false">
-        <div class="w-full absolute md:top-[0.5rem] top-[0.5rem] text-right">
-            <p class="font-light text-xs px-2">
+        <div class="w-full absolute md:top-[1%] top-[1%] text-right">
+            <p class=" text-xs px-2">
                 {{ employee.presentAddress }}
             </p>
-            <p class="font-light text-xs px-2">
+            <p class=" text-xs px-2">
                 {{ information.cellphone }}
             </p>
         </div>
-        <div class="w-full absolute md:top-[7rem] top-[7rem] text-left flex gap-2">
+        <div class="w-full absolute md:top-[15%] top-[15%] text-left flex gap-2">
             <p class="text-sm font-bold px-2">
                 IN CASE OF EMERGENCY PLEASE NOTIFY
             </p>
         </div>
-        <div class="w-2/3 absolute md:top-[9rem] top-[9rem] text-left flex gap-2">
+        <div class="w-2/3 absolute md:top-[20%] top-[20%] text-left flex gap-2">
             <div class="w-full text-center">
-                <p class="text-lg font-light drop-shadow-md">
-                    {{ information.contact_person.name }}
+                <p class="text-lg  drop-shadow-md">
+                    {{ information.contact_person?.name }}
                 </p>
-                <p class="font-light text-xs px-2">
+                <p class=" text-xs px-2">
                     {{ employee.contactPersonAddress }}
-                </p>
-                <p class="font-light text-xs px-2">
-                    {{ employee.contact_person }}
                 </p>
             </div>
         </div>
-        <div class="w-full absolute md:top-[15rem] top-[15rem] text-left">
+        <div class="w-full absolute md:top-[30%] top-[30%] text-left">
             <div class="w-2/3 text-left p-2">
                 <div class="flex gap-2">
-                    <p class="text-xs font-light drop-shadow-md">
+                    <p class="text-xs drop-shadow-md">
                         TIN:
                     </p>
-                    <p class="text-xs font-light drop-shadow-md">
+                    <p class="text-xs drop-shadow-md">
                         {{ information.company_employments.tin_number ?? 'NO DETAILS' }}
                     </p>
                 </div>
                 <div class="flex gap-2">
-                    <p class="text-xs font-light drop-shadow-md">
+                    <p class="text-xs drop-shadow-md">
                         PAG-IBIG:
                     </p>
-                    <p class="text-xs font-light drop-shadow-md">
+                    <p class="text-xs  drop-shadow-md">
                         {{ information.company_employments.pagibig_number ?? 'NO DETAILS' }}
                     </p>
                 </div>
                 <div class="flex gap-2">
-                    <p class="text-xs font-light drop-shadow-md">
+                    <p class="text-xs drop-shadow-md">
                         PHIC:
                     </p>
-                    <p class="text-xs font-light drop-shadow-md">
+                    <p class="text-xs drop-shadow-md">
                         {{ information.company_employments.phic_number ?? 'NO DETAILS' }}
                     </p>
                 </div>
                 <div class="flex gap-2">
-                    <p class="text-xs font-light drop-shadow-md">
+                    <p class="text-xs drop-shadow-md">
                         SSS:
                     </p>
-                    <p class="text-xs font-light drop-shadow-md">
+                    <p class="text-xs drop-shadow-md">
                         {{ information.company_employments.sss_number ?? 'NO DETAILS' }}
                     </p>
                 </div>
                 <div class="flex gap-2">
-                    <p class="text-xs font-light drop-shadow-md">
+                    <p class="text-xs drop-shadow-md">
                         BIRTHDAY:
                     </p>
-                    <p class="text-xs font-light drop-shadow-md">
+                    <p class="text-xs drop-shadow-md">
                         {{ information.birthday ?? 'NO DETAILS' }}
                     </p>
                 </div>
             </div>
         </div>
-        <div class="w-full absolute md:top-[21rem] top-[20rem]">
+        <div class="w-full absolute md:top-[50%] top-[50%]">
             <div class="w-full p-2  text-center">
                 <vue-qr
                     id="employee-qr-code"
@@ -93,3 +90,9 @@ const { information } = storeToRefs(employee)
         </div>
     </div>
 </template>
+<style scoped>
+div, p, img {
+    /* remove border in image */
+    border: hidden;
+}
+</style>
