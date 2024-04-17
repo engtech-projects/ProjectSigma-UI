@@ -19,7 +19,7 @@ const { information: employeeInformation, employeeIsSearched, editable } = store
                     <img
                         v-if="employeeInformation.profile_photo"
                         class="md:h-58 w-full bg-gray-400 rounded-lg"
-                        :src="config.public.HRMS_API_URL + '/storage/' + information.profile_photo.url"
+                        :src="config.public.HRMS_API_URL + '/storage/' + employeeInformation.profile_photo.url"
                         alt="profile pic"
                     >
                     <img

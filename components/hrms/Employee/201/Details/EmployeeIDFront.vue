@@ -58,14 +58,14 @@ const { information } = storeToRefs(employee)
                     v-if="information.digital_signature"
                     draggable="false"
                     class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
-                    src="/signature_example.png"
+                    :src="config.public.HRMS_API_URL + '/storage/' + information.digital_signature.url"
                     alt="profile pic"
                 >
                 <img
                     v-else
                     draggable="false"
                     class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
-                    :src="config.public.HRMS_API_URL + '/storage/' + information.digital_signature.url"
+                    src="/signature_example.png"
                     alt="profile pic"
                 >
             </p>
