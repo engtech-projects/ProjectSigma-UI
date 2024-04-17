@@ -179,7 +179,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.projectEnum.list = response._data.projects ?? []
+                            this.projectEnum.list = response._data.data ?? []
                         }
                     },
                 }
