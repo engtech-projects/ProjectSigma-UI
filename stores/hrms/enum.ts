@@ -16,8 +16,16 @@ export interface Project {
     id: number,
     project_monitoring_id: number,
     project_code: string,
+    status: string,
     contract_name: string,
     contract_id: string,
+    projects: {
+        id: number,
+        project_code: string,
+        contract_name: string,
+        contract_id: string,
+        completion_status: string,
+    },
 }
 export interface SalaryGrade {
     id: number,

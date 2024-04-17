@@ -1,21 +1,17 @@
 <script setup>
-// import { useEnumsStore } from "@/stores/hrms/enum"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
-// const enums = useEnumsStore()
 const { information } = storeToRefs(projects)
-// const { projectEnum } = storeToRefs(enums)
-
+const projId = ref()
 const selectedEmployees = ref([])
 
-watch(information.value.id, async () => {
-    await promise.all([
-        projects.getProjectInformation(projects.information.id),
-        projects.projectMemberList(projects.information.id)
-    ]).then(() => {
+watch(projId, async (newValue, oldValue) => {
+    if (oldValue !== newValue) {
+        await projects.getProjectInformation(newValue)
+        await projects.projectMemberList(newValue)
         selectedEmployees.value = information.value.employees.project_members_ids
-    })
+    }
 })
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -53,7 +49,7 @@ const attach = async () => {
         <div class="text-gray-500">
             <form @submit.prevent="attach">
                 <div class="pt-2">
-                    <HrmsCommonProjectSelector v-model="projects.information.id" />
+                    <HrmsCommonProjectSelector v-model="projId" />
                 </div>
                 <HrmsCommonMultipleEmployeeSelector v-model="selectedEmployees" />
                 <div class="max-w-full flex flex-row-reverse mt-5">
@@ -115,9 +111,9 @@ const attach = async () => {
                     Project Members
                 </h2>
             </div>
-            <div v-if="information.employees?.project_members" class="divide-gray-200 flex gap-2">
-                <div v-for="(member, index) in information.employees.project_members" :key="index" class="flex items-left p-8">
-                    <span class="text-gray-700 text-lg font-medium mr-4"> {{ index + 1 }} </span>
+            <div v-if="information.employees?.project_members" class="divide-gray-200 p-4">
+                <div v-for="(member, index) in information.employees.project_members" :key="index" class="flex items-left">
+                    <span class="text-gray-700 text-lg font-medium mr-4"> {{ index + 1 }}. </span>
                     <div class="flex-1">
                         <h3 class="text-lg font-medium text-gray-800">
                             {{ member.fullname_last }}
