@@ -97,6 +97,7 @@ export const useEnumsStore = defineStore("enums", {
             return state.allEmployeeEnum.list.filter((employee:any) => {
                 return employee.fullname_last.includes(state.allEmployeeEnum.nameFilter) &&
                 (
+                    !state.allEmployeeEnum.params.filterType ||
                     (
                         state.allEmployeeEnum.params.filterType === "Department" &&
                         employee.department.id === state.allEmployeeEnum.params.filterData
