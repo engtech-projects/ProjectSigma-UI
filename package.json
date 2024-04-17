@@ -34,6 +34,7 @@
     "@vuepic/vue-datepicker": "^7.2.2",
     "apexcharts": "^3.43.2-0",
     "chart.js": "^4.4.0",
+    "dom-to-image-more": "^3.3.0",
     "face-api.js": "^0.22.2",
     "flowbite": "^1.8.1",
     "flowbite-datepicker": "^1.2.2",

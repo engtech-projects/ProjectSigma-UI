@@ -6,7 +6,7 @@ const employee = useEmployeeInfo()
 const { information } = storeToRefs(employee)
 </script>
 <template>
-    <div class="w-full shadow-lg relative">
+    <div id="front-id" class="w-full shadow-lg relative bg-white border-none">
         <img class="w-full min-w-80 cover" src="/front.fw.png" alt="front" draggable="false">
         <div class="w-full absolute md:top-[9rem] top-[10rem] text-center">
             <p class="font-light text-xl">
