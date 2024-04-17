@@ -50,6 +50,27 @@ export const REQUEST_STATUS = [
     REQUEST_CANCELLED,
     REQUEST_DISAPPROVED
 ]
+export interface Manpower {
+    id: null | number,
+    requesting_department: null | string,
+    date_requested: string,
+    date_required: string,
+    position_id: null | string,
+    employment_type: string,
+    brief_description: string,
+    job_description_attachment: Blob,
+    nature_of_request: string,
+    age_range: string,
+    status: string,
+    gender: string,
+    educational_requirement: string,
+    preferred_qualifications: string,
+    approvals: Array<any>,
+    remarks: string,
+    request_status: string,
+    charged_to: null | string,
+    breakdown_details: string,
+}
 
 export const useManpowerStore = defineStore("manpowers", {
     state: () => ({
@@ -59,25 +80,24 @@ export const useManpowerStore = defineStore("manpowers", {
         {
             id: null,
             requesting_department: null,
-            date_requested: null,
-            date_required: null,
+            date_requested: "",
+            date_required: "",
             position_id: null,
-            position: null,
             employment_type: "",
-            brief_description: null,
-            job_description_attachment: undefined,
+            brief_description: "",
+            job_description_attachment: new Blob(),
             nature_of_request: "",
-            age_range: null,
+            age_range: "",
             status: "",
             gender: "",
-            educational_requirement: null,
-            preferred_qualifications: null,
-            approvals: null,
-            remarks: null,
+            educational_requirement: "",
+            preferred_qualifications: "",
+            approvals: [],
+            remarks: "",
             request_status: "",
             charged_to: null,
-            breakdown_details: null,
-        },
+            breakdown_details: "",
+        } as Manpower,
         list: [],
         myApprovalRequestList: [],
         myRequestList: [],
@@ -148,6 +168,25 @@ export const useManpowerStore = defineStore("manpowers", {
         async createManpower () {
             this.successMessage = ""
             this.errorMessage = ""
+            const formData = new FormData()
+            formData.set("requesting_department", this.manpower.requesting_department)
+            formData.set("date_requested", this.manpower.date_requested)
+            formData.set("date_required", this.manpower.date_required)
+            formData.set("position_id", this.manpower.position_id)
+            formData.set("employment_type", this.manpower.employment_type)
+            formData.set("brief_description", this.manpower.brief_description)
+            formData.set("job_description_attachment", this.manpower.job_description_attachment)
+            formData.set("nature_of_request", this.manpower.nature_of_request)
+            formData.set("age_range", this.manpower.age_range)
+            formData.set("status", this.manpower.status)
+            formData.set("gender", this.manpower.gender)
+            formData.set("educational_requirement", this.manpower.educational_requirement)
+            formData.set("preferred_qualifications", this.manpower.preferred_qualifications)
+            formData.set("approvals", this.manpower.approvals)
+            formData.set("remarks", this.manpower.remarks)
+            formData.set("request_status", this.manpower.request_status)
+            formData.set("charged_to", this.manpower.charged_to)
+            formData.set("breakdown_details", this.manpower.breakdown_details)
             await useHRMSApi(
                 "/api/manpower/resource",
                 {
@@ -156,7 +195,7 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.getManpower()
-                            this.reset()
+                            this.$reset()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -182,7 +221,7 @@ export const useManpowerStore = defineStore("manpowers", {
             )
             if (data.value) {
                 this.getManpower()
-                this.reset()
+                this.$reset()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -263,34 +302,5 @@ export const useManpowerStore = defineStore("manpowers", {
                 return error
             }
         },
-
-        reset () {
-            this.manpower = {
-                id: null,
-                requesting_department: null,
-                date_requested: null,
-                date_required: null,
-                position_id: null,
-                position: null,
-                employment_type: "",
-                brief_description: null,
-                job_description_attachment: undefined,
-                nature_of_request: "",
-                age_range: null,
-                status: "",
-                gender: "",
-                educational_requirement: null,
-                preferred_qualifications: null,
-                approvals: null,
-                remarks: null,
-                request_status: "",
-                charged_to: null,
-                breakdown_details: null,
-            }
-            this.isEdit = false
-            this.successMessage = ""
-            this.errorMessage = ""
-        },
-
     },
 })
