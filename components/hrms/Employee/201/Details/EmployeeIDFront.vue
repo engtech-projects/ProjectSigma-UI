@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
+const config = useRuntimeConfig()
 const employee = useEmployeeInfo()
 
 const { information } = storeToRefs(employee)
@@ -19,7 +20,7 @@ const { information } = storeToRefs(employee)
                     v-if="information.profile_photo"
                     draggable="false"
                     class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
-                    :src="information.profile_photo.url"
+                    :src="config.public.HRMS_API_URL + '/storage/' + information.profile_photo.url"
                     alt="profile pic"
                 >
                 <img
@@ -45,18 +46,26 @@ const { information } = storeToRefs(employee)
         </div>
         <div class="w-full absolute md:top-[75.5%] top-[75.5%] text-center">
             <p class="text-lg">
-                {{ information.current_employment?.position_title}}
+                {{ information.current_employment?.position_title }}
             </p>
             <p class="text-xs">
-                {{ information.current_employment?.employee_department.department_name}}
+                {{ information.current_employment?.employee_department.department_name }}
             </p>
         </div>
         <div class="w-full absolute md:top-[80.5%] top-[80.5%] text-center">
             <p class="text-xl font-bold">
                 <img
+                    v-if="information.digital_signature"
                     draggable="false"
-                    class="md:h-24 w-1/3 bg-transparent rounded-lg m-auto"
-                    :src="information.digital_signature?.url ?? '/signature_example.png'"
+                    class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
+                    src="/signature_example.png"
+                    alt="profile pic"
+                >
+                <img
+                    v-else
+                    draggable="false"
+                    class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
+                    :src="config.public.HRMS_API_URL + '/storage/' + information.digital_signature.url"
                     alt="profile pic"
                 >
             </p>
