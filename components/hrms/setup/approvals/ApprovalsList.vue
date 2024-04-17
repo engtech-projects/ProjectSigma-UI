@@ -1,41 +1,22 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { useUserStore } from "@/stores/hrms/users"
-
-const user = useUserStore()
-const { employeeUserList } = storeToRefs(user)
-
-const props = defineProps({
-    approval: {
-        type: Object,
-        required: true,
-    },
-})
-const emit = defineEmits(["changeuserId"])
-
-const changeValue = (event) => {
-    emit("changeuserId", props.approval, event.target.value)
-}
+const model = defineModel({ required: true, type: Object })
 </script>
 
 <template>
-    <div>
-        <div class="font-semibold text-black">
-            {{ approval.type }}
+    <div class="grid grid-cols-2 border border-slate-400 p-2">
+        <div class="flex flex-col">
+            <div class="font-semibold text-black">
+                {{ model.type }}
+            </div>
         </div>
 
-        <div v-if="approval.userselector">
-            <select class="w-full" @change="changeValue(approval)">
-                <option value="" disabled selected>
-                    --Select--
-                </option>
-                <option v-for="userSelect in employeeUserList" :key="userSelect.id" :value="userSelect.id">
-                    {{ userSelect.name }}
-                </option>
-            </select>
-        </div>
-        <div v-else>
-            <span class="font-semibold">{{ approval.name }}</span>
+        <div class="flex flex-col">
+            <div v-if="model.userselector">
+                <HrmsCommonUserEmployeeSelector v-model="model.user_id" />
+            </div>
+            <div v-else>
+                <span class="font-semibold">{{ model.employee.fullname_first }}</span>
+            </div>
         </div>
     </div>
 </template>

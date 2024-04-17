@@ -9,6 +9,7 @@ const { list: typeList, isEdit, getParams, pagination, errorMessage, successMess
 const setEdit = (ttype) => {
     isEdit.value = true
     transactionTypeStore.transactionType = ttype
+    return navigateTo("/accounting/transaction-type/edit/" + ttype.transaction_type_id)
 }
 
 const isLoading = ref(false)
@@ -42,36 +43,45 @@ const snackbar = useSnackbar()
 </script>
 
 <template>
-    <LayoutBoards title="Transaction Type List" class="w-full" :loading="transactionTypeStore.isLoading">
-        <div class="pb-2 text-gray-500">
-            <LayoutPsTable
-                id="listTable"
-                :header-columns="headers"
-                :datas="typeList"
-                :actions="actions"
-                @edit-row="setEdit"
-                @delete-row="deleteType"
-            />
-            <i v-if="!typeList.length&&!transactionTypeStore.isLoading" class="p-4 text-center block">No data available.</i>
-        </div>
-        <div class="flex justify-center mx-auto">
-            <CustomPagination
-                v-if="typeList.length"
-                :links="pagination"
-                @change-params="changePaginate"
-            />
-        </div>
-        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
-            {{ errorMessage }}
-        </p>
-        <p
-            v-show="successMessage"
-            hidden
-            class="success-message text-green-600 text-center font-semibold italic"
+    <div class="flex flex-col items-end gap-4">
+        <NuxtLink
+            to="/accounting/transaction-type/create"
+            class="flex-1 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
         >
-            {{ successMessage }}
-        </p>
-    </LayoutBoards>
+            <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
+            <span>Create New Type</span>
+        </NuxtLink>
+        <LayoutBoards title="Transaction Type List" class="w-full" :loading="transactionTypeStore.isLoading">
+            <div class="pb-2 text-gray-500">
+                <LayoutPsTable
+                    id="listTable"
+                    :header-columns="headers"
+                    :datas="typeList"
+                    :actions="actions"
+                    @edit-row="setEdit"
+                    @delete-row="deleteType"
+                />
+                <i v-if="!typeList.length&&!transactionTypeStore.isLoading" class="p-4 text-center block">No data available.</i>
+            </div>
+            <div class="flex justify-center mx-auto">
+                <CustomPagination
+                    v-if="typeList.length"
+                    :links="pagination"
+                    @change-params="changePaginate"
+                />
+            </div>
+            <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+                {{ errorMessage }}
+            </p>
+            <p
+                v-show="successMessage"
+                hidden
+                class="success-message text-green-600 text-center font-semibold italic"
+            >
+                {{ successMessage }}
+            </p>
+        </LayoutBoards>
+    </div>
 </template>
 
 <style>

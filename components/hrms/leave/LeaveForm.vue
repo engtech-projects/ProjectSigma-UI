@@ -1,217 +1,314 @@
-<template>
-    <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-        <label for="" class="text-xl font-semibold text-gray-900">Leave Application Form</label>
-        <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
-            <div class="mb-6">
-                <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                <input id="employee" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-            </div>
-            <div class="mb-6">
-                <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
-                <input id="department" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-            </div>
-        </div>
-        <div class="grid gap-6 mb-6 md:grid-cols-2">
-            <div class="mb-6">
-                <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                <input id="position" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-            </div>
-            <div class="mb-6">
-                <label for="date_filed" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Filed</label>
-                <input id="date_filed" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-            </div>
-        </div>
-        <div class="flex gap-7">
-            <div class="w-3/5">
-                <label for="" class="text-xl font-semibold text-gray-900">LEAVE AVAILMENT</label>
-                <div class="flex gap-5">
-                    <div class="w-1/2">
-                        <div class="mt-5 flex items-center mb-4">
-                            <input id="leave-availment-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="leave-availment-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sick / Check up</label>
-                        </div>
-                        <div class="flex items-center mb-4">
-                            <input id="leave-availment-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="leave-availment-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Special Celebration</label>
-                        </div>
-                        <div class="flex items-center mb-4">
-                            <input id="leave-availment-3" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="leave-availment-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Vacation</label>
-                        </div>
-                        <div class="flex items-center mb-4">
-                            <input id="leave-availment-4" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="leave-availment-4" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mandatory Leave</label>
-                        </div>
-                        <div class="flex items-center mb-4">
-                            <input id="leave-availment-5" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="leave-availment-5" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Bereavement</label>
-                        </div>
-                        <div class="flex items-center mb-4">
-                            <input id="leave-availment-6" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="leave-availment-6" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Maternity / Paternity</label>
-                        </div>
-                        <div class="flex items-center mb-4">
-                            <input id="leave-availment-7" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="leave-availment-7" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Other</label>
-                        </div>
-                        <div class="flex items-center mb-4">
-                            <input id="other_absence_requested" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-                        </div>
-                        <div class="flex items-center mb-4">
-                            <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
-                                <div class="mb-6">
-                                    <input id="leave-withpay-1" type="radio" value="" name="default-radio-2" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="leave-withpay-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">WITH PAY</label>
-                                </div>
-                                <div class="mb-6">
-                                    <input id="leave-withpay-2" type="radio" value="" name="default-radio-2" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                    <label for="leave-withpay-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">WITHOUT PAY</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-6">
-                            <label for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">REASONS/REMARKS</label>
-                            <input id="other_absence_requested" type="text" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-                        </div>
-                    </div>
-                    <div class="w-1/2">
-                        <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
-                            <div class="mb-6">
-                                <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No. of Days:</label>
-                                <input id="employee" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-                            </div>
-                            <div class="mb-6">
-                                <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No. of Hours:</label>
-                                <input id="department" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-                            </div>
-                        </div>
-                        <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
-                            <div class="mb-6">
-                                <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No. of Days:</label>
-                                <input id="employee" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-                            </div>
-                            <div class="mb-6">
-                                <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No. of Hours:</label>
-                                <input id="department" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-                            </div>
-                        </div>
-                        <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
-                            <div class="mb-6">
-                                <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time From:</label>
-                                <input id="employee" type="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-                            </div>
-                            <div class="mb-6">
-                                <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Time To:</label>
-                                <input id="department" type="time" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="w-2/5">
-                <label for="" class="text-xl font-semibold text-gray-900">EMPLOYEE'S LEAVE RECORD (HRD use only)</label>
-                <EasyDataTable
-                    id="employee_leave_table"
-                    class="mt-5"
-                    :headers="headers"
-                    :items="items"
-                />
-            </div>
-        </div>
-        <div class="max-w-full flex flex-row-reverse mt-5">
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" @click="submitAdd">
-                Add
-            </button>
-        </div>
-    </div>
-</template>
+<script setup>
+import { useEmployeeInfo } from "~/stores/hrms/employee"
+import { useApprovalStore } from "~/stores/hrms/setup/approvals"
+import { useProjectStore } from "@/stores/project-monitoring/projects"
 
-<script setup lang="ts">
-import { Header, Item } from "vue3-easy-data-table"
+import {
+    useLeaveRequest,
+    EMPLOYEE_VACATION,
+    EMPLOYEE_SICK_CHECKUP,
+    EMPLOYEE_CELEBRATION,
+    EMPLOYEE_MANDATORY,
+    EMPLOYEE_BEREAVEMENT,
+    EMPLOYEE_MATERNITY_PATERNITY,
+    EMPLOYEE_OTHER,
+    EMPLOYEE_WITH_PAY,
+    EMPLOYEE_WITHOUT_PAY,
+    EMPLOYEE_APPROVAL_REQ,
+    EMPLOYEE_REQUEST_TYPE_PENDING
+} from "~/stores/hrms/leaveRequest"
 
-const headers: Header[] = [
+const employee = useEmployeeInfo()
+const approval = useApprovalStore()
+const leaveRequest = useLeaveRequest()
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+const projects = useProjectStore()
+const { list: projectList } = storeToRefs(projects)
+projects.getProject()
+leaveRequest.payload.type = EMPLOYEE_VACATION
+leaveRequest.payload.with_pay = EMPLOYEE_WITH_PAY
+leaveRequest.payload.request_status = EMPLOYEE_REQUEST_TYPE_PENDING
+leaveRequest.payload.approvals = await approval.getApprovalByName(EMPLOYEE_APPROVAL_REQ)
+const headers = [
     { text: "CREDITS", value: "credits" },
     { text: "EARNED", value: "earned" },
     { text: "USED", value: "used" },
     { text: "BALANCE", value: "balance" },
 ]
 
-const items: Item[any] = ref([
+const setEmployee = () => {
+    leaveRequest.payload.employee_id = employee.information.id
+    leaveRequest.payload.department_id = employee.information.employee_internal.department_id
+}
+
+const totalDates = computed(() => {
+    if (leaveRequest.payload.date_of_absence_to && leaveRequest.payload.date_of_absence_from) {
+        leaveRequest.payload.number_of_days = 1
+        const dateStart = new Date(leaveRequest.payload.date_of_absence_from)
+        const dateEnd = new Date(leaveRequest.payload.date_of_absence_to)
+        const dsMin = dateStart.setMinutes(dateStart.getMinutes() - dateStart.getTimezoneOffset())
+        const deMin = dateEnd.setMinutes(dateEnd.getMinutes() - dateEnd.getTimezoneOffset())
+        leaveRequest.payload.number_of_days = (deMin - dsMin) / (24 * 60 * 60 * 1000) + 1
+    }
+})
+const items = ref([
     {
         credits: "Vacation Leave",
         earned: "",
         used: "",
         balance: "",
     },
-    {
-        credits: "Sick Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Service Incentive Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Emergency Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Paternity Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Maternity Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Birthday Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Solo Parent Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Educational Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Menstrual Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-    {
-        credits: "Others",
-        earned: "",
-        used: "",
-        balance: "",
-    },
 ])
-const submitAdd = () => {
+const submitAdd = async () => {
+    try {
+        boardLoading.value = true
+        await leaveRequest.createRequest()
+        if (leaveRequest.successMessage) {
+            snackbar.add({
+                type: "success",
+                text: leaveRequest.successMessage
+            })
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    } finally {
+        boardLoading.value = false
+    }
 }
 </script>
 
+<template>
+    <LayoutBoards title="" class="mt-5 edit-item w-full max-w-full">
+        <div class="w-full p-2">
+            <label for="" class="text-xl font-semibold text-gray-900">Leave Application Form</label>
+            <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
+                <div class="mb-6">
+                    <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                    <SearchBar @search-changed="setEmployee" />
+                </div>
+                <div class="mb-6">
+                    <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
+                    <p>{{ employee.information?.employee_internal?.position_title ?? "No Position" }}</p>
+                </div>
+            </div>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                <div class="mb-6">
+                    <div>
+                        <label
+                            for="leaveDepartmentSection"
+                            class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
+                        >Department:</label>
+                        <HrmsCommonDepartmentSelector
+                            id="leaveDepartmentSection"
+                            v-model="leaveRequest.payload.department_id"
+                        />
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <div>
+                        <label
+                            for="leaveRequestProject"
+                            class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
+                        >Project:</label>
+                        <select
+                            id="leaveRequestProject"
+                            v-model="leaveRequest.payload.project_id"
+                            class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                        >
+                            <option v-for="(project, index) in projectList" :key="index" :value="project.id">
+                                {{ project.contract_id }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label for="date_filed" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Filed</label>
+                    <input id="date_filed" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" required>
+                </div>
+            </div>
+            <div class="w-full">
+                <div class="w-full">
+                    <label for="" class="text-xl font-semibold text-gray-900">LEAVE AVAILMENT</label>
+                    <div class="flex gap-5">
+                        <div class="w-full">
+                            <div class="mt-5 flex items-center mb-4">
+                                <input
+                                    id="emp_sick_checkup"
+                                    v-model="leaveRequest.payload.type"
+                                    :value="EMPLOYEE_SICK_CHECKUP"
+                                    type="radio"
+                                    name="default-radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                <label for="emp_sick_checkup" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sick / Check up</label>
+                            </div>
+                            <div class="flex items-center mb-4">
+                                <input
+                                    id="emp_celebration"
+                                    v-model="leaveRequest.payload.type"
+                                    :value="EMPLOYEE_CELEBRATION"
+                                    type="radio"
+                                    name="default-radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                <label for="emp_celebration" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Special Celebration</label>
+                            </div>
+                            <div class="flex items-center mb-4">
+                                <input
+                                    id="emp_vacation"
+                                    v-model="leaveRequest.payload.type"
+                                    :value="EMPLOYEE_VACATION"
+                                    type="radio"
+                                    name="default-radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                <label for="emp_vacation" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Vacation</label>
+                            </div>
+                            <div class="flex items-center mb-4">
+                                <input
+                                    id="emp_mandatory"
+                                    v-model="leaveRequest.payload.type"
+                                    :value="EMPLOYEE_MANDATORY"
+                                    type="radio"
+                                    name="default-radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                <label for="emp_mandatory" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mandatory Leave</label>
+                            </div>
+                            <div class="flex items-center mb-4">
+                                <input
+                                    id="emp_bereavment"
+                                    v-model="leaveRequest.payload.type"
+                                    :value="EMPLOYEE_BEREAVEMENT"
+                                    type="radio"
+                                    name="default-radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                <label for="emp_bereavment" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Bereavement</label>
+                            </div>
+                            <div class="flex items-center mb-4">
+                                <input
+                                    id="emp_maternity_paternity"
+                                    v-model="leaveRequest.payload.type"
+                                    :value="EMPLOYEE_MATERNITY_PATERNITY"
+                                    type="radio"
+                                    name="default-radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                <label for="emp_maternity_paternity" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Maternity / Paternity</label>
+                            </div>
+                            <div class="flex items-center mb-4">
+                                <input
+                                    id="emp_other"
+                                    v-model="leaveRequest.payload.type"
+                                    :value="EMPLOYEE_OTHER"
+                                    type="radio"
+                                    name="default-radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                <label for="emp_other" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Other</label>
+                            </div>
+                            <div v-show="leaveRequest.payload.type == EMPLOYEE_OTHER" class="flex items-center mb-4">
+                                <input
+                                    id="other_absence_requested"
+                                    v-model="leaveRequest.payload.type"
+                                    type="text"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="If Other please put the type"
+                                >
+                            </div>
+                            <div class="mb-6">
+                                <label for="emp_reason_remarks" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">REASONS/REMARKS</label>
+                                <input id="emp_reason_remarks" v-model="leaveRequest.payload.reason_for_absence" type="text" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="remarks">
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            <div class="mt-5 w-full">
+                                <div class="mb-6">
+                                    <label for="emp_no_of_days" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No. of Days:</label>
+                                    <input id="emp_no_of_days" v-model="leaveRequest.payload.number_of_days" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                                </div>
+                            </div>
+                            <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
+                                <div class="mb-6">
+                                    <label for="emp_days_from" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days from</label>
+                                    <input
+                                        id="emp_days_from"
+                                        v-model="leaveRequest.payload.date_of_absence_from"
+                                        type="date"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder=""
+                                        @change="totalDates"
+                                    >
+                                </div>
+                                <div class="mb-6">
+                                    <label for="emp_days_to" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days to</label>
+                                    <input
+                                        id="emp_days_to"
+                                        v-model="leaveRequest.payload.date_of_absence_to"
+                                        type="date"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder=""
+                                        @change="totalDates"
+                                    >
+                                </div>
+                            </div>
+                            <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
+                                <div class="mb-6">
+                                    <input
+                                        id="emp_with_pay"
+                                        v-model="leaveRequest.payload.with_pay"
+                                        :value="EMPLOYEE_WITH_PAY"
+                                        type="radio"
+                                        name="emp_with_pay"
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    >
+                                    <label for="emp_with_pay" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">WITH PAY</label>
+                                </div>
+                                <div class="mb-6">
+                                    <input
+                                        id="emp_without_pay"
+                                        v-model="leaveRequest.payload.with_pay"
+                                        :value="EMPLOYEE_WITHOUT_PAY"
+                                        type="radio"
+                                        name="emp_without_pay"
+                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    >
+                                    <label for="emp_without_pay" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">WITHOUT PAY</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full p-2">
+                    <HrmsLeaveApproval />
+                </div>
+                <div class="w-full">
+                    <label for="" class="text-xl font-semibold text-gray-900">EMPLOYEE'S LEAVE RECORD (HRD use only)</label>
+                    <EasyDataTable
+                        id="employee_leave_table"
+                        class="mt-5"
+                        :headers="headers"
+                        :items="items"
+                    />
+                </div>
+            </div>
+            <div class="max-w-full flex flex-row-reverse mt-5">
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" @click="submitAdd">
+                    Add
+                </button>
+            </div>
+        </div>
+    </LayoutBoards>
+</template>
+
 <style scoped>
-
 #employee_leave_table .vue3-easy-data-table__footer{
-  display: none !important;
+    display: none !important;
 }
-
 </style>

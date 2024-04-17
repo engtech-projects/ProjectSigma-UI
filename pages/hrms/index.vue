@@ -1,7 +1,7 @@
 <script setup>
-import { initFlowbite } from "flowbite"
-import { useAnnouncements } from "@/stores/announcements"
+import { useAnnouncements } from "@/stores/hrms/announcements"
 
+const config = useRuntimeConfig()
 const mains = useAnnouncements()
 mains.getactiveAll()
 
@@ -31,10 +31,6 @@ const employeesabsencesData = ref([
     { name: "Carrie M. Bags", avatar: "/avatarexample.png", absences: "3" },
     { name: "Ivy Lague", avatar: "/avatarexample.png", absences: "2" },
 ])
-// initialize components based on data attribute selectors
-onMounted(() => {
-    initFlowbite()
-})
 
 useHead({
     title: "Dashboard",
@@ -52,7 +48,7 @@ useHead({
         >
             <HrmsDashboardAnnouncementTimeline />
         </div>
-        <div v-if="config.public.APP_ENV == 'local'">
+        <template v-if="config.public.APP_ENV == 'local'">
             <div
                 class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
             >
@@ -92,6 +88,6 @@ useHead({
             >
                 <HrmsDashboardMaleFemaleChart />
             </div>
-        </div>
+        </template>
     </div>
 </template>

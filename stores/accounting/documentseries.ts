@@ -35,7 +35,7 @@ export const useDocumentSeriesStore = defineStore("documentSeriesStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.data
+                        this.list = response._data.data.document_series
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,

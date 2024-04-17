@@ -64,7 +64,14 @@ export default defineNuxtConfig({
         right: true,
         duration: 5000,
     },
-
+    vite: {
+        vue: {
+            script: {
+                defineModel: true,
+                propsDestructure: true,
+            }
+        }
+    },
     runtimeConfig: {
         public: {
             HRMS_API_URL: process.env.HRMS_API_URL,

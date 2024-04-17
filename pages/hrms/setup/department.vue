@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useDepartmentStore } from "@/stores/departments"
+import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 
 const departments = useDepartmentStore()
 const { isEdit } = storeToRefs(departments)

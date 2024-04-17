@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useLeaveStore } from "@/stores/leaves"
+import { EMPLOYMENT_TYPE, useLeaveStore } from "@/stores/hrms/setup/leaves"
 
 const leaves = useLeaveStore()
 const { leave, errorMessage, successMessage } = storeToRefs(leaves)
@@ -72,7 +72,7 @@ const addLeave = async () => {
                         <label
                             for="employment_type"
                             class="text-sm italic"
-                        >Employement Type</label>
+                        >Employment Type</label>
                         <select
                             id="employment_type"
                             v-model="leave.employment_type"

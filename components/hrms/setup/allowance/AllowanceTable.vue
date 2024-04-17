@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useAllowanceStore } from "@/stores/allowance"
+import { useAllowanceStore } from "@/stores/hrms/setup/allowance"
 
 const allowances = useAllowanceStore()
 
@@ -73,7 +73,14 @@ const submitAllowance = async (positionAllowance) => {
                             {{ pos.dpt_name + ' - ' + pos.position_type }}({{ pos.name }})
                         </td>
                         <td class="flex gap-4 p-2 rounded-md">
-                            <input v-model="pos.amount" class="rounded-md" type="number">
+                            <input
+                                v-model="pos.amount"
+                                class="rounded-md"
+                                type="number"
+                                step=".01"
+                                min="0"
+                                required
+                            >
 
                             <button type="submit" class="rounded-md bg-green-400 p-2 text-white hover:bg-green-500" @click.prevent="submitAllowance(pos)">
                                 Save Changes

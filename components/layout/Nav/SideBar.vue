@@ -5,12 +5,15 @@ const config = useRuntimeConfig()
 <template>
     <ul class="space-y-2">
         <LayoutNavSingle
+            class="px-5"
             linkarea="/dashboard"
             icon="ic:baseline-space-dashboard"
             single-nav-title="Dashboard"
         />
         <!-- HRMS -->
-        <LayoutNavModuleGroup title="hrms">
+        <LayoutNavModuleGroup
+            title="hrms"
+        >
             <LayoutNavSingle
                 linkarea="/hrms"
                 icon="ic:round-dashboard"
@@ -85,7 +88,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Onboarding"
                 />
                 <LayoutNavSingle
-                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/employee/applicant"
                     icon="ic:baseline-diversity-3"
                     single-nav-title="Job Applicants"
@@ -97,7 +99,6 @@ const config = useRuntimeConfig()
                 />
             </LayoutNavGroup>
             <LayoutNavSingle
-                v-if="config.public.APP_ENV == 'local'"
                 linkarea="/hrms/project"
                 icon="material-symbols:construction"
                 single-nav-title="Project"
@@ -246,24 +247,38 @@ const config = useRuntimeConfig()
                     single-nav-title="Settings"
                 />
                 <LayoutNavSingle
+                    linkarea="/hrms/setup/salary-grade"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Salary Grade"
+                />
+                <LayoutNavSingle
                     v-if="config.public.BULK_UPLOAD_ENABLED === 'true'"
                     linkarea="/hrms/setup/bulk-upload-employee"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Bulk Upload Employee"
                 />
             </LayoutNavGroup>
+            <LayoutNavSingle
+                linkarea="/hrms/travelorder"
+                icon="material-symbols:googler-travel"
+                single-nav-title="Travel Order"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Inventory / Warehouse -->
         <LayoutNavModuleGroup
             v-if="config.public.APP_ENV == 'local'"
-            id="dropdown-inventorywarehouse-main"
             title="Inventory / Warehouse"
-        />
+        >
+            <LayoutNavSingle
+                linkarea="/inventory"
+                icon="ic:baseline-space-dashboard"
+                single-nav-title="Inventory Dashboard"
+            />
+        </LayoutNavModuleGroup>
 
         <!-- Accounting -->
         <LayoutNavModuleGroup
-            id="dropdown-accounting-main"
             title="Accounting"
         >
             <LayoutNavSingle
@@ -291,13 +306,27 @@ const config = useRuntimeConfig()
                 icon="iconoir:notes"
                 single-nav-title="Posting Period"
             />
+            <LayoutNavSingle
+                linkarea="/accounting/account-groups"
+                icon="iconoir:commodity"
+                single-nav-title="Account Groups"
+            />
+            <LayoutNavSingle
+                linkarea="/accounting/stakeholder"
+                icon="iconoir:user-square"
+                single-nav-title="Stakeholder"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup
-            id="dropdown-projectmonitoring-main"
             title="Project Monitoring"
         >
+            <LayoutNavSingle
+                linkarea="/project-monitoring"
+                icon="ic:baseline-space-dashboard"
+                single-nav-title="Projects Dashboard"
+            />
             <LayoutNavSingle
                 linkarea="/project-monitoring/projects"
                 icon="material-symbols:business-center"

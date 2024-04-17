@@ -1,5 +1,5 @@
 <script setup>
-import { useMain } from "@/stores/settings"
+import { useMain } from "@/stores/hrms/setup/settings"
 
 const mains = useMain()
 mains.getAll()
@@ -12,6 +12,6 @@ useHead({
 
 <template>
     <div class="flex flex-col gap-3">
-        <HrmsSettingsEditSettingsForm />
+        <HrmsSetupSettingsEditSettingsForm />
     </div>
 </template>

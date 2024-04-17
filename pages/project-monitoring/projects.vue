@@ -1,12 +1,11 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia"
+import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
 const { isEdit } = storeToRefs(projects)
 projects.getProject()
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "Projects",
 })

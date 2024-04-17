@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useProjectStore } from "@/stores/projects"
+import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
 

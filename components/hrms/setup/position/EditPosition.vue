@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { usePositionStore, POSITION_TYPES } from "@/stores/position"
-import { useDepartmentStore } from "@/stores/departments"
+import { usePositionStore, POSITION_TYPES } from "@/stores/hrms/setup/position"
+import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 
 const departments = useDepartmentStore()
 const { departmentsList } = storeToRefs(departments)
@@ -49,6 +49,7 @@ const editPos = async () => {
                     v-model="position.name"
                     type="text"
                     class="w-full rounded-lg"
+                    required
                 >
 
                 <div class="grid grid-rows-1 mt-1">

@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { usePhilhealthStore, SHARE_TYPES } from "@/stores/philhealth"
+import { usePhilhealthStore, SHARE_TYPES } from "@/stores/hrms/setup/philhealth"
 
 const contributions = usePhilhealthStore()
 const { contribution, errorMessage, successMessage } = storeToRefs(contributions)
@@ -54,7 +54,8 @@ const addRange = async () => {
                             v-model="contribution.range_from"
                             type="number"
                             class="w-full rounded-lg"
-                            oninput="this.value = Math.abs(this.value)"
+                            step=".01"
+                            min="0"
                             required
                         >
                     </div>
@@ -68,7 +69,8 @@ const addRange = async () => {
                             v-model="contribution.range_to"
                             type="number"
                             class="w-full rounded-lg"
-                            oninput="this.value = Math.abs(this.value)"
+                            step=".01"
+                            min="0"
                         >
                     </div>
                 </div>
@@ -83,7 +85,8 @@ const addRange = async () => {
                             v-model="contribution.employee_share"
                             type="number"
                             class="w-full rounded-lg"
-                            oninput="this.value = Math.abs(this.value)"
+                            step=".01"
+                            min="0"
                             required
                         >
                     </div>
@@ -97,7 +100,8 @@ const addRange = async () => {
                             v-model="contribution.employer_share"
                             type="number"
                             class="w-full rounded-lg"
-                            oninput="this.value = Math.abs(this.value)"
+                            step=".01"
+                            min="0"
                             required
                         >
                     </div>

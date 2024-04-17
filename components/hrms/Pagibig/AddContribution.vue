@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { usePagibigStore } from "@/stores/pagibig"
+import { usePagibigStore } from "@/stores/hrms/setup/pagibig"
 
 const pagibig = usePagibigStore()
 const { contribution, errorMessage, successMessage } = storeToRefs(pagibig)
@@ -53,8 +53,8 @@ const addRange = async () => {
                             v-model="contribution.range_from"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
-                            oninput="this.value = Math.abs(this.value)"
                             required
                         >
                     </div>
@@ -68,8 +68,8 @@ const addRange = async () => {
                             v-model="contribution.range_to"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
-                            oninput="this.value = Math.abs(this.value)"
                         >
                     </div>
                 </div>
@@ -84,8 +84,8 @@ const addRange = async () => {
                             v-model="contribution.employer_share_percent"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
-                            oninput="this.value = Math.abs(this.value)"
                             required
                         >
 
@@ -98,8 +98,8 @@ const addRange = async () => {
                             v-model="contribution.employer_maximum_contribution"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
-                            oninput="this.value = Math.abs(this.value)"
                             required
                         >
 
@@ -112,8 +112,8 @@ const addRange = async () => {
                             v-model="contribution.employer_compensation"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
-                            oninput="this.value = Math.abs(this.value)"
                             required
                         >
                     </div>
@@ -127,8 +127,8 @@ const addRange = async () => {
                             v-model="contribution.employee_share_percent"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
-                            oninput="this.value = Math.abs(this.value)"
                             required
                         >
 
@@ -141,8 +141,8 @@ const addRange = async () => {
                             v-model="contribution.employee_maximum_contribution"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
-                            oninput="this.value = Math.abs(this.value)"
                             required
                         >
 
@@ -155,8 +155,8 @@ const addRange = async () => {
                             v-model="contribution.employee_compensation"
                             type="number"
                             class="w-full rounded-lg"
+                            step=".01"
                             min="0"
-                            oninput="this.value = Math.abs(this.value)"
                             required
                         >
                     </div>

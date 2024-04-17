@@ -26,6 +26,7 @@ async function handleSubmit () {
 function cancelEdit () {
     postingPeriodStore.isEdit = false
     postingPeriodStore.reset()
+    return navigateTo("/accounting/posting-period")
 }
 </script>
 
@@ -85,7 +86,7 @@ function cancelEdit () {
             <div class="flex justify-end gap-4">
                 <button
                     class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5"
-                    @click="cancelEdit"
+                    @click.prevent="cancelEdit"
                 >
                     Cancel
                 </button>

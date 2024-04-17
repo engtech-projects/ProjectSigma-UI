@@ -1,12 +1,9 @@
-<script  setup lang="ts">
-
-import { Header, Item } from "vue3-easy-data-table"
-
+<script  setup>
 useHead({
     title: "SSS",
 })
 
-const headers: Header[] = [
+const headers = [
     { text: "Range of Compensation", value: "range_compensation" },
     { text: "Emlpoyer Share", value: "employer_share" },
     { text: "Employee Share", value: "employee_share" },
@@ -14,7 +11,7 @@ const headers: Header[] = [
     { text: "Actions", value: "actions" },
 ]
 
-const items: Item[any] = ref([
+const items = ref([
     {
         range_compensation: "range compensation lorem1",
         employer_share: "employer share lorem1",

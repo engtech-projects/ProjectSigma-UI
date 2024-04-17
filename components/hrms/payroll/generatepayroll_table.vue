@@ -1,3 +1,48 @@
+<script setup>
+const searchField = ["employee_id"]
+const searchValue = ref("")
+const itemsSelected = ref([])
+
+const sortBy = ["employee_id", "employee", "employment_type", "department", "position"]
+const sortType = ["desc", "asc"]
+
+const headers = [
+    { text: "Employee ID", value: "employee_id", sortable: true },
+    { text: "Employee", value: "employee", sortable: true },
+    { text: "Employment Type", value: "employment_type", sortable: true },
+    { text: "Office/Project", value: "department", sortable: true },
+    { text: "Position", value: "position", sortable: true },
+    { text: "View Payslip", value: "actions" },
+]
+
+const items = ref([
+    {
+        employee_id: "1111111111",
+        employee: "Scarlett Raymond",
+        employment_type: "Regular",
+        department: "HR",
+        position: "HR Head",
+    },
+    {
+        employee_id: "1111111112",
+        employee: "Barbara Blevins",
+        employment_type: "Regular",
+        department: "HR",
+        position: "HR Assistant",
+    },
+    {
+        employee_id: "1111111113",
+        employee: "Nadia Raymond",
+        employment_type: "Regular",
+        department: "HR",
+        position: "HR Assistant",
+    },
+])
+
+const viewItem = () => {
+}
+</script>
+
 <template>
     <label for="" class="text-xl font-semibold text-gray-900">Generate Payroll Form</label>
     <div class="mt-5 mb-6">
@@ -66,56 +111,8 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { Header, Item, SortType } from "vue3-easy-data-table"
-
-const searchField = ["employee_id"]
-const searchValue = ref("")
-const itemsSelected = ref<Item[]>([])
-
-const sortBy: any[] = ["employee_id", "employee", "employment_type", "department", "position"]
-const sortType: SortType[] = ["desc", "asc"]
-
-const headers: Header[] = [
-    { text: "Employee ID", value: "employee_id", sortable: true },
-    { text: "Employee", value: "employee", sortable: true },
-    { text: "Employment Type", value: "employment_type", sortable: true },
-    { text: "Office/Project", value: "department", sortable: true },
-    { text: "Position", value: "position", sortable: true },
-    { text: "View Payslip", value: "actions" },
-]
-
-const items: Item[any] = ref([
-    {
-        employee_id: "1111111111",
-        employee: "Scarlett Raymond",
-        employment_type: "Regular",
-        department: "HR",
-        position: "HR Head",
-    },
-    {
-        employee_id: "1111111112",
-        employee: "Barbara Blevins",
-        employment_type: "Regular",
-        department: "HR",
-        position: "HR Assistant",
-    },
-    {
-        employee_id: "1111111113",
-        employee: "Nadia Raymond",
-        employment_type: "Regular",
-        department: "HR",
-        position: "HR Assistant",
-    },
-])
-
-const viewItem = () => {
-}
-
-</script>
-
 <style scoped>
 .customize-table {
     --easy-table-header-item-padding: 10px 15px;
 }
- </style>
+</style>

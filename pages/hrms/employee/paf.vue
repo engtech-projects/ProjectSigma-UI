@@ -1,18 +1,33 @@
-<script setup lang="ts">
+<script setup>
+import { usePersonelActionNotice } from "@/stores/hrms/pan"
+import { useEnumsStore } from "@/stores/hrms/enum"
+const enums = useEnumsStore()
+enums.getSalarygradeEnums()
+enums.getDepartmentEnums()
+enums.getPositionEnums()
+enums.getEmployeeEnum()
+enums.getUserEmployeeEnums()
 useHead({
     title: "Personal Action Notice",
 })
+
+const pan = usePersonelActionNotice()
+pan.fetchPersonelActionList()
 </script>
 
 <template>
     <div>
-        <div class="text-2xl font-normal mb-4 mt-10 md:mt-0 ">
+        <div class="text-2xl font-normal mb-4 mt-10 md:mt-0">
             Personnel Action Form
         </div>
         <hr>
-        <div class="flex gap-4">
-            <EmployeePersonnelActionForm />
-            <EmployeePersonnelActionFormList />
+        <div class="md:flex gap-4">
+            <HrmsEmployeePanPersonelActionForm />
+            <div class="w-2/3">
+                <HrmsEmployeePanAllPanList />
+                <HrmsEmployeePanApprovalList />
+                <HrmsEmployeePanMyPanList />
+            </div>
         </div>
     </div>
 </template>

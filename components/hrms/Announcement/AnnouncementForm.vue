@@ -1,11 +1,11 @@
 <script setup>
 
 import { storeToRefs } from "pinia"
-import { useAnnouncements } from "@/stores/announcements"
+import { useAnnouncements } from "@/stores/hrms/announcements"
 
 const mains = useAnnouncements()
 
-const { announcement, errorMessage } = storeToRefs(mains)
+const { announcement } = storeToRefs(mains)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -14,22 +14,16 @@ const addMain = async () => {
     try {
         boardLoading.value = true
         await mains.createone()
-        if (errorMessage !== "") {
+        if (mains.successMessage) {
             snackbar.add({
                 type: "success",
                 text: mains.successMessage
             })
-        } else {
-            snackbar.add({
-                type: "error",
-                text: errorMessage
-            })
         }
     } catch (error) {
-        errorMessage.value = errorMessage
         snackbar.add({
             type: "error",
-            text: errorMessage
+            text: error
         })
     } finally {
         mains.clearMessages()
@@ -39,7 +33,7 @@ const addMain = async () => {
 
 </script>
 <template>
-    <LayoutBoards title="Announcement Form" class="mb-5">
+    <LayoutBoards title="Announcement Form" class="mb-5" :loading="boardLoading">
         <form class="space-y-3 mt-5" @submit.prevent="addMain">
             <div>
                 <label for="announcement-title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

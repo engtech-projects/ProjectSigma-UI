@@ -10,6 +10,7 @@ const { list: periodList, postingPeriod, isEdit, getParams, pagination, errorMes
 const setEdit = (prd) => {
     isEdit.value = true
     postingPeriod.value = prd
+    return navigateTo("/accounting/posting-period/edit/" + prd.period_id)
 }
 
 const deletePostingPeriod = async (prd) => {
@@ -46,36 +47,45 @@ const boardLoading = ref(false)
 </script>
 
 <template>
-    <LayoutBoards title="Posting Period List" class="w-full" :loading="postingPeriodStore.isLoading">
-        <div class="pb-2 text-gray-500">
-            <LayoutPsTable
-                id="listTable"
-                :header-columns="headers"
-                :datas="periodList"
-                :actions="actions"
-                @edit-row="setEdit"
-                @delete-row="deletePostingPeriod"
-            />
-            <i v-if="!periodList.length&&!postingPeriodStore.isLoading" class="p-4 text-center block">No data available.</i>
-        </div>
-        <div class="flex justify-center mx-auto">
-            <CustomPagination
-                v-if="periodList.length"
-                :links="pagination"
-                @change-params="changePaginate"
-            />
-        </div>
-        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
-            {{ errorMessage }}
-        </p>
-        <p
-            v-show="successMessage"
-            hidden
-            class="success-message text-green-600 text-center font-semibold italic"
+    <div class="flex flex-col items-end gap-4">
+        <NuxtLink
+            to="/accounting/posting-period/create"
+            class="flex-1 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
         >
-            {{ successMessage }}
-        </p>
-    </LayoutBoards>
+            <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
+            <span>New Posting Period</span>
+        </NuxtLink>
+        <LayoutBoards title="Posting Period List" class="w-full" :loading="postingPeriodStore.isLoading">
+            <div class="pb-2 text-gray-500">
+                <LayoutPsTable
+                    id="listTable"
+                    :header-columns="headers"
+                    :datas="periodList"
+                    :actions="actions"
+                    @edit-row="setEdit"
+                    @delete-row="deletePostingPeriod"
+                />
+                <i v-if="!periodList.length&&!postingPeriodStore.isLoading" class="p-4 text-center block">No data available.</i>
+            </div>
+            <div class="flex justify-center mx-auto">
+                <CustomPagination
+                    v-if="periodList.length"
+                    :links="pagination"
+                    @change-params="changePaginate"
+                />
+            </div>
+            <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+                {{ errorMessage }}
+            </p>
+            <p
+                v-show="successMessage"
+                hidden
+                class="success-message text-green-600 text-center font-semibold italic"
+            >
+                {{ successMessage }}
+            </p>
+        </LayoutBoards>
+    </div>
 </template>
 
 <style>

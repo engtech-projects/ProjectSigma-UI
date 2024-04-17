@@ -1,16 +1,19 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/employee/manpower"
-import { useDepartmentStore } from "@/stores/departments"
-import { useUserStore } from "@/stores/hrms/users"
+import { useManpowerStore } from "@/stores/hrms/employee/manpower"
+import { useEnumsStore } from "@/stores/hrms/enum"
 
-const departments = useDepartmentStore()
+const enums = useEnumsStore()
 const manpowers = useManpowerStore()
-const user = useUserStore()
 const { isEdit } = storeToRefs(manpowers)
 manpowers.getManpower()
-departments.getDepartmentList()
-user.getUserEmployees()
+manpowers.getMyRequests()
+manpowers.getMyApprovalRequests()
+enums.getPositionEnums()
+enums.getDepartmentEnums()
+enums.getPositionEnums()
+enums.getDepartmentEnums()
+enums.getUserEmployeeEnums()
 
 useHead({
     title: "Manpower Request",
@@ -21,11 +24,13 @@ useHead({
 <template>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-            <EmployeeManpowerAddRequest v-show="!isEdit" />
-            <EmployeeManpowerEditRequest v-show="isEdit" />
+            <HrmsEmployeeManpowerAddRequest v-show="!isEdit" />
+            <!-- <EmployeeManpowerEditRequest v-show="isEdit" /> -->
         </div>
-        <div>
-            <EmployeeManpowerMonitoringList />
+        <div class="flex flex-col gap-2">
+            <HrmsEmployeeManpowerMonitoringList />
+            <HrmsEmployeeManpowerMyApprovals />
+            <HrmsEmployeeManpowerMyRequests />
         </div>
     </div>
 </template>

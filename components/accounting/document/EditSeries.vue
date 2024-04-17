@@ -29,6 +29,7 @@ async function handleSubmit () {
 function cancelEdit () {
     documentSeriesStore.isEdit = false
     documentSeriesStore.reset()
+    return navigateTo("/accounting/document-series")
 }
 </script>
 

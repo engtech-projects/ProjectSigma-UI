@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "esbenp.prettier-vscode",
+        "editorconfig.editorconfig",
+        "vue.volar",
+        "nuxtr.nuxt-vscode-extentions",
+        "dbaeumer.vscode-eslint",
+        "rvest.vs-code-prettier-eslint"
+    ]
+}

@@ -33,15 +33,18 @@ const props = defineProps({
     },
     date: {
         type: String,
-        required: true,
+        default: null,
+        required: false,
     },
     content: {
         type: String,
-        required: true,
+        required: false,
+        default: "",
     },
     index: {
         type: Number,
-        required: true,
+        required: false,
+        default: 1,
     },
 })
 const maxContentLength = 100 // Adjust the maximum length you want to show initially

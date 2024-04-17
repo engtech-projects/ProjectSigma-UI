@@ -128,7 +128,13 @@ function select (val:any) {
                 </div>
             </div>
 
-            <div class="flex justify-end">
+            <div class="flex justify-end gap-4">
+                <NuxtLink
+                    to="/accounting/transaction-type"
+                    class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5 text-center"
+                >
+                    Cancel
+                </NuxtLink>
                 <button
                     type="submit"
                     class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
