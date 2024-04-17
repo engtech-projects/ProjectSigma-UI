@@ -19,7 +19,6 @@ defineProps({
         required: true,
     },
 })
-const val = ref()
 
 const emit = defineEmits(["editRow", "deleteRow", "showTable", "detailRow"])
 const doEdit = (data: any) => {
