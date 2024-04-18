@@ -111,7 +111,7 @@ const saveBulkUpload = async () => {
     const formData = new FormData()
     formData.append("employees_data", JSON.stringify(employees.value))
     await useFetch(
-        "/api/employee-bulk-save",
+        "/api/employee/bulk-save",
         {
             baseURL: config.public.HRMS_API_URL,
             method: "POST",
@@ -147,7 +147,7 @@ const handleUploadEmployeesData = async (event : any) => {
     const formData = new FormData()
     formData.append("employees-data", file)
     await useFetch(
-        "/api/employee-bulk-upload",
+        "/api/employee/bulk-upload",
         {
             baseURL: config.public.HRMS_API_URL,
             method: "POST",
