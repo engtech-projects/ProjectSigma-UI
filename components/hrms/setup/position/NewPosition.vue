@@ -1,10 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { usePositionStore, POSITION_TYPES } from "@/stores/hrms/setup/position"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
-
-const departments = useDepartmentStore()
-const { departmentsList } = storeToRefs(departments)
 
 const positions = usePositionStore()
 const { position, errorMessage, successMessage } = storeToRefs(positions)
@@ -46,19 +42,7 @@ const addPosition = async () => {
             <form @submit.prevent="addPosition">
                 <div class="grid grid-rows-1 mt-1">
                     <label for="share_type" class="text-sm italic">Department</label>
-
-                    <select
-                        id="department"
-                        v-model="position.department_id"
-                        class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                    >
-                        <option value="" disabled selected>
-                            Choose Department
-                        </option>
-                        <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
-                            {{ dpt.department_name }}
-                        </option>
-                    </select>
+                    <HrmsCommonDepartmentSelector v-model="position.department_id" />
                 </div>
                 <label for="positionType" class="text-sm italic">Position Type</label>
                 <div class="grid md:grid-cols-2 justify-items-center">
