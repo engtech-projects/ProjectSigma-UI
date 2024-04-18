@@ -45,7 +45,7 @@ const submitForm = async () => {
         <div class="text-gray-500">
             <form @submit.prevent="submitForm">
                 <div class="grid grid-cols-2 gap-2">
-                    <div class="flex-1">
+                    <div class="flex-1 pt-8">
                         <div>
                             <HrmsCommonMultipleEmployeeSelector v-model="travel.employee_ids" />
                         </div>

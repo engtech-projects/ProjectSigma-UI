@@ -3,7 +3,6 @@ import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 const employee = useEmployeeInfo()
 const { editable } = storeToRefs(employee)
-
 const setEdit = () => {
     editable.value = !editable.value
 }
@@ -57,7 +56,7 @@ const setEdit = () => {
                     </li>
                     <li class="mr-2" role="presentation">
                         <button
-                            id="docsmemo-tab"
+                            id="employee-id"
                             class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
                             data-tabs-target="#employeeId"
                             type="button"
@@ -83,7 +82,7 @@ const setEdit = () => {
                 </label>
             </div>
             <div id="default-tab-content">
-                <div id="pis" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="staff-tab">
+                <div id="pis" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="employee-tab">
                     <HrmsEmployee201PersonnelInfoSheet />
                 </div>
                 <div id="staff" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="staff-tab">
@@ -92,9 +91,16 @@ const setEdit = () => {
                 <div id="docsmemo" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="docsmemo-tab">
                     <HrmsEmployee201DocumentsMemo />
                 </div>
-                <div id="employeeId" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="docsmemo-tab">
-                    <HrmsEmployee201IdentificationCard />
-                    <LayoutFormPsSignaturePad />
+                <div id="employeeId" class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="employee-id">
+                    <div v-if="employee.information.id">
+                        <HrmsEmployee201IdentificationCard />
+                        <LayoutFormPsSignaturePad v-if="editable" />
+                    </div>
+                    <div v-else>
+                        <p class="text-lg text-gray-400">
+                            Employee Identification Card
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
