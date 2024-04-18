@@ -75,7 +75,7 @@ const submitForm = async () => {
                     <div class="flex-1 gap-4">
                         <div class="pt-2">
                             <label for="project_name" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Project Selection</label>
-                            <HrmsCommonProjectSelector v-model="overtime.project_id" />
+                            <HrmsCommonProjectSelector v-model="overtime.project_id" :use-hrms-id="true" />
                         </div>
                         <label for="selectEmp" class="block mt-2 text-sm font-medium text-gray-900 dark:text-white">Employee Selection</label>
                         <HrmsCommonMultipleEmployeeSelector v-model="overtime.employees" title="Employee Name" name="Employee Name" />
