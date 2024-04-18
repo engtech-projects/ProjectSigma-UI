@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-// import type { Item, Header } from "vue3-easy-data-table"
-// import { useEnumsStore } from "@/stores/hrms/enum"
 import { useOvertimeStore } from "@/stores/hrms/overtime"
 import { useApprovalStore, APPROVAL_OVERTIME } from "@/stores/hrms/setup/approvals"
-
-// const enums = useEnumsStore()
-// const { allEmployeeEnum } = storeToRefs(enums)
 
 const approvals = useApprovalStore()
 
@@ -18,31 +13,9 @@ overtime.value.approvals = await approvals.getApprovalByName(APPROVAL_OVERTIME)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-// const headers: Header[] = [
-//     {
-//         text: "Employee Name", value: "fullname_last",
-//     },
-// ]
-
-const formatTime = (time: string) => {
-    const timeParts = time.split(":")
-    const [hours, minutes, seconds] = timeParts.map(part => parseInt(part, 10) || 0)
-
-    if (timeParts.length === 2 || timeParts.length === 3) {
-        if (hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59 && seconds >= 0 && seconds <= 59) {
-            return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`
-        }
-        return "Invalid time value. Hours (0-23), Minutes (0-59), Seconds (0-59)"
-    }
-
-    return "Invalid time format. Please use HH:mm or HH:mm:ss"
-}
-
 const submitForm = async () => {
     try {
         boardLoading.value = true
-        overtime.value.overtime_start_time = formatTime(overtime.value.overtime_start_time)
-        overtime.value.overtime_end_time = formatTime(overtime.value.overtime_end_time)
         await overtimes.createRequest()
         if (overtimes.errorMessage !== "") {
             snackbar.add({
@@ -109,7 +82,6 @@ const submitForm = async () => {
                                 id="time_from"
                                 v-model="overtime.overtime_start_time"
                                 type="time"
-                                step="2"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
                         </div>
@@ -119,7 +91,6 @@ const submitForm = async () => {
                                 id="time_to"
                                 v-model="overtime.overtime_end_time"
                                 type="time"
-                                step="2"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
                         </div>
