@@ -14,26 +14,26 @@ const { information } = storeToRefs(employee)
                 {{ information.company_employments.employeedisplay_id }}
             </p>
         </div>
-        <div class="w-full absolute md:top-[33%] top-[32.5%] m-auto">
+        <div class="w-full absolute md:top-[30.5%] top-[30.5%] m-auto">
             <p class="text-xl font-bold text-center">
                 <img
                     v-if="information.profile_photo"
                     draggable="false"
-                    class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
+                    class="md:h-[240px] h-[270px] w-1/2 bg-transparent rounded-lg m-auto"
                     :src="config.public.HRMS_API_URL + '/storage/' + information.profile_photo.url"
                     alt="profile pic"
                 >
                 <img
                     v-else-if="information.gender.toLowerCase() === 'female'"
                     draggable="false"
-                    class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
+                    class="md:h-[240px] h-[270px] w-1/2 bg-transparent rounded-lg m-auto"
                     :src="'/avatarexample.png'"
                     alt="profile pic"
                 >
                 <img
                     v-else
                     draggable="false"
-                    class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
+                    class="md:h-[240px] h-[270px] w-1/2 bg-transparent rounded-lg m-auto"
                     :src="'/avatarexample.png'"
                     alt="profile pic"
                 >
