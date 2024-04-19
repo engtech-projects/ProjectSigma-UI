@@ -245,7 +245,7 @@ export interface DigitalSignature {
 export interface EmployeeInformation {
 value: any
     id: null | Number,
-    employee_id: Number,
+    employee_id: null | Number,
     profile_photo: DigitalSignature,
     digital_signature: DigitalSignature,
     first_name: String,

@@ -227,7 +227,7 @@
 </template>
 
 <script setup lang="ts">
-// import { Header } from "vue3-easy-data-table"
+import { Header } from "vue3-easy-data-table"
 import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
 const utils = useUtilities()
 const loansStore = useLoansStore()

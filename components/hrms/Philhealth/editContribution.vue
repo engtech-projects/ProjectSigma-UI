@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { usePhilhealthStore, SHARE_TYPES } from "@/stores/hrms/setup/philhealth"
+import { usePhilhealthStore } from "@/stores/hrms/setup/philhealth"
 
 const contributions = usePhilhealthStore()
 const { contribution, errorMessage, successMessage } = storeToRefs(contributions)
