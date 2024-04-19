@@ -7,64 +7,64 @@ const employee = useEmployeeInfo()
 const { information } = storeToRefs(employee)
 </script>
 <template>
-    <div id="front-id" class="w-full shadow-lg relative bg-white border-none">
-        <img class="w-full min-w-80 cover" src="/front.fw.png" alt="front" draggable="false">
-        <div class="w-full absolute md:top-[24.5%] top-[25%] text-center">
-            <p class="font-light text-xl">
+    <div id="front-id" class="h-[6.303in] w-[4.051in] shadow-lg relative bg-white border-none">
+        <img class="h-[6.303in] w-[4.051in] cover" src="/FRONT.png" alt="front" draggable="false">
+        <div class="w-full absolute top-[115px] text-center">
+            <p class="font-light text-md">
                 {{ information.company_employments.employeedisplay_id }}
             </p>
         </div>
-        <div class="w-full absolute md:top-[30.5%] top-[30.5%] m-auto">
+        <div class="w-full absolute top-[145px] m-auto">
             <p class="text-xl font-bold text-center">
                 <img
                     v-if="information.profile_photo"
                     draggable="false"
-                    class="md:h-[240px] h-[270px] w-1/2 bg-transparent rounded-lg m-auto"
+                    class="h-[244.5px] w-[200px] bg-transparent rounded-lg m-auto"
                     :src="config.public.HRMS_API_URL + '/storage/' + information.profile_photo.url"
                     alt="profile pic"
                 >
                 <img
                     v-else-if="information.gender.toLowerCase() === 'female'"
                     draggable="false"
-                    class="md:h-[240px] h-[270px] w-1/2 bg-transparent rounded-lg m-auto"
+                    class="h-[244.5px] w-[200px] bg-transparent rounded-lg m-auto"
                     :src="'/avatarexample.png'"
                     alt="profile pic"
                 >
                 <img
                     v-else
                     draggable="false"
-                    class="md:h-[240px] h-[270px] w-1/2 bg-transparent rounded-lg m-auto"
+                    class="h-[244.5px] w-[200px] bg-transparent rounded-lg m-auto"
                     :src="'/avatarexample.png'"
                     alt="profile pic"
                 >
             </p>
         </div>
-        <div class="w-full absolute md:top-[70.5%] top-[70.5%] text-center">
-            <p class="text-xl font-bold">
+        <div class="w-full absolute top-[395px] text-center">
+            <p class="text-md">
                 {{ information.fullname_first }}
             </p>
         </div>
-        <div class="w-full absolute md:top-[75.5%] top-[75.5%] text-center">
-            <p class="text-lg">
+        <div class="w-full absolute top-[425px] text-center">
+            <p class="text-md">
                 {{ information.current_employment?.position_title }}
             </p>
-            <p class="text-xs">
+            <p class="text-md">
                 {{ information.current_employment?.employee_department.department_name }}
             </p>
         </div>
-        <div class="w-full absolute md:top-[80.5%] top-[80.5%] text-center">
+        <div class="w-full absolute top-[365px] text-center">
             <p class="text-xl font-bold">
                 <img
                     v-if="information.digital_signature"
                     draggable="false"
-                    class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
+                    class="w-full bg-transparent rounded-lg m-auto"
                     :src="config.public.HRMS_API_URL + '/storage/' + information.digital_signature.url"
                     alt="profile pic"
                 >
                 <img
                     v-else
                     draggable="false"
-                    class="md:h-56 w-1/2 bg-transparent rounded-lg m-auto"
+                    class="w-full bg-transparent rounded-lg m-auto"
                     src="/signature_example.png"
                     alt="profile pic"
                 >

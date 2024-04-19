@@ -14,6 +14,7 @@ const handleDocumentUpload = async (event: any) => {
             type: "success",
             text: employee.successMessage
         })
+        employee.getEmployeeInformation(employee.information.id as Number)
     } catch (error) {
         snackbar.add({
             type: "error",
