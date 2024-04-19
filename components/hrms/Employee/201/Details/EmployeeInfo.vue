@@ -49,13 +49,13 @@ const { information, editable } = storeToRefs(employee)
                 <td class="border border-slate-300 p-1">
                     <div>
                         <label for="employee_middle_name" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">FIRST NAME</label>
-                        <input id="employee_middle_name" v-model="information.middle_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
+                        <input id="employee_middle_name" v-model="information.first_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
                     </div>
                 </td>
                 <td class="border border-slate-300 p-1">
                     <div>
                         <label for="employee_first_name" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">MIDDLE NAME</label>
-                        <input id="employee_first_name" v-model="information.first_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
+                        <input id="employee_first_name" v-model="information.middle_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
                     </div>
                 </td>
                 <td class="border border-slate-300 p-1">
