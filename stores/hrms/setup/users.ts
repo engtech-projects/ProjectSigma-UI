@@ -67,7 +67,7 @@ export const useUserStore = defineStore("users", {
                 "/api/users",
                 {
                     method: "POST",
-                    params: this.createData.params,
+                    body: this.createData.params,
                     onResponse: ({ response } : any) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.$reset()

@@ -1,6 +1,155 @@
+<script setup lang="ts">
+// import { Header } from "vue3-easy-data-table"
+// import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
+import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
+
+const cashAdvStore = useCashadvanceStore()
+await cashAdvStore.getCA()
+const { list: cashadvanceList } = storeToRefs(cashAdvStore)
+const cashadv = ref({ loan_payments_employee: [] })
+
+const utils = useUtilities()
+
+// const loansStore = useLoansStore()
+// await loansStore.getAllList()
+
+const showModal = ref(false)
+// const loan = ref({ loan_payments_employee: [] })
+const snackbar = useSnackbar()
+const isLoading = ref(false)
+const showMakePayment = ref(false)
+
+const newPayment = ref({
+    id: null,
+    cashadvance_id: null,
+    amount_paid: null,
+    date_paid: utils.value.dateToString(new Date()),
+    payment_type: "Manual",
+    posting_status: "Posted",
+    paymentAmount: null,
+})
+
+const setShowPayment = (val:boolean) => {
+    showMakePayment.value = val
+}
+
+const resetPayment = () => {
+    newPayment.value = {
+        id: null,
+        cashadvance_id: null,
+        amount_paid: null,
+        date_paid: utils.value.dateToString(new Date()),
+        payment_type: "Manual",
+        posting_status: "Posted",
+        paymentAmount: null,
+    }
+}
+
+const employeeList = computed(() => {
+    const list = []
+    if (cashAdvStore.allList.data) {
+        for (const i in cashAdvStore.allList.data.data) {
+            const item = cashAdvStore.allList.data.data[i]
+            item.fullName = item.employee.family_name + ", " + item.employee.first_name
+            item.date_filed = utils.value.dateToString(new Date(item.created_at))
+            list.push(item)
+        }
+    }
+    return list
+})
+
+const headers: Header[] = [
+    { text: "Employee Name", value: "fullName" },
+    { text: "Date Filed", value: "date_filed" },
+    { text: "Amount Loaned", value: "loan_amount" },
+    { text: "Terms", value: "terms_length" },
+    { text: "Deduction", value: "installment_deduction" },
+    { text: "Action", value: "actions" },
+]
+
+const showDetails = (val) => {
+    cashadv.value = val
+    newPayment.value.loans_id = val.id
+    showModal.value = true
+}
+
+function formatCurrency (number: Number, locale = "en-US") {
+    const formatter = new Intl.NumberFormat(locale, {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })
+    return formatter.format(number)
+}
+
+const makePayment = async () => {
+    isLoading.value = true
+    newPayment.value.paymentAmount = newPayment.value.amount_paid
+    await useHRMSApi("/api/cash-advance/manual-payment/" + newPayment.value.loans_id, {
+        method: "POST",
+        watch: false,
+        body: newPayment.value,
+        onResponseError: ({ response }) => {
+            isLoading.value = false
+            snackbar.add({
+                type: "error",
+                text: response._data.message
+            })
+            throw new Error(response._data.message)
+        },
+        onResponse: ({ response }) => {
+            isLoading.value = false
+            if (response.ok) {
+                snackbar.add({
+                    type: "success",
+                    text: response._data.message
+                })
+            }
+            cashadv.value.loan_payments_employee.push(JSON.parse(JSON.stringify(newPayment.value)))
+            resetPayment()
+            showMakePayment.value = false
+        },
+    })
+}
+
+const cashadvanceData = ref(null)
+const showInformationModal = ref(false)
+
+const showInformation = (data) => {
+    cashadvanceData.value = data
+    showInformationModal.value = true
+}
+
+const headerss = [
+    { name: "Employee Name", id: "employee_id" },
+    // { name: "Department", id: "department_id" },
+    { name: "Project", id: "project_id" },
+    { name: "Amount Requested", id: "amount_requested" },
+    { name: "Amount Approved", id: "amount_approved" },
+    { name: "Terms", id: "terms_of_cash_advance" },
+    { name: "Remarks", id: "remarks" },
+    { name: "Released by", id: "released_by" },
+]
+
+const actions = {
+    // edit: true,
+    // delete: true,
+    showTable: true,
+}
+
+</script>
+
 <template>
     <div id="parentContainer" class="mt-5 border-t-4 border-t-teal-400 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto ">
-        <!-- <label for="" class="text-xl font-semibold text-gray-900">Loans List</label> -->
+        <div class="pb-2 text-gray-500 p-2">
+            <LayoutPsTable
+                :header-columns="headerss"
+                :datas="cashadvanceList"
+                :actions="actions"
+                @show-table="showInformation"
+            />
+        </div>
+        <label for="" class="text-xl font-semibold text-gray-900">Cash Advance List</label>
         <ul id="default-tab" class="flex flex-wrap justify-start -mb-px text-sm font-medium text-center" data-tabs-toggle="#default-tab-content" role="tablist">
             <li class="mr-2" role="presentation">
                 <button
@@ -12,7 +161,7 @@
                     aria-controls="regular"
                     aria-selected="false"
                 >
-                    Loans List
+                    Cash Advance List
                 </button>
             </li>
             <li class="mr-2" role="presentation">
@@ -71,7 +220,7 @@
             </div>
         </div>
         <ModalContainer
-            :title="showMakePayment ? 'New Payment' : 'Loan Details'"
+            :title="showMakePayment ? 'New Payment' : 'Cash Advance Details'"
             :loading="isLoading"
             :local="true"
             :show="showModal"
@@ -118,35 +267,35 @@
                         <div class="flex gap-4">
                             <div class="flex flex-1 flex-col gap-1">
                                 <label for="" class="text-gray-500 text-sm">Employee Name</label>
-                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="loan.fullName" disabled>
+                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashAdv.fullName" disabled>
                             </div>
                             <div class="flex flex-1 flex-col gap-1">
                                 <label for="" class="text-gray-500 text-sm">Date Filed</label>
-                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="loan.date_filed" disabled>
+                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashAdv.date_filed" disabled>
                             </div>
                             <div class="flex flex-1 flex-col gap-1">
                                 <label for="" class="text-gray-500 text-sm">Loan Amount</label>
-                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="formatCurrency(loan.loan_amount)" disabled>
+                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="formatCurrency(cashAdv.loan_amount)" disabled>
                             </div>
                         </div>
                         <div class="flex gap-4">
                             <div class="flex flex-1 flex-col gap-1">
                                 <label for="" class="text-gray-500 text-sm">Loan Term Length</label>
-                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="loan.terms_length" disabled>
+                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashAdv.terms_length" disabled>
                             </div>
                             <div class="flex flex-1 flex-col gap-1">
                                 <label for="" class="text-gray-500 text-sm">Period Start</label>
-                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="loan.period_start" disabled>
+                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashAdv.period_start" disabled>
                             </div>
                             <div class="flex flex-1 flex-col gap-1">
                                 <label for="" class="text-gray-500 text-sm">Period End</label>
-                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="loan.period_end" disabled>
+                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashAdv.period_end" disabled>
                             </div>
                         </div>
                         <div class="flex gap-4">
                             <div class="flex flex-1 flex-col gap-1">
                                 <label for="" class="text-gray-500 text-sm">Deduction</label>
-                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="formatCurrency(loan.installment_deduction)" disabled>
+                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="formatCurrency(cashAdv.installment_deduction)" disabled>
                             </div>
                             <div class="flex flex-1 flex-col gap-1" />
                             <div class="flex flex-1 flex-col gap-1" />
@@ -175,7 +324,7 @@
                         </div>
 
                         <!-- Employee Payments' List -->
-                        <table v-if="loan.loan_payments_employee.length > 0" class="table w-full text-left mt-4 border">
+                        <table v-if="cashAdv.loan_payments_employee.length > 0" class="table w-full text-left mt-4 border">
                             <thead class="border-b">
                                 <th class="py-2">
                                     Amount Paid
@@ -192,7 +341,7 @@
                                 <!-- <th>Actions</th> -->
                             </thead>
                             <tbody>
-                                <tr v-for="payment in loan.loan_payments_employee" :key="payment.id" class="border">
+                                <tr v-for="payment in cashAdv.loan_payments_employee" :key="payment.id" class="border">
                                     <td class="px-2 py-1 text-slate-600">
                                         {{ utils.formatCurrency(payment.amount_paid) }}
                                     </td>
@@ -225,112 +374,6 @@
         </ModalContainer>
     </div>
 </template>
-
-<script setup lang="ts">
-// import { Header } from "vue3-easy-data-table"
-import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
-const utils = useUtilities()
-const loansStore = useLoansStore()
-await loansStore.getAllList()
-const showModal = ref(false)
-const loan = ref({ loan_payments_employee: [] })
-const snackbar = useSnackbar()
-const isLoading = ref(false)
-const showMakePayment = ref(false)
-const newPayment = ref({
-    id: null,
-    loans_id: null,
-    amount_paid: null,
-    date_paid: utils.value.dateToString(new Date()),
-    payment_type: "Manual",
-    posting_status: "Posted",
-    paymentAmount: null,
-})
-
-const setShowPayment = (val:boolean) => {
-    showMakePayment.value = val
-}
-
-const resetPayment = () => {
-    newPayment.value = {
-        id: null,
-        loans_id: null,
-        amount_paid: null,
-        date_paid: utils.value.dateToString(new Date()),
-        payment_type: "Manual",
-        posting_status: "Posted",
-        paymentAmount: null,
-    }
-}
-
-const employeeList = computed(() => {
-    const list = []
-    if (loansStore.allList.data) {
-        for (const i in loansStore.allList.data.data) {
-            const item = loansStore.allList.data.data[i]
-            item.fullName = item.employee.family_name + ", " + item.employee.first_name
-            item.date_filed = utils.value.dateToString(new Date(item.created_at))
-            list.push(item)
-        }
-    }
-    return list
-})
-
-const headers: Header[] = [
-    { text: "Employee Name", value: "fullName" },
-    { text: "Date Filed", value: "date_filed" },
-    { text: "Amount Loaned", value: "loan_amount" },
-    { text: "Terms", value: "terms_length" },
-    { text: "Deduction", value: "installment_deduction" },
-    { text: "Action", value: "actions" },
-]
-
-const showDetails = (val) => {
-    loan.value = val
-    newPayment.value.loans_id = val.id
-    showModal.value = true
-}
-
-function formatCurrency (number: Number, locale = "en-US") {
-    const formatter = new Intl.NumberFormat(locale, {
-        style: "decimal",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-    })
-    return formatter.format(number)
-}
-
-const makePayment = async () => {
-    isLoading.value = true
-    newPayment.value.paymentAmount = newPayment.value.amount_paid
-    await useHRMSApi("/api/loans/manual-payment/" + newPayment.value.loans_id, {
-        method: "POST",
-        watch: false,
-        body: newPayment.value,
-        onResponseError: ({ response }) => {
-            isLoading.value = false
-            snackbar.add({
-                type: "error",
-                text: response._data.message
-            })
-            throw new Error(response._data.message)
-        },
-        onResponse: ({ response }) => {
-            isLoading.value = false
-            if (response.ok) {
-                snackbar.add({
-                    type: "success",
-                    text: response._data.message
-                })
-            }
-            loan.value.loan_payments_employee.push(JSON.parse(JSON.stringify(newPayment.value)))
-            resetPayment()
-            showMakePayment.value = false
-        },
-    })
-}
-
-</script>
 
 <style scoped>
 .customize-table {

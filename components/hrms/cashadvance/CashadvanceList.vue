@@ -57,42 +57,42 @@ const headers = [
 ]
 
 const actions = {
-    // edit: true,
-    // delete: true,
     showTable: true,
 }
 
 </script>
 
 <template>
-    <div class="pb-2 text-gray-500 p-2">
-        <LayoutPsTable
-            :header-columns="headers"
-            :datas="cashadvanceList"
-            :actions="actions"
-            @show-table="showInformation"
-        />
-    </div>
-    <div v-if="showInformationModal">
-        <Teleport to="body">
-            <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <div class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
-                    <div class="flex gap-2 justify-between p-2">
-                        <p class="text-slate-600">
-                            Cash Advance (<span class="text-blue-500">{{ cashadvanceData.id }}</span>)
-                        </p>
-                        <button
-                            @click="closeViewModal"
-                        >
-                            <Icon name="cil:x" color="green" class="w-4 h-4" />
-                            Close
-                        </button>
-                    </div>
-                    <div class="p-2">
-                        <HrmsCashadvancePaymentForm />
+    <LayoutBoards title="Cash Advance" class="w-full" :loading="boardLoading">
+        <div class="pb-2 text-gray-500 p-2">
+            <LayoutPsTable
+                :header-columns="headers"
+                :datas="cashadvanceList"
+                :actions="actions"
+                @show-table="showInformation"
+            />
+        </div>
+        <div v-if="showInformationModal">
+            <Teleport to="body">
+                <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
+                    <div class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
+                        <div class="flex gap-2 justify-between p-2">
+                            <p class="text-slate-600">
+                                Cash Advance (<span class="text-blue-500">{{ cashadvanceData.id }}</span>)
+                            </p>
+                            <button
+                                @click="closeViewModal"
+                            >
+                                <Icon name="cil:x" color="green" class="w-4 h-4" />
+                                Close
+                            </button>
+                        </div>
+                        <div class="p-2">
+                            <HrmsCashadvancePaymentForm />
+                        </div>
                     </div>
                 </div>
-            </div>
-        </Teleport>
-    </div>
+            </Teleport>
+        </div>
+    </LayoutBoards>
 </template>

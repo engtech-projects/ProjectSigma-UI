@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
 const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
@@ -10,10 +9,66 @@ export const REQ_STATUS = [
     PENDING,
     DENIED,
 ]
+export interface CashAdvance {
+    id: null | Number,
+    employee_id: null | Number,
+    project_id: null | Number,
+    department_id: null | Number,
+    amount_requested: null | Number,
+    amount_approved: null | Number,
+    purpose: String,
+    terms_of_cash_advance: String,
+    remarks: String,
+    approvals: String,
+    request_status: String
+    released_by: String
+}
 
 export const useCashadvanceStore = defineStore("Cashadvances", {
     state: () => ({
         isEdit: false,
+        createData: {
+            data: {
+                id: null,
+                employee_id: null,
+                project_id: null,
+                department_id: null,
+                amount_requested: null,
+                amount_approved: null,
+                purpose: null,
+                terms_of_cash_advance: null,
+                remarks: null,
+                approvals: null,
+                request_status: "",
+                released_by: ""
+            } as CashAdvance,
+            successMessage: "",
+            errorMessage: "",
+        },
+        editData: {
+            data: {
+                id: null,
+                employee_id: null,
+                project_id: null,
+                department_id: null,
+                amount_requested: null,
+                amount_approved: null,
+                purpose: null,
+                terms_of_cash_advance: null,
+                remarks: null,
+                approvals: null,
+                request_status: "",
+                released_by: ""
+            } as CashAdvance,
+            successMessage: "",
+            errorMessage: "",
+        },
+        allList: {
+            data: [] as CashAdvance[],
+            successMessage: "",
+            errorMessage: "",
+            loading: "",
+        },
         cashadvance: {
             id: null,
             employee_id: null,
@@ -39,25 +94,23 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
     }),
     actions: {
         async getCA () {
-            await useFetch(
-                "/api/cash-advance/resource",
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        this.list = response._data.data.data
-                        this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
-                        }
-                    },
-                }
+            await useHRMSApi("/api/loans/resource", {
+                method: "GET",
+                headers: {
+                    Authorization: token.value + "",
+                    Accept: "application/json"
+                },
+                onResponseError: ({ response }) => {
+                    this.allList.errorMessage = response._data.message
+                    throw new Error(response._data.message)
+                },
+                onResponse: ({ response }) => {
+                    if (response.ok) {
+                        this.allList.data = response._data.data
+                        this.allList.successMessage = response._data.message
+                    }
+                },
+            }
             )
         },
         async getMyRequests () {
@@ -96,7 +149,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
         async createRequest () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApiO(
+            await useHRMSApi(
                 "/api/cash-advance/resource",
                 {
                     method: "POST",

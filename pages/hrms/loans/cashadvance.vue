@@ -34,8 +34,9 @@ useHead({
             <HrmsCashadvanceForm />
         </div>
         <div>
-            <!-- <HrmsCashadvanceTable /> -->
-            <HrmsCashadvanceTabs />
+            <!-- <HrmsCashadvanceList /> -->
+            <HrmsCashadvanceTable />
+            <!-- <HrmsCashadvanceTabs /> -->
         </div>
     </div>
 </template>
