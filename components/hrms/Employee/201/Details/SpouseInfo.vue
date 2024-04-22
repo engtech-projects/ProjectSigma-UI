@@ -20,7 +20,7 @@ const { information, editable } = storeToRefs(employee)
         </div>
     </div>
     <table class="w-full border-collapse border border-slate-400 table-fixed items-center">
-        <tbody>
+        <tbody v-if="information.spouse">
             <tr>
                 <td class="border border-slate-300 p-1">
                     <div>
@@ -55,6 +55,21 @@ const { information, editable } = storeToRefs(employee)
                     </div>
                 </td>
             </tr>
+        </tbody>
+        <tbody v-else>
+            <div v-if="!editable">
+                <p class="p-2 text-lg text-center">
+                    No Employee Spouse Information
+                </p>
+            </div>
+            <div v-else>
+                <button
+                    class=" bg-green-600 text-white w-8 h-8"
+                    @click="addParams()"
+                >
+                    <Icon name="ion:plus" color="white" class="rounded h-6 w-6 p-1" />
+                </button>
+            </div>
         </tbody>
     </table>
 </template>
