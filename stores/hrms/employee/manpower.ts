@@ -182,7 +182,7 @@ export const useManpowerStore = defineStore("manpowers", {
             formData.set("gender", this.manpower.gender)
             formData.set("educational_requirement", this.manpower.educational_requirement)
             formData.set("preferred_qualifications", this.manpower.preferred_qualifications)
-            formData.set("approvals", this.manpower.approvals)
+            formData.set("approvals", JSON.stringify(this.manpower.approvals))
             formData.set("remarks", this.manpower.remarks)
             formData.set("request_status", this.manpower.request_status)
             formData.set("charged_to", this.manpower.charged_to)
@@ -191,7 +191,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 "/api/manpower/resource",
                 {
                     method: "POST",
-                    body: this.manpower,
+                    body: formData,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.getManpower()

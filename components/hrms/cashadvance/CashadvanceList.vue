@@ -3,35 +3,46 @@ import { storeToRefs } from "pinia"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 
 const cashadvances = useCashadvanceStore()
-const { cashadvance, list: cashadvanceList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(cashadvances)
+const { list: cashadvanceList } = storeToRefs(cashadvances)
 
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
+// const snackbar = useSnackbar()
+// const boardLoading = ref(false)
 
-const setEdit = (ovr) => {
-    isEdit.value = true
-    cashadvance.value = ovr
+// const setEdit = (ovr) => {
+//     isEdit.value = true
+//     cashadvance.value = ovr
+// }
+
+// const deleteReq = async (req) => {
+//     try {
+//         boardLoading.value = true
+//         await cashadvances.deleteRequest(req.id)
+//         snackbar.add({
+//             type: "success",
+//             text: cashadvances.successMessage
+//         })
+//     } finally {
+//         boardLoading.value = false
+//     }
+// }
+
+// const changePaginate = (newParams) => {
+//     getParams.value.page = newParams.page ?? ""
+//     // getParams.value.syId = newParams.id ?? ""
+//     // getParams.value.semId = newParams.semId ?? ""
+//     // getParams.value.feeType = newParams.feeType ?? ""
+//     // getParams.value.particularName = newParams.particularName ?? ""
+// }
+
+const cashadvanceData = ref(null)
+const showInformationModal = ref(false)
+
+const showInformation = (data) => {
+    cashadvanceData.value = data
+    showInformationModal.value = true
 }
-
-const deleteReq = async (req) => {
-    try {
-        boardLoading.value = true
-        await cashadvances.deleteRequest(req.id)
-        snackbar.add({
-            type: "success",
-            text: cashadvances.successMessage
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
-
-const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
-    // getParams.value.syId = newParams.id ?? ""
-    // getParams.value.semId = newParams.semId ?? ""
-    // getParams.value.feeType = newParams.feeType ?? ""
-    // getParams.value.particularName = newParams.particularName ?? ""
+const closeViewModal = () => {
+    showInformationModal.value = false
 }
 
 const headers = [
@@ -44,30 +55,44 @@ const headers = [
     { name: "Remarks", id: "remarks" },
     { name: "Released by", id: "released_by" },
 ]
+
 const actions = {
-    edit: true,
-    delete: true
+    // edit: true,
+    // delete: true,
+    showTable: true,
 }
 
 </script>
 
 <template>
-    <LayoutBoards title="Cash Advance List" class="w-full" :loading="boardLoading">
-        <div class="pb-2 text-gray-500 p-2">
-            <LayoutPsTable :header-columns="headers" :datas="cashadvanceList" :actions="actions" @edit-row="setEdit" @delete-row="deleteReq" />
-        </div>
-        <div class="flex justify-center mx-auto">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
-        </div>
-        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
-            {{ errorMessage }}
-        </p>
-        <p
-            v-show="successMessage"
-            hidden
-            class="success-message text-green-600 text-center font-semibold italic"
-        >
-            {{ successMessage }}
-        </p>
-    </LayoutBoards>
+    <div class="pb-2 text-gray-500 p-2">
+        <LayoutPsTable
+            :header-columns="headers"
+            :datas="cashadvanceList"
+            :actions="actions"
+            @show-table="showInformation"
+        />
+    </div>
+    <div v-if="showInformationModal">
+        <Teleport to="body">
+            <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
+                <div class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
+                    <div class="flex gap-2 justify-between p-2">
+                        <p class="text-slate-600">
+                            Cash Advance (<span class="text-blue-500">{{ cashadvanceData.id }}</span>)
+                        </p>
+                        <button
+                            @click="closeViewModal"
+                        >
+                            <Icon name="cil:x" color="green" class="w-4 h-4" />
+                            Close
+                        </button>
+                    </div>
+                    <div class="p-2">
+                        <HrmsCashadvancePaymentForm />
+                    </div>
+                </div>
+            </div>
+        </Teleport>
+    </div>
 </template>

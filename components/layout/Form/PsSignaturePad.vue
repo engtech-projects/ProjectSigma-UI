@@ -15,6 +15,7 @@ const save = async () => {
             type: "success",
             text: employee.successMessage
         })
+        employee.getEmployeeInformation(employee.information.id)
     } catch (error) {
         snackbar.add({
             type: "error",

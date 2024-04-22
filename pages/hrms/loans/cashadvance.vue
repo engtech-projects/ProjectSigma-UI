@@ -3,7 +3,7 @@ import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 import { useEnumsStore } from "@/stores/hrms/enum"
 
 const cashadvances = useCashadvanceStore()
-const { isEdit } = storeToRefs(cashadvances)
+// const { isEdit } = storeToRefs(cashadvances)
 cashadvances.getMyRequests()
 cashadvances.getMyApprovalRequests()
 cashadvances.getCA()
@@ -22,12 +22,19 @@ useHead({
 </script>
 
 <template>
+    <!-- <div>
+        <HrmsCashadvanceForm />
+        <HrmsCashadvanceTabs />
+        <HrmsCashadvanceTable />
+        <HrmsLoansTable />
+        <HrmsCashadvanceTabs />
+    </div> -->
     <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
         <div>
-            <HrmsCashadvanceForm v-show="!isEdit" class="w-full" />
-            <!-- <HrmsCashadvanceEditForm v-show="isEdit"/> -->
+            <HrmsCashadvanceForm />
         </div>
         <div>
+            <!-- <HrmsCashadvanceTable /> -->
             <HrmsCashadvanceTabs />
         </div>
     </div>
