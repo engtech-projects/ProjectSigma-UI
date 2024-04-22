@@ -192,6 +192,11 @@ const config = useRuntimeConfig()
                     single-nav-title="Project Schedule"
                 />
             </LayoutNavGroup>
+            <LayoutNavSingle
+                linkarea="/hrms/setup/hmo"
+                icon="ic:baseline-health-and-safety"
+                single-nav-title="HMO"
+            />
             <LayoutNavGroup icon="ion:ios-people" title="Setup">
                 <LayoutNavSingle
                     linkarea="/hrms/setup/useraccounts"
@@ -208,11 +213,6 @@ const config = useRuntimeConfig()
                     linkarea="/hrms/setup/division"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Division"
-                />
-                <LayoutNavSingle
-                    linkarea="/hrms/setup/hmo"
-                    icon="ic:baseline-health-and-safety"
-                    single-nav-title="HMO"
                 />
                 <LayoutNavSingle
                     linkarea="/hrms/setup/department"
