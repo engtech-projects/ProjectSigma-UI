@@ -48,6 +48,7 @@ const login = async () => {
         // })
         // userCredentials.response = response.message
     } catch (error) {
+        console.log(error)
         snackbar.add({
             type: "error",
             text: error
