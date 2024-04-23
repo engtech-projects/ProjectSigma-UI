@@ -49,7 +49,7 @@ const { information } = storeToRefs(employee)
                 {{ information.current_employment?.position_title }}
             </p>
             <p class="text-md">
-                {{ information.current_employment?.employee_department.department_name }}
+                {{ information.current_employment?.employee_department?.department_name }}
             </p>
         </div>
         <div class="w-full absolute top-[365px] text-center">
