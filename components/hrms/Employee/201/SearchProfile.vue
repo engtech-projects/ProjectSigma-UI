@@ -1,7 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
-const config = useRuntimeConfig()
 
 const employee = useEmployeeInfo()
 const { information: employeeInformation, employeeIsSearched, editable } = storeToRefs(employee)
@@ -19,7 +18,7 @@ const { information: employeeInformation, employeeIsSearched, editable } = store
                     <img
                         v-if="employeeInformation.profile_photo"
                         class="md:h-96 w-full bg-gray-400 rounded-lg"
-                        :src="config.public.HRMS_API_URL + '/storage/' + employeeInformation.profile_photo.url"
+                        :src="information.file_images.profile_photo"
                         alt="profile pic"
                     >
                     <img

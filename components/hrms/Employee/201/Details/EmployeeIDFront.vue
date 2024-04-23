@@ -1,7 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
-const config = useRuntimeConfig()
 const employee = useEmployeeInfo()
 
 const { information } = storeToRefs(employee)
@@ -17,10 +16,10 @@ const { information } = storeToRefs(employee)
         <div class="w-full absolute top-[145px] m-auto">
             <p class="text-xl font-bold text-center">
                 <img
-                    v-if="information.profile_photo"
+                    v-if="information.file_images"
                     draggable="false"
                     class="h-[244.5px] w-[200px] bg-transparent rounded-lg m-auto"
-                    :src="config.public.HRMS_API_URL + '/storage/' + information.profile_photo.url"
+                    :src="information.file_images.profile_photo"
                     alt="profile pic"
                 >
                 <img
@@ -55,10 +54,10 @@ const { information } = storeToRefs(employee)
         <div class="w-full absolute top-[365px] text-center">
             <p class="text-xl font-bold">
                 <img
-                    v-if="information.digital_signature"
+                    v-if="information.file_images"
                     draggable="false"
                     class="w-full bg-transparent rounded-lg m-auto"
-                    :src="config.public.HRMS_API_URL + '/storage/' + information.digital_signature.url"
+                    :src="information.file_images.digital_signature"
                     alt="profile pic"
                 >
                 <img
