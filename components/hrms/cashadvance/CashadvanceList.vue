@@ -4,41 +4,26 @@ import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 
 const cashadvances = useCashadvanceStore()
 const { list: cashadvanceList } = storeToRefs(cashadvances)
-
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-const cashadvanceData = ref(null)
+// const cashadvanceData = ref(null)
 const showInformationModal = ref(false)
+const utils = useUtilities()
+const ca = ref({ cash_advance_payments: [] })
 
 const showInformation = (data) => {
-    cashadvanceData.value = data
+    ca.value = data
     newPayment.value.cashadvance_id = data.id
     showInformationModal.value = true
 }
 const closeViewModal = () => {
     showInformationModal.value = false
 }
-
 const showMakePayment = ref(false)
 
 const setShowPayment = (val) => {
     showMakePayment.value = val
 }
-
-const headers = [
-    { name: "Employee Name", id: "employee.fullname_first" },
-    { name: "Project", id: "project_id" },
-    { name: "Cash Advance Amount", id: "amount" },
-    { name: "Terms", id: "terms_of_payment" },
-    { name: "No. of Installment(s)", id: "no_of_installment" },
-    { name: "Installment Deduction", id: "installment_deduction" },
-    { name: "Deduction Date start", id: "deduction_date_start" },
-    { name: "Purpose", id: "purpose" },
-    { name: "Remarks", id: "remarks" },
-]
-
-const utils = useUtilities()
-// const ca = ref({ ca_payments_employee: [] })
 const newPayment = ref({
     id: null,
     cashadvance_id: null,
@@ -48,11 +33,11 @@ const newPayment = ref({
     posting_status: "Posted",
     paymentAmount: null,
 })
-
 const resetPayment = () => {
+    const id = newPayment.value.cashadvance_id
     newPayment.value = {
         id: null,
-        cashadvance_id: null,
+        cashadvance_id: id,
         amount_paid: null,
         date_paid: utils.value.dateToString(new Date()),
         payment_type: "Manual",
@@ -60,7 +45,21 @@ const resetPayment = () => {
         paymentAmount: null,
     }
 }
-
+const headers = [
+    { name: "Employee Name", id: "employee.fullname_first" },
+    { name: "Project", id: "project_id" },
+    { name: "Cash Advance Amount", id: "amount" },
+    { name: "Terms", id: "terms_of_payment" },
+    { name: "No. of Installment(s)", id: "no_of_installment" },
+    { name: "Installment Deduction", id: "installment_deduction" },
+    { name: "Deduction Date start", id: "deduction_date_start" },
+    { name: "Purpose", id: "purpose" },
+]
+const actions = {
+    // edit: true,
+    // delete: true,
+    showTable: true,
+}
 const makePayment = async () => {
     boardLoading.value = true
     newPayment.value.paymentAmount = newPayment.value.amount_paid
@@ -83,20 +82,15 @@ const makePayment = async () => {
                     type: "success",
                     text: response._data.message
                 })
+                // cashadvances.getCA()
+                // cashadvanceData.value = response._data.data.cash_advance_payments
             }
-            cashadvanceData.value.cash_advance_payments.push(JSON.parse(JSON.stringify(newPayment.value)))
+            ca.value.cash_advance_payments.push(JSON.parse(JSON.stringify(newPayment.value)))
             resetPayment()
             showMakePayment.value = false
         },
     })
 }
-
-const actions = {
-    // edit: true,
-    // delete: true,
-    showTable: true,
-}
-
 </script>
 
 <template>
@@ -115,7 +109,7 @@ const actions = {
                     <!-- <pre>{{ cashadvanceData }}</pre> -->
                     <div class="flex gap-2 justify-between p-2">
                         <p class="text-slate-600">
-                            Cash Advance (<span class="text-blue-500">{{ cashadvanceData.id }}</span>)
+                            Cash Advance (<span class="text-blue-500">{{ ca.id }}</span>)
                         </p>
                         <button
                             @click="closeViewModal"
@@ -145,37 +139,37 @@ const actions = {
                                 <div class="flex gap-4">
                                     <div class="flex flex-1 flex-col gap-1">
                                         <label class="font-semibold text-gray-700">Employee Name: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashadvanceData.employee.fullname_first || ''" disabled>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.employee.fullname_first || ''" disabled>
                                     </div>
                                     <div class="flex flex-1 flex-col gap-1">
                                         <label class="font-semibold text-gray-700">Project Code: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashadvanceData.project.project_code" disabled>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.project.project_code" disabled>
                                     </div>
                                     <div class="flex flex-1 flex-col gap-1">
                                         <label class="font-semibold text-gray-700">Cash Advance Amount: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashadvanceData.amount" disabled>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.amount" disabled>
                                     </div>
                                     <div class="flex flex-1 flex-col gap-1">
                                         <label class="font-semibold text-gray-700">Terms: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashadvanceData.terms_of_payment" disabled>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.terms_of_payment" disabled>
                                     </div>
                                 </div>
                                 <div class="flex gap-4">
                                     <div class="flex flex-1 flex-col gap-1">
                                         <label class="font-semibold text-gray-700">No. of Installment(s): </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashadvanceData.no_of_installment" disabled>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.no_of_installment" disabled>
                                     </div>
                                     <div class="flex flex-1 flex-col gap-1">
                                         <label class="font-semibold text-gray-700">Installment Deduction: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashadvanceData.installment_deduction" disabled>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.installment_deduction" disabled>
                                     </div>
                                     <div class="flex flex-1 flex-col gap-1">
                                         <label class="font-semibold text-gray-700">Deduction Date start: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashadvanceData.deduction_date_start" disabled>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.deduction_date_start" disabled>
                                     </div>
                                     <div class="flex flex-1 flex-col gap-1">
                                         <label class="font-semibold text-gray-700">Purpose/Reason(s): </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="cashadvanceData.purpose" disabled>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.purpose" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +194,8 @@ const actions = {
                                 </div>
 
                                 <!-- Employee Payments' List -->
-                                <table v-if="cashadvanceData.cash_advance_payments.length > 0" class="table w-full text-left mt-4 border">
+                                <!-- <pre>{{ ca }}</pre> -->
+                                <table v-if="ca.cash_advance_payments.length > 0" class="table w-full text-left mt-4 border">
                                     <thead class="border-b">
                                         <th class="p-2">
                                             Amount Paid
@@ -216,7 +211,7 @@ const actions = {
                                         </th>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="payment in cashadvanceData.cash_advance_payments" :key="payment.id" class="border">
+                                        <tr v-for="payment in ca.cash_advance_payments" :key="payment.id" class="border">
                                             <td class="px-2 p-1 text-slate-600">
                                                 {{ utils.formatCurrency(payment.amount_paid) }}
                                             </td>

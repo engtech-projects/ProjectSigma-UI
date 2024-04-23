@@ -25,16 +25,12 @@ useHead({
     <!-- <div>
         <HrmsCashadvanceForm />
         <HrmsCashadvanceTabs />
-        <HrmsCashadvanceTable />
-        <HrmsLoansTable />
-        <HrmsCashadvanceTabs />
     </div> -->
     <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
         <div>
             <HrmsCashadvanceForm />
         </div>
         <div>
-            <!-- <HrmsCashadvanceTable /> -->
             <HrmsCashadvanceTabs />
         </div>
     </div>

@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const WEEKLY = "weekly"
 export const MONTHLY = "monthly"
@@ -43,8 +41,10 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             purpose: null,
             remarks: "",
             request_status: "",
-            approvals: []
+            approvals: [],
+            cash_advance_payments: [],
         },
+
         list: [],
         myApprovalRequestList: [],
         myRequestList: [],
@@ -55,39 +55,20 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
         remarks: "",
     }),
     actions: {
-        async getAllList () {
-            await useHRMSApi("/api/cash-advance/resource", {
-                method: "GET",
-                watch: false,
-                onResponseError: ({ response }) => {
-                    this.allList.errorMessage = response._data.message
-                    throw new Error(response._data.message)
-                },
-                onResponse: ({ response }) => {
-                    if (response.ok) {
-                        this.list.data = response._data.data
-                        this.list.successMessage = response._data.message
-                    }
-                },
-            })
-        },
         async getCA () {
-            await useFetch(
+            await useHRMSApi(
                 "/api/cash-advance/resource",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data
-                        this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                        if (response.ok) {
+                            this.list = response._data.data.data
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         }
                     },
                 }
