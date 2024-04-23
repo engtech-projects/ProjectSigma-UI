@@ -4,7 +4,7 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
 
-const { list: projectList, isEdit, project, getParams, pagination, errorMessage, successMessage } = storeToRefs(projects)
+const { list: projectList, isEdit, information: project, getParams, pagination, errorMessage, successMessage } = storeToRefs(projects)
 
 const setEdit = (dept) => {
     isEdit.value = true
