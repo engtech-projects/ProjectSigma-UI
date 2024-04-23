@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
+import { useCashadvanceStore, TERMS } from "@/stores/hrms/loansAndCash/cashadvance"
 import { useApprovalStore, APPROVAL_CA } from "@/stores/hrms/setup/approvals"
 
 const approvals = useApprovalStore()
@@ -59,11 +59,29 @@ const submitForm = async () => {
                         <label for="dept" class="text-sm font-semibold text-gray-700">Department</label>
                         <HrmsCommonDepartmentSelector v-model="cashadvance.department_id" />
                     </div>
-                    <LayoutFormPsNumberInput v-model="cashadvance.amount_requested" title="Amount Requested" name="Amount Requested" />
-                    <LayoutFormPsNumberInput v-model="cashadvance.amount_approved" title="Amount Approved" name="Amount Approved" />
-                    <LayoutFormPsTextInput v-model="cashadvance.terms_of_cash_advance" title="Terms of Cash Advance" name="Amount Requested" />
-                    <LayoutFormPsTextInput v-model="cashadvance.purpose" title="Purpose/Reason(s)" name="Purpose/Reason(s)" />
-                    <LayoutFormPsTextInput v-model="cashadvance.remarks" title="Remarks" name="Remarks" />
+                    <LayoutFormPsNumberInput v-model="cashadvance.amount" title="Amount Requested" />
+                    <div>
+                        <label for="term" class="text-sm font-semibold text-gray-700">Terms of Payment</label>
+                        <div class="flex gap-4">
+                            <div v-for="(term, data) in TERMS" :key="data">
+                                <input
+                                    id="term"
+                                    v-model="cashadvance.terms_of_payment"
+                                    :value="term"
+                                    type="radio"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                <label :for="'term' + data" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                    {{ term }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <LayoutFormPsNumberInput v-model="cashadvance.no_of_installment" title="Number of installment(s)" />
+                    <LayoutFormPsNumberInput v-model="cashadvance.installment_deduction" title="Installment Deduction(s)" />
+                    <LayoutFormPsDateInput v-model="cashadvance.deduction_date_start" title="Deduction Start Date" />
+                    <LayoutFormPsTextInput v-model="cashadvance.purpose" title="Purpose/Reason(s)" />
+                    <LayoutFormPsTextInput v-model="cashadvance.remarks" title="Remarks" />
                     <HrmsCommonRequestedBy title="Released By" class="p-2 font-medium text-blue-800 italic" />
                 </div>
                 <div class="w-full rounded-lg p-4 bg-slate-100 ">

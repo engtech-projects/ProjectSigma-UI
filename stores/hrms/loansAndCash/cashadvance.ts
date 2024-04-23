@@ -2,31 +2,48 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export const APPROVED = "Approved"
-export const PENDING = "Pending"
-export const DENIED = "Denied"
-export const REQ_STATUS = [
-    APPROVED,
-    PENDING,
-    DENIED,
+export const WEEKLY = "weekly"
+export const MONTHLY = "monthly"
+export const BIMONTHLY = "bimonthly"
+export const TERMS = [
+    WEEKLY,
+    MONTHLY,
+    BIMONTHLY,
 ]
 
+export interface CashAdvance {
+
+    id: null | Number,
+    employee_id: null | Number,
+    department_id: null | Number,
+    project_id: null | Number,
+    terms_of_payment: null | Number,
+    no_of_installment: null | Number,
+    installment_deduction: null | Number,
+    deduction_date_start: String,
+    amount: null | Number,
+    purpose: String,
+    remarks: String,
+    request_status: String,
+    approvals: String
+}
 export const useCashadvanceStore = defineStore("Cashadvances", {
     state: () => ({
         isEdit: false,
         cashadvance: {
             id: null,
             employee_id: null,
-            project_id: null,
             department_id: null,
-            amount_requested: null,
-            amount_approved: null,
+            project_id: null,
+            terms_of_payment: null,
+            no_of_installment: null,
+            installment_deduction: null,
+            deduction_date_start: "",
+            amount: null,
             purpose: null,
-            terms_of_cash_advance: null,
-            remarks: null,
-            approvals: null,
+            remarks: "",
             request_status: "",
-            released_by: ""
+            approvals: []
         },
         list: [],
         myApprovalRequestList: [],
@@ -38,6 +55,22 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
         remarks: "",
     }),
     actions: {
+        async getAllList () {
+            await useHRMSApi("/api/cash-advance/resource", {
+                method: "GET",
+                watch: false,
+                onResponseError: ({ response }) => {
+                    this.allList.errorMessage = response._data.message
+                    throw new Error(response._data.message)
+                },
+                onResponse: ({ response }) => {
+                    if (response.ok) {
+                        this.list.data = response._data.data
+                        this.list.successMessage = response._data.message
+                    }
+                },
+            })
+        },
         async getCA () {
             await useFetch(
                 "/api/cash-advance/resource",
