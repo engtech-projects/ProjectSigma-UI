@@ -142,6 +142,7 @@ const config = useRuntimeConfig()
                 />
             </LayoutNavGroup>
             <LayoutNavGroup
+                v-if="config.public.APP_ENV == 'local'"
                 icon="ion:ios-people"
                 title="Payroll"
             >
