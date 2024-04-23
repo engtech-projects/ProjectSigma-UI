@@ -18,7 +18,7 @@ const { information: employeeInformation, employeeIsSearched, editable } = store
                     <img
                         v-if="employeeInformation.profile_photo"
                         class="md:h-96 w-full bg-gray-400 rounded-lg"
-                        :src="information.profile_photo.base64"
+                        :src="employeeInformation.profile_photo.base64"
                         alt="profile pic"
                     >
                     <img
