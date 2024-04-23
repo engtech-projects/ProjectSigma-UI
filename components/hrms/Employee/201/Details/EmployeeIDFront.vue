@@ -16,10 +16,10 @@ const { information } = storeToRefs(employee)
         <div class="w-full absolute top-[145px] m-auto">
             <p class="text-xl font-bold text-center">
                 <img
-                    v-if="information.file_images"
+                    v-if="information.profile_photo"
                     draggable="false"
                     class="h-[244.5px] w-[200px] bg-transparent rounded-lg m-auto"
-                    :src="information.file_images.profile_photo"
+                    :src="information.profile_photo.base64"
                     alt="profile pic"
                 >
                 <img
@@ -54,10 +54,10 @@ const { information } = storeToRefs(employee)
         <div class="w-full absolute top-[365px] text-center">
             <p class="text-xl font-bold">
                 <img
-                    v-if="information.file_images"
+                    v-if="information.digital_signature"
                     draggable="false"
                     class="w-full bg-transparent rounded-lg m-auto"
-                    :src="information.file_images.digital_signature"
+                    :src="information.digital_signature.base64"
                     alt="profile pic"
                 >
                 <img
