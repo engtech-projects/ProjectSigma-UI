@@ -7,33 +7,6 @@ const { list: cashadvanceList } = storeToRefs(cashadvances)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
-// const setEdit = (ovr) => {
-//     isEdit.value = true
-//     cashadvance.value = ovr
-// }
-
-// const deleteReq = async (req) => {
-//     try {
-//         boardLoading.value = true
-//         await cashadvances.deleteRequest(req.id)
-//         snackbar.add({
-//             type: "success",
-//             text: cashadvances.successMessage
-//         })
-//     } finally {
-//         boardLoading.value = false
-//     }
-// }
-
-// const changePaginate = (newParams) => {
-//     getParams.value.page = newParams.page ?? ""
-//     // getParams.value.syId = newParams.id ?? ""
-//     // getParams.value.semId = newParams.semId ?? ""
-//     // getParams.value.feeType = newParams.feeType ?? ""
-//     // getParams.value.particularName = newParams.particularName ?? ""
-// }
-
 const cashadvanceData = ref(null)
 const showInformationModal = ref(false)
 
@@ -65,7 +38,7 @@ const headers = [
 ]
 
 const utils = useUtilities()
-const ca = ref({ ca_payments_employee: [] })
+// const ca = ref({ ca_payments_employee: [] })
 const newPayment = ref({
     id: null,
     cashadvance_id: null,
@@ -111,7 +84,7 @@ const makePayment = async () => {
                     text: response._data.message
                 })
             }
-            ca.value.ca_payments_employee.push(JSON.parse(JSON.stringify(newPayment.value)))
+            cashadvanceData.value.cash_advance_payments.push(JSON.parse(JSON.stringify(newPayment.value)))
             resetPayment()
             showMakePayment.value = false
         },
@@ -227,7 +200,7 @@ const actions = {
                                 </div>
 
                                 <!-- Employee Payments' List -->
-                                <table v-if="ca.ca_payments_employee.length > 0" class="table w-full text-left mt-4 border">
+                                <table v-if="cashadvanceData.cash_advance_payments.length > 0" class="table w-full text-left mt-4 border">
                                     <thead class="border-b">
                                         <th class="p-2">
                                             Amount Paid
@@ -243,7 +216,7 @@ const actions = {
                                         </th>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="payment in ca.ca_payments_employee" :key="payment.id" class="border">
+                                        <tr v-for="payment in cashadvanceData.cash_advance_payments" :key="payment.id" class="border">
                                             <td class="px-2 p-1 text-slate-600">
                                                 {{ utils.formatCurrency(payment.amount_paid) }}
                                             </td>

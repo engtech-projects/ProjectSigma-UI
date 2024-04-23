@@ -71,6 +71,8 @@ const addWtax = async () => {
                             id="salaryRangeFrom"
                             v-model="withholding.range_from"
                             type="number"
+                            step=".01"
+                            min="0"
                             class="w-full rounded-lg"
                         >
                     </div>
@@ -83,6 +85,8 @@ const addWtax = async () => {
                             id="salaryRangeTo"
                             v-model="withholding.range_to"
                             type="number"
+                            step=".01"
+                            min="0"
                             class="w-full rounded-lg"
                         >
                     </div>
@@ -95,6 +99,8 @@ const addWtax = async () => {
                             id="taxBase"
                             v-model="withholding.tax_base"
                             type="number"
+                            step=".01"
+                            min="0"
                             class="w-full rounded-lg"
                         >
                     </div>
@@ -107,6 +113,8 @@ const addWtax = async () => {
                             id="taxAmount"
                             v-model="withholding.tax_amount"
                             type="number"
+                            step=".01"
+                            min="0"
                             class="w-full rounded-lg"
                         >
                     </div>
@@ -120,6 +128,8 @@ const addWtax = async () => {
                         id="taxPerOverBase"
                         v-model="withholding.tax_percent_over_base"
                         type="number"
+                        step=".01"
+                        min="0"
                         class="w-full rounded-lg"
                     >
                 </div>
