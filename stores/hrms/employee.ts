@@ -186,7 +186,7 @@ export interface EmployeeInternal {
     updated_at: String,
     deleted_at: String,
 }
-export interface EmployeeExternal {
+export interface EmployeeExternalwork {
     id: Number,
     employee_id: String,
     position_title: String,
@@ -281,7 +281,7 @@ value: any
     employee_eligibility: Array<EmploymentEligibility>,
     employee_seminartraining: Array<EmployeeSeminarTraining>,
     employee_internal: Array<EmployeeInternal>,
-    employee_external: Array<EmployeeExternal>,
+    employee_externalwork: Array<EmployeeExternalwork>,
     employee_address: Array<EmployeeAddress>,
     employment_records: Array<EmploymentRecord>,
     employee_affiliation: Array<EmployeeAffiliation>,
@@ -358,7 +358,7 @@ export const useEmployeeInfo = defineStore("employee", {
             employee_eligibility: [] as Array<EmploymentEligibility>,
             employee_seminartraining: [] as Array<EmployeeSeminarTraining>,
             employee_internal: [] as Array<EmployeeInternal>,
-            employee_external: [] as Array<EmployeeExternal>,
+            employee_externalwork: [] as Array<EmployeeExternalwork>,
             employee_address: [] as Array<EmployeeAddress>,
             employment_records: [] as Array<EmploymentRecord>,
             employee_affiliation: [] as Array<EmployeeAffiliation>,
@@ -840,6 +840,124 @@ export const useEmployeeInfo = defineStore("employee", {
                 {
                     method: "POST",
                     body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async saveUpdateSeminarTraining (params: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/seminartraining",
+                {
+                    method: "POST",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async updateSeminarTraining (formData: any, id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/relatedperson/" + id,
+                {
+                    method: "PUT",
+                    body: formData,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async deleteSeminarTraining (id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/seminartraining/" + id,
+                {
+                    method: "DELETE",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async saveUpdateExternalCareerData (params: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/seminartraining",
+                {
+                    method: "POST",
+                    body: params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async updateExternalCareer (formData: any, id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/relatedperson/" + id,
+                {
+                    method: "PUT",
+                    body: formData,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async deleteExternalCareer (id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/seminartraining/" + id,
+                {
+                    method: "DELETE",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.successMessage = response._data.message

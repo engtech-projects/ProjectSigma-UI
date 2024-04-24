@@ -2,8 +2,8 @@
     <div>
         <EvenparNologo />
         <HrmsEmployee201DetailsCompanyInfo />
-        <HrmsEmployee201DetailsTrainingsSeminars />
         <HrmsEmployee201DetailsInternalCareer />
+        <HrmsEmployee201DetailsTrainingsSeminars />
         <HrmsEmployee201DetailsExternalCareer />
         <div v-if="false" class="mt-8 flex justify-end">
             <div>
