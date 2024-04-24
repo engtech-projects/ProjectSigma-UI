@@ -47,6 +47,7 @@ export interface UserEmployee {
 export interface Employee {
     id: number,
     fullname_last: string,
+    fullname_first: string,
     department: any,
     project: any,
 }

@@ -47,7 +47,7 @@ const submitForm = async () => {
                 <div class="gap-2 p-2">
                     <div>
                         <label for="empName" class="text-sm font-semibold text-gray-700">Employee Name</label>
-                        <HrmsCommonUserEmployeeSelector v-model="cashadvance.employee_id" title="Employee Name" name="Employee Name" />
+                        <HrmsCommonEmployeeSelector v-model="cashadvance.employee_id" title="Employee Name" name="Employee Name" />
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 p-2">
