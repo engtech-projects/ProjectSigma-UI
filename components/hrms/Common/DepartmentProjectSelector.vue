@@ -1,7 +1,7 @@
-<script lang="ts" setup>
-const selectType = defineModel({ required: true, type: String })
-const projectId = defineModel({ required: true, type: Number })
-const departmentId = defineModel({ required: true, type: Number })
+<script setup>
+const selectType = defineModel("selectType", { required: false, type: String, default: "Project" })
+const projectId = defineModel("projectId", { required: true, type: Number })
+const departmentId = defineModel("departmentId", { required: true, type: Number })
 watch(selectType, () => {
     projectId.value = null
     departmentId.value = null
