@@ -1,4 +1,14 @@
 import { defineStore } from "pinia"
+
+export const WEEKLY = "weekly"
+export const MONTHLY = "monthly"
+export const BIMONTHLY = "bimonthly"
+export const TERMS = [
+    WEEKLY,
+    MONTHLY,
+    BIMONTHLY,
+]
+
 export interface SalaryGrade {
     id: null | Number;
     employee_id: null | Number;
@@ -14,11 +24,12 @@ export const useLoansStore = defineStore("LoansStore", {
             data: {
                 id: null,
                 employee_id: null,
-                loan_amount: null,
+                amount: null,
                 installment_deduction: null,
                 terms_length: null,
-                period_start: "",
-                period_end: "",
+                no_of_installment: null,
+                deduction_date_start: "",
+                terms_of_payment: null,
             } as SalaryGrade,
             successMessage: "",
             errorMessage: "",
@@ -27,11 +38,12 @@ export const useLoansStore = defineStore("LoansStore", {
             data: {
                 id: null,
                 employee_id: null,
-                loan_amount: null,
+                amount: null,
                 installment_deduction: null,
                 terms_length: null,
-                period_start: "",
-                period_end: "",
+                no_of_installment: null,
+                deduction_date_start: "",
+                terms_of_payment: null,
             } as SalaryGrade,
             successMessage: "",
             errorMessage: "",

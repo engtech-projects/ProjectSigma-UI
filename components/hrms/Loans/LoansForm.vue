@@ -17,18 +17,23 @@ const employeeSearched = () => {
 }
 const submitAdd = async () => {
     try {
+        createData.value.data.no_of_installment = createData.value.data.terms_length
         createData.value.data.period_start = utils.value.dateToString(new Date())
         createData.value.data.period_end = utils.value.addDaysToDate(new Date(), (parseInt(createData.value.data.terms_length) * 30) / parseInt(loanTerms.value))
         isLoading.value = true
         await loanStore.createResource()
         snackbar.add({
             type: "success",
-            text: createData.value.successMessage
+            text: loanStore.createData.successMessage
         })
     } finally {
         isLoading.value = false
     }
 }
+
+// const successMessage = computed(() => {
+//     return createData.successMessage
+// })
 
 </script>
 <template>
@@ -55,10 +60,11 @@ const submitAdd = async () => {
                         for="date_fill"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                        {{ "Date Filed" }}
+                        {{ "Deduction Date Start" }}
                     </label>
                     <input
                         id="date_fill"
+                        v-model="createData.data.deduction_date_start"
                         type="date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
@@ -102,9 +108,9 @@ const submitAdd = async () => {
                         <div class="flex flex-wrap items-center mb-4 gap-3">
                             <input
                                 id="leave-availment-1"
-                                v-model="loanTerms"
+                                v-model="createData.data.terms_of_payment"
                                 type="radio"
-                                value="1"
+                                value="monthly"
                                 name="default-radio"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
@@ -118,9 +124,9 @@ const submitAdd = async () => {
                         <div class="flex flex-wrap items-center mb-4 gap-3">
                             <input
                                 id="leave-availment-1"
-                                v-model="loanTerms"
+                                v-model="createData.data.terms_of_payment"
                                 type="radio"
-                                value="2"
+                                value="bimonthly"
                                 name="default-radio"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
@@ -177,7 +183,7 @@ const submitAdd = async () => {
                     </label>
                     <input
                         id="amt_loaned"
-                        v-model="createData.data.loan_amount"
+                        v-model="createData.data.amount"
                         type="number"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required

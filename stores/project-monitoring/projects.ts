@@ -118,7 +118,7 @@ export const useProjectStore = defineStore("projects", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.project,
+                    body: this.information,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.status !== 201) {
@@ -141,14 +141,14 @@ export const useProjectStore = defineStore("projects", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch<any>(
-                "/api/projects/" + this.project.id,
+                "/api/projects/" + this.information.id,
                 {
                     baseURL: config.public.PROJECT_API_URL,
                     method: "PATCH",
                     headers: {
                         Authorization: token.value + ""
                     },
-                    body: this.project,
+                    body: this.information,
                     watch: false,
                 }
             )

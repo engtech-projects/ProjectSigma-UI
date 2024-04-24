@@ -96,7 +96,7 @@ const handleInput = (model, field) => {
                         <label
                             for="employerContrib"
                             class="text-sm italic"
-                        >Employer Contribution</label>
+                        >Employer Compensation</label>
                         <input
                             id="employerContrib"
                             v-model="contribution.employer_contribution"
@@ -126,7 +126,7 @@ const handleInput = (model, field) => {
                         <label
                             for="employeeContrib"
                             class="text-sm italic"
-                        >Employee Contribution</label>
+                        >Employee Compensation</label>
                         <input
                             id="employeeContrib"
                             v-model="contribution.employee_contribution"

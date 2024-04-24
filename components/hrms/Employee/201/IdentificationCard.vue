@@ -1,5 +1,7 @@
 <script setup>
 import domtoimage from "dom-to-image-more"
+import { useEmployeeInfo } from "@/stores/hrms/employee"
+const employee = useEmployeeInfo()
 const printFront = () => {
     const node = document.getElementById("front-id")
     domtoimage
@@ -7,7 +9,7 @@ const printFront = () => {
         .then(function (dataUrl) {
             const a = document.createElement("a")
             a.href = dataUrl
-            a.download = "front.jpeg"
+            a.download = employee.information.fullname_first + " front.jpeg"
             document.body.appendChild(a)
             a.click()
             document.body.removeChild(a)
@@ -23,7 +25,7 @@ const printBack = () => {
         .then(function (dataUrl) {
             const a = document.createElement("a")
             a.href = dataUrl
-            a.download = "back.jpeg"
+            a.download = employee.information.fullname_first + " back.jpeg"
             document.body.appendChild(a)
             a.click()
             document.body.removeChild(a)
