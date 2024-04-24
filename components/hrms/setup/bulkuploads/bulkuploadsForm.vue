@@ -101,7 +101,12 @@ const headers = [
     { text: "section program", value: "section_program" },
     { text: "department", value: "department" },
     { text: "division", value: "division" },
-    { text: "supervisor", value: "supervisor" },
+    { text: "division", value: "immediate_supervisor" },
+    { text: "salary grade level", value: "salary_grade_level" },
+    { text: "salary grade step", value: "salary_grade_step" },
+    { text: "work location", value: "work_location" },
+    { text: "hire source", value: "hire_source" },
+    { text: "salary type", value: "salary_type" },
 ]
 
 const employees = ref([])
