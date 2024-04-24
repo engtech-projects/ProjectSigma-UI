@@ -9,7 +9,7 @@ const cashadvances = useCashadvanceStore()
 const { cashadvance, errorMessage, successMessage } = storeToRefs(cashadvances)
 
 cashadvance.value.approvals = await approvals.getApprovalByName(APPROVAL_CA)
-
+const grouptype = ref("")
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
@@ -51,7 +51,7 @@ const submitForm = async () => {
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 p-2">
-                    <HrmsCommonDepartmentProjectSelector v-model:department-id="cashadvance.department_id" v-model:project-id="cashadvance.project_id" />
+                    <HrmsCommonDepartmentProjectSelector v-model:select-type="grouptype" v-model:department-id="cashadvance.department_id" v-model:project-id="cashadvance.project_id" />
                     <LayoutFormPsNumberInput v-model="cashadvance.amount" title="Amount Requested" />
                     <div>
                         <label for="term" class="text-sm font-semibold text-gray-700">Terms of Payment</label>
