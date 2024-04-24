@@ -51,14 +51,7 @@ const submitForm = async () => {
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 p-2">
-                    <div>
-                        <label for="project" class="text-sm font-semibold text-gray-700">Project</label>
-                        <HrmsCommonProjectSelector v-model="cashadvance.project_id" :use-hrms-id="true" />
-                    </div>
-                    <div>
-                        <label for="dept" class="text-sm font-semibold text-gray-700">Department</label>
-                        <HrmsCommonDepartmentSelector v-model="cashadvance.department_id" />
-                    </div>
+                    <HrmsCommonDepartmentProjectSelector v-model:department-id="cashadvance.department_id" v-model:project-id="cashadvance.project_id" />
                     <LayoutFormPsNumberInput v-model="cashadvance.amount" title="Amount Requested" />
                     <div>
                         <label for="term" class="text-sm font-semibold text-gray-700">Terms of Payment</label>
