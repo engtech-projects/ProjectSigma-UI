@@ -126,7 +126,7 @@
                             </div>
                             <div class="flex flex-1 flex-col gap-1">
                                 <label for="" class="text-gray-500 text-sm">Loan Amount</label>
-                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="formatCurrency(loan.loan_amount)" disabled>
+                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="formatCurrency(loan.amount)" disabled>
                             </div>
                         </div>
                         <div class="flex gap-4">
@@ -136,7 +136,7 @@
                             </div>
                             <div class="flex flex-1 flex-col gap-1">
                                 <label for="" class="text-gray-500 text-sm">Period Start</label>
-                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="loan.period_start" disabled>
+                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="loan.deduction_date_start" disabled>
                             </div>
                             <div class="flex flex-1 flex-col gap-1">
                                 <label for="" class="text-gray-500 text-sm">Period End</label>
@@ -227,7 +227,6 @@
 </template>
 
 <script setup lang="ts">
-import { Header } from "vue3-easy-data-table"
 import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
 const utils = useUtilities()
 const loansStore = useLoansStore()

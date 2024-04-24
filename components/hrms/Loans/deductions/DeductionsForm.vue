@@ -31,7 +31,7 @@
                 </div>
                 <div>
                     <label for="installment_amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Installment Amount</label>
-                    <input id="installmentAmount" v-model="newDeduction.installment_amount" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <input id="installmentAmount" v-model="newDeduction.installment_deduction" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                 </div>
                 <!-- <div>
             <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
@@ -78,8 +78,25 @@
                     </div>
                 </div>
                 <div>
-                    <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Total Amount</label>
-                    <input id="position" v-model="newDeduction.total_amount" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
+                    <input id="position" v-model="newDeduction.amount" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                </div>
+            </div>
+
+            <div class="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div>
+                    <!-- <label for="installment_amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Installment Amount</label>
+                    <input id="installmentAmount" v-model="newDeduction.installment_deduction" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required> -->
+                </div>
+                <div>
+                    <label for="no_of_installments" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deduction Date Start</label>
+                    <input
+                        id="noOfInstallments"
+                        v-model="newDeduction.deduction_date_start"
+                        type="date"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        required
+                    >
                 </div>
             </div>
 
@@ -106,11 +123,12 @@ const newDeduction = ref({
     id: null,
     employee_id: null,
     otherdeduction_name: null,
-    total_amount: null,
+    amount: null,
     terms_of_payment: null,
     no_of_installments: null,
-    installment_amount: null,
-    employees: []
+    installment_deduction: null,
+    employees: [],
+    deduction_date_start: ""
 })
 
 const resetDeduction = () => {
@@ -118,11 +136,12 @@ const resetDeduction = () => {
         id: null,
         employee_id: null,
         otherdeduction_name: null,
-        total_amount: null,
+        amount: null,
         terms_of_payment: null,
         no_of_installments: null,
-        installment_amount: null,
-        employees: []
+        installment_deduction: null,
+        employees: [],
+        deduction_date_start: ""
     }
 }
 
