@@ -17,5 +17,5 @@ watch(employeeId, async (newValue) => {
 })
 </script>
 <template>
-    <LayoutFormPsSelectSearch v-model:result="employeeId" v-model:search-input="searchEmployeeParams.key" :search-list="searchResultList" title="fullname_last" />
+    <LayoutFormPsSelectSearch v-model:result="employeeId" v-model:search-input="searchEmployeeParams.key" :search-list="searchResultList" title="fullname_last" placeholder="Search Employee" />
 </template>

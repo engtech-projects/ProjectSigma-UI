@@ -1,52 +1,101 @@
 import { defineStore } from "pinia"
+export interface Position {
+    id: number,
+    name: string,
+    position_type: string,
+}
+export interface Department {
+    id: number,
+    department_name: string,
+}
+export interface Leave {
+    id: number,
+    fullname_last: string,
+}
+export interface Project {
+    id: number,
+    project_monitoring_id: number,
+    project_code: string,
+    status: string,
+    contract_name: string,
+    contract_id: string,
+    projects: {
+        id: number,
+        project_code: string,
+        contract_name: string,
+        contract_id: string,
+        completion_status: string,
+    },
+}
+export interface SalaryGrade {
+    id: number,
+    salary_grade_level: string,
+    step_name: string,
+}
+export interface UserEmployee {
+    id: Number | null,
+    name: String,
+    email: String,
+    type: String,
+    password: String,
+    accessibilities: Array<number>,
+    accessibilities_name: Array<String>,
+    employee_id: Number | null,
+    employee_details: Object,
+    employee: any,
+}
+export interface Employee {
+    id: number,
+    fullname_last: string,
+    fullname_first: string,
+    department: any,
+    project: any,
+}
 export const useEnumsStore = defineStore("enums", {
     state: () => ({
         positionEnum: {
-            list: [],
+            list: [] as Position[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         departmentEnum: {
-            list: [],
+            list: [] as Department[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         leaveEnum: {
-            list: [],
+            list: [] as Leave[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         projectEnum: {
-            list: [],
+            list: [] as Project[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         salarygradeEnum: {
-            list: [],
+            list: [] as SalaryGrade[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         userEmployeeEnum: {
-            list: [],
+            list: [] as UserEmployee[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
-        nonuserEmployeeEnum: {
-            list: [],
-            params: {},
-            successMessage: "",
-            errorMessage: "",
-        },
-        employeeEnum: {
-            list: [],
-            params: {},
-            filter: "",
+        allEmployeeEnum: {
+            list: [] as Employee[],
+            params: {
+                filterType: "",
+                filterData: "",
+            },
+            nameFilter: "",
             successMessage: "",
             errorMessage: "",
         },
@@ -54,8 +103,25 @@ export const useEnumsStore = defineStore("enums", {
 
     getters: {
         filteredEmployeesList (state) : any[] {
-            return state.employeeEnum.list.filter((employee:any) => {
-                return employee.fullname_last.includes(state.employeeEnum.filter)
+            return state.allEmployeeEnum.list.filter((employee:any) => {
+                return employee.fullname_last.includes(state.allEmployeeEnum.nameFilter) &&
+                (
+                    !state.allEmployeeEnum.params.filterType ||
+                    (
+                        state.allEmployeeEnum.params.filterType === "Department" &&
+                        (
+                            !state.allEmployeeEnum.params.filterData ||
+                            employee.department?.id === state.allEmployeeEnum.params.filterData
+                        )
+                    ) ||
+                    (
+                        state.allEmployeeEnum.params.filterType === "Project" &&
+                        (
+                            !state.allEmployeeEnum.params.filterData ||
+                            employee.project?.id === state.allEmployeeEnum.params.filterData
+                        )
+                    )
+                )
             })
         },
     },
@@ -71,7 +137,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.positionEnum.list = response._data.data.data
+                            this.positionEnum.list = response._data.data ?? []
                         }
                     },
                 }
@@ -79,7 +145,7 @@ export const useEnumsStore = defineStore("enums", {
         },
         async getDepartmentEnums () {
             await useHRMSApiO(
-                "/api/position/list",
+                "/api/department/list",
                 {
                     method: "GET",
                     params: this.departmentEnum.params,
@@ -88,7 +154,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.departmentEnum.list = response._data.data.data
+                            this.departmentEnum.list = response._data.data ?? []
                         }
                     },
                 }
@@ -105,15 +171,15 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.leaveEnum.list = response._data.data.data
+                            this.leaveEnum.list = response._data.data ?? []
                         }
                     },
                 }
             )
         },
-        async getProjectEnum () {
+        async getProjectEnums () {
             await useHRMSApiO(
-                "/api/position/list",
+                "/api/project-monitoring/list",
                 {
                     method: "GET",
                     params: this.projectEnum.params,
@@ -122,15 +188,15 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.projectEnum.list = response._data.data.data
+                            this.projectEnum.list = response._data.data ?? []
                         }
                     },
                 }
             )
         },
-        async getSalarygradeEnum () {
+        async getSalarygradeEnums () {
             await useHRMSApiO(
-                "/api/position/list",
+                "/api/salary/list",
                 {
                     method: "GET",
                     params: this.salarygradeEnum.params,
@@ -139,15 +205,15 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.salarygradeEnum.list = response._data.data.data
+                            this.salarygradeEnum.list = response._data.data ?? []
                         }
                     },
                 }
             )
         },
-        async getUserEmployeeEnum () {
+        async getUserEmployeeEnums () {
             await useHRMSApiO(
-                "/api/position/list",
+                "/api/employee/users-list",
                 {
                     method: "GET",
                     params: this.userEmployeeEnum.params,
@@ -156,24 +222,7 @@ export const useEnumsStore = defineStore("enums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.userEmployeeEnum.list = response._data.data.data
-                        }
-                    },
-                }
-            )
-        },
-        async getNonuserEmployeeEnum () {
-            await useHRMSApiO(
-                "/api/position/list",
-                {
-                    method: "GET",
-                    params: this.nonuserEmployeeEnum.params,
-                    onResponseError: ({ response }) => {
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.nonuserEmployeeEnum.list = response._data.data.data
+                            this.userEmployeeEnum.list = response._data.data ?? []
                         }
                     },
                 }
@@ -184,13 +233,13 @@ export const useEnumsStore = defineStore("enums", {
                 "/api/employee/list",
                 {
                     method: "GET",
-                    params: this.employeeEnum.params,
-                    onResponseError: ({ response }) => {
+                    params: this.allEmployeeEnum.params,
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.employeeEnum.list = response._data.data
+                            this.allEmployeeEnum.list = response._data.data ?? []
                         }
                     },
                 }

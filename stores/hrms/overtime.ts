@@ -16,15 +16,14 @@ export const useOvertimeStore = defineStore("overtimes", {
         isEdit: false,
         overtime: {
             id: null,
-            employee_id: null,
+            employees: [] as any[],
             project_id: null,
             department_id: null,
             overtime_date: null,
             overtime_start_time: "",
             overtime_end_time: "",
             reason: null,
-            prepared_by: null,
-            approvals: null,
+            approvals: [],
             request_status: ""
         },
         list: [],

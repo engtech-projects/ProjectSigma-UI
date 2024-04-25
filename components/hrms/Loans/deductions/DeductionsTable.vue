@@ -2,18 +2,19 @@
     <div class="mt-5 border-t-4 border-t-teal-400 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto ">
         <label for="" class="text-xl font-semibold text-gray-900">Other Deduction List</label>
         <div class="mt-5 mb-6 ">
+            <AccountingLoadScreen :is-loading="isLoading" />
             <EasyDataTable
                 class="mt-5"
                 table-class-name="customize-table"
                 :headers="headers"
-                :items="items"
+                :items="deductionsList"
             >
-                <template #item-actions="item">
+                <!-- <template #item-actions="item">
                     <div class="flex flex-row gap-1">
                         <button
                             @click="payment(item)"
                         >
-                            <Icon class="text-lg" name="mdi:cash" color="green" />
+                            <Icon class="text-lg" name="mdi:edit" color="green" />
                         </button>
                         <button
                             @click="deleted(item)"
@@ -21,7 +22,7 @@
                             <Icon class="text-lg" name="mdi:trash" color="red" />
                         </button>
                     </div>
-                </template>
+                </template> -->
             </EasyDataTable>
         </div>
     </div>
@@ -29,65 +30,67 @@
 
 <script setup>
 
+const isLoading = ref(false)
+const utils = useUtilities()
+const emit = defineEmits(["fetched"])
+const props = defineProps({
+    tofetch: {
+        type: Boolean,
+        default: false
+    },
+})
+
+const willfetch = computed(() => {
+    return props.tofetch
+})
+
+watch(willfetch, async (newVal) => {
+    if (newVal) {
+        await fetchDeductions()
+        emit("fetched")
+    }
+})
+
 const headers = [
     { text: "Employee Name", value: "employee_name" },
-    { text: "Date Filed", value: "date_filed" },
-    { text: "Deduction Start Date", value: "deduction_start_date" },
-    { text: "Deduction Name", value: "deduction_name" },
-    { text: "Amount to Deduct", value: "amt" },
-    { text: "Term", value: "term" },
-    { text: "Duration (Months)", value: "duration" },
-    { text: "Deduction per Term", value: "deduction_per_term" },
-    { text: "Balance", value: "balance" },
-    { text: "Action", value: "actions" },
+    { text: "Date Filed", value: "created_at" },
+    { text: "Deduction Name", value: "otherdeduction_name" },
+    { text: "Amount to Deduct", value: "total_amount" },
+    { text: "Term", value: "terms_of_payment" },
+    { text: "Duration (Months)", value: "no_of_installments" },
+    { text: "Deduction per Term", value: "installment_deduction" },
+    // { text: "Action", value: "actions" },
 ]
 
-const items = ref([
-    {
-        employee_name: "Adam Lavin",
-        date_filed: "2017-10-10",
-        deduction_start_date: "2023-08-30",
-        deduction_name: "T-Building 2023",
-        amt: "2,080",
-        term: "Semi-monthly",
-        duration: "5",
-        deduction_per_term: "208.00",
-        balance: "1,872.00",
-    },
-    {
-        employee_name: "Edem Lee",
-        date_filed: "2017-10-10",
-        deduction_start_date: "2023-08-30",
-        deduction_name: "T-Building 2023",
-        amt: "2,080",
-        term: "Semi-monthly",
-        duration: "5",
-        deduction_per_term: "208.00",
-        balance: "1,872.00",
-    },
-    {
-        employee_name: "John Kurt",
-        date_filed: "2017-10-10",
-        deduction_start_date: "2023-08-30",
-        deduction_name: "T-Building 2023",
-        amt: "2,080",
-        term: "Semi-monthly",
-        duration: "5",
-        deduction_per_term: "208.00",
-        balance: "1,872.00",
-    },
-    {
-        employee_name: "Kelvin Lee",
-        date_filed: "2017-10-10",
-        deduction_start_date: "2023-08-30",
-        deduction_name: "T-Building 2023",
-        amt: "2,080",
-        term: "Semi-monthly",
-        duration: "5",
-        deduction_per_term: "208.00",
-        balance: "1,872.00",
-    },
-])
+const items = ref([])
+const deductionsList = computed(() => {
+    const list = []
+    items.value.forEach((d) => {
+        d.employee_name = d.employee.family_name + ", " + d.employee.first_name
+        d.created_at = utils.value.dateToString(new Date(d.created_at))
+        d.amount_to_pay = utils.value.formatCurrency(d.installment_amount)
+        list.push(d)
+    })
+    return list
+})
+
+const fetchDeductions = async () => {
+    isLoading.value = true
+    await useHRMSApi("/api/other-deduction/resource", {
+        method: "GET",
+        watch: false,
+        onResponseError: ({ response }) => {
+            isLoading.value = false
+            throw new Error(response._data.message)
+        },
+        onResponse: ({ response }) => {
+            isLoading.value = false
+            items.value = response._data.data.data
+        },
+    })
+}
+
+fetchDeductions()
 
 </script>
 

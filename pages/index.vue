@@ -31,7 +31,7 @@ const login = async () => {
     signingIn.value = "Signing in..."
     loggedIn.value = "Welcome " + userCredentials.username
     try {
-        const response = await signIn(
+        await signIn(
             {
                 username: userCredentials.username,
                 password: userCredentials.password,
@@ -42,15 +42,10 @@ const login = async () => {
             type: "success",
             text: loggedIn.value
         })
-        snackbar.add({
-            type: "success",
-            text: userCredentials.response = response.message
-        })
-        // userCredentials.response = response.message
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: userCredentials.response = error.data.message
+            text: error.data.message
         })
         // userCredentials.response = error.data.message
     } finally {

@@ -1,9 +1,8 @@
-<!-- eslint-disable vue/no-useless-template-attributes -->
 <script lang="ts" setup>
 interface HeaderColumn {
-    name: String,
-    id: String,
-    style: String
+    name: string,
+    id: string,
+    style: string
 }
 
 defineProps({
@@ -12,7 +11,7 @@ defineProps({
         required: true,
     },
     datas: {
-        type: Array,
+        type: Array<any>,
         required: true,
     },
     actions: {
@@ -22,23 +21,23 @@ defineProps({
 })
 
 const emit = defineEmits(["editRow", "deleteRow", "showTable", "detailRow"])
-const doEdit = (data) => {
+const doEdit = (data: any) => {
     emit("editRow", data)
 }
-const doDelete = (data) => {
+const doDelete = (data: any) => {
     emit("deleteRow", data)
 }
-const showTbl = (data) => {
+const showTbl = (data: any) => {
     emit("showTable", data)
 }
-const doDetail = (data) => {
+const doDetail = (data: any) => {
     emit("detailRow", data)
 }
 const activeIndex = ref(null)
-const setActiveRow = (index) => {
+const setActiveRow = (index: any) => {
     activeIndex.value = index
 }
-const isActiveRow = (index) => {
+const isActiveRow = (index: any) => {
     return activeIndex.value === index
 }
 </script>

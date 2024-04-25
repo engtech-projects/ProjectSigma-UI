@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import type { Item, Header } from "vue3-easy-data-table"
-import { useEnumsStore } from "@/stores/hrms/enum"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
+// import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
+const { data: userData } = useAuth()
 
-const enums = useEnumsStore()
-const { employeeEnum } = storeToRefs(enums)
-
-const departments = useDepartmentStore()
-const { departmentsList } = storeToRefs(departments)
+// const departments = useDepartmentStore()
+// const { departmentsList } = storeToRefs(departments)
 
 const approvals = useApprovalStore()
 
@@ -21,13 +17,6 @@ travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-const selectedEmployees = ref<Item[]>([])
-
-const headers: Header[] = [
-    {
-        text: "Employee Name", value: "fullname_last",
-    },
-]
 
 const cancelEdit = () => {
     travels.$reset()
@@ -58,30 +47,12 @@ const editRequest = async () => {
             <form @submit.prevent="editRequest">
                 <div class="grid grid-cols-2 gap-2">
                     <div>
-                        <label for="name" class="text-sm italic font-semibold text-gray-700">Name</label>
-                        <EasyDataTable
-                            v-model:items-selected="selectedEmployees"
-                            class="mt-3"
-                            rows-per-page="10"
-                            :headers="headers"
-                            :items="employeeEnum.list"
-                        />
+                        <HrmsCommonMultipleEmployeeSelector v-model="travel.employee_ids" />
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">
                         <div>
                             <label for="requestingOffice" class="text-sm italic font-semibold text-gray-700">Requesting Office</label>
-                            <select
-                                id="department"
-                                v-model="travel.requesting_office"
-                                class="w-full rounded-lg bg-slate-100 border border-slate-300 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                            >
-                                <option value="" disabled selected>
-                                    Choose Department
-                                </option>
-                                <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
-                                    {{ dpt.department_name }}
-                                </option>
-                            </select>
+                            <HrmsCommonDepartmentSelector id="requestingOffice" v-model="travel.requesting_office" />
                         </div>
                         <div>
                             <label for="destination" class="text-sm italic font-semibold text-gray-700">Destination</label>
@@ -140,18 +111,12 @@ const editRequest = async () => {
                         </div>
                         <div>
                             <label for="requstedBy" class="text-sm italic font-semibold text-gray-700">Requested By</label>
-                            <select
-                                id="department"
-                                v-model="travel.requested_by"
-                                class="w-full rounded-lg bg-slate-100 border border-slate-300 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
+                            <input
+                                :value="userData.name"
+                                type="number"
+                                disabled
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             >
-                                <option value="" disabled selected>
-                                    Choose Department
-                                </option>
-                                <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
-                                    {{ dpt.department_name }}
-                                </option>
-                            </select>
                         </div>
                     </div>
                 </div>

@@ -165,7 +165,7 @@ const actions = {
                                         Deny Request
                                     </button>
                                     <button
-                                        class="bg-yellow-600 p-2 hover:bg-yellow-900 text-white round-sm"
+                                        class="bg-yellow-400 p-2 hover:bg-yellow-900 text-white round-sm"
                                         @click="clearRemarks"
                                     >
                                         Clear

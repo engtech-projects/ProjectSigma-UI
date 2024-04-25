@@ -1,16 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import type { Item, Header } from "vue3-easy-data-table"
-import { useEnumsStore } from "@/stores/hrms/enum"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
-
-const enums = useEnumsStore()
-const { employeeEnum } = storeToRefs(enums)
-
-const departments = useDepartmentStore()
-const { departmentsList } = storeToRefs(departments)
 
 const approvals = useApprovalStore()
 
@@ -21,13 +12,10 @@ travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-const selectedEmployees = ref<Item[]>([])
 
 const submitForm = async () => {
     try {
         boardLoading.value = true
-        const names = selectedEmployees.value.map(emp => emp.fullname_first).join(", ")
-        travel.value.name = names
         await travels.createRequest()
         if (travels.errorMessage !== "") {
             snackbar.add({
@@ -50,12 +38,6 @@ const submitForm = async () => {
         boardLoading.value = false
     }
 }
-
-const headers: Header[] = [
-    {
-        text: "Employee Name", value: "fullname_last",
-    },
-]
 </script>
 
 <template>
@@ -63,33 +45,18 @@ const headers: Header[] = [
         <div class="text-gray-500">
             <form @submit.prevent="submitForm">
                 <div class="grid grid-cols-2 gap-2">
-                    <div class="flex-1">
+                    <div class="flex-1 pt-8">
                         <div>
-                            <label for="name" class="text-sm italic font-semibold text-gray-700">Name</label>
-                            <EasyDataTable
-                                v-model:items-selected="selectedEmployees"
-                                class="mt-2"
-                                :rows-per-page="10"
-                                :headers="headers"
-                                :items="employeeEnum.list"
-                            />
+                            <HrmsCommonMultipleEmployeeSelector v-model="travel.employee_ids" />
                         </div>
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">
                         <div>
                             <label for="requestingOffice" class="text-sm italic font-semibold text-gray-700">Requesting Office</label>
-                            <select
+                            <HrmsCommonDepartmentSelector
                                 id="department"
                                 v-model="travel.requesting_office"
-                                class="w-full rounded-lg bg-slate-100 border border-slate-300 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                            >
-                                <option value="" disabled selected>
-                                    Choose Department
-                                </option>
-                                <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
-                                    {{ dpt.department_name }}
-                                </option>
-                            </select>
+                            />
                         </div>
                         <div>
                             <LayoutFormPsTextInput v-model="travel.destination" title="Destination" />
@@ -120,19 +87,7 @@ const headers: Header[] = [
                             <LayoutFormPsTextInput v-model="travel.remarks" title="Remarks" />
                         </div>
                         <div>
-                            <label for="requstedBy" class="text-sm italic font-semibold text-gray-700">Requested By</label>
-                            <select
-                                id="department"
-                                v-model="travel.requested_by"
-                                class="w-full rounded-lg bg-slate-100 border border-slate-300 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                            >
-                                <option value="" disabled selected>
-                                    Choose Department
-                                </option>
-                                <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
-                                    {{ dpt.department_name }}
-                                </option>
-                            </select>
+                            <HrmsCommonRequestedBy title="Prepared by" />
                         </div>
                     </div>
                 </div>

@@ -1,32 +1,25 @@
 <script setup>
-import { useEnumsStore } from "@/stores/hrms/enum"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
-const { list: projectList, information } = storeToRefs(projects)
-const rowsPerPage = ref(10)
-const enums = useEnumsStore()
-const { employeeEnum } = storeToRefs(enums)
-
+const { information } = storeToRefs(projects)
+const projId = ref()
 const selectedEmployees = ref([])
 
-const headers = [
-    {
-        text: "Employee Name", value: "fullname_last",
-    },
-]
-const showProjectInformation = async () => {
-    await projects.getProjectInformation(projects.information.id)
-    await projects.projectMemberList(projects.information.id)
-}
+watch(projId, async (newValue, oldValue) => {
+    if (oldValue !== newValue) {
+        await projects.getProjectInformation(newValue)
+        await projects.projectMemberList(newValue)
+        selectedEmployees.value = information.value.employees.project_members_ids
+    }
+})
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const attach = async () => {
     try {
         boardLoading.value = true
-        const employeeIds = selectedEmployees.value.map(emp => emp.id)
-        await projects.attachEmployee(projects.information.id, employeeIds)
+        await projects.attachEmployee(projects.information.id, selectedEmployees)
 
         if (projects.errorMessage !== "") {
             snackbar.add({
@@ -56,22 +49,9 @@ const attach = async () => {
         <div class="text-gray-500">
             <form @submit.prevent="attach">
                 <div class="pt-2">
-                    <select id="project_name" v-model="projects.information.id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" @change="showProjectInformation()">
-                        <option value="" disabled selected>
-                            Choose Project
-                        </option>
-                        <option v-for="proj, id in projectList" :key="id + 'projectlist'" :value="proj.id">
-                            {{ proj.contract_name }}
-                        </option>
-                    </select>
+                    <HrmsCommonProjectSelector v-model="projId" :use-hrms-id="false" />
                 </div>
-                <EasyDataTable
-                    v-model:items-selected="selectedEmployees"
-                    :rows-per-page="rowsPerPage"
-                    class="mt-5"
-                    :headers="headers"
-                    :items="employeeEnum.list"
-                />
+                <HrmsCommonMultipleEmployeeSelector v-model="selectedEmployees" />
                 <div class="max-w-full flex flex-row-reverse mt-5">
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Assign Employee
@@ -80,7 +60,7 @@ const attach = async () => {
             </form>
         </div>
     </LayoutBoards>
-    <LayoutBoards title="Project Information" class="w-3/4" :loading="boardLoading">
+    <LayoutBoards v-if="information" title="Project Information" class="w-3/4" :loading="boardLoading">
         <div class="w-full m-2 flex justify-between">
             <p class="text-3xl font-light">
                 {{ information.project_identifier }} <span class="text-sm font-thin">Code : <span class="text-cyan-700">{{ information.project_code }}</span> </span>
@@ -131,9 +111,9 @@ const attach = async () => {
                     Project Members
                 </h2>
             </div>
-            <div v-if="information.employees?.project_members" class="divide-gray-200 flex gap-2">
-                <div v-for="(member, index) in information.employees.project_members" :key="index" class="flex items-left p-8">
-                    <span class="text-gray-700 text-lg font-medium mr-4"> {{ index + 1 }} </span>
+            <div v-if="information.employees?.project_members" class="divide-gray-200 p-4">
+                <div v-for="(member, index) in information.employees.project_members" :key="index" class="flex items-left">
+                    <span class="text-gray-700 text-lg font-medium mr-4"> {{ index + 1 }}. </span>
                     <div class="flex-1">
                         <h3 class="text-lg font-medium text-gray-800">
                             {{ member.fullname_last }}

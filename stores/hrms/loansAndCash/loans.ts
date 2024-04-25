@@ -1,12 +1,22 @@
 import { defineStore } from "pinia"
+
+export const WEEKLY = "weekly"
+export const MONTHLY = "monthly"
+export const BIMONTHLY = "bimonthly"
+export const TERMS = [
+    WEEKLY,
+    MONTHLY,
+    BIMONTHLY,
+]
+
 export interface SalaryGrade {
     id: null | Number;
     employee_id: null | Number;
     loan_amount: null | Number;
     installment_deduction: null | Number;
     terms_length: null | Number;
-    period_start: Date;
-    period_end: Date;
+    period_start: String;
+    period_end: String;
 }
 export const useLoansStore = defineStore("LoansStore", {
     state: () => ({
@@ -14,11 +24,12 @@ export const useLoansStore = defineStore("LoansStore", {
             data: {
                 id: null,
                 employee_id: null,
-                loan_amount: null,
+                amount: null,
                 installment_deduction: null,
                 terms_length: null,
-                period_start: new Date(),
-                period_end: new Date(),
+                no_of_installment: null,
+                deduction_date_start: "",
+                terms_of_payment: null,
             } as SalaryGrade,
             successMessage: "",
             errorMessage: "",
@@ -27,11 +38,12 @@ export const useLoansStore = defineStore("LoansStore", {
             data: {
                 id: null,
                 employee_id: null,
-                loan_amount: null,
+                amount: null,
                 installment_deduction: null,
                 terms_length: null,
-                period_start: new Date(),
-                period_end: new Date(),
+                no_of_installment: null,
+                deduction_date_start: "",
+                terms_of_payment: null,
             } as SalaryGrade,
             successMessage: "",
             errorMessage: "",
@@ -73,6 +85,8 @@ export const useLoansStore = defineStore("LoansStore", {
                     if (response.ok) {
                         this.createData.data = response._data.data
                         this.createData.successMessage = response._data.message
+                        this.getAllList()
+                        this.resetCreateData()
                     }
                 },
             })
@@ -93,6 +107,21 @@ export const useLoansStore = defineStore("LoansStore", {
                     }
                 },
             })
+        },
+        resetCreateData () {
+            this.createData = {
+                data: {
+                    id: null,
+                    employee_id: null,
+                    loan_amount: null,
+                    installment_deduction: null,
+                    terms_length: null,
+                    period_start: "",
+                    period_end: "",
+                } as SalaryGrade,
+                successMessage: "",
+                errorMessage: "",
+            }
         },
     },
 })

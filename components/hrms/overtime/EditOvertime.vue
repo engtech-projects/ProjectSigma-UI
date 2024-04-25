@@ -10,7 +10,7 @@ import { useApprovalStore, APPROVAL_OVERTIME } from "@/stores/hrms/setup/approva
 const { data: userData } = useAuth()
 
 const enums = useEnumsStore()
-const { employeeEnum } = storeToRefs(enums)
+const { allEmployeeEnum } = storeToRefs(enums)
 
 const departments = useDepartmentStore()
 const { departmentsList } = storeToRefs(departments)
@@ -23,7 +23,6 @@ const approvals = useApprovalStore()
 const overtimes = useOvertimeStore()
 const { overtime, errorMessage, successMessage } = storeToRefs(overtimes)
 
-overtime.value.prepared_by = userData.value.id
 overtime.value.approvals = await approvals.getApprovalByName(APPROVAL_OVERTIME)
 
 const snackbar = useSnackbar()
@@ -58,8 +57,7 @@ const editRequest = async () => {
         boardLoading.value = true
         overtime.value.overtime_start_time = formatTime(overtime.value.overtime_start_time)
         overtime.value.overtime_end_time = formatTime(overtime.value.overtime_end_time)
-        const empId = selectedEmployees.value.map(emp => emp.id)
-        overtime.value.employee_id = empId
+        overtime.value.employees = selectedEmployees.value.map(emp => emp.id)
         await overtimes.editRequest()
         snackbar.add({
             type: "success",
@@ -100,7 +98,7 @@ const editRequest = async () => {
                             :rows-per-page="10"
                             class="mt-5"
                             :headers="headers"
-                            :items="employeeEnum.list"
+                            :items="allEmployeeEnum.list"
                         />
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">

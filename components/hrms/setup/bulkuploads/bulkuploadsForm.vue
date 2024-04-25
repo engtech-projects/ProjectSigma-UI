@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 
 const { token } = useAuth()
 const config = useRuntimeConfig()
@@ -101,17 +101,24 @@ const headers = [
     { text: "section program", value: "section_program" },
     { text: "department", value: "department" },
     { text: "division", value: "division" },
-    { text: "supervisor", value: "supervisor" },
+    { text: "division", value: "immediate_supervisor" },
+    { text: "salary grade level", value: "salary_grade_level" },
+    { text: "salary grade step", value: "salary_grade_step" },
+    { text: "work location", value: "work_location" },
+    { text: "hire source", value: "hire_source" },
+    { text: "salary type", value: "salary_type" },
 ]
 
-const employees : any = ref([])
+const employees = ref([])
+const saveEmployee = ref([])
+const unsaveEmployee = ref([])
 
 const saveBulkUpload = async () => {
     boardLoading.value = true
     const formData = new FormData()
-    formData.append("employees_data", JSON.stringify(employees.value))
+    formData.append("employees_data", JSON.stringify(unsaveEmployee.value))
     await useFetch(
-        "/api/employee-bulk-save",
+        "/api/employee/bulk-save",
         {
             baseURL: config.public.HRMS_API_URL,
             method: "POST",
@@ -122,8 +129,10 @@ const saveBulkUpload = async () => {
             body: formData,
             watch: false,
             onResponse: ({ response }) => {
-                if (response.status >= 200 && response.status <= 299) {
-                    employees.value = response._data?.data
+                if (response.ok) {
+                    employees.value = response._data?.data.extract
+                    saveEmployee.value = response._data?.data.save
+                    unsaveEmployee.value = response._data?.data.unsave
                     snackbar.add({
                         type: "success",
                         text: response._data.message
@@ -141,13 +150,13 @@ const saveBulkUpload = async () => {
     selectedEmployeeDetails.value = true
     boardLoading.value = false
 }
-const handleUploadEmployeesData = async (event : any) => {
+const handleUploadEmployeesData = async (event) => {
     boardLoading.value = true
     const file = event.target.files[0]
     const formData = new FormData()
     formData.append("employees-data", file)
     await useFetch(
-        "/api/employee-bulk-upload",
+        "/api/employee/bulk-upload",
         {
             baseURL: config.public.HRMS_API_URL,
             method: "POST",
@@ -158,8 +167,10 @@ const handleUploadEmployeesData = async (event : any) => {
             body: formData,
             watch: false,
             onResponse: ({ response }) => {
-                if (response.status >= 200 && response.status <= 299) {
-                    employees.value = response._data?.data
+                if (response.ok) {
+                    employees.value = response._data?.data.extract
+                    saveEmployee.value = response._data?.data.save
+                    unsaveEmployee.value = response._data?.data.unsave
                     snackbar.add({
                         type: "success",
                         text: response._data.message
@@ -178,7 +189,7 @@ const handleUploadEmployeesData = async (event : any) => {
     boardLoading.value = false
 }
 
-const bodyRowClassNameFunction = (item: any) => {
+const bodyRowClassNameFunction = (item) => {
     if (item._status === "duplicate") {
         return "duplicate-row"
     }
@@ -208,20 +219,37 @@ const bodyRowClassNameFunction = (item: any) => {
                     </button>
                 </div>
             </div>
-            <EasyDataTable
-                show-index
-                :headers="headers"
-                :body-row-class-name="bodyRowClassNameFunction"
-                :items="employees"
-                class="mt-5 z-0"
-            />
+            <div class="w-full p-2">
+                <p class="w-full text-lg font-bold">
+                    Unsaved Data
+                </p>
+                <EasyDataTable
+                    show-index
+                    :headers="headers"
+                    :body-row-class-name="bodyRowClassNameFunction"
+                    :items="unsaveEmployee"
+                    class="mt-5 z-0"
+                />
+            </div>
+            <div class="w-full p-2">
+                <p class="w-full text-lg font-bold">
+                    Saved Data
+                </p>
+                <EasyDataTable
+                    show-index
+                    :headers="headers"
+                    :body-row-class-name="bodyRowClassNameFunction"
+                    :items="saveEmployee"
+                    class="mt-5 z-0"
+                />
+            </div>
         </div>
     </LayoutBoards>
 </template>
 
 <style>
 .duplicate-row {
-    --easy-table-body-row-background-color: #f56c6c;
-    --easy-table-body-row-font-color: #fff;
+    /* --easy-table-body-row-background-color: rgb(20, 123, 58);
+    --easy-table-body-row-font-color: #fff; */
 }
 </style>

@@ -16,16 +16,16 @@ export const useTravelorderStore = defineStore("travels", {
         isEdit: false,
         travel: {
             id: null,
-            name: null,
+            name: "",
+            employee_ids: [] as any[],
             requesting_office: null,
             destination: null,
-            purpose_of_travel: null,
+            purpose_of_travel: "",
             date_and_time_of_travel: null,
             duration_of_travel: null,
             means_of_transportation: null,
-            remarks: null,
-            requested_by: null,
-            approvals: null,
+            remarks: "",
+            approvals: [],
             request_status: ""
         },
         list: [],
@@ -178,7 +178,7 @@ export const useTravelorderStore = defineStore("travels", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.getMyApprovalRequests()
-                            this.getManpower()
+                            this.getTravelorders()
                             this.getMyRequests()
                             return response._data
                         } else {
@@ -189,7 +189,7 @@ export const useTravelorderStore = defineStore("travels", {
                 }
             )
         },
-        async denyApprovalForm (id: String) {
+        async denyApprovalForm (id: string) {
             this.successMessage = ""
             this.errorMessage = ""
             const formData = new FormData()
@@ -208,7 +208,7 @@ export const useTravelorderStore = defineStore("travels", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.getMyApprovalRequests()
-                            this.getManpower()
+                            this.getTravelorders()
                             this.getMyRequests()
                             return response._data
                         }

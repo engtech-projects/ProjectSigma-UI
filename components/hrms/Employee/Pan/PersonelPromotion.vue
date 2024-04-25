@@ -1,11 +1,8 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
-import { useSalaryGradeStore } from "~/stores/hrms/setup/salarygrade"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 
-const salaryGrade = useSalaryGradeStore()
 const employee = useEmployeeInfo()
-const { salaryGradeStepList: salaryGradeList } = storeToRefs(salaryGrade)
 const pan = usePersonelActionNotice()
 
 </script>
@@ -59,9 +56,13 @@ const pan = usePersonelActionNotice()
         <td colspan="2">
             <div class="m-2">
                 <label
+                    for="PromotionPosition"
                     class="flex text-sm text-black-700 dark:text-white"
                 >NEW POSITION : </label>
-                <input id="PromotionPosition" v-model="pan.personelActionNotice.new_position" class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                <HrmsCommonPositionSelector
+                    id="PromotionPosition"
+                    v-model="pan.personelActionNotice.new_position"
+                />
             </div>
         </td>
     </tr>
@@ -83,16 +84,10 @@ const pan = usePersonelActionNotice()
                     for="PromotionSalaryGrade"
                     class="flex text-sm text-black-700 dark:text-white"
                 >NEW SALARY GRADE : </label>
-                <select
-                    id="panSection"
+                <HrmsCommonSalaryGradeSelector
+                    id="PromotionSalaryGrade"
                     v-model="pan.personelActionNotice.new_salary_grades"
-                    class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required
-                >
-                    <option v-for="(salary, index) in salaryGradeList" :key="index" :value="salary.id">
-                        Grade {{ salary.salary_grade_level }} - Step {{ salary.step_name }}
-                    </option>
-                </select>
+                />
             </div>
         </td>
     </tr>

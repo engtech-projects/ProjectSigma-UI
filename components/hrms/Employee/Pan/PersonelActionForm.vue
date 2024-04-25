@@ -1,15 +1,11 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useApprovalStore } from "@/stores/hrms/setup/approvals"
-import { useUserStore } from "@/stores/hrms/setup/users"
 
-const { data: userData } = useAuth()
 const approval = useApprovalStore()
 const pan = usePersonelActionNotice()
-const users = useUserStore()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-users.getUserEmployees()
 pan.personelActionNotice.type = "New Hire"
 const approvals = await approval.getApprovalByName("Personnel Action Notice")
 pan.personelActionNotice.approvals = approvals
@@ -77,7 +73,6 @@ const savePan = async () => {
                     <tbody>
                         <tr>
                             <td colspan="4" class="border border-slate-300 p-2">
-                                {{ pan.personelActionNotice.type }}
                                 <div class="md:flex gap-2 space-x-2 p-2">
                                     <input id="newhire" v-model="pan.personelActionNotice.type" class="" type="radio" value="New Hire">
                                     <label
@@ -186,6 +181,11 @@ const savePan = async () => {
                         </tr>
 
                         <tr>
+                            <td colspan="1">
+                                <HrmsCommonRequestedBy />
+                            </td>
+                        </tr>
+                        <tr>
                             <td colspan="4">
                                 <label
                                     for="small-input"
@@ -196,14 +196,6 @@ const savePan = async () => {
                         <tr>
                             <td colspan="4">
                                 <HrmsEmployeePanPersonelApproval class="w-full" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="1">
-                                <label
-                                    for="small-input"
-                                    class="flex justify-left pt-4 px-4 text-md font-medium text-blue-700 dark:text-white"
-                                >CREATED BY: {{ userData.name }}</label>
                             </td>
                         </tr>
                         <tr>

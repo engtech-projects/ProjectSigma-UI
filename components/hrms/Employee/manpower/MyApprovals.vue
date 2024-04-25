@@ -20,7 +20,7 @@ const closeViewModal = () => {
 
 const headers = [
     { name: "Requesting Department", id: "requesting_department" },
-    { name: "Position/Title", id: "position" },
+    { name: "Position/Title", id: "position.name" },
     { name: "Date Requested", id: "date_requested" },
     { name: "Date Required", id: "date_required" },
     { name: "Employment Type", id: "employment_type" },
@@ -98,7 +98,7 @@ const actions = {
                     </div>
                     <div class="grid gap-2 md:justify-between">
                         <div class="p-2 flex gap-2">
-                            <span class="text-gray-900 text-4xl">POSITION {{ employeeData.position }}</span>
+                            <span class="text-gray-900 text-4xl">POSITION {{ employeeData.position.name }}</span>
                         </div>
                     </div>
                     <div class="grid md:grid-cols-3 gap-2 md:justify-between">
@@ -194,7 +194,7 @@ const actions = {
                                         Deny Request
                                     </button>
                                     <button
-                                        class="bg-yellow-600 p-2 hover:bg-yellow-900 text-white round-sm"
+                                        class="bg-yellow-400 p-2 hover:bg-yellow-900 text-white round-sm"
                                         @click="clearRemarks"
                                     >
                                         Clear

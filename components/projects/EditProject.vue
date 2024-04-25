@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
-const { project, errorMessage, successMessage } = storeToRefs(projects)
+const { information: project, errorMessage, successMessage } = storeToRefs(projects)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)

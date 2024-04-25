@@ -23,7 +23,7 @@ export const useLeaveStore = defineStore("leaves", {
             id: null,
             leave_name: null,
             amt_of_leave: null,
-            employment_type: [],
+            // employment_type: [],
         },
         list: [],
         pagination: {},

@@ -1,19 +1,14 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useManpowerStore, EMPLOYMENT_TYPE, NATURE_REQUESTS, STATUS, GENDER } from "@/stores/hrms/employee/manpower"
-import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 import { useApprovalStore, APPROVAL_MANPOWERREQ } from "@/stores/hrms/setup/approvals"
 
-const { data: userData } = useAuth()
-const departments = useDepartmentStore()
-const { departmentsList } = storeToRefs(departments)
 const manpowers = useManpowerStore()
 const { manpower, errorMessage, successMessage } = storeToRefs(manpowers)
 const approvals = useApprovalStore()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-manpower.value.requested_by = userData.value.id
 manpower.value.approvals = await approvals.getApprovalByName(APPROVAL_MANPOWERREQ)
 
 const handleFileUpload = (event) => {
@@ -56,14 +51,7 @@ const addManpwr = async () => {
                 <div class="grid grid-cols-2 gap-2 sm:grid-cols-2">
                     <div class="pb-4">
                         <label for="reqDepartment" class="block text-sm font-medium text-gray-900 dark:text-white">Requesting Department</label>
-                        <select id="reqDepartment" v-model="manpower.requesting_department" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            <option value="" disabled selected>
-                                Choose Department
-                            </option>
-                            <option v-for="dpt, index in departmentsList" :key="index" :value=" dpt.id">
-                                {{ dpt.department_name }}
-                            </option>
-                        </select>
+                        <HrmsCommonDepartmentSelector id="reqDepartment" v-model="manpower.requesting_department" />
                     </div>
                     <div>
                         <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -81,7 +69,7 @@ const addManpwr = async () => {
                 <div class=" grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <div class="pb-4">
                         <label for="position_title" class="block text-sm font-medium text-gray-900 dark:text-white">Position/Title</label>
-                        <input id="position_title" v-model="manpower.position" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <HrmsCommonPositionSelector id="position_title" v-model="manpower.position_id" />
                     </div>
                     <div>
                         <label for="employment_type" class="block text-sm font-medium text-gray-900 dark:text-white">Employment Type</label>
@@ -170,18 +158,7 @@ const addManpwr = async () => {
                     <label for="remarks" class="block  text-sm font-medium text-gray-900 dark:text-white">Additional Remarks (Reason for Request)</label>
                     <textarea id="remarks" v-model="manpower.remarks" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
                 </div>
-                <div class="pb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    <div>
-                        <label for="requested_by" class="block text-sm font-medium text-gray-900 dark:text-white">Requested by</label>
-                        <input
-                            id="requested_by"
-                            :value="userData.name"
-                            type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            disabled
-                        >
-                    </div>
-                </div>
+                <HrmsCommonRequestedBy />
                 <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Approvals</label>
                 <div>
                     <HrmsSetupApprovalsList

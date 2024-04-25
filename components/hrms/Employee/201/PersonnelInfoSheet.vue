@@ -2,9 +2,15 @@
     <div class="overflow-auto">
         <EvenparNologo />
         <HrmsEmployee201DetailsEmployeeInfo />
-        <HrmsEmployee201DetailsEducationalBackground />
+        <HrmsEmployee201DetailsEmployeePermanentAddress />
+        <HrmsEmployee201DetailsEmployeePresentAddress />
+        <HrmsEmployee201DetailsEmployeeChildren />
+        <HrmsEmployee201EducationPrimaryEducation />
+        <HrmsEmployee201EducationSecondaryEducation />
+        <HrmsEmployee201EducationCollegeEducation />
+        <HrmsEmployee201EducationVocationalEducation />
+        <HrmsEmployee201EducationStudiesBackground />
         <HrmsEmployee201DetailsSpouseInfo />
-        <HrmsEmployee201DetailsDependentsInfo />
         <HrmsEmployee201DetailsContactPerson />
         <div v-if="false" class="mt-8 flex justify-end">
             <div>

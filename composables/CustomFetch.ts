@@ -45,13 +45,16 @@ export function useHRMSApi<T> (url: string, options: AsyncDataOptions<T>|UseFetc
     const params = defu(options, defaults)
     return useFetch(url, params)
 }
-export const useHRMSApiO = ofetch.create({
-    baseURL: config.public.HRMS_API_URL,
-    headers: {
-        Authorization: token.value + "",
-        Accept: "application/json"
-    },
-})
+export function useHRMSApiO (url: string, params: any) {
+    const ofetchApi = ofetch.create({
+        baseURL: config.public.HRMS_API_URL,
+        headers: {
+            Authorization: token.value + "",
+            Accept: "application/json"
+        },
+    })
+    return ofetchApi(url, params)
+}
 export function useProjectsApi<T> (url: string, options: AsyncDataOptions<T>|UseFetchOptions<T> = {}) {
     const defaults: UseFetchOptions<T> = {
         baseURL: config.public.PROJECT_API_URL,

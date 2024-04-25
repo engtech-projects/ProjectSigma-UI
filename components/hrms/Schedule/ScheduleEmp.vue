@@ -5,12 +5,9 @@ import interactionPlugin from "@fullcalendar/interaction"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
 // import VueDatePicker from "@vuepic/vue-datepicker"
-import { useDepartmentStore } from "~/stores/hrms/setup/departments"
 import "@vuepic/vue-datepicker/dist/main.css"
 import { useEmployeeInfo } from "~/stores/hrms/employee"
 const utils = useUtilities()
-const departmentStore = useDepartmentStore()
-departmentStore.getDepartment()
 const snackbar = useSnackbar()
 const { token } = useAuth()
 const config = useRuntimeConfig()
@@ -25,8 +22,9 @@ const newEvent = ref({
     scheduleType: "Regular",
     daysOfWeek: [],
     startTime: "",
-    endTime: "",
-    startRecur: "",
+    endTime: null,
+    startRecur: null,
+    endRecur: null,
     employee: Object
 })
 const events = ref([])
@@ -79,24 +77,19 @@ const calendarOptions = ref({
 
 async function fetchSchedules () {
     isCalendarLoading.value = true
-    await useFetch(
+    await useHRMSApi(
         "/api/schedule",
         {
-            baseURL: config.public.HRMS_API_URL,
-            method: "GET",
-            headers: {
-                Authorization: token.value + "",
-                Accept: "application/json"
-            },
             watch: false,
             onResponse: ({ response }) => {
                 isCalendarLoading.value = false
-                if (response.status !== 200) {
+                if (response.ok) {
                     errorMessage.value = response._data.message
                 } else {
                     events.value = []
-                    response._data.data.forEach((ev) => {
+                    response._data.data.forEach((ev: any) => {
                         if (ev.groupType === "employee") {
+                            ev.daysOfWeek = JSON.parse(ev.daysOfWeek)
                             events.value.push(ev)
                         }
                     })
@@ -109,19 +102,29 @@ async function fetchSchedules () {
 function loadEvents () {
     removeEvents()
     events.value.forEach((ev) => {
-        if (ev.employee_id === newEvent.value.employee_id) {
-            calendarApi.value.addEvent(ev)
+        if (ev.employee_id.toString() === newEvent.value.employee_id.toString()) {
+            const event = JSON.parse(JSON.stringify(ev))
+            if (ev.scheduleType === "Irregular") {
+                event.daysOfWeek = null
+            }
+            calendarApi.value.addEvent(event)
         }
     })
 }
 function setEdit (id) {
     daysOfWeek.value = [false, false, false, false, false, false, false]
+    const regularTab = document.getElementById("regular-tab")
+    const irregularTab = document.getElementById("irregular-tab")
     events.value.forEach((ev) => {
         if (parseInt(ev.id) === parseInt(id)) {
-            ev.daysOfWeek = JSON.parse(ev.daysOfWeek)
             ev.daysOfWeek.forEach((d) => {
                 daysOfWeek.value[d] = true
             })
+            if (ev.scheduleType === "Irregular") {
+                irregularTab.click()
+            } else {
+                regularTab.click()
+            }
             newEvent.value = ev
             isEdit.value = true
         }
@@ -159,7 +162,7 @@ function resetEvents () {
     isEdit.value = false
     daysOfWeek.value = [false, false, false, false, false, false, false]
     newEvent.value = {
-        id: 1,
+        id: null,
         groupType: "department",
         department_id: 1,
         project_id: null,
@@ -167,9 +170,10 @@ function resetEvents () {
         scheduleType: "Regular",
         daysOfWeek: [],
         startTime: "",
-        endTime: "",
-        startRecur: "",
-        endRecur: ""
+        endTime: null,
+        startRecur: null,
+        endRecur: null,
+        employee: Object
     }
 }
 async function handleSubmit () {
@@ -178,11 +182,18 @@ async function handleSubmit () {
             newEvent.value.daysOfWeek.push(i.toString())
         }
     }
-    newEvent.value.endRecur = newEvent.value.endRecur === "" ? newEvent.value.startRecur : newEvent.value.endRecur
     const url = isEdit.value ? "/api/schedule/" + newEvent.value.id : "/api/schedule"
     newEvent.value.startTime = utils.value.formatTime(newEvent.value.startTime)
     newEvent.value.endTime = utils.value.formatTime(newEvent.value.endTime)
     isLoading.value = true
+    if (newEvent.value.daysOfWeek.length === 0) {
+        newEvent.value.scheduleType = "Irregular"
+    } else {
+        newEvent.value.scheduleType = "Regular"
+    }
+    if (newEvent.value.scheduleType === "Irregular") {
+        newEvent.value.endRecur = utils.value.addOneDay(newEvent.value.startRecur)
+    }
     await useFetch(
         url,
         {
@@ -208,9 +219,6 @@ async function handleSubmit () {
         }
     )
 }
-const departmentsList = computed(() => {
-    return departmentStore.list
-})
 
 const employeeInfo = useEmployeeInfo()
 employeeInfo.getEmployeeList()
@@ -244,7 +252,6 @@ onMounted(() => {
         }
     })
     fetchSchedules()
-    departmentStore.getDepartmentList()
 })
 watch(successMessage, (msg) => {
     if (msg !== "") {
@@ -281,14 +288,10 @@ watch(errorMessage, (msg) => {
             </div>
             <div class="p-4 flex flex-col gap-4" :class="isEdit? 'border-t-8 border-green-500 rounded-md' : ''">
                 <AccountingSelectSearch :options="employeeList" title="fullName" opid="id" :selected-id="employee.id" @select="selectEmployee" />
-                <select id="schedule" v-model="newEvent.department_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required @change="loadEvents">
-                    <option value="" disabled selected>
-                        -- SELECT --
-                    </option>
-                    <option v-for="d in departmentsList" :key="d.id" :value="d.id" @chane="loadEvents">
-                        {{ d.department_name }}
-                    </option>
-                </select>
+                <HrmsCommonDepartmentSelector
+                    id="schedule"
+                    v-model="newEvent.department_id"
+                />
             </div>
 
             <div class="p-4">
@@ -333,13 +336,21 @@ watch(errorMessage, (msg) => {
                                         id="eventTitleIn"
                                         v-model="newEvent.startTime"
                                         type="time"
+                                        step="1"
                                         class="w-36 md:w-32 rounded-lg"
                                         required
                                     >
                                 </div>
                                 <div class="p-2  gap-4 items-center">
                                     <label for="eventTitleOut" class="block text-xs text-center italic">Out</label>
-                                    <input id="eventTitleOut" v-model="newEvent.endTime" type="time" class="w-36 md:w-32 rounded-lg" required>
+                                    <input
+                                        id="eventTitleOut"
+                                        v-model="newEvent.endTime"
+                                        type="time"
+                                        step="1"
+                                        class="w-36 md:w-32 rounded-lg"
+                                        required
+                                    >
                                 </div>
                             </div>
 
@@ -361,7 +372,6 @@ watch(errorMessage, (msg) => {
                                             role="tab"
                                             aria-controls="regular"
                                             aria-selected="false"
-                                            @click="newEvent.scheduleType='Regular'"
                                         >
                                             Regular
                                         </button>
@@ -375,7 +385,6 @@ watch(errorMessage, (msg) => {
                                             role="tab"
                                             aria-controls="irregular"
                                             aria-selected="false"
-                                            @click="newEvent.scheduleType='Irregular'"
                                         >
                                             Irregular
                                         </button>
@@ -383,7 +392,7 @@ watch(errorMessage, (msg) => {
                                 </ul>
                             </div>
                             <div id="default-tab-content">
-                                <div id="regular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" :class="newEvent.scheduleType==='Regular' ? '' : 'hidden' " role="tabpanel" aria-labelledby="regular-tab">
+                                <div id="regular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="regular-tab">
                                     <div class="border-b w-full h-[14px] text-center p-3 mb-2">
                                         <span class="text-sm bg-slate-50 text-black px-10 italic">
                                             Days
@@ -435,7 +444,7 @@ watch(errorMessage, (msg) => {
                                     </div>
                                 </div>
 
-                                <div id="irregular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" :class="newEvent.scheduleType==='Regular' ? 'hidden' : '' " role="tabpanel" aria-labelledby="irregular-tab">
+                                <div id="irregular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="irregular-tab">
                                     <div class="border-b w-full h-[14px] text-center p-3 mb-5">
                                         <span class="text-sm bg-slate-50 text-black px-10 italic">
                                             Schedule Dates
