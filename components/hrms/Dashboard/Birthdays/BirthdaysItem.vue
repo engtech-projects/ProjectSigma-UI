@@ -18,7 +18,8 @@ defineProps({
     },
     avatar: {
         type: String,
-        required: true,
+        required: false,
+        default: "/avatarexample.png",
     },
     birthday: {
         type: String,

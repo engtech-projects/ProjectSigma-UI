@@ -4,9 +4,9 @@
             <HrmsDashboardBirthdaysItem
                 v-for="employee, index in employees"
                 :key="index"
-                :name="employee.name"
+                :name="employee.fullname_last"
                 :avatar="employee.avatar"
-                :birthday="employee.birthday"
+                :birthday="employee.date_of_birth"
             />
         </div>
     </LayoutBoards>
