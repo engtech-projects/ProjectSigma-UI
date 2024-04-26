@@ -970,5 +970,28 @@ export const useEmployeeInfo = defineStore("employee", {
                 }
             )
         },
+        async saveOrUpdateEmployeePattern (pattern: any, id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const formData = new FormData()
+            formData.append("employee_id", id)
+            formData.append("patterns", JSON.stringify(pattern))
+            await useHRMSApiO(
+                "/api/face-pattern/resource",
+                {
+                    method: "POST",
+                    body: formData,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        }
     },
 })
