@@ -4,6 +4,8 @@ export const APPROVAL_MANPOWERREQ = "Manpower Request"
 export const APPROVAL_TRAVELORDER = "Travel Order"
 export const APPROVAL_OVERTIME = "Overtime"
 export const APPROVAL_CA = "Cash Advance"
+export const APPROVAL_GA = "Generate Allowance"
+export const APPROVAL_LEAVE = "Leave"
 
 export interface Approver {
     type: string,
