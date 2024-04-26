@@ -20,7 +20,7 @@ defineProps({
         </div>
         <div class="mt-5 overflow-auto min-h-96 max-h-96">
             <div class="grid grid-cols-4 justify-start mt-4 gap-4 p-2">
-                <div v-if="employee.length <= 0">
+                <div v-if="employees.length <= 0">
                     No absences found this month.
                 </div>
                 <div v-for="employee, index in employees" :key="index" class="flex flex-col items-center">

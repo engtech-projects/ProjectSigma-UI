@@ -9,7 +9,7 @@ defineProps({
 <template>
     <LayoutBoards title="Birthdays This Month">
         <div class="grid grid-cols-4 justify-start mt-4 gap-4 p-2">
-            <div v-if="employee.length <= 0">
+            <div v-if="employees.length <= 0">
                 No birthdays found this month.
             </div>
             <HrmsDashboardBirthdaysItem
