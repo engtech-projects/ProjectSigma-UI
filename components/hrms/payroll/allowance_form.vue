@@ -1,56 +1,75 @@
-<template>
-    <div>
-        <div class="mt-5 mb-5 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <div>
-                <label for="cutoff_dates" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cut-off Dates</label>
-                <select id="cutoff_dates" name="cutoff_dates" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
-                    <option value="">
-                        Select Date Span
-                    </option>
-                    <option value="1">
-                        Today
-                    </option>
-                    <option value="2">
-                        Yesterday
-                    </option>
-                    <option value="3">
-                        Last 7 Days
-                    </option>
-                    <option value="4">
-                        Last 30 Days
-                    </option>
-                    <option value="5">
-                        This Month
-                    </option>
-                    <option value="6">
-                        Last Month
-                    </option>
-                    <option value="7">
-                        Custom Range
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label for="payroll_date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Payroll Date</label>
-                <input id="payroll_date" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-            </div>
-            <div>
-                <label for="payroll_project" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project</label>
-                <input id="payroll_project" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-            </div>
-        </div>
-        <div class="">
-            <div class="flex flex-row justify-between">
-                <div>
-                    <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                        Generate Allowance
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script  setup lang="ts">
+import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
+import { useApprovalStore, APPROVAL_OVERTIME } from "@/stores/hrms/setup/approvals"
+
+const genallowstore = useGenerateAllowanceStore()
+const { generateAllowance } = storeToRefs(genallowstore)
+
+const approvals = useApprovalStore()
+generateAllowance.value.approvals = await approvals.getApprovalByName(APPROVAL_OVERTIME)
+
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+
+const submitForm = async () => {
+    try {
+        boardLoading.value = true
+        await genallowstore.createRequest()
+        if (genallowstore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: genallowstore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: genallowstore.successMessage
+            })
+        }
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: genallowstore.errorMessage
+        })
+    } finally {
+        genallowstore.clearMessages()
+        boardLoading.value = false
+    }
+}
 
 </script>
+
+<template>
+    <LayoutBoards title="Allowance Payroll Form" class="w-full" :loading="boardLoading">
+        <div class="mt-5 mb-6">
+            <form @submit.prevent="submitForm">
+                <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateAllowance.employee_id" title="Employee Name" name="Employee Name" />
+                <div class="mt-5 mb-5 flex gap-4 sm:grid-cols-3">
+                    <LayoutFormPsDateInput v-model="generateAllowance.cutoff_start" title="Cut-off Date (Start)" />
+                    <LayoutFormPsDateInput v-model="generateAllowance.cutoff_end" title="Cut-off Date (End)" />
+                    <LayoutFormPsDateInput v-model="generateAllowance.allowance_date" title="Allowance Date" />
+                    <LayoutFormPsNumberInput v-model="generateAllowance.total_days" title="Total Day(s)" />
+                    <div class="flex-1">
+                        <HrmsCommonDepartmentProjectSelector v-model:select-type="generateAllowance.group_type" v-model:department-id="generateAllowance.department_id" v-model:project-id="generateAllowance.project_id" />
+                    </div>
+                </div>
+                <div class="w-full mb-2 rounded-lg p-4 bg-slate-100 ">
+                    <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Recommending Approval:</label>
+                    <HrmsSetupApprovalsList
+                        v-for="(approv, apr) in generateAllowance.approvals"
+                        :key="'hrmsetupapprovallist'+apr"
+                        v-model="generateAllowance.approvals[apr]"
+                    />
+                </div>
+
+                <div class="flex flex-row justify-between">
+                    <div>
+                        <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            Generate Allowance
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </LayoutBoards>
+</template>
