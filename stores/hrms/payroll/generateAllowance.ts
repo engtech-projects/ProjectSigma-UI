@@ -1,23 +1,11 @@
 import { defineStore } from "pinia"
 
-export interface GenerateAllowance {
-
-    id: null | Number,
-    employee_id: null | Number,
-    project_id: null | Number,
-    department_id: null | Number,
-    total_days: null | Number,
-    cutoff_start: String,
-    cutoff_end: String,
-    allowance_date: String,
-    group_type: String,
-}
 export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
     state: () => ({
         isEdit: false,
         generateAllowance: {
             id: null,
-            employee_id: [] as any[],
+            employees: [] as any[],
             project_id: null,
             department_id: null,
             cutoff_start: "",

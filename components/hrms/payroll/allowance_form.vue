@@ -43,7 +43,7 @@ const submitForm = async () => {
     <LayoutBoards title="Allowance Payroll Form" class="w-full" :loading="boardLoading">
         <div class="mt-5 mb-6">
             <form @submit.prevent="submitForm">
-                <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateAllowance.employee_id" title="Employee Name" name="Employee Name" />
+                <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateAllowance.employees" title="Employee Name" name="Employee Name" />
                 <div class="mt-5 mb-5 flex gap-4 sm:grid-cols-3">
                     <LayoutFormPsDateInput v-model="generateAllowance.cutoff_start" title="Cut-off Date (Start)" />
                     <LayoutFormPsDateInput v-model="generateAllowance.cutoff_end" title="Cut-off Date (End)" />
