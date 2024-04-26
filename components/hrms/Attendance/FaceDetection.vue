@@ -3,9 +3,11 @@ import * as faceapi from "face-api.js"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 const employee = useEmployeeInfo()
 
-const MODEL_URL = "/models"
+const MODEL_URL = "/faceapimodels"
 const videoStream = ref(null)
 const faceLandMarks = ref(null)
+const snackbar = useSnackbar()
+const readyState = ref(false)
 const faceProbability = ref(null)
 
 const startCamera = () => {
@@ -43,11 +45,14 @@ const startCamera = () => {
                     if (detection.detection._score > 0.80) {
                         faceProbability.value = detection.detection._score
                         faceLandMarks.value = detection.landmarks._positions
+                        readyState.value = true
                     } else {
                         faceLandMarks.value = null
+                        readyState.value = false
                     }
                 } catch (error) {
-                    faceLandMarks.value = null
+                    faceLandMarks.value = error
+                    readyState.value = false
                 }
             }, 500)
         })
@@ -56,7 +61,7 @@ const startCamera = () => {
 startCamera()
 const captureImage = async () => {
     try {
-        await employee.updateSeminarTraining(params, id)
+        await employee.saveOrUpdateEmployeePattern(faceLandMarks.value, employee.information.id)
         snackbar.add({
             type: "success",
             text: employee.successMessage
@@ -90,11 +95,8 @@ const captureImage = async () => {
             </div>
             <div class="w-1/2">
                 <div v-if="faceLandMarks" class="flex flex-col justify-center m-auto">
-                    <p class="text-[12px] text-gray-900">
-                        Face Landmark Result : {{ Math.abs((faceProbability * 100 ))}}
-                    </p>
-                    <p class="text-[5.5px] text-green-900 max-h-[500px]">
-                        {{ faceLandMarks }}
+                    <p class="text-xl text-gray-900">
+                        Face Landmark Result : %{{ Math.abs((faceProbability * 100 ).toFixed(2)) }}
                     </p>
                 </div>
                 <div v-else>
@@ -108,8 +110,12 @@ const captureImage = async () => {
             <div class="flex gap-2">
                 <button
                     v-if="employee.information.id"
-                    class="text-white gap-2 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
-                    @click="captureImage"
+                    :disabled="!readyState"
+                    :class="[
+                        readyState ? 'text-white gap-2 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800' :
+                        'text-white gap-2 bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800'
+                    ]"
+                    @click="captureImage()"
                 >
                     <Icon
                         name="material-symbols:camera"
@@ -122,3 +128,9 @@ const captureImage = async () => {
         </div>
     </div>
 </template>
+<style scoped>
+.not-ready-state {
+    background: orange;
+    color: white;
+}
+</style>
