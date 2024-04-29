@@ -1,4 +1,3 @@
-<!-- components/CameraCapture.vue -->
 <template>
     <div>
         <div class="camera-container">
