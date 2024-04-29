@@ -8,7 +8,7 @@ const { information } = storeToRefs(employee)
 </script>
 <template>
     <div id="back-id" class="h-[6.303in] w-[4.051in] shadow-lg relative bg-white">
-        <img class="h-[6.303in] w-[4.051in] cover" src="/BACK.png" alt="front" draggable="false">
+        <img class="h-[6.303in] w-[4.051in] cover" src="/ID_Back.png" alt="front" draggable="false">
         <div class="w-full absolute top-[5px] text-right">
             <p class=" text-xs px-2">
                 {{ employee.presentAddress }}
@@ -24,39 +24,39 @@ const { information } = storeToRefs(employee)
         </div>
         <div class="w-2/3 absolute top-[120px] text-left flex gap-2">
             <div class="w-full text-center">
-                <p class="text-lg  drop-shadow-md">
+                <p class="font-medium text-lg  drop-shadow-md">
                     {{ information.contact_person?.name }}
                 </p>
-                <p class=" text-xs px-2">
+                <p class="font-medium text-xs px-2">
                     {{ employee.contactPersonAddress }}
                 </p>
             </div>
         </div>
-        <div class="w-full absolute top-[270px] ml-20 text-left">
+        <div class="w-full absolute top-[270px] ml-2 text-left">
             <div class="w-2/3 text-left p-2">
                 <div class="flex gap-2">
-                    <p class="text-xs drop-shadow-md">
-                        {{ information.company_employments.tin_number ?? 'NO DETAILS' }}
+                    <p class="font-medium text-sm drop-shadow-md">
+                        TIN : {{ information.company_employments.tin_number ?? 'NO DETAILS' }}
                     </p>
                 </div>
                 <div class="flex gap-2">
-                    <p class="text-xs  drop-shadow-md">
-                        {{ information.company_employments.pagibig_number ?? 'NO DETAILS' }}
+                    <p class="font-medium text-sm drop-shadow-md">
+                        PagIbig : {{ information.company_employments.pagibig_number ?? 'NO DETAILS' }}
                     </p>
                 </div>
                 <div class="flex gap-2">
-                    <p class="text-xs drop-shadow-md">
-                        {{ information.company_employments.phic_number ?? 'NO DETAILS' }}
+                    <p class="font-medium text-sm drop-shadow-md">
+                        PHIC : {{ information.company_employments.phic_number ?? 'NO DETAILS' }}
                     </p>
                 </div>
                 <div class="flex gap-2">
-                    <p class="text-xs drop-shadow-md">
-                        {{ information.company_employments.sss_number ?? 'NO DETAILS' }}
+                    <p class="font-medium text-sm drop-shadow-md">
+                        SSS : {{ information.company_employments.sss_number ?? 'NO DETAILS' }}
                     </p>
                 </div>
                 <div class="flex gap-2">
-                    <p class="text-xs drop-shadow-md">
-                        {{ information.birthday ?? 'NO DETAILS' }}
+                    <p class="font-medium text-sm drop-shadow-md">
+                        BIRTHDATE : {{ information.birthday ?? 'NO DETAILS' }}
                     </p>
                 </div>
             </div>
