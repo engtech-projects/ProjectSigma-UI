@@ -150,7 +150,7 @@ startCamera()
             </div>
         </div>
         <div class="border-2 border-gray-400 rounded-lg p-2 md:w-1/3 space-y-4">
-            <div class="flex justify-center text-3xl font-medium text-cyan-700 p-2">
+            <div class="flex justify-center text-3xl font-medium text-cyan-700 p-2 border-b-2">
                 Welcome
             </div>
             <div class="w-full">
