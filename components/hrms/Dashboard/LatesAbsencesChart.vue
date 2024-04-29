@@ -1,8 +1,21 @@
+<script setup>
+defineProps({
+    labels: {
+        type: Array,
+        required: true,
+    },
+    data: {
+        type: Array,
+        required: true,
+    },
+})
+</script>
 <template>
     <LayoutBoards title="Late and Absences Chart">
         <LayoutChartDoughnut
-            :labels="['Lates', 'Absences']"
-            :datas="['22', '40']"
+            v-if="data.length > 0"
+            :labels="labels"
+            :datas="data"
         />
     </LayoutBoards>
 </template>

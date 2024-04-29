@@ -1,16 +1,24 @@
 <script setup>
 import * as faceapi from "face-api.js"
+import { useEmployeeInfo } from "@/stores/hrms/employee"
+const employee = useEmployeeInfo()
 
-const MODEL_URL = "/models"
-const imageUrl = "/avatarexample.png"
+const MODEL_URL = "/faceapimodels"
 const videoStream = ref(null)
-const cameraStarted = ref(false)
+const faceLandMarks = ref(null)
+const snackbar = useSnackbar()
+const readyState = ref(false)
+const faceProbability = ref(null)
 
 const startCamera = () => {
     Promise.all([
-        faceapi.loadTinyFaceDetectorModel(MODEL_URL),
+        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+        faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+        faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+        faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
     ]).then(async () => {
         const video = document.getElementById("cameraPreview")
+
         const stream = await navigator.mediaDevices.getUserMedia({ video: true })
         videoStream.value = stream
         video.srcObject = stream
@@ -22,78 +30,107 @@ const startCamera = () => {
                 resolve()
             }
         })
-        cameraStarted.value = true
+        video.addEventListener("play", () => {
+            const canvas = faceapi.createCanvasFromMedia(video)
+            const container = document.getElementById("capturedImage")
+            container.append(canvas)
+            const displaySize = { width: video.clientWidth, height: video.clientHeight }
+            faceapi.matchDimensions(canvas, displaySize)
+            setInterval(async () => {
+                try {
+                    const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
+                    const resizedDetections = faceapi.resizeResults(detection, displaySize)
+                    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height)
+                    faceapi.draw.drawDetections(canvas, resizedDetections)
+                    if (detection.detection._score > 0.80) {
+                        faceProbability.value = detection.detection._score
+                        faceLandMarks.value = detection.landmarks._positions
+                        readyState.value = true
+                    } else {
+                        faceLandMarks.value = null
+                        readyState.value = false
+                    }
+                } catch (error) {
+                    faceLandMarks.value = error
+                    readyState.value = false
+                }
+            }, 500)
+        })
     })
 }
-
-const captureImage = () => {
+startCamera()
+const captureImage = async () => {
     try {
-        const video = document.getElementById("cameraPreview")
-        const capturedImage = document.getElementById("capturedImage")
-
-        // Create a canvas element to draw the video frame
-        const canvas = document.createElement("canvas")
-        canvas.width = video.videoWidth
-        canvas.height = video.videoHeight
-        const context = canvas.getContext("2d")
-
-        // Draw the current video frame on the canvas
-        context.drawImage(video, 0, 0, canvas.width, canvas.height)
-
-        // Convert the canvas content to a Blob representing the image
-        canvas.toBlob((blob) => {
-            if (blob) {
-                // Display the captured image
-                capturedImage.src = URL.createObjectURL(blob)
-                capturedImage.classList.remove("hidden")
-            }
-        }, "image/png") // You can change the format as needed
+        await employee.saveOrUpdateEmployeePattern(faceLandMarks.value, employee.information.id)
+        snackbar.add({
+            type: "success",
+            text: employee.successMessage
+        })
     } catch (error) {
-        return ["Error capturing image:", error]
+        snackbar.add({
+            type: "error",
+            text: error
+        })
     }
 }
 </script>
 <template>
-    <div>
-        <video
-            id="cameraPreview"
-            class="md:h-56 p-1 mb-6 rounded-md ring-2 ring-teal-300 dark:ring-teal-500 mx-auto"
-            autoplay
-            :poster="imageUrl"
-        />
-
-        <div>
-            <img id="capturedImage" alt="Captured Image" class=" p-4 justify-center mx-auto hidden">
+    <div class="m-auto">
+        <div v-if="employee.information" class="p-2">
+            {{ employee.information.fullname_last ?? "NO EMPLOYEE" }}
         </div>
-
-        <!-- Add a placeholder for the captured image -->
-
-        <div class="flex justify-center">
+        <div class="w-full flex gap-2">
+            <div class="relative justify-center p-2 w-1/2">
+                <div>
+                    <video
+                        id="cameraPreview"
+                        class=""
+                        height="500"
+                        width="500"
+                        autoplay
+                        muted
+                    />
+                </div>
+                <div id="capturedImage" class="absolute top-0 m-auto" />
+            </div>
+            <div class="w-1/2">
+                <div v-if="faceLandMarks" class="flex flex-col justify-center m-auto">
+                    <p class="text-xl text-gray-900">
+                        Face Landmark Result : %{{ Math.abs((faceProbability * 100 ).toFixed(2)) }}
+                    </p>
+                </div>
+                <div v-else>
+                    <p class="text-gray-500 text-xl justify-center flex mt-auto py-2">
+                        NO FACE DETECTED
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-end py-4">
             <div class="flex gap-2">
                 <button
-                    class="text-white gap-2 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
-                    @click="startCamera"
-                >
-                    <Icon
-                        name="ic:outline-add-a-photo"
-                        color="white"
-                        class="w-5 h-5"
-                    />
-                    Start Camera
-                </button>
-                <button
-                    class="text-white gap-2 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800"
-                    :disabled="!cameraStarted"
-                    @click="captureImage"
+                    v-if="employee.information.id"
+                    :disabled="!readyState"
+                    :class="[
+                        readyState ? 'text-white gap-2 bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800' :
+                        'text-white gap-2 bg-orange-700 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800'
+                    ]"
+                    @click="captureImage()"
                 >
                     <Icon
                         name="material-symbols:camera"
                         color="white"
                         class="w-5 h-5"
                     />
-                    Capture Image
+                    Save Face Pattern
                 </button>
             </div>
         </div>
     </div>
 </template>
+<style scoped>
+.not-ready-state {
+    background: orange;
+    color: white;
+}
+</style>

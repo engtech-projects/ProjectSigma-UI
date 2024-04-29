@@ -7,9 +7,9 @@ const { information } = storeToRefs(employee)
 </script>
 <template>
     <div id="front-id" class="h-[6.303in] w-[4.051in] shadow-lg relative bg-white border-none">
-        <img class="h-[6.303in] w-[4.051in] cover" src="/FRONT.png" alt="front" draggable="false">
+        <img class="h-[6.303in] w-[4.051in] cover" src="/ID_Front.png" alt="front" draggable="false">
         <div class="w-full absolute top-[115px] text-center">
-            <p class="font-light text-md">
+            <p class="font-medium text-md">
                 {{ information.company_employments.employeedisplay_id }}
             </p>
         </div>
@@ -39,7 +39,7 @@ const { information } = storeToRefs(employee)
             </p>
         </div>
         <div class="w-full absolute top-[395px] text-center">
-            <p class="text-md">
+            <p class="font-medium text-md">
                 {{ information.fullname_first }}
             </p>
         </div>

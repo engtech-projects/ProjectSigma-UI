@@ -1,12 +1,16 @@
 <script setup lang="ts">
+const { signIn } = useAuth()
 definePageMeta({
     layout: "guest",
+    auth: {
+        unauthenticatedOnly: false,
+    },
 })
 useHead({
     title: "Attendance Login",
     meta: [{ name: "description", content: "" }],
     bodyAttrs: {
-        class: "login",
+        class: "attendance",
     },
 })
 </script>

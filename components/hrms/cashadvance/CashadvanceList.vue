@@ -143,7 +143,11 @@ const makePayment = async () => {
                                     </div>
                                     <div class="flex flex-1 flex-col gap-1">
                                         <label class="font-semibold text-gray-700">Project Code: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.project.project_code" disabled>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.project?.project_code" disabled>
+                                    </div>
+                                    <div class="flex flex-1 flex-col gap-1">
+                                        <label class="font-semibold text-gray-700">Department Code: </label>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.department?.department_name" disabled>
                                     </div>
                                     <div class="flex flex-1 flex-col gap-1">
                                         <label class="font-semibold text-gray-700">Cash Advance Amount: </label>

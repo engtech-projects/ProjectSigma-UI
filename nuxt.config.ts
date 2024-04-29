@@ -49,7 +49,7 @@ export default defineNuxtConfig({
                 maxAgeInSeconds: 9999999,
             },
             pages: {
-                login: "/"
+                login: "/",
             },
         },
         session: {

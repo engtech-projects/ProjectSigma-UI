@@ -45,7 +45,7 @@ const setParams = (link) => {
     </div>
 </template>
 
-<style scope>
+<style scoped>
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

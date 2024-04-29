@@ -1,14 +1,26 @@
-<template>
-    <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-        <HrmsPayrollAllowanceTable />
-        <HrmsPayrollAllowanceForm />
-    </div>
-</template>
+<script setup lang="ts">
+import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
+import { useEnumsStore } from "@/stores/hrms/enum"
 
-<script  setup lang="ts">
+const genallowances = useGenerateAllowanceStore()
+// const { isEdit } = storeToRefs(stores)
+// genallowstore.getMyRequests()
+// genergenallowstoreateallowance.getMyApprovalRequests()
+genallowances.getGA()
+
+const enums = useEnumsStore()
+enums.getEmployeeEnum()
+enums.getDepartmentEnums()
+enums.getProjectEnums()
 
 useHead({
-    title: "Allowance",
-})
+    title: "Generate Allowance"
 
+})
 </script>
+<template>
+    <div class="grid grid-cols-1 md:flex-row gap-4">
+        <HrmsPayrollAllowanceForm />
+        <HrmsPayrollAllowanceTable />
+    </div>
+</template>
