@@ -2,7 +2,7 @@
 import * as faceapi from "face-api.js"
 import { storeToRefs } from "pinia"
 // import { useEmployeeInfo } from "~/stores/hrms/employee"
-import { useFacialPattern } from "~/stores/hrms/facialPattern"
+import { useFacialPattern, CATEGORY_TIME_IN, CATEGORY_TIME_OUT } from "~/stores/hrms/facialPattern"
 
 // const employee = useEmployeeInfo()
 const facialPattern = useFacialPattern()
@@ -12,9 +12,12 @@ const videoStream = ref(null)
 const faceLandMarks = ref(null)
 const faceProbability = ref(null)
 const detectionTimer = ref(3)
+const category = ref(CATEGORY_TIME_IN)
 
 await facialPattern.getAllEmployeePattern()
-
+const changeCategory = (cat) => {
+    category.value = cat
+}
 const startCamera = () => {
     Promise.all([
         faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL),
@@ -50,7 +53,7 @@ const startCamera = () => {
                     context.clearRect(0, 0, canvas.width, canvas.height)
                     context.font = "bold 16px Arial"
                     faceapi.draw.drawDetections(canvas, resizedDetections)
-                    const option = { label: currentMatch.value.name + " TIMER : " + detectionTimer.value.toFixed(0) }
+                    const option = { label: currentMatch.value.name }
                     const drawBox = new faceapi.draw.DrawBox(resizedDetections.detection.box, option)
                     drawBox.draw(canvas)
                     if (detection.detection._score > 0.80) {
@@ -96,10 +99,15 @@ startCamera()
 <template>
     <div class="md:flex gap-4 justify-center">
         <div class="border-2 border-gray-400 rounded-lg p-2 md:w-1/3 space-y-4">
-            <div class="flex justify-center text-3xl font-medium text-cyan-700 p-2">
+            <div class="flex justify-center text-3xl font-medium text-cyan-700 p-2 border-b-2">
                 Attendance Portal
             </div>
-
+            <div v-if="category === CATEGORY_TIME_IN" class="flex justify-center text-xl font-medium text-cyan-700 p-2">
+                TIME IN
+            </div>
+            <div v-else class="flex justify-center text-xl font-medium text-cyan-700 p-2">
+                TIME OUT
+            </div>
             <div>
                 <h1 class="text-lg font-medium leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white ">
                     Select Project
@@ -130,11 +138,13 @@ startCamera()
                 </div>
                 <div id="capturedImage" class="absolute top-0 m-auto" />
             </div>
-            <p>
-                {{ currentMatch }}
-            </p>
-            <div class="flex gap-4 justify-center p-2">
-                <button class="w-18 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-3 py-1 text-center dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800" @click="redirectToProject">
+            <div v-if="category === CATEGORY_TIME_IN" class="flex gap-4 justify-center p-2">
+                <button class="w-18 text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-3 py-1 text-center dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-800" @click="changeCategory(CATEGORY_TIME_OUT)">
+                    Time-Out
+                </button>
+            </div>
+            <div v-else class="flex gap-4 justify-center p-2">
+                <button class="w-18 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-3 py-1 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800" @click="changeCategory(CATEGORY_TIME_IN)">
                     Time-In
                 </button>
             </div>
@@ -143,9 +153,37 @@ startCamera()
             <div class="flex justify-center text-3xl font-medium text-cyan-700 p-2">
                 Welcome
             </div>
-            <p>
-                asd
-            </p>
+            <div class="w-full">
+                <div v-if="true">
+                    <div class="space-y-6 mb-4" action="#">
+                        <div class="flex flex-col">
+                            <div class="p-4">
+                                <img
+                                    class="md:h-96 w-full bg-gray-400 rounded-lg"
+                                    :src="'/avatarexample.png'"
+                                    alt="profile pic"
+                                >
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-center p-2">
+                                    Juan Dela Cruz
+                                </p>
+                                <label
+                                    for="text"
+                                    class="block text-sm font-medium italic text-teal-700"
+                                >
+                                    Programmer - Information Tech
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-else>
+                    <p class="text-xl font-bold">
+                        No Employee Selected
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </template>

@@ -1,5 +1,7 @@
 import { defineStore } from "pinia"
 
+export const CATEGORY_TIME_IN = "Time In"
+export const CATEGORY_TIME_OUT = "Time Out"
 export const useFacialPattern = defineStore("facialPattern", {
     state: () => ({
         facialPatterList: [],
