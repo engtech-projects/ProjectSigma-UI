@@ -3,7 +3,7 @@ import { defineStore } from "pinia"
 export const useFacialPattern = defineStore("facialPattern", {
     state: () => ({
         facialPatterList: [],
-        currentMatch: { id: null, distance: null },
+        currentMatch: { id: null, name: null },
         errorMessage: "",
         successMessage: "",
     }),

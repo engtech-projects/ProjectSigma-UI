@@ -11,6 +11,7 @@ const MODEL_URL = "/faceapimodels"
 const videoStream = ref(null)
 const faceLandMarks = ref(null)
 const faceProbability = ref(null)
+const detectionTimer = ref(3)
 
 await facialPattern.getAllEmployeePattern()
 
@@ -37,6 +38,7 @@ const startCamera = () => {
         })
         video.addEventListener("play", () => {
             const canvas = faceapi.createCanvasFromMedia(video)
+            const context = canvas.getContext("2d")
             const container = document.getElementById("capturedImage")
             container.append(canvas)
             const displaySize = { width: video.clientWidth, height: video.clientHeight }
@@ -45,17 +47,26 @@ const startCamera = () => {
                 try {
                     const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor()
                     const resizedDetections = faceapi.resizeResults(detection, displaySize)
-                    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height)
+                    context.clearRect(0, 0, canvas.width, canvas.height)
+                    context.font = "bold 16px Arial"
                     faceapi.draw.drawDetections(canvas, resizedDetections)
+                    const option = { label: currentMatch.value.name + " TIMER : " + detectionTimer.value.toFixed(0) }
+                    const drawBox = new faceapi.draw.DrawBox(resizedDetections.detection.box, option)
+                    drawBox.draw(canvas)
                     if (detection.detection._score > 0.80) {
                         faceProbability.value = detection.detection._score
                         faceLandMarks.value = detection.descriptor
                         euclidianMatching()
+                        detectionTimer.value = (detectionTimer.value - 0.5)
+                        if (detectionTimer.value === 0) {
+                            detectionTimer.value = 3
+                        }
                     } else {
                         faceLandMarks.value = null
                     }
                 } catch (error) {
                     faceLandMarks.value = error
+                    context.clearRect(0, 0, canvas.width, canvas.height)
                 }
             }, 500)
         })
@@ -64,21 +75,26 @@ const startCamera = () => {
 
 const labeledFaceDescriptors = facialPatterList.value.map((face) => {
     const descriptor = [new Float32Array(Object.values(JSON.parse(face.patterns).descriptor))]
+    currentMatch.value.id = face.employee_id
     return new faceapi.LabeledFaceDescriptors(face.employee.fullname_last + "", descriptor)
 })
 
 const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.4)
 const euclidianMatching = () => {
     if (faceLandMarks.value) {
-        currentMatch.value = faceMatcher.findBestMatch(faceLandMarks.value).toString(false)
+        currentMatch.value.name = faceMatcher.findBestMatch(faceLandMarks.value).toString(false)
+        if (currentMatch.value.name === "unknown") {
+            currentMatch.value.name = "NOT DETECTED"
+            detectionTimer.value = 3
+        }
     } else {
-        currentMatch.value = ""
+        currentMatch.value.name = ""
     }
 }
 startCamera()
 </script>
 <template>
-    <div class="mt-10 md:flex gap-4 justify-center">
+    <div class="md:flex gap-4 justify-center">
         <div class="border-2 border-gray-400 rounded-lg p-2 md:w-1/3 space-y-4">
             <div class="flex justify-center text-3xl font-medium text-cyan-700 p-2">
                 Attendance Portal
@@ -122,6 +138,14 @@ startCamera()
                     Time-In
                 </button>
             </div>
+        </div>
+        <div class="border-2 border-gray-400 rounded-lg p-2 md:w-1/3 space-y-4">
+            <div class="flex justify-center text-3xl font-medium text-cyan-700 p-2">
+                Welcome
+            </div>
+            <p>
+                asd
+            </p>
         </div>
     </div>
 </template>
