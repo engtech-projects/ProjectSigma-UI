@@ -26,7 +26,8 @@ defineProps({
     },
     avatar: {
         type: String,
-        required: true,
+        required: false,
+        default: "/avatarexample.png",
     },
     late: {
         type: String,

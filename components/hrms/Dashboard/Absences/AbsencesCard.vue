@@ -5,7 +5,7 @@ defineProps({
         required: true,
     },
 })
-const date = ref()
+// const date = ref()
 </script>
 <template>
     <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700">
@@ -13,13 +13,16 @@ const date = ref()
             <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">
                 Absences This Month
             </h5>
-            <div class="flex flex-col gap-2">
+            <!-- <div class="flex flex-col gap-2">
                 <label class="" for="">Date Filter:</label>
                 <VueDatePicker v-model="date" range class="z-15" />
-            </div>
+            </div> -->
         </div>
         <div class="mt-5 overflow-auto min-h-96 max-h-96">
             <div class="grid grid-cols-4 justify-start mt-4 gap-4 p-2">
+                <div v-if="employees.length <= 0">
+                    No absences found this month.
+                </div>
                 <div v-for="employee, index in employees" :key="index" class="flex flex-col items-center">
                     <HrmsDashboardAbsencesItem
                         title="Generate Memo"

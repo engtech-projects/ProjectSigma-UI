@@ -11,7 +11,7 @@ defineProps({
 })
 </script>
 <template>
-    <LayoutBoards title="Late and Absences Chart">
+    <LayoutBoards title="Total Number of Male and Female Employee">
         <LayoutChartDoughnut
             v-if="data.length > 0"
             :labels="labels"
