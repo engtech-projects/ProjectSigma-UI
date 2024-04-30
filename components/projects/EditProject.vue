@@ -122,7 +122,7 @@ const editProject = async () => {
                             <input
                                 id="contractDuration"
                                 v-model="project.contract_duration"
-                                type="date"
+                                type="text"
                                 class="w-full rounded-lg"
                             >
                         </div>

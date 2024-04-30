@@ -1,7 +1,9 @@
 <script setup>
 import * as faceapi from "face-api.js"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
+import { useFacialPattern } from "@/stores/hrms/facialPattern"
 const employee = useEmployeeInfo()
+const facialPattern = useFacialPattern()
 
 const MODEL_URL = "/faceapimodels"
 const videoStream = ref(null)
@@ -12,6 +14,7 @@ const faceProbability = ref(null)
 
 const startCamera = () => {
     Promise.all([
+        faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL),
         faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
         faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
         faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
@@ -38,13 +41,13 @@ const startCamera = () => {
             faceapi.matchDimensions(canvas, displaySize)
             setInterval(async () => {
                 try {
-                    const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
+                    const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor()
                     const resizedDetections = faceapi.resizeResults(detection, displaySize)
                     canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height)
                     faceapi.draw.drawDetections(canvas, resizedDetections)
                     if (detection.detection._score > 0.80) {
                         faceProbability.value = detection.detection._score
-                        faceLandMarks.value = detection.landmarks._positions
+                        faceLandMarks.value = detection
                         readyState.value = true
                     } else {
                         faceLandMarks.value = null
@@ -61,10 +64,10 @@ const startCamera = () => {
 startCamera()
 const captureImage = async () => {
     try {
-        await employee.saveOrUpdateEmployeePattern(faceLandMarks.value, employee.information.id)
+        await facialPattern.saveOrUpdateEmployeePattern(faceLandMarks.value, employee.information.id)
         snackbar.add({
             type: "success",
-            text: employee.successMessage
+            text: facialPattern.successMessage
         })
     } catch (error) {
         snackbar.add({
@@ -128,9 +131,3 @@ const captureImage = async () => {
         </div>
     </div>
 </template>
-<style scoped>
-.not-ready-state {
-    background: orange;
-    color: white;
-}
-</style>
