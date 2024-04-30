@@ -47,7 +47,6 @@ const resetPayment = () => {
 }
 const headers = [
     { name: "Employee Name", id: "employee.fullname_first" },
-    { name: "Project", id: "project_id" },
     { name: "Cash Advance Amount", id: "amount" },
     { name: "Terms", id: "terms_of_payment" },
     { name: "No. of Installment(s)", id: "no_of_installment" },
@@ -136,44 +135,48 @@ const makePayment = async () => {
                             </div>
 
                             <div v-else class="flex flex-col gap-2 p-2">
-                                <div class="flex gap-4">
-                                    <div class="flex flex-1 flex-col gap-1">
-                                        <label class="font-semibold text-gray-700">Employee Name: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.employee.fullname_first || ''" disabled>
+                                <div class="grid gap-4">
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div class="flex flex-1 flex-col gap-1">
+                                            <label class="font-semibold text-gray-700">Employee Name: </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.employee.fullname_first || ''" disabled>
+                                        </div>
+                                        <div class="flex flex-1 flex-col gap-1">
+                                            <label class="font-semibold text-gray-700">Project: </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.project ? ca.project.project_code : 'N/A' " disabled>
+                                        </div>
+                                        <div class="flex flex-1 flex-col gap-1">
+                                            <label class="font-semibold text-gray-700">Department: </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.department ? ca.department.department_name : 'N/A' " disabled>
+                                        </div>
                                     </div>
-                                    <div class="flex flex-1 flex-col gap-1">
-                                        <label class="font-semibold text-gray-700">Project Code: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.project?.project_code" disabled>
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div class="flex flex-1 flex-col gap-1">
+                                            <label class="font-semibold text-gray-700">Cash Advance Amount: </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.amount" disabled>
+                                        </div>
+                                        <div class="flex flex-1 flex-col gap-1">
+                                            <label class="font-semibold text-gray-700">Terms: </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.terms_of_payment" disabled>
+                                        </div>
+                                        <div class="flex flex-1 flex-col gap-1">
+                                            <label class="font-semibold text-gray-700">No. of Installment(s): </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.no_of_installment" disabled>
+                                        </div>
                                     </div>
-                                    <div class="flex flex-1 flex-col gap-1">
-                                        <label class="font-semibold text-gray-700">Department Code: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.department?.department_name" disabled>
-                                    </div>
-                                    <div class="flex flex-1 flex-col gap-1">
-                                        <label class="font-semibold text-gray-700">Cash Advance Amount: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.amount" disabled>
-                                    </div>
-                                    <div class="flex flex-1 flex-col gap-1">
-                                        <label class="font-semibold text-gray-700">Terms: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.terms_of_payment" disabled>
-                                    </div>
-                                </div>
-                                <div class="flex gap-4">
-                                    <div class="flex flex-1 flex-col gap-1">
-                                        <label class="font-semibold text-gray-700">No. of Installment(s): </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.no_of_installment" disabled>
-                                    </div>
-                                    <div class="flex flex-1 flex-col gap-1">
-                                        <label class="font-semibold text-gray-700">Installment Deduction: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.installment_deduction" disabled>
-                                    </div>
-                                    <div class="flex flex-1 flex-col gap-1">
-                                        <label class="font-semibold text-gray-700">Deduction Date start: </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.deduction_date_start" disabled>
-                                    </div>
-                                    <div class="flex flex-1 flex-col gap-1">
-                                        <label class="font-semibold text-gray-700">Purpose/Reason(s): </label>
-                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.purpose" disabled>
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div class="flex flex-1 flex-col gap-1">
+                                            <label class="font-semibold text-gray-700">Installment Deduction: </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.installment_deduction" disabled>
+                                        </div>
+                                        <div class="flex flex-1 flex-col gap-1">
+                                            <label class="font-semibold text-gray-700">Deduction Date start: </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.deduction_date_start" disabled>
+                                        </div>
+                                        <div class="flex flex-1 flex-col gap-1">
+                                            <label class="font-semibold text-gray-700">Purpose/Reason(s): </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.purpose" disabled>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
