@@ -2,35 +2,42 @@
 import * as faceapi from "face-api.js"
 import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "~/stores/hrms/employee"
-import { useFacialPattern, CATEGORY_TIME_IN, CATEGORY_TIME_OUT, GROUP_TYPE_PROJECT, GROUP_TYPE_DEPARTMENT } from "~/stores/hrms/facialPattern"
-import { useDepartmentStore } from "~/stores/hrms/setup/departments"
-import { useProjectStore } from "~/stores/project-monitoring/projects"
+import { useFacialPattern, CATEGORY_TIME_IN, CATEGORY_TIME_OUT } from "~/stores/hrms/facialPattern"
 const MODEL_URL = "/faceapimodels"
-const videoStream = ref(null)
 const faceLandMarks = ref(null)
 const faceProbability = ref(null)
-const detectionTimer = ref(3)
+const detectionTimer = ref(4)
 const lastIDlog = ref(null)
 const ifCameraStart = ref(false)
+
+const route = useRoute()
+const queryParam = route.query
+
+let video = null
+let stream = null
 
 const employee = useEmployeeInfo()
 const snackbar = useSnackbar()
 const facialPattern = useFacialPattern()
-const department = useDepartmentStore()
-const project = useProjectStore()
 const { facialPatterList, currentMatch } = storeToRefs(facialPattern)
-const { list: projectList } = storeToRefs(project)
-const { list: departmentList } = storeToRefs(department)
 const { information, employeeIsSearched } = storeToRefs(employee)
 
+currentMatch.value.department_id = queryParam.department_id ?? null
+currentMatch.value.project_id = queryParam.project_id ?? null
+currentMatch.value.group_type = queryParam.group_type ?? null
+
 currentMatch.value.log_type = CATEGORY_TIME_IN
-currentMatch.value.group_type = GROUP_TYPE_PROJECT
-project.getProject()
-department.getDepartment()
 await facialPattern.getAllEmployeePattern()
 const changeCategory = (cat) => {
     currentMatch.value.log_type = cat
 }
+
+onBeforeRouteLeave(() => {
+    stream.getTracks().forEach((track) => {
+        track.stop()
+    })
+})
+
 const saveEmployeeAttendanceLog = async () => {
     try {
         if (!lastIDlog.value) {
@@ -42,10 +49,7 @@ const saveEmployeeAttendanceLog = async () => {
             })
             await employee.getEmployeeInformation(lastIDlog.value)
         } else if (lastIDlog.value === currentMatch.value.employee_id) {
-            snackbar.add({
-                type: "warning",
-                text: "Already Log"
-            })
+            currentMatch.value.remarks = "already_log"
         } else {
             await facialPattern.saveAttendanceLog()
             snackbar.add({
@@ -71,10 +75,9 @@ const startCamera = () => {
         faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
         faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
     ]).then(async () => {
-        const video = document.getElementById("cameraPreview")
+        video = document.getElementById("cameraPreview")
 
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true })
-        videoStream.value = stream
+        stream = await navigator.mediaDevices.getUserMedia({ video: true })
         video.srcObject = stream
 
         // Wait for the video to be loaded and start playing
@@ -103,11 +106,11 @@ const startCamera = () => {
                     if (detection.detection._score > 0.80) {
                         faceProbability.value = detection.detection._score
                         faceLandMarks.value = detection.descriptor
-                        euclidianMatching()
+                        facialMatching()
                         detectionTimer.value = (detectionTimer.value - 0.5)
                         if (detectionTimer.value === 0) {
                             saveEmployeeAttendanceLog()
-                            detectionTimer.value = 3
+                            detectionTimer.value = 4
                         }
                     } else {
                         faceLandMarks.value = null
@@ -115,25 +118,29 @@ const startCamera = () => {
                 } catch (error) {
                     faceLandMarks.value = error
                     context.clearRect(0, 0, canvas.width, canvas.height)
+                    detectionTimer.value = 4
                 }
             }, 500)
         })
     })
 }
 
-const labeledFaceDescriptors = facialPatterList.value.map((face) => {
+const employeeNames = []
+const labeledFaceDescriptorsID = facialPatterList.value.map((face) => {
     const descriptor = [new Float32Array(Object.values(JSON.parse(face.patterns).descriptor))]
-    currentMatch.value.employee_id = face.employee_id
-    return new faceapi.LabeledFaceDescriptors(face.employee.fullname_last + "", descriptor)
+    employeeNames[face.employee_id] = face.employee.fullname_last
+    return new faceapi.LabeledFaceDescriptors(face.employee_id + "", descriptor)
 })
 
-const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.4)
-const euclidianMatching = () => {
+const faceMatcherId = new faceapi.FaceMatcher(labeledFaceDescriptorsID, 0.4)
+const facialMatching = () => {
     if (faceLandMarks.value) {
-        currentMatch.value.name = faceMatcher.findBestMatch(faceLandMarks.value).toString(false)
-        if (currentMatch.value.name === "unknown") {
+        currentMatch.value.employee_id = faceMatcherId.findBestMatch(faceLandMarks.value).toString(false)
+        if (currentMatch.value.employee_id === "unknown") {
             currentMatch.value.name = "NOT DETECTED"
-            detectionTimer.value = 3
+            detectionTimer.value = 4
+        } else {
+            currentMatch.value.name = employeeNames[currentMatch.value.employee_id]
         }
     } else {
         currentMatch.value.name = ""
@@ -153,39 +160,13 @@ const euclidianMatching = () => {
             <div v-else class="flex justify-center text-xl font-medium text-cyan-700 p-2">
                 {{ currentMatch.group_type }} - TIME OUT
             </div>
-            <div class="md:flex gap-2 space-x-2 p-2">
-                <input id="department" v-model="currentMatch.group_type" class="" type="radio" :value="GROUP_TYPE_PROJECT">
-                <label
-                    for="department"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >PROJECT</label>
-                <input id="project" v-model="currentMatch.group_type" class="" type="radio" :value="GROUP_TYPE_DEPARTMENT">
-                <label
-                    for="project"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >DEPARTMENT</label>
-            </div>
-            <div v-if="currentMatch.group_type === GROUP_TYPE_DEPARTMENT" class="px-2">
-                <h1 class="text-lg font-medium leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white ">
-                    Select Department
-                </h1>
-                <select v-model="currentMatch.department_id" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option v-for="(dep, index ) in departmentList" :key="index" :value="dep.id">
-                        {{ dep.department_name }}
-                    </option>
-                </select>
-            </div>
-            <div v-if="currentMatch.group_type === GROUP_TYPE_PROJECT" class="px-2">
-                <h1 class="text-lg font-medium leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white ">
-                    Select Project
-                </h1>
-                <select v-model="currentMatch.project_id" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option v-for="(proj, index ) in projectList" :key="index" :value="proj.id">
-                        [ {{ proj.project_code }} ] - {{ proj.project_identifier }}
-                    </option>
-                </select>
-            </div>
-            <div v-if="!ifCameraStart" class="flex gap-4 justify-center p-2">
+            <HrmsCommonDepartmentProjectSelector
+                v-if="!ifCameraStart"
+                v-model:select-type="currentMatch.group_type"
+                v-model:department-id="currentMatch.department_id"
+                v-model:project-id="currentMatch.project_id"
+            />
+            <div v-if="!ifCameraStart && currentMatch.group_type && (currentMatch.department_id || currentMatch.project_id)" class="flex gap-4 justify-center p-2">
                 <button class="w-18 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-3 py-1 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800" @click="startCamera">
                     START CAMERA
                 </button>
@@ -198,6 +179,11 @@ const euclidianMatching = () => {
                         autoplay
                         muted
                     />
+                </div>
+                <div v-if="detectionTimer <=3" class="bg-gray-300 p-2 text-center">
+                    <p>
+                        TIMER: {{ detectionTimer.toFixed(0) }}
+                    </p>
                 </div>
                 <div id="capturedImage" class="absolute top-0 m-auto" />
             </div>
@@ -255,8 +241,8 @@ const euclidianMatching = () => {
                     </div>
                 </div>
                 <div v-else>
-                    <p class="text-xl font-bold">
-                        No Employee Selected
+                    <p class="text-xl font-bold text-center text-gray-400">
+                        No Employee Log
                     </p>
                 </div>
             </div>

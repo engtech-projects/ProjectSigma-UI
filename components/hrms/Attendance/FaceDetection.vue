@@ -6,11 +6,18 @@ const employee = useEmployeeInfo()
 const facialPattern = useFacialPattern()
 
 const MODEL_URL = "/faceapimodels"
+let stream = null
 const videoStream = ref(null)
 const faceLandMarks = ref(null)
 const snackbar = useSnackbar()
 const readyState = ref(false)
 const faceProbability = ref(null)
+
+onBeforeRouteLeave(() => {
+    stream.getTracks().forEach((track) => {
+        track.stop()
+    })
+})
 
 const startCamera = () => {
     Promise.all([
@@ -22,7 +29,7 @@ const startCamera = () => {
     ]).then(async () => {
         const video = document.getElementById("cameraPreview")
 
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true })
+        stream = await navigator.mediaDevices.getUserMedia({ video: true })
         videoStream.value = stream
         video.srcObject = stream
 
