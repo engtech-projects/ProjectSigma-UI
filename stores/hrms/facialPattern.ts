@@ -1,11 +1,20 @@
 import { defineStore } from "pinia"
 
-export const CATEGORY_TIME_IN = "Time In"
-export const CATEGORY_TIME_OUT = "Time Out"
+export const CATEGORY_TIME_IN = "In"
+export const CATEGORY_TIME_OUT = "Out"
+export const GROUP_TYPE_PROJECT = "Project"
+export const GROUP_TYPE_DEPARTMENT = "Department"
 export const useFacialPattern = defineStore("facialPattern", {
     state: () => ({
         facialPatterList: [],
-        currentMatch: { id: null, name: null },
+        currentMatch: {
+            project_id: null as null | Number,
+            department_id: null as null | Number,
+            employee_id: null as null | Number,
+            log_type: null as null | String,
+            group_type: null as null | String,
+            name: null as null | String
+        },
         errorMessage: "",
         successMessage: "",
     }),
@@ -52,6 +61,26 @@ export const useFacialPattern = defineStore("facialPattern", {
                 }
             )
         },
+        async saveAttendanceLog () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/attendance/facial",
+                {
+                    method: "POST",
+                    body: this.currentMatch,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        }
 
     },
 })
