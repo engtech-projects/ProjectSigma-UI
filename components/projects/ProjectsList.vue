@@ -40,10 +40,12 @@ const actions = {
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
+// onMounted(console.log(pagination))
+
 </script>
 
 <template>
-    <LayoutBoards title="Project List" class="w-full" :loading="projects.isLoading">
+    <LayoutBoards title="Project Lists" class="w-full flex flex-col" :loading="projects.isLoading">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable
                 :header-columns="headers"
