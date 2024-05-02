@@ -15,11 +15,11 @@ const { information } = storeToRefs(employee)
             <p class="font-bold text-lg">
                 {{ information.contact_person?.name }}
             </p>
-            <p class="text-[5px]">
-                {{ information.cellphone }}
+            <p class="text-xs font-medium">
+                {{ information.contact_person?.contact_no }}
             </p>
-            <p class=" text-xs px-2">
-                {{ employee.presentAddress }}
+            <p class=" text-xs font-medium">
+                {{ employee.contact_person?.address ?? "" }}
             </p>
         </div>
         <div class="absolute top-[95px] left-[180px] w-[2.3in] m-auto mt-4 px-4">
@@ -64,7 +64,7 @@ const { information } = storeToRefs(employee)
                 <tbody>
                     <tr v-for="(year) in 3" :key="year">
                         <td class="border-collapse p-1">
-                            <p>
+                            <p class="font-medium">
                                 {{ currentYear + year }}
                             </p>
                         </td>
