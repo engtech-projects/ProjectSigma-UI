@@ -19,7 +19,7 @@ const { information } = storeToRefs(employee)
                 {{ information.contact_person?.contact_no }}
             </p>
             <p class=" text-xs font-medium">
-                {{ employee.contact_person?.address ?? "" }}
+                {{ information.contact_person?.address ?? "" }}
             </p>
         </div>
         <div class="absolute top-[95px] left-[180px] w-[2.3in] m-auto mt-4 px-4">
