@@ -255,7 +255,7 @@ value: any
     nick_name: String,
     cellphone: null | Number,
     land_line: null | Number,
-    birthday: String,
+    date_of_birth: String,
     place_of_birth: String,
     date_of_marriage: String,
     citizenship: String,
@@ -314,7 +314,7 @@ export const useEmployeeInfo = defineStore("employee", {
             nick_name: "" as String,
             cellphone: null as null | Number,
             land_line: null as null | Number,
-            birthday: "" as String,
+            date_of_birth: "" as String,
             place_of_birth: "" as String,
             date_of_marriage: "" as String,
             citizenship: "" as String,
@@ -970,28 +970,5 @@ export const useEmployeeInfo = defineStore("employee", {
                 }
             )
         },
-        async saveOrUpdateEmployeePattern (pattern: any, id: any) {
-            this.successMessage = ""
-            this.errorMessage = ""
-            const formData = new FormData()
-            formData.append("employee_id", id)
-            formData.append("patterns", JSON.stringify(pattern))
-            await useHRMSApiO(
-                "/api/face-pattern/resource",
-                {
-                    method: "POST",
-                    body: formData,
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                            return response._data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        }
     },
 })

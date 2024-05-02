@@ -1,12 +1,12 @@
 <script  setup lang="ts">
 import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
-import { useApprovalStore, APPROVAL_OVERTIME } from "@/stores/hrms/setup/approvals"
+import { useApprovalStore, APPROVAL_GA } from "@/stores/hrms/setup/approvals"
 
 const genallowstore = useGenerateAllowanceStore()
 const { generateAllowance } = storeToRefs(genallowstore)
 
 const approvals = useApprovalStore()
-generateAllowance.value.approvals = await approvals.getApprovalByName(APPROVAL_OVERTIME)
+generateAllowance.value.approvals = await approvals.getApprovalByName(APPROVAL_GA)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
