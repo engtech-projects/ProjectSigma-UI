@@ -26,11 +26,23 @@ export const useLeaveStore = defineStore("leaves", {
             // employment_type: [],
         },
         list: [],
+        leaveList: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
     }),
+    getters: {
+        getLeaveNameAndAmtOfLeave: (state) => {
+            return state.list.map((leave) => {
+                return {
+                    id: leave.id,
+                    leave_name: leave.leave_name,
+                    amt_of_leave: leave.amt_of_leave,
+                }
+            })
+        },
+    },
     actions: {
         async getLeave () {
             const { data, error } = await useFetch(

@@ -241,7 +241,12 @@ export interface DigitalSignature {
     url: string,
     image_type: string,
 }
-
+export interface LeaveCreditsData {
+    leave_name: String,
+    total_credits: Number,
+    used: Number,
+    balance: Number,
+}
 export interface EmployeeInformation {
 value: any
     id: null | Number,
@@ -287,7 +292,8 @@ value: any
     employee_affiliation: Array<EmployeeAffiliation>,
     employee_education: Array<EmploymentEducation>,
     company_employments: CompanyEmployments,
-    employee_uploads: Array<EmployeeUpload>
+    employee_uploads: Array<EmployeeUpload>,
+    leaveCredits: Array<LeaveCreditsData>,
 }
 
 export const useEmployeeInfo = defineStore("employee", {
@@ -380,7 +386,8 @@ export const useEmployeeInfo = defineStore("employee", {
                 updated_at: "",
                 deleted_at: "",
             } as CompanyEmployments,
-            employee_uploads: [] as Array<EmployeeUpload>
+            employee_uploads: [] as Array<EmployeeUpload>,
+            leaveCredits: [] as Array<LeaveCreditsData>
         } as EmployeeInformation,
         employeeIsSearched: false as Boolean,
         permanentAddressParams: {
@@ -592,6 +599,24 @@ export const useEmployeeInfo = defineStore("employee", {
                 this.getPermanentAddress()
                 return data
             }
+        },
+        async getLeaveCredits (id: Number) {
+            await useHRMSApi<any>(
+                "/api/employee/leave-credits/" + id,
+                {
+                    method: "GET",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.information.leaveCredits = response._data.data
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
         },
         async saveRelatedPerson (formData : FormData) {
             this.successMessage = ""

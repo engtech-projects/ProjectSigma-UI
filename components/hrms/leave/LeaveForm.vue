@@ -1,38 +1,56 @@
 <script setup>
 import { useEmployeeInfo } from "~/stores/hrms/employee"
 import { useApprovalStore } from "~/stores/hrms/setup/approvals"
+import { useLeaveStore } from "@/stores/hrms/setup/leaves"
 
 import {
     useLeaveRequest,
-    EMPLOYEE_VACATION,
-    EMPLOYEE_SICK_CHECKUP,
-    EMPLOYEE_CELEBRATION,
-    EMPLOYEE_MANDATORY,
-    EMPLOYEE_BEREAVEMENT,
-    EMPLOYEE_MATERNITY_PATERNITY,
-    EMPLOYEE_OTHER,
+    // EMPLOYEE_VACATION,
+    // EMPLOYEE_SICK_CHECKUP,
+    // EMPLOYEE_CELEBRATION,
+    // EMPLOYEE_MANDATORY,
+    // EMPLOYEE_BEREAVEMENT,
+    // EMPLOYEE_MATERNITY_PATERNITY,
+    // EMPLOYEE_OTHER,
     EMPLOYEE_WITH_PAY,
     EMPLOYEE_WITHOUT_PAY,
     EMPLOYEE_APPROVAL_REQ
 } from "~/stores/hrms/leaveRequest"
+const leaves = useLeaveStore()
 
+const { list: leaveList } = storeToRefs(leaves)
 const selectType = ref("")
 const employee = useEmployeeInfo()
 const approval = useApprovalStore()
 const leaveRequest = useLeaveRequest()
+leaveRequest.payload.approvals = await approval.getApprovalByName(EMPLOYEE_APPROVAL_REQ)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-leaveRequest.payload.approvals = await approval.getApprovalByName(EMPLOYEE_APPROVAL_REQ)
+
+// const headerss = [
+//     { text: "LEAVE TYPE", value: "credits" },
+//     { text: "EARNED", value: "earned" },
+//     { text: "USED", value: "used" },
+//     { text: "BALANCE", value: "balance" },
+// ]
+// const items = ref([
+//     {
+//         credits: "Vacation Leave",
+//         earned: "",
+//         used: "",
+//         balance: "",
+//     },
+// ])
+
 const headers = [
-    { text: "CREDITS", value: "credits" },
-    { text: "EARNED", value: "earned" },
-    { text: "USED", value: "used" },
-    { text: "BALANCE", value: "balance" },
+    { name: "Leave Type", id: "leave_name" },
+    { name: "Amount of Leaves", id: "amt_of_leave" },
+    { name: "USED", id: "0" },
+    { name: "BALANCE", id: "0" },
 ]
 
-const setEmployee = () => {
-    leaveRequest.payload.employee_id = employee.information.id
-    leaveRequest.payload.department_id = employee.information.employee_internal.department_id
+const setEmployee = (emp) => {
+    leaveRequest.payload.employee_id = employee.getLeaveCredits(emp.id)
 }
 
 const totalDates = computed(() => {
@@ -45,14 +63,7 @@ const totalDates = computed(() => {
         leaveRequest.payload.number_of_days = (deMin - dsMin) / (24 * 60 * 60 * 1000) + 1
     }
 })
-const items = ref([
-    {
-        credits: "Vacation Leave",
-        earned: "",
-        used: "",
-        balance: "",
-    },
-])
+
 const submitAdd = async () => {
     try {
         boardLoading.value = true
@@ -75,9 +86,8 @@ const submitAdd = async () => {
 </script>
 
 <template>
-    <LayoutBoards title="" class="mt-5 edit-item w-full max-w-full">
+    <LayoutBoards title="Leave Application Form" class="mt-5 edit-item w-full max-w-full">
         <div class="w-full p-2">
-            <label for="" class="text-xl font-semibold text-gray-900">Leave Application Form</label>
             <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
                 <div class="mb-6">
                     <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
@@ -103,6 +113,20 @@ const submitAdd = async () => {
                 <div class="w-full">
                     <label for="" class="text-xl font-semibold text-gray-900">LEAVE AVAILMENT</label>
                     <div class="flex gap-5">
+                        <div v-for="(leaveType, index2) in LEAVES" :key="index2">
+                            <input
+                                id="leaveType"
+                                v-model="leaveRequest.payload.type"
+                                :value="leaveType"
+                                type="radio"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            >
+                            <label :for="'leaveType' + index" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                {{ leaveType }}
+                            </label>
+                        </div>
+                    </div>
+                    <!-- <div class="flex gap-5">
                         <div class="w-full">
                             <div class="mt-5 flex items-center mb-4">
                                 <input
@@ -191,42 +215,24 @@ const submitAdd = async () => {
                                 >
                             </div>
                             <div class="mb-6">
-                                <label for="emp_reason_remarks" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">REASONS/REMARKS</label>
-                                <input id="emp_reason_remarks" v-model="leaveRequest.payload.reason_for_absence" type="text" class="mt-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="remarks">
+                                <LayoutFormPsTextInput v-model="leaveRequest.payload.reason_for_absence" title="REASONS/REMARKS" placeholder="remarks" />
                             </div>
                         </div>
                         <div class="w-full">
                             <div class="mt-5 w-full">
                                 <div class="mb-6">
-                                    <label for="emp_no_of_days" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No. of Days:</label>
-                                    <input id="emp_no_of_days" v-model="leaveRequest.payload.number_of_days" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="">
+                                    <LayoutFormPsNumberInput v-model="leaveRequest.payload.number_of_days" title="No. of Days:" />
                                 </div>
                             </div>
                             <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
                                 <div class="mb-6">
-                                    <label for="emp_days_from" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days from</label>
-                                    <input
-                                        id="emp_days_from"
-                                        v-model="leaveRequest.payload.date_of_absence_from"
-                                        type="date"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder=""
-                                        @change="totalDates"
-                                    >
+                                    <LayoutFormPsDateInput v-model="leaveRequest.payload.date_of_absence_from" title="Days from" @change="totalDates" />
                                 </div>
                                 <div class="mb-6">
-                                    <label for="emp_days_to" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Days to</label>
-                                    <input
-                                        id="emp_days_to"
-                                        v-model="leaveRequest.payload.date_of_absence_to"
-                                        type="date"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder=""
-                                        @change="totalDates"
-                                    >
+                                    <LayoutFormPsDateInput v-model="leaveRequest.payload.date_of_absence_to" title="Days to" @change="totalDates" />
                                 </div>
                             </div>
-                            <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
+                            <div class="grid gap-6 mb-6 md:grid-cols-2">
                                 <div class="mb-6">
                                     <input
                                         id="emp_with_pay"
@@ -251,19 +257,62 @@ const submitAdd = async () => {
                                 </div>
                             </div>
                         </div>
+                    </div> -->
+                    <div class="mt-4 mb-2">
+                        <LayoutFormPsTextInput v-model="leaveRequest.payload.reason_for_absence" title="REASONS/REMARKS" placeholder="remarks" />
+                    </div>
+                    <div class="mt-4 grid gap-3 mb-4 md:grid-cols-3">
+                        <div class="mb-2">
+                            <LayoutFormPsDateInput v-model="leaveRequest.payload.date_of_absence_from" title="Days from" @change="totalDates" />
+                        </div>
+                        <div>
+                            <LayoutFormPsDateInput v-model="leaveRequest.payload.date_of_absence_to" title="Days to" @change="totalDates" />
+                        </div>
+                        <div>
+                            <LayoutFormPsNumberInput v-model="leaveRequest.payload.number_of_days" title="No. of Days:" />
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="mb-6">
+                            <input
+                                id="emp_with_pay"
+                                v-model="leaveRequest.payload.with_pay"
+                                :value="EMPLOYEE_WITH_PAY"
+                                type="radio"
+                                name="emp_with_pay"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            >
+                            <label for="emp_with_pay" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">WITH PAY</label>
+                        </div>
+                        <div class="mb-6">
+                            <input
+                                id="emp_without_pay"
+                                v-model="leaveRequest.payload.with_pay"
+                                :value="EMPLOYEE_WITHOUT_PAY"
+                                type="radio"
+                                name="emp_without_pay"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            >
+                            <label for="emp_without_pay" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">WITHOUT PAY</label>
+                        </div>
                     </div>
                 </div>
                 <div class="w-full p-2">
                     <HrmsLeaveApproval />
                 </div>
-                <div class="w-full">
+                <!-- <div class="w-full">
                     <label for="" class="text-xl font-semibold text-gray-900">EMPLOYEE'S LEAVE RECORD (HRD use only)</label>
                     <EasyDataTable
                         id="employee_leave_table"
                         class="mt-5"
-                        :headers="headers"
+                        :headers="headerss"
                         :items="items"
+                        :datas="leaveList"
                     />
+                </div> -->
+                <div class="w-full">
+                    <label for="" class="text-xl font-semibold text-gray-900">EMPLOYEE'S LEAVE RECORD (HRD use only)</label>
+                    <LayoutPsTable :header-columns="headers" :datas="leaveList" />
                 </div>
             </div>
             <div class="max-w-full flex flex-row-reverse mt-5">
