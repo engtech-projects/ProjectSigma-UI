@@ -9,30 +9,37 @@ const { information } = storeToRefs(employee)
     <div id="front-id" class="h-[6.303in] w-[4.051in] shadow-lg relative bg-white border-none">
         <img class="h-[6.303in] w-[4.051in] cover" src="/ID-FRONT.png" alt="front" draggable="false">
         <div class="w-full absolute top-[115px] text-center">
-            <p class="font-medium text-md">
+            <p
+                class="font-medium text-lg "
+                style="text-shadow:
+                    1px 1px 0 #FFF,
+                    -1px 1px 0 #FFF,
+                    -1px -1px 0 #FFF,
+                    1px -1px 0 #FFF;"
+            >
                 {{ information.company_employments.employeedisplay_id }}
             </p>
         </div>
-        <div class="w-full absolute top-[145px] m-auto">
+        <div class="w-full absolute top-[142px] m-auto">
             <p class="text-xl font-bold text-center">
                 <img
                     v-if="information.profile_photo"
                     draggable="false"
-                    class="h-[244.5px] w-[200px] bg-transparent rounded-lg m-auto"
+                    class="h-[244.5px] w-[191px] bg-transparent m-auto"
                     :src="information.profile_photo.base64"
                     alt="profile pic"
                 >
                 <img
                     v-else-if="information.gender.toLowerCase() === 'female'"
                     draggable="false"
-                    class="h-[244.5px] w-[200px] bg-transparent rounded-lg m-auto"
+                    class="h-[244.5px] w-[191px] bg-transparent m-auto"
                     :src="'/avatarexample.png'"
                     alt="profile pic"
                 >
                 <img
                     v-else
                     draggable="false"
-                    class="h-[244.5px] w-[200px] bg-transparent rounded-lg m-auto"
+                    class="h-[244.5px] w-[191px] bg-transparent m-auto"
                     :src="'/avatarexample.png'"
                     alt="profile pic"
                 >
@@ -56,14 +63,14 @@ const { information } = storeToRefs(employee)
                 <img
                     v-if="information.digital_signature"
                     draggable="false"
-                    class="w-full bg-transparent rounded-lg m-auto"
+                    class="w-full bg-transparent m-auto"
                     :src="information.digital_signature.base64"
                     alt="profile pic"
                 >
                 <img
                     v-else
                     draggable="false"
-                    class="w-full bg-transparent rounded-lg m-auto"
+                    class="w-full bg-transparent m-auto"
                     src="/signature_example.png"
                     alt="profile pic"
                 >
