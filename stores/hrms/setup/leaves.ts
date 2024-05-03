@@ -2,8 +2,8 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
+export const EMPLOYMENT_REGULAR = "Regular"
 export const EMPLOYMENT_PROBATIONARY = "Probationary"
-export const EMPLOYMENT_REGULAR = "Regular/FullTime"
 export const EMPLOYMENT_PARTTIME = "Part Time"
 export const EMPLOYMENT_PROJECTBASED = "Project Based"
 export const EMPLOYMENT_CONTRACTUAL = "Contractual"
@@ -23,7 +23,7 @@ export const useLeaveStore = defineStore("leaves", {
             id: null,
             leave_name: null,
             amt_of_leave: null,
-            // employment_type: [],
+            employment_status: [],
         },
         list: [],
         leaveList: [],
@@ -39,6 +39,7 @@ export const useLeaveStore = defineStore("leaves", {
                     id: leave.id,
                     leave_name: leave.leave_name,
                     amt_of_leave: leave.amt_of_leave,
+                    employment_status: leave.employment_status,
                 }
             })
         },
@@ -61,9 +62,9 @@ export const useLeaveStore = defineStore("leaves", {
                                 id: val.id,
                                 leave_name: val.leave_name,
                                 amt_of_leave: val.amt_of_leave,
-                                orig_employment_type: val.employment_type,
-                                employment_type: JSON.parse(val.employment_type),
-                                employment_type_view: JSON.parse(val.employment_type).toString(),
+                                orig_employment_status: val.employment_status,
+                                employment_status: JSON.parse(val.employment_status),
+                                employment_status_view: JSON.parse(val.employment_status).toString(),
                             }
                         })
                         this.pagination = {
@@ -167,7 +168,7 @@ export const useLeaveStore = defineStore("leaves", {
                 id: null,
                 leave_name: null,
                 amt_of_leave: null,
-                employment_type: [],
+                employment_status: [],
             }
             this.isEdit = false
             this.successMessage = ""
