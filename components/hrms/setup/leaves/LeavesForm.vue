@@ -75,7 +75,7 @@ const addLeave = async () => {
                         >Employment Type</label>
                         <select
                             id="employment_type"
-                            v-model="leave.employment_type"
+                            v-model="leave.employment_status"
                             class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
                             multiple
                         >
