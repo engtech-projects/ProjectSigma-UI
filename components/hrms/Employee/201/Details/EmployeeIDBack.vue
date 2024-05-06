@@ -65,7 +65,7 @@ const { information } = storeToRefs(employee)
                     <tr v-for="(year) in 3" :key="year">
                         <td class="border-collapse p-1">
                             <p class="font-medium">
-                                {{ currentYear + year }}
+                                {{ currentYear + year - 1 }}
                             </p>
                         </td>
                         <td class="border-collapse" />
