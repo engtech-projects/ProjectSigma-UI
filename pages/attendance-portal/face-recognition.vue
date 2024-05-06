@@ -2,13 +2,13 @@
 import * as faceapi from "face-api.js"
 import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "~/stores/hrms/employee"
-import { useFacialPattern, CATEGORY_TIME_IN, CATEGORY_TIME_OUT } from "~/stores/hrms/facialPattern"
+import { useAttendancePortal, CATEGORY_TIME_IN, CATEGORY_TIME_OUT } from "~/stores/hrms/attendancePortal"
 
 definePageMeta({
     layout: "guest",
     auth: {
-        unauthenticatedOnly: true,
-        navigateAuthenticatedTo: "/dashboard",
+        unauthenticatedOnly: false,
+        navigateAuthenticatedTo: "/attendance-portal/face-recognition",
     },
 })
 const MODEL_URL = "/faceapimodels"
@@ -26,18 +26,18 @@ let stream = null
 
 const employee = useEmployeeInfo()
 const snackbar = useSnackbar()
-const facialPattern = useFacialPattern()
-const { facialPatterList, currentMatch } = storeToRefs(facialPattern)
+const attendancePortal = useAttendancePortal()
+const { facialPatterList, attendancePortalParams } = storeToRefs(attendancePortal)
 const { information, employeeIsSearched } = storeToRefs(employee)
 
-currentMatch.value.department_id = queryParam.department_id ?? null
-currentMatch.value.project_id = queryParam.project_id ?? null
-currentMatch.value.group_type = queryParam.group_type ?? null
+attendancePortalParams.value.department_id = queryParam.department_id ?? null
+attendancePortalParams.value.project_id = queryParam.project_id ?? null
+attendancePortalParams.value.group_type = queryParam.group_type ?? null
 
-currentMatch.value.log_type = CATEGORY_TIME_IN
-await facialPattern.getAllEmployeePattern()
+attendancePortalParams.value.log_type = CATEGORY_TIME_IN
+await attendancePortal.getAllEmployeePattern()
 const changeCategory = (cat) => {
-    currentMatch.value.log_type = cat
+    attendancePortalParams.value.log_type = cat
 }
 
 onBeforeRouteLeave(() => {
@@ -49,22 +49,22 @@ onBeforeRouteLeave(() => {
 const saveEmployeeAttendanceLog = async () => {
     try {
         if (!lastIDlog.value) {
-            lastIDlog.value = currentMatch.value.employee_id
-            await facialPattern.saveAttendanceLog()
+            lastIDlog.value = attendancePortalParams.value.employee_id
+            await attendancePortal.saveAttendanceLog()
             snackbar.add({
                 type: "success",
-                text: facialPattern.successMessage
+                text: attendancePortal.successMessage
             })
             await employee.getPublicEmployeeInformation(lastIDlog.value)
-        } else if (lastIDlog.value === currentMatch.value.employee_id) {
-            currentMatch.value.remarks = "already_log"
+        } else if (lastIDlog.value === attendancePortalParams.value.employee_id) {
+            attendancePortalParams.value.remarks = "already_log"
         } else {
-            await facialPattern.saveAttendanceLog()
+            await attendancePortal.saveAttendanceLog()
             snackbar.add({
                 type: "success",
-                text: facialPattern.successMessage
+                text: attendancePortal.successMessage
             })
-            await employee.getPublicEmployeeInformation(currentMatch)
+            await employee.getPublicEmployeeInformation(attendancePortalParams)
         }
     } catch (error) {
         snackbar.add({
@@ -108,7 +108,7 @@ const startCamera = () => {
                     const resizedDetections = faceapi.resizeResults(detection, displaySize)
                     context.clearRect(0, 0, canvas.width, canvas.height)
                     faceapi.draw.drawDetections(canvas, resizedDetections)
-                    const option = { label: currentMatch.value.name }
+                    const option = { label: attendancePortalParams.value.name }
                     const drawBox = new faceapi.draw.DrawBox(resizedDetections.detection.box, option)
                     drawBox.draw(canvas)
                     if (detection.detection._score > 0.80) {
@@ -143,15 +143,15 @@ const labeledFaceDescriptorsID = facialPatterList.value.map((face) => {
 const faceMatcherId = new faceapi.FaceMatcher(labeledFaceDescriptorsID, 0.4)
 const facialMatching = () => {
     if (faceLandMarks.value) {
-        currentMatch.value.employee_id = faceMatcherId.findBestMatch(faceLandMarks.value).toString(false)
-        if (currentMatch.value.employee_id === "unknown") {
-            currentMatch.value.name = "NOT DETECTED"
+        attendancePortalParams.value.employee_id = faceMatcherId.findBestMatch(faceLandMarks.value).toString(false)
+        if (attendancePortalParams.value.employee_id === "unknown") {
+            attendancePortalParams.value.name = "NOT DETECTED"
             detectionTimer.value = 4
         } else {
-            currentMatch.value.name = employeeNames[currentMatch.value.employee_id]
+            attendancePortalParams.value.name = employeeNames[attendancePortalParams.value.employee_id]
         }
     } else {
-        currentMatch.value.name = ""
+        attendancePortalParams.value.name = ""
     }
 }
 
@@ -162,19 +162,19 @@ const facialMatching = () => {
             <div class="flex justify-center text-3xl font-medium text-cyan-700 p-2 border-b-2">
                 Attendance Portal
             </div>
-            <div v-if="currentMatch.log_type === CATEGORY_TIME_IN" class="flex justify-center text-xl font-medium text-cyan-700 p-2">
-                {{ currentMatch.group_type }} - TIME IN
+            <div v-if="attendancePortalParams.log_type === CATEGORY_TIME_IN" class="flex justify-center text-xl font-medium text-cyan-700 p-2">
+                {{ attendancePortalParams.group_type }} - TIME IN
             </div>
             <div v-else class="flex justify-center text-xl font-medium text-cyan-700 p-2">
-                {{ currentMatch.group_type }} - TIME OUT
+                {{ attendancePortalParams.group_type }} - TIME OUT
             </div>
             <HrmsCommonDepartmentProjectSelector
                 v-if="!ifCameraStart"
-                v-model:select-type="currentMatch.group_type"
-                v-model:department-id="currentMatch.department_id"
-                v-model:project-id="currentMatch.project_id"
+                v-model:select-type="attendancePortalParams.group_type"
+                v-model:department-id="attendancePortalParams.department_id"
+                v-model:project-id="attendancePortalParams.project_id"
             />
-            <div v-if="!ifCameraStart && currentMatch.group_type && (currentMatch.department_id || currentMatch.project_id)" class="flex gap-4 justify-center p-2">
+            <div v-if="!ifCameraStart && attendancePortalParams.group_type && (attendancePortalParams.department_id || attendancePortalParams.project_id)" class="flex gap-4 justify-center p-2">
                 <button class="w-18 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-3 py-1 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800" @click="startCamera">
                     START CAMERA
                 </button>
@@ -195,7 +195,7 @@ const facialMatching = () => {
                 </div>
                 <div id="capturedImage" class="absolute top-0 m-auto" />
             </div>
-            <div v-if="currentMatch.log_type === CATEGORY_TIME_IN" class="flex gap-4 justify-center p-2">
+            <div v-if="attendancePortalParams.log_type === CATEGORY_TIME_IN" class="flex gap-4 justify-center p-2">
                 <button class="w-18 text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-3 py-1 text-center dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-800" @click="changeCategory(CATEGORY_TIME_OUT)">
                     Time-Out
                 </button>

@@ -1,9 +1,9 @@
 <script setup>
 import * as faceapi from "face-api.js"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
-import { useFacialPattern } from "@/stores/hrms/facialPattern"
+import { useAttendancePortal } from "@/stores/hrms/attendancePortal"
 const employee = useEmployeeInfo()
-const facialPattern = useFacialPattern()
+const attendancePortal = useAttendancePortal()
 
 const MODEL_URL = "/faceapimodels"
 let stream = null
@@ -71,10 +71,10 @@ const startCamera = () => {
 startCamera()
 const captureImage = async () => {
     try {
-        await facialPattern.saveOrUpdateEmployeePattern(faceLandMarks.value, employee.information.id)
+        await attendancePortal.saveOrUpdateEmployeePattern(faceLandMarks.value, employee.information.id)
         snackbar.add({
             type: "success",
-            text: facialPattern.successMessage
+            text: attendancePortal.successMessage
         })
     } catch (error) {
         snackbar.add({
