@@ -1,9 +1,3 @@
-<template>
-    <div>
-        <HrmsDashboardCalendar />
-    </div>
-</template>
-
 <script setup lang="ts">
 useHead({
     title: "Calendar",
@@ -12,3 +6,8 @@ useHead({
     ],
 })
 </script>
+<template>
+    <div>
+        <HrmsEventsCalendarView />
+    </div>
+</template>

@@ -3,7 +3,7 @@ import { useEnumsStore } from "@/stores/hrms/enum"
 const enums = useEnumsStore()
 const { departmentEnum } = storeToRefs(enums)
 if (departmentEnum.value.list.length <= 0) {
-    enums.getPositionEnums()
+    enums.getDepartmentEnums()
 }
 const model = defineModel({ required: false, type: Number, default: null })
 defineProps({
