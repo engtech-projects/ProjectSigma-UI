@@ -64,10 +64,11 @@ const model = defineModel({ required: true, type: Array<Number> })
                 </thead>
                 <tbody class="overflow-y-scroll h-64  max-h-64">
                     <tr v-for="employee, vfkey in enums.filteredEmployeesList" :key="vfkey" class="p-2 odd:bg-white odd:dark:bg-gray-900 even:bg-gray-100 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                        <!-- <pre>{{ employee }}</pre> -->
                         <td class="space-x-2 px-px">
                             <label class="flex items-center space-x-2">
                                 <input v-model="model" type="checkbox" name="employeeSelectorCheckBoxes" :value="employee.id" class="h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all checked:border-gray-900 checked:bg-gray-900 hover:before:opacity-10">
-                                <span class="cursor-pointer text-sm">{{ employee.id }}</span>
+                                <span class="cursor-pointer text-sm">{{ employee.current_employment?.employee_id }}</span>
                             </label>
                         </td>
                         <td class="space-x-2 px-px">
@@ -77,12 +78,12 @@ const model = defineModel({ required: true, type: Array<Number> })
                         </td>
                         <td class="space-x-2 px-px">
                             <label class="flex items-center space-x-2">
-                                <span class="cursor-pointer text-sm">status</span>
+                                <span class="cursor-pointer text-sm">{{ employee.current_employment?.employment_status }}</span>
                             </label>
                         </td>
                         <td class="space-x-2 px-px">
                             <label class="flex items-center space-x-2">
-                                <span class="cursor-pointer text-sm">position</span>
+                                <span class="cursor-pointer text-sm">{{ employee.current_employment?.position?.name }}</span>
                             </label>
                         </td>
                     </tr>
