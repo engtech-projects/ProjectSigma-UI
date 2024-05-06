@@ -13,6 +13,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
             allowance_date: "",
             total_days: null,
             group_type: null,
+            approvals: []
         },
 
         list: [],
@@ -80,7 +81,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
         async createRequest () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApiO(
+            await useHRMSApi(
                 "/api/employee-allowance/resource",
                 {
                     method: "POST",

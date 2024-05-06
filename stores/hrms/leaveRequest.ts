@@ -24,7 +24,7 @@ export interface LeaveRequest {
     employee_id: Number,
     department_id: Number,
     project_id: Number,
-    type: String,
+    leave_id: String,
     other_absence: String,
     date_of_absence_from: Date,
     date_of_absence_to: Date,
