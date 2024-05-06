@@ -600,6 +600,25 @@ export const useEmployeeInfo = defineStore("employee", {
                 return data
             }
         },
+        async getPublicEmployeeInformation (id : Number) {
+            this.$reset()
+            const { data, error } = await useHRMSApi<any>(
+                "/api/employee/resource/v2/" + id,
+                {
+                    method: "GET",
+                    watch: false,
+                }
+            )
+            if (error.value) {
+                return error
+            } else if (data.value) {
+                this.employeeIsSearched = true
+                this.information = data.value.data
+                this.getPresentAddress()
+                this.getPermanentAddress()
+                return data
+            }
+        },
         async getLeaveCredits (id: Number) {
             await useHRMSApi<any>(
                 "/api/employee/leave-credits/" + id,
