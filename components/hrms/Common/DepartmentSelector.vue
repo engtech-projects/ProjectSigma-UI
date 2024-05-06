@@ -19,7 +19,7 @@ defineProps({
             All
         </option>
         <option v-for="dpt, index in departmentEnum.list" :key="index" :value=" dpt.id">
-            {{ dpt.department_name }}
+            {{ dpt.name }}
         </option>
     </select>
 </template>
