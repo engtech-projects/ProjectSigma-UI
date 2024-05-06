@@ -145,7 +145,7 @@ export const useEnumsStore = defineStore("enums", {
         },
         async getDepartmentEnums () {
             await useHRMSApiO(
-                "/api/department/lists",
+                "/api/department/list/v2",
                 {
                     method: "GET",
                     params: this.departmentEnum.params,
