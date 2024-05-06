@@ -55,7 +55,7 @@ const saveEmployeeAttendanceLog = async () => {
                 type: "success",
                 text: facialPattern.successMessage
             })
-            await employee.getEmployeeInformation(lastIDlog.value)
+            await employee.getPublicEmployeeInformation(lastIDlog.value)
         } else if (lastIDlog.value === currentMatch.value.employee_id) {
             currentMatch.value.remarks = "already_log"
         } else {
@@ -64,7 +64,7 @@ const saveEmployeeAttendanceLog = async () => {
                 type: "success",
                 text: facialPattern.successMessage
             })
-            await employee.getEmployeeInformation(currentMatch)
+            await employee.getPublicEmployeeInformation(currentMatch)
         }
     } catch (error) {
         snackbar.add({
