@@ -13,24 +13,11 @@ leaveRequest.payload.approvals = await approval.getApprovalByName(EMPLOYEE_APPRO
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-// const headerss = [
-//     { text: "LEAVE TYPE", value: "credits" },
-//     { text: "EARNED", value: "earned" },
-//     { text: "USED", value: "used" },
-//     { text: "BALANCE", value: "balance" },
-// ]
-// const items = ref([
-//     {
-//         credits: "Vacation Leave",
-//         earned: "",
-//         used: "",
-//         balance: "",
-//     },
-// ])
+const leaves = ref([])
 
 const headers = [
-    { name: "Leave Type", id: "leavename" },
-    { name: "Amount of Leaves", id: "total_credits" },
+    { name: "Leave Type", id: "leave_name" },
+    { name: "Amount of Leaves", id: "credits" },
     { name: "USED", id: "used" },
     { name: "BALANCE", id: "balance" },
 ]
@@ -41,7 +28,7 @@ const headers = [
 const setEmployee = async (emp) => {
     const leaveCredits = await employee.getLeaveCredits(emp.id)
     leaveRequest.payload.employee_id = emp.id
-    leaveRequest.payload.leave_credits = leaveCredits
+    leaves.value = leaveCredits
 }
 
 const totalDates = computed(() => {
@@ -104,7 +91,7 @@ const submitAdd = async () => {
                 <div class="w-full">
                     <label for="" class="text-xl font-semibold text-gray-900">LEAVE AVAILMENT</label>
                     <div class="flex gap-5">
-                        <div v-for="(leaveType, index2) in employee.information?.leaveCredits" :key="index2">
+                        <div v-for="(leaveType, index2) in leaves" :key="index2">
                             <input
                                 id="leaveType"
                                 v-model="leaveRequest.payload.leave_id"
@@ -112,7 +99,7 @@ const submitAdd = async () => {
                                 type="radio"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label :for="'leaveType' + index" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label :for="'leaveType' + index2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 {{ leaveType.leave_name }}
                             </label>
                         </div>
@@ -171,8 +158,7 @@ const submitAdd = async () => {
                 </div> -->
                 <div class="w-full">
                     <label for="" class="text-xl font-semibold text-gray-900">EMPLOYEE'S LEAVE RECORD (HRD use only)</label>
-                    <pre>{{ employee.information?.leaveCredits }}</pre>
-                    <LayoutPsTable :header-columns="headers" :datas="employee.information?.leaveCredits" />
+                    <LayoutPsTable :header-columns="headers" :datas="leaves" />
                 </div>
             </div>
             <div class="max-w-full flex flex-row-reverse mt-5">
