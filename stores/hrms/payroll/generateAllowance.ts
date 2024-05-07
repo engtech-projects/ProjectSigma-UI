@@ -20,7 +20,13 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
         myApprovalRequestList: [],
         myRequestList: [],
         pagination: {},
-        getParams: {},
+        getParams: {
+            group_type: null,
+            department_id: "",
+            project_id: "",
+            allowance_date: "",
+            charge_assignment: "",
+        },
         errorMessage: "",
         successMessage: "",
         remarks: "",
@@ -34,7 +40,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.list = response._data.data.data
+                            this.list = response._data.data
                             this.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,

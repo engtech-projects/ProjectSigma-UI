@@ -626,7 +626,7 @@ export const useEmployeeInfo = defineStore("employee", {
                     method: "GET",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.information.leaveCredits = response._data.data
+                            this.leaveCredits = response._data.data
                             this.successMessage = response._data.message
                             return response._data
                         } else {

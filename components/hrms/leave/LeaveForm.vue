@@ -1,24 +1,10 @@
 <script setup>
 import { useEmployeeInfo } from "~/stores/hrms/employee"
 import { useApprovalStore } from "~/stores/hrms/setup/approvals"
-import { useLeaveStore } from "@/stores/hrms/setup/leaves"
+// import { useLeaveStore } from "@/stores/hrms/setup/leaves"
+import { useLeaveRequest, EMPLOYEE_WITH_PAY, EMPLOYEE_WITHOUT_PAY, EMPLOYEE_APPROVAL_REQ } from "~/stores/hrms/leaveRequest"
 
-import {
-    useLeaveRequest,
-    // EMPLOYEE_VACATION,
-    // EMPLOYEE_SICK_CHECKUP,
-    // EMPLOYEE_CELEBRATION,
-    // EMPLOYEE_MANDATORY,
-    // EMPLOYEE_BEREAVEMENT,
-    // EMPLOYEE_MATERNITY_PATERNITY,
-    // EMPLOYEE_OTHER,
-    EMPLOYEE_WITH_PAY,
-    EMPLOYEE_WITHOUT_PAY,
-    EMPLOYEE_APPROVAL_REQ
-} from "~/stores/hrms/leaveRequest"
-const leaves = useLeaveStore()
-
-const { list: leaveList } = storeToRefs(leaves)
+// const leaves = useLeaveStore()
 const selectType = ref("")
 const employee = useEmployeeInfo()
 const approval = useApprovalStore()
@@ -43,14 +29,19 @@ const boardLoading = ref(false)
 // ])
 
 const headers = [
-    { name: "Leave Type", id: "leave_name" },
-    { name: "Amount of Leaves", id: "amt_of_leave" },
-    { name: "USED", id: "0" },
-    { name: "BALANCE", id: "0" },
+    { name: "Leave Type", id: "leavename" },
+    { name: "Amount of Leaves", id: "total_credits" },
+    { name: "USED", id: "used" },
+    { name: "BALANCE", id: "balance" },
 ]
 
-const setEmployee = (emp) => {
-    leaveRequest.payload.employee_id = employee.getLeaveCredits(emp.id)
+// const setEmployee = (emp) => {
+//     leaveRequest.payload.employee_id = employee.getLeaveCredits(emp.id)
+// }
+const setEmployee = async (emp) => {
+    const leaveCredits = await employee.getLeaveCredits(emp.id)
+    leaveRequest.payload.employee_id = emp.id
+    leaveRequest.payload.leave_credits = leaveCredits
 }
 
 const totalDates = computed(() => {
@@ -95,7 +86,7 @@ const submitAdd = async () => {
                 </div>
                 <div class="mb-6">
                     <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
-                    <p>{{ employee.information?.employee_internal?.position_title ?? "No Position" }}</p>
+                    <p>{{ employee.information?.employee_internal[0]?.position?.name ?? "No Position" }}</p>
                 </div>
             </div>
             <div class="grid gap-6 mb-6 md:grid-cols-2">
@@ -113,151 +104,19 @@ const submitAdd = async () => {
                 <div class="w-full">
                     <label for="" class="text-xl font-semibold text-gray-900">LEAVE AVAILMENT</label>
                     <div class="flex gap-5">
-                        <div v-for="(leaveType, index2) in LEAVES" :key="index2">
+                        <div v-for="(leaveType, index2) in employee.information?.leaveCredits" :key="index2">
                             <input
                                 id="leaveType"
-                                v-model="leaveRequest.payload.type"
-                                :value="leaveType"
+                                v-model="leaveRequest.payload.leave_id"
+                                :value="leaveType.id"
                                 type="radio"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
                             <label :for="'leaveType' + index" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                {{ leaveType }}
+                                {{ leaveType.leave_name }}
                             </label>
                         </div>
                     </div>
-                    <!-- <div class="flex gap-5">
-                        <div class="w-full">
-                            <div class="mt-5 flex items-center mb-4">
-                                <input
-                                    id="emp_sick_checkup"
-                                    v-model="leaveRequest.payload.type"
-                                    :value="EMPLOYEE_SICK_CHECKUP"
-                                    type="radio"
-                                    name="default-radio"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                >
-                                <label for="emp_sick_checkup" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sick / Check up</label>
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <input
-                                    id="emp_celebration"
-                                    v-model="leaveRequest.payload.type"
-                                    :value="EMPLOYEE_CELEBRATION"
-                                    type="radio"
-                                    name="default-radio"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                >
-                                <label for="emp_celebration" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Special Celebration</label>
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <input
-                                    id="emp_vacation"
-                                    v-model="leaveRequest.payload.type"
-                                    :value="EMPLOYEE_VACATION"
-                                    type="radio"
-                                    name="default-radio"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                >
-                                <label for="emp_vacation" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Vacation</label>
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <input
-                                    id="emp_mandatory"
-                                    v-model="leaveRequest.payload.type"
-                                    :value="EMPLOYEE_MANDATORY"
-                                    type="radio"
-                                    name="default-radio"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                >
-                                <label for="emp_mandatory" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mandatory Leave</label>
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <input
-                                    id="emp_bereavment"
-                                    v-model="leaveRequest.payload.type"
-                                    :value="EMPLOYEE_BEREAVEMENT"
-                                    type="radio"
-                                    name="default-radio"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                >
-                                <label for="emp_bereavment" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Bereavement</label>
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <input
-                                    id="emp_maternity_paternity"
-                                    v-model="leaveRequest.payload.type"
-                                    :value="EMPLOYEE_MATERNITY_PATERNITY"
-                                    type="radio"
-                                    name="default-radio"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                >
-                                <label for="emp_maternity_paternity" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Maternity / Paternity</label>
-                            </div>
-                            <div class="flex items-center mb-4">
-                                <input
-                                    id="emp_other"
-                                    v-model="leaveRequest.payload.type"
-                                    :value="EMPLOYEE_OTHER"
-                                    type="radio"
-                                    name="default-radio"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                >
-                                <label for="emp_other" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Other</label>
-                            </div>
-                            <div v-show="leaveRequest.payload.type == EMPLOYEE_OTHER" class="flex items-center mb-4">
-                                <input
-                                    id="other_absence_requested"
-                                    v-model="leaveRequest.payload.type"
-                                    type="text"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="If Other please put the type"
-                                >
-                            </div>
-                            <div class="mb-6">
-                                <LayoutFormPsTextInput v-model="leaveRequest.payload.reason_for_absence" title="REASONS/REMARKS" placeholder="remarks" />
-                            </div>
-                        </div>
-                        <div class="w-full">
-                            <div class="mt-5 w-full">
-                                <div class="mb-6">
-                                    <LayoutFormPsNumberInput v-model="leaveRequest.payload.number_of_days" title="No. of Days:" />
-                                </div>
-                            </div>
-                            <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
-                                <div class="mb-6">
-                                    <LayoutFormPsDateInput v-model="leaveRequest.payload.date_of_absence_from" title="Days from" @change="totalDates" />
-                                </div>
-                                <div class="mb-6">
-                                    <LayoutFormPsDateInput v-model="leaveRequest.payload.date_of_absence_to" title="Days to" @change="totalDates" />
-                                </div>
-                            </div>
-                            <div class="grid gap-6 mb-6 md:grid-cols-2">
-                                <div class="mb-6">
-                                    <input
-                                        id="emp_with_pay"
-                                        v-model="leaveRequest.payload.with_pay"
-                                        :value="EMPLOYEE_WITH_PAY"
-                                        type="radio"
-                                        name="emp_with_pay"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    >
-                                    <label for="emp_with_pay" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">WITH PAY</label>
-                                </div>
-                                <div class="mb-6">
-                                    <input
-                                        id="emp_without_pay"
-                                        v-model="leaveRequest.payload.with_pay"
-                                        :value="EMPLOYEE_WITHOUT_PAY"
-                                        type="radio"
-                                        name="emp_without_pay"
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    >
-                                    <label for="emp_without_pay" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">WITHOUT PAY</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="mt-4 mb-2">
                         <LayoutFormPsTextInput v-model="leaveRequest.payload.reason_for_absence" title="REASONS/REMARKS" placeholder="remarks" />
                     </div>
@@ -312,7 +171,8 @@ const submitAdd = async () => {
                 </div> -->
                 <div class="w-full">
                     <label for="" class="text-xl font-semibold text-gray-900">EMPLOYEE'S LEAVE RECORD (HRD use only)</label>
-                    <LayoutPsTable :header-columns="headers" :datas="leaveList" />
+                    <pre>{{ employee.information?.leaveCredits }}</pre>
+                    <LayoutPsTable :header-columns="headers" :datas="employee.information?.leaveCredits" />
                 </div>
             </div>
             <div class="max-w-full flex flex-row-reverse mt-5">

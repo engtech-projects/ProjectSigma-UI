@@ -35,23 +35,28 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Employee Name", id: "employee_id" },
-    { name: "Cut-off Start", id: "cutoff_start" },
-    { name: "Cut-off End", id: "cutoff_end" },
+    { name: "Charge Department", id: "charge_assignment.department_name" },
+    { name: "Number of Day(s)", id: "allowance_amount" },
+    { name: "Cutoff Start", id: "cutoff_start" },
+    { name: "Cutoff End", id: "cutoff_end" },
     { name: "Allowance Date", id: "allowance_date" },
-    { name: "Total Day(s)", id: "total_days" },
+    { name: "Total # of Day(s)", id: "total_days" },
+    { name: "Total Amount", id: "total_amount" },
+
 ]
-const actions = {
-    edit: true,
-    delete: true
-}
+// const actions = {
+//     edit: true,
+//     delete: true
+// }
 
 </script>
 
 <template>
     <LayoutBoards title="Generate Allowance List" class="w-full" :loading="boardLoading">
+        <!-- <HrmsPayrollAllowanceFilterSelector /> -->
         <div class="pb-2 text-gray-500 p-2">
-            <LayoutPsTable :header-columns="headers" :datas="GAList" :actions="actions" @edit-row="setEdit" @delete-row="deleteReq" />
+            <!-- <pre>{{ GAList }}</pre> -->
+            <LayoutPsTable :header-columns="headers" :datas="GAList" @edit-row="setEdit" @delete-row="deleteReq" />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
