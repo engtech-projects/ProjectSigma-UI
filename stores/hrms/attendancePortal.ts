@@ -25,7 +25,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/face-pattern/resource",
+                "/api/face-pattern/list",
                 {
                     method: "GET",
                     onResponse: ({ response }: any) => {
