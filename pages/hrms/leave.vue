@@ -14,8 +14,6 @@ leaveRequest.allApprovals()
 const leaves = useLeaveStore()
 leaves.getLeave()
 
-const employee = useEmployeeInfo()
-employee.getLeaveCredits()
 useHead({
     title: "Leave",
     meta: [
