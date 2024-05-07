@@ -11,7 +11,7 @@ const headers = [
     { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
     { name: "REQUEST STATUS", id: "request_status" },
 ]
-await attendancePortal.getAttendancePortalList()
+// await attendancePortal.getAttendancePortalList()
 const { attendancePortalParams, attendancePortalList } = storeToRefs(attendancePortal)
 attendancePortal.getClientIPAddress()
 const setupAttendancePortal = async () => {
@@ -64,7 +64,6 @@ const setupAttendancePortal = async () => {
             </LayoutBoards>
         </div>
         <div class="w-full py-2">
-            {{ attendancePortalList }}
             <LayoutBoards title="Attendance Portal List" class="w-full">
                 <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                     <LayoutPsTable
