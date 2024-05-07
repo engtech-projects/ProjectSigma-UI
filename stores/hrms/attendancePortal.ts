@@ -8,7 +8,6 @@ export const useAttendancePortal = defineStore("attendancePortal", {
         facialPatterList: [],
         attendancePortalList: [],
         attendancePortalParams: {
-            ip_address: null,
             name_location: null,
             project_id: null as null | Number,
             department_id: null as null | Number,
@@ -17,6 +16,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             group_type: null as null | String,
             name: null as null | String
         },
+        ip_address: null,
         errorMessage: "",
         successMessage: "",
     }),
@@ -92,7 +92,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                     method: "GET",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.attendancePortalParams.ip_address = response._data.ip
+                            this.ip_address = response._data.ip
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
