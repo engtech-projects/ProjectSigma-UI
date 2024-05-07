@@ -171,7 +171,7 @@ export interface StudiesModel {
 export interface EmployeeInternal {
     id: Number,
     employee_id: Number,
-    position_title: String,
+    position: Object,
     employment_status: String,
     immediate_supervisor: String,
     actual_salary: String,
