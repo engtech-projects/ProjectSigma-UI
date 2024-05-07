@@ -28,7 +28,7 @@ const headers = [
 const setEmployee = async (emp) => {
     const leaveCredits = await employee.getLeaveCredits(emp.id)
     leaveRequest.payload.employee_id = emp.id
-    leaves.value = leaveCredits
+    leaves.value = leaveCredits.data
 }
 
 const totalDates = computed(() => {
