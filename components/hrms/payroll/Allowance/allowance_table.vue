@@ -36,7 +36,7 @@ const changePaginate = (newParams) => {
 
 const headers = [
     { name: "Charge Department", id: "charge_assignment.department_name" },
-    { name: "Number of Day(s)", id: "allowance_amount" },
+    { name: "Allowance Amount", id: "allowance_amount" },
     { name: "Cutoff Start", id: "cutoff_start" },
     { name: "Cutoff End", id: "cutoff_end" },
     { name: "Allowance Date", id: "allowance_date" },
