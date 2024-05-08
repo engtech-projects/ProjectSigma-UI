@@ -229,6 +229,14 @@ async function handleSubmit () {
     )
 }
 
+const projectId = computed(() => {
+    return newEvent.value.project_id
+})
+
+watch(projectId, () => {
+    loadEvents()
+})
+
 const fCalendar = ref()
 onMounted(() => {
     calendarApi.value = fCalendar.value.getApi()
