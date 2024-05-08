@@ -1,5 +1,4 @@
 <script setup>
-import { useEmployeeInfo } from "~/stores/hrms/employee"
 import { useLeaveRequest } from "@/stores/hrms/leaveRequest"
 import { useEnumsStore } from "@/stores/hrms/enum"
 import { useLeaveStore } from "@/stores/hrms/setup/leaves"

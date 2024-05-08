@@ -12,8 +12,7 @@ const leaveRequest = useLeaveRequest()
 leaveRequest.payload.approvals = await approval.getApprovalByName(EMPLOYEE_APPROVAL_REQ)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
-const leaves = ref([])
+const { information: employeeinfo } = storeToRefs(employee)
 
 const headers = [
     { name: "Leave Type", id: "leave_name" },
@@ -26,9 +25,8 @@ const headers = [
 //     leaveRequest.payload.employee_id = employee.getLeaveCredits(emp.id)
 // }
 const setEmployee = async (emp) => {
-    const leaveCredits = await employee.getLeaveCredits(emp.id)
     leaveRequest.payload.employee_id = emp.id
-    leaves.value = leaveCredits.data
+    await employee.getLeaveCredits(emp.id)
 }
 
 const totalDates = computed(() => {
@@ -73,7 +71,7 @@ const submitAdd = async () => {
                 </div>
                 <div class="mb-6">
                     <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
-                    <p>{{ employee.information?.employee_internal[0]?.position?.name ?? "No Position" }}</p>
+                    <p>{{ employeeinfo.current_employment?.position?.name ?? "No Position" }}</p>
                 </div>
             </div>
             <div class="grid gap-6 mb-6 md:grid-cols-2">
@@ -91,9 +89,9 @@ const submitAdd = async () => {
                 <div class="w-full">
                     <label for="" class="text-xl font-semibold text-gray-900">LEAVE AVAILMENT</label>
                     <div class="flex gap-5">
-                        <div v-for="(leaveType, index2) in leaves" :key="index2">
+                        <div v-for="(leaveType, index2) in employeeinfo.leaveCredits" :key="index2">
                             <input
-                                id="leaveType"
+                                :id="'leaveType' + index2"
                                 v-model="leaveRequest.payload.leave_id"
                                 :value="leaveType.id"
                                 type="radio"
@@ -158,7 +156,7 @@ const submitAdd = async () => {
                 </div> -->
                 <div class="w-full">
                     <label for="" class="text-xl font-semibold text-gray-900">EMPLOYEE'S LEAVE RECORD (HRD use only)</label>
-                    <LayoutPsTable :header-columns="headers" :datas="leaves" />
+                    <LayoutPsTable :header-columns="headers" :datas="employeeinfo.leaveCredits" />
                 </div>
             </div>
             <div class="max-w-full flex flex-row-reverse mt-5">

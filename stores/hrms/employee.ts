@@ -620,15 +620,15 @@ export const useEmployeeInfo = defineStore("employee", {
             }
         },
         async getLeaveCredits (id: Number) {
-            await useHRMSApi<any>(
+            await useHRMSApiO(
                 "/api/employee/leave-credits/" + id,
                 {
                     method: "GET",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.leaveCredits = response._data.data
+                            this.information.leaveCredits = response._data.data
                             this.successMessage = response._data.message
-                            return response._data
+                            return response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
