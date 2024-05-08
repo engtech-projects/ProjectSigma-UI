@@ -277,15 +277,7 @@ watch(errorMessage, (msg) => {
                 >
             </div>
             <div class="p-4" :class="isEdit? 'border-t-8 border-green-500 rounded-md' : ''">
-                <label for="" class="text-md font-medium p-2">Select Project</label>
-                <select id="schedule" v-model="newEvent.project_id" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required @change="loadEvents">
-                    <option value="" disabled selected>
-                        -- SELECT --
-                    </option>
-                    <option v-for="p in projectStore.list" :key="p.id" :value="p.id">
-                        {{ p.project_code }}
-                    </option>
-                </select>
+                <HrmsCommonProjectSelector v-model="newEvent.project_id" />
             </div>
 
             <div class="p-4">
