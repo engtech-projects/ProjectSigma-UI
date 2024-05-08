@@ -49,7 +49,7 @@ const model = defineModel({ required: true, type: Array<Number> })
                 <thead class="text-gray-500 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th class="pb-2 pt-2">
-                            Employee ID
+                            Company ID
                         </th>
                         <th class="pb-2 pt-2">
                             Employee Name
@@ -68,7 +68,7 @@ const model = defineModel({ required: true, type: Array<Number> })
                         <td class="space-x-2 px-px">
                             <label class="flex items-center space-x-2">
                                 <input v-model="model" type="checkbox" name="employeeSelectorCheckBoxes" :value="employee.id" class="h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all checked:border-gray-900 checked:bg-gray-900 hover:before:opacity-10">
-                                <span class="cursor-pointer text-sm">{{ employee.current_employment?.employee_id }}</span>
+                                <span class="cursor-pointer text-sm">{{ employee.company_employments?.employeedisplay_id }}</span>
                             </label>
                         </td>
                         <td class="space-x-2 px-px">

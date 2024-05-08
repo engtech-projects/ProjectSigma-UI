@@ -228,6 +228,14 @@ async function handleSubmit () {
     )
 }
 
+const departmenId = computed(() => {
+    return newEvent.value.department_id
+})
+
+watch(departmenId, () => {
+    fetchSchedules()
+})
+
 const fCalendar = ref()
 onMounted(() => {
     calendarApi.value = fCalendar.value.getApi()
