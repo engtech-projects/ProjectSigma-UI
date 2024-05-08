@@ -1,19 +1,18 @@
 <script setup>
-// import { useEmployeeInfo } from "~/stores/hrms/employee"
 import { useLeaveRequest } from "@/stores/hrms/leaveRequest"
 import { useEnumsStore } from "@/stores/hrms/enum"
 import { useLeaveStore } from "@/stores/hrms/setup/leaves"
 
 const enums = useEnumsStore()
-enums.getEmployeeEnum()
 enums.getDepartmentEnums()
+
 const leaveRequest = useLeaveRequest()
 leaveRequest.allLeaves()
 leaveRequest.allApprovals()
+
 const leaves = useLeaveStore()
 leaves.getLeave()
-// const employee = useEmployeeInfo()
-// employee.getLeaveCredits()
+
 useHead({
     title: "Leave",
     meta: [

@@ -171,7 +171,7 @@ export interface StudiesModel {
 export interface EmployeeInternal {
     id: Number,
     employee_id: Number,
-    position_title: String,
+    position: Object,
     employment_status: String,
     immediate_supervisor: String,
     actual_salary: String,
@@ -600,8 +600,27 @@ export const useEmployeeInfo = defineStore("employee", {
                 return data
             }
         },
+        async getPublicEmployeeInformation (id : Number) {
+            this.$reset()
+            const { data, error } = await useHRMSApi<any>(
+                "/api/employee/resource/v2/" + id,
+                {
+                    method: "GET",
+                    watch: false,
+                }
+            )
+            if (error.value) {
+                return error
+            } else if (data.value) {
+                this.employeeIsSearched = true
+                this.information = data.value.data
+                this.getPresentAddress()
+                this.getPermanentAddress()
+                return data
+            }
+        },
         async getLeaveCredits (id: Number) {
-            await useHRMSApi<any>(
+            await useHRMSApiO(
                 "/api/employee/leave-credits/" + id,
                 {
                     method: "GET",
@@ -609,7 +628,7 @@ export const useEmployeeInfo = defineStore("employee", {
                         if (response.ok) {
                             this.information.leaveCredits = response._data.data
                             this.successMessage = response._data.message
-                            return response._data
+                            return response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

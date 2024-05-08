@@ -72,9 +72,9 @@ const addLeave = async () => {
                         <label
                             for="employment_type"
                             class="text-sm italic"
-                        >Employment Type</label>
+                        >Employment Status</label>
                         <select
-                            id="employment_type"
+                            id="employment_status"
                             v-model="leave.employment_status"
                             class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
                             multiple
