@@ -188,7 +188,6 @@ async function handleSubmit () {
             newEvent.value.daysOfWeek.push(i.toString())
         }
     }
-    newEvent.value.endRecur = newEvent.value.endRecur === "" ? newEvent.value.startRecur : newEvent.value.endRecur
     const url = isEdit.value ? "/api/schedule/" + newEvent.value.id : "/api/schedule"
     isLoading.value = true
 
