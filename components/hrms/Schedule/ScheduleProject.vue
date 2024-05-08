@@ -177,7 +177,9 @@ export default {
                     this.newEvent.daysOfWeek.push(i.toString())
                 }
             }
-            this.newEvent.endRecur = this.newEvent.endRecur === "" ? this.newEvent.startRecur : this.newEvent.endRecur
+            if (this.newEvent.scheduleType === "Irregular") {
+                this.newEvent.endRecur = utils.value.addOneDay(this.newEvent.startRecur)
+            }
             const url = this.isEdit ? "/api/schedule/" + this.newEvent.id : "/api/schedule"
             this.newEvent.startTime = this.formatTime(this.newEvent.startTime)
             this.newEvent.endTime = this.formatTime(this.newEvent.endTime)
