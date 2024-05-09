@@ -1,12 +1,22 @@
 import { defineStore } from "pinia"
+import { LabeledFaceDescriptors, FaceMatcher } from "face-api.js"
+const config = useRuntimeConfig()
 export const CATEGORY_TIME_IN = "In"
 export const CATEGORY_TIME_OUT = "Out"
 export const GROUP_TYPE_PROJECT = "Project"
 export const GROUP_TYPE_DEPARTMENT = "Department"
+
+export interface SavedFaceDescriptor {
+    id: number,
+    employee: any,
+    employee_id: any,
+    patterns: any,
+}
+
 export const useAttendancePortal = defineStore("attendancePortal", {
     state: () => ({
         attendanceLogList: [],
-        facialPatterList: [],
+        facialPatterList: [] as Array<SavedFaceDescriptor>,
         attendancePortalList: [],
         attendancePortalParams: {
             name_location: null,
@@ -17,11 +27,33 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             group_type: null as null | String,
             name: null as null | String
         },
+        lastSuccessLogEmployee: null as any,
         portal_token: null,
         ipAddress: null,
         errorMessage: "",
         successMessage: "",
     }),
+    getters: {
+        faceNames (state) {
+            const faceNames = [] as any
+            state.facialPatterList.forEach((face) => {
+                faceNames[face.employee_id] = face.employee.fullname_last
+            })
+            return faceNames
+        },
+        labeledFaceDescriptorsID (state) {
+            return state.facialPatterList.map((face) => {
+                const pattern = typeof face.patterns === "string" ? JSON.parse(face.patterns) : face.patterns
+                const descriptor = [new Float32Array(Object.values(pattern.descriptor))]
+                return new LabeledFaceDescriptors(face.employee_id + "", descriptor)
+            })
+        },
+        faceMatcher () {
+            if (this.labeledFaceDescriptorsID.length > 0) {
+                return new FaceMatcher(this.labeledFaceDescriptorsID, config.public.FACE_MAX_DESCRIPTOR_DISTANCE)
+            }
+        }
+    },
     actions: {
         async getAllEmployeePattern () {
             this.successMessage = ""
@@ -111,6 +143,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                     body: this.attendancePortalParams,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.lastSuccessLogEmployee = response._data.data
                             this.successMessage = response._data.message
                             return response._data
                         } else {

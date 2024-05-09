@@ -85,6 +85,7 @@ export default defineNuxtConfig({
             PROJECT_API_URL: process.env.PROJECT_API_URL,
             APP_ENV: process.env.APP_ENV || "production",
             BULK_UPLOAD_ENABLED: process.env.BULK_UPLOAD_ENABLED || "false",
+            FACE_MAX_DESCRIPTOR_DISTANCE: process.env.FACE_MAX_DESCRIPTOR_DISTANCE ? parseFloat(process.env.FACE_MAX_DESCRIPTOR_DISTANCE) : 0.4,
         }
     },
 
