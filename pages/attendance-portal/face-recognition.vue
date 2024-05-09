@@ -210,13 +210,13 @@ const facialMatching = () => {
             <LayoutBoards title="Todays Logs">
                 <div class="flex flex-col gap-2 ">
                     <div v-if="employeeIsSearched | true">
-                        <div class="space-y-2 p-3" action="#">
+                        <div class="space-y-2 p-3 items-center" action="#">
                             <div class="flex gap-4 justify-between">
-                                <p class="text-3xl text-gray-700 font-bold mt-2">
+                                <p class="text-2xl text-gray-700 font-bold">
                                     {{ information.fullname_first }}
                                     Juan Dela Cruz
                                 </p>
-                                <div class="flex gap-4 pt-4">
+                                <div class="flex gap-4">
                                     <div class="flex justify-between gap-x-6">
                                         <p class="text-xl text-zinc-600 dark:text-zinc-300">
                                             <span class="text-cyan-900 font-bold" /> 7:00 AM
@@ -229,11 +229,11 @@ const facialMatching = () => {
                             </div>
                             <hr>
                             <div class="flex gap-4 justify-between">
-                                <p class="text-3xl text-gray-700 font-bold mt-2">
+                                <p class="text-2xl text-gray-700 font-bold">
                                     {{ information.fullname_first }}
                                     Juan Dela Cruz
                                 </p>
-                                <div class="flex gap-4 pt-4">
+                                <div class="flex gap-4">
                                     <div class="flex justify-between gap-x-6">
                                         <p class="text-xl text-zinc-600 dark:text-zinc-300">
                                             <span class="text-cyan-900 font-bold" /> 7:00 AM
