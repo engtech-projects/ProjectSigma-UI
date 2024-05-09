@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useLeaveRequest } from "~/stores/hrms/leaveRequest"
+
 const leaveRequest = useLeaveRequest()
 
 const { allList } = storeToRefs(leaveRequest)
@@ -19,8 +20,7 @@ const closeViewModal = () => {
 
 const headers = [
     { name: "EMPLOYEE NAME", id: "employee.fullname_last" },
-    { name: "DATE FILED", id: "created_at" },
-    { name: "LEAVE AVAILITY", id: "type" },
+    { name: "LEAVE AVAILMENT", id: "leave_id" },
     { name: "DATE FROM ", id: "date_of_absence_from" },
     { name: "DATE TO ", id: "date_of_absence_to" },
     { name: "REASONS", id: "reason_for_absence" },
@@ -37,6 +37,7 @@ const actions = {
 
 <template>
     <LayoutBoards title="ALL LEAVE LIST" class="w-full mt-4" :loading="boardLoading">
+        <!-- <pre>{{ allList }}</pre> -->
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"

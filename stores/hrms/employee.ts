@@ -171,7 +171,7 @@ export interface StudiesModel {
 export interface EmployeeInternal {
     id: Number,
     employee_id: Number,
-    position_title: String,
+    position: Object,
     employment_status: String,
     immediate_supervisor: String,
     actual_salary: String,
@@ -620,7 +620,7 @@ export const useEmployeeInfo = defineStore("employee", {
             }
         },
         async getLeaveCredits (id: Number) {
-            await useHRMSApi<any>(
+            await useHRMSApiO(
                 "/api/employee/leave-credits/" + id,
                 {
                     method: "GET",
@@ -628,7 +628,7 @@ export const useEmployeeInfo = defineStore("employee", {
                         if (response.ok) {
                             this.information.leaveCredits = response._data.data
                             this.successMessage = response._data.message
-                            return response._data
+                            return response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

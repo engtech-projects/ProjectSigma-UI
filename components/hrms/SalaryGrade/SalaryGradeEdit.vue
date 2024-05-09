@@ -60,6 +60,8 @@ async function handleSubmit () {
                                     id="salaryGradeLevel"
                                     v-model="sg.monthly_salary_amount"
                                     type="number"
+                                    step=".01"
+                                    min="0"
                                     class="w-full rounded-lg"
                                     required
                                 >

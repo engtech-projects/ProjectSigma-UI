@@ -9,7 +9,6 @@ export const useAttendancePortal = defineStore("attendancePortal", {
         facialPatterList: [],
         attendancePortalList: [],
         attendancePortalParams: {
-            ip_address: null,
             name_location: null,
             project_id: null as null | Number,
             department_id: null as null | Number,
@@ -28,7 +27,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/face-pattern/resource",
+                "/api/face-pattern/list",
                 {
                     method: "GET",
                     onResponse: ({ response }: any) => {

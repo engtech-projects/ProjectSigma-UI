@@ -228,6 +228,14 @@ async function handleSubmit () {
     )
 }
 
+const departmenId = computed(() => {
+    return newEvent.value.department_id
+})
+
+watch(departmenId, () => {
+    fetchSchedules()
+})
+
 const fCalendar = ref()
 onMounted(() => {
     calendarApi.value = fCalendar.value.getApi()
@@ -325,7 +333,7 @@ watch(errorMessage, (msg) => {
                                         v-model="newEvent.startTime"
                                         type="time"
                                         step="1"
-                                        class="w-36 md:w-32 rounded-lg"
+                                        class="w-44 md:w-44 rounded-lg"
                                         required
                                     >
                                 </div>
@@ -336,7 +344,7 @@ watch(errorMessage, (msg) => {
                                         v-model="newEvent.endTime"
                                         type="time"
                                         step="1"
-                                        class="w-36 md:w-32 rounded-lg"
+                                        class="w-44 md:w-44 rounded-lg"
                                         required
                                     >
                                 </div>
