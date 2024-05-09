@@ -5,6 +5,7 @@ export const GROUP_TYPE_PROJECT = "Project"
 export const GROUP_TYPE_DEPARTMENT = "Department"
 export const useAttendancePortal = defineStore("attendancePortal", {
     state: () => ({
+        attendanceLogList: [],
         facialPatterList: [],
         attendancePortalList: [],
         attendancePortalParams: {
@@ -17,6 +18,8 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             group_type: null as null | String,
             name: null as null | String
         },
+        portal_token: null,
+        ipAddress: null,
         errorMessage: "",
         successMessage: "",
     }),
@@ -39,7 +42,61 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 }
             )
         },
-
+        async getTodayLogs () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/attendance/today-logs",
+                {
+                    method: "GET",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.attendanceLogList = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getIPAddress () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/today-logs",
+                {
+                    method: "GET",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.attendanceLogList = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getAttendancePortal () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/attendance-portal/resource",
+                {
+                    method: "GET",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.attendancePortalList = response._data.data.data
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async saveOrUpdateEmployeePattern (pattern: any, id: any) {
             this.successMessage = ""
             this.errorMessage = ""
@@ -92,7 +149,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                     method: "GET",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.attendancePortalParams.ip_address = response._data.ip
+                            this.ipAddress = response._data.ip
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -112,6 +169,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
+                            this.portal_token = response._data.data.portal_token
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -121,17 +179,16 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 }
             )
         },
-        async getAttendancePortalList () {
+        async deleteAttendancePortal (id: any) {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/attendance-portal/resource",
+                "/api/attendance-portal/resource/" + id,
                 {
-                    method: "GET",
+                    method: "DELETE",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.attendancePortalList = response._data
-                            return response._data
+                            this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -160,26 +217,5 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 }
             )
         },
-        async deleteAttendancePortal () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApiO(
-                "/api/attendance/facial",
-                {
-                    method: "POST",
-                    body: this.attendancePortalParams,
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                            return response._data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-
     },
 })

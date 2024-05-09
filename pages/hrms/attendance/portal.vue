@@ -1,19 +1,41 @@
 <script setup>
 import { useAttendancePortal } from "~/stores/hrms/attendancePortal"
-
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
+const listLoader = ref(false)
 const attendancePortal = useAttendancePortal()
-const headers = [
-    { name: "REQUEST TYPE", id: "type" },
-    { name: "DATE REQUESTED", id: "request_created_at" },
-    { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
-    { name: "REQUEST STATUS", id: "request_status" },
-]
-await attendancePortal.getAttendancePortalList()
-const { attendancePortalParams, attendancePortalList } = storeToRefs(attendancePortal)
+await attendancePortal.getAttendancePortal()
 attendancePortal.getClientIPAddress()
+const { attendancePortalParams, attendancePortalList, ipAddress, GROUP_TYPE_PROJECT, GROUP_TYPE_DEPARTMENT } = storeToRefs(attendancePortal)
+const headers = [
+    { name: "NAME", id: "name_location" },
+    { name: "PROJECT / DEPARTMENT", id: "name" },
+    { name: "TYPE", id: "type" },
+]
+const setEdit = (atype) => {
+    attendancePortalParams.value.name_location = atype.name_location
+    if (atype.assignment.type === GROUP_TYPE_PROJECT) {
+        attendancePortalParams.value.group_type = GROUP_TYPE_PROJECT
+        attendancePortalParams.value.project_id = atype.assignment.id
+    }
+    if (atype.assignment.type === GROUP_TYPE_DEPARTMENT) {
+        attendancePortalParams.value.group_type = GROUP_TYPE_DEPARTMENT
+        attendancePortalParams.value.department_id = atype.assignment.id
+    }
+}
+const deleteAttendancePortal = async (atype) => {
+    try {
+        listLoader.value = true
+        await attendancePortal.deleteAttendancePortal(atype.id)
+        snackbar.add({
+            type: "success",
+            text: attendancePortal.successMessage
+        })
+        await attendancePortal.getAttendancePortal()
+    } finally {
+        listLoader.value = false
+    }
+}
 const setupAttendancePortal = async () => {
     boardLoading.value = true
     try {
@@ -22,7 +44,11 @@ const setupAttendancePortal = async () => {
             type: "success",
             text: attendancePortal.successMessage
         })
-        await attendancePortal.getAttendancePortalList()
+        await attendancePortal.getAttendancePortal()
+        const portalToken = useCookie("portal_token", {
+            maxAge: 99999999
+        })
+        portalToken.value = attendancePortal.portal_token
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -30,6 +56,10 @@ const setupAttendancePortal = async () => {
         })
     }
     boardLoading.value = false
+}
+const actions = {
+    edit: true,
+    delete: true
 }
 </script>
 <template>
@@ -39,7 +69,7 @@ const setupAttendancePortal = async () => {
                 <div class="grid grid-cols-1 gap-4 p-2">
                     <label for="ipAddress" class="block text-sm font-medium text-zinc-700">Unique Identifier</label>
                     <p class="text-gray-700 text-xl">
-                        {{ attendancePortalParams.ip_address }}
+                        {{ ipAddress }}
                     </p>
                 </div>
                 <div class="w-full grid grid-cols-1 gap-4 p-2">
@@ -64,13 +94,14 @@ const setupAttendancePortal = async () => {
             </LayoutBoards>
         </div>
         <div class="w-full py-2">
-            {{ attendancePortalList }}
-            <LayoutBoards title="Attendance Portal List" class="w-full">
+            <LayoutBoards title="Attendance Portal List" class="w-full" :loading="listLoader">
                 <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                     <LayoutPsTable
                         :header-columns="headers"
                         :actions="actions"
                         :datas="attendancePortalList"
+                        @edit-row="setEdit"
+                        @delete-row="deleteAttendancePortal"
                     />
                 </div>
             </LayoutBoards>
