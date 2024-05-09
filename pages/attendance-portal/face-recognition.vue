@@ -10,7 +10,17 @@ definePageMeta({
         unauthenticatedOnly: false,
         navigateAuthenticatedTo: "/attendance-portal/face-recognition",
     },
+
 })
+onMounted(() => document.addEventListener("keyup", (event) => {
+    if (event.key === " " ||
+        event.code === "Space" ||
+        event.keyCode === 32
+    ) {
+        attendancePortalParams.value.log_type = (attendancePortalParams.value.log_type === CATEGORY_TIME_IN) ? CATEGORY_TIME_OUT : CATEGORY_TIME_IN
+    }
+}))
+
 const MODEL_URL = "/faceapimodels"
 const faceLandMarks = ref(null)
 const faceProbability = ref(null)
@@ -31,24 +41,19 @@ const attendancePortal = useAttendancePortal()
 const { facialPatterList, attendancePortalParams } = storeToRefs(attendancePortal)
 const { information, employeeIsSearched } = storeToRefs(employee)
 
+attendancePortal.getAllEmployeePattern()
+attendancePortal.getTodayAttendanceLogs()
 attendancePortalParams.value.department_id = queryParam.department_id ?? null
 attendancePortalParams.value.project_id = queryParam.project_id ?? null
 attendancePortalParams.value.group_type = queryParam.group_type ?? null
 
 attendancePortalParams.value.log_type = CATEGORY_TIME_IN
-await attendancePortal.getAllEmployeePattern()
-await attendancePortal.getTodayAttendanceLogs()
-
-const changeCategory = (cat) => {
-    attendancePortalParams.value.log_type = cat
-}
 
 onBeforeRouteLeave(() => {
     stream.getTracks().forEach((track) => {
         track.stop()
     })
 })
-
 const saveEmployeeAttendanceLog = async () => {
     try {
         if (!lastIDlog.value) {
@@ -135,7 +140,7 @@ const startCamera = () => {
         })
     })
 }
-
+startCamera()
 const employeeNames = []
 const labeledFaceDescriptorsID = facialPatterList.value.map((face) => {
     const descriptor = [new Float32Array(Object.values(JSON.parse(face.patterns).descriptor))]
@@ -158,64 +163,48 @@ const facialMatching = () => {
         attendancePortalParams.value.name = ""
     }
 }
-
 </script>
 <template>
-    <div class="flex gap-2 justify-center">
-        <div class="w-full border-2 border-gray-400 md:w-1/3 space-y-4">
-            <div class="flex justify-center text-3xl font-medium text-gray-50 p-2 border-b-2 bg-cyan-600">
-                Attendance Portal
-            </div>
-            <div v-if="attendancePortalParams.log_type === CATEGORY_TIME_IN" class="flex text-xl font-medium text-cyan-700 p-2">
-                TIME IN
-            </div>
-            <div v-else class="flex text-xl font-medium text-cyan-700 p-2">
-                TIME OUT
-            </div>
-            <HrmsCommonDepartmentProjectSelector
-                v-show="false"
-                v-model:select-type="attendancePortalParams.group_type"
-                v-model:department-id="attendancePortalParams.department_id"
-                v-model:project-id="attendancePortalParams.project_id"
-            />
-            <div v-if="!ifCameraStart && attendancePortalParams.group_type && (attendancePortalParams.department_id || attendancePortalParams.project_id)" class="flex gap-4 justify-center p-2">
-                <button class="w-18 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-3 py-1 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800" @click="startCamera">
-                    START CAMERA
-                </button>
-            </div>
-            <div class="relative justify-center p-2 w-full">
-                <div>
-                    <video
-                        id="cameraPreview"
-                        class="w-50 h-50"
-                        autoplay
-                        muted
-                    />
-                </div>
-                <div v-if="detectionTimer <=3" class="bg-gray-300 p-2 text-center">
-                    <p>
-                        TIMER: {{ detectionTimer.toFixed(0) }}
-                    </p>
-                </div>
-                <div id="capturedImage" class="absolute top-0 m-auto" />
-            </div>
-            <div v-if="attendancePortalParams.log_type === CATEGORY_TIME_IN" class="flex gap-4 justify-center p-2">
-                <button class="w-18 text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-3 py-1 text-center dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-800" @click="changeCategory(CATEGORY_TIME_OUT)">
-                    Time-Out
-                </button>
-            </div>
-            <div v-else class="flex gap-4 justify-center p-2">
-                <button class="w-18 text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-3 py-1 text-center dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-800" @click="changeCategory(CATEGORY_TIME_IN)">
-                    Time-In
-                </button>
-            </div>
+    <div class="w-full md:px-4 flex gap-2 justify-center m-auto mt-5">
+        <div class="w-1/3 border-2 border-gray-400  space-y-4">
+            <HrmsAttendanceEmployeeAnouncement />
         </div>
         <div class="w-full border-2 border-gray-400 md:w-1/3 space-y-4">
-            <div class="flex justify-center text-3xl font-medium text-gray-50 p-2 border-b-2 bg-cyan-600">
+            <div class="flex justify-center text-3xl font-medium text-gray-50 border-b-2 bg-cyan-600">
                 Welcome
             </div>
             <div class="w-full">
-                <div v-if="employeeIsSearched">
+                <div class="relative justify-center p-2 w-full">
+                    <div>
+                        <video
+                            id="cameraPreview"
+                            class="w-50 h-50"
+                            autoplay
+                            muted
+                        />
+                    </div>
+                    <div v-if="detectionTimer <=3" class="bg-gray-300 p-2 text-center">
+                        <p>
+                            TIMER: {{ detectionTimer.toFixed(0) }}
+                        </p>
+                    </div>
+                    <div id="capturedImage" class="absolute top-0 m-auto" />
+                </div>
+                <div class="md:flex gap-2 space-x-2 p-2 justify-center">
+                    <input id="Time-in" v-model="attendancePortalParams.log_type" class="" type="radio" value="In">
+                    <label
+                        for="Time-in"
+                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                    >TIME IN</label>
+                    <input id="time-out" v-model="attendancePortalParams.log_type" class="" type="radio" value="Out">
+                    <label
+                        for="time-out"
+                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                    >TIME OUT</label>
+                </div>
+            </div>
+            <div class="w-full">
+                <div v-if="employeeIsSearched | true">
                     <div class="space-y-6 mb-4" action="#">
                         <div class="flex flex-col">
                             <div class="p-4">
@@ -260,12 +249,10 @@ const facialMatching = () => {
             </div>
         </div>
         <div class="border-2 border-gray-400 md:w-1/3 w-full">
-            <div class="flex justify-center text-3xl font-medium text-gray-50 p-2 border-b-2 bg-cyan-600">
+            <div class="flex justify-center text-3xl font-medium text-gray-50 border-b-2 bg-cyan-600">
                 Today's Log
             </div>
             <div class="flex-row gap-2">
-                <HrmsAttendanceEmployeeAttendanceCard />
-                <HrmsAttendanceEmployeeAttendanceCard />
                 <HrmsAttendanceEmployeeAttendanceCard />
             </div>
         </div>
