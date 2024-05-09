@@ -52,7 +52,7 @@ export const useAnnouncements = defineStore("Announcements", {
         async getactiveAll () {
             const { data, error } =
             await useHRMSApi(
-                "/api/current-announcement",
+                "/api/current-announcements",
                 {
                     method: "GET",
                     params: this.getParams,

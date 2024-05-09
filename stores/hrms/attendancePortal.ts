@@ -32,7 +32,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                     method: "GET",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.facialPatterList = response._data
+                            this.facialPatterList = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -50,7 +50,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                     method: "GET",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.facialPatterList = response._data
+                            this.attendanceLogList = response._data.data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
