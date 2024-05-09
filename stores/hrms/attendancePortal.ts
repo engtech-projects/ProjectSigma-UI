@@ -139,24 +139,6 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 }
             )
         },
-        async getClientIPAddress () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useFetch(
-                "https://api.ipify.org?format=json",
-                {
-                    method: "GET",
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.ipAddress = response._data.ip
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
         async saveAttendancePortal () {
             this.successMessage = ""
             this.errorMessage = ""

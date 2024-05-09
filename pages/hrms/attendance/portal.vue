@@ -5,24 +5,13 @@ const boardLoading = ref(false)
 const listLoader = ref(false)
 const attendancePortal = useAttendancePortal()
 await attendancePortal.getAttendancePortal()
-attendancePortal.getClientIPAddress()
-const { attendancePortalParams, attendancePortalList, ipAddress, GROUP_TYPE_PROJECT, GROUP_TYPE_DEPARTMENT } = storeToRefs(attendancePortal)
+const { attendancePortalParams, attendancePortalList, ipAddress } = storeToRefs(attendancePortal)
 const headers = [
     { name: "NAME", id: "name_location" },
     { name: "PROJECT / DEPARTMENT", id: "name" },
     { name: "TYPE", id: "type" },
 ]
-const setEdit = (atype) => {
-    attendancePortalParams.value.name_location = atype.name_location
-    if (atype.assignment.type === GROUP_TYPE_PROJECT) {
-        attendancePortalParams.value.group_type = GROUP_TYPE_PROJECT
-        attendancePortalParams.value.project_id = atype.assignment.id
-    }
-    if (atype.assignment.type === GROUP_TYPE_DEPARTMENT) {
-        attendancePortalParams.value.group_type = GROUP_TYPE_DEPARTMENT
-        attendancePortalParams.value.department_id = atype.assignment.id
-    }
-}
+
 const deleteAttendancePortal = async (atype) => {
     try {
         listLoader.value = true
@@ -58,7 +47,6 @@ const setupAttendancePortal = async () => {
     boardLoading.value = false
 }
 const actions = {
-    edit: true,
     delete: true
 }
 </script>
@@ -67,7 +55,7 @@ const actions = {
         <div class="w-full mx-auto">
             <LayoutBoards class="rounded-lg p-2" title="Setup Attendance Portal" :loading="boardLoading">
                 <div class="grid grid-cols-1 gap-4 p-2">
-                    <label for="ipAddress" class="block text-sm font-medium text-zinc-700">Unique Identifier</label>
+                    <label for="ipAddress" class="block text-sm font-medium text-zinc-700">Portal Token (auto generated)</label>
                     <p class="text-gray-700 text-xl">
                         {{ ipAddress }}
                     </p>
@@ -100,7 +88,6 @@ const actions = {
                         :header-columns="headers"
                         :actions="actions"
                         :datas="attendancePortalList"
-                        @edit-row="setEdit"
                         @delete-row="deleteAttendancePortal"
                     />
                 </div>
