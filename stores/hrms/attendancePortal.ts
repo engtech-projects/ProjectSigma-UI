@@ -27,7 +27,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/attendance/facial-list/",
+                "/api/attendance/facial-list",
                 {
                     method: "GET",
                     onResponse: ({ response }: any) => {
@@ -45,7 +45,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/attendance/today-logs/",
+                "/api/attendance/today-logs",
                 {
                     method: "GET",
                     onResponse: ({ response }: any) => {
