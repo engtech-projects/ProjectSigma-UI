@@ -17,6 +17,7 @@ const faceProbability = ref(null)
 const detectionTimer = ref(4)
 const lastIDlog = ref(null)
 const ifCameraStart = ref(false)
+let faceMatcherId = null
 
 const route = useRoute()
 const queryParam = route.query
@@ -36,6 +37,8 @@ attendancePortalParams.value.group_type = queryParam.group_type ?? null
 
 attendancePortalParams.value.log_type = CATEGORY_TIME_IN
 await attendancePortal.getAllEmployeePattern()
+await attendancePortal.getTodayAttendanceLogs()
+
 const changeCategory = (cat) => {
     attendancePortalParams.value.log_type = cat
 }
@@ -139,8 +142,9 @@ const labeledFaceDescriptorsID = facialPatterList.value.map((face) => {
     employeeNames[face.employee_id] = face.employee.fullname_last
     return new faceapi.LabeledFaceDescriptors(face.employee_id + "", descriptor)
 })
-
-const faceMatcherId = new faceapi.FaceMatcher(labeledFaceDescriptorsID, 0.4)
+if (labeledFaceDescriptorsID.length > 0) {
+    faceMatcherId = new faceapi.FaceMatcher(labeledFaceDescriptorsID, 0.4)
+}
 const facialMatching = () => {
     if (faceLandMarks.value) {
         attendancePortalParams.value.employee_id = faceMatcherId.findBestMatch(faceLandMarks.value).toString(false)
@@ -157,19 +161,19 @@ const facialMatching = () => {
 
 </script>
 <template>
-    <div class="md:flex gap-4 justify-center">
-        <div class="border-2 border-gray-400 rounded-lg p-2 md:w-1/3 space-y-4">
-            <div class="flex justify-center text-3xl font-medium text-cyan-700 p-2 border-b-2">
+    <div class="flex gap-2 justify-center">
+        <div class="w-full border-2 border-gray-400 md:w-1/3 space-y-4">
+            <div class="flex justify-center text-3xl font-medium text-gray-50 p-2 border-b-2 bg-cyan-600">
                 Attendance Portal
             </div>
-            <div v-if="attendancePortalParams.log_type === CATEGORY_TIME_IN" class="flex justify-center text-xl font-medium text-cyan-700 p-2">
-                {{ attendancePortalParams.group_type }} - TIME IN
+            <div v-if="attendancePortalParams.log_type === CATEGORY_TIME_IN" class="flex text-xl font-medium text-cyan-700 p-2">
+                TIME IN
             </div>
-            <div v-else class="flex justify-center text-xl font-medium text-cyan-700 p-2">
-                {{ attendancePortalParams.group_type }} - TIME OUT
+            <div v-else class="flex text-xl font-medium text-cyan-700 p-2">
+                TIME OUT
             </div>
             <HrmsCommonDepartmentProjectSelector
-                v-if="!ifCameraStart"
+                v-show="false"
                 v-model:select-type="attendancePortalParams.group_type"
                 v-model:department-id="attendancePortalParams.department_id"
                 v-model:project-id="attendancePortalParams.project_id"
@@ -206,8 +210,8 @@ const facialMatching = () => {
                 </button>
             </div>
         </div>
-        <div class="border-2 border-gray-400 rounded-lg p-2 md:w-1/3 space-y-4">
-            <div class="flex justify-center text-3xl font-medium text-cyan-700 p-2 border-b-2">
+        <div class="w-full border-2 border-gray-400 md:w-1/3 space-y-4">
+            <div class="flex justify-center text-3xl font-medium text-gray-50 p-2 border-b-2 bg-cyan-600">
                 Welcome
             </div>
             <div class="w-full">
@@ -253,6 +257,16 @@ const facialMatching = () => {
                         No Employee Log
                     </p>
                 </div>
+            </div>
+        </div>
+        <div class="border-2 border-gray-400 md:w-1/3 w-full">
+            <div class="flex justify-center text-3xl font-medium text-gray-50 p-2 border-b-2 bg-cyan-600">
+                Today's Log
+            </div>
+            <div class="flex-row gap-2">
+                <HrmsAttendanceEmployeeAttendanceCard />
+                <HrmsAttendanceEmployeeAttendanceCard />
+                <HrmsAttendanceEmployeeAttendanceCard />
             </div>
         </div>
     </div>

@@ -27,7 +27,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/face-pattern/list",
+                "/api/attendance/facial-list/",
                 {
                     method: "GET",
                     onResponse: ({ response }: any) => {
@@ -41,34 +41,16 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 }
             )
         },
-        async getTodayLogs () {
+        async getTodayAttendanceLogs () {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/attendance/today-logs",
+                "/api/attendance/today-logs/",
                 {
                     method: "GET",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.attendanceLogList = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getIPAddress () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApiO(
-                "/api/today-logs",
-                {
-                    method: "GET",
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.attendanceLogList = response._data.data
+                            this.facialPatterList = response._data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
