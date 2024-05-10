@@ -29,16 +29,16 @@ const setEmployee = async (emp) => {
     await employee.getLeaveCredits(emp.id)
 }
 
-const totalDates = computed(() => {
-    if (leaveRequest.payload.date_of_absence_to && leaveRequest.payload.date_of_absence_from) {
-        leaveRequest.payload.number_of_days = 1
-        const dateStart = new Date(leaveRequest.payload.date_of_absence_from)
-        const dateEnd = new Date(leaveRequest.payload.date_of_absence_to)
-        const dsMin = dateStart.setMinutes(dateStart.getMinutes() - dateStart.getTimezoneOffset())
-        const deMin = dateEnd.setMinutes(dateEnd.getMinutes() - dateEnd.getTimezoneOffset())
-        leaveRequest.payload.number_of_days = (deMin - dsMin) / (24 * 60 * 60 * 1000) + 1
-    }
-})
+// const totalDates = computed(() => {
+//     if (leaveRequest.payload.date_of_absence_to && leaveRequest.payload.date_of_absence_from) {
+//         leaveRequest.payload.number_of_days = 1
+//         const dateStart = new Date(leaveRequest.payload.date_of_absence_from)
+//         const dateEnd = new Date(leaveRequest.payload.date_of_absence_to)
+//         const dsMin = dateStart.setMinutes(dateStart.getMinutes() - dateStart.getTimezoneOffset())
+//         const deMin = dateEnd.setMinutes(dateEnd.getMinutes() - dateEnd.getTimezoneOffset())
+//         leaveRequest.payload.number_of_days = (deMin - dsMin) / (24 * 60 * 60 * 1000) + 1
+//     }
+// })
 
 const submitAdd = async () => {
     try {
@@ -111,13 +111,23 @@ const submitAdd = async () => {
                         </div>
                         <div class="mt-4 grid gap-3 mb-4 md:grid-cols-3">
                             <div class="mb-2">
-                                <LayoutFormPsDateInput v-model="leaveRequest.payload.date_of_absence_from" title="Days from" @change="totalDates" />
+                                <LayoutFormPsDateInput v-model="leaveRequest.payload.date_of_absence_from" title="Days from" />
                             </div>
                             <div>
-                                <LayoutFormPsDateInput v-model="leaveRequest.payload.date_of_absence_to" title="Days to" @change="totalDates" />
+                                <LayoutFormPsDateInput v-model="leaveRequest.payload.date_of_absence_to" title="Days to" />
                             </div>
                             <div>
-                                <LayoutFormPsNumberInput v-model="leaveRequest.payload.number_of_days" title="No. of Days:" />
+                                <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
+                                    No. of Days:
+                                </label>
+                                <input
+                                    v-model="leaveRequest.payload.number_of_days"
+                                    type="number"
+                                    step="0.5"
+                                    min="0"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    required
+                                >
                             </div>
                         </div>
                         <div class="flex gap-4">
