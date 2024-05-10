@@ -58,7 +58,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
         async getAllEmployeePattern () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApiO(
+            await useAttendancePortalApi(
                 "/api/attendance/facial-list",
                 {
                     method: "GET",
@@ -76,7 +76,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
         async getTodayAttendanceLogs () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApiO(
+            await useAttendancePortalApiO(
                 "/api/attendance/today-logs",
                 {
                     method: "GET",
@@ -136,7 +136,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
         async saveAttendanceLog () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApiO(
+            await useAttendancePortalApiO(
                 "/api/attendance/facial",
                 {
                     method: "POST",
