@@ -87,7 +87,9 @@ const processEmployee = (employeeID) => {
     }
 }
 const drawDetectionBoxOnCanvas = (name) => {
-    const box = currentDetectedFace.value.detection.box
+    const resizedDetections = faceapi.resizeResults(currentDetectedFace.value, displaySize)
+    // faceapi.draw.drawDetections(canvas, resizedDetections)
+    const box = resizedDetections.detection.box
     box._x = video.clientWidth - box.x - box.width
     const drawBox = new faceapi.draw.DrawBox(box, { label: name })
     drawBox.draw(canvas)
