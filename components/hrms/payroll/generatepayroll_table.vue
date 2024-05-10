@@ -1,10 +1,44 @@
 <script setup>
-const searchField = ["employee_id"]
-const searchValue = ref("")
-const itemsSelected = ref([])
+import { storeToRefs } from "pinia"
+import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 
-const sortBy = ["employee_id", "employee", "employment_type", "department", "position"]
-const sortType = ["desc", "asc"]
+const genpayrollstore = useGeneratePayrollStore()
+const { generatePayroll, list: GPList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(genpayrollstore)
+
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+
+const changePaginate = (newParams) => {
+    getParams.value.page = newParams.page ?? ""
+    // getParams.value.syId = newParams.id ?? ""
+    // getParams.value.semId = newParams.semId ?? ""
+    // getParams.value.feeType = newParams.feeType ?? ""
+    // getParams.value.particularName = newParams.particularName ?? ""
+}
+
+const setEdit = (genall) => {
+    isEdit.value = true
+    generatePayroll.value = genall
+}
+
+const deleteReq = async (req) => {
+    try {
+        boardLoading.value = true
+        await genPayrolls.deleteRequest(req.id)
+        snackbar.add({
+            type: "success",
+            text: genPayrolls.successMessage
+        })
+    } finally {
+        boardLoading.value = false
+    }
+}
+// const searchField = ["employee_id"]
+// const searchValue = ref("")
+// const itemsSelected = ref([])
+
+// const sortBy = ["employee_id", "employee", "employment_type", "department", "position"]
+// const sortType = ["desc", "asc"]
 
 const headers = [
     { text: "Employee ID", value: "employee_id", sortable: true },
@@ -15,35 +49,32 @@ const headers = [
     { text: "View Payslip", value: "actions" },
 ]
 
-const items = ref([
-    {
-        employee_id: "1111111111",
-        employee: "Scarlett Raymond",
-        employment_type: "Regular",
-        department: "HR",
-        position: "HR Head",
-    },
-    {
-        employee_id: "1111111112",
-        employee: "Barbara Blevins",
-        employment_type: "Regular",
-        department: "HR",
-        position: "HR Assistant",
-    },
-    {
-        employee_id: "1111111113",
-        employee: "Nadia Raymond",
-        employment_type: "Regular",
-        department: "HR",
-        position: "HR Assistant",
-    },
-])
-
-const viewItem = () => {
-}
 </script>
 
 <template>
+    <LayoutBoards title="Generate Allowance List" class="w-full" :loading="boardLoading">
+        <!-- <HrmsPayrollAllowanceFilterSelector /> -->
+        <div class="pb-2 text-gray-500 p-2">
+            <!-- <pre>{{ GAList }}</pre> -->
+            <LayoutPsTable :header-columns="headers" :datas="GPList" @edit-row="setEdit" @delete-row="deleteReq" />
+        </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination :links="pagination" @change-params="changePaginate" />
+        </div>
+        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+            {{ errorMessage }}
+        </p>
+        <p
+            v-show="successMessage"
+            hidden
+            class="success-message text-green-600 text-center font-semibold italic"
+        >
+            {{ successMessage }}
+        </p>
+    </LayoutBoards>
+</template>
+
+<!-- <template>
     <label for="" class="text-xl font-semibold text-gray-900">Generate Payroll Form</label>
     <div class="mt-5 mb-6">
         <div class="flex">
@@ -109,7 +140,7 @@ const viewItem = () => {
             </template>
         </EasyDataTable>
     </div>
-</template>
+</template> -->
 
 <style scoped>
 .customize-table {
