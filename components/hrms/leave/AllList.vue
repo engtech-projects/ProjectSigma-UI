@@ -20,7 +20,6 @@ const closeViewModal = () => {
 
 const headers = [
     { name: "EMPLOYEE NAME", id: "employee.fullname_last" },
-    // { name: "DATE FILED", id: "created_at" },
     { name: "LEAVE AVAILMENT", id: "leave_id" },
     { name: "DATE FROM ", id: "date_of_absence_from" },
     { name: "DATE TO ", id: "date_of_absence_to" },
@@ -47,7 +46,6 @@ const actions = {
                 @show-table="showInformation"
             />
         </div>
-        <!-- <pre>{{ allList }}</pre> -->
     </LayoutBoards>
     <div v-if="showInformationModal">
         <Teleport to="body">

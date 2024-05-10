@@ -153,6 +153,15 @@ const login = async () => {
                                 Sign in
                             </button>
                         </form>
+                        <div class="w-full flex justify-center">
+                            <NuxtLink
+                                to="/attendance-portal/face-recognition"
+                                class="w-full text-green-600 hover:text-green-400 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                            >
+                                <Icon name="mdi:face-recognition" class="mr-2 mt-[3px]" />
+                                <span>Attendance Facial</span>
+                            </NuxtLink>
+                        </div>
                     </div>
                 </LayoutCard>
             </div>

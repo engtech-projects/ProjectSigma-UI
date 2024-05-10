@@ -24,18 +24,20 @@ const config = useRuntimeConfig()
                 icon="ic:outline-announcement"
                 single-nav-title="Announcement"
             />
-            <LayoutNavGroup v-if="config.public.APP_ENV == 'local'" icon="ic:outline-punch-clock" title="Attendance">
+            <LayoutNavGroup icon="ic:outline-punch-clock" title="Attendance">
                 <LayoutNavSingle
                     linkarea="/hrms/attendance/portal"
                     icon="ic:baseline-web"
                     single-nav-title="Attendance Portal"
                 />
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/attendance/timeinout"
                     icon="material-symbols:alarm-on-outline-rounded"
                     single-nav-title="Daily Logs Record"
                 />
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/attendance/failtolog"
                     icon="ic:baseline-flag-circle"
                     single-nav-title="Failure To Log"
@@ -48,11 +50,13 @@ const config = useRuntimeConfig()
                     single-nav-title="Face Recognition"
                 />
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/attendance/attendancelogin"
                     icon="material-symbols:person-add-outline-rounded"
                     single-nav-title="Attendance Login"
                 />
                 <LayoutNavSingle
+                    v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/attendance/qrcode"
                     icon="material-symbols:qr-code-scanner-rounded"
                     single-nav-title="QR Code"

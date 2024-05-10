@@ -2,6 +2,7 @@ import { ofetch } from "ofetch"
 import { defu } from "defu"
 import type { AsyncDataOptions, UseFetchOptions } from "#app"
 const config = useRuntimeConfig()
+const portalToken = useCookie("portal_token")
 const { token } = useAuth()
 export interface CallBackData {
     data: {
@@ -51,6 +52,42 @@ export function useHRMSApiO (url: string, params: any) {
         headers: {
             Authorization: token.value + "",
             Accept: "application/json"
+        },
+    })
+    return ofetchApi(url, params)
+}
+export function useAttendancePortalApi<T> (url: string, options: AsyncDataOptions<T>|UseFetchOptions<T> = {}) {
+    const cookieHeaders = useRequestHeaders(["cookie"])
+    const defaults: UseFetchOptions<T> = {
+        server: false,
+        baseURL: config.public.HRMS_API_URL,
+        key: url,
+        headers: {
+            ...cookieHeaders,
+            Portal_token: portalToken.value + "",
+            Accept: "application/json",
+            Cookie: "portal_token=" + portalToken.value + ";"
+        },
+        onResponse (_ctx) {
+            // _ctx.response._data = new myBusinessResponse(_ctx.response._data)
+        },
+        onResponseError (_ctx) {
+            // throw new myBusinessError()
+        }
+    }
+    const params = defu(options, defaults)
+    return useFetch(url, params)
+}
+export function useAttendancePortalApiO (url: string, params: any) {
+    const cookieHeaders = useRequestHeaders(["cookie"])
+    const ofetchApi = ofetch.create({
+        baseURL: config.public.HRMS_API_URL,
+        // headers: cookieHeaders,
+        headers: {
+            ...cookieHeaders,
+            Portal_token: portalToken.value + "",
+            Accept: "application/json",
+            Cookie: "portal_token=" + portalToken.value + ";"
         },
     })
     return ofetchApi(url, params)
