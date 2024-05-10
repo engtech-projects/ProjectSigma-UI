@@ -52,10 +52,10 @@ attendancePortalParams.value.log_type = CATEGORY_TIME_IN
                         >TIME OUT</label>
                     </div>
                 </div>
-                <div class="w-full">
-                    <HrmsAttendanceEmployeeAttendanceCard />
-                </div>
             </LayoutBoards>
+            <div class="w-full">
+                <AttendancePortalFacialRecognitionEmployeeAttendanceCard :employee-logs="attendancePortal.lastSuccessLogEmployee" />
+            </div>
         </div>
         <div class="rounded-lg md:w-1/3 w-full">
             <LayoutBoards title="Todays Logs">
