@@ -18,7 +18,7 @@ const { attendanceLogList } = storeToRefs(attendancePortal)
                     <span class="text-cyan-900 font-bold" /> {{ logs.log_type }}
                 </p>
                 <p class="text-xl  text-zinc-600 dark:text-zinc-300">
-                    <span class="text-cyan-900 font-bold" /> {{ logs.time}}
+                    <span class="text-cyan-900 font-bold" /> {{ logs.time }}
                 </p>
             </div>
         </div>
