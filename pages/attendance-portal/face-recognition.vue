@@ -1,6 +1,5 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useEmployeeInfo } from "~/stores/hrms/employee"
 import { useAttendancePortal, CATEGORY_TIME_IN, CATEGORY_TIME_OUT } from "~/stores/hrms/attendancePortal"
 
 definePageMeta({
@@ -20,18 +19,16 @@ onMounted(() => document.addEventListener("keyup", (event) => {
     }
 }))
 
-const employee = useEmployeeInfo()
 const attendancePortal = useAttendancePortal()
-const { attendancePortalParams } = storeToRefs(attendancePortal)
-const { information, employeeIsSearched } = storeToRefs(employee)
+const { attendancePortalParams, attendanceSession } = storeToRefs(attendancePortal)
 
 attendancePortal.getAllEmployeePattern()
 attendancePortal.getTodayAttendanceLogs()
-
+attendancePortal.checkSession()
 attendancePortalParams.value.log_type = CATEGORY_TIME_IN
 </script>
 <template>
-    <div class="w-full md:px-4 flex gap-2 justify-center m-auto mt-5">
+    <div v-if="attendanceSession" class="w-full md:px-4 flex gap-2 justify-center m-auto mt-5">
         <div class="w-1/3 rounded-lg  space-y-4">
             <HrmsAttendanceEmployeeAnouncement />
         </div>
@@ -54,56 +51,18 @@ attendancePortalParams.value.log_type = CATEGORY_TIME_IN
                 </div>
             </LayoutBoards>
             <div class="w-full">
-                <AttendancePortalFacialRecognitionEmployeeAttendanceCard :employee-logs="attendancePortal.lastSuccessLogEmployee" />
+                <AttendancePortalFacialRecognitionEmployeeAttendanceCard />
             </div>
         </div>
-        <div class="rounded-lg md:w-1/3 w-full">
+        <div class="rounded-lg md:w-1/3 w-full min-h-full h-3">
             <LayoutBoards title="Todays Logs">
-                <div class="flex flex-col gap-2 ">
-                    <div v-if="employeeIsSearched | true">
-                        <div class="space-y-2 p-3 items-center" action="#">
-                            <div class="flex gap-4 justify-between">
-                                <p class="text-2xl text-gray-700 font-bold">
-                                    {{ information.fullname_first }}
-                                    Juan Dela Cruz
-                                </p>
-                                <div class="flex gap-4">
-                                    <div class="flex justify-between gap-x-6">
-                                        <p class="text-xl text-zinc-600 dark:text-zinc-300">
-                                            <span class="text-cyan-900 font-bold" /> 7:00 AM
-                                        </p>
-                                        <p class="text-xl  text-zinc-600 dark:text-zinc-300">
-                                            <span class="text-cyan-900 font-bold" /> 4:00 PM
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="flex gap-4 justify-between">
-                                <p class="text-2xl text-gray-700 font-bold">
-                                    {{ information.fullname_first }}
-                                    Juan Dela Cruz
-                                </p>
-                                <div class="flex gap-4">
-                                    <div class="flex justify-between gap-x-6">
-                                        <p class="text-xl text-zinc-600 dark:text-zinc-300">
-                                            <span class="text-cyan-900 font-bold" /> 7:00 AM
-                                        </p>
-                                        <p class="text-xl  text-zinc-600 dark:text-zinc-300">
-                                            <span class="text-cyan-900 font-bold" /> 4:00 PM
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div v-else>
-                        <p class="text-xl font-bold text-center text-gray-400">
-                            No Employee Log
-                        </p>
-                    </div>
-                </div>
+                <AttendancePortalFacialRecognitionEmployeeAttendanceLogCard />
             </LayoutBoards>
         </div>
+    </div>
+    <div v-else class="w-full text-center justify-center mt-5">
+        <p class="text-gray-400 text-xl">
+            Access Denied
+        </p>
     </div>
 </template>
