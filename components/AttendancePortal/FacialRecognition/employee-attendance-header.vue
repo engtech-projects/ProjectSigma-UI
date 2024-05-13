@@ -7,10 +7,10 @@ const headerTimer = ref(null)
 
 const myTimer = async () => {
     await attendancePortal.getCurrentDate()
+    currentDate.value = currentDate.value.toDateString()
     setInterval(() => {
         const date = new Date()
         headerTimer.value = date.toLocaleTimeString()
-        currentDate.value = currentDate.value.toDateString()
     }, 1000)
 }
 myTimer()
@@ -41,7 +41,7 @@ myTimer()
                         press arrowkey to change
                     </p>
                 </div>
-                <div class="w-1/3 text-sm text-zinc-700 flex justify-end">
+                <div class="w-1/3 text-sm text-zinc-700 flex justify-end px-2">
                     <div>
                         <p id="timerHeader" class="font-bold text-3xl">
                             {{ headerTimer }}
