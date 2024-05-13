@@ -2,7 +2,18 @@
 import { useAttendancePortal } from "~/stores/hrms/attendancePortal"
 
 const attendancePortal = useAttendancePortal()
-const { attendanceSession } = storeToRefs(attendancePortal)
+const { attendanceSession, currentDate } = storeToRefs(attendancePortal)
+const headerTimer = ref(null)
+
+const myTimer = async () => {
+    await attendancePortal.getCurrentDate()
+    setInterval(() => {
+        const date = new Date()
+        headerTimer.value = date.toLocaleTimeString()
+        currentDate.value = currentDate.value.toDateString()
+    }, 1000)
+}
+myTimer()
 </script>
 <template>
     <div class="w-full">
@@ -32,11 +43,11 @@ const { attendanceSession } = storeToRefs(attendancePortal)
                 </div>
                 <div class="w-1/3 text-sm text-zinc-700 flex justify-end">
                     <div>
-                        <p class="font-bold text-3xl">
-                            1:00 PM
+                        <p id="timerHeader" class="font-bold text-3xl">
+                            {{ headerTimer }}
                         </p>
                         <p class="text-lg">
-                            May 13, 2024
+                            {{ currentDate }}
                         </p>
                     </div>
                 </div>
