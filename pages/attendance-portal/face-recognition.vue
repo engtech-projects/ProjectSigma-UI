@@ -29,7 +29,7 @@ attendancePortalParams.value.log_type = CATEGORY_TIME_IN
 </script>
 <template>
     <div class="w-full">
-        <AttendancePortalFacialRecognitionEmployeeAttendanceHeader />
+        <AttendancePortalFacialRecognitionEmployeeAttendanceHeader v-if="attendanceSession" />
         <div v-if="attendanceSession" class="w-full md:px-4 flex gap-2 justify-center m-auto mt-5">
             <div class="w-1/3 rounded-lg  space-y-4">
                 <HrmsAttendanceEmployeeAnouncement />
@@ -69,6 +69,6 @@ attendancePortalParams.value.log_type = CATEGORY_TIME_IN
                 Access Denied
             </p>
         </div>
-        <AttendancePortalFacialRecognitionEmployeeAttendanceFooter />
+        <AttendancePortalFacialRecognitionEmployeeAttendanceFooter v-if="attendanceSession" />
     </div>
 </template>
