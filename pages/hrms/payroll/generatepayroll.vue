@@ -1,14 +1,27 @@
-<template>
-    <div class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-        <HrmsPayrollGeneratepayrollTable />
-        <HrmsPayrollGeneratepayrollForm />
-    </div>
-</template>
+<script setup lang="ts">
+import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+import { useEnumsStore } from "@/stores/hrms/enum"
 
-<script  setup lang="ts">
+const genpayrolls = useGeneratePayrollStore()
+// const { isEdit } = storeToRefs(stores)
+// genallowstore.getMyRequests()
+// genergenallowstoreateallowance.getMyApprovalRequests()
+genpayrolls.getGPayroll()
+
+const enums = useEnumsStore()
+enums.getEmployeeEnum()
+enums.getDepartmentEnums()
+enums.getProjectEnums()
 
 useHead({
     title: "Generate Payroll",
 })
 
 </script>
+
+<template>
+    <div class="grid grid-cols-1 md:flex-row gap-4">
+        <HrmsPayrollGeneratepayrollForm />
+        <HrmsPayrollGeneratepayrollTable />
+    </div>
+</template>

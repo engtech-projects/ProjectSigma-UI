@@ -8,6 +8,7 @@ const currentDetectedFace = ref(null)
 const currentDetectionId = ref(null)
 const detectionTimer = ref(4)
 const lastIDlog = ref(null)
+const lastLogType = ref(null)
 let video = null
 let stream = null
 let canvas = null
@@ -50,12 +51,14 @@ const setupCanvas = () => {
 }
 const detectFace = () => {
     setInterval(async () => {
-        currentDetectedFace.value = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor()
         context.clearRect(0, 0, canvas.width, canvas.height)
+        currentDetectedFace.value = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor()
         if (currentDetectedFace.value) {
             // const resizedDetections = faceapi.resizeResults(currentDetectedFace.value, displaySize)
             // faceapi.draw.drawDetections(canvas, resizedDetections)
             findFaceOwner()
+        } else {
+            detectionTimer.value = 4
         }
     }, 750)
 }
@@ -84,14 +87,16 @@ const processEmployee = (employeeID) => {
     }
 }
 const drawDetectionBoxOnCanvas = (name) => {
-    const box = currentDetectedFace.value.detection.box
+    const resizedDetections = faceapi.resizeResults(currentDetectedFace.value, displaySize)
+    // faceapi.draw.drawDetections(canvas, resizedDetections)
+    const box = resizedDetections.detection.box
     box._x = video.clientWidth - box.x - box.width
     const drawBox = new faceapi.draw.DrawBox(box, { label: name })
     drawBox.draw(canvas)
 }
 const saveEmployeeAttendanceLog = async (employeeID) => {
     try {
-        if (lastIDlog.value === employeeID) {
+        if (lastIDlog.value === employeeID && lastLogType.value === attendancePortal.attendancePortalParams.log_type) {
             attendancePortal.attendancePortalParams.remarks = "already_log"
         } else {
             await attendancePortal.saveAttendanceLog()
@@ -100,6 +105,7 @@ const saveEmployeeAttendanceLog = async (employeeID) => {
                 attendancePortal.successMessage = ""
             }, 1500)
             lastIDlog.value = employeeID
+            lastLogType.value = attendancePortal.attendancePortalParams.log_type
         }
     } catch (error) {
         setTimeout(() => {
@@ -112,7 +118,7 @@ startCamera()
 </script>
 <template>
     <div id="FaceCamera Component">
-        <div class="relative justify-center p-2 w-full">
+        <div class="relative justify-center w-full">
             <div>
                 <video
                     id="cameraPreview"

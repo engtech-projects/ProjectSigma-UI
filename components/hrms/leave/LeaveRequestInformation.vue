@@ -9,6 +9,7 @@ defineProps({
 </script>
 
 <template>
+    <!-- <pre>{{ leaveData }}</pre> -->
     <div class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
         <div class="px-4 py-5 sm:px-6">
             <h3 class="text-xl leading-6 font-medium text-gray-900">
@@ -41,12 +42,13 @@ defineProps({
                         Number of days
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <template v-if="leaveData.date_of_absence_to && leaveData.date_of_absence_from">
+                        <p> {{ leaveData.number_of_days }}</p>
+                        <!-- <template v-if="leaveData.date_of_absence_to && leaveData.date_of_absence_from">
                             {{ ((new Date(leaveData.date_of_absence_to) - new Date(leaveData.date_of_absence_from)) / (24 * 60 * 60 * 1000)) + 1 }} day/s
                         </template>
                         <template v-else>
                             0 day
-                        </template>
+                        </template> -->
                     </dd>
                 </div>
                 <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
