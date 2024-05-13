@@ -18,7 +18,7 @@ const { lastSuccessLogEmployee } = storeToRefs(attendancePortal)
                 {{ lastSuccessLogEmployee.employee.fullname_first }}
             </p>
             <p class="text-lg font-light text-gray-500">
-                Developer
+                {{ lastSuccessLogEmployee }}
             </p>
             <div class="grid grid-cols-2 gap-4 mt-4">
                 <div>
