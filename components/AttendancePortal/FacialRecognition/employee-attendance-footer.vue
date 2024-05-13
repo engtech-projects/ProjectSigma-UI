@@ -4,13 +4,10 @@
             <p>Powered By: Engtech Global Solutions Inc.</p>
         </div>
         <div class="flex flex-col gap-2 justify-center">
-            <p>HDS Building 999 JC. Aquino St. Butuan City</p>
+            <p>EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION</p>
         </div>
         <div class="flex flex-col gap-2 justify-center">
-            <p>Mobile No: +63 928 559 5074</p>
-        </div>
-        <div class="flex flex-col gap-2 justify-center">
-            <p>FB Page: <a href="https://www.facebook.com/engtechofficial"><span class="text-blue-700">Engtech Global Solutions Inc</span></a> </p>
+            <p>tel No: (085) 8080398</p>
         </div>
     </div>
 </template>
