@@ -24,7 +24,7 @@ const changePaginate = (newParams) => {
 
 const headers = [
     { name: "EMPLOYEE NAME", id: "employee.fullname_last" },
-    { name: "LEAVE AVAILMENT", id: "leave_id" },
+    { name: "LEAVE AVAILMENT", id: "leave" },
     { name: "DATE FROM ", id: "date_of_absence_from" },
     { name: "DATE TO ", id: "date_of_absence_to" },
     { name: "REASONS", id: "reason_for_absence" },

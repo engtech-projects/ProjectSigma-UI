@@ -62,8 +62,7 @@ const clearRemarks = () => {
 
 const headers = [
     { name: "EMPLOYEE NAME", id: "employee.fullname_last" },
-    { name: "DATE FILED", id: "created_at" },
-    { name: "LEAVE AVAILITY", id: "type" },
+    { name: "LEAVE AVAILMENT", id: "leave" },
     { name: "DATE FROM ", id: "date_of_absence_from" },
     { name: "DATE TO ", id: "date_of_absence_to" },
     { name: "REASONS", id: "reason_for_absence" },
@@ -146,7 +145,7 @@ const actions = {
                             <div class="w-full py-2 flex gap-2 justify-end">
                                 <button
                                     class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                                    @click.once="denydRequest(leaveRequestData.id)"
+                                    @click="denydRequest(leaveRequestData.id)"
                                 >
                                     Deny Request
                                 </button>
