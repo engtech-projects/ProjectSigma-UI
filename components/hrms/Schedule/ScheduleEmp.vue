@@ -144,7 +144,7 @@ async function deleteSchedule (id) {
             watch: false,
             onResponse: ({ response }) => {
                 isLoading.value = false
-                if (response.status !== 200) {
+                if (!response.ok) {
                     errorMessage.value = response._data.message
                 } else {
                     removeEvents()
@@ -207,7 +207,7 @@ async function handleSubmit () {
             watch: false,
             onResponse: ({ response }) => {
                 isLoading.value = false
-                if (response.status !== 200) {
+                if (!response.ok) {
                     errorMessage.value = response._data.message
                 } else {
                     removeEvents()

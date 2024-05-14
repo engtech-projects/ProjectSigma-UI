@@ -64,7 +64,7 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
                     body: this.postingPeriod,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 201) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getPostingPeriods()

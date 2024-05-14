@@ -82,7 +82,7 @@ export const useAnnouncements = defineStore("Announcements", {
                     method: "POST",
                     body: this.announcement,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.$reset()
                             this.getAll()
                             this.successMessage = response._data.message
@@ -123,7 +123,7 @@ export const useAnnouncements = defineStore("Announcements", {
                     method: "PATCH",
                     body: this.announcement,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.reset()
                             this.getAll()
                             this.successMessage = response._data.message

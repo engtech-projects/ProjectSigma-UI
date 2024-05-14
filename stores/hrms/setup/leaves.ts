@@ -98,7 +98,7 @@ export const useLeaveStore = defineStore("leaves", {
                     body: this.leave,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 200) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getLeave()

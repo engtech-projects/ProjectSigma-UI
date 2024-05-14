@@ -65,7 +65,7 @@ export const useApprovalStore = defineStore("approvals", {
                     method: "GET",
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             return response._data.data.approvals.map((approv: any) => {
                                 return {
                                     type: approv.type,
@@ -107,7 +107,7 @@ export const useApprovalStore = defineStore("approvals", {
                     method: "POST",
                     body: this.formApproval,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.getApproval()
                             this.$reset()
                             this.successMessage = response._data.message
@@ -131,7 +131,7 @@ export const useApprovalStore = defineStore("approvals", {
                     method: "PATCH",
                     body: this.formApproval,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.getApproval()
                             this.$reset()
                             this.successMessage = response._data.message
@@ -148,7 +148,7 @@ export const useApprovalStore = defineStore("approvals", {
                 {
                     method: "DELETE",
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.successMessage = response._data.message
                             this.getApproval()
                         } else {

@@ -100,7 +100,7 @@ export const useOvertimeStore = defineStore("overtimes", {
                     method: "POST",
                     body: this.overtime,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.getOvertime()
                             this.$reset()
                             this.successMessage = response._data.message
@@ -124,7 +124,7 @@ export const useOvertimeStore = defineStore("overtimes", {
                     method: "PATCH",
                     body: this.overtime,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.getOvertime()
                             this.$reset()
                             this.successMessage = response._data.message
@@ -142,7 +142,7 @@ export const useOvertimeStore = defineStore("overtimes", {
                     method: "DELETE",
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.$reset()
                             this.getOvertime()
                             this.successMessage = response._data.message

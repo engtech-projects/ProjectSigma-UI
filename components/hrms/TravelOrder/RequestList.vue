@@ -42,14 +42,14 @@ const headers = [
     { name: "Remarks", id: "remarks" },
 ]
 const actions = {
-    edit: true,
-    delete: true
+    edit: false,
+    delete: false
 }
 
 </script>
 
 <template>
-    <LayoutBoards title="Travel Order Request List" class="w-full" :loading="boardLoading">
+    <LayoutBoards class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable :header-columns="headers" :datas="travelList" :actions="actions" @edit-row="setEdit" @delete-row="deleteReq" />
         </div>

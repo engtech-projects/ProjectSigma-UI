@@ -103,7 +103,7 @@ export const useTravelorderStore = defineStore("travels", {
                     method: "POST",
                     body: this.travel,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.getTravelorders()
                             this.$reset()
                             this.successMessage = response._data.message
@@ -127,7 +127,7 @@ export const useTravelorderStore = defineStore("travels", {
                     method: "PATCH",
                     body: this.travel,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.getTravelorders()
                             this.$reset()
                             this.successMessage = response._data.message
@@ -145,7 +145,7 @@ export const useTravelorderStore = defineStore("travels", {
                     method: "DELETE",
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.$reset()
                             this.getTravelorders()
                             this.successMessage = response._data.message
