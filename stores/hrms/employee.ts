@@ -570,7 +570,7 @@ export const useEmployeeInfo = defineStore("employee", {
                     method: "POST",
                     body: formData,
                     onResponse: ({ response }: any) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data
                         } else {

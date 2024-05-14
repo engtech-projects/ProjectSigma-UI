@@ -94,7 +94,7 @@ export const useSalaryGradeStore = defineStore("salaryGradeStore", {
                     body: this.salaryGrade,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 201) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.$reset()

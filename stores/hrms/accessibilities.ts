@@ -39,7 +39,7 @@ export const useAccessbilities = defineStore("accessibilitiesStore", {
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) { // Success
+                        if (response.ok) { // Success
                             this.list = response._data.data
                             return response._data
                         } else { // Error

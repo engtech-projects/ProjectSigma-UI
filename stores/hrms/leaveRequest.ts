@@ -86,6 +86,11 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.allList = response._data.data.data
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -120,7 +125,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 {
                     method: "POST",
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -143,7 +148,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                     method: "POST",
                     body: formData,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.fetchLeaveRequestList()
                             this.successMessage = response._data.message
                         } else {

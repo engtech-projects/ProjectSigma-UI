@@ -155,7 +155,7 @@ export default {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        if (response.status !== 200) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getEventsList()
@@ -184,7 +184,7 @@ export default {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        if (response.status !== 200) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getEventsList()
@@ -214,7 +214,7 @@ export default {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        if (response.status !== 200) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getEventsList()

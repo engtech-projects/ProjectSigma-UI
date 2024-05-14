@@ -96,7 +96,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     method: "POST",
                     body: requestData,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data
                         } else {
@@ -116,7 +116,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.allPanList = response._data.data.data ?? []
                         } else {
                             this.errorMessage = response._data.message
@@ -134,7 +134,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.approvalPanList = response._data.data ?? []
                         } else {
                             this.errorMessage = response._data.message
@@ -152,7 +152,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.successMessage = response._data.message
                             this.myPanList = response._data.data ?? []
                         } else {
@@ -171,7 +171,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 {
                     method: "POST",
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -194,7 +194,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     method: "POST",
                     body: formData,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.fetchPersonelActionList()
                             this.successMessage = response._data.message
                         } else {

@@ -62,7 +62,7 @@ export const useAccountCategory = defineStore("accountCategory", {
                     body: this.accountCategory,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 201) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getAccountCategories()
