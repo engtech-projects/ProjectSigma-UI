@@ -17,7 +17,7 @@ async function fetchEmployees () {
         "/api/hmo/members",
         {
             onResponse: ({ response }) => {
-                if (response.status >= 200 && response.status <= 299) {
+                if (response.ok) {
                     employees.value = response._data?.data
                 } else {
                     throw new Error(response._data.message)

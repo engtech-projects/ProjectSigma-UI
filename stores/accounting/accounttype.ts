@@ -65,7 +65,7 @@ export const useAccountType = defineStore("accountType", {
                     body: this.accountType,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 201) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getAccountTypes()

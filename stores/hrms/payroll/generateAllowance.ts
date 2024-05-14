@@ -93,7 +93,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                     method: "POST",
                     body: this.generateAllowance,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.getGA()
                             this.$reset()
                             this.successMessage = response._data.message
@@ -117,7 +117,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                     method: "PATCH",
                     body: this.generateAllowance,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.getGA()
                             this.$reset()
                             this.successMessage = response._data.message
@@ -135,7 +135,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                     method: "DELETE",
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.$reset()
                             this.getGA()
                             this.successMessage = response._data.message

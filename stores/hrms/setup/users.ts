@@ -69,7 +69,7 @@ export const useUserStore = defineStore("users", {
                     method: "POST",
                     params: this.createData.params,
                     onResponse: ({ response } : any) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.$reset()
                             this.createData.successMessage = response._data.message
                             return response._data
@@ -88,7 +88,7 @@ export const useUserStore = defineStore("users", {
                     method: "PATCH",
                     params: this.editData.params,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.$reset()
                             this.editData.successMessage = response._data.message
                             return response._data
@@ -107,7 +107,7 @@ export const useUserStore = defineStore("users", {
                     method: "PUT",
                     params: this.editCurrent.params,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.$reset()
                             this.editCurrent.successMessage = response._data.message
                             return response._data
@@ -127,7 +127,7 @@ export const useUserStore = defineStore("users", {
                     method: "PATCH",
                     params: this.editData.params,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.$reset()
                             this.editData.successMessage = response._data.message
                             return response._data

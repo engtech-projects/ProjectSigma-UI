@@ -121,7 +121,7 @@ export const useProjectStore = defineStore("projects", {
                     body: this.information,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 201) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.$reset()

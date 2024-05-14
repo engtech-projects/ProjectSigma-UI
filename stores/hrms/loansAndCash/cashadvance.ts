@@ -116,7 +116,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     method: "POST",
                     body: this.cashadvance,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.getCA()
                             this.$reset()
                             this.successMessage = response._data.message
@@ -140,7 +140,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     method: "PATCH",
                     body: this.cashadvance,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.getCA()
                             this.$reset()
                             this.successMessage = response._data.message
@@ -158,7 +158,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     method: "DELETE",
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.$reset()
                             this.getCA()
                             this.successMessage = response._data.message

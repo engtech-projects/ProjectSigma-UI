@@ -37,7 +37,7 @@ export const useEmployeeSearch = defineStore("employeeSearchStore", {
                     },
                     body: this.searchEmployeeParams,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.searchResultList = response._data?.data
                         } else {
                             this.searchResultList = [] as EmployeeSearch[]
@@ -60,7 +60,7 @@ export const useEmployeeSearch = defineStore("employeeSearchStore", {
                     },
                     body: this.searchEmployeeParamsNoAccount,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.searchResultList = response._data?.data
                         } else {
                             this.searchResultList = [] as EmployeeSearch[]
