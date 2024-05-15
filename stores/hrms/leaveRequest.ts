@@ -21,17 +21,17 @@ export const EMPLOYEE_REQUEST_TYPE_RELEASED = "Released"
 
 export interface LeaveRequest {
     id: String,
-    employee_id: Number,
-    department_id: Number,
-    project_id: Number,
+    employee_id: Number | null,
+    department_id: Number | null,
+    project_id: Number | null,
     leave_id: String,
     other_absence: String,
-    date_of_absence_from: Date,
-    date_of_absence_to: Date,
+    date_of_absence_from: String,
+    date_of_absence_to: String,
     reason_for_absence: String,
     approvals: String,
     request_status: String,
-    number_of_days: Number,
+    number_of_days: Number | null,
     with_pay: Boolean,
 }
 
@@ -41,7 +41,21 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
         approvalList: [],
         myRequest: [],
         isEdit: false,
-        payload: {} as LeaveRequest,
+        payload: {
+            id: "",
+            employee_id: null,
+            department_id: null,
+            project_id: null,
+            leave_id: "",
+            other_absence: "",
+            date_of_absence_from: "",
+            date_of_absence_to: "",
+            reason_for_absence: "",
+            approvals: "",
+            request_status: "",
+            number_of_days: null,
+            with_pay: false,
+        } as LeaveRequest,
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -83,6 +97,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 "/api/leave-request/resource",
                 {
                     method: "GET",
+                    params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.allList = response._data.data.data

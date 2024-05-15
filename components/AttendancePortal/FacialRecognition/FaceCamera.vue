@@ -103,7 +103,8 @@ const saveEmployeeAttendanceLog = async (employeeID) => {
             setTimeout(() => {
                 attendancePortal.lastSuccessLogEmployee = null
                 attendancePortal.successMessage = ""
-            }, 1500)
+            }, 5000)
+            await attendancePortal.getTodayAttendanceLogs()
             lastIDlog.value = employeeID
             lastLogType.value = attendancePortal.attendancePortalParams.log_type
         }

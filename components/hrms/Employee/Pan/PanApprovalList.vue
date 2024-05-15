@@ -139,7 +139,7 @@ const actions = {
                             <div class="w-full py-2 flex gap-2 justify-end">
                                 <button
                                     class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                                    @click.once="denydRequest(panData.id)"
+                                    @click="denydRequest(panData.id)"
                                 >
                                     Deny Request
                                 </button>

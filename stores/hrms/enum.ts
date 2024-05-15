@@ -162,7 +162,7 @@ export const useEnumsStore = defineStore("enums", {
         },
         async getLeaveEnums () {
             await useHRMSApiO(
-                "/api/position/list",
+                "/api/leave/list",
                 {
                     method: "GET",
                     params: this.leaveEnum.params,

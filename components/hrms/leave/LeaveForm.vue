@@ -151,7 +151,7 @@ const submitAdd = async () => {
                     <div class="w-full">
                         <label for="" class="text-xl font-semibold text-gray-900">EMPLOYEE'S LEAVE RECORD (HRD use only)</label>
                         <!-- <pre>{{ employeeinfo }}</pre> -->
-                        <LayoutPsTable :header-columns="headers" :datas="employeeinfo.leaveCredits" />
+                        <LayoutPsTable :header-columns="headers" :datas="employeeinfo.leaveCredits" :actions="{}" />
                     </div>
                 </div>
                 <div class="max-w-full flex flex-row-reverse mt-5">
