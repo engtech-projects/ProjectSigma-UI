@@ -38,6 +38,10 @@ const submitForm = async () => {
         boardLoading.value = false
     }
 }
+const setEmployee = (emp) => {
+    cashadvances.cashadvance.employee_id = emp.id
+    console.log(cashadvances.cashadvance)
+}
 </script>
 
 <template>
@@ -47,7 +51,8 @@ const submitForm = async () => {
                 <div class="gap-2 p-2">
                     <div>
                         <label for="empName" class="text-sm font-semibold text-gray-700">Employee Name</label>
-                        <HrmsCommonEmployeeSelector v-model="cashadvance.employee_id" title="Employee Name" name="Employee Name" />
+                        <!-- <HrmsCommonEmployeeSelector v-model="cashadvance.employee_id" title="Employee Name" name="Employee Name" /> -->
+                        <SearchBar @search-changed="setEmployee" />
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 p-2">
