@@ -278,7 +278,7 @@ const employeeList = computed(() => {
 const headers: Header[] = [
     { text: "Employee Name", value: "fullName" },
     { text: "Date Filed", value: "date_filed" },
-    { text: "Amount Loaned", value: "loan_amount" },
+    { text: "Amount Loaned", value: "amount" },
     { text: "Terms", value: "terms_length" },
     { text: "Deduction", value: "installment_deduction" },
     { text: "Action", value: "actions" },

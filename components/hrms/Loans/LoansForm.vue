@@ -4,17 +4,30 @@ import { useEmployeeInfo } from "@/stores/hrms/employee"
 const loanStore = useLoansStore()
 const employeeStore = useEmployeeInfo()
 const { createData } = storeToRefs(loanStore)
-const deptProj = ref(" ")
-const position = ref(" ")
+// const deptProj = ref(" ")
+// const position = ref(" ")
 const snackbar = useSnackbar()
 const utils = useUtilities()
 const isLoading = ref(false)
 const loanTerms = ref(null)
 const employeeSearched = () => {
-    deptProj.value = employeeStore.fullname
-    position.value = employeeStore.fullname
+    // deptProj.value = employeeStore.information.employee_internal.employee_department.department_name
+    // position.value = employeeStore.information.employee_internal.position
     loanStore.createData.data.employee_id = employeeStore.information.id
 }
+const deptProj = computed(() => {
+    if (employeeStore.information.employee_internal.length > 0) {
+        return employeeStore.information.employee_internal[0].employee_department.department_name
+    }
+})
+const position = computed(() => {
+    if (employeeStore.information.employee_internal.length > 0) {
+        if (employeeStore.information.employee_internal[0].position) {
+            return employeeStore.information.employee_internal[0].position.name
+        }
+    }
+    return "NONE"
+})
 const submitAdd = async () => {
     try {
         createData.value.data.no_of_installment = createData.value.data.terms_length
