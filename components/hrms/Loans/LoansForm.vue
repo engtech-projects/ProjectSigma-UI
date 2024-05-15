@@ -4,12 +4,8 @@ import { useEmployeeInfo } from "@/stores/hrms/employee"
 const loanStore = useLoansStore()
 const employeeStore = useEmployeeInfo()
 const { createData } = storeToRefs(loanStore)
-// const deptProj = ref(" ")
-// const position = ref(" ")
 const snackbar = useSnackbar()
-const utils = useUtilities()
 const isLoading = ref(false)
-const loanTerms = ref(null)
 const employeeSearched = () => {
     // deptProj.value = employeeStore.information.employee_internal.employee_department.department_name
     // position.value = employeeStore.information.employee_internal.position
@@ -30,9 +26,6 @@ const position = computed(() => {
 })
 const submitAdd = async () => {
     try {
-        createData.value.data.no_of_installment = createData.value.data.terms_length
-        createData.value.data.period_start = utils.value.dateToString(new Date())
-        createData.value.data.period_end = utils.value.addDaysToDate(new Date(), (parseInt(createData.value.data.terms_length) * 30) / parseInt(loanTerms.value))
         isLoading.value = true
         await loanStore.createResource()
         snackbar.add({
@@ -68,17 +61,18 @@ const submitAdd = async () => {
                     </label>
                     <SearchBar @search-changed="employeeSearched" />
                 </div>
-                <div>
+
+                <div class="mt-5">
                     <label
-                        for="date_fill"
+                        for="amt"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                        {{ "Deduction Date Start" }}
+                        Amount Loaned
                     </label>
                     <input
-                        id="date_fill"
-                        v-model="createData.data.deduction_date_start"
-                        type="date"
+                        id="amt_loaned"
+                        v-model="createData.data.amount"
+                        type="number"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
                     >
@@ -120,23 +114,23 @@ const submitAdd = async () => {
                     <div class="md:flex gap-6 mt-4">
                         <div class="flex flex-wrap items-center mb-4 gap-3">
                             <input
-                                id="leave-availment-1"
+                                id="terms-weekly"
                                 v-model="createData.data.terms_of_payment"
                                 type="radio"
-                                value="monthly"
+                                value="weekly"
                                 name="default-radio"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
                             <label
-                                for="leave-availment-1"
+                                for="terms-weekly"
                                 class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                             >
-                                Monthly
+                                Weekly
                             </label>
                         </div>
                         <div class="flex flex-wrap items-center mb-4 gap-3">
                             <input
-                                id="leave-availment-1"
+                                id="termsbimonthly"
                                 v-model="createData.data.terms_of_payment"
                                 type="radio"
                                 value="bimonthly"
@@ -144,28 +138,12 @@ const submitAdd = async () => {
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
                             <label
-                                for="leave-availment-1"
+                                for="termsbimonthly"
                                 class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                             >
                                 Semi-monthly
                             </label>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <label
-                        class="block mb-2 text-md font-medium text-gray-900 dark:text-white"
-                    >
-                        Term Length
-                    </label>
-                    <div class="md:flex gap-6 mt-4">
-                        <input
-                            id="date_fill"
-                            v-model="createData.data.terms_length"
-                            type="number"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            required
-                        >
                     </div>
                 </div>
             </div>
@@ -176,7 +154,7 @@ const submitAdd = async () => {
                         for="amt"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                        <p>Amount To Deduct</p>
+                        <p>Monthly Deduction</p>
                     </label>
                     <input
                         id="amt_deduct"
@@ -185,19 +163,23 @@ const submitAdd = async () => {
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
                     >
+                    <div class="text-xs">
+                        Bi-Monthly Deduction: {{ (createData.data.installment_deduction ? (createData.data.installment_deduction/2) : 0) }}
+                        <br>
+                        Weekly Deduction: {{ (createData.data.installment_deduction ? (createData.data.installment_deduction/4) : 0) }}
+                    </div>
                 </div>
-
-                <div class="mt-5">
+                <div>
                     <label
-                        for="amt"
+                        for="date_fill"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >
-                        Amount Loaned
+                        {{ "Deduction Date Start" }}
                     </label>
                     <input
-                        id="amt_loaned"
-                        v-model="createData.data.amount"
-                        type="number"
+                        id="date_fill"
+                        v-model="createData.data.deduction_date_start"
+                        type="date"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         required
                     >

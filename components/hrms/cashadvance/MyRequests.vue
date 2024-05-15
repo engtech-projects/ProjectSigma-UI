@@ -17,15 +17,12 @@ const closeViewModal = () => {
 }
 
 const headers = [
-    { name: "Employee Name", id: "employee_id" },
-    { name: "Designation", id: "designation" },
-    { name: "Department", id: "department_id" },
-    { name: "Project", id: "project_id" },
-    { name: "Amount Requested", id: "amount_requested" },
-    { name: "Amount Approved", id: "amount_approved" },
-    { name: "Terms", id: "terms_of_cash_advance" },
-    { name: "Remarks", id: "remarks" },
-    { name: "Released by", id: "released_by" },
+    { name: "Employee Name", id: "employee.fullname_first" },
+    { name: "Cash Advance Amount", id: "amount" },
+    { name: "Terms", id: "terms_of_payment" },
+    { name: "Installment Deduction", id: "installment_deduction" },
+    { name: "Deduction Date start", id: "deduction_date_start" },
+    { name: "Purpose", id: "purpose" },
 ]
 const actions = {
     showTable: true,

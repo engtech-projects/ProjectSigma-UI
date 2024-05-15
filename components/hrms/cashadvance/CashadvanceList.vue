@@ -49,7 +49,6 @@ const headers = [
     { name: "Employee Name", id: "employee.fullname_first" },
     { name: "Cash Advance Amount", id: "amount" },
     { name: "Terms", id: "terms_of_payment" },
-    { name: "No. of Installment(s)", id: "no_of_installment" },
     { name: "Installment Deduction", id: "installment_deduction" },
     { name: "Deduction Date start", id: "deduction_date_start" },
     { name: "Purpose", id: "purpose" },
@@ -158,10 +157,6 @@ const makePayment = async () => {
                                         <div class="flex flex-1 flex-col gap-1">
                                             <label class="font-semibold text-gray-700">Terms: </label>
                                             <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.terms_of_payment" disabled>
-                                        </div>
-                                        <div class="flex flex-1 flex-col gap-1">
-                                            <label class="font-semibold text-gray-700">No. of Installment(s): </label>
-                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.no_of_installment" disabled>
                                         </div>
                                     </div>
                                     <div class="grid grid-cols-3 gap-4">

@@ -9,14 +9,13 @@ export const TERMS = [
     BIMONTHLY,
 ]
 
-export interface SalaryGrade {
+export interface Loan {
     id: null | Number;
     employee_id: null | Number;
-    loan_amount: null | Number;
+    amount: null | Number;
     installment_deduction: null | Number;
-    terms_length: null | Number;
-    period_start: String;
-    period_end: String;
+    deduction_date_start: String,
+    terms_of_payment: String,
 }
 export const useLoansStore = defineStore("LoansStore", {
     state: () => ({
@@ -26,11 +25,9 @@ export const useLoansStore = defineStore("LoansStore", {
                 employee_id: null,
                 amount: null,
                 installment_deduction: null,
-                terms_length: null,
-                no_of_installment: null,
                 deduction_date_start: "",
-                terms_of_payment: null,
-            } as SalaryGrade,
+                terms_of_payment: "",
+            } as Loan,
             successMessage: "",
             errorMessage: "",
         },
@@ -40,16 +37,14 @@ export const useLoansStore = defineStore("LoansStore", {
                 employee_id: null,
                 amount: null,
                 installment_deduction: null,
-                terms_length: null,
-                no_of_installment: null,
                 deduction_date_start: "",
-                terms_of_payment: null,
-            } as SalaryGrade,
+                terms_of_payment: "",
+            } as Loan,
             successMessage: "",
             errorMessage: "",
         },
         allList: {
-            data: [] as SalaryGrade[],
+            data: [] as Loan[],
             successMessage: "",
             errorMessage: "",
             loading: "",
@@ -113,12 +108,11 @@ export const useLoansStore = defineStore("LoansStore", {
                 data: {
                     id: null,
                     employee_id: null,
-                    loan_amount: null,
+                    amount: null,
                     installment_deduction: null,
-                    terms_length: null,
-                    period_start: "",
-                    period_end: "",
-                } as SalaryGrade,
+                    deduction_date_start: "",
+                    terms_of_payment: "",
+                } as Loan,
                 successMessage: "",
                 errorMessage: "",
             }

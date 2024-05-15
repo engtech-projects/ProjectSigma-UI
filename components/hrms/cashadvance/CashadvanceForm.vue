@@ -40,7 +40,6 @@ const submitForm = async () => {
 }
 const setEmployee = (emp) => {
     cashadvances.cashadvance.employee_id = emp.id
-    console.log(cashadvances.cashadvance)
 }
 </script>
 
@@ -57,13 +56,13 @@ const setEmployee = (emp) => {
                 </div>
                 <div class="grid grid-cols-2 gap-2 p-2">
                     <HrmsCommonDepartmentProjectSelector v-model:select-type="grouptype" v-model:department-id="cashadvance.department_id" v-model:project-id="cashadvance.project_id" />
-                    <LayoutFormPsNumberInput v-model="cashadvance.amount" title="Amount Requested" />
+                    <LayoutFormPsNumberInput v-model="cashadvance.amount" title="Cash advance amount" />
                     <div>
                         <label for="term" class="text-sm font-semibold text-gray-700">Terms of Payment</label>
                         <div class="flex gap-4">
                             <div v-for="(term, data) in TERMS" :key="data">
                                 <input
-                                    id="term"
+                                    :id="'term' + data"
                                     v-model="cashadvance.terms_of_payment"
                                     :value="term"
                                     type="radio"
@@ -75,8 +74,12 @@ const setEmployee = (emp) => {
                             </div>
                         </div>
                     </div>
-                    <LayoutFormPsNumberInput v-model="cashadvance.no_of_installment" title="Number of installment(s)" />
-                    <LayoutFormPsNumberInput v-model="cashadvance.installment_deduction" title="Installment Deduction(s)" />
+                    <LayoutFormPsNumberInput v-model="cashadvance.installment_deduction" title="Monthly Deduction" />
+                    <div class="text-xs">
+                        Bi-Monthly Deduction: {{ (cashadvance.installment_deduction ? (cashadvance.installment_deduction/2) : 0) }}
+                        <br>
+                        Weekly Deduction: {{ (cashadvance.installment_deduction ? (cashadvance.installment_deduction/4) : 0) }}
+                    </div>
                     <LayoutFormPsDateInput v-model="cashadvance.deduction_date_start" title="Deduction Start Date" />
                     <LayoutFormPsTextInput v-model="cashadvance.purpose" title="Purpose/Reason(s)" />
                     <LayoutFormPsTextInput v-model="cashadvance.remarks" title="Remarks" />

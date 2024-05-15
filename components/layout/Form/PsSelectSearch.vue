@@ -24,12 +24,18 @@ function selectOption (option: any) {
     toggleDD()
     searchInput.value = ""
 }
+function clearSelection () {
+    result.value = {}
+}
 </script>
 
 <template>
     <div class="border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer">
         <div class="flex flex-1 items-center overflow-hidden py-[9px]" @click="toggleDD">
             <span class="flex-1">{{ result ? result[title] : placeholder }}</span>
+            <div v-show="result" @click="clearSelection">
+                <Icon name="material-symbols:close-rounded" class="font-bold text-xl" />
+            </div>
             <Icon name="iconoir:nav-arrow-down" class="font-bold text-xl" />
         </div>
         <div
