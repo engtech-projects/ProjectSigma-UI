@@ -97,6 +97,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 "/api/leave-request/resource",
                 {
                     method: "GET",
+                    params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.allList = response._data.data.data
