@@ -301,7 +301,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                     },
                     body: this.searchJobApplicantParams,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.applicantSearchList = response._data?.data
                         } else {
                             throw new Error(response._data.message)
@@ -420,7 +420,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                     method: "POST",
                     body: formData,
                     onResponse: ({ response }) => {
-                        if (response.status !== 200) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getJobApplicant()
@@ -448,7 +448,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                     },
                     body: this.jobapplicant,
                     onResponse: ({ response }) => {
-                        if (response.status !== 200) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.reset()

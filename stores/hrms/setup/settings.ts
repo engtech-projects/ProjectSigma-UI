@@ -80,7 +80,7 @@ export const useMain = defineStore("Settings", {
         //             body: this.settings,
         //             watch: false,
         //             onResponse: ({ response }) => {
-        //                 if (response.status !== 200) {
+        //                 if (!response.ok) {
         //                     this.errorMessage = response._data.message
         //                 } else {
         //                     this.getAll()

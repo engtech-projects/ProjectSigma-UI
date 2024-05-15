@@ -87,7 +87,7 @@ export const useWtaxStore = defineStore("withholdings", {
                     body: this.withholding,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 200) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getWithholding()

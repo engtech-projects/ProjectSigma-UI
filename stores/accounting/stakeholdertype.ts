@@ -62,7 +62,7 @@ export const useStakeHolderTypeStore = defineStore("stakeHolderTypeStore", {
                     body: this.stakeHolderType,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 201) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getStakeHolderTypes()

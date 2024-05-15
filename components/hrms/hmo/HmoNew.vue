@@ -77,7 +77,7 @@ async function fetchEmployees () {
         "/api/employee/list",
         {
             onResponse: ({ response }) => {
-                if (response.status >= 200 && response.status <= 299) {
+                if (response.ok) {
                     employees.value = setEmployees(response._data?.data)
                 } else {
                     throw new Error(response._data.message)

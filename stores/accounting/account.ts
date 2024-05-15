@@ -69,7 +69,7 @@ export const useAccountStore = defineStore("accountStore", {
                     body: this.account,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 201) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getAccounts()

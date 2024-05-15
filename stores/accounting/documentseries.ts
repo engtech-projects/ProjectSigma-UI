@@ -66,7 +66,7 @@ export const useDocumentSeriesStore = defineStore("documentSeriesStore", {
                     body: this.documentSeries,
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (response.status !== 201) {
+                        if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.getSeries()

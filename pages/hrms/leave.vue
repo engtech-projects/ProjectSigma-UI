@@ -23,8 +23,20 @@ useHead({
             <HrmsLeaveForm />
         </div>
         <div class="md:w-1/2 p-2 w-full">
-            <HrmsLeaveAllList />
-            <HrmsLeaveApprovalList />
+            <HrmsCommonTabsMainContainer>
+                <template #tab-titles>
+                    <HrmsCommonTabsTabTitle target-id="leaverequest-all-list" title="All List" />
+                    <HrmsCommonTabsTabTitle target-id="leaverequest-my-approvals" title="My Approvals" />
+                </template>
+                <template #tab-containers>
+                    <HrmsCommonTabsTabContainer id="leaverequest-all-list">
+                        <HrmsLeaveAllList />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer id="leaverequest-my-approvals">
+                        <HrmsLeaveApprovalList />
+                    </HrmsCommonTabsTabContainer>
+                </template>
+            </HrmsCommonTabsMainContainer>
         </div>
     </div>
 </template>
