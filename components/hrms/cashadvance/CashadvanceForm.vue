@@ -40,7 +40,7 @@ const submitForm = async () => {
 }
 const setEmployee = (emp) => {
     cashadvances.cashadvance.employee_id = emp.id
-    console.log(cashadvances.cashadvance)
+    // console.log(cashadvances.cashadvance)
 }
 </script>
 

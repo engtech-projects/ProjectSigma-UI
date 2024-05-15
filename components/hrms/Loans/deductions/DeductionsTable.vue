@@ -5,24 +5,16 @@
             <AccountingLoadScreen :is-loading="isLoading" />
             <EasyDataTable
                 class="mt-5"
-                table-class-name="customize-table"
                 :headers="headers"
                 :items="deductionsList"
             >
-                <!-- <template #item-actions="item">
+                <template #item-actions="item">
                     <div class="flex flex-row gap-1">
-                        <button
-                            @click="payment(item)"
-                        >
-                            <Icon class="text-lg" name="mdi:edit" color="green" />
-                        </button>
-                        <button
-                            @click="deleted(item)"
-                        >
-                            <Icon class="text-lg" name="mdi:trash" color="red" />
+                        <button @click="showDetails(item)">
+                            <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
                         </button>
                     </div>
-                </template> -->
+                </template>
             </EasyDataTable>
         </div>
     </div>
@@ -59,7 +51,7 @@ const headers = [
     { text: "Term", value: "terms_of_payment" },
     { text: "Duration (Months)", value: "no_of_installments" },
     { text: "Deduction per Term", value: "installment_deduction" },
-    // { text: "Action", value: "actions" },
+    { text: "Action", value: "actions" },
 ]
 
 const items = ref([])
@@ -88,6 +80,10 @@ const fetchDeductions = async () => {
             items.value = response._data.data.data
         },
     })
+}
+
+const showDetails = (item) => {
+    console.log(item)
 }
 
 fetchDeductions()

@@ -53,6 +53,7 @@ const headers = [
     { name: "Installment Deduction", id: "installment_deduction" },
     { name: "Deduction Date start", id: "deduction_date_start" },
     { name: "Purpose", id: "purpose" },
+    { name: "Status", id: "request_status" },
 ]
 const actions = {
     // edit: true,
