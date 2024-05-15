@@ -34,7 +34,7 @@ const config = useRuntimeConfig()
                     v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/attendance/timeinout"
                     icon="material-symbols:alarm-on-outline-rounded"
-                    single-nav-title="Daily Logs Record"
+                    single-nav-title="Daily Time Record"
                 />
                 <LayoutNavSingle
                     v-if="config.public.APP_ENV == 'local'"
