@@ -20,18 +20,13 @@
             </div>
             <div class="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
-                    <label for="no_of_installments" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Number of Installments</label>
-                    <input
-                        id="noOfInstallments"
-                        v-model="newDeduction.no_of_installments"
-                        type="number"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required
-                    >
-                </div>
-                <div>
-                    <label for="installment_amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Installment Amount</label>
+                    <label for="installment_amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Monthly Deduction</label>
                     <input id="installmentAmount" v-model="newDeduction.installment_deduction" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <div class="text-xs">
+                        Bi-Monthly Deduction: {{ (newDeduction.installment_deduction ? (newDeduction.installment_deduction/2) : 0) }}
+                        <br>
+                        Weekly Deduction: {{ (newDeduction.installment_deduction ? (newDeduction.installment_deduction/4) : 0) }}
+                    </div>
                 </div>
                 <!-- <div>
             <label for="position" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
@@ -88,16 +83,6 @@
                     <!-- <label for="installment_amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Installment Amount</label>
                     <input id="installmentAmount" v-model="newDeduction.installment_deduction" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required> -->
                 </div>
-                <div>
-                    <label for="no_of_installments" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deduction Date Start</label>
-                    <input
-                        id="noOfInstallments"
-                        v-model="newDeduction.deduction_date_start"
-                        type="date"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required
-                    >
-                </div>
             </div>
 
             <div class="max-w-full flex flex-row-reverse mt-5">
@@ -125,7 +110,6 @@ const newDeduction = ref({
     otherdeduction_name: null,
     amount: null,
     terms_of_payment: null,
-    no_of_installments: null,
     installment_deduction: null,
     employees: [],
     deduction_date_start: ""
@@ -138,7 +122,6 @@ const resetDeduction = () => {
         otherdeduction_name: null,
         amount: null,
         terms_of_payment: null,
-        no_of_installments: null,
         installment_deduction: null,
         employees: [],
         deduction_date_start: ""

@@ -57,7 +57,6 @@ const headers = [
     { text: "Deduction Name", value: "otherdeduction_name" },
     { text: "Amount to Deduct", value: "amount" },
     { text: "Term", value: "terms_of_payment" },
-    { text: "Duration (Months)", value: "no_of_installments" },
     { text: "Deduction per Term", value: "installment_deduction" },
     // { text: "Action", value: "actions" },
 ]

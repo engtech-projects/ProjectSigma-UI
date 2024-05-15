@@ -4,9 +4,9 @@ export const WEEKLY = "weekly"
 export const MONTHLY = "monthly"
 export const BIMONTHLY = "bimonthly"
 export const TERMS = [
-    WEEKLY,
     MONTHLY,
     BIMONTHLY,
+    WEEKLY,
 ]
 
 export interface CashAdvance {
@@ -16,7 +16,6 @@ export interface CashAdvance {
     department_id: null | Number,
     project_id: null | Number,
     terms_of_payment: null | Number,
-    no_of_installment: null | Number,
     installment_deduction: null | Number,
     deduction_date_start: String,
     amount: null | Number,
@@ -34,7 +33,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             department_id: null,
             project_id: null,
             terms_of_payment: null,
-            no_of_installment: null,
             installment_deduction: null,
             deduction_date_start: "",
             amount: null,
