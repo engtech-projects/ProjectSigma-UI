@@ -13,6 +13,8 @@ watch(employeeId, async (newValue) => {
     if (newValue) {
         await employee.getEmployeeInformation(newValue.id)
         emit("searchChanged", newValue)
+    } else {
+        employee.$reset()
     }
 })
 </script>
