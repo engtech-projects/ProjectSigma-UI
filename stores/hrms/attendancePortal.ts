@@ -27,7 +27,9 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             group_type: null as null | String,
             name: null as null | String
         },
-        lastSuccessLogEmployee: null as any,
+        currentDate: null,
+        attendanceSession: null,
+        lastSuccessLogEmployee: null,
         portal_token: null,
         ipAddress: null,
         errorMessage: "",
@@ -73,10 +75,46 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 }
             )
         },
+        async getCurrentDate () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAttendancePortalApi(
+                "/api/attendance/current-date",
+                {
+                    method: "GET",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.currentDate = new Date(response._data.data)
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async checkSession () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAttendancePortalApi(
+                "/api/attendance/portal-session",
+                {
+                    method: "GET",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.attendanceSession = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getTodayAttendanceLogs () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useAttendancePortalApiO(
+            await useAttendancePortalApi(
                 "/api/attendance/today-logs",
                 {
                     method: "GET",

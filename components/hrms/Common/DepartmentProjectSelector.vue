@@ -1,8 +1,8 @@
 <script setup>
 const compId = useId()
 const selectType = defineModel("selectType", { required: false, type: String, default: "Project" })
-const projectId = defineModel("projectId", { required: true, type: Number })
-const departmentId = defineModel("departmentId", { required: true, type: Number })
+const projectId = defineModel("projectId", { required: false, type: Number })
+const departmentId = defineModel("departmentId", { required: false, type: Number })
 watch(selectType, () => {
     projectId.value = null
     departmentId.value = null
