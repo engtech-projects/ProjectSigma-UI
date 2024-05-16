@@ -174,58 +174,58 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 return data
             }
         },
-        // async approveApprovalForm (id: number) {
-        //     this.successMessage = ""
-        //     this.errorMessage = ""
-        //     await useHRMSApiO(
-        //         "/api/approvals/approve/ManpowerRequest/" + id,
-        //         {
-        //             method: "POST",
-        //             onResponseError: ({ response }) => {
-        //                 this.errorMessage = response._data.message
-        //                 throw new Error(response._data.message)
-        //             },
-        //             onResponse: ({ response }) => {
-        //                 if (response.ok) {
-        //                     this.successMessage = response._data.message
-        //                     this.getMyApprovalRequests()
-        //                     this.getManpower()
-        //                     this.getMyRequests()
-        //                     return response._data
-        //                 } else {
-        //                     this.errorMessage = response._data.message
-        //                     throw new Error(response._data.message)
-        //                 }
-        //             },
-        //         }
-        //     )
-        // },
-        // async denyApprovalForm (id: String) {
-        //     this.successMessage = ""
-        //     this.errorMessage = ""
-        //     const formData = new FormData()
-        //     formData.append("id", id)
-        //     formData.append("remarks", this.remarks)
-        //     await useHRMSApiO(
-        //         "/api/approvals/disapprove/ManpowerRequest/" + id,
-        //         {
-        //             method: "POST",
-        //             body: formData,
-        //             onResponseError: ({ response }) => {
-        //                 this.errorMessage = response._data.message
-        //                 throw new Error(response._data.message)
-        //             },
-        //             onResponse: ({ response }) => {
-        //                 if (response.ok) {
-        //                     this.successMessage = response._data.message
-        //                     this.getMyApprovalRequests()
-        //                     this.getManpower()
-        //                     this.getMyRequests()
-        //                     return response._data
-        //                 }
-        //             },
-        //         }
-        //     )
-        // },
+        async approveApprovalForm (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/approvals/approve/CashAdvance/" + id,
+                {
+                    method: "POST",
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            // this.getManpower()
+                            // this.getMyRequests()
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async denyApprovalForm (id: String) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const formData = new FormData()
+            formData.append("id", id)
+            formData.append("remarks", this.remarks)
+            await useHRMSApiO(
+                "/api/approvals/disapprove/CashAdvance/" + id,
+                {
+                    method: "POST",
+                    body: formData,
+                    onResponseError: ({ response }) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            // this.getManpower()
+                            // this.getMyRequests()
+                            return response._data
+                        }
+                    },
+                }
+            )
+        },
     },
 })
