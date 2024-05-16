@@ -43,29 +43,16 @@
                                 <button @click="showDetails(item)">
                                     <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
                                 </button>
-                                <!-- <button
-                                    @click="showDetails(item)"
-                                >
-                                    <Icon class="text-lg" name="iconoir:eye-empty" color="teal" />
-                                </button> -->
-                                <!-- <button
-                                    @click="reject(item)"
-                                >
-                                    <Icon class="text-lg" name="fa-solid:times" color="orange" />
-                                </button>
-                                <button
-                                    @click="payment(item)"
-                                >
-                                    <Icon class="text-lg" name="mdi:cash" color="green" />
-                                </button>
-                                <button
-                                    @click="deleted(item)"
-                                >
-                                    <Icon class="text-lg" name="mdi:trash" color="red" />
-                                </button> -->
                             </div>
                         </template>
                     </EasyDataTable>
+                </div>
+                <div class="flex justify-center mx-auto">
+                    <CustomPagination
+                        v-if="employeeList.length"
+                        :links="loansStore.pagination"
+                        @change-params="changePaginate"
+                    />
                 </div>
             </div>
 

@@ -49,6 +49,7 @@ export const useLoansStore = defineStore("LoansStore", {
             errorMessage: "",
             loading: "",
         },
+        pagination: {}
     }),
     actions: {
         async getAllList () {
@@ -63,6 +64,11 @@ export const useLoansStore = defineStore("LoansStore", {
                     if (response.ok) {
                         this.allList.data = response._data.data
                         this.allList.successMessage = response._data.message
+                        this.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
                     }
                 },
             })

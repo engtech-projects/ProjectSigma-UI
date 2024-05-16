@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 
 const cashadvances = useCashadvanceStore()
-const { list: cashadvanceList } = storeToRefs(cashadvances)
+const { list: cashadvanceList, pagination } = storeToRefs(cashadvances)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 // const cashadvanceData = ref(null)
@@ -45,6 +45,14 @@ const resetPayment = () => {
         paymentAmount: null,
     }
 }
+const updateCA = () => {
+    cashadvances.list.forEach((el) => {
+        if (el.id === ca.value.id) {
+            ca.value = el
+            console.log(el)
+        }
+    })
+}
 const headers = [
     { name: "Employee Name", id: "employee.fullname_first" },
     { name: "Cash Advance Amount", id: "amount" },
@@ -52,6 +60,8 @@ const headers = [
     { name: "Installment Deduction", id: "installment_deduction" },
     { name: "Deduction Date start", id: "deduction_date_start" },
     { name: "Purpose", id: "purpose" },
+    { name: "Balance", id: "balance" },
+    { name: "Total Paid", id: "total_paid" },
     { name: "Status", id: "request_status" },
 ]
 const actions = {
@@ -74,17 +84,16 @@ const makePayment = async () => {
             })
             throw new Error(response._data.message)
         },
-        onResponse: ({ response }) => {
+        onResponse: async ({ response }) => {
             boardLoading.value = false
             if (response.ok) {
                 snackbar.add({
                     type: "success",
                     text: response._data.message
                 })
-                // cashadvances.getCA()
-                // cashadvanceData.value = response._data.data.cash_advance_payments
+                await cashadvances.getCA()
+                updateCA()
             }
-            ca.value.cash_advance_payments.push(JSON.parse(JSON.stringify(newPayment.value)))
             resetPayment()
             showMakePayment.value = false
         },
@@ -99,6 +108,13 @@ const makePayment = async () => {
             :datas="cashadvanceList"
             :actions="actions"
             @show-table="showInformation"
+        />
+    </div>
+    <div class="flex justify-center mx-auto">
+        <CustomPagination
+            v-if="cashadvanceList.length"
+            :links="pagination"
+            @change-params="changePaginate"
         />
     </div>
     <div v-if="showInformationModal">
@@ -159,6 +175,10 @@ const makePayment = async () => {
                                             <label class="font-semibold text-gray-700">Terms: </label>
                                             <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.terms_of_payment" disabled>
                                         </div>
+                                        <div class="flex flex-1 flex-col gap-1">
+                                            <label class="font-semibold text-gray-700">Purpose/Reason(s): </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.purpose" disabled>
+                                        </div>
                                     </div>
                                     <div class="grid grid-cols-3 gap-4">
                                         <div class="flex flex-1 flex-col gap-1">
@@ -170,8 +190,14 @@ const makePayment = async () => {
                                             <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.deduction_date_start" disabled>
                                         </div>
                                         <div class="flex flex-1 flex-col gap-1">
-                                            <label class="font-semibold text-gray-700">Purpose/Reason(s): </label>
-                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.purpose" disabled>
+                                            <label class="font-semibold text-gray-700">Balance: </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.balance" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div class="flex flex-1 flex-col gap-1">
+                                            <label class="font-semibold text-gray-700">Total Amount Paid: </label>
+                                            <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.total_paid" disabled>
                                         </div>
                                     </div>
                                 </div>
