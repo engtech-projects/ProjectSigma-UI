@@ -17,9 +17,9 @@ const headers = [
     { name: "BALANCE", id: "balance" },
 ]
 
-const setEmployee = (emp) => {
-    console.log(emp)
-}
+// const setEmployee = (emp) => {
+//     console.log(emp)
+// }
 // const setEmployee = async (emp) => {
 //     leaveRequest.payload.employee_id = emp.id
 //     await employee.getLeaveCredits(emp.id)
