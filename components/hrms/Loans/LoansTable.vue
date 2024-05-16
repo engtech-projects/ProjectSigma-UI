@@ -134,10 +134,6 @@
                         </div>
                         <div class="flex gap-4">
                             <div class="flex flex-1 flex-col gap-1">
-                                <label for="" class="text-gray-500 text-sm">Loan Term Length</label>
-                                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="loan.terms_length" disabled>
-                            </div>
-                            <div class="flex flex-1 flex-col gap-1">
                                 <label for="" class="text-gray-500 text-sm">Period Start</label>
                                 <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="loan.deduction_date_start" disabled>
                             </div>
@@ -282,7 +278,6 @@ const headers: Header[] = [
     { text: "Employee Name", value: "fullName" },
     { text: "Date Filed", value: "date_filed" },
     { text: "Amount Loaned", value: "amount" },
-    { text: "Terms", value: "terms_length" },
     { text: "Deduction", value: "installment_deduction" },
     { text: "Action", value: "actions" },
 ]

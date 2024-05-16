@@ -1,17 +1,15 @@
 <template>
-    <div class="mt-5 border-t-4 border-t-teal-400 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto ">
+    <div
+        class="mt-5 border-t-4 border-t-teal-400 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto ">
         <label for="" class="text-xl font-semibold text-gray-900">Other Deduction List</label>
         <div class="mt-5 mb-6 ">
             <AccountingLoadScreen :is-loading="isLoading" />
-            <EasyDataTable
-                class="mt-5"
-                :headers="headers"
-                :items="deductionsList"
-            >
+            <EasyDataTable class="mt-5" :headers="headers" :items="deductionsList">
                 <template #item-actions="item">
                     <div class="flex flex-row gap-1">
                         <button @click="showDetails(item)">
-                            <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
+                            <Icon name="material-symbols:visibility-rounded" color="white"
+                                class="bg-teal-700 rounded h-8 w-8 p-1" />
                         </button>
                     </div>
                 </template>
@@ -49,9 +47,8 @@ const headers = [
     { text: "Deduction Name", value: "otherdeduction_name" },
     { text: "Amount to Deduct", value: "amount" },
     { text: "Term", value: "terms_of_payment" },
-    { text: "Duration (Months)", value: "no_of_installments" },
-    { text: "Deduction per Term", value: "installment_deduction" },
-    { text: "Action", value: "actions" },
+    { text: "Monthly Deduction", value: "installment_deduction" },
+    // { text: "Action", value: "actions" },
 ]
 
 const items = ref([])
