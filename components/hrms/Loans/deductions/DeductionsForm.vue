@@ -70,6 +70,7 @@
                             >
                             <label for="termsWeekly" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Weekly</label>
                         </div>
+                        <LayoutFormPsDateInput v-model="newDeduction.deduction_date_start" title="Deduction Start Date" />
                     </div>
                 </div>
             </div>
@@ -131,13 +132,15 @@ const saveDeduction = async () => {
             throw new Error(response._data.message)
         },
         onResponse: ({ response }) => {
-            isLoading.value = false
-            emit("stored")
-            resetDeduction()
-            snackbar.add({
-                type: "success",
-                text: response._data.message
-            })
+            if (response.ok) {
+                isLoading.value = false
+                emit("stored")
+                resetDeduction()
+                snackbar.add({
+                    type: "success",
+                    text: response._data.message
+                })
+            }
         },
     })
 }
