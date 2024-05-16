@@ -70,8 +70,8 @@
                             >
                             <label for="termsWeekly" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Weekly</label>
                         </div>
-                        <LayoutFormPsDateInput v-model="newDeduction.deduction_date_start" title="Deduction Start Date" />
                     </div>
+                    <LayoutFormPsDateInput v-model="newDeduction.deduction_date_start" title="Deduction Start Date" />
                 </div>
             </div>
             <div class="max-w-full flex flex-row-reverse mt-5">
