@@ -63,7 +63,7 @@ const items = [
 
 <template>
     <div class="mt-10 md:mt-0 md:flex gap-2">
-        <HrmsAttendanceFailToLogForm class="md:w-1/2"/>
+        <HrmsAttendanceFailToLogForm class="md:w-1/2" />
 
         <div class="md:w-1/2 p-2 w-full">
             <HrmsCommonTabsMainContainer>
