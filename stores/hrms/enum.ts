@@ -104,7 +104,7 @@ export const useEnumsStore = defineStore("enums", {
     getters: {
         filteredEmployeesList (state) : any[] {
             return state.allEmployeeEnum.list.filter((employee:any) => {
-                return employee.fullname_last.includes(state.allEmployeeEnum.nameFilter) &&
+                return employee.fullname_last.toLowerCase().includes(state.allEmployeeEnum.nameFilter.toLowerCase()) &&
                 (
                     !state.allEmployeeEnum.params.filterType ||
                     (
