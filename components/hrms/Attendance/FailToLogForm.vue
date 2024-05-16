@@ -75,9 +75,13 @@ const submitAdd = async () => {
                     </div>
                     <div class="mb-6">
                         <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Log Type</label>
-                        <select name="" id="" class="border border-gray-500 rounded-md">
-                            <option value="In">In</option>
-                            <option value="Out">Out</option>
+                        <select name="" class="border border-gray-500 rounded-md">
+                            <option value="In">
+                                In
+                            </option>
+                            <option value="Out">
+                                Out
+                            </option>
                         </select>
                         <!-- <p>{{ employeeinfo.current_employment?.position?.name ?? "No Position" }}</p> -->
                     </div>
