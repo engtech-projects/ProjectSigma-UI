@@ -16,10 +16,10 @@ const setEdit = (genall) => {
 const deleteReq = async (req) => {
     try {
         boardLoading.value = true
-        await genAllowances.deleteRequest(req.id)
+        await generateAllowance.deleteRequest(req.id)
         snackbar.add({
             type: "success",
-            text: genAllowances.successMessage
+            text: generateAllowance.successMessage
         })
     } finally {
         boardLoading.value = false
@@ -36,10 +36,10 @@ const changePaginate = (newParams) => {
 
 const headers = [
     { name: "Charge Department", id: "charge_assignment.department_name" },
-    { name: "Allowance Amount", id: "allowance_amount" },
     { name: "Cutoff Start", id: "cutoff_start" },
     { name: "Cutoff End", id: "cutoff_end" },
     { name: "Allowance Date", id: "allowance_date" },
+    { name: "Allowance Amount", id: "allowance_amount" },
     { name: "Total # of Day(s)", id: "total_days" },
     { name: "Total Amount", id: "total_amount" },
 
