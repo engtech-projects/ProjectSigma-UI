@@ -152,7 +152,7 @@ const closeViewModal = () => {
                         </button>
                     </div>
                     <div v-for="(adjust, adjustIndex) in generatePayroll.adjustment" :key="adjustIndex" class="flex md:grid-cols-4 md:gap-6 pb-4">
-                        {{ adjust }}
+                        <!-- {{ adjust }} -->
                         <!-- <SearchBar class="flex-auto" @search-changed="setEmployee" /> -->
                         <LayoutFormPsTextInput v-model="adjust.employee_ids" title="Employee" class="flex-auto" />
                         <LayoutFormPsTextInput v-model="adjust.adjustment_name" title="Adjustment Name" class="flex-auto" />

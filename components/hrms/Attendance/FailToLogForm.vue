@@ -17,9 +17,9 @@ const headers = [
     { name: "BALANCE", id: "balance" },
 ]
 
-const setEmployee = (emp) => {
-    console.log(emp)
-}
+// const setEmployee = (emp) => {
+//     console.log(emp)
+// }
 // const setEmployee = async (emp) => {
 //     leaveRequest.payload.employee_id = emp.id
 //     await employee.getLeaveCredits(emp.id)
@@ -60,7 +60,7 @@ const submitAdd = async () => {
                     </div>
                     <div class="mb-2 w-full">
                         <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Log Type</label>
-                        <select name="" id="" class="border border-gray-500 rounded-md w-full">
+                        <select name="" class="border border-gray-500 rounded-md">
                             <option value="In">
                                 In
                             </option>

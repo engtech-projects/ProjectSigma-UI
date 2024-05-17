@@ -1,3 +1,7 @@
+<script setup>
+const boardLoading = ref(false)
+</script>
+
 <template>
     <LayoutBoards title="Cash Advance" class="w-full" :loading="boardLoading">
         <HrmsCommonTabsMainContainer>

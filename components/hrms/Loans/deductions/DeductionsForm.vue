@@ -15,7 +15,8 @@
                     >
                         Employee Name
                     </label>
-                    <SearchBar @search-changed="employeeSearched" />
+                    <SearchBar v-if="0" @search-changed="employeeSearched" />
+                    <HrmsCommonMultipleEmployeeSelector v-model="newDeduction.employees" />
                 </div>
             </div>
             <div class="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -95,7 +96,6 @@ const snackbar = useSnackbar()
 const isLoading = ref(false)
 const newDeduction = ref({
     id: null,
-    employee_id: null,
     otherdeduction_name: null,
     amount: null,
     terms_of_payment: null,

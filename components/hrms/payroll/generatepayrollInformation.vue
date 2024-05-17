@@ -6,40 +6,40 @@ defineProps({
     },
 })
 
-const headerColumns = [
-    { name: "Name", id: "name", style: "text-center" },
-    { name: "Designation", id: "name", style: "text-center" },
-    { name: "No. of Days", id: "name", style: "text-center" },
-    { name: "Gross Pay", id: "name", style: "text-center" },
-    { name: "Gross Pay", id: "name", style: "text-center" },
-    { name: "Salary Deduction", id: "name", style: "text-center" },
-    { name: "EWTC", id: "name", style: "text-center" },
-    { name: "COOP LOAN", id: "name", style: "text-center" },
-    { name: "Total Deduction", id: "name", style: "text-center" },
-    { name: "Total Net Pay", id: "name", style: "text-center" },
-]
+// const headerColumns = [
+//     { name: "Name", id: "name", style: "text-center" },
+//     { name: "Designation", id: "name", style: "text-center" },
+//     { name: "No. of Days", id: "name", style: "text-center" },
+//     { name: "Gross Pay", id: "name", style: "text-center" },
+//     { name: "Gross Pay", id: "name", style: "text-center" },
+//     { name: "Salary Deduction", id: "name", style: "text-center" },
+//     { name: "EWTC", id: "name", style: "text-center" },
+//     { name: "COOP LOAN", id: "name", style: "text-center" },
+//     { name: "Total Deduction", id: "name", style: "text-center" },
+//     { name: "Total Net Pay", id: "name", style: "text-center" },
+// ]
 
-const datas = [
-    { name: "John Doe", time: "8:00 AM" },
-    { name: "Jane Doe", time: "9:00 AM" }
-]
+// const datas = [
+//     { name: "John Doe", time: "8:00 AM" },
+//     { name: "Jane Doe", time: "9:00 AM" }
+// ]
 
 // const actions = {}
 
-const subHeaders = [
-    { name: "Lastname", id: "lastname", style: "text-left" },
-    { name: "Firstname", id: "firstname", style: "text-left" },
-    { name: "Number of Days", id: "number_of_days", style: "text-left" }
-]
+// const subHeaders = [
+//     { name: "Lastname", id: "lastname", style: "text-left" },
+//     { name: "Firstname", id: "firstname", style: "text-left" },
+//     { name: "Number of Days", id: "number_of_days", style: "text-left" }
+// ]
 </script>
 
 <template>
     <div class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
         <div class="flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
-            <div class="text-xl leading-6 font-normal text-gray-900">
+            <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900">
                 CASH
             </div>
-            <div class="text-xl leading-6 font-normal text-gray-900">
+            <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900">
                 Payroll
             </div>
         </div>
@@ -54,81 +54,250 @@ const subHeaders = [
             </div>
         </div>
 
-        <div class="relative overflow-x-auto">
+        <div>
+            <div class="relative overflow-x-auto shadow-md">
+                <table class="w-full text-sm text-center text-gray-50 ">
+                    <thead
+                        class="text-xs text-black uppercase bg-sky-50 dark:bg-gray-950"
+                    >
+                        <tr>
+                            <th
+                                scope="col"
+                                rowspan="2"
+                                class="p-2 border-solid border border-slate-400"
+                            >
+                                No.
+                            </th>
+                            <th
+                                scope="col"
+                                colspan="2"
+                                class="p-2 border-solid border border-slate-400 bg-sky-200"
+                            >
+                                Name
+                            </th>
+                            <th
+                                scope="col"
+                                rowspan="2"
+                                class="p-2 border-solid border border-slate-400 bg-sky-200"
+                            >
+                                Designation
+                            </th>
+                            <th
+                                scope="col"
+                                colspan="7"
+                                class="p-2 border-solid border border-slate-400 bg-sky-200"
+                            >
+                                No. of Days
+                            </th>
+                            <th
+                                scope="col"
+                                colspan="7"
+                                class="p-2 border-solid border border-slate-400 bg-sky-200"
+                            >
+                                Gross Pay
+                            </th>
+                            <th
+                                scope="col"
+                                rowspan="2"
+                                class="px-6 border-solid border border-slate-400 bg-sky-200"
+                            >
+                                Gross Pay
+                            </th>
+                            <th
+                                scope="col"
+                                colspan="9"
+                                class="p-2 border-solid border border-slate-400 bg-sky-200"
+                            >
+                                Salary Deduction
+                            </th>
+                            <th
+                                scope="col"
+                                rowspan="2"
+                                class="px-2 py-3 border-solid border border-slate-400 bg-sky-200"
+                            >
+                                Total Deduction
+                            </th>
+                            <th
+                                scope="col"
+                                rowspan="2"
+                                class="px-6 py-3 border-solid border border-slate-400 bg-sky-200"
+                            >
+                                Total Net Pay
+                            </th>
+                        </tr>
+                        <tr>
+                            <th
+                                scope="col"
+                                class="px-8 border-solid border border-slate-400"
+                            >
+                                Last Name
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-8 border-solid border border-slate-400"
+                            >
+                                First Name
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Reg. Hrs/Day(s)
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Rest Day/Sun
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Reg.Hol
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Reg.Hol O.T
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Spc. Hol.
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Reg. O.T
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Rest Day O.T
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Reg.
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Rest Day/Sun
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Reg.Hol
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Reg.Hol. O.T
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Spc. Hol.
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Reg. O.T.
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Rest Day O.T
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Cash Advance
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                SSS
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                SSS LOAN
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                PHIC
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                HMDF
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                HMDF LOAN
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                MP2
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                EWTC
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                COOP LOAN
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white border-b text-gray-950">
+                            <td class="p-4 border-solid border border-slate-400">
+                                N/A
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- <div class="relative overflow-x-auto">
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                 <LayoutPsTableWithSubHeader
                     :header-columns="headerColumns"
                     :datas="datas"
                     :sub-headers="subHeaders"
                 />
-                <!-- :header-columns="headers"
-                :actions="actions"
-                :datas="datas"
-                @show-table="showInformation" -->
             </div>
-            <!-- <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
-                            Product name
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Color
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Category
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Price
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Apple MacBook Pro 17"
-                        </th>
-                        <td class="px-6 py-4">
-                            Silver
-                        </td>
-                        <td class="px-6 py-4">
-                            Laptop
-                        </td>
-                        <td class="px-6 py-4">
-                            $2999
-                        </td>
-                    </tr>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Microsoft Surface Pro
-                        </th>
-                        <td class="px-6 py-4">
-                            White
-                        </td>
-                        <td class="px-6 py-4">
-                            Laptop PC
-                        </td>
-                        <td class="px-6 py-4">
-                            $1999
-                        </td>
-                    </tr>
-                    <tr class="bg-white dark:bg-gray-800">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Magic Mouse 2
-                        </th>
-                        <td class="px-6 py-4">
-                            Black
-                        </td>
-                        <td class="px-6 py-4">
-                            Accessories
-                        </td>
-                        <td class="px-6 py-4">
-                            $99
-                        </td>
-                    </tr>
-                </tbody>
-            </table> -->
-        </div>
+        </div> -->
     </div>
     <div>
         <!-- <LayoutApprovalsListView :approvals="leaveData.approvals" /> -->

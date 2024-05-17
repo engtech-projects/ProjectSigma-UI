@@ -41,6 +41,7 @@ const approvedRequest = async (id) => {
         })
     } finally {
         boardLoading.value = false
+        showInformationModal.value = false
     }
 }
 const clearRemarks = () => {
@@ -61,6 +62,7 @@ const denyRequest = async (id) => {
         })
     } finally {
         boardLoading.value = false
+        showInformationModal.value = false
     }
 }
 
@@ -80,6 +82,13 @@ const actions = {
                 @show-table="showInformation"
             />
         </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination
+                v-if="cashadvanceList.length"
+                :links="cashadvances.pagination"
+                @change-params="changePaginate"
+            />
+        </div>
     </LayoutBoards>
     <div v-if="showInformationModal">
         <Teleport to="body">
@@ -96,34 +105,74 @@ const actions = {
                     </div>
                     <div class="grid gap-2 md:justify-between">
                         <div class="p-2 flex gap-2">
-                            <span class="text-gray-900 text-4xl">Employee Name {{ cashadvanceData.employee_id }}</span>
+                            <span class="text-gray-900 text-4xl">{{ cashadvanceData.employee.fullname_last }}</span>
                         </div>
                     </div>
                     <div class="grid md:grid-cols-3 gap-2 md:justify-between">
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Designation: </span> <span class="text-gray-900">{{ cashadvanceData.designation }}</span>
+                        <div class="p-2 flex flex-col gap-1">
+                            <span class="text-teal-600 text-light">
+                                Designation:
+                            </span>
+                            <span class="text-gray-900">
+                                {{ cashadvanceData.designation }}
+                            </span>
                         </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light">Department: </span> {{ cashadvanceData.department_id }}
+                        <div class="p-2 flex flex-col gap-1">
+                            <span class="text-teal-600 text-light">
+                                Department:
+                            </span>
+                            <span class="text-gray-900 text-sm font-bold">
+                                {{ cashadvanceData.department? cashadvanceData.department.department_name : "" }}
+                            </span>
                         </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Project: </span> {{ cashadvanceData.project_id }}
+                        <div class="p-2 flex flex-col gap-1">
+                            <span class="text-teal-600 text-light">
+                                Project:
+                            </span>
+                            <span class="text-gray-900 text-sm font-bold">
+                                {{ !cashadvanceData.project? "N/A" : cashadvanceData.project.project_code }}
+                            </span>
                         </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Amount Requested: </span> {{ cashadvanceData.amount_requested }}
+                        <div class="p-2 flex flex-col gap-1">
+                            <span class="text-teal-600 text-light">
+                                Amount Requested:
+                            </span>
+                            <span class="text-gray-900 text-sm font-bold">
+                                {{ cashadvanceData.amount }}
+                            </span>
                         </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Amount Approved: </span> {{ cashadvanceData.amount_approved }}
+                        <div class="p-2 flex flex-col gap-1">
+                            <span class="text-teal-600 text-light">
+                                Amount Approved:
+                            </span>
+                            <span class="text-gray-900 text-sm font-bold">
+                                {{ cashadvanceData.total_paid }}
+                            </span>
                         </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Terms: </span> {{ cashadvanceData.terms_of_cash_advance }}
+                        <div class="p-2 flex flex-col gap-1">
+                            <span class="text-teal-600 text-light">
+                                Terms:
+                            </span>
+                            <span class="text-gray-900 text-sm font-bold">
+                                {{ cashadvanceData.terms_of_payment }}
+                            </span>
                         </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Remarks: </span> {{ cashadvanceData.remarks }}
+                        <div class="p-2 flex flex-col gap-1">
+                            <span class="text-teal-600 text-light">
+                                Remarks:
+                            </span>
+                            <span class="text-gray-900 text-sm font-bold">
+                                {{ cashadvanceData.remarks }}
+                            </span>
                         </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Released by: </span> {{ cashadvanceData.released_by }}
-                        </div>
+                        <!-- <div class="p-2 flex flex-col gap-1">
+                            <span class="text-teal-600 text-light">
+                                Request Status:
+                            </span>
+                            <span class="text-gray-900 text-sm font-bold">
+                                {{ cashadvanceData.request_status }}
+                            </span>
+                        </div> -->
                     </div>
                     <div class="w-full">
                         <LayoutApprovalsListView :approvals="cashadvanceData.approvals" />
