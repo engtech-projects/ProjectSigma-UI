@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 
 const cashadvances = useCashadvanceStore()
-const { list: cashadvanceList, pagination } = storeToRefs(cashadvances)
+const { list: cashadvanceList, pagination, getParams } = storeToRefs(cashadvances)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 // const cashadvanceData = ref(null)
@@ -68,6 +68,9 @@ const actions = {
     // edit: true,
     // delete: true,
     showTable: true,
+}
+const changePaginate = (newParams) => {
+    getParams.value.page = newParams.page ?? ""
 }
 const makePayment = async () => {
     boardLoading.value = true

@@ -49,13 +49,14 @@ export const useLoansStore = defineStore("LoansStore", {
             errorMessage: "",
             loading: "",
         },
-        pagination: {}
+        pagination: {},
+        getParams: {},
     }),
     actions: {
         async getAllList () {
             await useHRMSApi("/api/loans/resource", {
                 method: "GET",
-                watch: false,
+                params: this.getParams,
                 onResponseError: ({ response }) => {
                     this.allList.errorMessage = response._data.message
                     throw new Error(response._data.message)
