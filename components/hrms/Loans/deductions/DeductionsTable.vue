@@ -5,7 +5,12 @@
         <label for="" class="text-xl font-semibold text-gray-900">Other Deduction List</label>
         <div class="mt-5 mb-6 ">
             <AccountingLoadScreen :is-loading="isLoading" />
-            <EasyDataTable class="mt-5" :headers="headers" :items="deductionsList">
+            <EasyDataTable
+                class="mt-5"
+                :headers="headers"
+                :items="deductionsList"
+                :hide-footer="true"
+            >
                 <template #item-actions="item">
                     <div class="flex flex-row gap-1">
                         <button @click="showDetails(item)">
@@ -19,6 +24,13 @@
                 </template>
             </EasyDataTable>
         </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination
+                v-if="deductionsList.length"
+                :links="pagination"
+                @change-params="changePaginate"
+            />
+        </div>
     </div>
 </template>
 
@@ -27,6 +39,8 @@
 const isLoading = ref(false)
 const utils = useUtilities()
 const emit = defineEmits(["fetched"])
+const pagination = ref({})
+const getParams = ref({})
 const props = defineProps({
     tofetch: {
         type: Boolean,
@@ -67,11 +81,15 @@ const deductionsList = computed(() => {
     return list
 })
 
+const changePaginate = (newParams) => {
+    getParams.value.page = newParams.page ?? ""
+}
+
 const fetchDeductions = async () => {
     isLoading.value = true
     await useHRMSApi("/api/other-deduction/resource", {
         method: "GET",
-        watch: false,
+        params: getParams.value,
         onResponseError: ({ response }) => {
             isLoading.value = false
             throw new Error(response._data.message)
@@ -79,6 +97,11 @@ const fetchDeductions = async () => {
         onResponse: ({ response }) => {
             isLoading.value = false
             items.value = response._data.data.data
+            pagination.value = {
+                first_page: response._data.data.first_page_url,
+                pages: response._data.data.links,
+                last_page: response._data.data.last_page_url,
+            }
         },
     })
 }

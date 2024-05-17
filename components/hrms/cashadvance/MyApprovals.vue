@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 
 const cashadvances = useCashadvanceStore()
-const { myApprovalRequestList: cashadvanceList, remarks } = storeToRefs(cashadvances)
+const { myApprovalRequestList: cashadvanceList, remarks, getParams } = storeToRefs(cashadvances)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -68,6 +68,9 @@ const denyRequest = async (id) => {
 
 const actions = {
     showTable: true,
+}
+const changePaginate = (newParams) => {
+    getParams.value.page = newParams.page ?? ""
 }
 
 </script>

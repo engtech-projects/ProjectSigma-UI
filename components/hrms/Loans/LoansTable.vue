@@ -33,10 +33,12 @@
             <div id="regular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="regular-tab">
                 <div class="mt-5 mb-6 ">
                     <EasyDataTable
+                        buttons-pagination
                         class="mt-5"
                         table-class-name="customize-table"
                         :headers="headers"
                         :items="employeeList"
+                        :hide-footer="true"
                     >
                         <template #item-actions="item">
                             <div class="flex flex-row gap-1">
@@ -216,6 +218,7 @@
 import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
 const utils = useUtilities()
 const loansStore = useLoansStore()
+const { getParams } = storeToRefs(loansStore)
 await loansStore.getAllList()
 const showModal = ref(false)
 const loan = ref({ loan_payments_employee: [] })
@@ -231,6 +234,10 @@ const newPayment = ref({
     posting_status: "Posted",
     paymentAmount: null,
 })
+
+const changePaginate = (newParams: any) => {
+    getParams.value.page = newParams.page ?? ""
+}
 
 const setShowPayment = (val:boolean) => {
     showMakePayment.value = val
@@ -319,5 +326,8 @@ const makePayment = async () => {
 <style scoped>
 .customize-table {
   --easy-table-header-item-padding: 10px 15px;
+}
+.vue3-easy-data-table__footer {
+    display: none !important;
 }
 </style>
