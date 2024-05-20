@@ -516,34 +516,6 @@ export const useEmployeeInfo = defineStore("employee", {
         }
     },
     actions: {
-        getPresentAddress () {
-            let preAddress = {} as EmployeeAddress
-            if (!this.information) {
-                return preAddress
-            }
-            if (this.information.employee_address) {
-                this.information.employee_address.forEach((item) => {
-                    if (item.type === "present") {
-                        preAddress = item
-                    }
-                })
-            }
-            this.presentAddressParams = preAddress
-        },
-        getPermanentAddress () {
-            let perAddress = {} as EmployeeAddress
-            if (!this.information) {
-                return ""
-            }
-            if (this.information.employee_address) {
-                this.information.employee_address.forEach((item) => {
-                    if (item.type === "both" || item.type === "permanent") {
-                        perAddress = item
-                    }
-                })
-            }
-            this.permanentAddressParams = perAddress
-        },
         async getEmployeeList () {
             const { data, error } = await useHRMSApi(
                 "/api/employee/list",
@@ -595,8 +567,6 @@ export const useEmployeeInfo = defineStore("employee", {
             } else if (data.value) {
                 this.employeeIsSearched = true
                 this.information = data.value.data
-                this.getPresentAddress()
-                this.getPermanentAddress()
                 return data
             }
         },
@@ -614,8 +584,6 @@ export const useEmployeeInfo = defineStore("employee", {
             } else if (data.value) {
                 this.employeeIsSearched = true
                 this.information = data.value.data
-                this.getPresentAddress()
-                this.getPermanentAddress()
                 return data
             }
         },

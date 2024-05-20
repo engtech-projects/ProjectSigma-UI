@@ -148,6 +148,24 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 }
             )
         },
+        async getEmployeePattern (id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAttendancePortalApi(
+                "/api/attendance/facial-list/" + id,
+                {
+                    method: "GET",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.facialPatterList = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async saveOrUpdateEmployeePattern (pattern: any, id: any) {
             this.successMessage = ""
             this.errorMessage = ""
