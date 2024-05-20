@@ -76,6 +76,7 @@ const captureImage = async () => {
             type: "success",
             text: attendancePortal.successMessage
         })
+        employee.getEmployeeInformation(employee.information.id)
     } catch (error) {
         snackbar.add({
             type: "error",

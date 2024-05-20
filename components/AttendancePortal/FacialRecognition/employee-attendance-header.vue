@@ -20,7 +20,7 @@ myTimer()
         <div class="bg-zinc-100 p-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="w-1/3 flex items-center space-x-4 mb-4 md:mb-0 md:mr-4">
-                    <a href="/attendance-portal/face-recognition" class="flex items-center justify-between">
+                    <a href="/" class="flex items-center justify-between">
                         <img src="/logo.fw.png" class="mr-3 h-12" alt="Sigma Logo">
                         <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white" />
                     </a>
@@ -37,7 +37,7 @@ myTimer()
                     <h1 class="text-3xl font-bold">
                         {{ attendanceSession.name }}
                     </h1>
-                    <p class="text-sm">
+                    <p v-if="typeof(attendanceSession) == array" class="text-sm">
                         press arrowkey to change
                     </p>
                 </div>
