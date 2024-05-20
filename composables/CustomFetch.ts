@@ -2,7 +2,20 @@ import { ofetch } from "ofetch"
 import { defu } from "defu"
 import type { AsyncDataOptions, UseFetchOptions } from "#app"
 const config = useRuntimeConfig()
-const portalToken = useCookie("portal_token")
+const cookieExpiry = new Date()
+cookieExpiry.setFullYear(cookieExpiry.getFullYear() + 1)
+const portalToken = useCookie("portal_token",
+    {
+        expires: cookieExpiry
+    }
+)
+if (portalToken.value) {
+    const tokencopy = portalToken.value
+    portalToken.value = "Resetting"
+    setTimeout(() => {
+        portalToken.value = tokencopy
+    }, 100)
+}
 const { token } = useAuth()
 export interface CallBackData {
     data: {
