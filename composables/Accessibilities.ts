@@ -50,10 +50,28 @@ export enum AccessibilityTypes {
     accounting_posting_period = "accounting:posting_period",
     accounting_account_groups = "accounting:account_groups",
     accounting_stake_holder = "accounting:stake_holder",
+    project_monitoring_dashboard = "project_monitoring:dashboard",
+    project_monitoring_projects = "project_monitoring:projects",
 
+    // hrms-dashboard-sub
+    hrms_dashboard_announcement = "hrms:dashboard_announcement",
+    hrms_dashboard_birthday = "hrms:dashboard_birthday",
+    hrms_dashboard_lates = "hrms:dashboard_lates",
+    hrms_dashboard_absent = "hrms:dashboard_absent",
+    hrms_dashboard_total_number = "hrms:dashboard_total_number",
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
-    allowedAccessibilities = new Set(allowedAccessibilities)
-    const accessApprove = allowedAccessibilities.intersection(new Set(userData.accessibilities_name))
-    return (accessApprove.legth > 0)
+    const intersectElements = (allowedAccess: any, userAccess: any) => {
+        const res = []
+        for (let i = 0; i < userAccess.length; i++) {
+            if (allowedAccess.includes(userAccess[i])) {
+                res.push(userAccess[i])
+                allowedAccess.splice(allowedAccess.indexOf(userAccess[i]), 1, undefined)
+            }
+        };
+        return res
+    }
+    const userAccessibilites = userData.value.accessibility_names ?? []
+    const accessApprove = intersectElements(allowedAccessibilities, userAccessibilites)
+    return (accessApprove.length > 0)
 }
