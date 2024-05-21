@@ -141,83 +141,47 @@ const isActiveRow = (index: any) => {
             </thead>
             <tbody>
                 <template v-for="dataValue, index in datas" :key="index">
-                    <template>
-                        <tr class="border text-center border-b" :class="{ 'active': isActiveRow(index) }">
-                            <td class="p-2">
-                                {{ index }}
-                            </td>
-                            <td class="p-2" v-if="dataValue.schedules_attendances.project_id">
-                                {{ dataValue.schedules_attendances.project_id }}
-                            </td>
-                            <td class="p-2" v-else-if="dataValue.schedules_attendances.department_id">
-                                {{ dataValue.schedules_attendances.department_id }}
-                            </td>
-                            <td class="p-2" v-if="dataValue.schedules_attendances.applied_ins">
-                                {{ dataValue.schedules_attendances.applied_ins.time_human }}
-                            </td>
-                            <td class="p-2" v-else>
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2" v-if="dataValue.schedules_attendances.applied_outs">
-                                {{ dataValue.schedules_attendances.applied_outs.time_human }}
-                            </td>
-                            <td class="p-2" v-else>
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                        </tr>
-                    </template>
-                    <template>
-                        <tr class="border text-center border-b" :class="{ 'active': isActiveRow(index) }">
-                            <td class="p-2">
-                                {{ index }}
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                            <td class="p-2">
-                                N/A
-                            </td>
-                        </tr>
-                    </template>
+                    <tr class="border text-center border-b" :class="{ 'active': isActiveRow(index) }">
+                        <td class="p-2">
+                            {{ index }}
+                        </td>
+                        <td class="p-2" v-if="dataValue.schedules_attendances[0].project_id">
+                            {{ dataValue.schedules_attendances[0].project_id }}
+                        </td>
+                        <td class="p-2" v-else-if="dataValue.schedules_attendances[0].department_id">
+                            {{ dataValue.schedules_attendances[0].department_id }}
+                        </td>
+                        <td class="p-2" v-if="dataValue.schedules_attendances.applied_ins != null">
+                            {{ dataValue.schedules_attendances.applied_ins.time_human }}
+                        </td>
+                        <td class="p-2" v-else>
+                            N/A
+                        </td>
+                        <td class="p-2">
+                            N/A
+                        </td>
+                        <td class="p-2">
+                            N/A
+                        </td>
+                        <td class="p-2" v-if="dataValue.schedules_attendances.applied_outs != null">
+                            {{ dataValue.schedules_attendances.applied_outs.time_human }}
+                        </td>
+                        <td class="p-2" v-else>
+                            N/A
+                        </td>
+                        <td class="p-2">
+                            N/A
+                        </td>
+                        <td class="p-2">
+                            N/A
+                        </td>
+                        <td class="p-2">
+                            N/A
+                        </td>
+                        <td class="p-2">
+                            N/A
+                        </td>
+                    </tr>
                 </template>
             </tbody>
         </table>

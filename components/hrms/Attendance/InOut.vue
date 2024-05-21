@@ -28,7 +28,6 @@ const getAttendance = async () => {
                 await employee.getEmployeeDTR(information.value.id, filterDate.value.from, filterDate.value.to)
                 const fetch = information.value.employee_dtr.dtr
                 filterDate.value.data = fetch
-                console.log(fetch)
                 // filterDate.value.data = Object.entries(fetch)
                 snackbar.add({
                     type: "success",
