@@ -31,6 +31,11 @@ const config = useRuntimeConfig()
                     single-nav-title="Attendance Portal"
                 />
                 <LayoutNavSingle
+                    linkarea="/hrms/attendance/logs"
+                    icon="ic:baseline-book"
+                    single-nav-title="Attendance Logs"
+                />
+                <LayoutNavSingle
                     v-if="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/attendance/timeinout"
                     icon="material-symbols:alarm-on-outline-rounded"
