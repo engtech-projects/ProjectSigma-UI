@@ -10,6 +10,7 @@ const filterDate = ref({
     from: null,
     to: null,
     data: [],
+    keys: [],
 })
 
 const showInformation = () => {
@@ -27,8 +28,8 @@ const getAttendance = async () => {
             if (employeeIsSearched.value) {
                 await employee.getEmployeeDTR(information.value.id, filterDate.value.from, filterDate.value.to)
                 const fetch = information.value.employee_dtr.dtr
-                filterDate.value.data = fetch
-                // filterDate.value.data = Object.entries(fetch)
+                filterDate.value.data = Object.entries(fetch)
+                console.log(filterDate.value.data)
                 snackbar.add({
                     type: "success",
                     text: employee.successMessage

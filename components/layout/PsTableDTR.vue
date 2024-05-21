@@ -141,30 +141,36 @@ const isActiveRow = (index: any) => {
             </thead>
             <tbody>
                 <template v-for="dataValue, index in datas" :key="index">
-                    <tr class="border text-center border-b" :class="{ 'active': isActiveRow(index) }">
+                    <tr v-if="dataValue[1].schedules_attendances!=null" class="border text-center border-b" :class="{ 'active': isActiveRow(index) }">
                         <td class="p-2">
-                            {{ index }}
+                            {{ dataValue[1].date }}
                         </td>
-                        <td class="p-2" v-if="dataValue.schedules_attendances[0].project_id">
-                            {{ dataValue.schedules_attendances[0].project_id }}
+                        <td class="p-2" v-if="dataValue[1].schedules_attendances[index].project_id">
+                            {{ dataValue[1].schedules_attendances[index].project_id }}
                         </td>
-                        <td class="p-2" v-else-if="dataValue.schedules_attendances[0].department_id">
-                            {{ dataValue.schedules_attendances[0].department_id }}
+                        <td class="p-2" v-else-if="dataValue[1].schedules_attendances[index].department_id">
+                            {{ dataValue[1].schedules_attendances[index].department_id }}
                         </td>
-                        <td class="p-2" v-if="dataValue.schedules_attendances.applied_ins != null">
-                            {{ dataValue.schedules_attendances.applied_ins.time_human }}
+                        <td class="p-2" v-if="dataValue[1].schedules_attendances[0].applied_ins!=null">
+                            {{ dataValue[1].schedules_attendances[0].applied_ins.time_human }}
                         </td>
                         <td class="p-2" v-else>
                             N/A
                         </td>
-                        <td class="p-2">
+                        <td class="p-2" v-if="dataValue[1].schedules_attendances[0].applied_outs != null">
+                            {{ dataValue[1].schedules_attendances[0].applied_outs.time_human }}
+                        </td>
+                        <td class="p-2" v-else>
                             N/A
                         </td>
-                        <td class="p-2">
+                        <td class="p-2" v-if="dataValue[1].schedules_attendances[1].applied_ins != null">
+                            {{ dataValue[1].schedules_attendances[1].applied_ins.time_human }}
+                        </td>
+                        <td class="p-2" v-else>
                             N/A
                         </td>
-                        <td class="p-2" v-if="dataValue.schedules_attendances.applied_outs != null">
-                            {{ dataValue.schedules_attendances.applied_outs.time_human }}
+                        <td class="p-2" v-if="dataValue[1].schedules_attendances[1].applied_outs != null">
+                            {{ dataValue[1].schedules_attendances[1].applied_outs.time_human }}
                         </td>
                         <td class="p-2" v-else>
                             N/A
