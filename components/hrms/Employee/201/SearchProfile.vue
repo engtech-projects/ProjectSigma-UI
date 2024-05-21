@@ -4,6 +4,10 @@ import { useEmployeeInfo } from "@/stores/hrms/employee"
 
 const employee = useEmployeeInfo()
 const { information: employeeInformation, employeeIsSearched, editable } = storeToRefs(employee)
+// CLOSE CAMERA ON LEAVE PAGE
+onBeforeRouteLeave(() => {
+    employee.$reset()
+})
 </script>
 <template>
     <div class="w-full py-4 px-2 bg-slate-100 rounded-sm border-t-4 border-teal-500 sticky top-0">

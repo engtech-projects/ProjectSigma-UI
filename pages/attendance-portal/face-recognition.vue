@@ -65,8 +65,9 @@ attendancePortalParams.value.log_type = CATEGORY_TIME_IN
             </div>
         </div>
         <div v-else class="w-full text-center justify-center mt-5">
-            <p class="text-gray-400 text-xl">
-                Access Denied
+            <p class="text-red-700 text-xl">
+                This device is not a recognized Attendance Portal.<br>
+                Please use a designated Attendance Portal, or ask an authorized person for help.
             </p>
         </div>
         <AttendancePortalFacialRecognitionEmployeeAttendanceFooter v-if="attendanceSession" />
