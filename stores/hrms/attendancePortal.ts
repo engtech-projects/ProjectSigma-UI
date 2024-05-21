@@ -27,6 +27,11 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             group_type: null as null | String,
             name: null as null | String
         },
+        pagination: {},
+        getParams: {
+            date: null,
+            employee_id: null,
+        },
         currentDate: null,
         attendanceSession: null,
         lastSuccessLogEmployee: null,
@@ -121,6 +126,30 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.attendanceLogList = response._data.data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getSearchAttedanceLog () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApi(
+                "/api/attendance/all-attendance-logs",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.attendanceLogList = response._data.data.data
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
