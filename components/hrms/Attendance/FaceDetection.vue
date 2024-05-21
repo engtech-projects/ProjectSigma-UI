@@ -76,6 +76,7 @@ const captureImage = async () => {
             type: "success",
             text: attendancePortal.successMessage
         })
+        employee.getEmployeeInformation(employee.information.id)
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -86,26 +87,45 @@ const captureImage = async () => {
 </script>
 <template>
     <div class="m-auto">
-        <div v-if="employee.information" class="p-2">
-            {{ employee.information.fullname_last ?? "NO EMPLOYEE" }}
+        <div v-if="employee.information.id" class="text-xl justify-center items-center flex-col p-2">
+            <p class="text-center">
+                {{ employee.information.fullname_last }}
+            </p>
+            <div v-if="employee.information?.face_patterns?.length > 0">
+                <p class="text-center">
+                    <Icon name="material-symbols:check-circle" color="green" class="w-5 h-5" />
+                    Ready for Facial Recognition
+                </p>
+            </div>
+            <div v-else>
+                <p class="text-center">
+                    <Icon name="material-symbols:cancel" color="red" class="w-5 h-5" />
+                    No Facial Marks Saved
+                </p>
+            </div>
         </div>
-        <div class="w-full flex gap-2">
-            <div class="relative justify-center p-2 w-1/2">
-                <div>
+        <div v-else>
+            <p class="text-gray-500 text-xl justify-center flex mt-auto py-2">
+                Search for Employee on the Left
+            </p>
+        </div>
+        <div class="w-full flex-col gap-2 justify-center">
+            <div class="flex justify-center items-center">
+                <div class="relative">
                     <video
                         id="cameraPreview"
-                        class=""
+                        class="relative"
                         height="500"
                         width="500"
                         autoplay
                         muted
                     />
+                    <div id="capturedImage" class="absolute top-0" />
                 </div>
-                <div id="capturedImage" class="absolute top-0 m-auto" />
             </div>
-            <div class="w-1/2">
-                <div v-if="faceLandMarks" class="flex flex-col justify-center m-auto">
-                    <p class="text-xl text-gray-900">
+            <div>
+                <div v-if="faceLandMarks">
+                    <p class="text-gray-900 text-xl justify-center flex mt-auto py-2">
                         Face Landmark Result : %{{ Math.abs((faceProbability * 100 ).toFixed(2)) }}
                     </p>
                 </div>

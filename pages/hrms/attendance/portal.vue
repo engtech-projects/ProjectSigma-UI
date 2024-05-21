@@ -11,7 +11,18 @@ const headers = [
     { name: "PROJECT / DEPARTMENT", id: "name" },
     { name: "TYPE", id: "type" },
 ]
-
+const cookieExpiry = new Date()
+cookieExpiry.setFullYear(cookieExpiry.getFullYear() + 1)
+const portalToken = useCookie("portal_token", {
+    expires: cookieExpiry
+})
+if (portalToken.value) {
+    const tokencopy = portalToken.value
+    portalToken.value = "Resetting"
+    setTimeout(() => {
+        portalToken.value = tokencopy
+    }, 100)
+}
 const deleteAttendancePortal = async (atype) => {
     try {
         listLoader.value = true
@@ -34,9 +45,6 @@ const setupAttendancePortal = async () => {
             text: attendancePortal.successMessage
         })
         await attendancePortal.getAttendancePortal()
-        const portalToken = useCookie("portal_token", {
-            maxAge: 99999999
-        })
         portalToken.value = attendancePortal.portal_token
     } catch (error) {
         snackbar.add({

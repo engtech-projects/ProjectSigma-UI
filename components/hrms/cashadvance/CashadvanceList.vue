@@ -49,7 +49,6 @@ const updateCA = () => {
     cashadvances.list.forEach((el) => {
         if (el.id === ca.value.id) {
             ca.value = el
-            console.log(el)
         }
     })
 }
