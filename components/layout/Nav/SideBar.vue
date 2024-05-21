@@ -54,6 +54,16 @@ const config = useRuntimeConfig()
                     single-nav-title="Attendance Portal"
                 />
                 <LayoutNavSingle
+                    linkarea="/hrms/attendance/logs"
+                    icon="ic:baseline-book"
+                    single-nav-title="Attendance Logs"
+                />
+                <LayoutNavSingle
+                    linkarea="/hrms/attendance/logs"
+                    icon="ic:baseline-book"
+                    single-nav-title="Attendance Logs"
+                />
+                <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_attendance_dtr,
