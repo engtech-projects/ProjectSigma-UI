@@ -143,49 +143,55 @@ const isActiveRow = (index: any) => {
                 <template v-for="dataValue, index in datas" :key="index">
                     <tr v-if="dataValue[1].schedules_attendances!=null" class="border text-center border-b" :class="{ 'active': isActiveRow(index) }">
                         <td class="p-2">
-                            {{ dataValue[1].date }}
+                            {{ dataValue[0] }}
                         </td>
-                        <td class="p-2" v-if="dataValue[1].schedules_attendances[index].project_id">
-                            {{ dataValue[1].schedules_attendances[index].project_id }}
+                        <td v-if="dataValue[1].schedules_attendances[0].project_id" class="p-2">
+                            {{ dataValue[1].schedules_attendances[0].project_id }}
                         </td>
-                        <td class="p-2" v-else-if="dataValue[1].schedules_attendances[index].department_id">
-                            {{ dataValue[1].schedules_attendances[index].department_id }}
+                        <td v-else-if="dataValue[1].schedules_attendances[0].department_id" class="p-2">
+                            {{ dataValue[1].schedules_attendances[0].department_id }}
                         </td>
-                        <td class="p-2" v-if="dataValue[1].schedules_attendances[0].applied_ins!=null">
+                        <td v-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2">
                             {{ dataValue[1].schedules_attendances[0].applied_ins.time_human }}
                         </td>
-                        <td class="p-2" v-else>
-                            N/A
+                        <td v-else class="p-2">
+                            ABSENT
                         </td>
-                        <td class="p-2" v-if="dataValue[1].schedules_attendances[0].applied_outs != null">
+                        <td v-if="dataValue[1].schedules_attendances[0].applied_outs != null" class="p-2">
                             {{ dataValue[1].schedules_attendances[0].applied_outs.time_human }}
                         </td>
-                        <td class="p-2" v-else>
-                            N/A
+                        <td v-else-if="dataValue[1].schedules_attendances[0].applied_outs == null && dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2">
+                            NO LOG
                         </td>
-                        <td class="p-2" v-if="dataValue[1].schedules_attendances[1].applied_ins != null">
+                        <td v-else class="p-2">
+                            ABSENT
+                        </td>
+                        <td v-if="dataValue[1].schedules_attendances[1].applied_ins != null" class="p-2">
                             {{ dataValue[1].schedules_attendances[1].applied_ins.time_human }}
                         </td>
-                        <td class="p-2" v-else>
-                            N/A
+                        <td v-else-if="dataValue[1].schedules_attendances[1].applied_outs == null && dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2">
+                            NO LOG
                         </td>
-                        <td class="p-2" v-if="dataValue[1].schedules_attendances[1].applied_outs != null">
+                        <td v-else class="p-2">
+                            ABSENT
+                        </td>
+                        <td v-if="dataValue[1].schedules_attendances[1].applied_outs != null" class="p-2">
                             {{ dataValue[1].schedules_attendances[1].applied_outs.time_human }}
                         </td>
-                        <td class="p-2" v-else>
-                            N/A
+                        <td v-else class="p-2">
+                            NO LOG
                         </td>
                         <td class="p-2">
-                            N/A
+                            NO LOG
                         </td>
                         <td class="p-2">
-                            N/A
+                            NO LOG
                         </td>
                         <td class="p-2">
-                            N/A
+                            NO LOG
                         </td>
                         <td class="p-2">
-                            N/A
+                            NO LOG
                         </td>
                     </tr>
                 </template>
