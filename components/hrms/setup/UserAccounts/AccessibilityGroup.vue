@@ -14,7 +14,6 @@ defineProps({
 <template>
     <section class="bg-gray-50 dark:bg-gray-900">
         <label for="default-checkbox" class="ms-2 text-md font-medium text-green-400 dark:text-green-300">{{ title.toUpperCase() }}</label>
-
         <div class="grid grid-cols-1 space-y-1 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
             <label v-for="(access, accId) in accessibilities" :key="accId" class="relative inline-flex items-center w-full cursor-pointer">
                 <input v-model="model" type="checkbox" :value="access.id" class="sr-only peer">
