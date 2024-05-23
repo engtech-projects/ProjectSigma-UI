@@ -117,8 +117,6 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             )
         },
         async getTodayAttendanceLogs () {
-            this.successMessage = ""
-            this.errorMessage = ""
             await useAttendancePortalApi(
                 "/api/attendance/today-logs",
                 {
@@ -219,8 +217,6 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             )
         },
         async saveAttendanceLog () {
-            this.successMessage = ""
-            this.errorMessage = ""
             await useAttendancePortalApiO(
                 "/api/attendance/facial",
                 {
