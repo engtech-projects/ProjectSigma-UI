@@ -558,6 +558,9 @@ const config = useRuntimeConfig()
                     single-nav-title="Salary Grade"
                 />
                 <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        'AdminOnly',
+                    ])"
                     v-show="config.public.BULK_UPLOAD_ENABLED === 'true'"
                     linkarea="/hrms/setup/bulk-upload-employee"
                     icon="material-symbols:dynamic-form-outline-rounded"
