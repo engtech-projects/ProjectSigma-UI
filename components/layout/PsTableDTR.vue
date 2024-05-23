@@ -19,11 +19,6 @@ defineProps({
         required: true,
     },
 })
-
-const activeIndex = ref(null)
-const isActiveRow = (index: any) => {
-    return activeIndex.value === index
-}
 </script>
 
 <template>
@@ -142,7 +137,7 @@ const isActiveRow = (index: any) => {
             <tbody>
                 <template v-for="dataValue, index in datas" :key="index">
                     <template v-if="dataValue[1].schedules_attendances.length > 0">
-                        <tr v-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="border text-center border-b" :class="{ 'active': isActiveRow(index) }">
+                        <tr v-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="border text-center border-b">
                             <td class="p-2">
                                 {{ dataValue[0] }}
                             </td>
@@ -192,7 +187,7 @@ const isActiveRow = (index: any) => {
                                 0
                             </td>
                             <td v-else-if="dataValue[1].metadata.regular.reg_hrs!=null" class="p-2">
-                                {{dataValue[1].metadata.regular.reg_hrs}}
+                                {{ dataValue[1].metadata.regular.reg_hrs }}
                             </td>
                             <td v-else class="p-2">
                                 0
@@ -210,15 +205,13 @@ const isActiveRow = (index: any) => {
                                 NO LOG
                             </td>
                             <td v-if="dataValue[1].metadata.regular.overtime!=null" class="p-2">
-                                {{dataValue[1].metadata.regular.overtime}}
+                                {{ dataValue[1].metadata.regular.overtime }}
                             </td>
                             <td v-else class="p-2">
                                 0
                             </td>
                         </tr>
-                    </template>
-                    <template v-else>
-                        <tr class="border text-center border-b">
+                        <tr v-else class="border text-center border-b">
                             <td class="p-2">
                                 {{ dataValue[0] }}
                             </td>
@@ -243,6 +236,38 @@ const isActiveRow = (index: any) => {
                             </td>
                             <td class="p-2">
                                 ABSENT
+                            </td>
+                            <td class="p-2">
+                                0
+                            </td>
+                        </tr>
+                    </template>
+                    <template v-else>
+                        <tr class="border text-center border-b">
+                            <td class="p-2">
+                                {{ dataValue[0] }}
+                            </td>
+                            <td class="p-2"></td>
+                            <td class="p-2">
+                                NO SCHEDULE
+                            </td>
+                            <td class="p-2">
+                                NO SCHEDULE
+                            </td>
+                            <td class="p-2">
+                                NO SCHEDULE
+                            </td>
+                            <td class="p-2">
+                                NO SCHEDULE
+                            </td>
+                            <td class="p-2">
+                                0
+                            </td>
+                            <td class="p-2">
+                                NO SCHEDULE
+                            </td>
+                            <td class="p-2">
+                                NO SCHEDULE
                             </td>
                             <td class="p-2">
                                 0
