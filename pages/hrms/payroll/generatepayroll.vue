@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+// import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 import { useEnumsStore } from "@/stores/hrms/enum"
 
-const genpayrolls = useGeneratePayrollStore()
+// const genpayrollstore = useGeneratePayrollStore()
 // const { isEdit } = storeToRefs(stores)
-// genallowstore.getMyRequests()
-// genergenallowstoreateallowance.getMyApprovalRequests()
-genpayrolls.getGPayroll()
+// genpayrollstore.getGPayroll()
+// genpayrollstore.createRequest()
 
 const enums = useEnumsStore()
 enums.getEmployeeEnum()
@@ -22,6 +21,6 @@ useHead({
 <template>
     <div class="grid grid-cols-1 md:flex-row gap-4">
         <HrmsPayrollGeneratepayrollForm />
-        <HrmsPayrollGeneratepayrollTable />
+        <!-- <HrmsPayrollGeneratepayrollTable /> -->
     </div>
 </template>
