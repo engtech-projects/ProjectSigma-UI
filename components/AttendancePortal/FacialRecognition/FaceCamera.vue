@@ -9,6 +9,7 @@ const currentDetectionId = ref(null)
 const detectionTimer = ref(4)
 const lastIDlog = ref(null)
 const lastLogType = ref(null)
+const metaMessage = ref("")
 let video = null
 let stream = null
 let canvas = null
@@ -59,6 +60,7 @@ const detectFace = () => {
             findFaceOwner()
         } else {
             detectionTimer.value = 4
+            currentDetectionId.value = null
         }
     }, 750)
 }
@@ -83,7 +85,7 @@ const processEmployee = (employeeID) => {
         currentDetectionId.value = employeeID
     }
     if (detectionTimer.value === 0) {
-        saveEmployeeAttendanceLog()
+        saveEmployeeAttendanceLog(employeeID)
     }
 }
 const drawDetectionBoxOnCanvas = (name) => {
@@ -96,22 +98,31 @@ const drawDetectionBoxOnCanvas = (name) => {
 }
 const saveEmployeeAttendanceLog = async (employeeID) => {
     try {
-        await attendancePortal.saveAttendanceLog()
-        setTimeout(() => {
-            attendancePortal.lastSuccessLogEmployee = null
-            attendancePortal.successMessage = ""
-        }, 5000)
-        await attendancePortal.getTodayAttendanceLogs()
-        lastIDlog.value = employeeID
-        lastLogType.value = attendancePortal.attendancePortalParams.log_type
-    } catch (error) {
-        setTimeout(() => {
-            attendancePortal.errorMessage = ""
-        }, 1500)
-        // Do Noting. Error message shown elsewhere
+        if (lastIDlog.value === employeeID && lastLogType.value === attendancePortal.attendancePortalParams.log_type) {
+            errorMessage.value = "You Already Logged " + lastLogType.value
+        } else {
+            metaMessage.value = "Saving..."
+            await attendancePortal.saveAttendanceLog()
+            successMessage.value = "Successfully Logged " + attendancePortal.attendancePortalParams.log_type
+            attendancePortal.getTodayAttendanceLogs()
+            lastIDlog.value = employeeID
+            lastLogType.value = attendancePortal.attendancePortalParams.log_type
+        }
+    } finally {
+        resetMessages()
     }
 }
 startCamera()
+let timeout = null
+const resetMessages = () => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+        attendancePortal.lastSuccessLogEmployee = null
+        successMessage.value = ""
+        errorMessage.value = ""
+        metaMessage.value = ""
+    }, 5000)
+}
 </script>
 <template>
     <div id="FaceCamera Component">
@@ -124,19 +135,18 @@ startCamera()
                     muted
                 />
             </div>
-            <div v-if="detectionTimer <= 3 && detectionTimer > 0" class="bg-gray-300 p-2 text-center">
-                <p>
+            <div class="bg-gray-300 p-2 text-center font-bold text-xl">
+                <p v-if="detectionTimer <= 3 && detectionTimer > 0">
                     TIMER: {{ detectionTimer >= 0 ? detectionTimer.toFixed(0) : 0 }}
                 </p>
-            </div>
-            <div v-if="successMessage" class="bg-gray-300 p-2 text-center text-green">
-                <p>
+                <p v-else-if="successMessage" class="text-green-500">
                     {{ successMessage }}
                 </p>
-            </div>
-            <div v-if="errorMessage" class="bg-gray-300 p-2 text-center text-red">
-                <p>
+                <p v-else-if="errorMessage" class="text-red-600">
                     {{ errorMessage }}
+                </p>
+                <p v-else>
+                    {{ metaMessage !== "" ? metaMessage : "..." }}
                 </p>
             </div>
             <div id="capturedImage" class="absolute top-0 m-auto" />

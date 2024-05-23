@@ -13,7 +13,7 @@ useHead({
 </script>
 
 <template>
-    <div class="w-full">
+    <div class="w-full max-h-full">
         <HrmsDashboardAnnouncementTimeline />
     </div>
 </template>
