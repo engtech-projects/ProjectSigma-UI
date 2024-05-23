@@ -96,18 +96,14 @@ const drawDetectionBoxOnCanvas = (name) => {
 }
 const saveEmployeeAttendanceLog = async (employeeID) => {
     try {
-        if (lastIDlog.value === employeeID && lastLogType.value === attendancePortal.attendancePortalParams.log_type) {
-            attendancePortal.attendancePortalParams.remarks = "already_log"
-        } else {
-            await attendancePortal.saveAttendanceLog()
-            setTimeout(() => {
-                attendancePortal.lastSuccessLogEmployee = null
-                attendancePortal.successMessage = ""
-            }, 5000)
-            await attendancePortal.getTodayAttendanceLogs()
-            lastIDlog.value = employeeID
-            lastLogType.value = attendancePortal.attendancePortalParams.log_type
-        }
+        await attendancePortal.saveAttendanceLog()
+        setTimeout(() => {
+            attendancePortal.lastSuccessLogEmployee = null
+            attendancePortal.successMessage = ""
+        }, 5000)
+        await attendancePortal.getTodayAttendanceLogs()
+        lastIDlog.value = employeeID
+        lastLogType.value = attendancePortal.attendancePortalParams.log_type
     } catch (error) {
         setTimeout(() => {
             attendancePortal.errorMessage = ""
