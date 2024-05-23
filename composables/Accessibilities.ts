@@ -85,10 +85,10 @@ export enum AccessibilityTypes {
     hrms_employee_personnel_action_notice_approval = "hrms:employee_personnel_action_notice_approval",
     hrms_employee_personnel_action_notice_my_request = "hrms:employee_personnel_action_notice_my_request",
     // hrms-manpower-request-sub
-    hrms_manpower_request_form = "hrms:_manpower_request_form",
-    hrms_manpower_request_all_request = "hrms:_manpower_request_all_request",
-    hrms_manpower_request_approval = "hrms:_manpower_request_approval",
-    hrms_manpower_request_my_request = "hrms:_manpower_request_my_request",
+    hrms_manpower_request_form = "hrms:manpower_request_form",
+    hrms_manpower_request_all_request = "hrms:manpower_request_all_request",
+    hrms_manpower_request_approval = "hrms:manpower_request_approval",
+    hrms_manpower_request_my_request = "hrms:manpower_request_my_request",
     // hrms-loans-and-advances-cash-advance-request-sub
     hrms_loans_and_advances_cash_advance_forms = "hrms:loans_and_advances_cash_advance_forms",
     hrms_loans_and_advances_cash_advance_list = "hrms:loans_and_advances_cash_advance_list",
