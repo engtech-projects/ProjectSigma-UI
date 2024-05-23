@@ -13,7 +13,7 @@ export const RELEASE_TYPE = [
 ]
 
 export interface PayrollAdjustment {
-    name: string;
+    id: number;
     adjustment_name: string;
     adjustment_amount: string;
 }
@@ -49,9 +49,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             cutoff_start: "",
             cutoff_end: "",
             group_type: null,
-            deduct_sss: false,
-            deduct_philhealth: false,
-            deduct_pagibig: false,
+            deduct_sss: 0,
+            deduct_philhealth: 0,
+            deduct_pagibig: 0,
             approvals: [],
             adjustment: [],
         },
@@ -67,14 +67,19 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
     }),
     actions: {
         async getGPayroll () {
+            const payload = {
+                ...this.generatePayroll,
+                employee_ids: JSON.stringify(this.generatePayroll.employee_ids),
+                approvals: JSON.stringify(this.generatePayroll.approvals),
+            }
             await useHRMSApi(
-                "/api/payroll/resource",
+                "/api/payroll/generate-payroll",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: payload,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.list = response._data.data
+                            this.list = JSON.stringify(response._data.data)
                             this.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
@@ -122,13 +127,13 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApi(
-                "/api/payroll/resource",
+                "/api/payroll/create-payroll",
                 {
                     method: "POST",
                     body: this.generatePayroll,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
-                            this.getGA()
+                            this.getGPayroll()
                             this.$reset()
                             this.successMessage = response._data.message
                         } else {
@@ -152,7 +157,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                     body: this.generatePayroll,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
-                            this.getGA()
+                            this.getGPayroll()
                             this.$reset()
                             this.successMessage = response._data.message
                         } else {
@@ -171,7 +176,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.$reset()
-                            this.getGA()
+                            this.getGPayroll()
                             this.successMessage = response._data.message
                         }
                     },
@@ -183,7 +188,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 return error
             }
             if (data.value) {
-                this.getCA()
+                this.getGPayroll()
                 return data
             }
         },

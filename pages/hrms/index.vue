@@ -24,11 +24,17 @@ useHead({
 <template>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
         <div
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.hrms_dashboard_birthday,
+            ])"
             class="grid-cols-2 border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
         >
             <HrmsDashboardAnnouncementTimeline />
         </div>
         <div
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.hrms_dashboard_announcement,
+            ])"
             class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
         >
             <HrmsDashboardBirthdaysCard
@@ -37,6 +43,9 @@ useHead({
             />
         </div>
         <div
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.hrms_dashboard_lates,
+            ])"
             class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
         >
             <HrmsDashboardLatesCard
@@ -45,6 +54,9 @@ useHead({
             />
         </div>
         <div
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.hrms_dashboard_absent,
+            ])"
             class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
         >
             <HrmsDashboardAbsencesCard
@@ -54,17 +66,26 @@ useHead({
         </div>
         <template v-if="config.public.APP_ENV == 'local'">
             <div
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.hrms_dashboard_absent_chart,
+                ])"
                 class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
             >
                 <HrmsDashboardLatesAbsencesChart :labels="Object.keys(latesAbsenceStats.list)" :data="Object.values(latesAbsenceStats.list)" />
             </div>
         </template>
         <div
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.hrms_dashboard_assignment_location_chart,
+            ])"
             class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
         >
             <HrmsDashboardAssignmentLocationChart :labels="Object.keys(deptProjStats.list)" :data="Object.values(deptProjStats.list)" />
         </div>
         <div
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.hrms_dashboard_gender_chart,
+            ])"
             class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
         >
             <HrmsDashboardGenderChart :labels="Object.keys(genderStats.list)" :data="Object.values(genderStats.list)" />

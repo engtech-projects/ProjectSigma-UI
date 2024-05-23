@@ -25,21 +25,21 @@ watch(selectType, () => {
                     <option value="" selected>
                         Select Type
                     </option>
-                    <option value="Project">
+                    <option value="project">
                         Project
                     </option>
-                    <option value="Department">
+                    <option value="department">
                         Department
                     </option>
                 </select>
             </div>
             <div class="w-2/3">
-                <template v-if="selectType === 'Department'">
+                <template v-if="selectType === 'department'">
                     <HrmsCommonDepartmentSelector
                         v-model="departmentId"
                     />
                 </template>
-                <template v-if="selectType === 'Project'">
+                <template v-if="selectType === 'project'">
                     <HrmsCommonProjectSelector
                         v-model="projectId"
                     />
