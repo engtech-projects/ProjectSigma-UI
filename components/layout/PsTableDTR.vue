@@ -152,13 +152,16 @@ const isActiveRow = (index: any) => {
                             <td v-else-if="dataValue[1].schedules_attendances[0].applied_ins.department_id" class="p-2">
                                 {{ dataValue[1].schedules_attendances[0].applied_ins.department_id }}
                             </td>
-                            <td v-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2">
+                            <td v-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2 am-time-in">
                                 {{ dataValue[1].schedules_attendances[0].applied_ins.time_human }}
+                            </td>
+                            <td v-else-if="dataValue[1].schedules_attendances[1].applied_ins!=null" class="p-2">
+                                NO LOG
                             </td>
                             <td v-else class="p-2">
                                 ABSENT
                             </td>
-                            <td v-if="dataValue[1].schedules_attendances[0].applied_outs != null" class="p-2">
+                            <td v-if="dataValue[1].schedules_attendances[0].applied_outs != null" class="p-2 am-time-out">
                                 {{ dataValue[1].schedules_attendances[0].applied_outs.time_human }}
                             </td>
                             <td v-else-if="dataValue[1].schedules_attendances[0].applied_outs == null && dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2">
@@ -167,10 +170,10 @@ const isActiveRow = (index: any) => {
                             <td v-else class="p-2">
                                 ABSENT
                             </td>
-                            <td v-if="dataValue[1].schedules_attendances[1].applied_ins != null" class="p-2">
+                            <td v-if="dataValue[1].schedules_attendances[1].applied_ins != null" class="p-2 pm-time-in">
                                 {{ dataValue[1].schedules_attendances[1].applied_ins.time_human }}
                             </td>
-                            <td v-else-if="dataValue[1].schedules_attendances[1].applied_outs == null && dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2">
+                            <td v-else-if="dataValue[1].schedules_attendances[0].applied_ins != null" class="p-2">
                                 NO LOG
                             </td>
                             <td v-else class="p-2">
@@ -194,14 +197,23 @@ const isActiveRow = (index: any) => {
                             <td v-else class="p-2">
                                 0
                             </td>
-                            <td class="p-2">
+                            <td v-if="dataValue[1].ovetime.length > 0" class="p-2">
+                                {{ dataValue[1].ovetime[0].start_time_human }}
+                            </td>
+                            <td v-else class="p-2">
                                 NO LOG
                             </td>
-                            <td class="p-2">
+                            <td v-if="dataValue[1].ovetime.length > 0" class="p-2">
+                                {{ dataValue[1].ovetime[0].end_time_human }}
+                            </td>
+                            <td v-else class="p-2">
                                 NO LOG
                             </td>
-                            <td class="p-2">
-                                NO LOG
+                            <td v-if="dataValue[1].metadata.regular.overtime!=null" class="p-2">
+                                {{dataValue[1].metadata.regular.overtime}}
+                            </td>
+                            <td v-else class="p-2">
+                                0
                             </td>
                         </tr>
                     </template>
