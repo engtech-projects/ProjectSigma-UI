@@ -9,11 +9,13 @@ const portalToken = useCookie("portal_token",
         expires: cookieExpiry
     }
 )
+const tokencopy = portalToken.value
 if (portalToken.value) {
-    const tokencopy = portalToken.value
-    portalToken.value = "Resetting"
     setTimeout(() => {
-        portalToken.value = tokencopy
+        portalToken.value = "Resetting"
+        setTimeout(() => {
+            portalToken.value = tokencopy
+        }, 100)
     }, 100)
 }
 const { token } = useAuth()
@@ -70,6 +72,7 @@ export function useHRMSApiO (url: string, params: any) {
     return ofetchApi(url, params)
 }
 export function useAttendancePortalApi<T> (url: string, options: AsyncDataOptions<T>|UseFetchOptions<T> = {}) {
+    const ptoken = portalToken.value === "Resetting" ? tokencopy : portalToken.value
     const cookieHeaders = useRequestHeaders(["cookie"])
     const defaults: UseFetchOptions<T> = {
         server: false,
@@ -77,9 +80,10 @@ export function useAttendancePortalApi<T> (url: string, options: AsyncDataOption
         key: url,
         headers: {
             ...cookieHeaders,
-            Portal_token: portalToken.value + "",
             Accept: "application/json",
-            Cookie: "portal_token=" + portalToken.value + ";"
+            Portal_token: ptoken + "",
+            Authorization: "Bearer " + ptoken,
+            Cookie: "portal_token=" + ptoken + ";"
         },
         onResponse (_ctx) {
             // _ctx.response._data = new myBusinessResponse(_ctx.response._data)
@@ -92,15 +96,16 @@ export function useAttendancePortalApi<T> (url: string, options: AsyncDataOption
     return useFetch(url, params)
 }
 export function useAttendancePortalApiO (url: string, params: any) {
+    const ptoken = portalToken.value === "Resetting" ? tokencopy : portalToken.value
     const cookieHeaders = useRequestHeaders(["cookie"])
     const ofetchApi = ofetch.create({
         baseURL: config.public.HRMS_API_URL,
-        // headers: cookieHeaders,
         headers: {
             ...cookieHeaders,
-            Portal_token: portalToken.value + "",
             Accept: "application/json",
-            Cookie: "portal_token=" + portalToken.value + ";"
+            Portal_token: ptoken + "",
+            Authorization: "Bearer " + ptoken,
+            Cookie: "portal_token=" + ptoken + ";"
         },
     })
     return ofetchApi(url, params)

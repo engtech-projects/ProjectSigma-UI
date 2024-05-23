@@ -5,7 +5,10 @@ const attendancePortal = useAttendancePortal()
 const { lastSuccessLogEmployee } = storeToRefs(attendancePortal)
 </script>
 <template>
-    <div v-if="lastSuccessLogEmployee" class="bg-gray-100 flex gap-2 w-full shadow-lg border-2 border-gray-300 rounded-lg p-4">
+    <div
+        v-if="lastSuccessLogEmployee"
+        class="bg-gray-100 flex gap-2 w-full shadow-lg border-2 border-gray-300 rounded-lg p-4"
+    >
         <div class="md:w-1/4">
             <img
                 v-if="lastSuccessLogEmployee.employee.profile_photo"
@@ -13,12 +16,7 @@ const { lastSuccessLogEmployee } = storeToRefs(attendancePortal)
                 :src="lastSuccessLogEmployee.employee.profile_photo.base64"
                 alt="profile pic"
             >
-            <img
-                v-else
-                class="md:h-32 w-32 bg-gray-400 rounded-lg"
-                :src="'/avatarexample.png'"
-                alt="profile pic"
-            >
+            <img v-else class="md:h-32 w-32 bg-gray-400 rounded-lg" :src="'/avatarexample.png'" alt="profile pic">
         </div>
         <div class="md:w-3/4 flex flex-col justify-start">
             <p class="text-3xl text-gray-700 font-bold mt-2">

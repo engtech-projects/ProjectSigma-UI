@@ -35,23 +35,29 @@ attendancePortalParams.value.log_type = CATEGORY_TIME_IN
                 <HrmsAttendanceEmployeeAnouncement />
             </div>
             <div class="w-full rounded-lg md:w-1/3 space-y-4">
-                <LayoutBoards title="Face Recognition" class="text-center">
+                <div class="text-center">
                     <div class="w-full">
                         <AttendancePortalFacialRecognitionFaceCamera />
                         <div class="md:flex gap-2 space-x-2 p-2 justify-center">
-                            <input id="Time-in" v-model="attendancePortalParams.log_type" class="" type="radio" value="In">
-                            <label
-                                for="Time-in"
-                                class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                            >TIME IN</label>
-                            <input id="time-out" v-model="attendancePortalParams.log_type" class="" type="radio" value="Out">
-                            <label
-                                for="time-out"
-                                class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                            >TIME OUT</label>
+                            <input
+                                id="Time-in"
+                                v-model="attendancePortalParams.log_type"
+                                class=""
+                                type="radio"
+                                value="In"
+                            >
+                            <label for="Time-in" class="mr-4 text-xs text-gray-900 dark:text-gray-300">TIME IN</label>
+                            <input
+                                id="time-out"
+                                v-model="attendancePortalParams.log_type"
+                                class=""
+                                type="radio"
+                                value="Out"
+                            >
+                            <label for="time-out" class="mr-4 text-xs text-gray-900 dark:text-gray-300">TIME OUT</label>
                         </div>
                     </div>
-                </LayoutBoards>
+                </div>
                 <div class="w-full">
                     <AttendancePortalFacialRecognitionEmployeeAttendanceCard />
                 </div>

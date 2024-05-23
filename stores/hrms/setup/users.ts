@@ -1,6 +1,8 @@
 import { defineStore } from "pinia"
+export const USER_ADMINISTRATOR = "Administrator"
 
 export interface User {
+    id: number | null,
     name: String,
     email: String,
     type: String,
@@ -17,6 +19,7 @@ export const useUserStore = defineStore("users", {
         list: [],
         createData: {
             params: {
+                id: null,
                 name: "",
                 email: "",
                 password: "",
@@ -31,10 +34,11 @@ export const useUserStore = defineStore("users", {
         },
         editData: {
             params: {
+                id: null,
                 name: "",
                 email: "",
                 password: "",
-                accessibilities: [] as Array<number>,
+                accessibilities: [1] as Array<number>,
                 employee_id: null,
                 employee_details: {} as Object,
                 accessibilities_name: [] as Array<String>,
@@ -63,14 +67,14 @@ export const useUserStore = defineStore("users", {
     }),
     actions: {
         async createEmployeeAccount () {
+            this.createData.params.accessibilities = this.editData.params.accessibilities
             await useHRMSApiO(
                 "/api/users",
                 {
                     method: "POST",
-                    params: this.createData.params,
+                    body: this.createData.params,
                     onResponse: ({ response } : any) => {
                         if (response.ok) {
-                            this.$reset()
                             this.createData.successMessage = response._data.message
                             return response._data
                         } else {
@@ -81,16 +85,33 @@ export const useUserStore = defineStore("users", {
                 }
             )
         },
-        async editEmployeeAccount (id: string) {
+        async editEmployeeAccount () {
             await useHRMSApiO(
-                "/api/user" + id,
+                "/api/users/" + this.editData.params.id,
                 {
                     method: "PATCH",
-                    params: this.editData.params,
-                    onResponse: ({ response }) => {
+                    body: this.editData.params,
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.$reset()
                             this.editData.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.editData.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getEmployeeAccount (id: Number) {
+            await useHRMSApiO(
+                "/api/user-account-by-employee-id/" + id,
+                {
+                    method: "GET",
+                    params: id,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.editData.params = response._data.data
                             return response._data
                         } else {
                             this.editData.errorMessage = response._data.message
@@ -106,7 +127,7 @@ export const useUserStore = defineStore("users", {
                 {
                     method: "PUT",
                     params: this.editCurrent.params,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.$reset()
                             this.editCurrent.successMessage = response._data.message
@@ -119,14 +140,13 @@ export const useUserStore = defineStore("users", {
                 }
             )
         },
-
-        async setUserAccessibilities (id: string) {
+        async setUserAccessibilities (id: Number) {
             await useHRMSApiO(
                 "/api/users_accessibilities" + id,
                 {
                     method: "PATCH",
                     params: this.editData.params,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.$reset()
                             this.editData.successMessage = response._data.message

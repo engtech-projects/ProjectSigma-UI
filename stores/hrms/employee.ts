@@ -80,6 +80,11 @@ export interface Spouse {
     name: String,
     birthdate: String,
 }
+
+export interface EmployeeDTR {
+    id: Number,
+    dtr: Object,
+}
 export interface AdministrativeCaseInformation {
     is_administrative_case: Boolean,
     offense: String,
@@ -286,6 +291,7 @@ value: any
     employee_eligibility: Array<EmploymentEligibility>,
     employee_seminartraining: Array<EmployeeSeminarTraining>,
     employee_internal: Array<EmployeeInternal>,
+    employee_dtr: Array<EmployeeDTR>,
     employee_externalwork: Array<EmployeeExternalwork>,
     employee_address: Array<EmployeeAddress>,
     employment_records: Array<EmploymentRecord>,
@@ -974,6 +980,25 @@ export const useEmployeeInfo = defineStore("employee", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getEmployeeDTR (employeeId: number, start:string, end:string) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/attendance/dtr?employee_id=" + employeeId + "&cutoff_start=" + start + '&cutoff_end=' + end,
+                {
+                    method: "GET",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.information.employee_dtr = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

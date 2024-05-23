@@ -1,5 +1,4 @@
 import { defineStore } from "pinia"
-
 interface Accessibility {
     id: Number,
     accessibilities_name: String
@@ -7,15 +6,15 @@ interface Accessibility {
 
 export const useAccessbilities = defineStore("accessibilitiesStore", {
     state: () => ({
-        list: [] as Accessibility[],
+        access_list: [] as Accessibility[],
     }),
     getters: {
         formattedAccessibilities (state) {
-            const formattedList = {}
-            if (state.list.length <= 0) {
+            const formattedList = {} as any
+            if (state.access_list.length <= 0) {
                 return formattedList
             }
-            state.list.forEach(function (accessibilty) {
+            state.access_list.forEach(function (accessibilty) {
                 const moduleAccess = accessibilty.accessibilities_name.split(":")
                 const newAccess = accessibilty
                 newAccess.accessibilities_name = moduleAccess[1]
@@ -29,7 +28,7 @@ export const useAccessbilities = defineStore("accessibilitiesStore", {
     },
     actions: {
         async getListIfEmpty () {
-            if (this.list.length <= 0) {
+            if (this.access_list.length <= 0) {
                 return await this.getUserEmployees()
             }
         },
@@ -38,9 +37,9 @@ export const useAccessbilities = defineStore("accessibilitiesStore", {
                 "/api/accessibilities",
                 {
                     method: "GET",
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) { // Success
-                            this.list = response._data.data
+                            this.access_list = response._data.data
                             return response._data
                         } else { // Error
                             throw new Error(response._data.message)

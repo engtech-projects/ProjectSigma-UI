@@ -1,3 +1,4 @@
+import { USER_ADMINISTRATOR } from "@/stores/hrms/setup/users"
 const { data: userData } = useAuth()
 export enum AccessibilityTypes {
     hrms_dashboard = "hrms:dashboard",
@@ -50,10 +51,87 @@ export enum AccessibilityTypes {
     accounting_posting_period = "accounting:posting_period",
     accounting_account_groups = "accounting:account_groups",
     accounting_stake_holder = "accounting:stake_holder",
+    project_monitoring_dashboard = "project_monitoring:dashboard",
+    project_monitoring_projects = "project_monitoring:projects",
+    // hrms-dashboard-sub
+    hrms_dashboard_announcement = "hrms:dashboard_announcement",
+    hrms_dashboard_birthday = "hrms:dashboard_birthday",
+    hrms_dashboard_lates = "hrms:dashboard_lates",
+    hrms_dashboard_absent = "hrms:dashboard_absent",
+    hrms_dashboard_absent_chart = "hrms:dashboard_absent_chart",
+    hrms_dashboard_assignment_location_chart = "hrms:dashboard_assignment_location_chart",
+    hrms_dashboard_gender_chart = "hrms:dashboard_gender_chart",
+    // hrms-announcement-sub
+    hrms_announcement_form = "hrms:announcement_form",
+    hrms_announcement_list = "hrms:announcement_list",
+    // hrms-announcement-sub
+    hrms_attendance_attendance_portal_form = "hrms:attendance_attendance_portal_form",
+    hrms_attendance_attendance_portal_list = "hrms:attendance_attendance_portal_list",
+    // hrms-annoufancement-sub
+    hrms_attendance_daily_logs_record_form = "hrms:attendance_daily_logs_record_form",
+    hrms_attendance_daily_logs_record_list = "hrms:attendance_daily_logs_record_list",
+    hrms_attendance_daily_logs_record_approval = "hrms:attendance_daily_logs_record_approval",
+     // hrms-event-calendar-sub
+    hrms_event_calendar_form = "hrms:event_calendar_form",
+    hrms_event_calendar_calendar = "hrms:event_calendar_calendar",
+    // hrms-event-calendar-sub
+    hrms_employee_201_PIS = "hrms:employee_201_PIS",
+    hrms_employee_201_staff_information_sheet = "hrms:employee_201_staff_information_sheet",
+    hrms_employee_201_documents_memos = "hrms:employee_201_documents_memos",
+    hrms_employee_201_id = "hrms:employee_201_id",
+    // hrms-employee_personnel_action_notice-sub
+    hrms_employee_personnel_action_notice_form = "hrms:employee_personnel_action_notice_form",
+    hrms_employee_personnel_action_notice_all_request = "hrms:employee_personnel_action_notice_all_request",
+    hrms_employee_personnel_action_notice_approval = "hrms:employee_personnel_action_notice_approval",
+    hrms_employee_personnel_action_notice_my_request = "hrms:employee_personnel_action_notice_my_request",
+    // hrms-manpower-request-sub
+    hrms_manpower_request_form = "hrms:_manpower_request_form",
+    hrms_manpower_request_all_request = "hrms:_manpower_request_all_request",
+    hrms_manpower_request_approval = "hrms:_manpower_request_approval",
+    hrms_manpower_request_my_request = "hrms:_manpower_request_my_request",
+    // hrms-loans-and-advances-cash-advance-request-sub
+    hrms_loans_and_advances_cash_advance_forms = "hrms:loans_and_advances_cash_advance_forms",
+    hrms_loans_and_advances_cash_advance_list = "hrms:loans_and_advances_cash_advance_list",
+    hrms_loans_and_advances_cash_advance_approvals = "hrms:loans_and_advances_cash_advance_approvals",
+    // hrms-loans-and-advances-loans-sub
+    hrms_loans_and_advances_loans_forms = "hrms:loans_and_advances_loans_forms",
+    hrms_loans_and_advances_loans_loans_list = "hrms:loans_and_advances_loans_loans_list",
+    hrms_loans_and_advances_loans_payment_list = "hrms:loans_and_advances_loans_payment_list",
+    // hrms-loans-and-advances-other-deduction-sub
+    hrms_loans_and_advances_other_deduction_forms = "hrms:loans_and_advances_other_deduction_forms",
+    hrms_loans_and_advances_other_deduction_list = "hrms:loans_and_advances_other_deduction_list",
+    // hrms-leave-sub
+    hrms_leave_form = "hrms:leave_form",
+    hrms_leave_list = "hrms:leave_list",
+    hrms_leave_my_approvals = "hrms:leave_my_approvals",
+     // hrms-overtime-sub
+    hrms_overtime_form = "hrms:overtime_form",
+    hrms_overtime_list = "hrms:overtime_list",
+    hrms_overtime_my_request = "hrms:overtime_my_request",
+    hrms_overtime_my_approvals = "hrms:overtime_my_approvals",
+    // hrms-travel_order-sub
+    hrms_travel_order_form = "hrms:travel_order_form",
+    hrms_travel_order_list = "hrms:travel_order_list",
+    hrms_travel_order_my_request = "hrms:travel_order_my_request",
+    hrms_travel_order_my_approvals = "hrms:travel_order_my_approvals",
 
+    hrms_attendance_attendance_logs = "hrms:attendance_attendance_logs",
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
-    allowedAccessibilities = new Set(allowedAccessibilities)
-    const accessApprove = allowedAccessibilities.intersection(new Set(userData.accessibilities_name))
-    return (accessApprove.legth > 0)
+    const intersectElements = (allowedAccess: any, userAccess: any) => {
+        const res = []
+        for (let i = 0; i < userAccess.length; i++) {
+            if (allowedAccess.includes(userAccess[i])) {
+                res.push(userAccess[i])
+                allowedAccess.splice(allowedAccess.indexOf(userAccess[i]), 1, undefined)
+            }
+        };
+        return res
+    }
+    if (userData.value.type === USER_ADMINISTRATOR) {
+        return true
+    }
+    const userAccessibilites = userData.value.accessibility_names ?? []
+    const accessApprove = intersectElements(allowedAccessibilities, userAccessibilites)
+    return (accessApprove.length > 0)
 }

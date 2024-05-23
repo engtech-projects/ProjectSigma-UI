@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { useAccessbilities } from "@/stores/hrms/accessibilities"
 import { useUserStore } from "@/stores/hrms/setup/users"
 
@@ -6,7 +6,6 @@ const accessbilities = useAccessbilities()
 const user = useUserStore()
 
 const { editData } = storeToRefs(user)
-
 </script>
 <template>
     <section class="bg-gray-50 dark:bg-gray-900">
