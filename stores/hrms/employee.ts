@@ -992,7 +992,7 @@ export const useEmployeeInfo = defineStore("employee", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/attendance/dtr?employee_id=" + employeeId + "&cutoff_start=" + start + '&cutoff_end=' + end,
+                "/api/attendance/dtr?employee_id=" + employeeId + "&cutoff_start=" + start + "&cutoff_end=" + end,
                 {
                     method: "GET",
                     onResponse: ({ response }: any) => {

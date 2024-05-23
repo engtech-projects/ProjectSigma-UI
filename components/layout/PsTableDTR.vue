@@ -215,7 +215,7 @@ defineProps({
                             <td class="p-2">
                                 {{ dataValue[0] }}
                             </td>
-                            <td class="p-2"></td>
+                            <td class="p-2" />
                             <td class="p-2">
                                 ABSENT
                             </td>
@@ -247,7 +247,7 @@ defineProps({
                             <td class="p-2">
                                 {{ dataValue[0] }}
                             </td>
-                            <td class="p-2"></td>
+                            <td class="p-2" />
                             <td class="p-2">
                                 NO SCHEDULE
                             </td>
