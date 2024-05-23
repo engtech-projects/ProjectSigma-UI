@@ -55,11 +55,15 @@ useHead({
         <div class="md:grid grid-cols-2 gap-2">
             <HrmsSetupUserAccountsCreateUser
                 v-if="optionType === 'create'"
+                class="w-full"
             />
             <HrmsSetupUserAccountsEditUser
                 v-if="optionType === 'update'"
+                class="w-full"
             />
-            <HrmsSetupUserAccountsUserAccessibilities />
+            <HrmsSetupUserAccountsUserAccessibilities
+                class="w-full"
+            />
         </div>
     </div>
 </template>

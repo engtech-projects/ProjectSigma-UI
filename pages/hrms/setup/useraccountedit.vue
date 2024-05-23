@@ -7,5 +7,5 @@ useHead({
 </script>
 
 <template>
-    <HrmsSetupUserAccountsEditUser />
+    <HrmsSetupUserAccountsEditUserProfile />
 </template>

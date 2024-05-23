@@ -14,8 +14,25 @@ useHead({
 
 <template>
     <div class="flex flex-col gap-3">
-        <HrmsAnnouncementForm v-show="!isEdit" />
-        <HrmsAnnouncementEditAnnouncementForm v-show="isEdit" />
-        <HrmsAnnouncementList />
+        <HrmsAnnouncementForm
+            v-show="!isEdit"
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.hrms_announcement_form,
+            ])"
+            class="w-full"
+        />
+        <HrmsAnnouncementEditAnnouncementForm
+            v-show="isEdit"
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.hrms_announcement_form,
+            ])"
+            class="w-full"
+        />
+        <HrmsAnnouncementList
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.hrms_announcement_list,
+            ])"
+            class="w-full"
+        />
     </div>
 </template>
