@@ -10,6 +10,7 @@ defineProps({
         required: true,
     }
 })
+
 </script>
 <template>
     <section class="bg-gray-50 dark:bg-gray-900">
