@@ -13,7 +13,13 @@ useHead({
 </script>
 
 <template>
-    <div class="flex flex-col md:flex-row gap-4">
-        <HrmsSetupAllowanceTable />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_setup_allowance,
+        ])"
+    >
+        <div class="flex flex-col md:flex-row gap-4">
+            <HrmsSetupAllowanceTable />
+        </div>
+    </LayoutAcessContainer>
 </template>

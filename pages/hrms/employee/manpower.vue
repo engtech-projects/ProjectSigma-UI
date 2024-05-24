@@ -22,15 +22,21 @@ useHead({
 </script>
 
 <template>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-            <HrmsEmployeeManpowerAddRequest v-show="!isEdit" />
-            <!-- <EmployeeManpowerEditRequest v-show="isEdit" /> -->
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_employee_manpower_request,
+        ])"
+    >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <HrmsEmployeeManpowerAddRequest v-show="!isEdit" />
+                <!-- <EmployeeManpowerEditRequest v-show="isEdit" /> -->
+            </div>
+            <div class="flex flex-col gap-2">
+                <HrmsEmployeeManpowerMonitoringList />
+                <HrmsEmployeeManpowerMyApprovals />
+                <HrmsEmployeeManpowerMyRequests />
+            </div>
         </div>
-        <div class="flex flex-col gap-2">
-            <HrmsEmployeeManpowerMonitoringList />
-            <HrmsEmployeeManpowerMyApprovals />
-            <HrmsEmployeeManpowerMyRequests />
-        </div>
-    </div>
+    </LayoutAcessContainer>
 </template>
