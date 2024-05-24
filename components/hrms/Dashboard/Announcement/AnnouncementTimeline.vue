@@ -12,7 +12,7 @@ const formatDate = (date) => {
 
 <template>
     <LayoutBoards title="Announcement">
-        <div v-if="mainList!=''">
+        <div v-if="mainList!=''" class="h-full max-h-full overflow-auto">
             <HrmsDashboardAnnouncementHeadline
                 class="mb-4 mt-2"
                 :title="mainList[0]?.title"

@@ -1,9 +1,8 @@
-<script setup lang="ts">
+<script setup>
 
 </script>
-
 <template>
     <div>
-        <HrmsHmoRenew />
+        <slot />
     </div>
 </template>

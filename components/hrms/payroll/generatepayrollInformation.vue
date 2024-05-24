@@ -1,9 +1,17 @@
-<script setup>
+<script setup lang="ts">
+// import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+
+// const genpayrollstore = useGeneratePayrollStore()
+// const { list: payrollDraft } = storeToRefs(genpayrollstore)
 defineProps({
-    genpayrollData: {
+    generatePayrollData: {
         type: Object,
         required: true,
     },
+    payrollDraft: {
+        type: Object,
+        required: true,
+    }
 })
 
 // const headerColumns = [
@@ -23,17 +31,43 @@ defineProps({
 //     { name: "John Doe", time: "8:00 AM" },
 //     { name: "Jane Doe", time: "9:00 AM" }
 // ]
-
-// const actions = {}
-
 // const subHeaders = [
 //     { name: "Lastname", id: "lastname", style: "text-left" },
 //     { name: "Firstname", id: "firstname", style: "text-left" },
 //     { name: "Number of Days", id: "number_of_days", style: "text-left" }
 // ]
+
+// const tableData = ref([
+//     ["n/a1", "n/a2", "n/a3", "n/a4", "n/a5"],
+// ])
+
+const formatDateRange = (start: string, end: string) => {
+    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+
+    const startDate = new Date(start)
+    const endDate = new Date(end)
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        return "N/A"
+    }
+
+    const startDay = startDate.getDate()
+    const startMonth = months[startDate.getMonth()]
+
+    const endDay = endDate.getDate()
+    const endMonth = months[endDate.getMonth()]
+    const endYear = endDate.getFullYear()
+
+    if (startMonth === endMonth) {
+        return `${startMonth} ${startDay}-${endDay}, ${endYear}`
+    } else {
+        return `${startMonth} ${startDay}-${endMonth} ${endDay}, ${endYear}`
+    }
+}
 </script>
 
 <template>
+    <!-- <pre>{{ generatePayrollData }}</pre> -->
     <div class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
         <div class="flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
             <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900">
@@ -44,12 +78,12 @@ defineProps({
             </div>
         </div>
         <div class="border-t border-gray-200">
-            <div class="grid grid-cols-2 p-2 sm:px-6">
+            <div class="grid grid-cols-2 p-2">
                 <div class="text-md leading-6 font-medium text-gray-900">
-                    Project:
+                    Project: <strong>{{ generatePayrollData.group_type === 'department' ? generatePayrollData.department_id : generatePayrollData.project_id }}</strong>
                 </div>
                 <div class="text-md leading-6 font-medium text-gray-900">
-                    Period Covered:
+                    Period Covered: <strong>{{ formatDateRange(generatePayrollData.cutoff_start, generatePayrollData.cutoff_end) }}</strong>
                 </div>
             </div>
         </div>
@@ -128,7 +162,7 @@ defineProps({
                         <tr>
                             <th
                                 scope="col"
-                                class="px-8 border-solid border border-slate-400"
+                                class="px-8 border-solid border border-slate-400 text-xs"
                             >
                                 Last Name
                             </th>
@@ -279,11 +313,26 @@ defineProps({
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- <pre>{{ payrollDraft }}</pre> -->
                         <tr class="bg-white border-b text-gray-950">
                             <td class="p-4 border-solid border border-slate-400">
-                                N/A
+                                --
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                <pre>{{ payrollDraft }}</pre>
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                n/a2
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                n/a3
                             </td>
                         </tr>
+                        <!-- <tr v-for="(row, rowIndex) in payrollDraft" :key="rowIndex" class="bg-white border-b text-gray-950">
+                            <td v-for="(cell, cellIndex) in row" :key="cellIndex" class="p-4 border-solid border border-slate-400">
+                                {{ cell }}
+                            </td>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -298,6 +347,10 @@ defineProps({
                 />
             </div>
         </div> -->
+    </div>
+    <div class="flex items-center justify-between align">
+        <label for="" class="text-xl font-semibold text-gray-900 pb-2">Adjustment</label>
+        <!-- {{ JSON.stringify(generatePayrollData.adjustment) }} -->
     </div>
     <div>
         <!-- <LayoutApprovalsListView :approvals="leaveData.approvals" /> -->

@@ -1,8 +1,8 @@
 import { USER_ADMINISTRATOR } from "@/stores/hrms/setup/users"
 const { data: userData } = useAuth()
 export enum AccessibilityTypes {
-    hrms_dashboard = "hrms:dashboard",
     hrms_announcement = "hrms:announcement",
+    hrms_dashboard = "hrms:dashboard",
     hrms_attendance_attendance_portal = "hrms:attendance_attendance_portal",
     hrms_attendance_dtr = "hrms:attendance_daily_logs_record",
     hrms_attendance_failure_to_log = "hrms:attendance_failure_to_log",
@@ -43,16 +43,6 @@ export enum AccessibilityTypes {
     hrms_setup_allowance = "hrms:setup_allowance",
     hrms_setup_settings = "hrms:setup_settings",
     hrms_setup_salary_grade = "hrms:setup_salary_grade",
-    inventory_dashboard = "inventory:dashboard",
-    accounting_chart_of_accounts = "accounting:chart_of_accounts",
-    accounting_books = "accounting:books",
-    accounting_transaction_type = "accounting:transaction_type",
-    accounting_document_Series = "accounting:document_Series",
-    accounting_posting_period = "accounting:posting_period",
-    accounting_account_groups = "accounting:account_groups",
-    accounting_stake_holder = "accounting:stake_holder",
-    project_monitoring_dashboard = "project_monitoring:dashboard",
-    project_monitoring_projects = "project_monitoring:projects",
     // hrms-dashboard-sub
     hrms_dashboard_announcement = "hrms:dashboard_announcement",
     hrms_dashboard_birthday = "hrms:dashboard_birthday",
@@ -64,7 +54,8 @@ export enum AccessibilityTypes {
     // hrms-announcement-sub
     hrms_announcement_form = "hrms:announcement_form",
     hrms_announcement_list = "hrms:announcement_list",
-    // hrms-announcement-sub
+    // hrms-attendance-sub
+    hrms_attendance_attendance_logs = "hrms:attendance_attendance_logs",
     hrms_attendance_attendance_portal_form = "hrms:attendance_attendance_portal_form",
     hrms_attendance_attendance_portal_list = "hrms:attendance_attendance_portal_list",
     // hrms-annoufancement-sub
@@ -115,7 +106,22 @@ export enum AccessibilityTypes {
     hrms_travel_order_my_request = "hrms:travel_order_my_request",
     hrms_travel_order_my_approvals = "hrms:travel_order_my_approvals",
 
-    hrms_attendance_attendance_logs = "hrms:attendance_attendance_logs",
+    // INVENTORY
+    inventory_dashboard = "inventory:dashboard",
+
+    // ACCOUNTING
+    accounting_chart_of_accounts = "accounting:chart_of_accounts",
+    accounting_books = "accounting:books",
+    accounting_transaction_type = "accounting:transaction_type",
+    accounting_document_Series = "accounting:document_Series",
+    accounting_posting_period = "accounting:posting_period",
+    accounting_account_groups = "accounting:account_groups",
+    accounting_stake_holder = "accounting:stake_holder",
+
+    // PROJECT MONITORING
+    project_monitoring_dashboard = "project_monitoring:dashboard",
+    project_monitoring_projects = "project_monitoring:projects",
+
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
     const intersectElements = (allowedAccess: any, userAccess: any) => {

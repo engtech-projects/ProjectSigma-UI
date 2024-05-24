@@ -1,20 +1,13 @@
 <template>
-    <div class="flex footer w-full bg-gray-200 text-gray-700 h-12 justify-between px-4">
-        <div class="flex flex-col gap-2 justify-center">
+    <div class="w-full flex bg-gray-200 text-gray-700 h-12 px-4 justify-between">
+        <div class="w-1/3 flex flex-col justify-center">
             <p>Powered By: Engtech Global Solutions Inc.</p>
         </div>
-        <div class="flex flex-col gap-2 justify-center">
+        <div class="w-1/3 flex flex-col justify-center text-center">
             <p>EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION</p>
         </div>
-        <div class="flex flex-col gap-2 justify-center">
+        <div class="w-1/3 flex flex-col justify-center text-right">
             <p>tel No: (085) 8080398</p>
         </div>
     </div>
 </template>
-<style scoped>
-    .footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-    }
-</style>

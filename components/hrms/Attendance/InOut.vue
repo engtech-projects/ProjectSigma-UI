@@ -33,6 +33,7 @@ const getAttendance = async () => {
                     type: "success",
                     text: employee.successMessage
                 })
+                // console.log(fetch)
             } else {
                 snackbar.add({
                     type: "warning",
@@ -69,19 +70,20 @@ const headers = [
     <div class="shadow-md border border-gray-200 rounded-lg p-4 bg-white mb-3 w-full md:w-3/4">
         <div class="flex w-full mb-4">
             <div class="div">
-                <form @submit.prevent="getAttendance" class="w-full grid grid-cols-1 gap-4 grid-cols-3">
+                <form class="w-full grid grid-cols-1 gap-4 grid-cols-3" @submit.prevent="getAttendance">
                     <div class="div">
                         <label for="date_requested" class="block text-sm font-medium text-gray-900 dark:text-white">Date From:</label>
-                        <input v-model="filterDate.from" id="date_requested" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <input id="date_requested" v-model="filterDate.from" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     </div>
                     <div class="div">
                         <label for="date_required" class="block text-sm font-medium text-gray-900 dark:text-white">Date To:</label>
-                        <input v-model="filterDate.to" id="date_required" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <input id="date_required" v-model="filterDate.to" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     </div>
                     <div class="div flex items-end">
                         <button
                             type="submit"
-                            class="text-white bg-blue-700 hover:bg-blue-800 font-medium text-sm px-2.5 py-2 text-center rounded-lg">
+                            class="text-white bg-blue-700 hover:bg-blue-800 font-medium text-sm px-2.5 py-2 text-center rounded-lg"
+                        >
                             <Icon name="ion:search" color="white" class="rounded h-7 w-8 p-1" />
                         </button>
                     </div>
