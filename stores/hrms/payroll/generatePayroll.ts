@@ -79,7 +79,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                     params: payload,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.list = JSON.stringify(response._data.data)
+                            this.list = response._data.data
                             this.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,

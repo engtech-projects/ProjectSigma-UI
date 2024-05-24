@@ -1,45 +1,19 @@
 <script setup lang="ts">
-// import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+const genpayrollstore = useGeneratePayrollStore()
 
-// const genpayrollstore = useGeneratePayrollStore()
-// const { list: payrollDraft } = storeToRefs(genpayrollstore)
+const { list: generatedList } = storeToRefs(genpayrollstore)
+
 defineProps({
     generatePayrollData: {
         type: Object,
         required: true,
     },
-    payrollDraft: {
-        type: Object,
-        required: true,
-    }
+    // payrollDraft: {
+    //     type: Array,
+    //     required: true,
+    // }
 })
-
-// const headerColumns = [
-//     { name: "Name", id: "name", style: "text-center" },
-//     { name: "Designation", id: "name", style: "text-center" },
-//     { name: "No. of Days", id: "name", style: "text-center" },
-//     { name: "Gross Pay", id: "name", style: "text-center" },
-//     { name: "Gross Pay", id: "name", style: "text-center" },
-//     { name: "Salary Deduction", id: "name", style: "text-center" },
-//     { name: "EWTC", id: "name", style: "text-center" },
-//     { name: "COOP LOAN", id: "name", style: "text-center" },
-//     { name: "Total Deduction", id: "name", style: "text-center" },
-//     { name: "Total Net Pay", id: "name", style: "text-center" },
-// ]
-
-// const datas = [
-//     { name: "John Doe", time: "8:00 AM" },
-//     { name: "Jane Doe", time: "9:00 AM" }
-// ]
-// const subHeaders = [
-//     { name: "Lastname", id: "lastname", style: "text-left" },
-//     { name: "Firstname", id: "firstname", style: "text-left" },
-//     { name: "Number of Days", id: "number_of_days", style: "text-left" }
-// ]
-
-// const tableData = ref([
-//     ["n/a1", "n/a2", "n/a3", "n/a4", "n/a5"],
-// ])
 
 const formatDateRange = (start: string, end: string) => {
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
@@ -48,7 +22,7 @@ const formatDateRange = (start: string, end: string) => {
     const endDate = new Date(end)
 
     if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-        return "N/A"
+        return "-"
     }
 
     const startDay = startDate.getDate()
@@ -67,7 +41,7 @@ const formatDateRange = (start: string, end: string) => {
 </script>
 
 <template>
-    <!-- <pre>{{ generatePayrollData }}</pre> -->
+    <!-- <pre>{{ generatedList }}</pre> -->
     <div class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
         <div class="flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
             <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900">
@@ -90,7 +64,7 @@ const formatDateRange = (start: string, end: string) => {
 
         <div>
             <div class="relative overflow-x-auto shadow-md">
-                <table class="w-full text-sm text-center text-gray-50 ">
+                <table class="w-full text-sm text-center text-gray-50 pb-4">
                     <thead
                         class="text-xs text-black uppercase bg-sky-50 dark:bg-gray-950"
                     >
@@ -100,7 +74,7 @@ const formatDateRange = (start: string, end: string) => {
                                 rowspan="2"
                                 class="p-2 border-solid border border-slate-400"
                             >
-                                No.
+                                No
                             </th>
                             <th
                                 scope="col"
@@ -270,6 +244,7 @@ const formatDateRange = (start: string, end: string) => {
                             </th>
                             <th
                                 scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
                                 SSS LOAN
@@ -314,43 +289,134 @@ const formatDateRange = (start: string, end: string) => {
                     </thead>
                     <tbody>
                         <!-- <pre>{{ payrollDraft }}</pre> -->
-                        <tr class="bg-white border-b text-gray-950">
+                        <tr v-for="(data, index) in generatedList" :key="index" class="bg-white border-b text-gray-950">
                             <td class="p-4 border-solid border border-slate-400">
-                                --
+                                {{ index + 1 }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                <pre>{{ payrollDraft }}</pre>
+                                {{ data.family_name }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                n/a2
+                                {{ data.first_name }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                n/a3
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.total_gross_pay ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.cash_advance ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.sss ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.phic ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.ewtc ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.salary_deduction.loan }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.total_salary_deduction ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.total_net_pay ?? "-" }}
                             </td>
                         </tr>
-                        <!-- <tr v-for="(row, rowIndex) in payrollDraft" :key="rowIndex" class="bg-white border-b text-gray-950">
-                            <td v-for="(cell, cellIndex) in row" :key="cellIndex" class="p-4 border-solid border border-slate-400">
-                                {{ cell }}
-                            </td>
-                        </tr> -->
                     </tbody>
                 </table>
             </div>
         </div>
-
-        <!-- <div class="relative overflow-x-auto">
-            <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-                <LayoutPsTableWithSubHeader
-                    :header-columns="headerColumns"
-                    :datas="datas"
-                    :sub-headers="subHeaders"
-                />
-            </div>
-        </div> -->
     </div>
-    <div class="flex items-center justify-between align">
-        <label for="" class="text-xl font-semibold text-gray-900 pb-2">Adjustment</label>
-        <!-- {{ JSON.stringify(generatePayrollData.adjustment) }} -->
+    <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-900 dark:border-gray-800 p-6 overflow-auto mt-6">
+        <label for="" class="block text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Adjustment</label>
+
+        <div v-for="(data, index1) in generatePayrollData.adjustment" :key="index1" class="mb-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm">
+                <div class="text-lg text-gray-800 dark:text-gray-300">
+                    <span class="font-medium">Employee:</span> {{ data.id }}
+                </div>
+                <div class="text-lg text-gray-800 dark:text-gray-300">
+                    <span class="font-medium">Adjustment Name:</span> {{ data.adjustment_name }}
+                </div>
+                <div class="text-lg text-gray-800 dark:text-gray-300">
+                    <span class="font-medium">Adjustment Amount:</span> {{ data.adjustment_amount }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-2">
+        <div class="flex flex-row justify-end gap-2">
+            <div>
+                <button type="submit" class="text-white bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
+                    Print Draft
+                </button>
+            </div>
+            <div>
+                <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                    Submit
+                </button>
+            </div>
+        </div>
     </div>
     <div>
         <!-- <LayoutApprovalsListView :approvals="leaveData.approvals" /> -->

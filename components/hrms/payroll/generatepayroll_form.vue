@@ -34,7 +34,7 @@ const closeViewModal = () => {
     showInformationModal.value = false
 }
 
-const payrollDraft = ref({})
+const payrollDraft = ref([])
 
 const submitForm = async () => {
     try {
@@ -74,6 +74,7 @@ const submitForm = async () => {
                             v-model:select-type="generatePayroll.group_type"
                             v-model:department-id="generatePayroll.department_id"
                             v-model:project-id="generatePayroll.project_id"
+                            required
                         />
                     </div>
                 </div>
@@ -102,6 +103,7 @@ const submitForm = async () => {
                                 :value="payrollType"
                                 type="radio"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                required
                             >
                             <label :for="'payrollType' + index" class="uppercase ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 {{ payrollType }}
@@ -117,6 +119,7 @@ const submitForm = async () => {
                                 :value="releaseType"
                                 type="radio"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                required
                             >
                             <label :for="'releaseType' + index1" class="uppercase ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 {{ releaseType }}
@@ -244,11 +247,11 @@ const submitForm = async () => {
                             title="Close"
                             @click="closeViewModal"
                         >
-                            <Icon name="cil:x" color="red" class="w-4 h-4" />
+                            <Icon name="cil:x" color="red" class="w-4 h-4 hover:bg-red-400 hover:rounded-md hover:text-white" />
                         </button>
                     </div>
                     <div class="p-2">
-                        <HrmsPayrollGeneratepayrollInformation :generate-payroll-data="generatePayrollData" :payroll-draft="payrollDraft" />
+                        <HrmsPayrollGeneratepayrollInformation :generate-payroll-data="generatePayrollData" />
                     </div>
                 </div>
             </div>
