@@ -5,12 +5,36 @@ const hmoStore = useHMOStore()
 hmoStore.getHmo()
 const modalStore = useModalStore()
 const utils = useUtilities()
+const snackbar = useSnackbar()
+const currentHmo = ref({})
+const isLoading = ref(false)
+
+const setDelete = (hmo:any) => {
+    currentHmo.value = hmo
+    modalStore.showModal()
+}
+
+const deleteHmo = async () => {
+    try {
+        modalStore.hideModal()
+        isLoading.value = true
+        await hmoStore.deleteHmo(currentHmo.value.id)
+        snackbar.add({
+            type: "success",
+            text: hmoStore.successMessage
+        })
+    } finally {
+        await hmoStore.getHmo()
+        isLoading.value = false
+    }
+}
 </script>
 
 <template>
     <div
         class="mt-5 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto"
     >
+        <AccountingLoadScreen :is-loading="isLoading" />
         <div class="flex justify-between">
             <label
                 for=""
@@ -68,7 +92,7 @@ const utils = useUtilities()
                             <NuxtLink :to="'/hrms/setup/hmo/edit?hmo_id=' + hmo.id">
                                 <Icon name="iconoir:edit" class="icon bg-green-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-green-500" />
                             </NuxtLink>
-                            <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" @click="modalStore.showModal" />
+                            <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" @click="setDelete(hmo)" />
                             <NuxtLink :to="'/hrms/setup/hmo/renew?hmo_id=' + hmo.id">
                                 <Icon name="iconoir:crop-rotate-bl" class="icon bg-blue-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-blue-500" />
                             </NuxtLink>
@@ -216,7 +240,7 @@ const utils = useUtilities()
                     <button class="rounded px-4 py-2 text-white bg-slate-500 hover:bg-slate-600" @click="modalStore.hideModal">
                         Cancel
                     </button>
-                    <button class="rounded px-4 py-2 text-white bg-teal-500 hover:bg-teal-600" @click="modalStore.hideModal">
+                    <button class="rounded px-4 py-2 text-white bg-teal-500 hover:bg-teal-600" @click="deleteHmo">
                         Proceed
                     </button>
                 </div>

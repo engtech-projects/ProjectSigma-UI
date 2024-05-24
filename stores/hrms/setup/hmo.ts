@@ -101,7 +101,7 @@ export const useHMOStore = defineStore("hmo", {
         },
         async deleteHmo (hmoId : number) {
             const { data, error } = await useFetch(
-                "/api/hmo/resource" + hmoId,
+                "/api/hmo/resource/" + hmoId,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
