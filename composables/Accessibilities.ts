@@ -7,12 +7,16 @@ export enum AccessibilityTypes {
     hrms_attendance_dtr = "hrms:attendance_daily_logs_record",
     hrms_attendance_failure_to_log = "hrms:attendance_failure_to_log",
     hrms_attendance_face_recognition = "hrms:attendance_face_recognition",
+    hrms_attendance_biomentrics = "hrms:attendance_biomentrics",
     hrms_attendance_attendance_login = "hrms:attendance_attendance_login",
+    hrms_attendance_attendance_rejected_data = "hrms:attendance_attendance_rejected_data",
     hrms_attendance_qr_code = "hrms:attendance_qr_code",
     hrms_event_calendar = "hrms:event_calendar",
     hrms_employee_201 = "hrms:employee_201",
+    hrms_employee_applicants = "hrms:employee_applicants",
     hrms_employee_personnel_action_notice = "hrms:employee_personnel_action_notice",
     hrms_employee_onboarding = "hrms:employee_onboarding",
+    hrms_employee_personal_action_notice = "hrms:employee_personal_action_notice",
     hrms_employee_manpower_request = "hrms:employee_manpower_request",
     hrms_setup_user_account = "hrms:setup_user_account",
     hrms_setup_department = "hrms:setup_department",
@@ -52,8 +56,8 @@ export enum AccessibilityTypes {
     hrms_dashboard_assignment_location_chart = "hrms:dashboard_assignment_location_chart",
     hrms_dashboard_gender_chart = "hrms:dashboard_gender_chart",
     // hrms-announcement-sub
-    hrms_announcement_form = "hrms:announcement_form",
-    hrms_announcement_list = "hrms:announcement_list",
+    // hrms_announcement_form = "hrms:announcement_form",
+    // hrms_announcement_list = "hrms:announcement_list",
     // hrms-attendance-sub
     hrms_attendance_attendance_logs = "hrms:attendance_attendance_logs",
     hrms_attendance_attendance_portal_form = "hrms:attendance_attendance_portal_form",
@@ -63,8 +67,8 @@ export enum AccessibilityTypes {
     hrms_attendance_daily_logs_record_list = "hrms:attendance_daily_logs_record_list",
     hrms_attendance_daily_logs_record_approval = "hrms:attendance_daily_logs_record_approval",
      // hrms-event-calendar-sub
-    hrms_event_calendar_form = "hrms:event_calendar_form",
-    hrms_event_calendar_calendar = "hrms:event_calendar_calendar",
+    // hrms_event_calendar_form = "hrms:event_calendar_form",
+    // hrms_event_calendar_calendar = "hrms:event_calendar_calendar",
     // hrms-event-calendar-sub
     hrms_employee_201_PIS = "hrms:employee_201_PIS",
     hrms_employee_201_staff_information_sheet = "hrms:employee_201_staff_information_sheet",
@@ -89,8 +93,8 @@ export enum AccessibilityTypes {
     hrms_loans_and_advances_loans_loans_list = "hrms:loans_and_advances_loans_loans_list",
     hrms_loans_and_advances_loans_payment_list = "hrms:loans_and_advances_loans_payment_list",
     // hrms-loans-and-advances-other-deduction-sub
-    hrms_loans_and_advances_other_deduction_forms = "hrms:loans_and_advances_other_deduction_forms",
-    hrms_loans_and_advances_other_deduction_list = "hrms:loans_and_advances_other_deduction_list",
+    // hrms_loans_and_advances_other_deduction_forms = "hrms:loans_and_advances_other_deduction_forms",
+    // hrms_loans_and_advances_other_deduction_list = "hrms:loans_and_advances_other_deduction_list",
     // hrms-leave-sub
     hrms_leave_form = "hrms:leave_form",
     hrms_leave_list = "hrms:leave_list",

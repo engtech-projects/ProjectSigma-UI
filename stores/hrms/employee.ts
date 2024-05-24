@@ -419,6 +419,7 @@ export const useEmployeeInfo = defineStore("employee", {
         errorMessage: "",
         successMessage: "",
         employeeList: [],
+        filterAttendanceList: [],
         getParams: {},
     }),
     getters: {

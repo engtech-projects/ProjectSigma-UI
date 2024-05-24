@@ -101,7 +101,7 @@ export const useHMOStore = defineStore("hmo", {
         },
         async deleteHmo (hmoId : number) {
             const { data, error } = await useFetch(
-                "/api/hmo/resource" + hmoId,
+                "/api/hmo/resource/" + hmoId,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
@@ -121,8 +121,8 @@ export const useHMOStore = defineStore("hmo", {
         },
 
         async showHmo (hmoId : number) {
-            const { data, error } = await useFetch(
-                "/api/hmo/resource" + hmoId,
+            await useHRMSApiO(
+                "/api/hmo/resource/" + hmoId,
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -131,13 +131,16 @@ export const useHMOStore = defineStore("hmo", {
                         Accept: "application/json"
                     },
                     watch: false,
+                    onResponseError: ({ response } : any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        if (response.ok) {
+                            this.hmo = response._data.data ?? {}
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                // console.log(data.value)
-            } else if (error.value) {
-                return error
-            }
         },
 
         reset () {

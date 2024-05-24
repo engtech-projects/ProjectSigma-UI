@@ -74,14 +74,14 @@ const detectFaces = () => {
 
 <style scoped>
 .camera-container {
-  position: relative;
+    position: relative;
 }
 
 .logged-in-message {
-  text-align: center;
-  font-size: 24px;
-  margin-top: 10px;
-  color: green;
+    text-align: center;
+    font-size: 24px;
+    margin-top: 10px;
+    color: green;
 }
 
 /* Add any additional styles as needed */

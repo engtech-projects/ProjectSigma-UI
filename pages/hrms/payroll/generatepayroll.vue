@@ -19,8 +19,14 @@ useHead({
 </script>
 
 <template>
-    <div class="grid grid-cols-1 md:flex-row gap-4">
-        <HrmsPayrollGeneratepayrollForm />
-        <!-- <HrmsPayrollGeneratepayrollTable /> -->
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_payroll_generate_payroll,
+        ])"
+    >
+        <div class="grid grid-cols-1 md:flex-row gap-4">
+            <HrmsPayrollGeneratepayrollForm />
+            <!-- <HrmsPayrollGeneratepayrollTable /> -->
+        </div>
+    </LayoutAcessContainer>
 </template>

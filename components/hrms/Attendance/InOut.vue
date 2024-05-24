@@ -3,7 +3,7 @@ import "@vuepic/vue-datepicker/dist/main.css"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 
 const employee = useEmployeeInfo()
-const { employeeIsSearched, information } = storeToRefs(employee)
+const { employeeIsSearched, information, filterAttendanceList } = storeToRefs(employee)
 const snackbar = useSnackbar()
 
 const filterDate = ref({
@@ -28,12 +28,11 @@ const getAttendance = async () => {
             if (employeeIsSearched.value) {
                 await employee.getEmployeeDTR(information.value.id, filterDate.value.from, filterDate.value.to)
                 const fetch = information.value.employee_dtr.dtr
-                filterDate.value.data = Object.entries(fetch)
+                filterAttendanceList.value = Object.entries(fetch)
                 snackbar.add({
                     type: "success",
                     text: employee.successMessage
                 })
-                // console.log(fetch)
             } else {
                 snackbar.add({
                     type: "warning",
@@ -94,7 +93,7 @@ const headers = [
             <LayoutPsTableDTR
                 :header-columns="headers"
                 :actions="actions"
-                :datas="filterDate.data"
+                :datas="filterAttendanceList"
                 @show-table="showInformation"
             />
         </div>

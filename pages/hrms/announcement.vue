@@ -13,26 +13,23 @@ useHead({
 </script>
 
 <template>
-    <div class="flex flex-col gap-3">
-        <HrmsAnnouncementForm
-            v-show="!isEdit"
-            v-if="useCheckAccessibility([
-                AccessibilityTypes.hrms_announcement_form,
-            ])"
-            class="w-full"
-        />
-        <HrmsAnnouncementEditAnnouncementForm
-            v-show="isEdit"
-            v-if="useCheckAccessibility([
-                AccessibilityTypes.hrms_announcement_form,
-            ])"
-            class="w-full"
-        />
-        <HrmsAnnouncementList
-            v-if="useCheckAccessibility([
-                AccessibilityTypes.hrms_announcement_list,
-            ])"
-            class="w-full"
-        />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_announcement,
+        ])"
+    >
+        <div class="flex flex-col gap-3">
+            <HrmsAnnouncementForm
+                v-show="!isEdit"
+                class="w-full"
+            />
+            <HrmsAnnouncementEditAnnouncementForm
+                v-show="isEdit"
+                class="w-full"
+            />
+            <HrmsAnnouncementList
+                class="w-full"
+            />
+        </div>
+    </LayoutAcessContainer>
 </template>
