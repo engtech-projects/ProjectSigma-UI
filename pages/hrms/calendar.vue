@@ -7,7 +7,13 @@ useHead({
 })
 </script>
 <template>
-    <div>
-        <HrmsEventsCalendarView />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_event_calendar,
+        ])"
+    >
+        <div class="w-full">
+            <HrmsEventsCalendarView />
+        </div>
+    </LayoutAcessContainer>
 </template>

@@ -19,13 +19,21 @@ useHead({
 </script>
 
 <template>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-            <HrmsTravelOrderRequestForm v-show="!isEdit" />
-            <!-- <HrmsTravelOrderEditRequest v-show="isEdit" /> -->
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_travel_order,
+        ])"
+    >
+        <div
+            class="grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
+            <div>
+                <HrmsTravelOrderRequestForm v-show="!isEdit" />
+                <!-- <HrmsTravelOrderEditRequest v-show="isEdit" /> -->
+            </div>
+            <div>
+                <HrmsTravelOrderTabList />
+            </div>
         </div>
-        <div>
-            <HrmsTravelOrderTabList />
-        </div>
-    </div>
+    </LayoutAcessContainer>
 </template>

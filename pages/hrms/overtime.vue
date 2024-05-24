@@ -20,16 +20,24 @@ useHead({
 </script>
 
 <template>
-    <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
-        <div>
-            <HrmsOvertimeFormReq v-show="!isEdit" />
-            <HrmsEditOvertime v-show="isEdit" />
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_announcement,
+        ])"
+    >
+        <div
+            class="grid grid-cols-2 md:grid-cols-2 gap-4"
+        >
+            <div>
+                <HrmsOvertimeFormReq v-show="!isEdit" />
+                <HrmsEditOvertime v-show="isEdit" />
+            </div>
+            <div>
+                <HrmsOvertimeTabs />
+                <!-- <HrmsOvertimeMyRequest />
+                <HrmsOvertimeMyApprovals />
+                <HrmsOvertimeList /> -->
+            </div>
         </div>
-        <div>
-            <HrmsOvertimeTabs />
-            <!-- <HrmsOvertimeMyRequest />
-            <HrmsOvertimeMyApprovals />
-            <HrmsOvertimeList /> -->
-        </div>
-    </div>
+    </LayoutAcessContainer>
 </template>
