@@ -62,32 +62,36 @@ const items = [
 </script>
 
 <template>
-    <div class="mt-10 md:mt-0 md:flex gap-2">
-        <HrmsAttendanceFailToLogForm class="md:w-1/2" />
-
-        <div class="md:w-1/2 p-2 w-full">
-            <HrmsCommonTabsMainContainer>
-                <template #tab-titles>
-                    <HrmsCommonTabsTabTitle target-id="leaverequest-all-list" title="All List" />
-                    <HrmsCommonTabsTabTitle target-id="leaverequest-my-approvals" title="My Approvals" />
-                </template>
-                <template #tab-containers>
-                    <HrmsCommonTabsTabContainer id="leaverequest-all-list">
-                        <HrmsLeaveAllList />
-                    </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="leaverequest-my-approvals">
-                        <HrmsLeaveApprovalList />
-                    </HrmsCommonTabsTabContainer>
-                </template>
-            </HrmsCommonTabsMainContainer>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_attendance_failure_to_log,
+        ])"
+    >
+        <div class="mt-10 md:mt-0 md:flex gap-2">
+            <HrmsAttendanceFailToLogForm class="md:w-1/2" />
+            <div class="md:w-1/2 p-2 w-full">
+                <HrmsCommonTabsMainContainer>
+                    <template #tab-titles>
+                        <HrmsCommonTabsTabTitle target-id="leaverequest-all-list" title="All List" />
+                        <HrmsCommonTabsTabTitle target-id="leaverequest-my-approvals" title="My Approvals" />
+                    </template>
+                    <template #tab-containers>
+                        <HrmsCommonTabsTabContainer id="leaverequest-all-list">
+                            <HrmsLeaveAllList />
+                        </HrmsCommonTabsTabContainer>
+                        <HrmsCommonTabsTabContainer id="leaverequest-my-approvals">
+                            <HrmsLeaveApprovalList />
+                        </HrmsCommonTabsTabContainer>
+                    </template>
+                </HrmsCommonTabsMainContainer>
+            </div>
+            <div v-if="false" class="shadow-md border border-gray-200 p-4 rounded-lg w-full">
+                <label for="" class="text-xl font-normal text-gray-900">Log Failures Table</label>
+                <Table
+                    :tbl-headers="headers"
+                    :tbl-items="items"
+                />
+            </div>
         </div>
-
-        <div v-if="1==2" class="shadow-md border border-gray-200 p-4 rounded-lg w-full">
-            <label for="" class="text-xl font-normal text-gray-900">Log Failures Table</label>
-            <Table
-                :tbl-headers="headers"
-                :tbl-items="items"
-            />
-        </div>
-    </div>
+    </LayoutAcessContainer>
 </template>

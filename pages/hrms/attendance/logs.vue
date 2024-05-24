@@ -7,7 +7,13 @@ useHead({
 </script>
 
 <template>
-    <div>
-        <HrmsAttendanceLogs />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_attendance_attendance_logs,
+        ])"
+    >
+        <div>
+            <HrmsAttendanceLogs />
+        </div>
+    </LayoutAcessContainer>
 </template>

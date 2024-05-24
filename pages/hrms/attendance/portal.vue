@@ -59,47 +59,53 @@ const actions = {
 }
 </script>
 <template>
-    <div class="md:flex gap-4 justify-center">
-        <div class="w-full mx-auto">
-            <LayoutBoards class="rounded-lg p-2" title="Setup Attendance Portal" :loading="boardLoading">
-                <div class="grid grid-cols-1 gap-4 p-2">
-                    <label for="ipAddress" class="block text-sm font-medium text-zinc-700">Portal Token (auto generated)</label>
-                    <p class="text-gray-700 text-xl">
-                        {{ ipAddress }}
-                    </p>
-                </div>
-                <div class="w-full grid grid-cols-1 gap-4 p-2">
-                    <div>
-                        <label for="ipAddress" class="block text-sm font-medium text-zinc-700 py-2">Location Name</label>
-                        <input v-model="attendancePortalParams.name_location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_attendance_attendance_portal,
+        ])"
+    >
+        <div class="md:flex gap-4 justify-center">
+            <div class="w-full mx-auto">
+                <LayoutBoards class="rounded-lg p-2" title="Setup Attendance Portal" :loading="boardLoading">
+                    <div class="grid grid-cols-1 gap-4 p-2">
+                        <label for="ipAddress" class="block text-sm font-medium text-zinc-700">Portal Token (auto generated)</label>
+                        <p class="text-gray-700 text-xl">
+                            {{ ipAddress }}
+                        </p>
                     </div>
-                </div>
-                <div class="p-2">
-                    <HrmsCommonDepartmentProjectSelector
-                        v-model:select-type="attendancePortalParams.group_type"
-                        v-model:department-id="attendancePortalParams.department_id"
-                        v-model:project-id="attendancePortalParams.project_id"
-                        class="py-2"
-                    />
-                </div>
-                <div class="flex mt-6 justify-end py-2">
-                    <button type="button" class="md:w-1/3 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:bg-green-700" @click="setupAttendancePortal">
-                        Setup
-                    </button>
-                </div>
-            </LayoutBoards>
+                    <div class="w-full grid grid-cols-1 gap-4 p-2">
+                        <div>
+                            <label for="ipAddress" class="block text-sm font-medium text-zinc-700 py-2">Location Name</label>
+                            <input v-model="attendancePortalParams.name_location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
+                        </div>
+                    </div>
+                    <div class="p-2">
+                        <HrmsCommonDepartmentProjectSelector
+                            v-model:select-type="attendancePortalParams.group_type"
+                            v-model:department-id="attendancePortalParams.department_id"
+                            v-model:project-id="attendancePortalParams.project_id"
+                            class="py-2"
+                        />
+                    </div>
+                    <div class="flex mt-6 justify-end py-2">
+                        <button type="button" class="md:w-1/3 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:bg-green-700" @click="setupAttendancePortal">
+                            Setup
+                        </button>
+                    </div>
+                </LayoutBoards>
+            </div>
+            <div class="w-full py-2">
+                <LayoutBoards title="Attendance Portal List" class="w-full" :loading="listLoader">
+                    <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+                        <LayoutPsTable
+                            :header-columns="headers"
+                            :actions="actions"
+                            :datas="attendancePortalList"
+                            @delete-row="deleteAttendancePortal"
+                        />
+                    </div>
+                </LayoutBoards>
+            </div>
         </div>
-        <div class="w-full py-2">
-            <LayoutBoards title="Attendance Portal List" class="w-full" :loading="listLoader">
-                <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-                    <LayoutPsTable
-                        :header-columns="headers"
-                        :actions="actions"
-                        :datas="attendancePortalList"
-                        @delete-row="deleteAttendancePortal"
-                    />
-                </div>
-            </LayoutBoards>
-        </div>
-    </div>
+    </LayoutAcessContainer>
 </template>
