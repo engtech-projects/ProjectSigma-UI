@@ -65,11 +65,11 @@ const utils = useUtilities()
                     </td>
                     <td class="py-2">
                         <div class="flex gap-3 items-center">
-                            <NuxtLink :to="'/hrms/setup/hmo/edit/' + 1">
+                            <NuxtLink :to="'/hrms/setup/hmo/edit?hmo_id=' + hmo.id">
                                 <Icon name="iconoir:edit" class="icon bg-green-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-green-500" />
                             </NuxtLink>
                             <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" @click="modalStore.showModal" />
-                            <NuxtLink :to="'/hrms/setup/hmo/renew/' + 1">
+                            <NuxtLink :to="'/hrms/setup/hmo/renew?hmo_id=' + hmo.id">
                                 <Icon name="iconoir:crop-rotate-bl" class="icon bg-blue-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-blue-500" />
                             </NuxtLink>
                         </div>
