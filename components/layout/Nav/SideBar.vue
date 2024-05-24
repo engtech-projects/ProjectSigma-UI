@@ -549,6 +549,14 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
+                    AccessibilityTypes.accounting_account_groups,
+                ])"
+                linkarea="/accounting/subsidiary"
+                icon="iconoir:commodity"
+                single-nav-title="Subsidiary Account"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_stake_holder,
                 ])"
                 linkarea="/accounting/stakeholder"
