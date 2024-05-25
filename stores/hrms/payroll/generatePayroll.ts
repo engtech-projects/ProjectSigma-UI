@@ -56,7 +56,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             adjustment: [],
         },
 
-        list: [],
+        list: [] as any[],
         myApprovalRequestList: [],
         myRequestList: [],
         pagination: {},
@@ -72,12 +72,15 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 employee_ids: JSON.stringify(this.generatePayroll.employee_ids),
                 approvals: JSON.stringify(this.generatePayroll.approvals),
             }
-            await useHRMSApi(
+            await useHRMSApiO(
                 "/api/payroll/generate-payroll",
                 {
                     method: "GET",
                     params: payload,
-                    onResponse: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.list = response._data.data
                             this.pagination = {

@@ -3,7 +3,7 @@ import { useGeneratePayrollStore, PAYROLL_TYPE, RELEASE_TYPE } from "@/stores/hr
 import { useApprovalStore, APPROVAL_GP } from "@/stores/hrms/setup/approvals"
 
 const genpayrollstore = useGeneratePayrollStore()
-const { generatePayroll, list: generatedList } = storeToRefs(genpayrollstore)
+const { generatePayroll } = storeToRefs(genpayrollstore)
 
 const approvals = useApprovalStore()
 generatePayroll.value.approvals = await approvals.getApprovalByName(APPROVAL_GP)
@@ -34,19 +34,15 @@ const closeViewModal = () => {
     showInformationModal.value = false
 }
 
-const payrollDraft = ref([])
+// const payrollDraft = ref([])
 
 const submitForm = async () => {
     try {
         boardLoading.value = true
         await genpayrollstore.getGPayroll()
-        payrollDraft.value = generatedList
-        if (genpayrollstore.errorMessage) {
-            snackbar.add({ type: "error", text: genpayrollstore.errorMessage })
-        } else {
-            snackbar.add({ type: "success", text: genpayrollstore.successMessage })
-            showInformation()
-        }
+        // payrollDraft.value = generatedList
+        snackbar.add({ type: "success", text: "Payroll Draft Successfully Generated." })
+        showInformation()
     } catch (error) {
         snackbar.add({ type: "error", text: genpayrollstore.errorMessage })
     } finally {

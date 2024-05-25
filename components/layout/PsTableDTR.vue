@@ -148,10 +148,10 @@ defineProps({
                                     {{ dataValue[0] }}
                                 </td>
                                 <td v-if="dataValue[1].schedules_attendances[0].applied_ins.project_id" class="p-2">
-                                    {{ dataValue[1].schedules_attendances[0].applied_ins.project_id }}
+                                    {{ dataValue[1].schedules_attendances[0].applied_ins.project.project_code }}
                                 </td>
                                 <td v-else-if="dataValue[1].schedules_attendances[0].applied_ins.department_id" class="p-2">
-                                    {{ dataValue[1].schedules_attendances[0].applied_ins.department_id }}
+                                    {{ dataValue[1].schedules_attendances[0].applied_ins.department.department_name }}
                                 </td>
                                 <td v-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2 am-time-in">
                                     {{ dataValue[1].schedules_attendances[0].applied_ins.time_human }}
@@ -189,10 +189,7 @@ defineProps({
                                 <td v-else class="p-2">
                                     ABSENT
                                 </td>
-                                <td v-if="dataValue[1].schedules_attendances[1].applied_outs==null || dataValue[1].schedules_attendances[0].applied_ins==null" class="p-2">
-                                    0
-                                </td>
-                                <td v-else-if="dataValue[1].metadata.regular.reg_hrs!=null" class="p-2">
+                                <td v-if="dataValue[1].metadata.regular.reg_hrs!=null" class="p-2">
                                     {{ dataValue[1].metadata.regular.reg_hrs }}
                                 </td>
                                 <td v-else class="p-2">

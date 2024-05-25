@@ -20,7 +20,7 @@ onBeforeRouteLeave(() => {
             <div v-if="employeeIsSearched">
                 <div class="space-y-6 mb-4" action="#">
                     <img
-                        v-if="employeeInformation.profile_photo"
+                        v-if="employeeInformation.profile_photo && employeeInformation.profile_photo.base64 !== 'File doesn\'t exists.'"
                         class="max-h-96 max-w-96 w-full bg-gray-400 rounded-lg"
                         :src="employeeInformation.profile_photo.base64"
                         alt="profile pic"

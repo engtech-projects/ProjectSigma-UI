@@ -9,7 +9,7 @@ const headers = [
     { name: "Employee Name", id: "employee.fullname_first" },
     { name: "Date", id: "date" },
     { name: "Time", id: "time" },
-    { name: "Description", id: "attendance_type" },
+    { name: "Description", id: "log_type" },
 ]
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""

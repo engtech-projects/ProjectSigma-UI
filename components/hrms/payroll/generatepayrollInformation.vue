@@ -6,7 +6,7 @@ const { list: generatedList } = storeToRefs(genpayrollstore)
 
 defineProps({
     generatePayrollData: {
-        type: Object,
+        type: null,
         required: true,
     },
     // payrollDraft: {
@@ -15,6 +15,9 @@ defineProps({
     // }
 })
 
+const loanTypes = ref([])
+const cashAdvances = ref([])
+const otherDeductions = ref([])
 const formatDateRange = (start: string, end: string) => {
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
 
@@ -71,7 +74,7 @@ const formatDateRange = (start: string, end: string) => {
                         <tr>
                             <th
                                 scope="col"
-                                rowspan="2"
+                                rowspan="3"
                                 class="p-2 border-solid border border-slate-400"
                             >
                                 No
@@ -85,49 +88,56 @@ const formatDateRange = (start: string, end: string) => {
                             </th>
                             <th
                                 scope="col"
-                                rowspan="2"
+                                rowspan="3"
                                 class="p-2 border-solid border border-slate-400 bg-sky-200"
                             >
                                 Designation
                             </th>
                             <th
                                 scope="col"
-                                colspan="7"
+                                rowspan="3"
                                 class="p-2 border-solid border border-slate-400 bg-sky-200"
                             >
-                                No. of Days
+                                Rate
                             </th>
                             <th
                                 scope="col"
-                                colspan="7"
+                                colspan="8"
+                                class="p-2 border-solid border border-slate-400 bg-sky-200"
+                            >
+                                Hrs. Worked
+                            </th>
+                            <th
+                                scope="col"
+                                colspan="8"
                                 class="p-2 border-solid border border-slate-400 bg-sky-200"
                             >
                                 Gross Pay
                             </th>
                             <th
                                 scope="col"
-                                rowspan="2"
+                                rowspan="3"
                                 class="px-6 border-solid border border-slate-400 bg-sky-200"
                             >
-                                Gross Pay
+                                Total Gross Pay
                             </th>
                             <th
                                 scope="col"
-                                colspan="9"
+                                :colspan="7 + loanTypes.length + cashAdvances.length + otherDeductions.length"
                                 class="p-2 border-solid border border-slate-400 bg-sky-200"
                             >
                                 Salary Deduction
                             </th>
                             <th
                                 scope="col"
-                                rowspan="2"
+                                rowspan="3"
                                 class="px-2 py-3 border-solid border border-slate-400 bg-sky-200"
                             >
                                 Total Deduction
                             </th>
                             <th
                                 scope="col"
-                                rowspan="2"
+                                rowspan="3"
                                 class="px-6 py-3 border-solid border border-slate-400 bg-sky-200"
                             >
                                 Total Net Pay
@@ -135,160 +145,196 @@ const formatDateRange = (start: string, end: string) => {
                         </tr>
                         <tr>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-8 border-solid border border-slate-400 text-xs"
                             >
                                 Last Name
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-8 border-solid border border-slate-400"
                             >
                                 First Name
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                Reg. Hrs/Day(s)
+                                Reg. Hrs
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                Rest Day/Sun
+                                Rest Day/Sunday
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                Reg.Hol
+                                Reg. Hol.
                             </th>
                             <th
-                                scope="col"
-                                class="px-4 border-solid border border-slate-400"
-                            >
-                                Reg.Hol O.T
-                            </th>
-                            <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
                                 Spc. Hol.
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                Reg. O.T
+                                Reg O.T
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                Rest Day O.T
+                                Rest Day. O.T
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Reg. Hol. O.T
+                            </th>
+                            <th
+                                rowspan="2"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Spc. Hol. O.T
+                            </th>
+                            <th
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
                                 Reg.
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
                                 Rest Day/Sun
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
                                 Reg.Hol
                             </th>
                             <th
-                                scope="col"
-                                class="px-4 border-solid border border-slate-400"
-                            >
-                                Reg.Hol. O.T
-                            </th>
-                            <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
                                 Spc. Hol.
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
                                 Reg. O.T.
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
                                 Rest Day O.T
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                Cash Advance
+                                Reg.Hol. O.T
                             </th>
                             <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
+                            >
+                                Spc.Hol. O.T
+                            </th>
+                            <th
+                                class="px-4 border-solid border border-slate-400"
+                                colspan="2"
                             >
                                 SSS
                             </th>
                             <th
-                                scope="col"
-                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
-                            >
-                                SSS LOAN
-                            </th>
-                            <th
-                                scope="col"
-                                class="px-4 border-solid border border-slate-400"
+                                colspan="2"
                             >
                                 PHIC
                             </th>
                             <th
-                                scope="col"
                                 class="px-4 border-solid border border-slate-400"
+                                colspan="2"
                             >
                                 HMDF
                             </th>
                             <th
-                                scope="col"
-                                class="px-4 border-solid border border-slate-400"
-                            >
-                                HMDF LOAN
-                            </th>
-                            <th
-                                scope="col"
-                                class="px-4 border-solid border border-slate-400"
-                            >
-                                MP2
-                            </th>
-                            <th
-                                scope="col"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
                                 EWTC
                             </th>
                             <th
-                                scope="col"
+                                v-for="loansType, key in loanTypes"
+                                :key="key + 'loanTypesTitles'"
+                                rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                COOP LOAN
+                                {{ loansType }}
+                            </th>
+                            <th
+                                v-for="cashAdvance, key in cashAdvances"
+                                :key="key + 'cashAdvanceTitles'"
+                                rowspan="2"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                {{ cashAdvance }}
+                            </th>
+                            <th
+                                v-for="otherDeduction, key in otherDeductions"
+                                :key="key + 'otherDeductionTitles'"
+                                rowspan="2"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                {{ otherDeduction }}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Employee
+                            </th>
+                            <th
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Employer
+                            </th>
+                            <th
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Employee
+                            </th>
+                            <th
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Employer
+                            </th>
+                            <th
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Employee
+                            </th>
+                            <th
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Employer
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <pre>{{ payrollDraft }}</pre> -->
                         <tr v-for="(data, index) in generatedList" :key="index" class="bg-white border-b text-gray-950">
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ index + 1 }}
@@ -300,80 +346,104 @@ const formatDateRange = (start: string, end: string) => {
                                 {{ data.first_name }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.current_employment.position.name ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.current_employment.actual_salary ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.hours_worked.regular.reg_hrs ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.hours_worked.rest.reg_hrs ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.hours_worked.regular_holidays.reg_hrs ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.hours_worked.special_holidays.reg_hrs ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.hours_worked.regular.overtime ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.hours_worked.rest.overtime ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.hours_worked.regular_holidays.overtime ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.hours_worked.special_holidays.overtime ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.gross_pays.regular.regular ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.gross_pays.rest.regular ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.gross_pays.regular_holidays.regular ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.gross_pays.special_holidays.regular ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.gross_pays.regular.overtime ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.gross_pays.rest.overtime ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.gross_pays.regular_holidays.overtime ?? "-" }}
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
+                                {{ data.payroll_records.gross_pays.special_holidays.overtime ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ data.payroll_records.total_gross_pay ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.cash_advance ?? "-" }}
+                                {{ data.payroll_records.salary_deduction.sss.employee_compensation ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.sss ?? "-" }}
+                                {{ data.payroll_records.salary_deduction.sss.employer_compensation ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ "-" }}
+                                {{ data.payroll_records.salary_deduction.phic.employee_compensation ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.phic ?? "-" }}
+                                {{ data.payroll_records.salary_deduction.phic.employer_compensation ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hdmf ?? "-" }}
+                                {{ data.payroll_records.salary_deduction.hmdf.employee_compensation ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ "-" }}
+                                {{ data.payroll_records.salary_deduction.hmdf.employer_compensation ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ data.payroll_records.salary_deduction.ewtc ?? "-" }}
                             </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.loan }}
-                            </td>
+                            <th
+                                v-for="loansType, key in loanTypes"
+                                :key="key + 'loanTypesValues'"
+                                class="p-4 border-solid border border-slate-400"
+                            >
+                                {{ loansType }}
+                            </th>
+                            <th
+                                v-for="cashAdvance, key in cashAdvances"
+                                :key="key + 'cashAdvanceValues'"
+                                class="p-4 border-solid border border-slate-400"
+                            >
+                                {{ cashAdvance }}
+                            </th>
+                            <th
+                                v-for="otherDeduction, key in otherDeductions"
+                                :key="key + 'otherDeductionValues'"
+                                class="p-4 border-solid border border-slate-400"
+                            >
+                                {{ otherDeduction }}
+                            </th>
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ data.payroll_records.total_salary_deduction ?? "-" }}
                             </td>
