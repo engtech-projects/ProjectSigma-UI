@@ -339,7 +339,6 @@ const config = useRuntimeConfig()
                 />
             </LayoutNavGroup>
             <LayoutNavGroup
-                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_payroll_generate_payroll,
                     AccessibilityTypes.hrms_payroll_13th_month,
@@ -361,6 +360,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_payroll_13th_month,
                     ])"
+                    v-show="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/payroll/13thmonthpay"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="13th Month Pay"
@@ -377,6 +377,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_payroll_payroll_report,
                     ])"
+                    v-show="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/payroll/payrollrecord"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Payroll Record"
