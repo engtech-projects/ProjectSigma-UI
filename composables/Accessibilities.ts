@@ -16,7 +16,6 @@ export enum AccessibilityTypes {
     hrms_employee_applicants = "hrms:employee_applicants",
     hrms_employee_personnel_action_notice = "hrms:employee_personnel_action_notice",
     hrms_employee_onboarding = "hrms:employee_onboarding",
-    hrms_employee_personal_action_notice = "hrms:employee_personal_action_notice",
     hrms_employee_manpower_request = "hrms:employee_manpower_request",
     hrms_setup_user_account = "hrms:setup_user_account",
     hrms_setup_department = "hrms:setup_department",

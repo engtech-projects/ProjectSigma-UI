@@ -18,7 +18,7 @@ pan.fetchPersonelActionList()
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_employee_personal_action_notice,
+            AccessibilityTypes.hrms_employee_personnel_action_notice,
         ])"
     >
         <div class="w-full">
