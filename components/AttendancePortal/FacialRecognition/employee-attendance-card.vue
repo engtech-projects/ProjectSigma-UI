@@ -10,7 +10,7 @@ const { lastSuccessLogEmployee } = storeToRefs(attendancePortal)
     >
         <div class="md:w-1/4">
             <img
-                v-if="lastSuccessLogEmployee?.employee.profile_photo"
+                v-if="lastSuccessLogEmployee?.employee.profile_photo && employeeInformation.profile_photo.base64 !== 'File doesn\'t exists.'"
                 class="max-w-32 max-h-32 bg-gray-400 rounded-lg"
                 :src="lastSuccessLogEmployee?.employee.profile_photo.base64"
                 alt="profile pic"

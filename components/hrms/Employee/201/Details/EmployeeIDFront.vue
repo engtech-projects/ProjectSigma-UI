@@ -23,7 +23,7 @@ const { information } = storeToRefs(employee)
         <div class="w-full absolute top-[142px] m-auto">
             <p class="text-xl font-bold text-center">
                 <img
-                    v-if="information.profile_photo"
+                    v-if="information.profile_photo && information.profile_photo.base64 !== 'File doesn\'t exists.'"
                     draggable="false"
                     class="h-[244.5px] w-[191px] bg-transparent m-auto"
                     :src="information.profile_photo.base64"

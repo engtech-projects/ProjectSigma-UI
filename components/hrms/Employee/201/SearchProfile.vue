@@ -10,7 +10,7 @@ onBeforeRouteLeave(() => {
 })
 </script>
 <template>
-    <div class="w-full py-4 px-2 bg-slate-100 rounded-sm border-t-4 border-teal-500 sticky top-0">
+    <div id="SearchProfileComponent" class="w-full py-4 px-2 bg-slate-100 rounded-sm border-t-4 border-teal-500 sticky top-0">
         <div class="w-full">
             <div class="mb-4">
                 <SearchBar />
@@ -18,28 +18,28 @@ onBeforeRouteLeave(() => {
         </div>
         <div class="w-full">
             <div v-if="employeeIsSearched">
-                <div class="space-y-6 mb-4" action="#">
-                    <img
-                        v-if="employeeInformation.profile_photo && employeeInformation.profile_photo.base64 !== 'File doesn\'t exists.'"
-                        class="max-h-96 max-w-96 w-full bg-gray-400 rounded-lg"
-                        :src="employeeInformation.profile_photo.base64"
-                        alt="profile pic"
-                    >
-                    <img
-                        v-else-if="employeeInformation.gender.toLowerCase() === 'female'"
-                        class="max-h-96 max-w-96 w-full bg-gray-400 rounded-lg"
-                        :src="'/avatarexample.png'"
-                        alt="profile pic"
-                    >
-                    <img
-                        v-else
-                        class="max-h-96 max-w-96 w-full bg-gray-400 rounded-lg"
-                        :src="'/avatarexample.png'"
-                        alt="profile pic"
-                    >
-                    <div class="p-2">
-                        <LayoutFormPsUploadPicture v-if="editable" />
+                <div class="space-y-4 mb-4" action="#">
+                    <div class="w-full bg-gray-400">
+                        <img
+                            v-if="employeeInformation.profile_photo && employeeInformation.profile_photo.base64 !== 'File doesn\'t exists.'"
+                            class="mx-auto h-96 bg-gray-400 rounded-lg border border-black"
+                            :src="employeeInformation.profile_photo.base64"
+                            alt="profile pic"
+                        >
+                        <img
+                            v-else-if="employeeInformation.gender.toLowerCase() === 'female'"
+                            class="mx-auto h-96 bg-gray-400 rounded-lg"
+                            :src="'/avatarexample.png'"
+                            alt="profile pic"
+                        >
+                        <img
+                            v-else
+                            class="mx-auto h-96 bg-gray-400 rounded-lg"
+                            :src="'/avatarexample.png'"
+                            alt="profile pic"
+                        >
                     </div>
+                    <LayoutFormPsUploadPicture v-if="editable" />
                     <div class="flex flex-col">
                         <div>
                             <p class="text-xl font-bold">
@@ -49,7 +49,7 @@ onBeforeRouteLeave(() => {
                                 for="text"
                                 class="block text-sm font-medium italic text-teal-700"
                             >
-                                {{ employeeInformation.current_employment?.position_title }} - {{ employeeInformation.current_employment?.employment_status }}
+                                {{ employeeInformation.current_employment?.position.name }} - {{ employeeInformation.current_employment?.employment_status }}
                             </label>
                         </div>
                         <div>
