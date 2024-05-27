@@ -45,14 +45,62 @@ const savePayroll = async () => {
     }
 }
 
+const payrollTemplateRef = ref<HTMLElement | null>(null)
+// const printDraft = () => {
+//     if (payrollTemplateRef.value) {
+//         const printWindow = window.open("", "", "height=600,width=800")
+//         printWindow.document.write("<html><head><title>Print Payroll Draft</title>")
+//         printWindow.document.write("<style>@media print { body { font-family: Arial, sans-serif; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid black; padding: 8px; text-align: center; } .bg-sky-100 { background-color: #f0f8ff; } .bg-red-500 { background-color: #ef4444; } .bg-gray-200 { background-color: #e5e7eb; } .bg-gray-50 { background-color: #f9fafb; } .text-gray-900 { color: #111827; } .text-gray-800 { color: #1f2937; } .text-gray-950 { color: #1e293b; } }</style>")
+//         printWindow.document.write("</head><body>")
+//         printWindow.document.write(payrollTemplateRef.value.outerHTML)
+//         printWindow.document.write("</body></html>")
+//         printWindow.document.close()
+//         printWindow.print()
+//     }
+// }
+const printDraft = () => {
+    if (payrollTemplateRef.value) {
+        const printWindow = window.open("", "", "height=600,width=800")
+        printWindow.document.write("<html><head><title>Print Payroll Draft</title>")
+        printWindow.document.write("<style>")
+        printWindow.document.write(`
+            @media print {
+                body { font-family: Arial, sans-serif; }
+                table { width: 100%; border-collapse: collapse; }
+                th, td { border: 1px solid black; padding: 8px; text-align: center; }
+                .bg-sky-100 { background-color: #f0f8ff; }
+                .bg-red-500 { background-color: #ef4444; }
+                .bg-gray-200 { background-color: #e5e7eb; }
+                .bg-gray-50 { background-color: #f9fafb; }
+                .text-gray-900 { color: #111827; }
+                .text-gray-800 { color: #1f2937; }
+                .text-gray-950 { color: #1e293b; }
+                .header { text-align: center; margin-bottom: 20px; }
+                .signatures { margin-top: 40px; display: flex; justify-content: space-between; }
+                .signatures div { flex: 1; text-align: center; }
+            }
+        `)
+        printWindow.document.write("</style>")
+        printWindow.document.write("</head><body>")
+        printWindow.document.write(`
+            <div class="header">
+                <h1>EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION</h1>
+            </div>
+            ${payrollTemplateRef.value.outerHTML}
+        `)
+        printWindow.document.write("</body></html>")
+        printWindow.document.close()
+        printWindow.print()
+    }
+}
 </script>
 
 <template>
     <!-- <pre>{{ generatedList }}</pre> -->
-    <div class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
+    <div ref="payrollTemplateRef" class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
         <div class="flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
-            <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900">
-                CASH
+            <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900 uppercase">
+                {{ payrollDraft.release_type.toUpperCase() }}
             </div>
             <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900">
                 Payroll
@@ -455,8 +503,122 @@ const savePayroll = async () => {
                                 {{ data.payroll_records.total_net_pay ?? "-" }}
                             </td>
                         </tr>
+                        <tr class="bg-white text-gray-950">
+                            <th
+                                scope="col"
+                                colspan="5"
+                                class="p-2 border-solid border border-slate-400 bg-sky-200"
+                            />
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalSpcHolOTPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalGrossPayPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalSSSEmployeePayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalSSSEmployerPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalPHICEmployeePayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalPHICEmployerPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalHDMFEmployerPayrollDraft ?? "-" }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalEWTCPayrollDraft ?? "-"}}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalDeductionPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="grid md:grid-cols-4 gap-6 pt-5 p-4">
+                <div class="flex flex-col">
+                    Prepared by:
+                    <div class="indent-8 underline underline-offset-1">
+                        {{ payrollDraft.payroll.fullname_first }}
+                    </div>
+                    <div class="indent-8">
+                        <pre>{{ payrollDraft.payroll?.current_employment?.position?.name }}</pre>
+                    </div>
+                </div>
+                <div>
+                    Check by:
+                    <div>
+                        {{ "-" }}
+                    </div>
+                </div>
+                <div>
+                    Noted by:
+                    <div>
+                        {{ "-" }}
+                    </div>
+                </div>
+                <div>
+                    Approved by:
+                    <div>
+                        {{ "-" }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -481,7 +643,7 @@ const savePayroll = async () => {
     <div class="mt-2">
         <div class="flex flex-row justify-end gap-2">
             <div>
-                <button type="submit" class="text-white bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
+                <button type="submit" class="text-white bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800" @click="printDraft">
                     Print Draft
                 </button>
             </div>

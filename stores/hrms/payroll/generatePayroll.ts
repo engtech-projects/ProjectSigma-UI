@@ -68,7 +68,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         formattedPayrollDraft (state) {
             return {
                 ...state.payrollDraft,
-                payroll: state.payrollDraft.map(function (data: any) {
+                payroll: state.payrollDraft.payroll.map(function (data: any) {
                     return {
                         employee_id: data.id,
                         regular_hours: data.payroll_records.hours_worked.regular.regular,
@@ -108,6 +108,76 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                     }
                 }),
             }
+        },
+        totalNetPayPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.total_net_pay
+            })
+            return total
+        },
+        totalDeductionPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.total_salary_deduction
+            })
+            return total
+        },
+        totalEWTCPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.salary_deduction.ewtc
+            })
+            return total
+        },
+        totalHDMFEmployerPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.salary_deduction.hmdf.employer_compensation
+            })
+            return total
+        },
+        totalHDMFEmployeePayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.salary_deduction.hmdf.employee_compensation
+            })
+            return total
+        },
+        totalPHICEmployerPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.salary_deduction.phic.employer_compensation
+            })
+            return total
+        },
+        totalPHICEmployeePayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.salary_deduction.phic.employee_compensation
+            })
+            return total
+        },
+        totalSSSEmployerPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.salary_deduction.sss.employer_contribution
+            })
+            return total
+        },
+        totalGrossPayPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.total_gross_pay
+            })
+            return total
+        },
+        totalSpcHolOTPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.gross_pays.special_holidays.overtime
+            })
+            return total
         },
     },
     actions: {
