@@ -19,22 +19,22 @@ onBeforeRouteLeave(() => {
         <div class="w-full">
             <div v-if="employeeIsSearched">
                 <div class="space-y-4 mb-4" action="#">
-                    <div class="w-full bg-gray-400">
+                    <div class="w-full bg-gray-400 rounded-lg">
                         <img
                             v-if="employeeInformation.profile_photo && employeeInformation.profile_photo.base64 !== 'File doesn\'t exists.'"
-                            class="mx-auto h-96 bg-gray-400 rounded-lg border border-black"
+                            class="mx-auto h-96 bg-gray-400 border border-black"
                             :src="employeeInformation.profile_photo.base64"
                             alt="profile pic"
                         >
                         <img
                             v-else-if="employeeInformation.gender.toLowerCase() === 'female'"
-                            class="mx-auto h-96 bg-gray-400 rounded-lg"
+                            class="mx-auto h-96 bg-gray-400 border border-black"
                             :src="'/avatarexample.png'"
                             alt="profile pic"
                         >
                         <img
                             v-else
-                            class="mx-auto h-96 bg-gray-400 rounded-lg"
+                            class="mx-auto h-96 bg-gray-400 border border-black"
                             :src="'/avatarexample.png'"
                             alt="profile pic"
                         >
