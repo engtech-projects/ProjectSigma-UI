@@ -30,7 +30,7 @@ const formatDateRange = (start: string, end: string) => {
         return `${startMonth} ${startDay}-${endMonth} ${endDay}, ${endYear}`
     }
 }
-const savePayroll = () => {
+const savePayroll = async () => {
     try {
         await genpayrollstore.createRequest()
         snackbar.add({

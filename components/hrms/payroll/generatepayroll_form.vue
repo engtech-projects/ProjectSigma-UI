@@ -66,6 +66,7 @@ const submitForm = async () => {
                             v-model:select-type="generateParams.group_type"
                             v-model:department-id="generateParams.department_id"
                             v-model:project-id="generateParams.project_id"
+                            title="Department/Project Charge"
                             required
                         />
                     </div>
