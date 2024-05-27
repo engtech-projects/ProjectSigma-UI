@@ -120,6 +120,17 @@ export const useEnumsStore = defineStore("enums", {
                             !state.allEmployeeEnum.params.filterData ||
                             employee.project?.id === state.allEmployeeEnum.params.filterData
                         )
+                    ) ||
+                    (
+                        state.allEmployeeEnum.params.filterType === "SalaryType" &&
+                        (
+                            !state.allEmployeeEnum.params.filterData ||
+                            employee.current_employment?.salary_type === state.allEmployeeEnum.params.filterData ||
+                            (
+                                state.allEmployeeEnum.params.filterData === "Monthly" &&
+                                employee.current_employment?.salary_type === "Fixed"
+                            )
+                        )
                     )
                 )
             })
@@ -132,10 +143,10 @@ export const useEnumsStore = defineStore("enums", {
                 {
                     method: "GET",
                     params: this.positionEnum.params,
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.positionEnum.list = response._data.data ?? []
                         }

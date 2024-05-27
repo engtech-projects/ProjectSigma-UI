@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 
 const genpayrollstore = useGeneratePayrollStore()
-const { generatePayroll, list: GPList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(genpayrollstore)
+const { payrollRecord, list: GPList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(genpayrollstore)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -18,7 +18,7 @@ const changePaginate = (newParams) => {
 
 const setEdit = (genall) => {
     isEdit.value = true
-    generatePayroll.value = genall
+    payrollRecord.value = genall
 }
 
 const deleteReq = async (req) => {

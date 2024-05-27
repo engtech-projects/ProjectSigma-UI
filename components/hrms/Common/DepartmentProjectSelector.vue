@@ -3,6 +3,13 @@ const compId = useId()
 const selectType = defineModel("selectType", { required: false, type: String, default: "Project" })
 const projectId = defineModel("projectId", { required: false, type: Number })
 const departmentId = defineModel("departmentId", { required: false, type: Number })
+defineProps({
+    title: {
+        type: String,
+        required: false,
+        default: "Department/Project",
+    },
+})
 watch(selectType, () => {
     projectId.value = null
     departmentId.value = null
@@ -14,7 +21,7 @@ watch(selectType, () => {
             :for="compId"
             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
         >
-            Department/Project
+            {{ title }}
         </label>
         <div class="flex flex-row">
             <div class="w-1/3">

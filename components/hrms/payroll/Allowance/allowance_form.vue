@@ -40,7 +40,7 @@ const submitForm = async () => {
 </script>
 
 <template>
-    <LayoutBoards title="Allowance Payroll Form" class="w-full" :loading="boardLoading">
+    <LayoutBoards class="w-full" :loading="boardLoading">
         <div class="mt-5 mb-6">
             <form @submit.prevent="submitForm">
                 <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateAllowance.employees" title="Employee Name" name="Employee Name" />

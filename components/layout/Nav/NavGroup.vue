@@ -30,9 +30,9 @@
         </button>
         <div class="overflow-clip pl-4">
             <TransitionSlideDown>
-                <ul v-show="t" class="space-y-2">
+                <div v-show="t" class="space-y-2">
                     <slot />
-                </ul>
+                </div>
             </TransitionSlideDown>
         </div>
     </div>

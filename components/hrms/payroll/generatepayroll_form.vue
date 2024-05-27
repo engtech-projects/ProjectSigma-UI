@@ -3,50 +3,44 @@ import { useGeneratePayrollStore, PAYROLL_TYPE, RELEASE_TYPE } from "@/stores/hr
 import { useApprovalStore, APPROVAL_GP } from "@/stores/hrms/setup/approvals"
 
 const genpayrollstore = useGeneratePayrollStore()
-const { generatePayroll, list: generatedList } = storeToRefs(genpayrollstore)
+const { generateParams } = storeToRefs(genpayrollstore)
 
 const approvals = useApprovalStore()
-generatePayroll.value.approvals = await approvals.getApprovalByName(APPROVAL_GP)
+generateParams.value.approvals = await approvals.getApprovalByName(APPROVAL_GP)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const setEmployee = (adjustIndex: number, emp: { id: any }) => {
-    generatePayroll.value.adjustment[adjustIndex].id = emp.id
+    generateParams.value.adjustment[adjustIndex].id = emp.id
 }
 
 const addAdjustment = () => {
-    generatePayroll.value.adjustment.push({ id: "", adjustment_name: "", adjustment_amount: "" })
+    generateParams.value.adjustment.push({ id: "", adjustment_name: "", adjustment_amount: "" })
 }
 
-const delAdjustment = (adjustIndex) => {
-    generatePayroll.value.adjustment.splice(adjustIndex, 1)
+const delAdjustment = (adjustIndex: any) => {
+    generateParams.value.adjustment.splice(adjustIndex, 1)
 }
 
-const generatePayrollData = ref(null)
 const showInformationModal = ref(false)
 
 const showInformation = () => {
-    generatePayrollData.value = { ...generatePayroll.value }
     showInformationModal.value = true
 }
 const closeViewModal = () => {
     showInformationModal.value = false
 }
 
-const payrollDraft = ref({})
+// const payrollDraft = ref([])
 
 const submitForm = async () => {
     try {
         boardLoading.value = true
-        await genpayrollstore.getGPayroll()
-        payrollDraft.value = generatedList
-        if (genpayrollstore.errorMessage) {
-            snackbar.add({ type: "error", text: genpayrollstore.errorMessage })
-        } else {
-            snackbar.add({ type: "success", text: genpayrollstore.successMessage })
-            showInformation()
-        }
+        await genpayrollstore.generatePayrollDraft()
+        // payrollDraft.value = generatedList
+        snackbar.add({ type: "success", text: "Payroll Draft Successfully Generated." })
+        showInformation()
     } catch (error) {
         snackbar.add({ type: "error", text: genpayrollstore.errorMessage })
     } finally {
@@ -57,23 +51,23 @@ const submitForm = async () => {
 </script>
 
 <template>
-    <!-- <pre>{{ generatePayroll }}</pre> -->
-    <!-- <pre>{{ payrollDraft }}</pre> -->
     <LayoutBoards title="Generate Payroll" class="w-full" :loading="boardLoading">
         <div class="mt-5 mb-6 p-2">
             <form @submit.prevent="submitForm">
-                <HrmsCommonDetailedMultipleEmployeeSelector v-model="generatePayroll.employee_ids" title="Employee Name" name="Employee Name" />
+                <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateParams.employee_ids" title="Employee Name" name="Employee Name" />
 
                 <div class="mt-5 mb-5 flex gap-4 sm:grid-cols-3">
-                    <LayoutFormPsDateInput v-model="generatePayroll.cutoff_start" title="Cut-off Date (Start)" required />
-                    <LayoutFormPsDateInput v-model="generatePayroll.cutoff_end" title="Cut-off Date (End)" required />
-                    <LayoutFormPsDateInput v-model="generatePayroll.payroll_date" title="Payroll Date" required />
+                    <LayoutFormPsDateInput v-model="generateParams.cutoff_start" title="Cut-off Date (Start)" required />
+                    <LayoutFormPsDateInput v-model="generateParams.cutoff_end" title="Cut-off Date (End)" required />
+                    <LayoutFormPsDateInput v-model="generateParams.payroll_date" title="Payroll Date" required />
 
                     <div class="flex-1">
                         <HrmsCommonDepartmentProjectSelector
-                            v-model:select-type="generatePayroll.group_type"
-                            v-model:department-id="generatePayroll.department_id"
-                            v-model:project-id="generatePayroll.project_id"
+                            v-model:select-type="generateParams.group_type"
+                            v-model:department-id="generateParams.department_id"
+                            v-model:project-id="generateParams.project_id"
+                            title="Department/Project Charge"
+                            required
                         />
                     </div>
                 </div>
@@ -83,7 +77,7 @@ const submitForm = async () => {
                         <div v-for="(item, index) in ['SSS', 'PhilHealth', 'PagIBIG']" :key="index">
                             <input
                                 :id="'checked-checkbox' + index"
-                                v-model="generatePayroll['deduct_' + item.toLowerCase()]"
+                                v-model="generateParams['deduct_' + item.toLowerCase()]"
                                 type="checkbox"
                                 :true-value="1"
                                 :false-value="0"
@@ -98,10 +92,11 @@ const submitForm = async () => {
                         <div v-for="(payrollType, index) in PAYROLL_TYPE" :key="index">
                             <input
                                 :id="'payrollType' + index"
-                                v-model="generatePayroll.payroll_type"
+                                v-model="generateParams.payroll_type"
                                 :value="payrollType"
                                 type="radio"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                required
                             >
                             <label :for="'payrollType' + index" class="uppercase ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 {{ payrollType }}
@@ -113,10 +108,11 @@ const submitForm = async () => {
                         <div v-for="(releaseType, index1) in RELEASE_TYPE" :key="index1">
                             <input
                                 :id="'releaseType' + index1"
-                                v-model="generatePayroll.release_type"
+                                v-model="generateParams.release_type"
                                 :value="releaseType"
                                 type="radio"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                required
                             >
                             <label :for="'releaseType' + index1" class="uppercase ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 {{ releaseType }}
@@ -127,14 +123,14 @@ const submitForm = async () => {
                 <div class="pt-5 w-full mb-2 rounded-lg p-4 bg-slate-100 ">
                     <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Recommending Approval:</label>
                     <HrmsSetupApprovalsList
-                        v-for="(approv, apr) in generatePayroll.approvals"
+                        v-for="(approv, apr) in generateParams.approvals"
                         :key="'hrmsetupapprovallist' + apr"
-                        v-model="generatePayroll.approvals[apr]"
+                        v-model="generateParams.approvals[apr]"
                     />
                 </div>
 
                 <div>
-                    <div>
+                    <div hidden>
                         <div class="z-40 mb-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
                             <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
                                 <div class="flex items-center justify-between align">
@@ -151,7 +147,7 @@ const submitForm = async () => {
                                     </button>
                                 </div>
 
-                                <div v-for="(adjust, adjustIndex) in generatePayroll.adjustment" :key="adjustIndex" class="grid md:grid-cols-2 md:gap-2 pb-4">
+                                <div v-for="(adjust, adjustIndex) in generateParams.adjustment" :key="adjustIndex" class="grid md:grid-cols-2 md:gap-2 pb-4">
                                     <!-- {{ adjust }} -->
                                     <div>
                                         <label for="" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Employee Name</label>
@@ -244,11 +240,11 @@ const submitForm = async () => {
                             title="Close"
                             @click="closeViewModal"
                         >
-                            <Icon name="cil:x" color="red" class="w-4 h-4" />
+                            <Icon name="cil:x" color="red" class="w-4 h-4 hover:bg-red-400 hover:rounded-md hover:text-white" />
                         </button>
                     </div>
                     <div class="p-2">
-                        <HrmsPayrollGeneratepayrollInformation :generate-payroll-data="generatePayrollData" :payroll-draft="payrollDraft" />
+                        <HrmsPayrollGeneratepayrollInformation />
                     </div>
                 </div>
             </div>

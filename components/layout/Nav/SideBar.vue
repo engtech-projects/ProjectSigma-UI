@@ -3,7 +3,7 @@ const config = useRuntimeConfig()
 </script>
 
 <template>
-    <ul class="space-y-2">
+    <div class="space-y-2">
         <LayoutNavSingle
             class="px-5"
             linkarea="/dashboard"
@@ -339,7 +339,6 @@ const config = useRuntimeConfig()
                 />
             </LayoutNavGroup>
             <LayoutNavGroup
-                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_payroll_generate_payroll,
                     AccessibilityTypes.hrms_payroll_13th_month,
@@ -361,6 +360,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_payroll_13th_month,
                     ])"
+                    v-show="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/payroll/13thmonthpay"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="13th Month Pay"
@@ -377,6 +377,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_payroll_payroll_report,
                     ])"
+                    v-show="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/payroll/payrollrecord"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Payroll Record"
@@ -650,6 +651,14 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
+                    AccessibilityTypes.accounting_account_groups,
+                ])"
+                linkarea="/accounting/subsidiary"
+                icon="iconoir:commodity"
+                single-nav-title="Subsidiary Account"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_stake_holder,
                 ])"
                 linkarea="/accounting/stakeholder"
@@ -682,7 +691,7 @@ const config = useRuntimeConfig()
                 single-nav-title="Projects"
             />
         </LayoutNavModuleGroup>
-    </ul>
+    </div>
 </template>
 
 <!-- <LayoutNav hide="hidden" linkarea="/hrms/employee/application" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Application"/> -->
