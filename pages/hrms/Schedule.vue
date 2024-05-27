@@ -24,32 +24,38 @@ useHead({
     ],
 
 })
-
 </script>
-
 <template>
-    <div class="mt-10 md:flex gap-2">
-        <div class="border-2 p-2 rounded-lg shadow w-full md:w-1/3 mb-4 ">
-            <label for="eventTitle" class="text-2xl font-medium">Create Schedule</label>
-            <div>
-                <form action="" class="space-y-2 mt-4">
-                    <div>
-                        <label for="eventTitle">Schedule</label>
-                        <input id="eventTitle" type="text" class="w-full rounded">
-                    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_schedule_employee_schedule,
+        ])"
+    >
+        <div
+            class="mt-10 md:flex gap-2"
+        >
+            <div class="border-2 p-2 rounded-lg shadow w-full md:w-1/3 mb-4 ">
+                <label for="eventTitle" class="text-2xl font-medium">Create Schedule</label>
+                <div>
+                    <form action="" class="space-y-2 mt-4">
+                        <div>
+                            <label for="eventTitle">Schedule</label>
+                            <input id="eventTitle" type="text" class="w-full rounded">
+                        </div>
 
-                    <div class="flex justify-end">
-                        <button class="flex-1 text-white p-2 rounded bg-cyan-800 content-center" @click="addEvent">
-                            <Icon name="material-symbols:construction-rounded" class="mr-2" />Add Schedule
-                        </button>
-                    </div>
-                </form>
+                        <div class="flex justify-end">
+                            <button class="flex-1 text-white p-2 rounded bg-cyan-800 content-center" @click="addEvent">
+                                <Icon name="material-symbols:construction-rounded" class="mr-2" />Add Schedule
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="border-2 p-2 rounded-lg shadow col-span-2 w-full md:w-3/4 mb-4">
+                <label for="eventTitle" class="text-2xl font-medium">Schedule List</label>
+                <Table :tbl-headers="headers" :tbl-items="items" />
             </div>
         </div>
-
-        <div class="border-2 p-2 rounded-lg shadow col-span-2 w-full md:w-3/4 mb-4">
-            <label for="eventTitle" class="text-2xl font-medium">Schedule List</label>
-            <Table :tbl-headers="headers" :tbl-items="items" />
-        </div>
-    </div>
+    </LayoutAcessContainer>
 </template>

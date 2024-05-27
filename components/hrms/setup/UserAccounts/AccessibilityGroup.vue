@@ -1,6 +1,6 @@
 <script setup>
 const model = defineModel({ required: true })
-defineProps({
+const props = defineProps({
     title: {
         type: String,
         required: true,
@@ -10,11 +10,47 @@ defineProps({
         required: true,
     }
 })
+
+const selectAll = () => {
+    const modelSet = new Set([...model.value, ...props.accessibilities.map(val => val.id)])
+    model.value = [...modelSet]
+}
+const deselectAll = () => {
+    const modelSet = new Set(model.value)
+    const childrenSet = new Set(props.accessibilities.map(val => val.id))
+    const newSet = modelSet.difference(childrenSet)
+    model.value = [...newSet]
+}
+const selection = computed(() => {
+    const modelSet = new Set(model.value)
+    const childrenSet = new Set(props.accessibilities.map(val => val.id))
+    const intersection = modelSet.intersection(childrenSet)
+    if (modelSet.isSupersetOf(childrenSet) && intersection.size > 0) {
+        return 1
+    }
+    if (intersection.isSubsetOf(childrenSet) && intersection.size > 0) {
+        return 0
+    }
+    return -1
+})
 </script>
 <template>
     <section class="bg-gray-50 dark:bg-gray-900">
-        <label for="default-checkbox" class="ms-2 text-md font-medium text-green-400 dark:text-green-300">{{ title.toUpperCase() }}</label>
-
+        <label for="default-checkbox" class="ms-2 text-md font-medium text-green-400 dark:text-green-300">
+            <button v-show="selection === -1" class="my-auto" @click.prevent="selectAll()">
+                <!-- None Selected - Select All -->
+                <Icon name="ic:baseline-check-box-outline-blank" class="text-xl" />
+            </button>
+            <button v-show="selection === 0" class="my-auto" @click.prevent="selectAll()">
+                <!-- Partial Selected - Select All -->
+                <Icon name="ic:baseline-indeterminate-check-box" class="text-xl" />
+            </button>
+            <button v-show="selection === 1" class="my-auto" @click.prevent="deselectAll()">
+                <!-- All Selected - Deselect All -->
+                <Icon name="ic:baseline-check-box" class="text-xl" />
+            </button>
+            {{ title.toUpperCase() }}
+        </label>
         <div class="grid grid-cols-1 space-y-1 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
             <label v-for="(access, accId) in accessibilities" :key="accId" class="relative inline-flex items-center w-full cursor-pointer">
                 <input v-model="model" type="checkbox" :value="access.id" class="sr-only peer">

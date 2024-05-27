@@ -1,21 +1,23 @@
 <script setup lang="ts">
 useHead({
-    title: "Biometric Rejected Data",
+    title: "Daily Logs Record",
     meta: [
         { name: "description", content: "" }
     ],
-
 })
 </script>
 
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_attendance_attendance_rejected_data,
+            AccessibilityTypes.hrms_attendance_dtr,
         ])"
     >
         <div class="mt-10 md:mt-0 md:flex gap-2">
-            <HrmsAttendanceRejectedData />
+            <div class="w-full md:w-1/3">
+                <HrmsEmployee201SearchProfile />
+            </div>
+            <HrmsAttendanceInOut />
         </div>
     </LayoutAcessContainer>
 </template>

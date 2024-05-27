@@ -7,7 +7,13 @@ useHead({
 </script>
 
 <template>
-    <div>
-        <HrmsAttendanceQrGenerator />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_attendance_qr_code,
+        ])"
+    >
+        <div class="w-full">
+            <HrmsAttendanceQrGenerator />
+        </div>
+    </LayoutAcessContainer>
 </template>

@@ -17,7 +17,13 @@ useHead({
 </script>
 
 <template>
-    <div class="grid grid-flow-col gap-4">
-        <HrmsEmployeeJobOpeningList />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_employee_applicants,
+        ])"
+    >
+        <div class="grid grid-flow-col gap-4">
+            <HrmsEmployeeJobOpeningList />
+        </div>
+    </LayoutAcessContainer>
 </template>

@@ -16,9 +16,15 @@ useHead({
 </script>
 
 <template>
-    <div class="md:flex gap-2">
-        <!-- <HrmsProjectCreateEmployee /> -->
-        <HrmsProjectAssign />
-        <!-- <HrmsProjectAttendanceScheduleForm /> -->
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_project_members,
+        ])"
+    >
+        <div
+            class="md:flex gap-2"
+        >
+            <HrmsProjectAssign />
+        </div>
+    </LayoutAcessContainer>
 </template>

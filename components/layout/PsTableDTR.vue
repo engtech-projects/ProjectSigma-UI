@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+import { useEmployeeInfo } from "@/stores/hrms/employee"
+
+const employee = useEmployeeInfo()
+const { employeeIsSearched } = storeToRefs(employee)
+
 interface HeaderColumn {
     name: string,
     id: string,
@@ -19,11 +24,6 @@ defineProps({
         required: true,
     },
 })
-
-const activeIndex = ref(null)
-const isActiveRow = (index: any) => {
-    return activeIndex.value === index
-}
 </script>
 
 <template>
@@ -140,54 +140,144 @@ const isActiveRow = (index: any) => {
                 </tr>
             </thead>
             <tbody>
-                <template v-for="dataValue, index in datas" :key="index">
-                    <tr v-if="dataValue[1].schedules_attendances!=null" class="border text-center border-b" :class="{ 'active': isActiveRow(index) }">
-                        <td class="p-2">
-                            {{ dataValue[1].date }}
-                        </td>
-                        <td class="p-2" v-if="dataValue[1].schedules_attendances[index].project_id">
-                            {{ dataValue[1].schedules_attendances[index].project_id }}
-                        </td>
-                        <td class="p-2" v-else-if="dataValue[1].schedules_attendances[index].department_id">
-                            {{ dataValue[1].schedules_attendances[index].department_id }}
-                        </td>
-                        <td class="p-2" v-if="dataValue[1].schedules_attendances[0].applied_ins!=null">
-                            {{ dataValue[1].schedules_attendances[0].applied_ins.time_human }}
-                        </td>
-                        <td class="p-2" v-else>
-                            N/A
-                        </td>
-                        <td class="p-2" v-if="dataValue[1].schedules_attendances[0].applied_outs != null">
-                            {{ dataValue[1].schedules_attendances[0].applied_outs.time_human }}
-                        </td>
-                        <td class="p-2" v-else>
-                            N/A
-                        </td>
-                        <td class="p-2" v-if="dataValue[1].schedules_attendances[1].applied_ins != null">
-                            {{ dataValue[1].schedules_attendances[1].applied_ins.time_human }}
-                        </td>
-                        <td class="p-2" v-else>
-                            N/A
-                        </td>
-                        <td class="p-2" v-if="dataValue[1].schedules_attendances[1].applied_outs != null">
-                            {{ dataValue[1].schedules_attendances[1].applied_outs.time_human }}
-                        </td>
-                        <td class="p-2" v-else>
-                            N/A
-                        </td>
-                        <td class="p-2">
-                            N/A
-                        </td>
-                        <td class="p-2">
-                            N/A
-                        </td>
-                        <td class="p-2">
-                            N/A
-                        </td>
-                        <td class="p-2">
-                            N/A
-                        </td>
-                    </tr>
+                <template v-if="employeeIsSearched">
+                    <template v-for="dataValue, index in datas" :key="index">
+                        <template v-if="dataValue[1].schedules_attendances.length > 0">
+                            <tr v-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="border text-center border-b">
+                                <td class="p-2">
+                                    {{ dataValue[0] }}
+                                </td>
+                                <td v-if="dataValue[1].schedules_attendances[0].applied_ins.project_id" class="p-2">
+                                    {{ dataValue[1].schedules_attendances[0].applied_ins.project.project_code }}
+                                </td>
+                                <td v-else-if="dataValue[1].schedules_attendances[0].applied_ins.department_id" class="p-2">
+                                    {{ dataValue[1].schedules_attendances[0].applied_ins.department.department_name }}
+                                </td>
+                                <td v-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2 am-time-in">
+                                    {{ dataValue[1].schedules_attendances[0].applied_ins.time_human }}
+                                </td>
+                                <td v-else-if="dataValue[1].schedules_attendances[1].applied_ins!=null" class="p-2">
+                                    NO LOG
+                                </td>
+                                <td v-else class="p-2">
+                                    ABSENT
+                                </td>
+                                <td v-if="dataValue[1].schedules_attendances[0].applied_outs != null" class="p-2 am-time-out">
+                                    {{ dataValue[1].schedules_attendances[0].applied_outs.time_human }}
+                                </td>
+                                <td v-else-if="dataValue[1].schedules_attendances[0].applied_outs == null && dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2">
+                                    NO LOG
+                                </td>
+                                <td v-else class="p-2">
+                                    ABSENT
+                                </td>
+                                <td v-if="dataValue[1].schedules_attendances[1].applied_ins != null" class="p-2 pm-time-in">
+                                    {{ dataValue[1].schedules_attendances[1].applied_ins.time_human }}
+                                </td>
+                                <td v-else-if="dataValue[1].schedules_attendances[0].applied_ins != null" class="p-2">
+                                    NO LOG
+                                </td>
+                                <td v-else class="p-2">
+                                    ABSENT
+                                </td>
+                                <td v-if="dataValue[1].schedules_attendances[1].applied_outs!=null" class="p-2">
+                                    {{ dataValue[1].schedules_attendances[1].applied_outs.time_human }}
+                                </td>
+                                <td v-else-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2">
+                                    NO LOG
+                                </td>
+                                <td v-else class="p-2">
+                                    ABSENT
+                                </td>
+                                <td v-if="dataValue[1].metadata.regular.reg_hrs!=null" class="p-2">
+                                    {{ dataValue[1].metadata.regular.reg_hrs }}
+                                </td>
+                                <td v-else class="p-2">
+                                    0
+                                </td>
+                                <td v-if="dataValue[1].ovetime.length > 0" class="p-2">
+                                    {{ dataValue[1].ovetime[0].start_time_human }}
+                                </td>
+                                <td v-else class="p-2">
+                                    NO LOG
+                                </td>
+                                <td v-if="dataValue[1].ovetime.length > 0" class="p-2">
+                                    {{ dataValue[1].ovetime[0].end_time_human }}
+                                </td>
+                                <td v-else class="p-2">
+                                    NO LOG
+                                </td>
+                                <td v-if="dataValue[1].metadata.regular.overtime!=null" class="p-2">
+                                    {{ dataValue[1].metadata.regular.overtime }}
+                                </td>
+                                <td v-else class="p-2">
+                                    0
+                                </td>
+                            </tr>
+                            <tr v-else class="border text-center border-b">
+                                <td class="p-2">
+                                    {{ dataValue[0] }}
+                                </td>
+                                <td class="p-2" />
+                                <td class="p-2">
+                                    ABSENT
+                                </td>
+                                <td class="p-2">
+                                    ABSENT
+                                </td>
+                                <td class="p-2">
+                                    ABSENT
+                                </td>
+                                <td class="p-2">
+                                    ABSENT
+                                </td>
+                                <td class="p-2">
+                                    0
+                                </td>
+                                <td class="p-2">
+                                    ABSENT
+                                </td>
+                                <td class="p-2">
+                                    ABSENT
+                                </td>
+                                <td class="p-2">
+                                    0
+                                </td>
+                            </tr>
+                        </template>
+                        <template v-else>
+                            <tr class="border text-center border-b">
+                                <td class="p-2">
+                                    {{ dataValue[0] }}
+                                </td>
+                                <td class="p-2" />
+                                <td class="p-2">
+                                    NO SCHEDULE
+                                </td>
+                                <td class="p-2">
+                                    NO SCHEDULE
+                                </td>
+                                <td class="p-2">
+                                    NO SCHEDULE
+                                </td>
+                                <td class="p-2">
+                                    NO SCHEDULE
+                                </td>
+                                <td class="p-2">
+                                    0
+                                </td>
+                                <td class="p-2">
+                                    NO SCHEDULE
+                                </td>
+                                <td class="p-2">
+                                    NO SCHEDULE
+                                </td>
+                                <td class="p-2">
+                                    0
+                                </td>
+                            </tr>
+                        </template>
+                    </template>
                 </template>
             </tbody>
         </table>

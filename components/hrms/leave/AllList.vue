@@ -40,7 +40,7 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="ALL LEAVE LIST" class="w-full" :loading="boardLoading">
+    <LayoutBoards class="w-full" :loading="boardLoading">
         <!-- <pre>{{ allList }}</pre> -->
         <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">

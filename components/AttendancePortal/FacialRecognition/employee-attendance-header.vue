@@ -37,7 +37,7 @@ myTimer()
                     <h1 class="text-3xl font-bold">
                         {{ attendanceSession.name }}
                     </h1>
-                    <p v-if="typeof(attendanceSession) == array" class="text-sm">
+                    <p v-if="typeof(attendanceSession) == 'array'" class="text-sm">
                         press arrowkey to change
                     </p>
                 </div>

@@ -52,7 +52,7 @@ const headers = [
 </script>
 
 <template>
-    <LayoutBoards title="Generate Allowance List" class="w-full" :loading="boardLoading">
+    <LayoutBoards class="w-full" :loading="boardLoading">
         <!-- <HrmsPayrollAllowanceFilterSelector /> -->
         <div class="pb-2 text-gray-500 p-2">
             <!-- <pre>{{ GAList }}</pre> -->
