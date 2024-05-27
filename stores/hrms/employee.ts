@@ -294,6 +294,8 @@ value: any
     employee_dtr: Array<EmployeeDTR>,
     employee_externalwork: Array<EmployeeExternalwork>,
     employee_address: Array<EmployeeAddress>,
+    present_address: EmployeeAddress,
+    permanent_address: EmployeeAddress,
     employment_records: Array<EmploymentRecord>,
     employee_affiliation: Array<EmployeeAffiliation>,
     employee_education: Array<EmploymentEducation>,
@@ -375,6 +377,26 @@ export const useEmployeeInfo = defineStore("employee", {
             employment_records: [] as Array<EmploymentRecord>,
             employee_affiliation: [] as Array<EmployeeAffiliation>,
             employee_education: [] as Array<EmploymentEducation>,
+            present_address: {
+                id: null as null| Number,
+                employee_id: null as null| Number,
+                street: null as null| String,
+                brgy: null as null| String,
+                city: null as null| String,
+                zip: null as null| String,
+                province: null as null| String,
+                type: null as null| String,
+            } as EmployeeAddress,
+            permanent_address: {
+                id: null as null| Number,
+                employee_id: null as null| Number,
+                street: null as null| String,
+                brgy: null as null| String,
+                city: null as null| String,
+                zip: null as null| String,
+                province: null as null| String,
+                type: null as null| String,
+            } as EmployeeAddress,
             company_employments: {
                 id: null,
                 employeedisplay_id: "",
@@ -428,34 +450,6 @@ export const useEmployeeInfo = defineStore("employee", {
                 return ""
             }
             return state.information.first_name + " " + (state.information.middle_name || "") + " " + state.information.family_name + " " + (state.information.name_suffix || "")
-        },
-        presentAddress (state) {
-            let preAddress = ""
-            if (!state.information) {
-                return ""
-            }
-            if (state.information.employee_address) {
-                state.information.employee_address.forEach((item) => {
-                    if (item.type === "present") {
-                        preAddress = item.street + " " + item.brgy + " " + item.city + " " + item.province
-                    }
-                })
-            }
-            return preAddress
-        },
-        permanentAddress (state) {
-            let perAddress = ""
-            if (!state.information) {
-                return ""
-            }
-            if (state.information.employee_address) {
-                state.information.employee_address.forEach((item) => {
-                    if (item.type === "both" || item.type === "permanent") {
-                        perAddress = item.street + " " + item.brgy + " " + item.city + " " + item.province
-                    }
-                })
-            }
-            return perAddress
         },
         contactPersonAddress (state) {
             let contactAddress = ""
