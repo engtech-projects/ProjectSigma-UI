@@ -143,12 +143,12 @@ export interface ApplicantInformation {
     name_of_spouse: String,
     date_of_birth_spouse: String,
     occupation_spouse: String,
-    telephone_spouse: null | Number,
+    telephone_spouse: null | String,
     children: Array<JobApplicationChildren>,
     icoe_name: String,
     icoe_address: String,
     icoe_relationship: String,
-    telephone_icoe: null | Number,
+    telephone_icoe: null | String,
     workexperience: Array<JobApplicationWorkExperience>,
     education: Array<JobApplicationEducation>
 }
