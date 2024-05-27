@@ -102,9 +102,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         withholdingtax_contribution: data.payroll_records.salary_deduction.ewtc,
                         total_deduct: data.payroll_records.total_salary_deduction,
                         net_pay: data.payroll_records.total_net_pay,
-                        loans: data.payroll_records.loans,
-                        cash_advance: data.payroll_records.cash_advance,
-                        other_deductions: data.payroll_records.other_deductions,
+                        loans: data.payroll_records.salary_deduction.loan,
+                        cash_advance: data.payroll_records.salary_deduction.cash_advance,
+                        other_deductions: data.payroll_records.salary_deduction.other_deduction,
                     }
                 }),
             }

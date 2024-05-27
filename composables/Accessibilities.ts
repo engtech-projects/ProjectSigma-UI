@@ -13,7 +13,7 @@ export enum AccessibilityTypes {
     hrms_attendance_qr_code = "hrms:attendance_qr_code",
     hrms_event_calendar = "hrms:event_calendar",
     hrms_employee_201 = "hrms:employee_201",
-    hrms_employee_applicants = "hrms:employee_applicants",
+    hrms_job_applicant = "hrms:employee_job_applicant",
     hrms_employee_personnel_action_notice = "hrms:employee_personnel_action_notice",
     hrms_employee_onboarding = "hrms:employee_onboarding",
     hrms_employee_manpower_request = "hrms:employee_manpower_request",
