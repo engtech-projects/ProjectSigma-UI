@@ -50,10 +50,10 @@ const { editable } = storeToRefs(employee)
             Employee Present Address
         </label>
         <div v-if="editable" class="mt-2">
-            <button v-if="employee.presentAddressParams.id" class=" bg-yellow-400 text-white w-8 h-8" @click="updateEmployeeAddress(employee.presentAddressParams.id, employee.presentAddressParams)">
+            <button v-if="employee.information.present_address.id" class=" bg-yellow-400 text-white w-8 h-8" @click="updateEmployeeAddress(employee.information.present_address.id, employee.information.present_address)">
                 <Icon name="ion:pencil" color="white" class="rounded h-6 w-6 p-1" />
             </button>
-            <button v-else class=" bg-green-600 text-white w-8 h-8" @click="saveEmployeeAddress(employee.presentAddressParams)">
+            <button v-else class=" bg-green-600 text-white w-8 h-8" @click="saveEmployeeAddress(employee.information.present_address)">
                 <Icon name="ion:save" color="white" class="rounded h-6 w-6 p-1" />
             </button>
         </div>
@@ -73,25 +73,25 @@ const { editable } = storeToRefs(employee)
                 <td class="border border-slate-300 p-1">
                     <div>
                         <label for="employee_present_address_street" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Street</label>
-                        <input id="employee_present_address_street" v-model="employee.presentAddressParams.street" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
+                        <input id="employee_present_address_street" v-model="employee.information.present_address.street" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
                     </div>
                 </td>
                 <td class="border border-slate-300 p-1">
                     <div>
                         <label for="employee_present_address_brgy" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Barangay</label>
-                        <input id="employee_present_address_brgy" v-model="employee.presentAddressParams.brgy" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
+                        <input id="employee_present_address_brgy" v-model="employee.information.present_address.brgy" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
                     </div>
                 </td>
                 <td class="border border-slate-300 p-1">
                     <div>
                         <label for="employee_present_address_city" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">City</label>
-                        <input id="employee_present_address_city" v-model="employee.presentAddressParams.city" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
+                        <input id="employee_present_address_city" v-model="employee.information.present_address.city" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
                     </div>
                 </td>
                 <td class="border border-slate-300 p-1">
                     <div>
                         <label for="employee_present_address_zip" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Zip</label>
-                        <input id="employee_present_address_zip" v-model="employee.presentAddressParams.zip" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
+                        <input id="employee_present_address_zip" v-model="employee.information.present_address.zip" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
                     </div>
                 </td>
             </tr>
@@ -99,7 +99,7 @@ const { editable } = storeToRefs(employee)
                 <td class="border border-slate-300 p-1">
                     <div>
                         <label for="employee_present_address_province" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Province</label>
-                        <input id="employee_present_address_province" v-model="employee.presentAddressParams.province" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
+                        <input id="employee_present_address_province" v-model="employee.information.present_address.province" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
                     </div>
                 </td>
             </tr>
