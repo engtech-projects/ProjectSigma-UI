@@ -18,27 +18,27 @@ export interface PayrollAdjustment {
     adjustment_amount: string;
 }
 
-// export interface PayrollData {
-//     id: null | Number,
-//     employee_ids: null | Number,
-//     project_id: null | Number,
-//     department_id: null | Number,
-//     payroll_date: String,
-//     payroll_type: String,
-//     release_type: String,
-//     cutoff_start: String,
-//     cutoff_end: String,
-//     group_type: String,
-//     deduct_sss: boolean,
-//     deduct_philhealth: boolean,
-//     deduct_pagibig: boolean,
-//     adjustment: Array<PayrollAdjustment>,
-// }
-
 export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
     state: () => ({
         isEdit: false,
-        generatePayroll: {
+        generateParams: {
+            group_type: null,
+            project_id: null,
+            department_id: null,
+            payroll_type: null,
+            release_type: null,
+            payroll_date: "",
+            cutoff_start: "",
+            cutoff_end: "",
+            deduct_sss: 0,
+            deduct_philhealth: 0,
+            deduct_pagibig: 0,
+            employee_ids: [] as any[],
+            adjustment: [] as any[],
+            approvals: [],
+        },
+        payrollDraft: [] as any,
+        payrollRecord: {
             id: null,
             employee_ids: [] as any[],
             project_id: null,
@@ -52,10 +52,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             deduct_sss: 0,
             deduct_philhealth: 0,
             deduct_pagibig: 0,
-            approvals: [],
             adjustment: [],
+            approvals: [],
         },
-
         list: [] as any[],
         myApprovalRequestList: [],
         myRequestList: [],
@@ -65,12 +64,58 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         successMessage: "",
         remarks: "",
     }),
+    getters: {
+        formattedPayrollDraft (state) {
+            return {
+                ...state.payrollDraft,
+                payroll: state.payrollDraft.map(function (data: any) {
+                    return {
+                        employee_id: data.id,
+                        regular_hours: data.payroll_records.hours_worked.regular.regular,
+                        rest_hours: data.payroll_records.hours_worked.rest.regular,
+                        regular_holiday_hours: data.payroll_records.hours_worked.regular_holidays.regular,
+                        special_holiday_hours: data.payroll_records.hours_worked.special_holidays.regular,
+                        regular_overtime: data.payroll_records.hours_worked.regular.overtime,
+                        rest_overtime: data.payroll_records.hours_worked.rest.overtime,
+                        regular_holiday_overtime: data.payroll_records.hours_worked.regular_holidays.overtime,
+                        special_holiday_overtime: data.payroll_records.hours_worked.special_holidays.overtime,
+                        regular_pay: data.payroll_records.gross_pays.regular.reg_hrs,
+                        rest_pay: data.payroll_records.gross_pays.rest.reg_hrs,
+                        regular_holiday_pay: data.payroll_records.gross_pays.regular_holidays.reg_hrs,
+                        special_holiday_pay: data.payroll_records.gross_pays.special_holidays.reg_hrs,
+                        regular_ot_pay: data.payroll_records.gross_pays.regular.overtime,
+                        rest_ot_pay: data.payroll_records.gross_pays.rest.overtime,
+                        regular_holiday_ot_pay: data.payroll_records.gross_pays.regular_holidays.overtime,
+                        special_holiday_ot_pay: data.payroll_records.gross_pays.special_holidays.overtime,
+                        gross_pay: data.payroll_records.total_gross_pay,
+                        late_hours: data.payroll_records.hours_worked.regular.late,
+                        sss_employee_contribution: data.payroll_records.salary_deduction.sss.employee_contribution,
+                        sss_employer_contribution: data.payroll_records.salary_deduction.sss.employer_contribution,
+                        sss_employee_compensation: data.payroll_records.salary_deduction.sss.employee_compensation,
+                        sss_employer_compensation: data.payroll_records.salary_deduction.sss.employer_compensation,
+                        philhealth_employee_contribution: data.payroll_records.salary_deduction.phic.employee_compensation,
+                        philhealth_employer_contribution: data.payroll_records.salary_deduction.phic.employer_compensation,
+                        // pagibig_employee_contribution: data.payroll_records.salary_deduction.,
+                        // pagibig_employer_contribution: data.payroll_records.salary_deduction.,
+                        pagibig_employee_compensation: data.payroll_records.salary_deduction.hmdf.employee_compensation,
+                        pagibig_employer_compensation: data.payroll_records.salary_deduction.hmdf.employer_compensation,
+                        withholdingtax_contribution: data.payroll_records.salary_deduction.ewtc,
+                        total_deduct: data.payroll_records.total_salary_deduction,
+                        net_pay: data.payroll_records.total_net_pay,
+                        loans: data.payroll_records.loans,
+                        cash_advance: data.payroll_records.cash_advance,
+                        other_deductions: data.payroll_records.other_deductions,
+                    }
+                }),
+            }
+        },
+    },
     actions: {
-        async getGPayroll () {
+        async generatePayrollDraft () {
             const payload = {
-                ...this.generatePayroll,
-                employee_ids: JSON.stringify(this.generatePayroll.employee_ids),
-                approvals: JSON.stringify(this.generatePayroll.approvals),
+                ...this.generateParams,
+                employee_ids: JSON.stringify(this.generateParams.employee_ids),
+                approvals: JSON.stringify(this.generateParams.approvals),
             }
             await useHRMSApiO(
                 "/api/payroll/generate-payroll",
@@ -82,12 +127,23 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.payrollDraft = response._data.data
+                        }
+                    },
+                }
+            )
+        },
+        async getAllList () {
+            await useHRMSApi(
+                "/api/payroll/resource",
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
                             this.list = response._data.data
-                            this.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
-                            }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -133,11 +189,13 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 "/api/payroll/create-payroll",
                 {
                     method: "POST",
-                    body: this.generatePayroll,
+                    body: this.formattedPayrollDraft,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
-                            this.getGPayroll()
                             this.$reset()
+                            this.getAllList()
+                            this.getMyApprovalRequests()
+                            this.getMyRequests()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -154,13 +212,12 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/payroll/resource/" + this.generatePayroll.id,
+                "/api/payroll/resource/" + this.payrollRecord.id,
                 {
                     method: "PATCH",
-                    body: this.generatePayroll,
-                    onResponse: ({ response }) => {
+                    body: this.payrollRecord,
+                    onResponse: ({ response }: any) => {
                         if (response.status >= 200 && response.status <= 299) {
-                            this.getGPayroll()
                             this.$reset()
                             this.successMessage = response._data.message
                         } else {
@@ -171,82 +228,75 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             )
         },
         async deleteRequest (id: number) {
-            const { data, error } = await useHRMSApi(
+            await useHRMSApi(
                 "/api/payroll/resource/" + id,
                 {
                     method: "DELETE",
                     watch: false,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.$reset()
-                            this.getGPayroll()
                             this.successMessage = response._data.message
                         }
                     },
                 }
             )
-            if (error.value) {
-                this.errorMessage = error.value.data.message
-                throw new Error(this.errorMessage)
-                return error
-            }
-            if (data.value) {
-                this.getGPayroll()
-                return data
-            }
         },
-        // async approveApprovalForm (id: number) {
-        //     this.successMessage = ""
-        //     this.errorMessage = ""
-        //     await useHRMSApiO(
-        //         "/api/approvals/approve/ManpowerRequest/" + id,
-        //         {
-        //             method: "POST",
-        //             onResponseError: ({ response }) => {
-        //                 this.errorMessage = response._data.message
-        //                 throw new Error(response._data.message)
-        //             },
-        //             onResponse: ({ response }) => {
-        //                 if (response.ok) {
-        //                     this.successMessage = response._data.message
-        //                     this.getMyApprovalRequests()
-        //                     this.getManpower()
-        //                     this.getMyRequests()
-        //                     return response._data
-        //                 } else {
-        //                     this.errorMessage = response._data.message
-        //                     throw new Error(response._data.message)
-        //                 }
-        //             },
-        //         }
-        //     )
-        // },
-        // async denyApprovalForm (id: String) {
-        //     this.successMessage = ""
-        //     this.errorMessage = ""
-        //     const formData = new FormData()
-        //     formData.append("id", id)
-        //     formData.append("remarks", this.remarks)
-        //     await useHRMSApiO(
-        //         "/api/approvals/disapprove/ManpowerRequest/" + id,
-        //         {
-        //             method: "POST",
-        //             body: formData,
-        //             onResponseError: ({ response }) => {
-        //                 this.errorMessage = response._data.message
-        //                 throw new Error(response._data.message)
-        //             },
-        //             onResponse: ({ response }) => {
-        //                 if (response.ok) {
-        //                     this.successMessage = response._data.message
-        //                     this.getMyApprovalRequests()
-        //                     this.getManpower()
-        //                     this.getMyRequests()
-        //                     return response._data
-        //                 }
-        //             },
-        //         }
-        //     )
-        // },
+        async approveApprovalForm (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/approvals/approve/payroll/" + id,
+                {
+                    method: "POST",
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            this.getAllList()
+                            this.getMyRequests()
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async denyApprovalForm (id: string) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const formData = new FormData()
+            formData.append("id", id)
+            formData.append("remarks", this.remarks)
+            await useHRMSApiO(
+                "/api/approvals/disapprove/payroll/" + id,
+                {
+                    method: "POST",
+                    body: formData,
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            this.getAllList()
+                            this.getMyRequests()
+                            return response._data
+                        }
+                    },
+                }
+            )
+        },
     },
 })

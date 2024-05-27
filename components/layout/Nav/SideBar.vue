@@ -3,7 +3,7 @@ const config = useRuntimeConfig()
 </script>
 
 <template>
-    <ul class="space-y-2">
+    <div class="space-y-2">
         <LayoutNavSingle
             class="px-5"
             linkarea="/dashboard"
@@ -683,7 +683,7 @@ const config = useRuntimeConfig()
                 single-nav-title="Projects"
             />
         </LayoutNavModuleGroup>
-    </ul>
+    </div>
 </template>
 
 <!-- <LayoutNav hide="hidden" linkarea="/hrms/employee/application" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Application"/> -->

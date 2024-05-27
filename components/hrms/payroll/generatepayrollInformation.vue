@@ -1,19 +1,8 @@
 <script setup lang="ts">
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 const genpayrollstore = useGeneratePayrollStore()
-
-const { list: generatedList } = storeToRefs(genpayrollstore)
-
-defineProps({
-    generatePayrollData: {
-        type: null,
-        required: true,
-    },
-    // payrollDraft: {
-    //     type: Array,
-    //     required: true,
-    // }
-})
+const snackbar = useSnackbar()
+const { payrollDraft } = storeToRefs(genpayrollstore)
 
 const loanTypes = ref([])
 const cashAdvances = ref([])
@@ -41,6 +30,21 @@ const formatDateRange = (start: string, end: string) => {
         return `${startMonth} ${startDay}-${endMonth} ${endDay}, ${endYear}`
     }
 }
+const savePayroll = () => {
+    try {
+        await genpayrollstore.createRequest()
+        snackbar.add({
+            type: "success",
+            text: "Successfully Saved Payroll Request"
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error
+        })
+    }
+}
+
 </script>
 
 <template>
@@ -57,10 +61,10 @@ const formatDateRange = (start: string, end: string) => {
         <div class="border-t border-gray-200">
             <div class="grid grid-cols-2 p-2">
                 <div class="text-md leading-6 font-medium text-gray-900">
-                    Project: <strong>{{ generatePayrollData.group_type === 'department' ? generatePayrollData.department_id : generatePayrollData.project_id }}</strong>
+                    Project: <strong>{{ payrollDraft.group_type === 'department' ? payrollDraft.department.department_name : payrollDraft.project.project_code }}</strong>
                 </div>
                 <div class="text-md leading-6 font-medium text-gray-900">
-                    Period Covered: <strong>{{ formatDateRange(generatePayrollData.cutoff_start, generatePayrollData.cutoff_end) }}</strong>
+                    Period Covered: <strong>{{ formatDateRange(payrollDraft.cutoff_start, payrollDraft.cutoff_end) }}</strong>
                 </div>
             </div>
         </div>
@@ -335,7 +339,7 @@ const formatDateRange = (start: string, end: string) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(data, index) in generatedList" :key="index" class="bg-white border-b text-gray-950">
+                        <tr v-for="(data, index) in payrollDraft.payroll" :key="index" class="bg-white border-b text-gray-950">
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ index + 1 }}
                             </td>
@@ -456,10 +460,10 @@ const formatDateRange = (start: string, end: string) => {
             </div>
         </div>
     </div>
-    <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-900 dark:border-gray-800 p-6 overflow-auto mt-6">
+    <div v-if="false" class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-900 dark:border-gray-800 p-6 overflow-auto mt-6">
         <label for="" class="block text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Adjustment</label>
 
-        <div v-for="(data, index1) in generatePayrollData.adjustment" :key="index1" class="mb-4">
+        <div v-for="(data, index1) in payrollDraft.adjustment" :key="index1" class="mb-4">
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm">
                 <div class="text-lg text-gray-800 dark:text-gray-300">
                     <span class="font-medium">Employee:</span> {{ data.id }}
@@ -482,7 +486,11 @@ const formatDateRange = (start: string, end: string) => {
                 </button>
             </div>
             <div>
-                <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                <button
+                    type="submit"
+                    class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    @click="savePayroll()"
+                >
                     Submit
                 </button>
             </div>

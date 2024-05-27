@@ -5,10 +5,15 @@ import { useEmployeeInfo } from "@/stores/hrms/employee"
 const employee = useEmployeeInfo()
 const { employeeIsSearched, information, filterAttendanceList } = storeToRefs(employee)
 const snackbar = useSnackbar()
-
+const utils = useUtilities()
+const date = new Date()
+const y = date.getFullYear()
+const m = date.getMonth()
+const defaultFrom = new Date(y, m, 1)
+const defaultTo = new Date(date.getFullYear(), date.getMonth() + 1, 0)
 const filterDate = ref({
-    from: null,
-    to: null,
+    from: utils.value.dateToString(defaultFrom),
+    to: utils.value.dateToString(defaultTo),
     data: [],
     keys: [],
 })
@@ -69,7 +74,7 @@ const headers = [
     <div class="shadow-md border border-gray-200 rounded-lg p-4 bg-white mb-3 w-full md:w-3/4">
         <div class="flex w-full mb-4">
             <div class="div">
-                <form class="w-full grid grid-cols-1 gap-4 grid-cols-3" @submit.prevent="getAttendance">
+                <form class="w-full grid grid-cols-1 gap-4 md:grid-cols-3" @submit.prevent="getAttendance">
                     <div class="div">
                         <label for="date_requested" class="block text-sm font-medium text-gray-900 dark:text-white">Date From:</label>
                         <input id="date_requested" v-model="filterDate.from" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>

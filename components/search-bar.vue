@@ -7,9 +7,9 @@ const employee = useEmployeeInfo()
 const employeeSearch = useEmployeeSearch()
 employeeSearch.searchEmployees()
 const { searchEmployeeParams, searchResultList } = storeToRefs(employeeSearch)
-const employeeId = ref<EmployeeInformation>({} as EmployeeInformation)
+const employeeInfo = ref<EmployeeInformation>({} as EmployeeInformation)
 const emit = defineEmits(["searchChanged"])
-watch(employeeId, async (newValue) => {
+watch(employeeInfo, async (newValue) => {
     if (newValue) {
         await employee.getEmployeeInformation(newValue.id)
         emit("searchChanged", newValue)
@@ -19,5 +19,5 @@ watch(employeeId, async (newValue) => {
 })
 </script>
 <template>
-    <LayoutFormPsSelectSearch v-model:result="employeeId" v-model:search-input="searchEmployeeParams.key" :search-list="searchResultList" title="fullname_last" placeholder="Search Employee" />
+    <LayoutFormPsSelectSearch v-model:result="employeeInfo" v-model:search-input="searchEmployeeParams.key" :search-list="searchResultList" title="fullname_last" placeholder="Search Employee" />
 </template>

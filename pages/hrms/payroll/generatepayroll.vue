@@ -1,10 +1,13 @@
 <script setup lang="ts">
-// import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 import { useEnumsStore } from "@/stores/hrms/enum"
 
-// const genpayrollstore = useGeneratePayrollStore()
+const genpayrollstore = useGeneratePayrollStore()
+genpayrollstore.getAllList()
+genpayrollstore.getMyApprovalRequests()
+genpayrollstore.getMyRequests()
 // const { isEdit } = storeToRefs(stores)
-// genpayrollstore.getGPayroll()
+// genpayrollstore.generatePayroll()
 // genpayrollstore.createRequest()
 
 const enums = useEnumsStore()
