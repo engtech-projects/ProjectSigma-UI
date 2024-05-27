@@ -8,7 +8,7 @@ const { attendanceLogList, pagination, getParams } = storeToRefs(attendancePorta
 const headers = [
     { name: "Employee Name", id: "employee.fullname_first" },
     { name: "Date", id: "date" },
-    { name: "Time", id: "time" },
+    { name: "Time", id: "time_human" },
     { name: "Description", id: "log_type" },
 ]
 const changePaginate = (newParams) => {
