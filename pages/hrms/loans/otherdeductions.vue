@@ -1,10 +1,3 @@
-<template>
-    <div>
-        <HrmsLoansDeductionsForm @stored="stored" />
-        <HrmsLoansDeductionsTable :tofetch="toFetchDeductions" @fetched="toFetchDeductions=false" />
-    </div>
-</template>
-
 <script setup lang="ts">
 const toFetchDeductions = ref(false)
 const stored = () => {
@@ -18,3 +11,10 @@ useHead({
 
 })
 </script>
+
+<template>
+    <div>
+        <HrmsLoansDeductionsForm @stored="stored" />
+        <HrmsLoansDeductionsTable :tofetch="toFetchDeductions" @fetched="toFetchDeductions=false" />
+    </div>
+</template>

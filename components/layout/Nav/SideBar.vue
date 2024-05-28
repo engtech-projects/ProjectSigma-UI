@@ -167,9 +167,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_loans_and_advances_cash_advance,
-                    AccessibilityTypes.hrms_loans_and_advances_loans,
-                    AccessibilityTypes.hrms_loans_and_advances_other_deductions,
+                    AccessibilityTypes.hrms_loans_and_advances_group,
                 ])"
                 icon="mdi:cash"
                 title="Loans and Advances"
@@ -201,22 +199,14 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_leave_form,
-                    AccessibilityTypes.hrms_leave_list,
-                    AccessibilityTypes.hrms_leave_my_approvals,
-                    AccessibilityTypes.hrms_overtime_form,
-                    AccessibilityTypes.hrms_overtime_list,
-                    AccessibilityTypes.hrms_overtime_my_request,
-                    AccessibilityTypes.hrms_overtime_my_approvals,
+                    AccessibilityTypes.hrms_lnotnto_group,
                 ])"
                 icon="mdi:account-clock"
                 title="Leaves and Overtime"
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_leave_form,
-                        AccessibilityTypes.hrms_leave_list,
-                        AccessibilityTypes.hrms_leave_my_approvals,
+                        AccessibilityTypes.hrms_lnotnto_leave_group,
                     ])"
                     linkarea="/hrms/leave"
                     icon="fluent-mdl2:leave-user"
@@ -224,10 +214,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_overtime_form,
-                        AccessibilityTypes.hrms_overtime_list,
-                        AccessibilityTypes.hrms_overtime_my_request,
-                        AccessibilityTypes.hrms_overtime_my_approvals,
+                        AccessibilityTypes.hrms_lnotnto_overtime_group,
                     ])"
                     linkarea="/hrms/overtime"
                     icon="mingcute:time-line"
@@ -235,10 +222,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_travel_order_form,
-                        AccessibilityTypes.hrms_travel_order_list,
-                        AccessibilityTypes.hrms_travel_order_my_request,
-                        AccessibilityTypes.hrms_travel_order_my_approvals,
+                        AccessibilityTypes.hrms_lnotnto_travel_order_group,
                     ])"
                     linkarea="/hrms/travelorder"
                     icon="material-symbols:googler-travel"
@@ -247,10 +231,7 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_payroll_generate_payroll,
-                    AccessibilityTypes.hrms_payroll_13th_month,
-                    AccessibilityTypes.hrms_payroll_allowance,
-                    AccessibilityTypes.hrms_payroll_payroll_report,
+                    AccessibilityTypes.hrms_payroll_group,
                 ])"
                 icon="ion:ios-people"
                 title="Payroll"
@@ -282,7 +263,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_payroll_payroll_report,
+                        AccessibilityTypes.hrms_payroll_payroll_record,
                     ])"
                     v-show="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/payroll/payrollrecord"

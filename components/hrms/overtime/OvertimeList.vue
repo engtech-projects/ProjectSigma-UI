@@ -51,7 +51,7 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="Overtime Request List" class="w-full" :loading="boardLoading">
+    <LayoutBoards class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable :header-columns="headers" :datas="overtimeList" :actions="actions" @edit-row="setEdit" @delete-row="deleteReq" />
         </div>

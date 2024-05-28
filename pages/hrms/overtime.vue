@@ -22,7 +22,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_announcement,
+            AccessibilityTypes.hrms_lnotnto_travel_order_form,
         ])"
     >
         <div
@@ -34,9 +34,6 @@ useHead({
             </div>
             <div>
                 <HrmsOvertimeTabs />
-                <!-- <HrmsOvertimeMyRequest />
-                <HrmsOvertimeMyApprovals />
-                <HrmsOvertimeList /> -->
             </div>
         </div>
     </LayoutAcessContainer>
