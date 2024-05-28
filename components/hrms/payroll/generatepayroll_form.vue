@@ -130,7 +130,7 @@ const submitForm = async () => {
                 </div>
 
                 <div>
-                    <div hidden>
+                    <div>
                         <div class="z-40 mb-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
                             <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
                                 <div class="flex items-center justify-between align">
