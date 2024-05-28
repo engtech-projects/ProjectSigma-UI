@@ -89,10 +89,15 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         special_holiday_ot_pay: data.payroll_records.gross_pays.special_holidays.overtime,
                         gross_pay: data.payroll_records.total_gross_pay,
                         late_hours: data.payroll_records.hours_worked.regular.late,
+
                         sss_employee_contribution: data.payroll_records.salary_deduction.sss.employee_contribution,
+
                         sss_employer_contribution: data.payroll_records.salary_deduction.sss.employer_contribution,
+
                         sss_employee_compensation: data.payroll_records.salary_deduction.sss.employee_compensation,
+
                         sss_employer_compensation: data.payroll_records.salary_deduction.sss.employer_compensation,
+
                         philhealth_employee_contribution: data.payroll_records.salary_deduction.phic.employee_compensation,
                         philhealth_employer_contribution: data.payroll_records.salary_deduction.phic.employer_compensation,
                         // pagibig_employee_contribution: data.payroll_records.salary_deduction.,
@@ -161,7 +166,14 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         totalSSSEmployerPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.salary_deduction.sss.employer_contribution
+                total += element.payroll_records.salary_deduction.sss.employer_compensation
+            })
+            return total
+        },
+        totalSSSEmployeePayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.salary_deduction.sss.employee_compensation
             })
             return total
         },
@@ -176,6 +188,59 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
                 total += element.payroll_records.gross_pays.special_holidays.overtime
+            })
+            return total
+        },
+        totalRegHolOTPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.hours_worked.regular_holidays.overtime
+            })
+            return total
+        },
+        totalRestDayOTPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.gross_pays.rest.overtime
+            })
+            return total
+        },
+        totalRegOTPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += element.payroll_records.hours_worked.regular.overtime
+            })
+            return total
+        },
+        totalSpcHolPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                const value = element?.payroll_records?.hours_worked?.special_holidays?.regular ?? 0
+                total += value
+            })
+            return total
+        },
+        totalRegHolPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                const value = element?.payroll_records?.hours_worked?.regular_holidays?.regular ?? 0
+                total += value
+            })
+            return total
+        },
+        totalRestDayPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                const value = element?.payroll_records?.gross_pays?.rest?.reg_hrs ?? 0
+                total += value
+            })
+            return total
+        },
+        totalRegHrsPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                const value = element?.payroll_records?.hours_worked?.regular?.regular ?? 0
+                total += value
             })
             return total
         },

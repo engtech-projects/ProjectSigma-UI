@@ -150,7 +150,7 @@ const printDraft = () => {
                                 rowspan="3"
                                 class="p-2 border-solid border border-slate-400 bg-sky-200"
                             >
-                                Rate
+                                Salary Grade
                             </th>
                             <th
                                 scope="col"
@@ -507,55 +507,52 @@ const printDraft = () => {
                             <th
                                 scope="col"
                                 colspan="5"
-                                class="p-2 border-solid border border-slate-400 bg-sky-200"
+                                class="p-4"
                             />
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ " " }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ " " }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ " " }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ " " }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ " " }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ " " }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ " " }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ " " }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ genpayrollstore.totalRegHrsPayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ genpayrollstore.totalRestDayPayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ genpayrollstore.totalRegHolPayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ genpayrollstore.totalSpcHolPayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ genpayrollstore.totalRegOTPayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ genpayrollstore.totalRestDayOTPayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
-                            </td>
-                            <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                {{ genpayrollstore.totalRegHolOTPayrollDraft }}
                             </td>
                             <td>
                                 {{ genpayrollstore.totalSpcHolOTPayrollDraft }}
@@ -576,16 +573,19 @@ const printDraft = () => {
                                 {{ genpayrollstore.totalPHICEmployerPayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalHDMFEmployerPayrollDraft ?? "-" }}
+                                {{ genpayrollstore.totalHDMFEmployeePayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalEWTCPayrollDraft ?? "-"}}
+                                {{ genpayrollstore.totalHDMFEmployerPayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalDeductionPayrollDraft }}
+                                {{ genpayrollstore.totalEWTCPayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalNetPayPayrollDraft }}
+                                <strong>{{ genpayrollstore.totalDeductionPayrollDraft }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ genpayrollstore.totalNetPayPayrollDraft }}</strong>
                             </td>
                         </tr>
                     </tbody>
