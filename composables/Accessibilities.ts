@@ -1,8 +1,10 @@
 import { USER_ADMINISTRATOR } from "@/stores/hrms/setup/users"
 const { data: userData } = useAuth()
 export enum AccessibilityTypes {
+    hrms_group = "hrms:",
     hrms_announcement = "hrms:announcement",
     hrms_dashboard = "hrms:dashboard",
+    hrms_attendance_group = "hrms:attendance_",
     hrms_attendance_failure_to_log = "hrms:attendance_failure to log",
     hrms_attendance_face_recognition = "hrms:attendance_face recognition",
     hrms_attendance_biomentrics = "hrms:attendance_biomentrics",
@@ -11,7 +13,7 @@ export enum AccessibilityTypes {
     hrms_event_calendar = "hrms:eventcalendar",
     hrms_job_applicant = "hrms:employee_job applicant",
     hrms_employee_onboarding = "hrms:employee_onboarding",
-    hrms_employee_manpower_request = "hrms:employee_manpower request",
+    hrms_employee_manpower_request_group = "hrms:employee_manpower request",
     hrms_setup_user_account = "hrms:setup_user account",
     hrms_setup_department = "hrms:setup_department",
     hrms_setup_approvals = "hrms:setup_approvals",
@@ -114,7 +116,7 @@ export function useCheckAccessibility (allowedAccessibilities: any) {
     const isAllowed = () => {
         allowedAccessibilities.forEach((element: string) => {
             userAccessibilites.forEach((useraccess: string) => {
-                if (useraccess.startsWith(element)) {
+                if (useraccess[key].startsWith(element)) {
                     return true
                 }
             })

@@ -24,7 +24,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_schedule_employee_schedule,
+            AccessibilityTypes.hrms_dashboard,
         ])"
     >
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-4">
