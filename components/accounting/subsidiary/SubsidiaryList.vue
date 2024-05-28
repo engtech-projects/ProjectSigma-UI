@@ -7,7 +7,6 @@ await subsidiaryStore.getSubsidiaries()
 const { list: accountList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(subsidiaryStore)
 
 const setEdit = (sub) => {
-    console.log(sub)
     isEdit.value = true
     subsidiaryStore.subsidiary = sub
     return navigateTo("/accounting/subsidiary/edit/" + sub.subsidiary_id)
