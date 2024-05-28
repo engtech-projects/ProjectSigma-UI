@@ -127,6 +127,7 @@ export enum AccessibilityTypes {
 
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
+    const userAccessibilites = userData.value?.accessibility_names ?? []
     const intersectElements = (allowedAccess: any, userAccess: any) => {
         const res = []
         for (let i = 0; i < userAccess.length; i++) {
@@ -137,10 +138,20 @@ export function useCheckAccessibility (allowedAccessibilities: any) {
         };
         return res
     }
-    if (userData.value.type === USER_ADMINISTRATOR) {
+    const isAllowed = () => {
+        allowedAccessibilities.forEach((element: string) => {
+            userAccessibilites.forEach((useraccess: string) => {
+                if (useraccess.startsWith(element)) {
+                    return true
+                }
+            })
+        })
+        return false
+    }
+    if (userData.value?.type === USER_ADMINISTRATOR) {
         return true
     }
-    const userAccessibilites = userData.value.accessibility_names ?? []
+
     const accessApprove = intersectElements(allowedAccessibilities, userAccessibilites)
-    return (accessApprove.length > 0)
+    return (accessApprove.length > 0) || isAllowed()
 }
