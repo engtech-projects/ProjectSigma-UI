@@ -15,15 +15,12 @@ const config = useRuntimeConfig()
             v-if="useCheckAccessibility([
                 AccessibilityTypes.hrms_dashboard,
                 AccessibilityTypes.hrms_announcement,
-                AccessibilityTypes.hrms_attendance_attendance_portal,
                 AccessibilityTypes.hrms_attendance_dtr,
                 AccessibilityTypes.hrms_attendance_failure_to_log,
                 AccessibilityTypes.hrms_attendance_face_recognition,
                 AccessibilityTypes.hrms_attendance_attendance_login,
                 AccessibilityTypes.hrms_attendance_qr_code,
                 AccessibilityTypes.hrms_event_calendar,
-                AccessibilityTypes.hrms_employee_201,
-                AccessibilityTypes.hrms_employee_personnel_action_notice,
                 AccessibilityTypes.hrms_employee_onboarding,
                 AccessibilityTypes.hrms_employee_manpower_request,
                 AccessibilityTypes.hrms_setup_user_account,
@@ -35,11 +32,9 @@ const config = useRuntimeConfig()
                 AccessibilityTypes.hrms_setup_sss,
                 AccessibilityTypes.hrms_setup_with_holding_tax,
                 AccessibilityTypes.hrms_setup_leaves,
-                AccessibilityTypes.hrms_leave,
                 AccessibilityTypes.hrms_loans_and_advances_cash_advance,
                 AccessibilityTypes.hrms_loans_and_advances_loans,
                 AccessibilityTypes.hrms_loans_and_advances_other_deductions,
-                AccessibilityTypes.hrms_overtime,
                 AccessibilityTypes.hrms_payroll_generate_payroll,
                 AccessibilityTypes.hrms_payroll_13th_month,
                 AccessibilityTypes.hrms_payroll_allowance,
@@ -49,28 +44,16 @@ const config = useRuntimeConfig()
                 AccessibilityTypes.hrms_schedule_employee_schedule,
                 AccessibilityTypes.hrms_schedule_project_schedule,
                 AccessibilityTypes.hrms_project_members,
-                AccessibilityTypes.hrms_travel_order,
                 AccessibilityTypes.hrms_setup_division,
                 AccessibilityTypes.hrms_setup_position,
                 AccessibilityTypes.hrms_setup_allowance,
                 AccessibilityTypes.hrms_setup_settings,
                 AccessibilityTypes.hrms_setup_salary_grade,
-                AccessibilityTypes.hrms_dashboard_announcement,
-                AccessibilityTypes.hrms_dashboard_birthday,
-                AccessibilityTypes.hrms_dashboard_lates,
-                AccessibilityTypes.hrms_dashboard_absent,
-                AccessibilityTypes.hrms_dashboard_absent_chart,
-                AccessibilityTypes.hrms_dashboard_assignment_location_chart,
-                AccessibilityTypes.hrms_dashboard_gender_chart,
-                AccessibilityTypes.hrms_announcement_form,
-                AccessibilityTypes.hrms_announcement_list,
                 AccessibilityTypes.hrms_attendance_attendance_portal_form,
                 AccessibilityTypes.hrms_attendance_attendance_portal_list,
                 AccessibilityTypes.hrms_attendance_daily_logs_record_form,
                 AccessibilityTypes.hrms_attendance_daily_logs_record_list,
                 AccessibilityTypes.hrms_attendance_daily_logs_record_approval,
-                AccessibilityTypes.hrms_event_calendar_form,
-                AccessibilityTypes.hrms_event_calendar_calendar,
                 AccessibilityTypes.hrms_employee_201_PIS,
                 AccessibilityTypes.hrms_employee_201_staff_information_sheet,
                 AccessibilityTypes.hrms_employee_201_documents_memos,
@@ -89,8 +72,6 @@ const config = useRuntimeConfig()
                 AccessibilityTypes.hrms_loans_and_advances_loans_forms,
                 AccessibilityTypes.hrms_loans_and_advances_loans_loans_list,
                 AccessibilityTypes.hrms_loans_and_advances_loans_payment_list,
-                AccessibilityTypes.hrms_loans_and_advances_other_deduction_forms,
-                AccessibilityTypes.hrms_loans_and_advances_other_deduction_list,
                 AccessibilityTypes.hrms_leave_form,
                 AccessibilityTypes.hrms_leave_list,
                 AccessibilityTypes.hrms_leave_my_approvals,
@@ -111,8 +92,6 @@ const config = useRuntimeConfig()
                     AccessibilityTypes.hrms_dashboard,
                     AccessibilityTypes.hrms_dashboard_announcement,
                     AccessibilityTypes.hrms_dashboard_birthday,
-                    AccessibilityTypes.hrms_dashboard_lates,
-                    AccessibilityTypes.hrms_dashboard_absent,
                     AccessibilityTypes.hrms_dashboard_absent_chart,
                     AccessibilityTypes.hrms_dashboard_assignment_location_chart,
                     AccessibilityTypes.hrms_dashboard_gender_chart,
@@ -143,7 +122,8 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_attendance_attendance_portal,
+                        AccessibilityTypes.hrms_attendance_attendance_portal_form,
+                        AccessibilityTypes.hrms_attendance_attendance_portal_list,
                     ])"
                     linkarea="/hrms/attendance/portal"
                     icon="ic:baseline-web"
@@ -211,8 +191,6 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_employee_201,
-                    AccessibilityTypes.hrms_employee_personnel_action_notice,
                     AccessibilityTypes.hrms_employee_onboarding,
                     AccessibilityTypes.hrms_job_applicant,
                     AccessibilityTypes.hrms_employee_manpower_request,
@@ -222,7 +200,10 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_employee_201,
+                        AccessibilityTypes.hrms_employee_201_PIS,
+                        AccessibilityTypes.hrms_employee_201_staff_information_sheet,
+                        AccessibilityTypes.hrms_employee_201_documents_memos,
+                        AccessibilityTypes.hrms_employee_201_id,
                     ])"
                     linkarea="/hrms/employee/201"
                     icon="ic:round-folder-shared"
@@ -306,16 +287,22 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_leave,
-                    AccessibilityTypes.hrms_overtime,
-                    AccessibilityTypes.hrms_travel_order,
+                    AccessibilityTypes.hrms_leave_form,
+                    AccessibilityTypes.hrms_leave_list,
+                    AccessibilityTypes.hrms_leave_my_approvals,
+                    AccessibilityTypes.hrms_overtime_form,
+                    AccessibilityTypes.hrms_overtime_list,
+                    AccessibilityTypes.hrms_overtime_my_request,
+                    AccessibilityTypes.hrms_overtime_my_approvals,
                 ])"
                 icon="mdi:account-clock"
                 title="Leaves and Overtime"
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_leave,
+                        AccessibilityTypes.hrms_leave_form,
+                        AccessibilityTypes.hrms_leave_list,
+                        AccessibilityTypes.hrms_leave_my_approvals,
                     ])"
                     linkarea="/hrms/leave"
                     icon="fluent-mdl2:leave-user"
@@ -323,7 +310,10 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_overtime,
+                        AccessibilityTypes.hrms_overtime_form,
+                        AccessibilityTypes.hrms_overtime_list,
+                        AccessibilityTypes.hrms_overtime_my_request,
+                        AccessibilityTypes.hrms_overtime_my_approvals,
                     ])"
                     linkarea="/hrms/overtime"
                     icon="mingcute:time-line"
@@ -331,7 +321,10 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_travel_order,
+                        AccessibilityTypes.hrms_travel_order_form,
+                        AccessibilityTypes.hrms_travel_order_list,
+                        AccessibilityTypes.hrms_travel_order_my_request,
+                        AccessibilityTypes.hrms_travel_order_my_approvals,
                     ])"
                     linkarea="/hrms/travelorder"
                     icon="material-symbols:googler-travel"
