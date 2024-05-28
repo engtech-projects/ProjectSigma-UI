@@ -32,11 +32,48 @@ useHead({
                 <HrmsEmployeeManpowerAddRequest v-show="!isEdit" />
                 <!-- <EmployeeManpowerEditRequest v-show="isEdit" /> -->
             </div>
-            <div class="flex flex-col gap-2">
-                <HrmsEmployeeManpowerMonitoringList />
-                <HrmsEmployeeManpowerMyApprovals />
-                <HrmsEmployeeManpowerMyRequests />
-            </div>
+            <HrmsCommonTabsMainContainer>
+                <template #tab-titles>
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_employee_manpower_request,
+                        ])"
+                        title="All List"
+                        target-id="allListManpower"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_employee_manpower_request,
+                        ])"
+                        title="My Approvals"
+                        target-id="myReleasesManpower"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_employee_manpower_request,
+                        ])"
+                        title="My Request"
+                        target-id="myApprovalsManpower"
+                    />
+                </template>
+                <template #tab-containers>
+                    <HrmsCommonTabsTabContainer
+                        id="allListManpower"
+                    >
+                        <HrmsEmployeeManpowerMonitoringList />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer
+                        id="myReleasesManpower"
+                    >
+                        <HrmsEmployeeManpowerMyApprovals />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer
+                        id="myApprovalsManpower"
+                    >
+                        <HrmsEmployeeManpowerMyRequests />
+                    </HrmsCommonTabsTabContainer>
+                </template>
+            </HrmsCommonTabsMainContainer>
         </div>
     </LayoutAcessContainer>
 </template>

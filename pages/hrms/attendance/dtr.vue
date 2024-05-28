@@ -10,7 +10,9 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_attendance_dtr,
+            AccessibilityTypes.hrms_attendance_daily_logs_record_form,
+            AccessibilityTypes.hrms_attendance_daily_logs_record_list,
+            AccessibilityTypes.hrms_attendance_daily_logs_record_approval,
         ])"
     >
         <div class="mt-10 md:mt-0 md:flex gap-2">
