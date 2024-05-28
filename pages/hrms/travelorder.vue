@@ -21,7 +21,10 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_travel_order,
+            AccessibilityTypes.hrms_travel_order_form,
+            AccessibilityTypes.hrms_travel_order_list,
+            AccessibilityTypes.hrms_travel_order_my_request,
+            AccessibilityTypes.hrms_travel_order_my_approvals,
         ])"
     >
         <div
