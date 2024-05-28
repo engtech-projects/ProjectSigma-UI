@@ -19,7 +19,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_job_applicant,
+            AccessibilityTypes.hrms_employee_job_applicant,
         ])"
     >
         <div class="grid grid-flow-col gap-4">

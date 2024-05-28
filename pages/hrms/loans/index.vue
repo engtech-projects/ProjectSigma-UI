@@ -1,10 +1,3 @@
-<template>
-    <div>
-        <HrmsLoansForm />
-        <HrmsLoansTable />
-    </div>
-</template>
-
 <script setup lang="ts">
 
 useHead({
@@ -15,3 +8,9 @@ useHead({
 
 })
 </script>
+<template>
+    <div>
+        <HrmsLoansForm />
+        <HrmsLoansTable />
+    </div>
+</template>

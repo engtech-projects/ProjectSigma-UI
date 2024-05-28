@@ -61,8 +61,7 @@ const actions = {
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_attendance_attendance_portal_form,
-            AccessibilityTypes.hrms_attendance_attendance_portal_list
+            AccessibilityTypes.hrms_attendance_attendance_portal,
         ])"
     >
         <div class="md:flex gap-4 justify-center">

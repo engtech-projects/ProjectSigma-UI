@@ -38,7 +38,7 @@ export const useUserStore = defineStore("users", {
                 name: "",
                 email: "",
                 password: "",
-                accessibilities: [1] as Array<number>,
+                accessibilities: [] as Array<number>,
                 employee_id: null,
                 employee_details: {} as Object,
                 accessibilities_name: [] as Array<String>,

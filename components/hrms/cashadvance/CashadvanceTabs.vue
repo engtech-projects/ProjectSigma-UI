@@ -7,14 +7,14 @@ const boardLoading = ref(false)
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle title="All List" target-id="allListCA" />
-                <HrmsCommonTabsTabTitle v-show="false" title="My Releases" target-id="myReleasesCA" />
+                <HrmsCommonTabsTabTitle v-show="false" title="My Releases" target-id="myApprovalsCA" />
                 <HrmsCommonTabsTabTitle title="My Approvals" target-id="myApprovalsCA" />
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="allListCA">
                     <HrmsCashadvanceList />
                 </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer v-show="false" id="myReleasesCA">
+                <HrmsCommonTabsTabContainer v-show="false" id="myApprovalsCA">
                     <HrmsCashadvanceMyRequests />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myApprovalsCA">

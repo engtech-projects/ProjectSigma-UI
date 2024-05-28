@@ -10,9 +10,7 @@ useHead({
 
 <template>
     <LayoutAcessContainer
-        :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_attendance_attendance_rejected_data,
-        ])"
+        :if-access="false"
     >
         <div class="mt-10 md:mt-0 md:flex gap-2">
             <HrmsAttendanceRejectedData />

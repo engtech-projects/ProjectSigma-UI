@@ -24,52 +24,51 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_employee_manpower_request,
+            AccessibilityTypes.hrms_employee_manpowerrequest_group,
         ])"
     >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <HrmsEmployeeManpowerAddRequest v-show="!isEdit" />
+                <HrmsEmployeeManpowerAddRequest
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.hrms_employee_manpowerrequest_form,
+                    ])"
+                    v-show="!isEdit"
+                />
                 <!-- <EmployeeManpowerEditRequest v-show="isEdit" /> -->
             </div>
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_manpower_request,
+                            AccessibilityTypes.hrms_employee_manpowerrequest_all_request,
                         ])"
                         title="All List"
                         target-id="allListManpower"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_manpower_request,
+                            AccessibilityTypes.hrms_employee_manpowerrequest_approval,
                         ])"
                         title="My Approvals"
-                        target-id="myReleasesManpower"
+                        target-id="myApprovalsManpower"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_manpower_request,
+                            AccessibilityTypes.hrms_employee_manpowerrequest_my_request,
                         ])"
                         title="My Request"
-                        target-id="myApprovalsManpower"
+                        target-id="myRequestsManpower"
                     />
                 </template>
                 <template #tab-containers>
-                    <HrmsCommonTabsTabContainer
-                        id="allListManpower"
-                    >
+                    <HrmsCommonTabsTabContainer id="allListManpower">
                         <HrmsEmployeeManpowerMonitoringList />
                     </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer
-                        id="myReleasesManpower"
-                    >
+                    <HrmsCommonTabsTabContainer id="myApprovalsManpower">
                         <HrmsEmployeeManpowerMyApprovals />
                     </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer
-                        id="myApprovalsManpower"
-                    >
+                    <HrmsCommonTabsTabContainer id="myRequestsManpower">
                         <HrmsEmployeeManpowerMyRequests />
                     </HrmsCommonTabsTabContainer>
                 </template>

@@ -46,33 +46,21 @@ const setEdit = () => {
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer
-                        v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_201_PIS,
-                        ])"
                         id="pis201"
                     >
                         <HrmsEmployee201PersonnelInfoSheet />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_201_staff_information_sheet,
-                        ])"
                         id="staffInformationSheet"
                     >
                         <HrmsEmployee201StaffInfoSheet />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_201_documents_memos,
-                        ])"
                         id="DocumentAndMemos"
                     >
                         <HrmsEmployee201DocumentsMemo />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_201_id,
-                        ])"
                         id="EmployeeIdentificationCard"
                     >
                         <div v-if="employee.information.id">
