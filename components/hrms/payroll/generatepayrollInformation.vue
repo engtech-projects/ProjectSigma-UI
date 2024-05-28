@@ -579,7 +579,7 @@ const printDraft = () => {
                                 {{ genpayrollstore.totalHDMFEmployerPayrollDraft ?? "-" }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalEWTCPayrollDraft ?? "-"}}
+                                {{ genpayrollstore.totalEWTCPayrollDraft ?? "-" }}
                             </td>
                             <td>
                                 {{ genpayrollstore.totalDeductionPayrollDraft }}
