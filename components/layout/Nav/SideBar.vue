@@ -448,7 +448,7 @@ const config = useRuntimeConfig()
         <LayoutNavModuleGroup
             v-show="config.public.APP_ENV == 'local'"
             v-if="useCheckAccessibility([
-                AccessibilityTypes.inventory_dashboard,
+                AccessibilityTypes.inventory_group,
             ])"
             title="Inventory / Warehouse"
         >
@@ -465,13 +465,7 @@ const config = useRuntimeConfig()
         <!-- Accounting -->
         <LayoutNavModuleGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.accounting_chart_of_accounts,
-                AccessibilityTypes.accounting_books,
-                AccessibilityTypes.accounting_transaction_type,
-                AccessibilityTypes.accounting_document_Series,
-                AccessibilityTypes.accounting_posting_period,
-                AccessibilityTypes.accounting_account_groups,
-                AccessibilityTypes.accounting_stake_holder,
+                AccessibilityTypes.accounting_group,
             ])"
             title="Accounting"
         >
@@ -544,7 +538,7 @@ const config = useRuntimeConfig()
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.accounting_stake_holder,
+                AccessibilityTypes.project_monitoring_group,
             ])"
             title="Project Monitoring"
         >
@@ -567,6 +561,3 @@ const config = useRuntimeConfig()
         </LayoutNavModuleGroup>
     </div>
 </template>
-
-<!-- <LayoutNav hide="hidden" linkarea="/hrms/employee/application" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Application"/> -->
-<!-- <LayoutNavGroup id="dropdown-employees" icon="ic:baseline-people-outline" title="Employee"></LayoutNavGroup> -->

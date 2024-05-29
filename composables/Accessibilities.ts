@@ -96,6 +96,7 @@ export enum AccessibilityTypes {
     hrms_setup_division = "hrms:setup_division",
 
     // INVENTORY
+    inventory_group = "inventory:",
     inventory_dashboard = "inventory:dashboard",
 
     // ACCOUNTING
