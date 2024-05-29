@@ -15,7 +15,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_schedule_employee,
+            AccessibilityTypes.hrms_schedule_project,
         ])"
     >
         <div class="w-full">

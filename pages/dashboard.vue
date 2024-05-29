@@ -28,6 +28,9 @@ useHead({
 
         <div class="grid grid-cols-2 gap-4 mt-5">
             <NuxtLink
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.hrms_group,
+                ])"
                 to="/hrms"
                 class="flex justify-center items-center text-md font-semibold text-gray-900 dark:text-white border-t-4 border-t-teal-600 p-2 bg-slate-100 rounded-lg shadow-md hover:shadow-lg hover:shadow-teal-500"
             >
@@ -42,6 +45,9 @@ useHead({
             </NuxtLink>
 
             <NuxtLink
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.inventory_dashboard,
+                ])"
                 to="/"
                 class="flex justify-center items-center text-md font-semibold text-gray-900 dark:text-white border-t-4 border-t-teal-600 p-2 bg-slate-100 rounded-lg shadow-md hover:shadow-lg hover:shadow-teal-500"
             >
@@ -56,6 +62,9 @@ useHead({
             </NuxtLink>
 
             <NuxtLink
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.accounting_dashboard,
+                ])"
                 to="/"
                 class="flex justify-center items-center text-md font-semibold text-gray-900 dark:text-white border-t-4 border-t-teal-600 p-2 bg-slate-100 rounded-lg shadow-md hover:shadow-lg hover:shadow-teal-500"
             >
@@ -70,6 +79,9 @@ useHead({
             </NuxtLink>
 
             <NuxtLink
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.project_monitoring_dashboard,
+                ])"
                 to="/"
                 class="flex justify-center items-center text-md font-semibold text-gray-900 dark:text-white border-t-4 border-t-teal-600 p-2 bg-slate-100 rounded-lg shadow-md hover:shadow-lg hover:shadow-teal-500"
             >

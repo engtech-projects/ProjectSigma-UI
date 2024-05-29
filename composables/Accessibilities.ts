@@ -100,6 +100,7 @@ export enum AccessibilityTypes {
 
     // ACCOUNTING
     accounting_group = "accounting:",
+    accounting_dashboard = "accounting:dashboard",
     accounting_chart_of_accounts = "accounting:chart of accounts",
     accounting_books = "accounting:books",
     accounting_transaction_type = "accounting:transaction type",
