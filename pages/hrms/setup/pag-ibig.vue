@@ -13,9 +13,15 @@ useHead({
 </script>
 
 <template>
-    <div class="flex flex-col md:flex-row gap-4">
-        <HrmsPagibigAddContribution v-show="!isEdit" />
-        <HrmsPagibigEditContribution v-show="isEdit" />
-        <HrmsPagibigContributionList />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_setup_pag_ibig,
+        ])"
+    >
+        <div class="flex flex-col md:flex-row gap-4">
+            <HrmsPagibigAddContribution v-show="!isEdit" />
+            <HrmsPagibigEditContribution v-show="isEdit" />
+            <HrmsPagibigContributionList />
+        </div>
+    </LayoutAcessContainer>
 </template>

@@ -13,8 +13,14 @@ useHead({
 </script>
 
 <template>
-    <div>
-        <HrmsLoansDeductionsForm @stored="stored" />
-        <HrmsLoansDeductionsTable :tofetch="toFetchDeductions" @fetched="toFetchDeductions=false" />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_loans_and_advances_other_deductions,
+        ])"
+    >
+        <div>
+            <HrmsLoansDeductionsForm @stored="stored" />
+            <HrmsLoansDeductionsTable :tofetch="toFetchDeductions" @fetched="toFetchDeductions=false" />
+        </div>
+    </LayoutAcessContainer>
 </template>

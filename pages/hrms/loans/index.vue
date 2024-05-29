@@ -9,8 +9,14 @@ useHead({
 })
 </script>
 <template>
-    <div>
-        <HrmsLoansForm />
-        <HrmsLoansTable />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_loans_and_advances_loans,
+        ])"
+    >
+        <div>
+            <HrmsLoansForm />
+            <HrmsLoansTable />
+        </div>
+    </LayoutAcessContainer>
 </template>
