@@ -13,11 +13,17 @@ useHead({
 </script>
 
 <template>
-    <div class="flex flex-col md:flex-row gap-4">
-        <HrmsDepartmentNewDepartment
-            v-show="!isEdit"
-        />
-        <HrmsDepartmentEditDepartment v-show="isEdit" />
-        <HrmsDepartmentList />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_setup_department,
+        ])"
+    >
+        <div class="flex flex-col md:flex-row gap-4">
+            <HrmsDepartmentNewDepartment
+                v-show="!isEdit"
+            />
+            <HrmsDepartmentEditDepartment v-show="isEdit" />
+            <HrmsDepartmentList />
+        </div>
+    </LayoutAcessContainer>
 </template>

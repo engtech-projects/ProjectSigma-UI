@@ -22,16 +22,18 @@ useHead({
 </script>
 
 <template>
-    <!-- <div>
-        <HrmsCashadvanceForm />
-        <HrmsCashadvanceTabs />
-    </div> -->
-    <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
-        <div>
-            <HrmsCashadvanceForm />
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_loans_and_advances_cash_advance,
+        ])"
+    >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <HrmsCashadvanceForm />
+            </div>
+            <div>
+                <HrmsCashadvanceTabs />
+            </div>
         </div>
-        <div>
-            <HrmsCashadvanceTabs />
-        </div>
-    </div>
+    </LayoutAcessContainer>
 </template>

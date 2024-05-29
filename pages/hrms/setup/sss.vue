@@ -13,9 +13,15 @@ useHead({
 </script>
 
 <template>
-    <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-4">
-        <HrmsSSSAddContribution v-show="!isEdit" />
-        <HrmsSSSEditContribution v-show="isEdit" />
-        <HrmsSSSContributionList />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_setup_sss,
+        ])"
+    >
+        <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-4">
+            <HrmsSSSAddContribution v-show="!isEdit" />
+            <HrmsSSSEditContribution v-show="isEdit" />
+            <HrmsSSSContributionList />
+        </div>
+    </LayoutAcessContainer>
 </template>

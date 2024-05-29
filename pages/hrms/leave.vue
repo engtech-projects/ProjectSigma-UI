@@ -20,20 +20,36 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_announcement,
+            AccessibilityTypes.hrms_lnotnto_leave_group,
         ])"
     >
         <div
             class="w-full flex p-2"
         >
             <div class="md:w-1/2 p-2 w-full">
-                <HrmsLeaveForm />
+                <HrmsLeaveForm
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.hrms_lnotnto_leave_form,
+                    ])"
+                />
             </div>
             <div class="md:w-1/2 p-2 w-full">
                 <HrmsCommonTabsMainContainer>
                     <template #tab-titles>
-                        <HrmsCommonTabsTabTitle target-id="leaverequest-all-list" title="All List" />
-                        <HrmsCommonTabsTabTitle target-id="leaverequest-my-approvals" title="My Approvals" />
+                        <HrmsCommonTabsTabTitle
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_lnotnto_leave_list,
+                            ])"
+                            target-id="leaverequest-all-list"
+                            title="All List"
+                        />
+                        <HrmsCommonTabsTabTitle
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_lnotnto_leave_my_approvals,
+                            ])"
+                            target-id="leaverequest-my-approvals"
+                            title="My Approvals"
+                        />
                     </template>
                     <template #tab-containers>
                         <HrmsCommonTabsTabContainer id="leaverequest-all-list">

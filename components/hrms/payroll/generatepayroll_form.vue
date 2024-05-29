@@ -130,7 +130,7 @@ const submitForm = async () => {
                 </div>
 
                 <div>
-                    <div hidden>
+                    <div>
                         <div class="z-40 mb-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
                             <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
                                 <div class="flex items-center justify-between align">
@@ -232,10 +232,7 @@ const submitForm = async () => {
         <Teleport to="body">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
                 <div class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
-                    <div class="flex gap-2 justify-between p-2 ">
-                        <p class="text-2xl text-center font-semibold justify-center mx-auto">
-                            EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
-                        </p>
+                    <div class="flex gap-2 justify-end ml-auto p-2 ">
                         <button
                             title="Close"
                             @click="closeViewModal"

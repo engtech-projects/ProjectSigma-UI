@@ -25,45 +25,51 @@ useHead({
 
 </script>
 <template>
-    <div class="w-full">
-        <div class="md:flex gap-2 space-x-2 p-2">
-            <input
-                id="newhire"
-                v-model="optionType"
-                class=""
-                type="radio"
-                value="create"
-                @change="populateEmployee()"
-            >
-            <label
-                for="newhire"
-                class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-            >CREATE USER</label>
-            <input
-                id="termination"
-                v-model="optionType"
-                class=""
-                type="radio"
-                value="update"
-                @change="populateEmployee()"
-            >
-            <label
-                for="termination"
-                class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-            >EDIT USER</label>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_setup_user_account,
+        ])"
+    >
+        <div class="w-full">
+            <div class="md:flex gap-2 space-x-2 p-2">
+                <input
+                    id="newhire"
+                    v-model="optionType"
+                    class=""
+                    type="radio"
+                    value="create"
+                    @change="populateEmployee()"
+                >
+                <label
+                    for="newhire"
+                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                >CREATE USER</label>
+                <input
+                    id="termination"
+                    v-model="optionType"
+                    class=""
+                    type="radio"
+                    value="update"
+                    @change="populateEmployee()"
+                >
+                <label
+                    for="termination"
+                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                >EDIT USER</label>
+            </div>
+            <div class="md:grid grid-cols-2 gap-2">
+                <HrmsSetupUserAccountsCreateUser
+                    v-if="optionType === 'create'"
+                    class="w-full"
+                />
+                <HrmsSetupUserAccountsEditUser
+                    v-if="optionType === 'update'"
+                    class="w-full"
+                />
+                <HrmsSetupUserAccountsUserAccessibilities
+                    class="w-full"
+                />
+            </div>
         </div>
-        <div class="md:grid grid-cols-2 gap-2">
-            <HrmsSetupUserAccountsCreateUser
-                v-if="optionType === 'create'"
-                class="w-full"
-            />
-            <HrmsSetupUserAccountsEditUser
-                v-if="optionType === 'update'"
-                class="w-full"
-            />
-            <HrmsSetupUserAccountsUserAccessibilities
-                class="w-full"
-            />
-        </div>
-    </div>
+    </LayoutAcessContainer>
 </template>

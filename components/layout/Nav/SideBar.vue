@@ -13,109 +13,13 @@ const config = useRuntimeConfig()
         <!-- HRMS -->
         <LayoutNavModuleGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.hrms_dashboard,
-                AccessibilityTypes.hrms_announcement,
-                AccessibilityTypes.hrms_attendance_attendance_portal,
-                AccessibilityTypes.hrms_attendance_dtr,
-                AccessibilityTypes.hrms_attendance_failure_to_log,
-                AccessibilityTypes.hrms_attendance_face_recognition,
-                AccessibilityTypes.hrms_attendance_attendance_login,
-                AccessibilityTypes.hrms_attendance_qr_code,
-                AccessibilityTypes.hrms_event_calendar,
-                AccessibilityTypes.hrms_employee_201,
-                AccessibilityTypes.hrms_employee_personnel_action_notice,
-                AccessibilityTypes.hrms_employee_onboarding,
-                AccessibilityTypes.hrms_employee_manpower_request,
-                AccessibilityTypes.hrms_setup_user_account,
-                AccessibilityTypes.hrms_setup_department,
-                AccessibilityTypes.hrms_setup_approvals,
-                AccessibilityTypes.hrms_setup_hmo,
-                AccessibilityTypes.hrms_setup_pag_ibig,
-                AccessibilityTypes.hrms_setup_phil_health,
-                AccessibilityTypes.hrms_setup_sss,
-                AccessibilityTypes.hrms_setup_with_holding_tax,
-                AccessibilityTypes.hrms_setup_leaves,
-                AccessibilityTypes.hrms_leave,
-                AccessibilityTypes.hrms_loans_and_advances_cash_advance,
-                AccessibilityTypes.hrms_loans_and_advances_loans,
-                AccessibilityTypes.hrms_loans_and_advances_other_deductions,
-                AccessibilityTypes.hrms_overtime,
-                AccessibilityTypes.hrms_payroll_generate_payroll,
-                AccessibilityTypes.hrms_payroll_13th_month,
-                AccessibilityTypes.hrms_payroll_allowance,
-                AccessibilityTypes.hrms_payroll_payroll_report,
-                AccessibilityTypes.hrms_reports,
-                AccessibilityTypes.hrms_schedule_department_schedule,
-                AccessibilityTypes.hrms_schedule_employee_schedule,
-                AccessibilityTypes.hrms_schedule_project_schedule,
-                AccessibilityTypes.hrms_project_members,
-                AccessibilityTypes.hrms_travel_order,
-                AccessibilityTypes.hrms_setup_division,
-                AccessibilityTypes.hrms_setup_position,
-                AccessibilityTypes.hrms_setup_allowance,
-                AccessibilityTypes.hrms_setup_settings,
-                AccessibilityTypes.hrms_setup_salary_grade,
-                AccessibilityTypes.hrms_dashboard_announcement,
-                AccessibilityTypes.hrms_dashboard_birthday,
-                AccessibilityTypes.hrms_dashboard_lates,
-                AccessibilityTypes.hrms_dashboard_absent,
-                AccessibilityTypes.hrms_dashboard_absent_chart,
-                AccessibilityTypes.hrms_dashboard_assignment_location_chart,
-                AccessibilityTypes.hrms_dashboard_gender_chart,
-                AccessibilityTypes.hrms_announcement_form,
-                AccessibilityTypes.hrms_announcement_list,
-                AccessibilityTypes.hrms_attendance_attendance_portal_form,
-                AccessibilityTypes.hrms_attendance_attendance_portal_list,
-                AccessibilityTypes.hrms_attendance_daily_logs_record_form,
-                AccessibilityTypes.hrms_attendance_daily_logs_record_list,
-                AccessibilityTypes.hrms_attendance_daily_logs_record_approval,
-                AccessibilityTypes.hrms_event_calendar_form,
-                AccessibilityTypes.hrms_event_calendar_calendar,
-                AccessibilityTypes.hrms_employee_201_PIS,
-                AccessibilityTypes.hrms_employee_201_staff_information_sheet,
-                AccessibilityTypes.hrms_employee_201_documents_memos,
-                AccessibilityTypes.hrms_employee_201_id,
-                AccessibilityTypes.hrms_employee_personnel_action_notice_form,
-                AccessibilityTypes.hrms_employee_personnel_action_notice_all_request,
-                AccessibilityTypes.hrms_employee_personnel_action_notice_approval,
-                AccessibilityTypes.hrms_employee_personnel_action_notice_my_request,
-                AccessibilityTypes.hrms_manpower_request_form,
-                AccessibilityTypes.hrms_manpower_request_all_request,
-                AccessibilityTypes.hrms_manpower_request_approval,
-                AccessibilityTypes.hrms_manpower_request_my_request,
-                AccessibilityTypes.hrms_loans_and_advances_cash_advance_forms,
-                AccessibilityTypes.hrms_loans_and_advances_cash_advance_list,
-                AccessibilityTypes.hrms_loans_and_advances_cash_advance_approvals,
-                AccessibilityTypes.hrms_loans_and_advances_loans_forms,
-                AccessibilityTypes.hrms_loans_and_advances_loans_loans_list,
-                AccessibilityTypes.hrms_loans_and_advances_loans_payment_list,
-                AccessibilityTypes.hrms_loans_and_advances_other_deduction_forms,
-                AccessibilityTypes.hrms_loans_and_advances_other_deduction_list,
-                AccessibilityTypes.hrms_leave_form,
-                AccessibilityTypes.hrms_leave_list,
-                AccessibilityTypes.hrms_leave_my_approvals,
-                AccessibilityTypes.hrms_overtime_form,
-                AccessibilityTypes.hrms_overtime_list,
-                AccessibilityTypes.hrms_overtime_my_request,
-                AccessibilityTypes.hrms_overtime_my_approvals,
-                AccessibilityTypes.hrms_travel_order_form,
-                AccessibilityTypes.hrms_travel_order_list,
-                AccessibilityTypes.hrms_travel_order_my_request,
-                AccessibilityTypes.hrms_travel_order_my_approvals,
-                AccessibilityTypes.hrms_attendance_attendance_logs,
+                AccessibilityTypes.hrms_group
             ])"
             title="hrms"
         >
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_dashboard,
-                    AccessibilityTypes.hrms_dashboard_announcement,
-                    AccessibilityTypes.hrms_dashboard_birthday,
-                    AccessibilityTypes.hrms_dashboard_lates,
-                    AccessibilityTypes.hrms_dashboard_absent,
-                    AccessibilityTypes.hrms_dashboard_absent_chart,
-                    AccessibilityTypes.hrms_dashboard_assignment_location_chart,
-                    AccessibilityTypes.hrms_dashboard_gender_chart,
                 ])"
                 linkarea="/hrms"
                 icon="ic:round-dashboard"
@@ -131,12 +35,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_attendance_attendance_portal,
-                    AccessibilityTypes.hrms_attendance_dtr,
-                    AccessibilityTypes.hrms_attendance_failure_to_log,
-                    AccessibilityTypes.hrms_attendance_attendance_login,
-                    AccessibilityTypes.hrms_attendance_qr_code,
-                    AccessibilityTypes.hrms_attendance_attendance_logs,
+                    AccessibilityTypes.hrms_attendance_group,
                 ])"
                 icon="ic:outline-punch-clock"
                 title="Attendance"
@@ -211,18 +110,14 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_employee_201,
-                    AccessibilityTypes.hrms_employee_personnel_action_notice,
-                    AccessibilityTypes.hrms_employee_onboarding,
-                    AccessibilityTypes.hrms_job_applicant,
-                    AccessibilityTypes.hrms_employee_manpower_request,
+                    AccessibilityTypes.hrms_employee_group,
                 ])"
                 icon="ic:baseline-people-outline"
                 title="Employee"
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_employee_201,
+                        AccessibilityTypes.hrms_employee_201_group
                     ])"
                     linkarea="/hrms/employee/201"
                     icon="ic:round-folder-shared"
@@ -230,7 +125,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_employee_personnel_action_notice,
+                        AccessibilityTypes.hrms_employee_pan_group,
                     ])"
                     linkarea="/hrms/employee/paf"
                     icon="ic:round-add-card"
@@ -247,7 +142,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_job_applicant,
+                        AccessibilityTypes.hrms_employee_job_applicant,
                     ])"
                     linkarea="/hrms/employee/applicant"
                     icon="ic:baseline-diversity-3"
@@ -255,7 +150,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_employee_manpower_request,
+                        AccessibilityTypes.hrms_employee_manpowerrequest_group,
                     ])"
                     linkarea="/hrms/employee/manpower"
                     icon="ic:round-people-alt"
@@ -268,13 +163,11 @@ const config = useRuntimeConfig()
                 ])"
                 linkarea="/hrms/project"
                 icon="material-symbols:construction"
-                single-nav-title="Project"
+                single-nav-title="Project Members"
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_loans_and_advances_cash_advance,
-                    AccessibilityTypes.hrms_loans_and_advances_loans,
-                    AccessibilityTypes.hrms_loans_and_advances_other_deductions,
+                    AccessibilityTypes.hrms_loans_and_advances_group,
                 ])"
                 icon="mdi:cash"
                 title="Loans and Advances"
@@ -306,16 +199,14 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_leave,
-                    AccessibilityTypes.hrms_overtime,
-                    AccessibilityTypes.hrms_travel_order,
+                    AccessibilityTypes.hrms_lnotnto_group,
                 ])"
                 icon="mdi:account-clock"
                 title="Leaves and Overtime"
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_leave,
+                        AccessibilityTypes.hrms_lnotnto_leave_group,
                     ])"
                     linkarea="/hrms/leave"
                     icon="fluent-mdl2:leave-user"
@@ -323,7 +214,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_overtime,
+                        AccessibilityTypes.hrms_lnotnto_overtime_group,
                     ])"
                     linkarea="/hrms/overtime"
                     icon="mingcute:time-line"
@@ -331,7 +222,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_travel_order,
+                        AccessibilityTypes.hrms_lnotnto_travel_order_group,
                     ])"
                     linkarea="/hrms/travelorder"
                     icon="material-symbols:googler-travel"
@@ -340,10 +231,7 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_payroll_generate_payroll,
-                    AccessibilityTypes.hrms_payroll_13th_month,
-                    AccessibilityTypes.hrms_payroll_allowance,
-                    AccessibilityTypes.hrms_payroll_payroll_report,
+                    AccessibilityTypes.hrms_payroll_group,
                 ])"
                 icon="ion:ios-people"
                 title="Payroll"
@@ -375,7 +263,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_payroll_payroll_report,
+                        AccessibilityTypes.hrms_payroll_payroll_record,
                     ])"
                     v-show="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/payroll/payrollrecord"
@@ -394,16 +282,14 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_schedule_department_schedule,
-                    AccessibilityTypes.hrms_schedule_employee_schedule,
-                    AccessibilityTypes.hrms_schedule_project_schedule,
+                    AccessibilityTypes.hrms_schedule_group,
                 ])"
                 icon="uim:schedule"
                 title="Schedule"
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_schedule_department_schedule,
+                        AccessibilityTypes.hrms_schedule_department,
                     ])"
                     linkarea="/hrms/schedule/department"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -411,7 +297,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_schedule_employee_schedule,
+                        AccessibilityTypes.hrms_schedule_employee,
                     ])"
                     linkarea="/hrms/schedule/employee"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -419,7 +305,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_schedule_project_schedule,
+                        AccessibilityTypes.hrms_schedule_project,
                     ])"
                     linkarea="/hrms/schedule/project"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -428,27 +314,15 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_setup_hmo,
+                    AccessibilityTypes.hrms_hmo,
                 ])"
-                linkarea="/hrms/setup/hmo"
+                linkarea="/hrms/hmo"
                 icon="ic:baseline-health-and-safety"
                 single-nav-title="HMO"
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_setup_user_account,
-                    AccessibilityTypes.hrms_setup_approvals,
-                    AccessibilityTypes.hrms_setup_division,
-                    AccessibilityTypes.hrms_setup_department,
-                    AccessibilityTypes.hrms_setup_position,
-                    AccessibilityTypes.hrms_setup_allowance,
-                    AccessibilityTypes.hrms_setup_leaves,
-                    AccessibilityTypes.hrms_setup_pag_ibig,
-                    AccessibilityTypes.hrms_setup_phil_health,
-                    AccessibilityTypes.hrms_setup_sss,
-                    AccessibilityTypes.hrms_setup_with_holding_tax,
-                    AccessibilityTypes.hrms_setup_settings,
-                    AccessibilityTypes.hrms_setup_salary_grade,
+                    AccessibilityTypes.hrms_setup_group
                 ])"
                 icon="ion:ios-people"
                 title="Setup"
@@ -574,7 +448,7 @@ const config = useRuntimeConfig()
         <LayoutNavModuleGroup
             v-show="config.public.APP_ENV == 'local'"
             v-if="useCheckAccessibility([
-                AccessibilityTypes.inventory_dashboard,
+                AccessibilityTypes.inventory_group,
             ])"
             title="Inventory / Warehouse"
         >
@@ -591,13 +465,7 @@ const config = useRuntimeConfig()
         <!-- Accounting -->
         <LayoutNavModuleGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.accounting_chart_of_accounts,
-                AccessibilityTypes.accounting_books,
-                AccessibilityTypes.accounting_transaction_type,
-                AccessibilityTypes.accounting_document_Series,
-                AccessibilityTypes.accounting_posting_period,
-                AccessibilityTypes.accounting_account_groups,
-                AccessibilityTypes.accounting_stake_holder,
+                AccessibilityTypes.accounting_group,
             ])"
             title="Accounting"
         >
@@ -670,7 +538,7 @@ const config = useRuntimeConfig()
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.accounting_stake_holder,
+                AccessibilityTypes.project_monitoring_group,
             ])"
             title="Project Monitoring"
         >
@@ -693,6 +561,3 @@ const config = useRuntimeConfig()
         </LayoutNavModuleGroup>
     </div>
 </template>
-
-<!-- <LayoutNav hide="hidden" linkarea="/hrms/employee/application" icon="material-symbols:dynamic-form-outline-rounded" single-nav-title="Application"/> -->
-<!-- <LayoutNavGroup id="dropdown-employees" icon="ic:baseline-people-outline" title="Employee"></LayoutNavGroup> -->

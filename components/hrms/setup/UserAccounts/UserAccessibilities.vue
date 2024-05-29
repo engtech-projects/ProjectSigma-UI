@@ -20,12 +20,13 @@ const { editData } = storeToRefs(user)
                         </span>
                     </div>
                     <div class="grid justify-between overflow-auto h-96">
-                        <HrmsSetupUserAccountsAccessibilityGroup
-                            v-for="acc, accid in accessbilities.formattedAccessibilities"
-                            :key="'accid' + accid"
+                        <HrmsSetupUserAccountsAccessibilitiesSelectorCheckbox
+                            v-for="access, accid in accessbilities.formattedAccessibilities"
+                            :key="'MainAccessibility' + accid"
                             v-model="editData.params.accessibilities"
+                            :accessibilities="access"
+                            :is-first-level="true"
                             :title="accid"
-                            :accessibilities="acc"
                         />
                     </div>
                 </div>

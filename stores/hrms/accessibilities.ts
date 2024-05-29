@@ -16,12 +16,21 @@ export const useAccessbilities = defineStore("accessibilitiesStore", {
             }
             state.access_list.forEach(function (accessibilty) {
                 const moduleAccess = accessibilty.accessibilities_name.split(":")
-                const newAccess = accessibilty
-                newAccess.accessibilities_name = moduleAccess[1]
-                if (!Object.keys(formattedList).includes(moduleAccess[0])) {
-                    formattedList[moduleAccess[0]] = []
+                const mainModule = moduleAccess[0]
+                const subModules = moduleAccess[1].split("_")
+                if (!formattedList[mainModule]) {
+                    formattedList[mainModule] = {}
                 }
-                formattedList[moduleAccess[0]].push(newAccess)
+                let currentLevel = formattedList[mainModule]
+                subModules.forEach(function (subModule, index) {
+                    if (!currentLevel[subModule]) {
+                        currentLevel[subModule] = {}
+                    }
+                    if (subModules.length - 1 === index) {
+                        currentLevel[subModule] = { ...accessibilty, ...currentLevel[subModule] }
+                    }
+                    currentLevel = currentLevel[subModule]
+                })
             })
             return formattedList
         },

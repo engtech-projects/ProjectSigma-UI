@@ -13,9 +13,15 @@ useHead({
 </script>
 
 <template>
-    <div class="flex flex-col md:flex-row gap-4">
-        <HrmsSetupLeavesForm v-show="!isEdit" />
-        <HrmsSetupLeavesEditForm v-show="isEdit" />
-        <HrmsSetupLeavesTable />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_setup_leaves,
+        ])"
+    >
+        <div class="flex flex-col md:flex-row gap-4">
+            <HrmsSetupLeavesForm v-show="!isEdit" />
+            <HrmsSetupLeavesEditForm v-show="isEdit" />
+            <HrmsSetupLeavesTable />
+        </div>
+    </LayoutAcessContainer>
 </template>

@@ -16,11 +16,17 @@ useHead({
 </script>
 
 <template>
-    <div class="flex flex-col md:flex-row gap-4">
-        <HrmsSetupPositionNewPosition
-            v-show="!isEdit"
-        />
-        <HrmsSetupPositionEditPosition v-show="isEdit" />
-        <HrmsSetupPositionTable />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_setup_position,
+        ])"
+    >
+        <div class="flex flex-col md:flex-row gap-4">
+            <HrmsSetupPositionNewPosition
+                v-show="!isEdit"
+            />
+            <HrmsSetupPositionEditPosition v-show="isEdit" />
+            <HrmsSetupPositionTable />
+        </div>
+    </LayoutAcessContainer>
 </template>

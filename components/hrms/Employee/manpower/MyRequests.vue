@@ -34,7 +34,7 @@ const boardLoading = ref(false)
 </script>
 
 <template>
-    <LayoutBoards title="My Requests" class="w-full" :loading="boardLoading">
+    <LayoutBoards class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"

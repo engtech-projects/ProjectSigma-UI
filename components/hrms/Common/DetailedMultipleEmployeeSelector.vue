@@ -5,7 +5,13 @@ const { allEmployeeEnum } = storeToRefs(enums)
 if (allEmployeeEnum.value.list.length <= 0) {
     enums.getEmployeeEnum()
 }
+
 const model = defineModel({ required: true, type: Array<Number> })
+
+const selectAll = ref(false)
+const selectAllEmployees = () => {
+    model.value = selectAll.value ? enums.filteredEmployeesList.map(employee => employee.id) : []
+}
 </script>
 <template>
     <div class="p-1 flex flex-col gap-2">
@@ -47,7 +53,7 @@ const model = defineModel({ required: true, type: Array<Number> })
                 <template v-if="allEmployeeEnum.params.filterType === 'SalaryType'">
                     <select
                         v-model="allEmployeeEnum.params.filterData"
-                        class="p-0 leading-none text-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="leading-none bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
                         <option value="">
                             All
@@ -62,7 +68,12 @@ const model = defineModel({ required: true, type: Array<Number> })
                 </template>
             </div>
         </div>
-
+        <div>
+            <label class="flex items-center space-x-2">
+                <input v-model="selectAll" type="checkbox" class="h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all checked:border-gray-900 checked:bg-gray-900 hover:before:opacity-10" @change="selectAllEmployees">
+                <span class="cursor-pointer text-sm">Select All</span>
+            </label>
+        </div>
         <div class="h-80 max-h-80 overflow-auto text-center">
             <table class="w-full text-sm text-left rtl:text-right text-gray-700 dark:text-gray-400">
                 <thead class="sticky top-0 text-gray-500 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
