@@ -49,7 +49,7 @@ onBeforeRouteLeave(() => {
                                 for="text"
                                 class="block text-sm font-medium italic text-teal-700"
                             >
-                                {{ employeeInformation.current_employment?.position.name }} - {{ employeeInformation.current_employment?.employment_status }}
+                                {{ employeeInformation.current_employment?.position?.name }} - {{ employeeInformation.current_employment?.employment_status }}
                             </label>
                         </div>
                         <div>

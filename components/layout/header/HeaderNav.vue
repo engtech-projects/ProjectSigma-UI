@@ -38,9 +38,9 @@
             </div>
             <div class="flex items-center lg:order-2">
                 <!-- Notification-btn -->
-                <LayoutHeaderButton id="notification-dropdown" title="View notifications" :icon="true" />
+                <LayoutHeaderNotifButton />
                 <!-- Profile-btn -->
-                <LayoutHeaderButton id="user-menu-button" title="Open user menu" :icon="false" />
+                <LayoutHeaderUserButton />
 
                 <!-- Notification dropdown-menu -->
                 <div id="notification-dropdown" class="hidden">

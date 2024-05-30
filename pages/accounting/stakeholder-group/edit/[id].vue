@@ -4,14 +4,14 @@ definePageMeta({
     layout: "default",
 })
 useHead({
-    title: "Edit Account Group",
+    title: "Edit Stakeholder Group",
 })
 // const route = useRoute()
 </script>
 
 <template>
     <div class="flex justify-center min-h-full">
-        <AccountingAccountGroupEdit class="flex-1 max-w-[1000px]" />
+        <AccountingStakeholdergroupEdit class="flex-1 max-w-[1000px]" />
     </div>
 </template>
 
