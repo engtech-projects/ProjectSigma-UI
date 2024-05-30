@@ -46,96 +46,53 @@ const savePayroll = async () => {
 }
 
 const payrollTemplateRef = ref<HTMLElement | null>(null)
-
 // const printDraft = () => {
 //     if (payrollTemplateRef.value) {
 //         const printWindow = window.open("", "", "height=600,width=800")
 //         printWindow.document.write("<html><head><title>Print Payroll Draft</title>")
-//         printWindow.document.write("<style>")
-//         printWindow.document.write(`
-//             @media print {
-//                 body { font-family: Arial, sans-serif; }
-//                 table { width: 100%; border-collapse: collapse; }
-//                 th, td { border: 1px solid black; padding: 8px; text-align: center; }
-//                 .text-gray-900 { color: #111827; }
-//                 .text-gray-800 { color: #1f2937; }
-//                 .text-gray-950 { color: #1e293b; }
-//                 .header { text-align: center; margin-bottom: 20px; }
-//                 .signatures { margin-top: 40px; display: flex; justify-content: space-between; }
-//                 .signatures div { flex: 1; text-align: center; }
-//             }
-//         `)
-//         printWindow.document.write("</style>")
+//         printWindow.document.write("<style>@media print { body { font-family: Arial, sans-serif; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid black; padding: 8px; text-align: center; } .bg-sky-100 { background-color: #f0f8ff; } .bg-red-500 { background-color: #ef4444; } .bg-gray-200 { background-color: #e5e7eb; } .bg-gray-50 { background-color: #f9fafb; } .text-gray-900 { color: #111827; } .text-gray-800 { color: #1f2937; } .text-gray-950 { color: #1e293b; } }</style>")
 //         printWindow.document.write("</head><body>")
-//         printWindow.document.write(`
-//             <div class="header">
-//                 <h1>EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION</h1>
-//             </div>
-//             ${payrollTemplateRef.value.outerHTML}
-//         `)
+//         printWindow.document.write(payrollTemplateRef.value.outerHTML)
 //         printWindow.document.write("</body></html>")
 //         printWindow.document.close()
 //         printWindow.print()
 //     }
 // }
-
 const printDraft = () => {
     if (payrollTemplateRef.value) {
-        const printWindow = window.open("", "", "height=600,width=800");
-        printWindow.document.write("<html><head><title>Print Payroll Draft</title>");
-        printWindow.document.write("<style>");
+        const printWindow = window.open("", "", "height=600,width=800")
+        printWindow.document.write("<html><head><title>Print Payroll Draft</title>")
+        printWindow.document.write("<style>")
         printWindow.document.write(`
             @media print {
                 body { font-family: Arial, sans-serif; }
                 table { width: 100%; border-collapse: collapse; }
                 th, td { border: 1px solid black; padding: 8px; text-align: center; }
+                .bg-sky-100 { background-color: #f0f8ff; }
+                .bg-red-500 { background-color: #ef4444; }
+                .bg-gray-200 { background-color: #e5e7eb; }
+                .bg-gray-50 { background-color: #f9fafb; }
                 .text-gray-900 { color: #111827; }
                 .text-gray-800 { color: #1f2937; }
                 .text-gray-950 { color: #1e293b; }
                 .header { text-align: center; margin-bottom: 20px; }
                 .signatures { margin-top: 40px; display: flex; justify-content: space-between; }
                 .signatures div { flex: 1; text-align: center; }
-                .highlight { background-color: #00ff00; }
             }
-        `);
-        printWindow.document.write("</style>");
-        printWindow.document.write("</head><body>");
+        `)
+        printWindow.document.write("</style>")
+        printWindow.document.write("</head><body>")
         printWindow.document.write(`
             <div class="header">
                 <h1>EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION</h1>
-                <h2>Payroll</h2>
             </div>
             ${payrollTemplateRef.value.outerHTML}
-            <div class="signatures">
-                <div>
-                    <p>Prepared by:</p>
-                    <p>ROBERTO Q. SEVILLA</p>
-                    <p>PAYROLL CLERK</p>
-                </div>
-                <div>
-                    <p>Checked by:</p>
-                    <p>EMELY C. MIOZO</p>
-                    <p>HR</p>
-                </div>
-                <div>
-                    <p>Noted by:</p>
-                    <p>ENGR. KRIS JAN T. PADOC</p>
-                    <p>PROJECT MANAGER</p>
-                </div>
-                <div>
-                    <p>Approved by:</p>
-                    <p>ENGR. ANGEL A. ABRAU</p>
-                    <p>PRESIDENT</p>
-                </div>
-            </div>
-        `);
-        printWindow.document.write("</body></html>");
-        printWindow.document.close();
-        printWindow.print();
+        `)
+        printWindow.document.write("</body></html>")
+        printWindow.document.close()
+        printWindow.print()
     }
 }
-
-
 </script>
 
 <template>
@@ -237,11 +194,6 @@ const printDraft = () => {
                             >
                                 Total Net Pay
                             </th>
-                            <th
-                                scope="col"
-                                rowspan="1"
-                                class="bg-white"
-                            />
                         </tr>
                         <tr>
                             <th
@@ -445,7 +397,7 @@ const printDraft = () => {
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ data.first_name }}
                             </td>
-                            <td class="p-4 border-solid border border-slate-400 text-sm">
+                            <td class="p-4 border-solid border border-slate-400">
                                 {{ data.current_employment.position.name ?? "-" }}
                             </td>
                             <td class="p-2 border-solid border border-slate-400">
@@ -544,7 +496,7 @@ const printDraft = () => {
                             >
                                 {{ otherDeduction }}
                             </th>
-                            <td contenteditable class="p-4 border-solid border border-slate-400">
+                            <td class="p-4 border-solid border border-slate-400">
                                 {{ data.payroll_records.total_salary_deduction ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
@@ -639,40 +591,40 @@ const printDraft = () => {
                     </tbody>
                 </table>
             </div>
-            <!-- <pre>{{ payrollDraft }}</pre> -->
             <div class="grid md:grid-cols-4 gap-6 pt-5 p-4">
                 <div class="flex flex-col">
                     Prepared by:
                     <div class="indent-8 underline underline-offset-1">
-                        <pre>{{ genpayrollstore }}</pre>
+                        {{ payrollDraft.payroll.fullname_first }}
                     </div>
                     <div class="indent-8">
-                        <pre>{{ "-" }}</pre>
+                        <pre>{{ payrollDraft.payroll?.current_employment?.position?.name }}</pre>
                     </div>
                 </div>
                 <div>
                     Check by:
-                    <div class="indent-8">
-                        <pre>{{ "-" }}</pre>
+                    <div>
+                        {{ "-" }}
                     </div>
                 </div>
                 <div>
                     Noted by:
-                    <div class="indent-8">
-                        <pre>{{ "-" }}</pre>
+                    <div>
+                        {{ "-" }}
                     </div>
                 </div>
                 <div>
                     Approved by:
-                    <div class="indent-8">
-                        <pre>{{ "-" }}</pre>
+                    <div>
+                        {{ "-" }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-900 dark:border-gray-800 p-6 overflow-auto mt-6">
+    <div v-if="false" class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-900 dark:border-gray-800 p-6 overflow-auto mt-6">
         <label for="" class="block text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Adjustment</label>
+
         <div v-for="(data, index1) in payrollDraft.adjustment" :key="index1" class="mb-4">
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm">
                 <div class="text-lg text-gray-800 dark:text-gray-300">
@@ -705,5 +657,8 @@ const printDraft = () => {
                 </button>
             </div>
         </div>
+    </div>
+    <div>
+        <!-- <LayoutApprovalsListView :approvals="leaveData.approvals" /> -->
     </div>
 </template>

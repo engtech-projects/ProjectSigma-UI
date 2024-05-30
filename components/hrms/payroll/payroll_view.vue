@@ -3,24 +3,24 @@ import { useGeneratePayrollStore, PAYROLL_TYPE, RELEASE_TYPE } from "@/stores/hr
 import { useApprovalStore, APPROVAL_GP } from "@/stores/hrms/setup/approvals"
 
 const genpayrollstore = useGeneratePayrollStore()
-const { generateParams } = storeToRefs(genpayrollstore)
+const { payrollRecord } = storeToRefs(genpayrollstore)
 
 const approvals = useApprovalStore()
-generateParams.value.approvals = await approvals.getApprovalByName(APPROVAL_GP)
+payrollRecord.value.approvals = await approvals.getApprovalByName(APPROVAL_GP)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const setEmployee = (adjustIndex: number, emp: { id: any }) => {
-    generateParams.value.adjustment[adjustIndex].id = emp.id
+    payrollRecord.value.adjustment[adjustIndex].id = emp.id
 }
 
 const addAdjustment = () => {
-    generateParams.value.adjustment.push({ id: "", adjustment_name: "", adjustment_amount: "" })
+    payrollRecord.value.adjustment.push({ id: "", adjustment_name: "", adjustment_amount: "" })
 }
 
 const delAdjustment = (adjustIndex: any) => {
-    generateParams.value.adjustment.splice(adjustIndex, 1)
+    payrollRecord.value.adjustment.splice(adjustIndex, 1)
 }
 
 const showInformationModal = ref(false)
@@ -32,7 +32,7 @@ const closeViewModal = () => {
     showInformationModal.value = false
 }
 
-// const payrollDraft = ref([])
+// const payrollView = ref([])
 
 const submitForm = async () => {
     try {
@@ -51,21 +51,21 @@ const submitForm = async () => {
 </script>
 
 <template>
-    <LayoutBoards title="Generate Payroll" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="Payroll View" class="w-full" :loading="boardLoading">
         <div class="mt-5 mb-6 p-2">
             <form @submit.prevent="submitForm">
-                <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateParams.employee_ids" title="Employee Name" name="Employee Name" />
+                <!-- <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateParams.employee_ids" title="Employee Name" name="Employee Name" /> -->
 
                 <div class="mt-5 mb-5 flex gap-4 sm:grid-cols-3">
-                    <LayoutFormPsDateInput v-model="generateParams.cutoff_start" title="Cut-off Date (Start)" required />
-                    <LayoutFormPsDateInput v-model="generateParams.cutoff_end" title="Cut-off Date (End)" required />
-                    <LayoutFormPsDateInput v-model="generateParams.payroll_date" title="Payroll Date" required />
+                    <!-- <LayoutFormPsDateInput v-model="generateParams.cutoff_start" title="Cut-off Date (Start)" required />
+                    <LayoutFormPsDateInput v-model="generateParams.cutoff_end" title="Cut-off Date (End)" required /> -->
+                    <LayoutFormPsDateInput v-model="payrollRecord.payroll_date" title="Payroll Date" required />
 
                     <div class="flex-1">
                         <HrmsCommonDepartmentProjectSelector
-                            v-model:select-type="generateParams.group_type"
-                            v-model:department-id="generateParams.department_id"
-                            v-model:project-id="generateParams.project_id"
+                            v-model:select-type="payrollRecord.group_type"
+                            v-model:department-id="payrollRecord.department_id"
+                            v-model:project-id="payrollRecord.project_id"
                             title="Department/Project Charge"
                             required
                         />
@@ -77,7 +77,7 @@ const submitForm = async () => {
                         <div v-for="(item, index) in ['SSS', 'PhilHealth', 'PagIBIG']" :key="index">
                             <input
                                 :id="'checked-checkbox' + index"
-                                v-model="generateParams['deduct_' + item.toLowerCase()]"
+                                v-model="payrollRecord['deduct_' + item.toLowerCase()]"
                                 type="checkbox"
                                 :true-value="1"
                                 :false-value="0"
@@ -92,7 +92,7 @@ const submitForm = async () => {
                         <div v-for="(payrollType, index) in PAYROLL_TYPE" :key="index">
                             <input
                                 :id="'payrollType' + index"
-                                v-model="generateParams.payroll_type"
+                                v-model="payrollRecord.payroll_type"
                                 :value="payrollType"
                                 type="radio"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -108,7 +108,7 @@ const submitForm = async () => {
                         <div v-for="(releaseType, index1) in RELEASE_TYPE" :key="index1">
                             <input
                                 :id="'releaseType' + index1"
-                                v-model="generateParams.release_type"
+                                v-model="payrollRecord.release_type"
                                 :value="releaseType"
                                 type="radio"
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -123,14 +123,14 @@ const submitForm = async () => {
                 <div class="pt-5 w-full mb-2 rounded-lg p-4 bg-slate-100 ">
                     <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Recommending Approval:</label>
                     <HrmsSetupApprovalsList
-                        v-for="(approv, apr) in generateParams.approvals"
+                        v-for="(approv, apr) in payrollRecord.approvals"
                         :key="'hrmsetupapprovallist' + apr"
-                        v-model="generateParams.approvals[apr]"
+                        v-model="payrollRecord.approvals[apr]"
                     />
                 </div>
 
                 <div>
-                    <div>
+                    <div hidden>
                         <div class="z-40 mb-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
                             <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
                                 <div class="flex items-center justify-between align">
@@ -147,7 +147,7 @@ const submitForm = async () => {
                                     </button>
                                 </div>
 
-                                <div v-for="(adjust, adjustIndex) in generateParams.adjustment" :key="adjustIndex" class="grid md:grid-cols-2 md:gap-2 pb-4">
+                                <div v-for="(adjust, adjustIndex) in payrollRecord.adjustment" :key="adjustIndex" class="grid md:grid-cols-2 md:gap-2 pb-4">
                                     <!-- {{ adjust }} -->
                                     <div>
                                         <label for="" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Employee Name</label>
@@ -173,52 +173,14 @@ const submitForm = async () => {
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-                    <label for="" class="text-xl font-semibold text-gray-900">Waive Fees</label>
-                    <div class="mt-4 flex flex-col">
-                        <div class="mb-5 grid grid-cols-1 gap-6 sm:grid-cols-4">
-                            <div>
-                                <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
-                                <input id="employee" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
-                            </div>
-                            <div>
-                                <label for="fee_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fee Type</label>
-                                <select id="cutoff_dates" name="cutoff_dates" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
-                                    <option value="1">
-                                        Cash Advance
-                                    </option>
-                                    <option value="2">
-                                        Loan
-                                    </option>
-                                    <option value="3">
-                                        Other Deduction
-                                    </option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="fee_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fee Name</label>
-                                <input id="fee_name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            </div>
-                            <div class="flex justify-end items-center">
-                                <button type="submit" class="mt-5 min-w-min text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <Icon name="ic:baseline-plus" color="white" class="w-5 h-5" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
                         </div>
                     </div>
                     <div class="">
                         <div class="flex flex-row justify-between">
-                            <div>
-                                <button type="submit" class="text-white bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
-                                    BIR WTax Calculator
-                                </button>
-                            </div>
+                            <div />
                             <div>
                                 <button type="submit" class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                                    Generate Payroll
+                                    View Payroll
                                 </button>
                             </div>
                         </div>
@@ -231,13 +193,13 @@ const submitForm = async () => {
     <div v-if="showInformationModal" :loading="boardLoading">
         <Teleport to="body">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <div class="bg-white p-4 w-4/5 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
+                <div class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
                     <div class="flex gap-2 justify-end ml-auto p-2 ">
                         <button
                             title="Close"
                             @click="closeViewModal"
                         >
-                            <Icon name="cil:x" class="w-5 h-5 hover:bg-red-400 hover:rounded-sm hover:text-white" />
+                            <Icon name="cil:x" color="red" class="w-4 h-4 hover:bg-red-400 hover:rounded-md hover:text-white" />
                         </button>
                     </div>
                     <div class="p-2">
