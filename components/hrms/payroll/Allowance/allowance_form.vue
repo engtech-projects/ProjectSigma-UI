@@ -33,6 +33,8 @@ const submitForm = async () => {
         })
     } finally {
         genallowstore.clearMessages()
+        genallowances.getMyRequests()
+        genallowances.getMyApprovalRequests()
         boardLoading.value = false
     }
 }
