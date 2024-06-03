@@ -4,6 +4,7 @@ import { useApprovalStore, APPROVAL_GP } from "@/stores/hrms/setup/approvals"
 
 const genpayrollstore = useGeneratePayrollStore()
 const { generateParams } = storeToRefs(genpayrollstore)
+const { isEdit } = storeToRefs(genpayrollstore)
 
 const approvals = useApprovalStore()
 generateParams.value.approvals = await approvals.getApprovalByName(APPROVAL_GP)
@@ -166,10 +167,10 @@ const submitForm = async () => {
                                         </button>
                                     </div>
                                     <div>
-                                        <LayoutFormPsTextInput v-model="adjust.adjustment_name" title="Adjustment Name" class="flex-auto" />
+                                        <LayoutFormPsTextInput v-model="adjust.adjustment_name" title="Adjustment Name" class="flex-auto" :required="false" />
                                     </div>
                                     <div>
-                                        <LayoutFormPsNumberInput v-model="adjust.adjustment_amount" title="Adjustment Amount" class="flex-auto" />
+                                        <LayoutFormPsNumberInput v-model="adjust.adjustment_amount" title="Adjustment Amount" class="flex-auto" :required="false" />
                                     </div>
                                 </div>
                             </div>
@@ -212,7 +213,7 @@ const submitForm = async () => {
                     <div class="">
                         <div class="flex flex-row justify-between">
                             <div>
-                                <button type="submit" class="text-white bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
+                                <button type="submit" class="text-white bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800" disabled>
                                     BIR WTax Calculator
                                 </button>
                             </div>
@@ -229,7 +230,7 @@ const submitForm = async () => {
     </LayoutBoards>
 
     <div v-if="showInformationModal" :loading="boardLoading">
-        <Teleport to="body">
+        <Teleport to="body" v-show="isEdit">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
                 <div class="bg-white p-4 w-4/5 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
                     <div class="flex gap-2 justify-end ml-auto p-2 ">
