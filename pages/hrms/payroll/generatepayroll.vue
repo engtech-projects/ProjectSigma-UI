@@ -3,12 +3,9 @@ import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 import { useEnumsStore } from "@/stores/hrms/enum"
 
 const genpayrollstore = useGeneratePayrollStore()
-// genpayrollstore.getAllList()
+genpayrollstore.getAllList()
 genpayrollstore.getMyApprovalRequests()
 genpayrollstore.getMyRequests()
-// const { isEdit } = storeToRefs(stores)
-// genpayrollstore.generatePayroll()
-// genpayrollstore.createRequest()
 
 const enums = useEnumsStore()
 enums.getEmployeeEnum()
