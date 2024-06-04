@@ -8,7 +8,7 @@ const { list: bookList, book, isEdit, getParams, pagination, errorMessage, succe
 const setEdit = (bk) => {
     isEdit.value = true
     book.value = bk
-    return navigateTo("/accounting/books/edit/" + bk.book_id)
+    return navigateTo("/accounting/books/edit?id=" + bk.book_id)
 }
 
 const deleteBook = async (bk) => {
