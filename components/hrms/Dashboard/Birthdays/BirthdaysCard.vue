@@ -16,7 +16,7 @@ defineProps({
                 v-for="employee, index in employees"
                 :key="index"
                 :name="employee.fullname_last"
-                :avatar="employee.avatar"
+                :avatar="employee.profile_photo && employee.profile_photo.base64 !== 'File doesn\'t exists.' ? employee.profile_photo.base64 : '/avatarexample.png'"
                 :birthday="employee.date_of_birth"
             />
         </div>
