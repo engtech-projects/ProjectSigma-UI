@@ -1,25 +1,28 @@
 <script setup>
 import { storeToRefs } from "pinia"
+import { useTransactionStore } from "~/stores/accounting/transaction"
 import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
 
 const transactionTypeStore = useTransactionTypeStore()
 await transactionTypeStore.getTransactionTypes()
-const { list: typeList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(transactionTypeStore)
+
+const transactionStore = useTransactionStore()
+const { list: transactionList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(transactionStore)
 
 const setEdit = (ttype) => {
     isEdit.value = true
-    transactionTypeStore.transactionType = ttype
+    transactionStore.transactionType = ttype
     return navigateTo("/accounting/transaction-type/edit/" + ttype.transaction_type_id)
 }
 
 const isLoading = ref(false)
 const deleteType = async (ttype) => {
     try {
-        transactionTypeStore.isLoading = true
-        await transactionTypeStore.deleteTransactionType(ttype.transaction_type_id)
+        transactionStore.isLoading = true
+        await transactionStore.deleteTransactionType(ttype.transaction_type_id)
         snackbar.add({
             type: "success",
-            text: transactionTypeStore.successMessage
+            text: transactionStore.successMessage
         })
     } finally {
         isLoading.value = false
@@ -31,8 +34,11 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Transaction Type Name", id: "transaction_type_name" },
-    { name: "Symbol", id: "symbol" },
+    { name: "No.", id: "transaction_no" },
+    { name: "Date", id: "transaction_date" },
+    { name: "Reference", id: "reference_no" },
+    { name: "Amounte", id: "amount" },
+    { name: "Status", id: "status" },
 ]
 const actions = {
     edit: true,
@@ -40,32 +46,74 @@ const actions = {
 }
 
 const snackbar = useSnackbar()
+const filter = ref("all")
+const applyFilter = () => {
+    transactionStore.getTransactions(filter.value !== "all" ? filter.value : null)
+}
 </script>
 
 <template>
     <div class="flex flex-col items-end gap-4">
-        <NuxtLink
-            to="/accounting/transaction-type/create"
-            class="flex-1 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
-        >
-            <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
-            <span>Create New Type</span>
-        </NuxtLink>
-        <LayoutBoards title="Transactions List" class="w-full" :loading="transactionTypeStore.isLoading">
+        <div class="flex items-center gap-4 w-full">
+            <div class="flex gap-2 items-center px-4 py-1 rounded-lg flex-1">
+                <div class="flex flex-col gap-[2px]">
+                    <label for="" class="text-xs">Transaction Type</label>
+                    <div class="flex gap-2 h-8">
+                        <select
+                            id="period"
+                            v-model="filter"
+                            class="flex-1 h-8 rounded-lg text-sm py-1 px-2"
+                            required
+                        >
+                            <option value="all">
+                                All
+                            </option>
+                            <option v-for="p in transactionTypeStore.list" :key="p.transaction_type_id" :value="p.transaction_type_name">
+                                {{ p.transaction_type_name }}
+                            </option>
+                        </select>
+                        <button
+                            class="w-fit text-white p-2 rounded bg-gray-500 content-center text-center px-4 flex items-center hover:bg-gray-700 active:bg-gray-600"
+                            @click="applyFilter"
+                        >
+                            <Icon name="fa:filter" class="mr-2 mt-[3px]" />
+                            <span>Apply Filter</span>
+                        </button>
+                    </div>
+                    <!-- <select
+                        id="period"
+                        class="flex-1 h-20 rounded-lg text-sm py-1 px-2"
+                        required
+                    >
+                        <option v-for="p in transactionTypeStore.list" :key="p.transaction_type_id" :value="p.transaction_type_id">
+                            {{ p.transaction_type_name }}
+                        </option>
+                    </select> -->
+                </div>
+            </div>
+            <NuxtLink
+                to="/accounting/transaction/create"
+                class="w-56 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
+            >
+                <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
+                <span>Create New Transaction</span>
+            </NuxtLink>
+        </div>
+        <LayoutBoards title="Transactions List" class="w-full" :loading="transactionStore.isLoading">
             <div class="pb-2 text-gray-500">
                 <LayoutPsTable
                     id="listTable"
                     :header-columns="headers"
-                    :datas="typeList"
+                    :datas="transactionList"
                     :actions="actions"
                     @edit-row="setEdit"
                     @delete-row="deleteType"
                 />
-                <i v-if="!typeList.length&&!transactionTypeStore.isLoading" class="p-4 text-center block">No data available.</i>
+                <!-- <i v-if="!transactionList.length&&!transactionStore.isLoading" class="p-4 text-center block">No data available.</i> -->
             </div>
             <div class="flex justify-center mx-auto">
                 <CustomPagination
-                    v-if="typeList.length"
+                    v-if="transactionList.length"
                     :links="pagination"
                     @change-params="changePaginate"
                 />

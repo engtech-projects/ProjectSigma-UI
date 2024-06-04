@@ -47,7 +47,7 @@ const select = (st:any) => {
                     <label
                         for="stakeholder_group_name"
                         class="text-xs italic"
-                    >Account Group Name</label>
+                    >Stakeholder Group Name</label>
                     <input
                         id="stakeholderGroupName"
                         v-model="stakeholderGroupStore.stakeholderGroup.stakeholder_group_name"

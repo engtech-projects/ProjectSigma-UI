@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-
+import { useTransactionStore } from "~/stores/accounting/transaction"
+const transactionStore = useTransactionStore()
+await transactionStore.getTransactions()
 definePageMeta({
     layout: "default",
 })

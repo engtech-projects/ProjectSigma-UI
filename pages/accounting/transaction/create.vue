@@ -4,14 +4,13 @@ definePageMeta({
     layout: "default",
 })
 useHead({
-    title: "New Book",
+    title: "New Transaction",
 })
-// const route = useRoute()
 </script>
 
 <template>
     <div class="flex justify-center min-h-full">
-        <AccountingBookEditBook class="flex-1 max-w-[1000px]" />
+        <AccountingTransactionCreate class="flex-1 max-w-[1000px]" />
     </div>
 </template>
 

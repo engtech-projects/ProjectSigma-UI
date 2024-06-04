@@ -533,6 +533,14 @@ const config = useRuntimeConfig()
                 icon="iconoir:user-square"
                 single-nav-title="Stakeholder"
             />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.accounting_stake_holder,
+                ])"
+                linkarea="/accounting/transaction"
+                icon="mdi:cash"
+                single-nav-title="Transaction"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->
