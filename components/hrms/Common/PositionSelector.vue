@@ -12,7 +12,7 @@ const model = defineModel({ required: false, type: Number, default: null })
         <option :value="null" disabled selected>
             Choose Position
         </option>
-        <option v-for="data, index in positionEnum.list" :key="index" :value=" data.id">
+        <option v-for="data, index in positionEnum.list" :key="index" :value="data.id">
             {{ data.name }}
         </option>
     </select>
