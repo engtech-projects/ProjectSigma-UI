@@ -21,7 +21,8 @@ export const useTravelorderStore = defineStore("travels", {
             requesting_office: null,
             destination: null,
             purpose_of_travel: "",
-            date_and_time_of_travel: null,
+            date_of_travel: null,
+            time_of_travel: null,
             duration_of_travel: null,
             means_of_transportation: null,
             remarks: "",
@@ -62,7 +63,7 @@ export const useTravelorderStore = defineStore("travels", {
         },
         async getMyRequests () {
             await useFetch(
-                "/api/travelorder-request/my-requests",
+                "/api/travelorder-request/my-request",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",

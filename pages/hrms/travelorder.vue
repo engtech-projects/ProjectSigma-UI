@@ -4,8 +4,8 @@ import { useEnumsStore } from "@/stores/hrms/enum"
 
 const travels = useTravelorderStore()
 const { isEdit } = storeToRefs(travels)
-// travels.getMyRequests()
-// travels.getMyApprovalRequests()
+travels.getMyRequests()
+travels.getMyApprovalRequests()
 travels.getTravelorders()
 
 const enums = useEnumsStore()
