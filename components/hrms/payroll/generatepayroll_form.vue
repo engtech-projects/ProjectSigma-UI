@@ -4,7 +4,6 @@ import { useApprovalStore, APPROVAL_GP } from "@/stores/hrms/setup/approvals"
 
 const genpayrollstore = useGeneratePayrollStore()
 const { generateParams } = storeToRefs(genpayrollstore)
-const { isEdit } = storeToRefs(genpayrollstore)
 
 const approvals = useApprovalStore()
 generateParams.value.approvals = await approvals.getApprovalByName(APPROVAL_GP)
@@ -230,7 +229,7 @@ const submitForm = async () => {
     </LayoutBoards>
 
     <div v-if="showInformationModal" :loading="boardLoading">
-        <Teleport to="body" v-show="isEdit">
+        <Teleport to="body">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
                 <div class="bg-white p-4 w-4/5 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
                     <div class="flex gap-2 justify-end ml-auto p-2 ">

@@ -6,21 +6,21 @@ const compId = useId()
         <template #tab-titles>
             <HrmsCommonTabsTabTitle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_lnotnto_leave_list,
+                    AccessibilityTypes.hrms_lnotnto_overtime_list,
                 ])"
                 :target-id="'all-list' + compId"
                 title="All List"
             />
             <HrmsCommonTabsTabTitle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_lnotnto_leave_form,
+                    AccessibilityTypes.hrms_lnotnto_overtime_my_request,
                 ])"
                 :target-id="'my-requests' + compId"
                 title="My Requests"
             />
             <HrmsCommonTabsTabTitle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_lnotnto_leave_my_approvals,
+                    AccessibilityTypes.hrms_lnotnto_overtime_my_approvals,
                 ])"
                 :target-id="'my-approvals' + compId"
                 title="My Approvals"
