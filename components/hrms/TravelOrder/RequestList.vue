@@ -35,15 +35,16 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Requesting Office", id: "requesting_office" },
+    { name: "Requesting Office", id: "department.department_name" },
     { name: "Destination", id: "destination" },
     { name: "Purpose", id: "purpose_of_travel" },
     { name: "Duration", id: "duration_of_travel" },
     { name: "Remarks", id: "remarks" },
 ]
 const actions = {
+    showTable: true,
     edit: false,
-    delete: false
+    delete: false,
 }
 
 </script>

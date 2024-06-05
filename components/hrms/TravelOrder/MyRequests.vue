@@ -17,8 +17,7 @@ const closeViewModal = () => {
 }
 
 const headers = [
-    { name: "Requested by", id: "requested_by" },
-    { name: "Requesting Office", id: "requesting_office" },
+    { name: "Requesting Office", id: "department.department_name" },
     { name: "Destination", id: "destination" },
     { name: "Purpose", id: "purpose_of_travel" },
     { name: "Duration", id: "duration_of_travel" },

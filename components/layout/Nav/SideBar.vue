@@ -464,12 +464,14 @@ const config = useRuntimeConfig()
 
         <!-- Accounting -->
         <LayoutNavModuleGroup
+            v-show="config.public.APP_ENV == 'local'"
             v-if="useCheckAccessibility([
                 AccessibilityTypes.accounting_group,
             ])"
             title="Accounting"
         >
             <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_chart_of_accounts,
                 ])"
@@ -478,6 +480,7 @@ const config = useRuntimeConfig()
                 single-nav-title="Chart of Accounts"
             />
             <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_books,
                 ])"
@@ -486,6 +489,7 @@ const config = useRuntimeConfig()
                 single-nav-title="Books"
             />
             <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_transaction_type,
                 ])"
@@ -494,6 +498,7 @@ const config = useRuntimeConfig()
                 single-nav-title="Transaction Type"
             />
             <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_document_Series,
                 ])"
@@ -502,6 +507,7 @@ const config = useRuntimeConfig()
                 single-nav-title="Document Series"
             />
             <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_posting_period,
                 ])"
@@ -510,6 +516,7 @@ const config = useRuntimeConfig()
                 single-nav-title="Posting Period"
             />
             <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_account_groups,
                 ])"
@@ -518,6 +525,7 @@ const config = useRuntimeConfig()
                 single-nav-title="Account Groups"
             />
             <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_account_groups,
                 ])"
@@ -526,12 +534,22 @@ const config = useRuntimeConfig()
                 single-nav-title="Subsidiary Account"
             />
             <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_stake_holder,
                 ])"
                 linkarea="/accounting/stakeholder"
                 icon="iconoir:user-square"
                 single-nav-title="Stakeholder"
+            />
+            <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.accounting_stake_holder,
+                ])"
+                linkarea="/accounting/transaction"
+                icon="mdi:cash"
+                single-nav-title="Transaction"
             />
         </LayoutNavModuleGroup>
 

@@ -9,7 +9,7 @@ const { list: typeList, isEdit, getParams, pagination, errorMessage, successMess
 const setEdit = (ttype) => {
     isEdit.value = true
     transactionTypeStore.transactionType = ttype
-    return navigateTo("/accounting/transaction-type/edit/" + ttype.transaction_type_id)
+    return navigateTo("/accounting/transaction-type/edit?id=" + ttype.transaction_type_id)
 }
 
 const isLoading = ref(false)

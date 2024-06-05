@@ -6,9 +6,6 @@ const genpayrollstore = useGeneratePayrollStore()
 genpayrollstore.getAllList()
 genpayrollstore.getMyApprovalRequests()
 genpayrollstore.getMyRequests()
-// const { isEdit } = storeToRefs(stores)
-// genpayrollstore.generatePayroll()
-// genpayrollstore.createRequest()
 
 const enums = useEnumsStore()
 enums.getEmployeeEnum()
@@ -28,7 +25,31 @@ useHead({
         ])"
     >
         <div class="grid grid-cols-1 md:flex-row gap-4">
-            <HrmsPayrollGeneratepayrollForm />
+            <HrmsCommonTabsMainContainer>
+                <template #tab-titles>
+                    <HrmsCommonTabsTabTitle target-id="payrollForm" title="Generate Payroll Form" />
+                    <HrmsCommonTabsTabTitle target-id="payrollView" title="Payroll View" />
+                    <HrmsCommonTabsTabTitle target-id="myRequestList" title="My Request" />
+                    <HrmsCommonTabsTabTitle target-id="myApprovalsList" title="My Approvals" />
+                </template>
+                <template #tab-containers>
+                    <HrmsCommonTabsTabContainer id="payrollForm">
+                        <HrmsPayrollGeneratepayrollForm />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer id="payrollView">
+                        <HrmsPayrollView />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer id="myRequestList">
+                        <HrmsPayrollAllowanceMyRequests />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer id="myApprovalsList">
+                        <HrmsPayrollAllowanceMyApprovals />
+                    </HrmsCommonTabsTabContainer>
+                </template>
+            </HrmsCommonTabsMainContainer>
+        </div>
+        <div class="grid grid-cols-1 md:flex-row gap-4">
+            <!-- <HrmsPayrollGeneratepayrollForm /> -->
             <!-- <HrmsPayrollGeneratepayrollTable /> -->
         </div>
     </LayoutAcessContainer>

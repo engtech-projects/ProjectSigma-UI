@@ -2,14 +2,21 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export const useTransactionTypeStore = defineStore("transactionTypeStore", {
+export const useTransactionStore = defineStore("transactionStore", {
     state: () => ({
-        transactionType: {
+        transaction: {
+            transaction_id: null,
+            transaction_no: null,
+            transaction_date: null,
             transaction_type_id: null,
-            transaction_type_name: null,
-            book_id: null,
-            account_id: null,
-            symbol: null
+            reference_no: null,
+            amount: null,
+            stakeholder_id: null,
+            details: null,
+            period_id: null,
+            status: "posted",
+            note: "None",
+            description: "No comment"
         },
         list: [],
         pagination: {},
@@ -20,10 +27,11 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
         isEdit: false
     }),
     actions: {
-        async getTransactionTypes () {
+        async getTransactions (params:any = null) {
+            const url = !params ? "/api/v1/transactions" : "/api/v1/transactions?transaction_type=" + params
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/v1/transaction-type",
+                url,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
@@ -34,7 +42,7 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.transaction_type
+                        this.list = response._data.data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -50,11 +58,11 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
             }
         },
 
-        async createTransactionType () {
+        async createTransaction () {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/v1/transaction-type",
+                "/api/v1/transactions",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
@@ -62,13 +70,13 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.transactionType,
+                    body: this.transaction,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getTransactionTypes()
+                            this.getTransactions()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -77,23 +85,23 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
             )
         },
 
-        async editTransactionType () {
+        async editTransaction () {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/v1/transaction-type/" + this.transactionType.transaction_type_id,
+                "/api/v1/transaction/" + this.transaction.transaction_id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
                     headers: {
                         Authorization: token.value + ""
                     },
-                    body: this.transactionType,
+                    body: this.transaction,
                     watch: false,
                 }
             )
             if (data.value) {
-                this.getTransactionTypes()
+                this.getTransactions()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -102,16 +110,16 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
             }
         },
 
-        async deleteTransactionType (id: number) {
+        async deleteTransaction (id: number) {
             const { data, error } = await useFetch(
-                "/api/v1/transaction-type/" + id,
+                "/api/v1/transaction/" + id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",
                     headers: {
                         Authorization: token.value + ""
                     },
-                    body: this.transactionType,
+                    body: this.transaction,
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
@@ -119,7 +127,7 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
                 }
             )
             if (data.value) {
-                this.getTransactionTypes()
+                this.getTransactions()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -129,12 +137,16 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
         },
 
         reset () {
-            this.transactionType = {
+            this.transaction = {
+                transaction_id: null,
+                transaction_no: null,
+                transaction_date: null,
                 transaction_type_id: null,
-                transaction_type_name: null,
-                book_id: null,
-                account_id: null,
-                symbol: null
+                reference_no: null,
+                period_id: null,
+                status: "posted",
+                note: "None",
+                description: "No comment"
             }
             this.successMessage = ""
             this.errorMessage = ""

@@ -50,6 +50,31 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
             }
         },
 
+        async getTransactionType (id:any) {
+            this.isLoading = true
+            const { data, error } = await useFetch(
+                "/api/v1/transaction-type/" + id,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        this.transactionType = response._data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         async createTransactionType () {
             this.successMessage = ""
             this.errorMessage = ""

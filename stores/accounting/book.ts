@@ -49,6 +49,32 @@ export const useBookStore = defineStore("bookStore", {
             }
         },
 
+        async getBook (id:any) {
+            this.isLoading = true
+            const { data, error } = await useFetch(
+                "/api/v1/book/" + id,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        this.book = response._data
+                        this.book.account_id = response._data.accounts.length > 0 ? response._data.accounts[0].account_id : null
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         async createAccount () {
             this.successMessage = ""
             this.errorMessage = ""

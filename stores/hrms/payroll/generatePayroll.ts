@@ -79,6 +79,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         rest_overtime: data.payroll_records.hours_worked.rest.overtime,
                         regular_holiday_overtime: data.payroll_records.hours_worked.regular_holidays.overtime,
                         special_holiday_overtime: data.payroll_records.hours_worked.special_holidays.overtime,
+
                         regular_pay: data.payroll_records.gross_pays.regular.reg_hrs,
                         rest_pay: data.payroll_records.gross_pays.rest.reg_hrs,
                         regular_holiday_pay: data.payroll_records.gross_pays.regular_holidays.reg_hrs,
@@ -91,15 +92,11 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         late_hours: data.payroll_records.hours_worked.regular.late,
 
                         sss_employee_contribution: data.payroll_records.salary_deduction.sss.employee_contribution,
-
                         sss_employer_contribution: data.payroll_records.salary_deduction.sss.employer_contribution,
-
                         sss_employee_compensation: data.payroll_records.salary_deduction.sss.employee_compensation,
-
                         sss_employer_compensation: data.payroll_records.salary_deduction.sss.employer_compensation,
-
-                        philhealth_employee_contribution: data.payroll_records.salary_deduction.phic.employee_compensation,
-                        philhealth_employer_contribution: data.payroll_records.salary_deduction.phic.employer_compensation,
+                        philhealth_employee_compensation: data.payroll_records.salary_deduction.phic.employee_compensation,
+                        philhealth_employer_compensation: data.payroll_records.salary_deduction.phic.employer_compensation,
                         // pagibig_employee_contribution: data.payroll_records.salary_deduction.,
                         // pagibig_employer_contribution: data.payroll_records.salary_deduction.,
                         pagibig_employee_compensation: data.payroll_records.salary_deduction.hmdf.employee_compensation,
@@ -114,135 +111,152 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 }),
             }
         },
+        totalLoansPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += parseFloat(element.payroll_records.salary_deduction.loan)
+            })
+            return total.toFixed(2)
+        },
+        totalCashAdvancePayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += parseFloat(element.payroll_records.salary_deduction.cash_advance)
+            })
+            return total.toFixed(2)
+        },
+        totalOtherDeductionsPayrollDraft (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element) => {
+                total += parseFloat(element.payroll_records.salary_deduction.other_deduction)
+            })
+            return total.toFixed(2)
+        },
         totalNetPayPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.total_net_pay
+                total += parseFloat(element.payroll_records.total_net_pay)
             })
-            return total
+            return total.toFixed(2)
         },
         totalDeductionPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.total_salary_deduction
+                total += parseFloat(element.payroll_records.total_salary_deduction)
             })
-            return total
+            return total.toFixed(2)
         },
         totalEWTCPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.salary_deduction.ewtc
+                total += parseFloat(element.payroll_records.salary_deduction.ewtc)
             })
-            return total
+            return total.toFixed(2)
         },
         totalHDMFEmployerPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.salary_deduction.hmdf.employer_compensation
+                total += parseFloat(element.payroll_records.salary_deduction.hmdf.employer_compensation)
             })
-            return total
+            return total.toFixed(2)
         },
         totalHDMFEmployeePayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.salary_deduction.hmdf.employee_compensation
+                total += parseFloat(element.payroll_records.salary_deduction.hmdf.employee_compensation)
             })
-            return total
+            return total.toFixed(2)
         },
         totalPHICEmployerPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.salary_deduction.phic.employer_compensation
+                total += parseFloat(element.payroll_records.salary_deduction.phic.employer_compensation)
             })
-            return total
+            return total.toFixed(2)
         },
         totalPHICEmployeePayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.salary_deduction.phic.employee_compensation
+                total += parseFloat(element.payroll_records.salary_deduction.phic.employee_compensation)
             })
-            return total
+            return total.toFixed(2)
         },
         totalSSSEmployerPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.salary_deduction.sss.employer_compensation
+                total += parseFloat(element.payroll_records.salary_deduction.sss.employer_compensation)
             })
-            return total
+            return total.toFixed(2)
         },
         totalSSSEmployeePayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.salary_deduction.sss.employee_compensation
+                total += parseFloat(element.payroll_records.salary_deduction.sss.employee_compensation)
             })
-            return total
+            return total.toFixed(2)
         },
         totalGrossPayPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.total_gross_pay
+                total += parseFloat(element.payroll_records.total_gross_pay)
             })
-            return total
+            return total.toFixed(2)
         },
         totalSpcHolOTPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.gross_pays.special_holidays.overtime
+                total += parseFloat(element.payroll_records.gross_pays.special_holidays.overtime)
             })
-            return total
+            return total.toFixed(2)
         },
         totalRegHolOTPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.hours_worked.regular_holidays.overtime
+                total += parseFloat(element.payroll_records.gross_pays.regular_holidays.overtime)
             })
-            return total
+            return total.toFixed(2)
         },
         totalRestDayOTPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.gross_pays.rest.overtime
+                total += parseFloat(element.payroll_records.gross_pays.rest.overtime)
             })
-            return total
+            return total.toFixed(2)
         },
         totalRegOTPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += element.payroll_records.hours_worked.regular.overtime
+                total += parseFloat(element.payroll_records.gross_pays.regular.overtime)
             })
-            return total
+            return total.toFixed(2)
         },
         totalSpcHolPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                const value = element?.payroll_records?.hours_worked?.special_holidays?.regular ?? 0
-                total += value
+                total += parseFloat(element.payroll_records.gross_pays.special_holidays.regular) ?? 0
             })
-            return total
+            return total.toFixed(2)
         },
         totalRegHolPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                const value = element?.payroll_records?.hours_worked?.regular_holidays?.regular ?? 0
-                total += value
+                total += parseFloat(element.payroll_records.gross_pays.regular_holidays.reg_hrs) ?? 0
             })
-            return total
+            return total.toFixed(2)
         },
         totalRestDayPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                const value = element?.payroll_records?.gross_pays?.rest?.reg_hrs ?? 0
-                total += value
+                total += parseFloat(element.payroll_records.gross_pays.rest.reg_hrs) ?? 0
             })
-            return total
+            return total.toFixed(2)
         },
         totalRegHrsPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                const value = element?.payroll_records?.hours_worked?.regular?.regular ?? 0
-                total += value
+                total += parseFloat(element.payroll_records.gross_pays.regular.reg_hrs) ?? 0
             })
-            return total
+            return total.toFixed(2)
         },
     },
     actions: {
@@ -286,7 +300,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         },
         async getMyRequests () {
             await useHRMSApi(
-                "/api/payroll/my-request",
+                "/api/payroll/my-requests",
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
@@ -384,7 +398,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/approvals/approve/payroll/" + id,
+                "/api/approvals/approve/Payroll/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -413,7 +427,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             formData.append("id", id)
             formData.append("remarks", this.remarks)
             await useHRMSApiO(
-                "/api/approvals/disapprove/payroll/" + id,
+                "/api/approvals/disapprove/Payroll/" + id,
                 {
                     method: "POST",
                     body: formData,
