@@ -71,7 +71,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 payroll: state.payrollDraft.payroll.map(function (data: any) {
                     return {
                         employee_id: data.id,
-                        regular_hours: data.payroll_records.hours_worked.regular.regular,
+                        regular_hours: data.payroll_records.hours_worked.regular,
                         rest_hours: data.payroll_records.hours_worked.rest.regular,
                         regular_holiday_hours: data.payroll_records.hours_worked.regular_holidays.regular,
                         special_holiday_hours: data.payroll_records.hours_worked.special_holidays.regular,
@@ -80,9 +80,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         regular_holiday_overtime: data.payroll_records.hours_worked.regular_holidays.overtime,
                         special_holiday_overtime: data.payroll_records.hours_worked.special_holidays.overtime,
 
-                        regular_pay: data.payroll_records.gross_pays.regular.reg_hrs,
-                        rest_pay: data.payroll_records.gross_pays.rest.reg_hrs,
-                        regular_holiday_pay: data.payroll_records.gross_pays.regular_holidays.reg_hrs,
+                        regular_pay: data.payroll_records.gross_pays.regular.regular,
+                        rest_pay: data.payroll_records.gross_pays.rest.regular,
+                        regular_holiday_pay: data.payroll_records.gross_pays.regular_holidays.regular,
                         special_holiday_pay: data.payroll_records.gross_pays.special_holidays.reg_hrs,
                         regular_ot_pay: data.payroll_records.gross_pays.regular.overtime,
                         rest_ot_pay: data.payroll_records.gross_pays.rest.overtime,
@@ -240,21 +240,21 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         totalRegHolPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += parseFloat(element.payroll_records.gross_pays.regular_holidays.reg_hrs) ?? 0
+                total += parseFloat(element.payroll_records.gross_pays.regular_holidays.regular) ?? 0
             })
             return total.toFixed(2)
         },
         totalRestDayPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += parseFloat(element.payroll_records.gross_pays.rest.reg_hrs) ?? 0
+                total += parseFloat(element.payroll_records.gross_pays.rest.regular) ?? 0
             })
             return total.toFixed(2)
         },
         totalRegHrsPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element) => {
-                total += parseFloat(element.payroll_records.gross_pays.regular.reg_hrs) ?? 0
+                total += parseFloat(element.payroll_records.gross_pays.regular.regular) ?? 0
             })
             return total.toFixed(2)
         },
