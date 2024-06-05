@@ -10,7 +10,7 @@ const addChild = () => {
     information.value.child.push({
         id: null,
         name: "",
-        employee_id: null,
+        employee_id: employee.information.id,
         zip: null,
         brgy: null,
         city: null,
@@ -32,10 +32,10 @@ addChild()
 const deleteChild = (index) => {
     information.value.child.splice(index, 1)
 }
-const saveUpdateChild = async () => {
+const saveUpdateChild = async (index) => {
     try {
         const formData = new FormData()
-        formData.append("children", information.value.child)
+        Object.keys(information.value.child[index]).forEach(key => formData.append(key, information.value.child[index][key]))
         await employee.saveRelatedPerson(formData)
         snackbar.add({
             type: "success",
@@ -64,15 +64,14 @@ const updateChildData = async (id) => {
         })
     }
 }
-const deleteChildData = async () => {
+const deleteChildData = async (id, index) => {
     try {
-        const formData = new FormData()
-        formData.append("children", information.value.child)
-        await employee.deleteRelatedPerson(formData)
+        await employee.deleteRelatedPerson(id)
         snackbar.add({
             type: "success",
             text: employee.successMessage
         })
+        deleteChild(index)
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -106,13 +105,13 @@ const deleteChildData = async () => {
                         <button v-if="index === information.child.length - 1 && editable" class="bg-green-600 text-white" @click="addChild()">
                             <Icon name="ion:plus" color="white" class="rounded h-6 w-6 p-1" />
                         </button>
-                        <button v-if="editable && !child.id" class="bg-green-600 text-white" @click="saveUpdateChild()">
+                        <button v-if="editable && !child.id" class="bg-green-600 text-white" @click="saveUpdateChild(index)">
                             <Icon name="ion:save" color="white" class="rounded h-6 w-6 p-1" />
                         </button>
-                        <button v-if="editable && child.id" class="bg-yellow-400 text-white" @click="updateChildData()">
+                        <button v-if="editable && child.id" class="bg-yellow-400 text-white" @click="updateChildData(child.id)">
                             <Icon name="ion:pencil" color="white" class="rounded h-6 w-6 p-1" />
                         </button>
-                        <button v-if="editable && child.id" class="bg-red-600 text-white" @click="deleteChildData()">
+                        <button v-if="editable && child.id" class="bg-red-600 text-white" @click="deleteChildData(child.id, index)">
                             <Icon name="ion:trash" color="white" class="rounded h-6 w-6 p-1" />
                         </button>
                     </div>
