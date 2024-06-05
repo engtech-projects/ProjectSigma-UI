@@ -35,7 +35,8 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Project", id: "project_id" },
+    { name: "Department", id: "department.department_name" },
+    { name: "Project", id: "project.project_code" },
     // { name: "Employee Name", id: "employee_id" },
     { name: "Requesting Office", id: "department_id" },
     { name: "Date of Overtime", id: "overtime_date" },
@@ -44,8 +45,9 @@ const headers = [
     { name: "Purpose/Reason", id: "reason" },
 ]
 const actions = {
-    edit: true,
-    delete: true
+    detail: true,
+    // edit: true,
+    // delete: true
 }
 
 </script>
