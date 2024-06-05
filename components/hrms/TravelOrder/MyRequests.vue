@@ -74,16 +74,13 @@ const boardLoading = ref(false)
                             <span class="text-teal-600 text-light"> Remarks: </span> {{ travelData.remarks }}
                         </div>
                         <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Requested By: </span> {{ travelData.requested_by }}
+                            <span class="text-teal-600 text-light"> Requested By: </span> {{ travelData.requested_by.name }}
                         </div>
                         <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Request Status: </span> {{ travelData.requested_by }}
+                            <span class="text-teal-600 text-light"> Remarks: </span> {{ travelData.remarks }}
                         </div>
                         <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> remarks </span> {{ travelData.remarks }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> request_status </span> {{ travelData.request_status }}
+                            <span class="text-teal-600 text-light"> Request Status: </span> {{ travelData.request_status }}
                         </div>
                     </div>
                     <div class="w-full">
