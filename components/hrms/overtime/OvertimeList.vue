@@ -38,7 +38,6 @@ const headers = [
     { name: "Department", id: "department.department_name" },
     { name: "Project", id: "project.project_code" },
     // { name: "Employee Name", id: "employee_id" },
-    { name: "Requesting Office", id: "department_id" },
     { name: "Date of Overtime", id: "overtime_date" },
     { name: "From", id: "overtime_start_time" },
     { name: "To", id: "overtime_end_time" },
