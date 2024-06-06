@@ -7,6 +7,7 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
         transactionType: {
             transaction_type_id: null,
             transaction_type_name: null,
+            stakeholder_group_id: null,
             book_id: null,
             account_id: null,
             symbol: null
@@ -159,6 +160,7 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
                 transaction_type_name: null,
                 book_id: null,
                 account_id: null,
+                stakeholder_group_id: null,
                 symbol: null
             }
             this.successMessage = ""

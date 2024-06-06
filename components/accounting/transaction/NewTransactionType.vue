@@ -2,12 +2,15 @@
 import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
 import { useBookStore } from "~/stores/accounting/book"
 import { useAccountStore } from "~/stores/accounting/account"
+import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
 
 const transactionTypeStore = useTransactionTypeStore()
 const bookStore = useBookStore()
 bookStore.getBooks()
 const accountStore = useAccountStore()
 accountStore.getAccounts()
+const stakeholderGroupStore = useStakeholderGroupStore()
+await stakeholderGroupStore.getStakeholderGroups()
 const boardLoading = ref(false)
 const snackbar = useSnackbar()
 
@@ -35,6 +38,7 @@ async function handleSubmit () {
     } finally {
         transactionTypeStore.reset()
         boardLoading.value = false
+        navigateTo("/accounting/transaction-type")
     }
 }
 
@@ -111,6 +115,23 @@ function select (val:any) {
                         :selected-id="transactionTypeStore.transactionType.account_id"
                         @select="select"
                     />
+                </div>
+
+                <div>
+                    <label
+                        for="book"
+                        class="text-xs italic"
+                    >Stakeholder Group</label>
+                    <select
+                        id="book"
+                        v-model="transactionTypeStore.transactionType.stakeholder_group_id"
+                        class="w-full rounded-lg"
+                        required
+                    >
+                        <option v-for="tg in stakeholderGroupStore.list" :key="tg.stakeholder_group_id" :value="tg.stakeholder_group_id">
+                            {{ tg.stakeholder_group_name }}
+                        </option>
+                    </select>
                 </div>
 
                 <div>

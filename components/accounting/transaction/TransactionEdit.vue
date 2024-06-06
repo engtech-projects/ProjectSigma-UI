@@ -1,46 +1,36 @@
 <script lang="ts" setup>
 import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
 import { useTransactionStore } from "~/stores/accounting/transaction"
+import { usePostingPeriodStore } from "~/stores/accounting/postingperiod"
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
-import { useAccountStore } from "~/stores/accounting/account"
 
-const accountStore = useAccountStore()
-await accountStore.getAccounts()
-
+const postingPeriodStore = usePostingPeriodStore()
 const transactionTypeStore = useTransactionTypeStore()
-await transactionTypeStore.getTransactionTypes()
 const transactionStore = useTransactionStore()
 const stakeholderStore = useStakeholderStore()
-await stakeholderStore.getStakeholders()
 const stakeholderGroupStore = useStakeholderGroupStore()
-await stakeholderGroupStore.getStakeholderGroups()
 const boardLoading = ref(false)
 const snackbar = useSnackbar()
-transactionStore.transaction.transaction_date = useUtilities().value.dateToString(new Date())
 const removeDetail = (detail) => {
     details.value = details.value.filter(d => d !== detail)
 }
 const detail = ref({
     transaction_detail_id: null,
+    stakeholder_group_id: null,
+    stakeholder_group_name: null,
     stakeholder_id: null,
-    stakeholder_name: null,
-    account_id: null,
-    account_name: null,
     debit: 0,
     credit: 0
 })
 const details = ref([])
 const addDetail = () => {
-    detail.value.stakeholder_name = stakeholderStore.list.filter(s => s.stakeholder_id === detail.value.stakeholder_id)[0].display_name
-    detail.value.account_name = accountStore.list.filter(s => s.account_id === detail.value.account_id)[0].account_name
+    detail.value.stakeholder_group_name = stakeholderGroupStore.list.filter(s => s.stakeholder_group_id === detail.value.stakeholder_group_id)[0].stakeholder_group_name
     details.value.push(JSON.parse(JSON.stringify(detail.value)))
     detail.value = {
         transaction_detail_id: null,
-        stakeholder_id: null,
-        stakeholder_name: null,
-        account_id: null,
-        account_name: null,
+        stakeholder_group_id: null,
+        stakeholder_group_name: null,
         debit: 0,
         credit: 0
     }
@@ -94,11 +84,11 @@ function selectStakeholder (val:any) {
 </script>
 
 <template>
-    <LayoutBoards title="Create New Transaction" :loading="boardLoading" class="w-full h-fit">
+    <LayoutBoards title="Edit Transaction" :loading="boardLoading" class="w-full h-fit">
         <form @submit.prevent="!transactionTypeStore.isEdit?handleSubmit():updateType()">
             <div class="flex flex-col gap-2">
                 <div class="flex gap-4">
-                    <!-- <div class="flex-1">
+                    <div class="flex-1">
                         <label
                             for="transaction_number"
                             class="text-xs italic"
@@ -110,7 +100,22 @@ function selectStakeholder (val:any) {
                             class="w-full rounded-lg"
                             required
                         >
-                    </div> -->
+                    </div>
+                    <div class="flex-1">
+                        <label
+                            for="transaction_date"
+                            class="text-xs italic"
+                        >Transaction Date</label>
+                        <input
+                            id="transactionDate"
+                            v-model="transactionStore.transaction.transaction_date"
+                            type="date"
+                            class="w-full rounded-lg"
+                            required
+                        >
+                    </div>
+                </div>
+                <div class="flex gap-4">
                     <div class="flex-1">
                         <label
                             for="transaction_type"
@@ -126,22 +131,6 @@ function selectStakeholder (val:any) {
                     </div>
                     <div class="flex-1">
                         <label
-                            for="transaction_date"
-                            class="text-xs italic"
-                        >Transaction Date</label>
-                        <input
-                            id="transactionDate"
-                            v-model="transactionStore.transaction.transaction_date"
-                            type="date"
-                            class="w-full rounded-lg"
-                            required
-                            disabled
-                        >
-                    </div>
-                </div>
-                <div class="flex gap-4">
-                    <!-- <div class="flex-1">
-                        <label
                             for="reference_number"
                             class="text-xs italic"
                         >Reference No.</label>
@@ -152,7 +141,7 @@ function selectStakeholder (val:any) {
                             class="w-full rounded-lg"
                             required
                         >
-                    </div> -->
+                    </div>
                 </div>
                 <div class="flex gap-4">
                     <div class="flex-1">
@@ -170,19 +159,6 @@ function selectStakeholder (val:any) {
                     </div>
                     <div class="flex-1">
                         <label
-                            for="transaction_type"
-                            class="text-xs italic"
-                        >Stakeholder</label>
-                        <AccountingSelectSearch
-                            :options="stakeholderStore.list"
-                            title="display_name"
-                            opid="stakeholder_id"
-                            :selected-id="transactionStore.transaction.stakeholder_id"
-                            @select="selectStakeholder"
-                        />
-                    </div>
-                    <!-- <div class="flex-1">
-                        <label
                             for="period"
                             class="text-xs italic"
                         >Period</label>
@@ -196,40 +172,38 @@ function selectStakeholder (val:any) {
                                 {{ p.period_start }}
                             </option>
                         </select>
-                    </div> -->
+                    </div>
+                </div>
+                <div>
+                    <label
+                        for="transaction_type"
+                        class="text-xs italic"
+                    >Stakeholder</label>
+                    <AccountingSelectSearch
+                        :options="stakeholderStore.list"
+                        title="display_name"
+                        opid="stakeholder_id"
+                        :selected-id="transactionStore.transaction.stakeholder_id"
+                        @select="selectStakeholder"
+                    />
                 </div>
                 <span class="font-bold text-gray-700">
                     Transaction Details
                 </span>
                 <form action="" @submit.prevent="addDetail">
                     <div class="flex gap-2">
-                        <div class="flex flex-col gap-1 flex-1">
+                        <div class="flex flex-col gap-1 flex-2">
                             <label for="" class="text-xs italic">
-                                Stakeholder
+                                Stakeholder Group
                             </label>
                             <select
                                 id="period"
-                                v-model="detail.stakeholder_id"
+                                v-model="detail.stakeholder_group_id"
                                 class="w-full rounded-lg"
                                 required
                             >
-                                <option v-for="p in stakeholderStore.list" :key="p.stakeholder_id" :value="p.stakeholder_id">
-                                    {{ p.display_name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="flex flex-col gap-1 flex-1">
-                            <label for="" class="text-xs italic">
-                                Accounts
-                            </label>
-                            <select
-                                id="period"
-                                v-model="detail.account_id"
-                                class="w-full rounded-lg"
-                                required
-                            >
-                                <option v-for="p in accountStore.list" :key="p.account_id" :value="p.account_id">
-                                    {{ p.account_name }}
+                                <option v-for="p in stakeholderGroupStore.list" :key="p.stakeholder_group_id" :value="p.stakeholder_group_id">
+                                    {{ p.stakeholder_group_name }}
                                 </option>
                             </select>
                         </div>
@@ -267,7 +241,7 @@ function selectStakeholder (val:any) {
                     </div>
                 </form>
                 <div class="flex flex-col gap-2">
-                    <!-- <div v-for="d,i in details" :key="i" class="flex gap-2">
+                    <div v-for="d,i in details" :key="i" class="flex gap-2">
                         <div class="flex flex-col gap-1 flex-2">
                             <label for="" class="text-xs italic">
                                 Stakeholder Group
@@ -314,49 +288,7 @@ function selectStakeholder (val:any) {
                             <Icon name="iconoir:trash" class="mr-1" />
                             Remove
                         </button>
-                    </div> -->
-                    <table class="table-auto boder w-full">
-                        <thead class="bg-slate-100">
-                            <th class="text-left px-2 border-y py-2 uppercase">
-                                Account
-                            </th>
-                            <th class="text-left px-2 border-y py-2 uppercase">
-                                Stakeholder
-                            </th>
-                            <th class="text-left px-2 border-y py-2 uppercase">
-                                Debit
-                            </th>
-                            <th class="text-left px-2 border-y py-2 uppercase">
-                                Credit
-                            </th>
-                            <th class="text-left px-2 border-y py-2 uppercase" />
-                        </thead>
-                        <tbody>
-                            <tr v-for="d,i in details" :key="i" class="border-y">
-                                <td class="p-2">
-                                    {{ d.account_name }}
-                                </td>
-                                <td class="p-2">
-                                    {{ d.stakeholder_name }}
-                                </td>
-                                <td class="p-2">
-                                    {{ d.debit }}
-                                </td>
-                                <td class="p-2">
-                                    {{ d.credit }}
-                                </td>
-                                <td class="p-2">
-                                    <button
-                                        class="text-white p-2 px-4 rounded bg-red-600 content-center mt-5 rounded-md w-fit"
-                                        @click.prevent="removeDetail(d)"
-                                    >
-                                        <Icon name="iconoir:trash" class="mr-1" />
-                                        Remove
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
                 <!-- <div>
                     <label
