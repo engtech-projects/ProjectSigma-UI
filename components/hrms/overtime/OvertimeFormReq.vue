@@ -10,7 +10,7 @@ if (allEmployeeEnum.value.list.length <= 0) {
     enums.getEmployeeEnum()
 }
 const approvals = useApprovalStore()
-
+const chargingFilter = ref("Department")
 const overtimes = useOvertimeStore()
 const { overtime, errorMessage, successMessage } = storeToRefs(overtimes)
 
@@ -52,9 +52,10 @@ const submitForm = async () => {
                 <div class="grid grid-cols-2 gap-2 mb-2">
                     <div class="flex-1 gap-4">
                         <HrmsCommonDepartmentProjectSelector
-                            v-model:select-type="allEmployeeEnum.params.filterType"
+                            v-model:select-type="chargingFilter"
                             v-model:department-id="overtime.department_id"
                             v-model:project-id="overtime.project_id"
+                            title="Charging"
                         />
                         <label for="selectEmp" class="block mt-2 text-sm font-medium text-gray-900 dark:text-white">Employee Selection</label>
                         <HrmsCommonMultipleEmployeeSelector v-model="overtime.employees" title="Employee Name" name="Employee Name" />
