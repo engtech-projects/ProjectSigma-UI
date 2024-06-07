@@ -116,7 +116,7 @@ export const useTransactionStore = defineStore("transactionStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/v1/transaction/" + this.transaction.transaction_id,
+                "/api/v1/transactions/" + this.transaction.transaction_id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",

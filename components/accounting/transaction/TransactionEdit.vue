@@ -1,11 +1,9 @@
 <script lang="ts" setup>
 import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
 import { useTransactionStore } from "~/stores/accounting/transaction"
-import { usePostingPeriodStore } from "~/stores/accounting/postingperiod"
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
 
-const postingPeriodStore = usePostingPeriodStore()
 const transactionTypeStore = useTransactionTypeStore()
 const transactionStore = useTransactionStore()
 const stakeholderStore = useStakeholderStore()
@@ -13,7 +11,7 @@ const stakeholderGroupStore = useStakeholderGroupStore()
 const boardLoading = ref(false)
 const snackbar = useSnackbar()
 const removeDetail = (detail) => {
-    details.value = details.value.filter(d => d !== detail)
+    transactionStore.transaction.transaction_details = transactionStore.transaction.transaction_details.filter(d => d !== detail)
 }
 const detail = ref({
     transaction_detail_id: null,
@@ -39,14 +37,10 @@ const addDetail = () => {
 async function handleSubmit () {
     try {
         boardLoading.value = true
-        transactionStore.transaction.details = JSON.stringify([{
-            stakeholder_id: 1,
-            account_id: 1,
-            debit: transactionStore.transaction.amount,
-            credit: 0
-        }])
-        transactionStore.transaction.description = "No description."
-        await transactionStore.createTransaction()
+        transactionStore.transaction.period_id = 1
+        transactionStore.transaction.details = JSON.stringify(transactionStore.transaction.transaction_details)
+        transactionStore.transaction.stakeholder_id = transactionStore.transaction.stakeholder.stakeholder_id
+        await transactionStore.editTransaction()
         if (transactionStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -90,34 +84,6 @@ function selectStakeholder (val:any) {
                 <div class="flex gap-4">
                     <div class="flex-1">
                         <label
-                            for="transaction_number"
-                            class="text-xs italic"
-                        >Transaction No.</label>
-                        <input
-                            id="transactionNumber"
-                            v-model="transactionStore.transaction.transaction_no"
-                            type="text"
-                            class="w-full rounded-lg"
-                            required
-                        >
-                    </div>
-                    <div class="flex-1">
-                        <label
-                            for="transaction_date"
-                            class="text-xs italic"
-                        >Transaction Date</label>
-                        <input
-                            id="transactionDate"
-                            v-model="transactionStore.transaction.transaction_date"
-                            type="date"
-                            class="w-full rounded-lg"
-                            required
-                        >
-                    </div>
-                </div>
-                <div class="flex gap-4">
-                    <div class="flex-1">
-                        <label
                             for="transaction_type"
                             class="text-xs italic"
                         >Transaction Type</label>
@@ -131,15 +97,16 @@ function selectStakeholder (val:any) {
                     </div>
                     <div class="flex-1">
                         <label
-                            for="reference_number"
+                            for="transaction_date"
                             class="text-xs italic"
-                        >Reference No.</label>
+                        >Transaction Date</label>
                         <input
-                            id="referenceNumber"
-                            v-model="transactionStore.transaction.reference_no"
-                            type="text"
+                            id="transactionDate"
+                            v-model="transactionStore.transaction.transaction_date"
+                            type="date"
                             class="w-full rounded-lg"
                             required
+                            disabled
                         >
                     </div>
                 </div>
@@ -159,33 +126,17 @@ function selectStakeholder (val:any) {
                     </div>
                     <div class="flex-1">
                         <label
-                            for="period"
+                            for="transaction_type"
                             class="text-xs italic"
-                        >Period</label>
-                        <select
-                            id="period"
-                            v-model="transactionStore.transaction.period_id"
-                            class="w-full rounded-lg"
-                            required
-                        >
-                            <option v-for="p in postingPeriodStore.list" :key="p.period_id" :value="p.period_id">
-                                {{ p.period_start }}
-                            </option>
-                        </select>
+                        >Stakeholder</label>
+                        <AccountingSelectSearch
+                            :options="stakeholderStore.list"
+                            title="display_name"
+                            opid="stakeholder_id"
+                            :selected-id="transactionStore.transaction.stakeholder.stakeholder_id"
+                            @select="selectStakeholder"
+                        />
                     </div>
-                </div>
-                <div>
-                    <label
-                        for="transaction_type"
-                        class="text-xs italic"
-                    >Stakeholder</label>
-                    <AccountingSelectSearch
-                        :options="stakeholderStore.list"
-                        title="display_name"
-                        opid="stakeholder_id"
-                        :selected-id="transactionStore.transaction.stakeholder_id"
-                        @select="selectStakeholder"
-                    />
                 </div>
                 <span class="font-bold text-gray-700">
                     Transaction Details
@@ -240,56 +191,48 @@ function selectStakeholder (val:any) {
                         </button>
                     </div>
                 </form>
-                <div class="flex flex-col gap-2">
-                    <div v-for="d,i in details" :key="i" class="flex gap-2">
-                        <div class="flex flex-col gap-1 flex-2">
-                            <label for="" class="text-xs italic">
-                                Stakeholder Group
-                            </label>
-                            <input
-                                id="amount"
-                                type="text"
-                                class="w-full rounded-lg border-0 bg-gray-100"
-                                :value="d.stakeholder_group_name"
-                                required
-                                disabled
-                            >
-                        </div>
-                        <div class="flex flex-col gap-1 flex-1">
-                            <label for="" class="text-xs italic">
-                                Debit
-                            </label>
-                            <input
-                                id="amount"
-                                type="number"
-                                class="w-full rounded-lg border-0 bg-gray-100"
-                                :value="d.debit"
-                                required
-                                disabled
-                            >
-                        </div>
-                        <div class="flex flex-col gap-1 flex-1">
-                            <label for="" class="text-xs italic">
-                                Credit
-                            </label>
-                            <input
-                                id="amount"
-                                type="number"
-                                class="w-full rounded-lg border-0 bg-gray-100"
-                                :value="d.credit"
-                                required
-                                disabled
-                            >
-                        </div>
-                        <button
-                            class="text-white p-2 px-4 rounded bg-red-600 content-center mt-5 rounded-md w-fit"
-                            @click.prevent="removeDetail(d)"
-                        >
-                            <Icon name="iconoir:trash" class="mr-1" />
-                            Remove
-                        </button>
-                    </div>
-                </div>
+                <table class="table-auto boder w-full">
+                    <thead class="bg-slate-100">
+                        <th class="text-left px-2 border-y py-2 uppercase">
+                            Account
+                        </th>
+                        <th class="text-left px-2 border-y py-2 uppercase">
+                            Stakeholder
+                        </th>
+                        <th class="text-left px-2 border-y py-2 uppercase">
+                            Debit
+                        </th>
+                        <th class="text-left px-2 border-y py-2 uppercase">
+                            Credit
+                        </th>
+                        <th class="text-left px-2 border-y py-2 uppercase" />
+                    </thead>
+                    <tbody>
+                        <tr v-for="d,i in transactionStore.transaction.transaction_details" :key="i" class="border-y">
+                            <td class="p-2">
+                                {{ d.account.account_name }}
+                            </td>
+                            <td class="p-2">
+                                {{ d.stakeholder_name }}
+                            </td>
+                            <td class="p-2">
+                                {{ d.debit }}
+                            </td>
+                            <td class="p-2">
+                                {{ d.credit }}
+                            </td>
+                            <td class="p-2">
+                                <button
+                                    class="text-white p-2 px-4 rounded bg-red-600 content-center mt-5 rounded-md w-fit"
+                                    @click.prevent="removeDetail(d)"
+                                >
+                                    <Icon name="iconoir:trash" class="mr-1" />
+                                    Remove
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 <!-- <div>
                     <label
                         for="details"
@@ -315,7 +258,7 @@ function selectStakeholder (val:any) {
                     type="submit"
                     class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
                 >
-                    Add Transaction
+                    Update Transaction
                 </button>
             </div>
         </form>
