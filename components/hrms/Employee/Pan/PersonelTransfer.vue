@@ -7,10 +7,10 @@ const employee = useEmployeeInfo()
 </script>
 <template>
     <tr>
-        <td>
+        <td colspan="4">
             <label
                 for="small-input"
-                class="flex text-md font-medium text-blue-700 dark:text-white"
+                class="flex justify-center text-md font-medium text-blue-700 dark:text-white"
             >TRANSFER DATA</label>
         </td>
     </tr>

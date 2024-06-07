@@ -11,21 +11,21 @@ const pan = usePersonelActionNotice()
         <td colspan="4">
             <label
                 for="small-input"
-                class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >PROMOTION: </label>
+                class="flex justify-center text-md font-medium text-blue-700 dark:text-white"
+            >PROMOTION</label>
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td colspan="1">
             <div class="m-2">
                 <label
                     class="flex text-sm text-black-700 dark:text-white"
                 >OLD EMPLOYMENT STATUS: </label>
-                <p>{{ employee.information.current_employment.position_title }}</p>
+                <p>{{ employee.information?.current_employment?.employment_status }}</p>
             </div>
         </td>
-        <td colspan="4" class="border border-slate-300 p-2">
-            <div class="md:flex gap-2 space-x-2 p-2">
+        <td colspan="3" class="border border-slate-300 p-2">
+            <div class="flex flex-row gap-2 space-x-2 p-2">
                 <input id="probationary" v-model="pan.personelActionNotice.new_employment_status" class="" type="radio" value="Probationary">
                 <label
                     for="probationary"
@@ -50,7 +50,7 @@ const pan = usePersonelActionNotice()
                 <label
                     class="flex text-sm text-black-700 dark:text-white"
                 >OLD POSITION: </label>
-                <p>{{ employee.information.current_employment.position_title }}</p>
+                <p>{{ employee.information?.current_employment?.position.name }}</p>
             </div>
         </td>
         <td colspan="2">
