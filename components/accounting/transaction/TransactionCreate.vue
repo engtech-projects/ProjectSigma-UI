@@ -86,31 +86,26 @@ async function handleSubmit () {
 //     transactionTypeStore.reset()
 // }
 function select (val:any) {
+    transactionTypeStore.transactionType = val
+    console.log(transactionTypeStore.transactionType)
     transactionStore.transaction.transaction_type_id = val.transaction_type_id
 }
 function selectStakeholder (val:any) {
     transactionStore.transaction.stakeholder_id = val.stakeholder_id
 }
+const accountsList = computed(() => {
+    if (transactionTypeStore.transactionType.book) {
+        return transactionTypeStore.transactionType.book.accounts
+    }
+    return []
+})
 </script>
 
 <template>
     <LayoutBoards title="Create New Transaction" :loading="boardLoading" class="w-full h-fit">
-        <form @submit.prevent="!transactionTypeStore.isEdit?handleSubmit():updateType()">
+        <form @submit.prevent="handleSubmit">
             <div class="flex flex-col gap-2">
                 <div class="flex gap-4">
-                    <!-- <div class="flex-1">
-                        <label
-                            for="transaction_number"
-                            class="text-xs italic"
-                        >Transaction No.</label>
-                        <input
-                            id="transactionNumber"
-                            v-model="transactionStore.transaction.transaction_no"
-                            type="text"
-                            class="w-full rounded-lg"
-                            required
-                        >
-                    </div> -->
                     <div class="flex-1">
                         <label
                             for="transaction_type"
@@ -139,21 +134,8 @@ function selectStakeholder (val:any) {
                         >
                     </div>
                 </div>
-                <div class="flex gap-4">
-                    <!-- <div class="flex-1">
-                        <label
-                            for="reference_number"
-                            class="text-xs italic"
-                        >Reference No.</label>
-                        <input
-                            id="referenceNumber"
-                            v-model="transactionStore.transaction.reference_no"
-                            type="text"
-                            class="w-full rounded-lg"
-                            required
-                        >
-                    </div> -->
-                </div>
+                <!-- <div class="flex gap-4">
+                </div> -->
                 <div class="flex gap-4">
                     <div class="flex-1">
                         <label
@@ -181,22 +163,6 @@ function selectStakeholder (val:any) {
                             @select="selectStakeholder"
                         />
                     </div>
-                    <!-- <div class="flex-1">
-                        <label
-                            for="period"
-                            class="text-xs italic"
-                        >Period</label>
-                        <select
-                            id="period"
-                            v-model="transactionStore.transaction.period_id"
-                            class="w-full rounded-lg"
-                            required
-                        >
-                            <option v-for="p in postingPeriodStore.list" :key="p.period_id" :value="p.period_id">
-                                {{ p.period_start }}
-                            </option>
-                        </select>
-                    </div> -->
                 </div>
                 <span class="font-bold text-gray-700">
                     Transaction Details
@@ -228,7 +194,7 @@ function selectStakeholder (val:any) {
                                 class="w-full rounded-lg"
                                 required
                             >
-                                <option v-for="p in accountStore.list" :key="p.account_id" :value="p.account_id">
+                                <option v-for="p in accountsList" :key="p.account_id" :value="p.account_id">
                                     {{ p.account_name }}
                                 </option>
                             </select>
@@ -267,54 +233,6 @@ function selectStakeholder (val:any) {
                     </div>
                 </form>
                 <div class="flex flex-col gap-2">
-                    <!-- <div v-for="d,i in details" :key="i" class="flex gap-2">
-                        <div class="flex flex-col gap-1 flex-2">
-                            <label for="" class="text-xs italic">
-                                Stakeholder Group
-                            </label>
-                            <input
-                                id="amount"
-                                type="text"
-                                class="w-full rounded-lg border-0 bg-gray-100"
-                                :value="d.stakeholder_group_name"
-                                required
-                                disabled
-                            >
-                        </div>
-                        <div class="flex flex-col gap-1 flex-1">
-                            <label for="" class="text-xs italic">
-                                Debit
-                            </label>
-                            <input
-                                id="amount"
-                                type="number"
-                                class="w-full rounded-lg border-0 bg-gray-100"
-                                :value="d.debit"
-                                required
-                                disabled
-                            >
-                        </div>
-                        <div class="flex flex-col gap-1 flex-1">
-                            <label for="" class="text-xs italic">
-                                Credit
-                            </label>
-                            <input
-                                id="amount"
-                                type="number"
-                                class="w-full rounded-lg border-0 bg-gray-100"
-                                :value="d.credit"
-                                required
-                                disabled
-                            >
-                        </div>
-                        <button
-                            class="text-white p-2 px-4 rounded bg-red-600 content-center mt-5 rounded-md w-fit"
-                            @click.prevent="removeDetail(d)"
-                        >
-                            <Icon name="iconoir:trash" class="mr-1" />
-                            Remove
-                        </button>
-                    </div> -->
                     <table class="table-auto boder w-full">
                         <thead class="bg-slate-100">
                             <th class="text-left px-2 border-y py-2 uppercase">
@@ -358,18 +276,6 @@ function selectStakeholder (val:any) {
                         </tbody>
                     </table>
                 </div>
-                <!-- <div>
-                    <label
-                        for="details"
-                        class="text-xs italic"
-                    >Details</label>
-                    <textarea
-                        id="details"
-                        v-model="transactionStore.transaction.details"
-                        class="w-full rounded-lg"
-                        required
-                    />
-                </div> -->
             </div>
 
             <div class="flex justify-end gap-4">
