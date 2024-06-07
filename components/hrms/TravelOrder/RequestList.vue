@@ -89,7 +89,8 @@ const changePaginate = (newParams) => {
                         <div class="p-2 flex flex-col gap-2">
                             <span class="text-teal-600 font-medium">Destination: </span> {{ modalData.destination }}
                             <span class="text-teal-600 font-medium">Purpose of Travel: </span> {{ modalData.purpose_of_travel }}
-                            <span class="text-teal-600 font-medium">Date of Travel: </span> {{ modalData.date_and_time_of_travel }}
+                            <span class="text-teal-600 font-medium">Date of Travel: </span> {{ modalData.date_of_travel }}
+                            <span class="text-teal-600 font-medium">Time of Travel: </span> {{ modalData.time_of_travel }}
                             <span class="text-teal-600 font-medium">Duration of Travel (days): </span> {{ modalData.duration_of_travel }}
                             <span class="text-teal-600 font-medium">Means of Transportation
                                 : </span> {{ modalData.means_of_transportation }}

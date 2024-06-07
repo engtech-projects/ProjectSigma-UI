@@ -62,7 +62,7 @@ const boardLoading = ref(false)
                     </div>
                     <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                         <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Requesting Office: </span> <span class="text-gray-900">{{ travelData.requesting_office }}</span>
+                            <span class="text-teal-600 text-light"> Requesting Office: </span> <span class="text-gray-900">{{ travelData.department.department_name }}</span>
                         </div>
                         <div class="p-2 flex gap-2">
                             <span class="text-teal-600 text-light"> Purpose of Travel: </span> {{ travelData.purpose_of_travel }}

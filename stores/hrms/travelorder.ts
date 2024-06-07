@@ -22,7 +22,7 @@ export const useTravelorderStore = defineStore("travels", {
             destination: null,
             purpose_of_travel: "",
             date_of_travel: null,
-            date_and_time_of_travel: null,
+            time_of_travel: null,
             duration_of_travel: null,
             means_of_transportation: null,
             remarks: "",

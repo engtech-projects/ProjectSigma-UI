@@ -20,7 +20,7 @@ const closeViewModal = () => {
 
 const headers = [
     { name: "Requested by", id: "requested_by.name" },
-    { name: "Requesting Office", id: "requesting_office" },
+    { name: "Requesting Office", id: "department.department_name" },
     { name: "Destination", id: "destination" },
     { name: "Purpose", id: "purpose_of_travel" },
     { name: "Duration", id: "duration_of_travel" },
@@ -102,7 +102,7 @@ const actions = {
                     </div>
                     <div class="grid md:grid-cols-3 gap-2 md:justify-between p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-sm">
                         <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Requesting Office: </span> <span class="text-gray-900">{{ travelData.requesting_office }}</span>
+                            <span class="text-teal-600 text-light"> Requesting Office: </span> <span class="text-gray-900">{{ travelData.department.department_name }}</span>
                         </div>
                         <div class="p-2 flex gap-2">
                             <span class="text-teal-600 text-light"> Purpose of Travel: </span> {{ travelData.purpose_of_travel }}
