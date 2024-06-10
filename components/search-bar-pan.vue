@@ -14,6 +14,8 @@ watch(applicantInfo, async (newValue) => {
     } else {
         employee.$reset()
     }
+}, {
+    deep: true,
 })
 </script>
 <template>

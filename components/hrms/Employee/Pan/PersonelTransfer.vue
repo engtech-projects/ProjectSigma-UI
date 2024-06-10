@@ -29,7 +29,7 @@ const pan = usePersonelActionNotice()
                 >New Department:</label>
                 <HrmsCommonDepartmentSelector
                     id="transferDepartment"
-                    v-model="pan.personelActionNotice.new_section_id"
+                    v-model="pan.personelActionNotice.section_department_id"
                 />
             </div>
         </td>
@@ -46,17 +46,17 @@ const pan = usePersonelActionNotice()
         </td>
         <td colspan="2" class="border border-slate-300 p-2">
             <div class="md:flex gap-2 space-x-2 p-2">
-                <input id="workLocationPMS" v-model="pan.personelActionNotice.new_location" class="" type="radio" value="PMS">
+                <input id="workLocationPMS" v-model="pan.personelActionNotice.work_location" class="" type="radio" value="PMS">
                 <label
                     for="workLocationPMS"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >PMS</label>
-                <input id="workLocationOffice" v-model="pan.personelActionNotice.new_location" class="" type="radio" value="Office">
+                <input id="workLocationOffice" v-model="pan.personelActionNotice.work_location" class="" type="radio" value="Office">
                 <label
                     for="workLocationOffice"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >OFFICE</label>
-                <input id="WorkLocationProjectCode" v-model="pan.personelActionNotice.new_location" class="" type="radio" value="Project Code">
+                <input id="WorkLocationProjectCode" v-model="pan.personelActionNotice.work_location" class="" type="radio" value="Project Code">
                 <label
                     for="WorkLocationProjectCode"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"

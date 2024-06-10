@@ -26,17 +26,17 @@ const pan = usePersonelActionNotice()
         </td>
         <td colspan="3" class="border border-slate-300 p-2">
             <div class="flex flex-row gap-2 space-x-2 p-2">
-                <input id="probationary" v-model="pan.personelActionNotice.new_employment_status" class="" type="radio" value="Probationary">
+                <input id="probationary" v-model="pan.personelActionNotice.employee_status" class="" type="radio" value="Probationary">
                 <label
                     for="probationary"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >PROBATIONARY</label>
-                <input id="regularization" v-model="pan.personelActionNotice.new_employment_status" class="" type="radio" value="Regularization">
+                <input id="regularization" v-model="pan.personelActionNotice.employee_status" class="" type="radio" value="Regularization">
                 <label
                     for="regularization"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >REGULARIZATION</label>
-                <input id="projectBased" v-model="pan.personelActionNotice.new_employment_status" type="radio" value="projectBased">
+                <input id="projectBased" v-model="pan.personelActionNotice.employee_status" type="radio" value="projectBased">
                 <label
                     for="projectBased"
                     class="text-xs text-gray-900 dark:text-gray-300"
@@ -61,7 +61,7 @@ const pan = usePersonelActionNotice()
                 >NEW POSITION : </label>
                 <HrmsCommonPositionSelector
                     id="PromotionPosition"
-                    v-model="pan.personelActionNotice.new_position"
+                    v-model="pan.personelActionNotice.designation_position"
                 />
             </div>
         </td>
@@ -86,7 +86,7 @@ const pan = usePersonelActionNotice()
                 >NEW SALARY GRADE : </label>
                 <HrmsCommonSalaryGradeSelector
                     id="PromotionSalaryGrade"
-                    v-model="pan.personelActionNotice.new_salary_grades"
+                    v-model="pan.personelActionNotice.salary_grades"
                 />
             </div>
         </td>
