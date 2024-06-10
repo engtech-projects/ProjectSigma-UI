@@ -101,8 +101,10 @@ export const useOvertimeStore = defineStore("overtimes", {
                     body: this.overtime,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.getOvertime()
                             this.$reset()
+                            this.getMyApprovalRequests()
+                            this.getOvertime()
+                            this.getMyRequests()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -125,8 +127,10 @@ export const useOvertimeStore = defineStore("overtimes", {
                     body: this.overtime,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.getOvertime()
                             this.$reset()
+                            this.getMyApprovalRequests()
+                            this.getOvertime()
+                            this.getMyRequests()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
