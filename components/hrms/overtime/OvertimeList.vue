@@ -19,7 +19,6 @@ const actions = {
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
-    console.log("asd")
     infoModalData.value = data
     showInfoModal.value = true
 }
