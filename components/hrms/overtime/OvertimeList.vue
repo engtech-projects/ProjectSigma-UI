@@ -6,8 +6,7 @@ const overtimes = useOvertimeStore()
 const { overtime, list: overtimeList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(overtimes)
 
 const headers = [
-    { name: "Department", id: "department.department_name" },
-    { name: "Project", id: "project.project_code" },
+    { name: "Charged to", id: "charging_name" },
     { name: "Date of Overtime", id: "overtime_date" },
     { name: "From", id: "overtime_start_time" },
     { name: "To", id: "overtime_end_time" },
