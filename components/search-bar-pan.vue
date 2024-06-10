@@ -9,13 +9,12 @@ const applicantInfo = ref({})
 const emit = defineEmits(["searchChanged"])
 watch(applicantInfo, async (newValue) => {
     if (newValue) {
-        await jobapplicant.getJobApplicantInformation(id)
+        await jobapplicant.getJobApplicantInformation(newValue.id)
         emit("searchChanged", newValue)
     } else {
         employee.$reset()
+        emit("searchChanged", null)
     }
-}, {
-    deep: true,
 })
 </script>
 <template>

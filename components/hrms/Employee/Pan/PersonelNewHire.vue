@@ -71,16 +71,26 @@ pan.personelActionNotice.work_location = "Office"
                     for="probationary"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >PROBATIONARY</label>
-                <input id="regularization" v-model="pan.personelActionNotice.employment_status" class="" type="radio" value="Regularization">
+                <input id="regular" v-model="pan.personelActionNotice.employment_status" class="" type="radio" value="Regular">
                 <label
-                    for="regularization"
+                    for="regular"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >REGULARIZATION</label>
-                <input id="projectBased" v-model="pan.personelActionNotice.employment_status" type="radio" value="projectBased">
+                >REGULAR</label>
+                <input id="projectBased" v-model="pan.personelActionNotice.employment_status" type="radio" value="Project Based">
                 <label
                     for="projectBased"
                     class="text-xs text-gray-900 dark:text-gray-300"
                 >PROJECT BASED</label>
+                <input id="parttime" v-model="pan.personelActionNotice.employment_status" type="radio" value="Part Time">
+                <label
+                    for="parttime"
+                    class="text-xs text-gray-900 dark:text-gray-300"
+                >PART TIME</label>
+                <input id="contractual" v-model="pan.personelActionNotice.employment_status" type="radio" value="Contractual">
+                <label
+                    for="contractual"
+                    class="text-xs text-gray-900 dark:text-gray-300"
+                >CONTRACTUAL</label>
             </div>
         </td>
     </tr>

@@ -26,21 +26,31 @@ const pan = usePersonelActionNotice()
         </td>
         <td colspan="3" class="border border-slate-300 p-2">
             <div class="flex flex-row gap-2 space-x-2 p-2">
-                <input id="probationary" v-model="pan.personelActionNotice.employee_status" class="" type="radio" value="Probationary">
+                <input id="probationary" v-model="pan.personelActionNotice.employment_status" class="" type="radio" value="Probationary">
                 <label
                     for="probationary"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >PROBATIONARY</label>
-                <input id="regularization" v-model="pan.personelActionNotice.employee_status" class="" type="radio" value="Regularization">
+                <input id="regular" v-model="pan.personelActionNotice.employment_status" class="" type="radio" value="Regular">
                 <label
-                    for="regularization"
+                    for="regular"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >REGULARIZATION</label>
-                <input id="projectBased" v-model="pan.personelActionNotice.employee_status" type="radio" value="projectBased">
+                >REGULAR</label>
+                <input id="projectBased" v-model="pan.personelActionNotice.employment_status" type="radio" value="projectBased">
                 <label
                     for="projectBased"
                     class="text-xs text-gray-900 dark:text-gray-300"
                 >PROJECT BASED</label>
+                <input id="parttime" v-model="pan.personelActionNotice.employment_status" type="radio" value="Part Time">
+                <label
+                    for="parttime"
+                    class="text-xs text-gray-900 dark:text-gray-300"
+                >PART TIME</label>
+                <input id="contractual" v-model="pan.personelActionNotice.employment_status" type="radio" value="Contractual">
+                <label
+                    for="contractual"
+                    class="text-xs text-gray-900 dark:text-gray-300"
+                >CONTRACTUAL</label>
             </div>
         </td>
     </tr>

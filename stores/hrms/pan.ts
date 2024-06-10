@@ -17,11 +17,13 @@ export interface Department
 }
 export interface PersonelActionNotice {
     id: Number,
-    employee_id: Number,
     type: String,
     date_of_effictivity: String,
+    pan_job_applicant_id: Number,
+    employee_id: Number,
+    company_id_num: null | String,
     section_department_id: null | Number,
-    designation_position: String,
+    designation_position: Number,
     hire_source: String,
     work_location: String,
     employment_status: String,
@@ -32,7 +34,6 @@ export interface PersonelActionNotice {
     eligible_for_rehire: String,
     last_day_worked: String,
     approvals: Array<ApprovalModel>,
-    pan_job_applicant_id: Number,
     salary_grades: Number,
     salary_type: String,
     deleted_at: String,
@@ -47,23 +48,24 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         approvalPanList: [] as Array<PersonelActionNotice>,
         personelActionNotice: {
             id: null as null | Number,
-            employee_id: null as null | Number,
             type: "" as String,
             date_of_effictivity: "" as String,
+            pan_job_applicant_id: null as null | Number,
+            employee_id: null as null | Number,
+            company_id_num: null as null | String,
             section_department_id: null as null | Number,
             department: [] as Array<Department>,
-            designation_position: "" as String,
-            hire_source: "" as String,
-            work_location: "" as String,
-            employment_status: "" as String,
+            designation_position: null as Number | null,
+            hire_source: null as String | null,
+            work_location: null as String | null,
+            employment_status: null as String | null,
+            salary_grades: null as null | Number,
+            salary_type: null as String | null,
             type_of_termination: "" as String,
             reasons_for_termination: "" as String,
             eligible_for_rehire: "" as String,
             last_day_worked: "" as String,
             approvals: [] as Array<ApprovalModel>,
-            pan_job_applicant_id: null as null | Number,
-            salary_grades: null as null | Number,
-            salary_type: "" as String,
             deleted_at: "" as String,
             created_at: "" as String,
             updated_at: "" as String,
@@ -88,12 +90,27 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
+                            this.fetchPersonelActionList()
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
-                        this.fetchPersonelActionList()
+                    },
+                }
+            )
+        },
+        async generateCompanyIdNum () {
+            await useHRMSApi(
+                "/api/pan/generate-company-id-num",
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.personelActionNotice.company_id_num = response._data.data ?? ""
+                        } else {
+                            throw new Error(response._data.message)
+                        }
                     },
                 }
             )
@@ -163,6 +180,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
+                            this.fetchPersonelActionList()
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -196,7 +214,9 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             )
         },
         fetchPersonelActionList () {
+            const backup = this.personelActionNotice.approvals
             this.$reset()
+            this.personelActionNotice.approvals = backup
             this.getAllPan()
             this.getPanApprovals()
             this.myPanRequest()

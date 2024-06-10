@@ -26,10 +26,11 @@ const savePan = async () => {
         })
     } finally {
         boardLoading.value = false
+        pan.personelActionNotice.approvals = approvals
     }
 }
-const selectApplicant = (data) => {
-    console.log(data)
+const setCompanyId = () => {
+    pan.generateCompanyIdNum()
 }
 </script>
 <template>
@@ -107,17 +108,23 @@ const selectApplicant = (data) => {
                                         for="small-input"
                                         class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                                     >APPLICANT:</label>
-                                    <HrmsEmployeePanSearchBar @search-changed="selectApplicant" />
+                                    <HrmsEmployeePanSearchBar />
                                 </div>
                             </td>
-                            <td class="border border-slate-300 p-2">
+                            <td v-if="pan.personelActionNotice.type === 'New Hire'" class="border border-slate-300 p-2">
                                 <div>
                                     <label
                                         for="small-input"
                                         class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
-                                    >EMPLOYEE NO.:</label>
+                                    >
+                                        COMPANY ID NUM.:
+                                        <span @click="setCompanyId">
+                                            generate
+                                        </span>
+                                    </label>
                                     <input
                                         id="small-input"
+                                        v-model="pan.personelActionNotice.company_id_num"
                                         type="text"
                                         class="block w-full p-2 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     >

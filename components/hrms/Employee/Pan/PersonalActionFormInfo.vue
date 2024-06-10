@@ -7,7 +7,7 @@ defineProps({
 })
 </script>
 <template>
-    <div class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
+    <div class="bg-white w-full shadow sm:rounded-lg">
         <div class="px-4 py-5 sm:px-6">
             <h3 class="text-xl leading-6 font-medium text-gray-900">
                 {{ panData.fullname }}
@@ -52,7 +52,7 @@ defineProps({
                 </div>
                 <div class="bg-white px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
-                        Employement Status
+                        Employment Status
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         {{ panData.employment_status }}
@@ -111,7 +111,7 @@ defineProps({
                         Reason for Termination
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ panData.reason_for_termination }}
+                        {{ panData.reasons_for_termination }}
                     </dd>
                 </div>
                 <div class="bg-white px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

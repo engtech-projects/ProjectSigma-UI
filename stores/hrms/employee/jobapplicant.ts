@@ -273,7 +273,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             key: "",
             type: "AllEmployees",
         },
-        applicantSearchList: {} as Array<JobApplicantSearch>,
+        applicantSearchList: [] as Array<JobApplicantSearch>,
         pagination: {},
         getParams: {},
         jobApplicantIsSearch: false as Boolean,
@@ -290,15 +290,10 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
     },
     actions: {
         async searchJobApplicants () {
-            await useFetch(
+            await useHRMSApi(
                 "/api/get-for-hiring",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.searchJobApplicantParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -311,24 +306,19 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             )
         },
         async getJobApplicantInformation (id: Number) {
-            const { data, error } = await useFetch(
+            await useHRMSApi(
                 "/api/job-applicants/" + id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.jobApplicantIsSearch = true
+                            this.jobapplicant = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
                     },
                 }
             )
-            if (data.value) {
-                this.jobApplicantIsSearch = true
-                this.jobapplicant = data.value.data
-                return data
-            } else if (error.value) {
-                return error
-            }
         },
         async getJobApplicant () {
             const { data, error } = await useFetch(
