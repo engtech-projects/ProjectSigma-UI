@@ -64,7 +64,7 @@ const denyRequest = async (id) => {
 }
 
 const headers = [
-    { name: "Employee Name", id: "name" },
+    { name: "Employee Name", id: "fullname_first" },
 ]
 
 </script>
