@@ -54,7 +54,7 @@ const pan = usePersonelActionNotice()
             </div>
         </td>
         <td colspan="2" class="border border-slate-300 p-2">
-            <div class="m-2 border border-slate-300 p-2">
+            <div class="m-2">
                 <label
                     for="PromotionPosition"
                     class="flex text-sm text-black-700 dark:text-white"

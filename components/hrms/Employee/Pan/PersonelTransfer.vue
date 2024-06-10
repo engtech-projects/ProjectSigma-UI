@@ -1,8 +1,6 @@
 <script setup>
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
-import { useEmployeeInfo } from "@/stores/hrms/employee"
 const pan = usePersonelActionNotice()
-const employee = useEmployeeInfo()
 
 </script>
 <template>
@@ -21,7 +19,6 @@ const employee = useEmployeeInfo()
                     for="small-input"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                 >Current Department:</label>
-                {{ employee.information?.current_employment?.employee_department?.department_name }}
             </div>
         </td>
         <td colspan="2" class="border border-slate-300 p-2">
@@ -45,7 +42,6 @@ const employee = useEmployeeInfo()
                     for="small-input"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                 >Work Location:</label>
-                {{ employee.information?.current_employment?.work_location }}
             </div>
         </td>
         <td colspan="2" class="border border-slate-300 p-2">
