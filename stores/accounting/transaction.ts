@@ -74,7 +74,6 @@ export const useTransactionStore = defineStore("transactionStore", {
                     onResponse: ({ response }) => {
                         this.isLoading = false
                         this.transaction = response._data.data
-                        console.log(this.transaction)
                     },
                 }
             )

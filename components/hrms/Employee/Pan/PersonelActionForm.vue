@@ -165,7 +165,6 @@ const savePan = async () => {
                                 >COMMENTS/EXPLANATIONS</label>
                             </td>
                         </tr>
-
                         <tr>
                             <td colspan="4" class="border border-slate-300 p-2">
                                 <div>
@@ -179,9 +178,8 @@ const savePan = async () => {
                                 </div>
                             </td>
                         </tr>
-
                         <tr>
-                            <td colspan="1">
+                            <td colspan="4" class="border-slate-300 p-2">
                                 <HrmsCommonRequestedBy />
                             </td>
                         </tr>

@@ -7,7 +7,7 @@ const pan = usePersonelActionNotice()
 
 </script>
 <template>
-    <tr>
+    <tr class="border border-slate-300 p-2">
         <td colspan="4">
             <label
                 for="small-input"
@@ -15,7 +15,7 @@ const pan = usePersonelActionNotice()
             >PROMOTION</label>
         </td>
     </tr>
-    <tr>
+    <tr class="border border-slate-300 p-2">
         <td colspan="1">
             <div class="m-2">
                 <label
@@ -44,17 +44,17 @@ const pan = usePersonelActionNotice()
             </div>
         </td>
     </tr>
-    <tr>
+    <tr class="border border-slate-300 p-2">
         <td colspan="2">
-            <div class="m-2">
+            <div class="m-2 slate-300 p-2">
                 <label
                     class="flex text-sm text-black-700 dark:text-white"
                 >OLD POSITION: </label>
                 <p>{{ employee.information?.current_employment?.position.name }}</p>
             </div>
         </td>
-        <td colspan="2">
-            <div class="m-2">
+        <td colspan="2" class="border border-slate-300 p-2">
+            <div class="m-2 border border-slate-300 p-2">
                 <label
                     for="PromotionPosition"
                     class="flex text-sm text-black-700 dark:text-white"
@@ -66,8 +66,8 @@ const pan = usePersonelActionNotice()
             </div>
         </td>
     </tr>
-    <tr>
-        <td colspan="2">
+    <tr class="border border-slate-300 p-2">
+        <td colspan="2" class="border border-slate-300 p-2">
             <div class="m-2">
                 <label
                     for="PromotionSalaryGrade"
@@ -78,7 +78,7 @@ const pan = usePersonelActionNotice()
                 </template>
             </div>
         </td>
-        <td colspan="2">
+        <td colspan="2" class="border border-slate-300 p-2">
             <div class="m-2">
                 <label
                     for="PromotionSalaryGrade"

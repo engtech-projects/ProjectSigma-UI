@@ -12,7 +12,6 @@ const { list: transactionList, isEdit, getParams, pagination, errorMessage, succ
 const setEdit = (ttype) => {
     isEdit.value = true
     transactionStore.transaction = ttype
-    console.log(ttype)
     return navigateTo("/accounting/transaction/edit?id=" + ttype.transaction_id)
 }
 
