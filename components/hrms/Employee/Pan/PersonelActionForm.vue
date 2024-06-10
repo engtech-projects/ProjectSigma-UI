@@ -82,11 +82,6 @@ const selectApplicant = (data) => {
                                         for="newhire"
                                         class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                                     >NEW HIRE</label>
-                                    <input id="termination" v-model="pan.personelActionNotice.type" class="" type="radio" value="Termination">
-                                    <label
-                                        for="termination"
-                                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                                    >TERMINATION</label>
                                     <input id="transfer" v-model="pan.personelActionNotice.type" class="" type="radio" value="Transfer">
                                     <label
                                         for="transfer"
@@ -97,6 +92,11 @@ const selectApplicant = (data) => {
                                         for="promotion"
                                         class="text-xs text-gray-900 dark:text-gray-300"
                                     >PROMOTION</label>
+                                    <input id="termination" v-model="pan.personelActionNotice.type" class="" type="radio" value="Termination">
+                                    <label
+                                        for="termination"
+                                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                                    >TERMINATION</label>
                                 </div>
                             </td>
                         </tr>
