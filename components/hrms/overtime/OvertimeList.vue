@@ -8,8 +8,8 @@ const { overtime, list: overtimeList, isEdit, getParams, pagination, errorMessag
 const headers = [
     { name: "Charged to", id: "charging_name" },
     { name: "Date of Overtime", id: "overtime_date" },
-    { name: "From", id: "overtime_start_time" },
-    { name: "To", id: "overtime_end_time" },
+    { name: "From", id: "start_time_human" },
+    { name: "To", id: "end_time_human" },
     { name: "Purpose/Reason", id: "reason" },
 ]
 const actions = {
