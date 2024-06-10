@@ -2,7 +2,6 @@
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 
 const pan = usePersonelActionNotice()
-// const salaryGrade = useSalaryGradeStore()
 pan.personelActionNotice.salary_type = "Fixed Rate"
 pan.personelActionNotice.hire_source = "Internal"
 pan.personelActionNotice.employment_status = "Probationary"
@@ -148,7 +147,7 @@ pan.personelActionNotice.work_location = "Office"
             <label
                 for="small-input"
                 class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >WORK LOCATION:  <span class="text-gray-700">{{ pan.personelActionNotice.work_location }}</span> </label>
+            >WORK LOCATION: </label>
         </td>
     </tr>
     <tr>

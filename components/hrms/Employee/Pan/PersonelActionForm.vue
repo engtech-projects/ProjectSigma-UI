@@ -32,7 +32,7 @@ const savePan = async () => {
 <template>
     <LayoutBoards
         title=" "
-        class="shadow-md p-4 mt-6 bg-white mb-3 border border-gray-200 rounded-lg w-full"
+        class="shadow-md bg-white border-gray-200 rounded-lg w-full"
         :loading="boardLoading"
     >
         <div class="flex items-center md:justify-center p-4">
@@ -59,7 +59,7 @@ const savePan = async () => {
                 >
             </div>
         </div>
-        <div class="w-full">
+        <div class="w-full px-2">
             <div class="flex justify-center border border-slate-300">
                 <label
                     for="small-input"
