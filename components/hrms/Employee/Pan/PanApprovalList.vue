@@ -85,7 +85,7 @@ const actions = {
     <div v-if="showInformationModal">
         <Teleport to="body">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <LayoutBoards title="" class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" :loading="approvalLoading">
+                <LayoutBoards title="" class="bg-white p-4 w-8/12 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" :loading="approvalLoading">
                     <div class="flex gap-2 justify-between p-2">
                         <p>Personel Action Notice (<span class="text-blue-500">{{ panData.type }}</span>)</p>
                         <button
