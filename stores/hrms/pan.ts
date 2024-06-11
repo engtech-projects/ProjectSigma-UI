@@ -166,10 +166,16 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 "/api/pan/my-request",
                 {
                     method: "GET",
+                    params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.myPanList = response._data.data ?? []
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
