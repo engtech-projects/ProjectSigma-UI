@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useEmployeeInfo, EMPLOYEMENT_CHILD } from "@/stores/hrms/employee"
+import { useEmployeeInfo, EMPLOYMENT_CHILD } from "@/stores/hrms/employee"
 
 const employee = useEmployeeInfo()
 const { information, editable } = storeToRefs(employee)
@@ -21,7 +21,7 @@ const addChild = () => {
         age: null,
         relationship: null,
         street: null,
-        type: EMPLOYEMENT_CHILD,
+        type: EMPLOYMENT_CHILD,
         isEdited: false,
         updated_at: null,
         created_at: null,

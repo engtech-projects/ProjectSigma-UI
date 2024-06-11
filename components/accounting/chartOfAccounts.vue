@@ -8,7 +8,7 @@ const accounts = useChartOfAccountsStore()
     <div class="flex flex-col">
         <LayoutBoards title="Chart of Accounts" :loading="accounts.isLoading" class="w-full flex-2">
             <div class="flex flex-col gap-2 pt-4">
-                <table v-for="list,j in accounts.list" :key="list.account_category" class="table-auto boder w-full">
+                <table v-for="list,j in accounts.list" :key="j" class="table-auto boder w-full">
                     <thead class="bg-slate-100">
                         <th class="text-left px-2 border-y py-2 uppercase">
                             {{ j }}

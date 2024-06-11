@@ -67,15 +67,16 @@ const submitForm = async () => {
                             <LayoutFormPsTextInput v-model="travel.purpose_of_travel" title="Purpose of Travel" />
                         </div>
                         <div>
-                            <label for="requstedBy" class="text-sm italic font-semibold text-gray-700">Date of Travel</label>
+                            <label for="DOT" class="text-sm italic font-semibold text-gray-700">Date of Travel</label>
                             <input
                                 v-model="travel.date_of_travel"
                                 type="date"
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             >
+                            <!-- <DateRangePicker v-model="travel.date_and_time_of_travel" /> -->
                         </div>
                         <div>
-                            <label for="requstedBy" class="text-sm italic font-semibold text-gray-700">Time of Travel</label>
+                            <label for="TOT" class="text-sm italic font-semibold text-gray-700">Time of Travel</label>
                             <input
                                 v-model="travel.time_of_travel"
                                 type="time"

@@ -2,9 +2,15 @@
 import { storeToRefs } from "pinia"
 import { useOvertimeStore } from "@/stores/hrms/overtime"
 import { useApprovalStore, APPROVAL_OVERTIME } from "@/stores/hrms/setup/approvals"
+import { useEnumsStore } from "@/stores/hrms/enum"
 
+const enums = useEnumsStore()
+const { allEmployeeEnum } = storeToRefs(enums)
+if (allEmployeeEnum.value.list.length <= 0) {
+    enums.getEmployeeEnum()
+}
 const approvals = useApprovalStore()
-
+const chargingFilter = ref("Department")
 const overtimes = useOvertimeStore()
 const { overtime, errorMessage, successMessage } = storeToRefs(overtimes)
 
@@ -12,7 +18,6 @@ overtime.value.approvals = await approvals.getApprovalByName(APPROVAL_OVERTIME)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
 const submitForm = async () => {
     try {
         boardLoading.value = true
@@ -46,28 +51,16 @@ const submitForm = async () => {
             <form @submit.prevent="submitForm">
                 <div class="grid grid-cols-2 gap-2 mb-2">
                     <div class="flex-1 gap-4">
-                        <div class="pt-2">
-                            <label for="project_name" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Project Selection</label>
-                            <HrmsCommonProjectSelector v-model="overtime.project_id" :use-hrms-id="true" />
-                        </div>
+                        <HrmsCommonDepartmentProjectSelector
+                            v-model:select-type="chargingFilter"
+                            v-model:department-id="overtime.department_id"
+                            v-model:project-id="overtime.project_id"
+                            title="Charging"
+                        />
                         <label for="selectEmp" class="block mt-2 text-sm font-medium text-gray-900 dark:text-white">Employee Selection</label>
                         <HrmsCommonMultipleEmployeeSelector v-model="overtime.employees" title="Employee Name" name="Employee Name" />
-                        <!-- <EasyDataTable
-                            v-model:items-selected="selectedEmployees"
-                            :rows-per-page="10"
-                            class="mt-5"
-                            :headers="headers"
-                            :items="allEmployeeEnum.list"
-                        /> -->
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">
-                        <div>
-                            <label for="requestingOffice" class="text-sm italic font-semibold text-gray-700">Requesting Office</label>
-                            <HrmsCommonDepartmentSelector
-                                id="requestingOffice"
-                                v-model="overtime.department_id"
-                            />
-                        </div>
                         <div>
                             <label for="requstedBy" class="text-sm font-semibold text-gray-700">Date of Overtime</label>
                             <input

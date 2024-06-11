@@ -9,54 +9,58 @@ pan.personelActionNotice.eligible_for_rehire = "No"
 <template>
     <tr>
         <td colspan="4">
-            <label
-                for="small-input"
-                class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >EMPLOYEE TERMINATION DATA </label>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4" class="border border-slate-300 p-2">
-            <div class="md:flex gap-2 space-x-2 p-2">
-                <input id="terminationVoluntary" v-model="pan.personelActionNotice.type_of_termination" class="" type="radio" value="Voluntary">
+            <div class="w-full flex justify-center">
                 <label
-                    for="terminationVoluntary"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >VOLUNTARY</label>
-                <input id="terminationInvoluntary" v-model="pan.personelActionNotice.type_of_termination" class="" type="radio" value="Involuntary">
-                <label
-                    for="terminationInvoluntary"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >INVOLUNTARY</label>
+                    for="small-input"
+                    class="flex text-md font-medium text-blue-700 dark:text-white p-2"
+                >TERMINATION DATA </label>
             </div>
         </td>
     </tr>
     <tr>
-        <td colspan="4">
-            <label
-                for="small-input"
-                class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >REASONS FOR TERMINATION <span class="text-gray-700">{{ pan.personelActionNotice.reasons_for_termination }}</span></label>
+        <td colspan="2" class="border border-slate-300 p-2">
+            <div>
+                <label
+                    for="transferDepartment"
+                    class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
+                >Termination Type</label>
+                <div class="md:flex gap-2 space-x-2 p-2">
+                    <input id="terminationVoluntary" v-model="pan.personelActionNotice.type_of_termination" class="" type="radio" value="Voluntary">
+                    <label
+                        for="terminationVoluntary"
+                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                    >VOLUNTARY</label>
+                    <input id="terminationInvoluntary" v-model="pan.personelActionNotice.type_of_termination" class="" type="radio" value="Involuntary">
+                    <label
+                        for="terminationInvoluntary"
+                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                    >INVOLUNTARY</label>
+                </div>
+            </div>
         </td>
-    </tr>
-    <tr>
-        <td colspan="4" class="border border-slate-300 p-2">
-            <div class="md:flex gap-2 space-x-2 p-2">
-                <input id="noticeForReasonViolation" v-model="pan.personelActionNotice.reasons_for_termination" class="" type="radio" value="Violation">
+        <td colspan="2" class="border border-slate-300 p-2">
+            <div>
                 <label
-                    for="noticeForReasonViolation"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >VIOLATION</label>
-                <input id="noticeForReasonSanctions" v-model="pan.personelActionNotice.reasons_for_termination" class="" type="radio" value="Sanctions">
-                <label
-                    for="noticeForReasonSanctions"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >SANCTIONS</label>
-                <input id="noticeForReasonForceResign" v-model="pan.personelActionNotice.reasons_for_termination" class="" type="radio" value="Force Resign">
-                <label
-                    for="noticeForReasonForceResign"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >FORCED RESIGN</label>
+                    for="transferDepartment"
+                    class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
+                >Termination Reason</label>
+                <div class="md:flex gap-2 space-x-2 p-2">
+                    <input id="noticeForReasonViolation" v-model="pan.personelActionNotice.reasons_for_termination" class="" type="radio" value="Violation">
+                    <label
+                        for="noticeForReasonViolation"
+                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                    >VIOLATION</label>
+                    <input id="noticeForReasonSanctions" v-model="pan.personelActionNotice.reasons_for_termination" class="" type="radio" value="Sanctions">
+                    <label
+                        for="noticeForReasonSanctions"
+                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                    >SANCTIONS</label>
+                    <input id="noticeForReasonForceResign" v-model="pan.personelActionNotice.reasons_for_termination" class="" type="radio" value="Force Resign">
+                    <label
+                        for="noticeForReasonForceResign"
+                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                    >FORCED RESIGN</label>
+                </div>
             </div>
         </td>
     </tr>
@@ -66,7 +70,7 @@ pan.personelActionNotice.eligible_for_rehire = "No"
                 <label
                     for="small-input"
                     class="inline mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
-                >Eligible for Rehire: {{ pan.personelActionNotice.eligible_for_rehire }}</label>
+                >Eligible for Rehire:</label>
 
                 <div class="space-x-2">
                     <input id="yes" v-model="pan.personelActionNotice.eligible_for_rehire" type="radio" value="Yes">

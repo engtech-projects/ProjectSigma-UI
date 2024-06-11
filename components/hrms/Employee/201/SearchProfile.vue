@@ -75,7 +75,7 @@ onBeforeRouteLeave(() => {
                                 for="text"
                                 class="block text-sm font-medium italic text-teal-700"
                             >
-                                {{ employeeInformation.present_address.complete_address }}
+                                {{ employeeInformation.present_address?.complete_address }}
                             </label>
                         </div>
                     </div>

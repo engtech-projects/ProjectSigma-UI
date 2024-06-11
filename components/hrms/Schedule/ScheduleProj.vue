@@ -96,7 +96,6 @@ async function fetchSchedules () {
                     events.value = []
                     response._data.data.forEach((ev) => {
                         if (ev.groupType === "project") {
-                            ev.daysOfWeek = JSON.parse(ev.daysOfWeek)
                             events.value.push(ev)
                         }
                     })

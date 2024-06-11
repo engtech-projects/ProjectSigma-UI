@@ -22,10 +22,6 @@ pan.fetchPersonelActionList()
         ])"
     >
         <div class="w-full">
-            <div class="text-2xl font-normal mb-4 mt-10 md:mt-0">
-                Personnel Action Form
-            </div>
-            <hr>
             <div class="md:flex gap-4">
                 <HrmsEmployeePanPersonelActionForm
                     v-if="useCheckAccessibility([

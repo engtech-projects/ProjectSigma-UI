@@ -12,14 +12,21 @@ const { personelActionNotice } = storeToRefs(pan)
 employee.$reset()
 jobapplicant.$reset()
 const setEmployee = (employeeId) => {
-    personelActionNotice.value.employee_id = employeeId.id
-    personelActionNotice.value.employee = employee.fullname
-    pan.personelActionNotice.new_section_id = employee.information.current_employment.department_id
+    if (employeeId) {
+        personelActionNotice.value.employee_id = employeeId.id
+        personelActionNotice.value.employee = employee.fullname
+    } else {
+        personelActionNotice.value.employee_id = null
+        personelActionNotice.value.employee = ""
+    }
+}
+const setApplicant = (applicant) => {
+    pan.personelActionNotice.pan_job_applicant_id = applicant.id
 }
 </script>
 <template>
     <div v-if="personelActionNotice.type === 'New Hire'" class="p-2">
-        <SearchBarPan />
+        <SearchBarPan @search-changed="setApplicant" />
     </div>
     <div v-else class="p-2">
         <SearchBar @search-changed="setEmployee" />

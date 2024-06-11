@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useEnumsStore } from "@/stores/hrms/enum"
 
 const travels = useTravelorderStore()
-const { isEdit } = storeToRefs(travels)
+// const { isEdit } = storeToRefs(travels)
 travels.getMyRequests()
 travels.getMyApprovalRequests()
 travels.getTravelorders()
@@ -28,7 +28,7 @@ useHead({
             class="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
             <div>
-                <HrmsTravelOrderRequestForm v-show="!isEdit" />
+                <HrmsTravelOrderRequestForm />
                 <!-- <HrmsTravelOrderEditRequest v-show="isEdit" /> -->
             </div>
             <div>

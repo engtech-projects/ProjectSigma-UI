@@ -19,8 +19,8 @@ const closeViewModal = () => {
 }
 
 const headers = [
-    { name: "Requested by", id: "requested_by" },
-    { name: "Requesting Office", id: "requesting_office" },
+    { name: "Requested by", id: "requested_by.name" },
+    { name: "Requesting Office", id: "department.department_name" },
     { name: "Destination", id: "destination" },
     { name: "Purpose", id: "purpose_of_travel" },
     { name: "Duration", id: "duration_of_travel" },
@@ -94,14 +94,15 @@ const actions = {
                             Close
                         </button>
                     </div>
+                    <!-- <pre>{{ travelData }}</pre> -->
                     <div class="grid gap-2 md:justify-between">
                         <div class="p-2 flex gap-2">
-                            <span class="text-gray-900 text-4xl">REQUEST {{ travelData.destination }}</span>
+                            <span class="text-gray-900 text-3xl">TRAVEL REQUEST TO: {{ travelData.destination }}</span>
                         </div>
                     </div>
-                    <div class="grid md:grid-cols-3 gap-2 md:justify-between">
+                    <div class="grid md:grid-cols-3 gap-2 md:justify-between p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-sm">
                         <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Requesting Office: </span> <span class="text-gray-900">{{ travelData.requesting_office }}</span>
+                            <span class="text-teal-600 text-light"> Requesting Office: </span> <span class="text-gray-900">{{ travelData.department.department_name }}</span>
                         </div>
                         <div class="p-2 flex gap-2">
                             <span class="text-teal-600 text-light"> Purpose of Travel: </span> {{ travelData.purpose_of_travel }}
@@ -113,31 +114,28 @@ const actions = {
                             <span class="text-teal-600 text-light"> Remarks: </span> {{ travelData.remarks }}
                         </div>
                         <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Requested By: </span> {{ travelData.requested_by }}
+                            <span class="text-teal-600 text-light"> Requested By:</span> {{ travelData.requested_by.name }}
                         </div>
                         <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Request Status: </span> {{ travelData.requested_by }}
+                            <span class="text-teal-600 text-light"> Remarks: </span> {{ travelData.remarks }}
                         </div>
                         <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> remarks </span> {{ travelData.remarks }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> request_status </span> {{ travelData.request_status }}
+                            <span class="text-teal-600 text-light"> Request Status: </span> {{ travelData.request_status }}
                         </div>
                     </div>
                     <div class="w-full">
                         <LayoutApprovalsListView :approvals="travelData.approvals" />
                     </div>
-                    <div class="flex gap-2 p-2 justify-end">
+                    <div class="flex gap-2 p-2 justify-end mt-8">
                         <button
-                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
+                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm rounded-sm"
                             @click="approvedRequest(travelData.id)"
                         >
                             Approve Request
                         </button>
                         <button
                             data-popover-target="popover-deny-travelorder-request"
-                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
+                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm rounded-sm"
                         >
                             Deny Request
                         </button>
@@ -149,23 +147,23 @@ const actions = {
                             </div>
                             <div>
                                 <div class="w-full">
-                                    <p class="text-md">
+                                    <p class="text-md text-slate-400">
                                         Are you sure you want to deny this process?
                                     </p>
                                 </div>
-                                <div class="py-2 flex-col flex gap-2">
+                                <div class="py-2 flex-col flex gap-2 text-slate-400">
                                     <label for="deny-remarks">Your remarks if deny</label>
-                                    <textarea v-model="remarks" cols="30" rows="10" />
+                                    <textarea v-model="remarks" cols="4" rows="4" />
                                 </div>
                                 <div class="w-full py-2 flex gap-2 justify-end">
                                     <button
-                                        class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
+                                        class="rounded-lg bg-red-500 p-2 hover:bg-red-400 text-white round-sm"
                                         @click="denyRequest(travelData.id)"
                                     >
                                         Deny Request
                                     </button>
                                     <button
-                                        class="bg-yellow-400 p-2 hover:bg-yellow-900 text-white round-sm"
+                                        class="rounded-lg bg-yellow-600 p-2 hover:bg-yellow-900 text-white round-sm"
                                         @click="clearRemarks"
                                     >
                                         Clear

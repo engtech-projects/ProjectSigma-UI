@@ -62,18 +62,17 @@ export const useTravelorderStore = defineStore("travels", {
             )
         },
         async getMyRequests () {
-            await useFetch(
+            await useHRMSApi(
                 "/api/travelorder-request/my-request",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.myRequestList = response._data.data
+                        if (response.ok) {
+                            this.myRequestList = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
                     },
                 }
             )
@@ -168,7 +167,7 @@ export const useTravelorderStore = defineStore("travels", {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/approvals/approve/ManpowerRequest/" + id,
+                "/api/approvals/approve/TravelOrder/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }) => {
@@ -197,7 +196,7 @@ export const useTravelorderStore = defineStore("travels", {
             formData.append("id", id)
             formData.append("remarks", this.remarks)
             await useHRMSApiO(
-                "/api/approvals/disapprove/ManpowerRequest/" + id,
+                "/api/approvals/disapprove/TravelOrder/" + id,
                 {
                     method: "POST",
                     body: formData,

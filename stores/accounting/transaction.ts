@@ -58,6 +58,32 @@ export const useTransactionStore = defineStore("transactionStore", {
             }
         },
 
+        async showTransaction (id:any) {
+            const url = "/api/v1/transactions/" + id
+            this.isLoading = true
+            const { data, error } = await useFetch(
+                url,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        this.transaction = response._data.data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         async createTransaction () {
             this.successMessage = ""
             this.errorMessage = ""
@@ -89,7 +115,7 @@ export const useTransactionStore = defineStore("transactionStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/v1/transaction/" + this.transaction.transaction_id,
+                "/api/v1/transactions/" + this.transaction.transaction_id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
