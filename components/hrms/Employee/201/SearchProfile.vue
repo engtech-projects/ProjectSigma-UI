@@ -42,12 +42,12 @@ onBeforeRouteLeave(() => {
                     <LayoutFormPsUploadPicture v-if="editable" />
                     <div class="flex flex-col">
                         <div>
-                            <p class="text-xl font-bold">
+                            <p class="uppercase text-xl font-bold">
                                 {{ employee.fullname }} ({{ employeeInformation.nick_name }})
                             </p>
                             <label
                                 for="text"
-                                class="block text-sm font-medium italic text-teal-700"
+                                class="uppercase block text-sm font-medium italic text-teal-700"
                             >
                                 {{ employeeInformation.current_employment?.position?.name }} - {{ employeeInformation.current_employment?.employment_status }}
                             </label>
@@ -55,25 +55,25 @@ onBeforeRouteLeave(() => {
                         <div>
                             <label
                                 for="text"
-                                class="block text-sm font-medium italic text-teal-700"
+                                class="uppercase block text-sm font-medium italic text-teal-700"
                             >{{ employeeInformation.birthday }}</label>
                         </div>
                         <div>
                             <label
                                 for="text"
-                                class="block text-sm font-medium italic text-teal-700"
+                                class="uppercase block text-sm font-medium italic text-teal-700"
                             >
                                 {{ employeeInformation.gender }}
                             </label>
                             <label
                                 for="text"
-                                class="block text-sm font-medium italic text-teal-700"
+                                class="uppercase block text-sm font-medium italic text-teal-700"
                             >
                                 {{ employeeInformation.mobile_number }}
                             </label>
                             <label
                                 for="text"
-                                class="block text-sm font-medium italic text-teal-700"
+                                class="uppercase block text-sm font-medium italic text-teal-700"
                             >
                                 {{ employeeInformation.present_address?.complete_address }}
                             </label>
