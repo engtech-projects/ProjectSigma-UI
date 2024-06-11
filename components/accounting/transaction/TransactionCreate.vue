@@ -164,7 +164,7 @@ const accountsList = computed(() => {
                         />
                     </div>
                 </div>
-                <span class="font-bold text-gray-700">
+                <span class="font-bold text-gray-700 mt-8">
                     Transaction Details
                 </span>
                 <form action="" @submit.prevent="addDetail">
@@ -232,8 +232,8 @@ const accountsList = computed(() => {
                         </button>
                     </div>
                 </form>
-                <div class="flex flex-col gap-2">
-                    <table class="table-auto boder w-full">
+                <div class="flex flex-col gap-2 mt-4">
+                    <table v-if="details.length > 0" class="table-auto boder w-full">
                         <thead class="bg-slate-100">
                             <th class="text-left px-2 border-y py-2 uppercase">
                                 Account
@@ -268,8 +268,7 @@ const accountsList = computed(() => {
                                         class="text-white p-2 px-4 rounded bg-red-600 content-center mt-5 rounded-md w-fit"
                                         @click.prevent="removeDetail(d)"
                                     >
-                                        <Icon name="iconoir:trash" class="mr-1" />
-                                        Remove
+                                        <Icon name="ion:trash" />
                                     </button>
                                 </td>
                             </tr>

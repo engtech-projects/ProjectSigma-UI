@@ -37,9 +37,7 @@ async function handleSubmit () {
 const select = (st:any) => {
     stakeholderGroupStore.stakeholderGroup.stakeholder_type_id = st.stakeholder_type_id
 }
-onMounted(() => {
-    console.log(stakeholderGroupStore.stakeholderGroup.stakeholder_type_id)
-})
+
 </script>
 
 <template>

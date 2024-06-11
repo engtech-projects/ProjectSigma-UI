@@ -12,41 +12,41 @@ const { list: transactionList, isEdit, getParams, pagination, errorMessage, succ
 const setEdit = (ttype) => {
     isEdit.value = true
     transactionStore.transaction = ttype
-    console.log(ttype)
     return navigateTo("/accounting/transaction/edit?id=" + ttype.transaction_id)
 }
 
-const isLoading = ref(false)
-const deleteType = async (ttype) => {
-    try {
-        transactionStore.isLoading = true
-        await transactionStore.deleteTransactionType(ttype.transaction_type_id)
-        snackbar.add({
-            type: "success",
-            text: transactionStore.successMessage
-        })
-    } finally {
-        isLoading.value = false
-    }
-}
+// const isLoading = ref(false)
+// const deleteType = async (ttype) => {
+//     try {
+//         transactionStore.isLoading = true
+//         await transactionStore.deleteTransactionType(ttype.transaction_type_id)
+//         snackbar.add({
+//             type: "success",
+//             text: transactionStore.successMessage
+//         })
+//     } finally {
+//         isLoading.value = false
+//     }
+// }
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }
 
-const headers = [
-    { name: "No.", id: "transaction_no" },
-    { name: "Date", id: "transaction_date" },
-    { name: "Reference", id: "reference_no" },
-    { name: "Amounte", id: "amount" },
-    { name: "Status", id: "status" },
-]
-const actions = {
-    edit: true,
-    delete: true
-}
+// const headers = [
+//     { name: "Date", id: "transaction_date" },
+//     { name: "No.", id: "transaction_no" },
+//     { name: "Transaction Type", id: "transaction_type_id" },
+//     { name: "Reference", id: "reference_no" },
+//     { name: "Payee", id: "stakeholder" },
+//     { name: "Status", id: "status" },
+// ]
+// const actions = {
+//     edit: true,
+//     delete: true
+// }
 
-const snackbar = useSnackbar()
+// const snackbar = useSnackbar()
 const filter = ref("all")
 const applyFilter = () => {
     transactionStore.getTransactions(filter.value !== "all" ? filter.value : null)
@@ -81,35 +81,80 @@ const applyFilter = () => {
                             <span>Apply Filter</span>
                         </button>
                     </div>
-                    <!-- <select
-                        id="period"
-                        class="flex-1 h-20 rounded-lg text-sm py-1 px-2"
-                        required
-                    >
-                        <option v-for="p in transactionTypeStore.list" :key="p.transaction_type_id" :value="p.transaction_type_id">
-                            {{ p.transaction_type_name }}
-                        </option>
-                    </select> -->
                 </div>
             </div>
             <NuxtLink
                 to="/accounting/transaction/create"
-                class="w-56 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
+                class="w-48 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
             >
                 <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
-                <span>Create New Transaction</span>
+                <span>New Transaction</span>
             </NuxtLink>
         </div>
-        <LayoutBoards title="Transactions List" class="w-full" :loading="transactionStore.isLoading">
+        <LayoutBoards title="List of Transactions" class="w-full" :loading="transactionStore.isLoading">
             <div class="pb-2 text-gray-500">
-                <LayoutPsTable
+                <table class="table-auto w-full border-collapse">
+                    <thead>
+                        <tr class="text-left">
+                            <th class="p-2">
+                                Date
+                            </th>
+                            <th class="p-2">
+                                No.
+                            </th>
+                            <th class="p-2">
+                                Transaction Type
+                            </th>
+                            <th class="p-2">
+                                Reference
+                            </th>
+                            <th class="p-2">
+                                Payee
+                            </th>
+                            <th class="p-2">
+                                Status
+                            </th>
+                            <th class="p-2 text-right">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="trn, i in transactionStore.list" :key="i" class="border text-left">
+                            <td class="p-2">
+                                {{ trn.transaction_date }}
+                            </td>
+                            <td class="p-2">
+                                {{ trn.transaction_no }}
+                            </td>
+                            <td class="p-2">
+                                {{ trn.transaction_type.transaction_type_name }}
+                            </td>
+                            <td class="p-2">
+                                {{ trn.reference_no }}
+                            </td>
+                            <td class="p-2">
+                                {{ trn.stakeholder.full_name }}
+                            </td>
+                            <td class="p-2">
+                                {{ trn.status }}
+                            </td>
+                            <td class="text-right">
+                                <button @click="setEdit(trn)">
+                                    <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <LayoutPsTable
                     id="listTable"
                     :header-columns="headers"
                     :datas="transactionList"
                     :actions="actions"
                     @edit-row="setEdit"
                     @delete-row="deleteType"
-                />
+                /> -->
                 <!-- <i v-if="!transactionList.length&&!transactionStore.isLoading" class="p-4 text-center block">No data available.</i> -->
             </div>
             <div class="flex justify-center mx-auto">

@@ -37,7 +37,7 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.transaction_type
+                        this.list = response._data.data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
