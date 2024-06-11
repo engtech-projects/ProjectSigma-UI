@@ -99,7 +99,7 @@ const printDraft = () => {
         <div class="border-t border-gray-200">
             <div class="flex justify-between p-2">
                 <div class="text-md leading-6 font-medium text-gray-900">
-                    Project: <strong>{{ payrollDraft.group_type === 'department' ? payrollDraft.department.department_name : payrollDraft.project.project_code }}</strong>
+                    Project: <strong>{{ payrollDraft.group_type === 'Department' ? payrollDraft.department.department_name : payrollDraft.project.project_code }}</strong>
                 </div>
                 <div class="text-md leading-6 font-medium text-gray-900">
                     Period Covered: <strong>{{ formatDateRange(payrollDraft.cutoff_start, payrollDraft.cutoff_end) }}</strong>
@@ -748,18 +748,16 @@ const printDraft = () => {
                 <div>
                     Prepared by:
                     <div class="indent-8">
-                        <pre>{{ "-" }}</pre>
                         <HrmsCommonEmployeeSelector />
                     </div>
                     <div class="indent-8">
-                        <!-- <pre>{{ "-" }}</pre> -->
                         PAYROLL CLERK
                     </div>
                 </div>
                 <div>
                     Check by:
                     <div class="indent-8">
-                        <pre>{{ "-" }}</pre>
+                        <HrmsCommonEmployeeSelector />
                     </div>
                     <div class="indent-8">
                         HR
@@ -768,7 +766,7 @@ const printDraft = () => {
                 <div>
                     Noted by:
                     <div class="indent-8">
-                        <pre>{{ "-" }}</pre>
+                        <HrmsCommonEmployeeSelector />
                     </div>
                     <div class="indent-8">
                         PROJECT MANAGER
@@ -777,7 +775,9 @@ const printDraft = () => {
                 <div>
                     Approved by:
                     <div class="indent-8">
-                        <pre>{{ "-" }}</pre>
+                        <label class="items-center space-x-2 uppercase underline underline-offset-1">
+                            ENGR. ANGEL A. ABRAU
+                        </Label>
                     </div>
                     <div class="indent-8">
                         PRESIDENT
