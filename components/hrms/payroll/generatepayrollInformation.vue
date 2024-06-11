@@ -107,8 +107,9 @@ const closeViewModal = () => {
         </div>
         <div class="border-t border-gray-200">
             <div class="flex justify-between p-2">
+                <!-- <pre>{{ payrollDraft }}</pre> -->
                 <div class="text-md leading-6 font-medium text-gray-900">
-                    Project: <strong>{{ payrollDraft.group_type === 'department' ? payrollDraft.department.department_name : payrollDraft.project.project_code }}</strong>
+                    Project: <strong>{{ payrollDraft.group_type === 'Department' ? payrollDraft.department.department_name : payrollDraft.project.project_code }}</strong>
                 </div>
                 <div class="text-md leading-6 font-medium text-gray-900">
                     Period Covered: <strong>{{ formatDateRange(payrollDraft.cutoff_start, payrollDraft.cutoff_end) }}</strong>
