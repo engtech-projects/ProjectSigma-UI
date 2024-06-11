@@ -1,14 +1,14 @@
 import { defineStore } from "pinia"
 
-export const EMPLOYEMENT_STUDENTTRAINEE = "Student Trainee"
-export const EMPLOYEMENT_PROJECTHIRE = "Project Hire"
-export const EMPLOYEMENT_CONTRACTUAL = "Contractual"
-export const EMPLOYEMENT_REGULAR = "Regular"
+export const EMPLOYMENT_STUDENTTRAINEE = "Student Trainee"
+export const EMPLOYMENT_PROJECTHIRE = "Project Hire"
+export const EMPLOYMENT_CONTRACTUAL = "Contractual"
+export const EMPLOYMENT_REGULAR = "Regular"
 export const EMPLOYMENT_TYPE = [
-    EMPLOYEMENT_STUDENTTRAINEE,
-    EMPLOYEMENT_PROJECTHIRE,
-    EMPLOYEMENT_CONTRACTUAL,
-    EMPLOYEMENT_REGULAR
+    EMPLOYMENT_STUDENTTRAINEE,
+    EMPLOYMENT_PROJECTHIRE,
+    EMPLOYMENT_CONTRACTUAL,
+    EMPLOYMENT_REGULAR
 ]
 
 export const NATURE_NEW = "New/Addition"

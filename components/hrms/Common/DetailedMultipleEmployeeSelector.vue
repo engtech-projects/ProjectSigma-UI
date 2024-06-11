@@ -85,7 +85,7 @@ const selectAllEmployees = () => {
                             Employee Name
                         </th>
                         <th class="pb-2 pt-2">
-                            Employement Type
+                            Employment Type
                         </th>
                         <th class="pb-2 pt-2">
                             Position

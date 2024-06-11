@@ -7,7 +7,7 @@ const pan = usePersonelActionNotice()
 
 </script>
 <template>
-    <tr>
+    <tr class="border border-slate-300 p-2">
         <td colspan="4">
             <label
                 for="small-input"
@@ -15,7 +15,7 @@ const pan = usePersonelActionNotice()
             >PROMOTION</label>
         </td>
     </tr>
-    <tr>
+    <tr class="border border-slate-300 p-2">
         <td colspan="1">
             <div class="m-2">
                 <label
@@ -26,34 +26,44 @@ const pan = usePersonelActionNotice()
         </td>
         <td colspan="3" class="border border-slate-300 p-2">
             <div class="flex flex-row gap-2 space-x-2 p-2">
-                <input id="probationary" v-model="pan.personelActionNotice.new_employment_status" class="" type="radio" value="Probationary">
+                <input id="probationary" v-model="pan.personelActionNotice.employment_status" class="" type="radio" value="Probationary">
                 <label
                     for="probationary"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                 >PROBATIONARY</label>
-                <input id="regularization" v-model="pan.personelActionNotice.new_employment_status" class="" type="radio" value="Regularization">
+                <input id="regular" v-model="pan.personelActionNotice.employment_status" class="" type="radio" value="Regular">
                 <label
-                    for="regularization"
+                    for="regular"
                     class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >REGULARIZATION</label>
-                <input id="projectBased" v-model="pan.personelActionNotice.new_employment_status" type="radio" value="projectBased">
+                >REGULAR</label>
+                <input id="projectBased" v-model="pan.personelActionNotice.employment_status" type="radio" value="projectBased">
                 <label
                     for="projectBased"
                     class="text-xs text-gray-900 dark:text-gray-300"
                 >PROJECT BASED</label>
+                <input id="parttime" v-model="pan.personelActionNotice.employment_status" type="radio" value="Part Time">
+                <label
+                    for="parttime"
+                    class="text-xs text-gray-900 dark:text-gray-300"
+                >PART TIME</label>
+                <input id="contractual" v-model="pan.personelActionNotice.employment_status" type="radio" value="Contractual">
+                <label
+                    for="contractual"
+                    class="text-xs text-gray-900 dark:text-gray-300"
+                >CONTRACTUAL</label>
             </div>
         </td>
     </tr>
-    <tr>
+    <tr class="border border-slate-300 p-2">
         <td colspan="2">
-            <div class="m-2">
+            <div class="m-2 slate-300 p-2">
                 <label
                     class="flex text-sm text-black-700 dark:text-white"
                 >OLD POSITION: </label>
                 <p>{{ employee.information?.current_employment?.position.name }}</p>
             </div>
         </td>
-        <td colspan="2">
+        <td colspan="2" class="border border-slate-300 p-2">
             <div class="m-2">
                 <label
                     for="PromotionPosition"
@@ -61,13 +71,13 @@ const pan = usePersonelActionNotice()
                 >NEW POSITION : </label>
                 <HrmsCommonPositionSelector
                     id="PromotionPosition"
-                    v-model="pan.personelActionNotice.new_position"
+                    v-model="pan.personelActionNotice.designation_position"
                 />
             </div>
         </td>
     </tr>
-    <tr>
-        <td colspan="2">
+    <tr class="border border-slate-300 p-2">
+        <td colspan="2" class="border border-slate-300 p-2">
             <div class="m-2">
                 <label
                     for="PromotionSalaryGrade"
@@ -78,7 +88,7 @@ const pan = usePersonelActionNotice()
                 </template>
             </div>
         </td>
-        <td colspan="2">
+        <td colspan="2" class="border border-slate-300 p-2">
             <div class="m-2">
                 <label
                     for="PromotionSalaryGrade"
@@ -86,7 +96,7 @@ const pan = usePersonelActionNotice()
                 >NEW SALARY GRADE : </label>
                 <HrmsCommonSalaryGradeSelector
                     id="PromotionSalaryGrade"
-                    v-model="pan.personelActionNotice.new_salary_grades"
+                    v-model="pan.personelActionNotice.salary_grades"
                 />
             </div>
         </td>

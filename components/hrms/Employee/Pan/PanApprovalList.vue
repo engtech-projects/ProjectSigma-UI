@@ -46,7 +46,7 @@ const approvedRequest = async (id) => {
         await pan.approvedPanRequest(id)
         snackbar.add({
             type: "success",
-            text: pan.successMessage
+            text: "Successfully Approved."
         })
         closeViewModal()
     } catch (error) {
@@ -72,7 +72,7 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="MY APPROVALS" class="w-full">
+    <LayoutBoards title="" class="w-full">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
@@ -85,7 +85,7 @@ const actions = {
     <div v-if="showInformationModal">
         <Teleport to="body">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <LayoutBoards title="" class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" :loading="approvalLoading">
+                <LayoutBoards title="" class="bg-white p-4 w-8/12 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" :loading="approvalLoading">
                     <div class="flex gap-2 justify-between p-2">
                         <p>Personel Action Notice (<span class="text-blue-500">{{ panData.type }}</span>)</p>
                         <button

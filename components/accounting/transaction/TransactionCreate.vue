@@ -87,7 +87,6 @@ async function handleSubmit () {
 // }
 function select (val:any) {
     transactionTypeStore.transactionType = val
-    console.log(transactionTypeStore.transactionType)
     transactionStore.transaction.transaction_type_id = val.transaction_type_id
 }
 function selectStakeholder (val:any) {
