@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { useChartOfAccountsStore } from "~/stores/accounting/chartofaccounts"
 
 const accounts = useChartOfAccountsStore()
@@ -8,7 +8,53 @@ const accounts = useChartOfAccountsStore()
     <div class="flex flex-col">
         <LayoutBoards title="Chart of Accounts" :loading="accounts.isLoading" class="w-full flex-2">
             <div class="flex flex-col gap-2 pt-4">
-                <table v-for="list,j in accounts.list" :key="j" class="table-auto boder w-full">
+                <table class="table-auto w-full border-collapse">
+                    <thead>
+                        <tr class="text-left">
+                            <th class="p-2">
+                                Name
+                            </th>
+                            <th class="p-2">
+                                Type
+                            </th>
+                            <th class="p-2">
+                                Book
+                            </th>
+                            <th class="p-2">
+                                Group
+                            </th>
+                            <th class="p-2">
+                                Balance
+                            </th>
+                            <th class="p-2 text-right">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="ac in accounts.list" :key="ac.account_id">
+                            <td class="border px-2">
+                                {{ ac.account }}
+                            </td>
+                            <td class="border px-2">
+                                {{ ac.account_type? ac.account_type.account_type_name : "" }}
+                            </td>
+                            <td class="border px-2" />
+                            <td class="border px-2">
+                                {{ ac.account_group[0]? ac.account_group[0].account_group_name : "" }}
+                            </td>
+                            <td class="border px-2">
+                                {{ ac.opening_balance }}
+                            </td>
+                            <td class="text-right border px-2">
+                                <button>
+                                    <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <table v-for="list,j in accounts.list" :key="j" class="table-auto boder w-full">
                     <thead class="bg-slate-100">
                         <th class="text-left px-2 border-y py-2 uppercase">
                             {{ j }}
@@ -33,44 +79,8 @@ const accounts = useChartOfAccountsStore()
                                 Edit
                             </td>
                         </tr>
-                        <!-- <tr class="border-y">
-                            <td class="p-2 w-7/12">
-                                <span class="pl-6 pr-4 text-md">1001</span>
-                                <span class="pl-6 pr-4 text-md">Cash on hand</span>
-                            </td>
-                            <td class="p-2">
-                                Yes
-                            </td>
-                            <td class="p-2">
-                                Edit
-                            </td>
-                        </tr>
-                        <tr class="border-y">
-                            <td class="p-2 w-7/12">
-                                <span class="pl-6 pr-4 text-md">1001</span>
-                                <span class="pl-6 pr-4 text-md">Cash Receivable</span>
-                            </td>
-                            <td class="p-2">
-                                Yes
-                            </td>
-                            <td class="p-2">
-                                Edit
-                            </td>
-                        </tr>
-                        <tr class="border-y">
-                            <td class="p-2 w-7/12">
-                                <span class="pl-6 pr-4 text-md">1001</span>
-                                <span class="pl-6 pr-4 text-md">Petty Cash Fund</span>
-                            </td>
-                            <td class="p-2">
-                                Yes
-                            </td>
-                            <td class="p-2">
-                                Edit
-                            </td>
-                        </tr> -->
                     </tbody>
-                </table>
+                </table> -->
             </div>
         </LayoutBoards>
     </div>

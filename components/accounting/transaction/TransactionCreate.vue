@@ -49,6 +49,7 @@ const addDetail = () => {
 async function handleSubmit () {
     try {
         boardLoading.value = true
+        transactionStore.transaction.status = "open"
         transactionStore.transaction.details = JSON.stringify([{
             stakeholder_id: 1,
             account_id: 1,
