@@ -75,6 +75,8 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         remarks: "",
         successMessage: "",
         errorHandler: [],
+        pagination: {},
+        getParams: {},
     }),
     actions: {
         async savePan () {
@@ -122,9 +124,15 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 "/api/pan/resource",
                 {
                     method: "GET",
+                    params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.allPanList = response._data.data.data ?? []
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
