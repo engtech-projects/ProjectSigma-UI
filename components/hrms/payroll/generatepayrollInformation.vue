@@ -2,6 +2,7 @@
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 const genpayrollstore = useGeneratePayrollStore()
 const snackbar = useSnackbar()
+const boardLoading = ref(false)
 const { payrollDraft } = storeToRefs(genpayrollstore)
 
 const loanTypes = ref([])
@@ -69,6 +70,7 @@ const printDraft = () => {
         printWindow.print()
     }
 }
+
 const savePayroll = async () => {
     try {
         await genpayrollstore.createRequest()
@@ -95,7 +97,6 @@ const closeViewModal = () => {
 </script>
 
 <template>
-    <!-- <pre>{{ generatedList }}</pre> -->
     <div ref="payrollTemplateRef" class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
         <div class="details flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
             <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900 uppercase">
@@ -108,6 +109,9 @@ const closeViewModal = () => {
         <div class="border-t border-gray-200">
             <div class="flex justify-between p-2">
                 <!-- <pre>{{ payrollDraft }}</pre> -->
+                <div class="text-md leading-6 font-medium text-gray-900">
+                    Project: <strong>{{ payrollDraft.group_type === 'Department' ? payrollDraft.department.department_name : payrollDraft.project.project_code }}</strong>
+                </div>
                 <div class="text-md leading-6 font-medium text-gray-900">
                     Project: <strong>{{ payrollDraft.group_type === 'Department' ? payrollDraft.department.department_name : payrollDraft.project.project_code }}</strong>
                 </div>
@@ -184,18 +188,11 @@ const closeViewModal = () => {
                             </th>
                             <th
                                 scope="col"
-                                :colspan="7 + loanTypes.length + cashAdvances.length + otherDeductions.length"
+                                :colspan="5 + loanTypes.length + cashAdvances.length + otherDeductions.length"
                                 class="p-2 border-solid border border-slate-400 bg-sky-200"
                             >
                                 Salary Deduction
                             </th>
-                            <!-- <th
-                                scope="col"
-                                colspan="9"
-                                class="p-2 border-solid border border-slate-400 bg-sky-200"
-                            >
-                                Salary Deduction
-                            </th> -->
                             <th
                                 scope="col"
                                 rowspan="3"
@@ -327,39 +324,33 @@ const closeViewModal = () => {
                             </th>
                             <th
                                 class="px-4 border-solid border border-slate-400"
-                                colspan="2"
+                                colspan="1"
                             >
                                 SSS
                             </th>
                             <th
                                 class="px-4 border-solid border border-slate-400"
-                                colspan="2"
+                                colspan="1"
                             >
                                 PHIC
                             </th>
                             <th
                                 class="px-4 border-solid border border-slate-400"
-                                colspan="2"
+                                colspan="1"
                             >
                                 HMDF
                             </th>
-                            <!-- <th
-                                rowspan="2"
-                                class="px-4 border-solid border border-slate-400"
-                            >
-                                Loans
-                            </th> -->
-                            <!-- <th
-                                rowspan="2"
-                                class="px-4 border-solid border border-slate-400"
-                            >
-                                Cash Advance
-                            </th> -->
                             <th
                                 rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
                                 EWTC
+                            </th>
+                            <th
+                                rowspan="2"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Loans
                             </th>
                             <th
                                 v-for="loansType, key in loanTypes"
@@ -395,27 +386,12 @@ const closeViewModal = () => {
                             <th
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                Employer
-                            </th>
-                            <th
-                                class="px-4 border-solid border border-slate-400"
-                            >
                                 Employee
                             </th>
                             <th
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                Employer
-                            </th>
-                            <th
-                                class="px-4 border-solid border border-slate-400"
-                            >
                                 Employee
-                            </th>
-                            <th
-                                class="px-4 border-solid border border-slate-400"
-                            >
-                                Employer
                             </th>
                         </tr>
                     </thead>
@@ -491,32 +467,33 @@ const closeViewModal = () => {
                                 {{ data.payroll_records.salary_deduction.sss.employee_compensation ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.sss.employer_compensation ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
                                 {{ data.payroll_records.salary_deduction.phic.employee_compensation ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.phic.employer_compensation ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ data.payroll_records.salary_deduction.hmdf.employee_compensation ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hmdf.employer_compensation ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                <!-- <div contenteditable @input="updateValue($event, 'data.payroll_records.salary_deduction.ewtc', index)">
-                                    {{ data.payroll_records.salary_deduction.ewtc ?? "-" }}
-                                </div> -->
                                 {{ data.payroll_records.salary_deduction.ewtc ?? "-" }}
                             </td>
-                            <!-- <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.ewtc ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.ewtc ?? "-" }}
+                            <!-- <td class="p-4 border-solid border border-slate-400 text-xs">
+                                Loans: {{ data.payroll_records.salary_deduction.loan.total_paid ?? "-" }}
+
+                                Cash Advance: {{ data.payroll_records.salary_deduction.cash_advance.total_paid ?? "-" }}
+
+                                Other Deductions: {{ data.payroll_records.salary_deduction.other_deductions.total_paid ?? "-" }}
                             </td> -->
+                            <td class="p-4 border border-solid border-slate-400">
+                                <div class="mb-2">
+                                    <span class="font-bold">Loans:</span> {{ data.payroll_records.salary_deduction.loan.total_paid ?? "-" }}
+                                </div>
+                                <div class="mb-2">
+                                    <span class="font-bold">Cash Advance:</span> {{ data.payroll_records.salary_deduction.cash_advance.total_paid ?? "-" }}
+                                </div>
+                                <div>
+                                    <span class="font-bold">Other Deductions:</span> {{ data.payroll_records.salary_deduction.other_deductions.total_paid ?? "-" }}
+                                </div>
+                            </td>
+
                             <th
                                 v-for="loansType, key in loanTypes"
                                 :key="key + 'loanTypesValues'"
@@ -606,31 +583,16 @@ const closeViewModal = () => {
                                 {{ genpayrollstore.totalSSSEmployeePayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalSSSEmployerPayrollDraft }}
-                            </td>
-                            <td>
                                 {{ genpayrollstore.totalPHICEmployeePayrollDraft }}
-                            </td>
-                            <td>
-                                {{ genpayrollstore.totalPHICEmployerPayrollDraft }}
                             </td>
                             <td>
                                 {{ genpayrollstore.totalHDMFEmployeePayrollDraft }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalHDMFEmployerPayrollDraft }}
-                            </td>
-                            <!-- <td>
-                                {{ genpayrollstore.totalLoansPayrollDraft }}
-                            </td> -->
-                            <!-- <td>
-                                {{ genpayrollstore.totalCashAdvancePayrollDraft }}
-                            </td> -->
-                            <!-- <td>
-                                {{ genpayrollstore.totalOtherDeductionsPayrollDraft }}
-                            </td> -->
-                            <td>
                                 {{ genpayrollstore.totalEWTCPayrollDraft }}
+                            </td>
+                            <td>
+                                {{ genpayrollstore.totalLoansPayrollDraft }}
                             </td>
                             <td>
                                 <strong>{{ genpayrollstore.totalDeductionPayrollDraft }}</strong>
@@ -642,23 +604,19 @@ const closeViewModal = () => {
                     </tbody>
                 </table>
             </div>
-            <!-- <pre>{{ payrollDraft }}</pre> -->
             <div class="signatures grid md:grid-cols-4 gap-6 pt-5 p-4">
                 <div>
                     Prepared by:
                     <div class="indent-8">
-                        <!-- <pre>{{ "-" }}</pre> -->
                         <HrmsCommonUserEmployeeSelector />
                     </div>
                     <div class="indent-8">
-                        <!-- <pre>{{ "-" }}</pre> -->
                         PAYROLL CLERK
                     </div>
                 </div>
                 <div>
                     Check by:
                     <div class="indent-8">
-                        <!-- <pre>{{ "-" }}</pre> -->
                         <HrmsCommonUserEmployeeSelector />
                     </div>
                     <div class="indent-8">
@@ -668,7 +626,6 @@ const closeViewModal = () => {
                 <div>
                     Noted by:
                     <div class="indent-8">
-                        <!-- <pre>{{ "-" }}</pre> -->
                         <HrmsCommonUserEmployeeSelector />
                     </div>
                     <div class="indent-8">
@@ -678,7 +635,6 @@ const closeViewModal = () => {
                 <div>
                     Approved by:
                     <div class="indent-8">
-                        <!-- <pre>{{ "-" }}</pre> -->
                         <label class="items-center space-x-2 uppercase underline underline-offset-1">
                             ENGR. ANGEL A. ABRAU
                         </Label>
@@ -690,9 +646,10 @@ const closeViewModal = () => {
             </div>
         </div>
     </div>
-    <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-900 dark:border-gray-800 p-6 overflow-auto mt-6">
+    <!-- <pre>{{ payrollDraft.payroll }}</pre> -->
+    <!-- <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-900 dark:border-gray-800 p-6 overflow-auto mt-6">
         <label for="" class="block text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Adjustment</label>
-        <div v-for="(data, index1) in payrollDraft.adjustment" :key="index1" class="mb-4">
+        <div v-for="(data, index1) in payrollDraft.adjustments" :key="index1" class="mb-4">
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm">
                 <div class="text-lg text-gray-800 dark:text-gray-300">
                     <span class="font-medium">Employee:</span> {{ data.id }}
@@ -705,7 +662,7 @@ const closeViewModal = () => {
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="mt-2">
         <div class="flex flex-row justify-end gap-2">
@@ -714,15 +671,6 @@ const closeViewModal = () => {
                     Print Draft
                 </button>
             </div>
-            <!-- <div>
-                <button
-                    type="submit"
-                    class="text-white bg-teal-500 hover:bg-teal-400 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-teal-400 dark:focus:ring-teal-400"
-                    @click="editDraft()"
-                >
-                    Edit Payroll Draft
-                </button>
-            </div> -->
             <div>
                 <button
                     type="submit"

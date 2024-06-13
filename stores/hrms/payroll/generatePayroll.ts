@@ -113,147 +113,147 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         },
         totalLoansPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { loan: string } } }) => {
                 total += parseFloat(element.payroll_records.salary_deduction.loan)
             })
             return total.toFixed(2)
         },
         totalCashAdvancePayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { cash_advance: string } } }) => {
                 total += parseFloat(element.payroll_records.salary_deduction.cash_advance)
             })
             return total.toFixed(2)
         },
         totalOtherDeductionsPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { other_deduction: string } } }) => {
                 total += parseFloat(element.payroll_records.salary_deduction.other_deduction)
             })
             return total.toFixed(2)
         },
         totalNetPayPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { total_net_pay: string } }) => {
                 total += parseFloat(element.payroll_records.total_net_pay)
             })
             return total.toFixed(2)
         },
         totalDeductionPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { total_salary_deduction: string } }) => {
                 total += parseFloat(element.payroll_records.total_salary_deduction)
             })
             return total.toFixed(2)
         },
         totalEWTCPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { ewtc: string } } }) => {
                 total += parseFloat(element.payroll_records.salary_deduction.ewtc)
             })
             return total.toFixed(2)
         },
         totalHDMFEmployerPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { hmdf: { employer_compensation: string } } } }) => {
                 total += parseFloat(element.payroll_records.salary_deduction.hmdf.employer_compensation)
             })
             return total.toFixed(2)
         },
         totalHDMFEmployeePayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { hmdf: { employee_compensation: string } } } }) => {
                 total += parseFloat(element.payroll_records.salary_deduction.hmdf.employee_compensation)
             })
             return total.toFixed(2)
         },
         totalPHICEmployerPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { phic: { employer_compensation: string } } } }) => {
                 total += parseFloat(element.payroll_records.salary_deduction.phic.employer_compensation)
             })
             return total.toFixed(2)
         },
         totalPHICEmployeePayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { phic: { employee_compensation: string } } } }) => {
                 total += parseFloat(element.payroll_records.salary_deduction.phic.employee_compensation)
             })
             return total.toFixed(2)
         },
         totalSSSEmployerPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { sss: { employer_compensation: string } } } }) => {
                 total += parseFloat(element.payroll_records.salary_deduction.sss.employer_compensation)
             })
             return total.toFixed(2)
         },
         totalSSSEmployeePayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { sss: { employee_compensation: string } } } }) => {
                 total += parseFloat(element.payroll_records.salary_deduction.sss.employee_compensation)
             })
             return total.toFixed(2)
         },
         totalGrossPayPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { total_gross_pay: string } }) => {
                 total += parseFloat(element.payroll_records.total_gross_pay)
             })
             return total.toFixed(2)
         },
         totalSpcHolOTPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { special_holidays: { overtime: string } } } }) => {
                 total += parseFloat(element.payroll_records.gross_pays.special_holidays.overtime)
             })
             return total.toFixed(2)
         },
         totalRegHolOTPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { regular_holidays: { overtime: string } } } }) => {
                 total += parseFloat(element.payroll_records.gross_pays.regular_holidays.overtime)
             })
             return total.toFixed(2)
         },
         totalRestDayOTPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { rest: { overtime: string } } } }) => {
                 total += parseFloat(element.payroll_records.gross_pays.rest.overtime)
             })
             return total.toFixed(2)
         },
         totalRegOTPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { regular: { overtime: string } } } }) => {
                 total += parseFloat(element.payroll_records.gross_pays.regular.overtime)
             })
             return total.toFixed(2)
         },
         totalSpcHolPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { special_holidays: { regular: string } } } }) => {
                 total += parseFloat(element.payroll_records.gross_pays.special_holidays.regular) ?? 0
             })
             return total.toFixed(2)
         },
         totalRegHolPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { regular_holidays: { regular: string } } } }) => {
                 total += parseFloat(element.payroll_records.gross_pays.regular_holidays.regular) ?? 0
             })
             return total.toFixed(2)
         },
         totalRestDayPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { rest: { regular: string } } } }) => {
                 total += parseFloat(element.payroll_records.gross_pays.rest.regular) ?? 0
             })
             return total.toFixed(2)
         },
         totalRegHrsPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element) => {
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { regular: { regular: string } } } }) => {
                 total += parseFloat(element.payroll_records.gross_pays.regular.regular) ?? 0
             })
             return total.toFixed(2)

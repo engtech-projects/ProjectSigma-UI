@@ -146,9 +146,7 @@ const submitForm = async () => {
                                         ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                     </button>
                                 </div>
-
                                 <div v-for="(adjust, adjustIndex) in generateParams.adjustment" :key="adjustIndex" class="grid md:grid-cols-2 md:gap-2 pb-4">
-                                    <!-- {{ adjust }} -->
                                     <div>
                                         <label for="" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Employee Name</label>
                                         <SearchBar class="flex" @search-changed="emp => setEmployee(adjustIndex, emp)" />
