@@ -4,6 +4,24 @@ import { useEmployeeInfo } from "@/stores/hrms/employee"
 const employee = useEmployeeInfo()
 
 const { information: employeeInformation } = storeToRefs(employee)
+
+const updateInternalWorkExperience = async (id, params) => {
+    boardLoading.value = true
+    try {
+        await employee.updateInternalWorkExperience(params, id)
+        snackbar.add({
+            type: "success",
+            text: employee.successMessage
+        })
+        boardLoading.value = false
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error
+        })
+        boardLoading.value = false
+    }
+}
 </script>
 <template>
     <div>
@@ -11,6 +29,11 @@ const { information: employeeInformation } = storeToRefs(employee)
             Internal Work Experience/History
         </label>
         <form v-for="(emprecord, index) in employeeInformation.employee_internal" :key="index" action="">
+            <div class="flex gap-2 p-2">
+                <button v-if="editable && emprecord.id" class="bg-yellow-400 text-white" @click.prevent="updateInternalWorkExperience(emprecord, emprecord.id)">
+                    <Icon name="ion:pencil" color="white" class="rounded h-6 w-6 p-1" />
+                </button>
+            </div>
             <table class="w-full border-collapse border border-slate-400 table-fixed">
                 <tbody>
                     <tr>
@@ -47,7 +70,8 @@ const { information: employeeInformation } = storeToRefs(employee)
                     <tr>
                         <td class="border border-slate-300 p-1">
                             <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Position</label>
-                            <p class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-normal dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <HrmsCommonPositionSelector v-if="editable" v-model="emprecord.position_id" />
+                            <p v-else class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-normal dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 {{ emprecord.position.name }}
                             </p>
                         </td>

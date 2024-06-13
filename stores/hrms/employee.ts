@@ -983,6 +983,26 @@ export const useEmployeeInfo = defineStore("employee", {
                 }
             )
         },
+        async updateInternalWorkExperience (formData: any, id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/internalwork-experience/" + id,
+                {
+                    method: "PUT",
+                    body: formData,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getEmployeeDTR (employeeId: number, start:string, end:string) {
             this.successMessage = ""
             this.errorMessage = ""
