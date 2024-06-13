@@ -417,11 +417,14 @@ export default {
                             v-model="toEditEvent.event_type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
-                            <option value="Holiday">
-                                Holiday
-                            </option>
                             <option value="Company Event">
                                 Company Event
+                            </option>
+                            <option value="Special Holiday">
+                                Special Holiday
+                            </option>
+                            <option value="Regular Holiday">
+                                Regular Holiday
                             </option>
                         </select>
                     </div>
@@ -444,9 +447,9 @@ export default {
                             <option value="Long Event">
                                 Long Event
                             </option>
-                            <option value="Yearly Repeat">
+                            <!-- <option value="Yearly Repeat">
                                 Yearly Repeat
-                            </option>
+                            </option> -->
                         </select>
                     </div>
                 </div>
