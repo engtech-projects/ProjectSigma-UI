@@ -284,11 +284,14 @@ export default {
                 <div>
                     <label for="eventTypr">Event Type</label>
                     <select id="" v-model="event.event_type" name="" class="w-full rounded" required>
-                        <option value="Holiday">
-                            Holiday
-                        </option>
                         <option value="Company Event">
                             Company Event
+                        </option>
+                        <option value="Special Holiday">
+                            Special Holiday
+                        </option>
+                        <option value="Regular Holiday">
+                            Regular Holiday
                         </option>
                     </select>
                 </div>
