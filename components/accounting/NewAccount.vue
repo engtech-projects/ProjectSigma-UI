@@ -50,7 +50,7 @@ async function handleSubmit () {
                         required
                     >
                         <option v-for="at in accountTypeStore.list" :key="at.id" :value="at.type_id">
-                            {{ at.account_type }}
+                            {{ at.account_type_name }}
                         </option>
                     </select>
                 </div>

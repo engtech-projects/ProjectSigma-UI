@@ -6,7 +6,7 @@ export const useAccountType = defineStore("accountType", {
     state: () => ({
         accountType: {
             type_id: null,
-            account_type: null,
+            account_type_name: null,
             account_category: null,
             balance_type: null,
             notation: null,
@@ -131,7 +131,7 @@ export const useAccountType = defineStore("accountType", {
         reset () {
             this.accountType = {
                 type_id: null,
-                account_type: null,
+                account_type_name: null,
                 account_category: null,
                 balance_type: null,
                 notation: null,
