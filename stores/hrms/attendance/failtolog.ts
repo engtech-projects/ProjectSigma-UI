@@ -6,7 +6,7 @@ export const LOG_TYPE = [
     TIME_IN, TIME_OUT
 ]
 
-export const useFailToLogStore = defineStore("FailToLog", {
+export const useFailToLogStore = defineStore("Failtologs", {
     state: () => ({
         isEdit: false,
         failtolog:
@@ -19,13 +19,14 @@ export const useFailToLogStore = defineStore("FailToLog", {
             reason: null,
             approvals: [],
         },
-        list: [] as any[],
+        list: [],
         myApprovalRequestList: [],
         myRequestList: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
+        remarks: "",
     }),
     actions: {
         async getAllList () {
@@ -35,10 +36,12 @@ export const useFailToLogStore = defineStore("FailToLog", {
                     method: "GET",
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.list = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.list = response._data.data.data
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         }
                     },
                 }
@@ -51,7 +54,7 @@ export const useFailToLogStore = defineStore("FailToLog", {
                     method: "GET",
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.myRequestList = response._data.data
+                            this.myRequestList = response._data.data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -67,7 +70,7 @@ export const useFailToLogStore = defineStore("FailToLog", {
                     method: "GET",
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.myApprovalRequestList = response._data.data
+                            this.myApprovalRequestList = response._data.data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -149,6 +152,59 @@ export const useFailToLogStore = defineStore("FailToLog", {
                 this.getAllList()
                 return data
             }
+        },
+        async approveApprovalForm (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/approvals/approve/FailureToLog/" + id,
+                {
+                    method: "POST",
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            this.getAllList()
+                            this.getMyRequests()
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async denyApprovalForm (id: String) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const formData = new FormData()
+            formData.append("id", id)
+            formData.append("remarks", this.remarks)
+            await useHRMSApiO(
+                "/api/approvals/disapprove/FailureToLog/" + id,
+                {
+                    method: "POST",
+                    body: formData,
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            this.getAllList()
+                            this.getMyRequests()
+                            return response._data
+                        }
+                    },
+                }
+            )
         },
     },
 })

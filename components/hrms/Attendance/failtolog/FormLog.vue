@@ -2,8 +2,8 @@
 import { useFailToLogStore, LOG_TYPE } from "@/stores/hrms/attendance/failtolog"
 import { useApprovalStore, APPROVAL_FAILTOLOG } from "~/stores/hrms/setup/approvals"
 
-const failtologstore = useFailToLogStore()
-const { failtolog } = storeToRefs(failtologstore)
+const failtologs = useFailToLogStore()
+const { failtolog } = storeToRefs(failtologs)
 
 const approvals = useApprovalStore()
 failtolog.value.approvals = await approvals.getApprovalByName(APPROVAL_FAILTOLOG)
@@ -14,32 +14,32 @@ const boardLoading = ref(false)
 const submitAdd = async () => {
     try {
         boardLoading.value = true
-        await failtologstore.createLog()
-        if (failtologstore.errorMessage !== "") {
+        await failtologs.createLog()
+        if (failtologs.errorMessage !== "") {
             snackbar.add({
                 type: "error",
-                text: failtologstore.errorMessage
+                text: failtologs.errorMessage
             })
         } else {
             snackbar.add({
                 type: "success",
-                text: failtologstore.successMessage
+                text: failtologs.successMessage
             })
         }
     } catch {
         snackbar.add({
             type: "error",
-            text: failtologstore.errorMessage
+            text: failtologs.errorMessage
         })
     } finally {
-        failtologstore.clearMessages()
         boardLoading.value = false
+        failtologs.clearMessages()
     }
 }
 </script>
 
 <template>
-    <LayoutBoards title="Failure to Log Form" class="mt-2 edit-item w-full max-w-full">
+    <LayoutBoards title="Failure to Log Form" class="mt-2 edit-item w-full max-w-full" :loading="boardLoading">
         <form @submit.prevent="submitAdd">
             <div class="w-full p-2">
                 <div class="mt-2 grid gap-6 mb-2 md:grid-cols-2">
@@ -72,7 +72,7 @@ const submitAdd = async () => {
                         >
                     </div>
                     <div class="w-full">
-                        <LayoutFormPsTextInput v-model="failtolog.reason" title="Reason" placeholder="remarks" />
+                        <LayoutFormPsTextInput v-model="failtolog.reason" title="Reason" />
                     </div>
                 </div>
 

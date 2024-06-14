@@ -1,20 +1,22 @@
 <script setup lang="ts">
 import { useFailToLogStore } from "@/stores/hrms/attendance/failtolog"
-// import { useEnumsStore } from "@/stores/hrms/enum"
+import { useEnumsStore } from "@/stores/hrms/enum"
 
 const failtologstore = useFailToLogStore()
 failtologstore.getAllList()
 failtologstore.getMyApprovalRequests()
 failtologstore.getMyRequests()
 
-// const enums = useEnumsStore()
-// enums.getEmployeeEnum()
+const enums = useEnumsStore()
+enums.getEmployeeEnum()
 // enums.getDepartmentEnums()
 // enums.getProjectEnums()
 
 useHead({
-    title: "Failure to Log"
-
+    title: "Failure To Log",
+    meta: [
+        { name: "description", content: "" }
+    ],
 })
 
 </script>
@@ -35,10 +37,9 @@ useHead({
                         <HrmsCommonTabsTabTitle target-id="myApprovalsList" title="My Approvals" />
                     </template>
                     <template #tab-containers>
-                        <HrmsCommonTabsTabContainer id="leaverequest-all-list">
+                        <HrmsCommonTabsTabContainer id="allList">
                             <HrmsAttendanceFailtologAllList />
                         </HrmsCommonTabsTabContainer>
-
                         <HrmsCommonTabsTabContainer id="myRequestList">
                             <HrmsAttendanceFailtologMyRequests />
                         </HrmsCommonTabsTabContainer>
