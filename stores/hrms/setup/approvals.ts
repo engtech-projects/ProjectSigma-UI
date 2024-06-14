@@ -7,6 +7,7 @@ export const APPROVAL_CA = "Cash Advance"
 export const APPROVAL_GA = "Generate Allowance"
 export const APPROVAL_GP = "Payroll"
 export const APPROVAL_LEAVE = "Leave"
+export const APPROVAL_FAILTOLOG = "Failure To Log"
 
 export interface Approver {
     type: string,
