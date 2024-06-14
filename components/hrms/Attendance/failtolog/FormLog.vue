@@ -39,7 +39,7 @@ const submitAdd = async () => {
 </script>
 
 <template>
-    <LayoutBoards title="Failure to Log Form" class="edit-item w-full max-w-full">
+    <LayoutBoards title="Failure to Log Form" class="mt-2 edit-item w-full max-w-full">
         <form @submit.prevent="submitAdd">
             <div class="w-full p-2">
                 <div class="mt-2 grid gap-6 mb-2 md:grid-cols-2">
