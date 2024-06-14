@@ -69,7 +69,7 @@ function cancelEdit () {
                     >Type Name</label>
                     <input
                         id="accountNumber"
-                        v-model="accountType.accountType.account_type"
+                        v-model="accountType.accountType.account_type_name"
                         type="text"
                         class="w-full rounded-lg"
                         required
