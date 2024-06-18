@@ -99,6 +99,7 @@ const headers = [
                 :header-columns="headers"
                 :actions="actions"
                 :datas="filterAttendanceList"
+                :period="filterDate"
                 @show-table="showInformation"
             />
         </div>
