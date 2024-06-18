@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { useAccountStore } from "~/stores/accounting/account"
 import { useBookStore } from "~/stores/accounting/book"
+import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 
 const bookStore = useBookStore()
+const accountGroupStore = useAccountGroupStore()
+await accountGroupStore.getAccountGroups()
 const snackbar = useSnackbar()
 const isLoading = ref(false)
 
@@ -10,7 +13,7 @@ const accountStore = useAccountStore()
 accountStore.getAccounts()
 
 function select (val:any) {
-    bookStore.book.account_id = val.account_id
+    bookStore.book.account_group_id = val.account_group_id
 }
 
 async function handleSubmit () {
@@ -62,12 +65,12 @@ async function handleSubmit () {
                     <label
                         for="book_name"
                         class="text-xs italic"
-                    >Account</label>
+                    >Account Group</label>
                     <AccountingSelectSearch
-                        :options="accountStore.list"
-                        title="account_name"
-                        opid="account_id"
-                        :selected-id="bookStore.book.account_id"
+                        :options="accountGroupStore.list"
+                        title="account_group_name"
+                        opid="account_group_id"
+                        :selected-id="bookStore.book.account_group_id"
                         @select="select"
                     />
                 </div>
