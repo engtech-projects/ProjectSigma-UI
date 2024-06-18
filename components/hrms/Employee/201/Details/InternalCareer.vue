@@ -2,6 +2,7 @@
 import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 const employee = useEmployeeInfo()
+const snackbar = useSnackbar()
 
 const { information: employeeInformation, editable } = storeToRefs(employee)
 
@@ -13,6 +14,7 @@ const updateInternalWorkExperience = async (id, params) => {
             type: "success",
             text: employee.successMessage
         })
+        employee.getEmployeeInformation(id)
         // boardLoading.value = false
     } catch (error) {
         snackbar.add({

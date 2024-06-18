@@ -177,6 +177,7 @@ export interface EmployeeInternal {
     id: Number,
     employee_id: Number,
     position: Object,
+    position_id: Number,
     employment_status: String,
     immediate_supervisor: String,
     actual_salary: String,
