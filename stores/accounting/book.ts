@@ -8,6 +8,7 @@ export const useBookStore = defineStore("bookStore", {
             book_id: null,
             book_name: null,
             account_id: null,
+            account_group_id: null,
             symbol: null,
         },
         list: [],
@@ -158,6 +159,7 @@ export const useBookStore = defineStore("bookStore", {
                 book_id: null,
                 book_name: null,
                 account_id: null,
+                account_group_id: null,
                 symbol: null,
             }
             this.successMessage = ""

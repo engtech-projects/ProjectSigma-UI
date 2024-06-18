@@ -86,13 +86,16 @@ const printTable = () => {
             <div class="flex justify-between items-center">
                 <div>
                     <p class="text-sm">
-                        <span class="font-bold">NAME:</span> <span class="font-bold">{{ employee.fullname }}</span><br>
-                        <span class="font-bold">DESIGNATION:</span> <span class="font-bold">{{ employee.information.current_employment.position.name }}</span>
+                        <span class="font-bold">NAME:</span>
+                        <span class="font-bold">{{ employee.fullname }}</span><br>
+                        <span class="font-bold">DESIGNATION:</span>
+                        <span class="font-bold">{{ employee.information.current_employment.position.name }}</span>
                     </p>
                 </div>
                 <div>
                     <p class="text-sm">
-                        <span class="font-bold">PERIOD COVERED:</span> <spam class="font-bold">{{ formatDateRange(period.from, period.to) }}</spam>
+                        <span class="font-bold">PERIOD COVERED:</span>
+                        <spam class="font-bold">{{ formatDateRange(period.from, period.to) }}</spam>
                     </p>
                 </div>
             </div>
