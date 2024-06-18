@@ -18,19 +18,17 @@ pan.personelActionNotice.work_location = "Office"
         </td>
     </tr>
     <tr>
-        <td class="border border-slate-300 p-2">
+        <td colspan="2" class="border border-slate-300 p-2">
             <div>
                 <label
-                    for="panSection"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
-                >Department:</label>
-                <HrmsCommonDepartmentSelector
-                    id="panSection"
-                    v-model="pan.personelActionNotice.section_department_id"
-                />
+                >
+                    HIRE SOURCE:
+                </label>
+                <HrmsCommonEmploymentHireSourceSelector v-model="pan.personelActionNotice.hire_source" />
             </div>
         </td>
-        <td class="border border-slate-300 p-2">
+        <td colspan="2" class="border border-slate-300 p-2">
             <div>
                 <label
                     for="small-input-Position"
@@ -40,6 +38,27 @@ pan.personelActionNotice.work_location = "Office"
                     id="small-input-Position"
                     v-model="pan.personelActionNotice.designation_position"
                 />
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="border border-slate-300 p-2">
+            <div>
+                <label
+                    class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
+                >
+                    EMPLOYMENT STATUS:
+                </label>
+                <HrmsCommonEmploymentStatusSelector v-model="pan.personelActionNotice.employment_status" />
+            </div>
+        </td>
+        <td class="border border-slate-300 p-2">
+            <div>
+                <label
+                    class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
+                >SALARY TYPE:
+                </label>
+                <HrmsCommonEmploymentSalaryTypeSelector v-model="pan.personelActionNotice.salary_type" />
             </div>
         </td>
         <td class="border border-slate-300 p-2">
@@ -57,127 +76,26 @@ pan.personelActionNotice.work_location = "Office"
         </td>
     </tr>
     <tr>
-        <td colspan="4">
-            <label
-                class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >EMPLOYEE STATUS: </label>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4" class="border border-slate-300 p-2">
-            <div class="md:flex gap-2 space-x-2 p-2">
-                <input id="probationary" v-model="pan.personelActionNotice.employment_status" class="" type="radio" value="Probationary">
+        <td colspan="2" class="border border-slate-300 p-2">
+            <div>
                 <label
-                    for="probationary"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >PROBATIONARY</label>
-                <input id="regular" v-model="pan.personelActionNotice.employment_status" class="" type="radio" value="Regular">
-                <label
-                    for="regular"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >REGULAR</label>
-                <input id="projectBased" v-model="pan.personelActionNotice.employment_status" type="radio" value="Project Based">
-                <label
-                    for="projectBased"
-                    class="text-xs text-gray-900 dark:text-gray-300"
-                >PROJECT BASED</label>
-                <input id="parttime" v-model="pan.personelActionNotice.employment_status" type="radio" value="Part Time">
-                <label
-                    for="parttime"
-                    class="text-xs text-gray-900 dark:text-gray-300"
-                >PART TIME</label>
-                <input id="contractual" v-model="pan.personelActionNotice.employment_status" type="radio" value="Contractual">
-                <label
-                    for="contractual"
-                    class="text-xs text-gray-900 dark:text-gray-300"
-                >CONTRACTUAL</label>
+                    class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
+                >
+                    WORK LOCATION:
+                </label>
+                <HrmsCommonEmploymentWorkLocationSelector v-model="pan.personelActionNotice.work_location" />
             </div>
         </td>
-    </tr>
-    <tr>
-        <td colspan="4">
-            <label
-                for="small-input"
-                class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >SALARY: </label>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4" class="border border-slate-300 p-2">
-            <div class="md:flex gap-2 space-x-2 p-2">
-                <input id="fixedRate" v-model="pan.personelActionNotice.salary_type" class="" type="radio" value="Fixed Rate">
+        <td colspan="2" class="border border-slate-300 p-2">
+            <div>
                 <label
-                    for="fixedRate"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >FIXED RATE</label>
-                <input id="nonfixedrate" v-model="pan.personelActionNotice.salary_type" class="" type="radio" value="Non Fixed Rate">
-                <label
-                    for="nonfixedrate"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >NON-FIXED RATE</label>
-                <input id="weekly" v-model="pan.personelActionNotice.salary_type" class="" type="radio" value="Weekly">
-                <label
-                    for="weekly"
-                    class="text-xs text-gray-900 dark:text-gray-300"
-                >WEEKLY</label>
-                <input id="monthly" v-model="pan.personelActionNotice.salary_type" type="radio" value="Monthly">
-                <label
-                    for="monthly"
-                    class="text-xs text-gray-900 dark:text-gray-300"
-                >MONTLY</label>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4">
-            <label
-                for="small-input"
-                class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >HIRED SOURCE: </label>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4" class="border border-slate-300 p-2">
-            <div class="md:flex gap-2 space-x-2 p-2">
-                <input id="Internal" v-model="pan.personelActionNotice.hire_source" class="" type="radio" value="Internal">
-                <label
-                    for="Internal"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >INTERNAL</label>
-                <input id="External" v-model="pan.personelActionNotice.hire_source" class="" type="radio" value="External">
-                <label
-                    for="External"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >EXTERNAL</label>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4">
-            <label
-                for="small-input"
-                class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >WORK LOCATION: </label>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="4" class="border border-slate-300 p-2">
-            <div class="md:flex gap-2 space-x-2 p-2">
-                <input id="workLocationPMS" v-model="pan.personelActionNotice.work_location" class="" type="radio" value="PMS">
-                <label
-                    for="workLocationPMS"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >PMS</label>
-                <input id="workLocationOffice" v-model="pan.personelActionNotice.work_location" class="" type="radio" value="Office">
-                <label
-                    for="workLocationOffice"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >OFFICE</label>
-                <input id="WorkLocationProjectCode" v-model="pan.personelActionNotice.work_location" class="" type="radio" value="Project Code">
-                <label
-                    for="WorkLocationProjectCode"
-                    class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                >PROJECT CODE</label>
+                    for="panSection"
+                    class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
+                >Department:</label>
+                <HrmsCommonDepartmentSelector
+                    id="panSection"
+                    v-model="pan.personelActionNotice.section_department_id"
+                />
             </div>
         </td>
     </tr>

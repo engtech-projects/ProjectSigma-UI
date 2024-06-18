@@ -3,7 +3,7 @@ import { useEnumsStore } from "@/stores/hrms/enum"
 const enums = useEnumsStore()
 const { salarygradeEnum } = storeToRefs(enums)
 if (salarygradeEnum.value.list.length <= 0) {
-    enums.getPositionEnums()
+    enums.getSalarygradeEnums()
 }
 const model = defineModel({ required: false, type: Number, default: null })
 </script>

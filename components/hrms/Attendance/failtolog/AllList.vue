@@ -1,0 +1,79 @@
+<script  setup>
+import { storeToRefs } from "pinia"
+import { useFailToLogStore } from "@/stores/hrms/attendance/failtolog"
+
+const failtologs = useFailToLogStore()
+const { failtolog, list: logList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(failtologs)
+
+const headers = [
+    { name: "Date", id: "date" },
+    { name: "Time", id: "time" },
+    { name: "Log Type", id: "log_type" },
+    { name: "Reason", id: "reason" },
+]
+const actions = {
+    showTable: true, // edit: true, // delete: true
+}
+const infoModalData = ref({})
+const showInfoModal = ref(false)
+const showInformation = (data) => {
+    infoModalData.value = data
+    showInfoModal.value = true
+}
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
+const setEdit = (ovr) => {
+    isEdit.value = true
+    failtolog.value = ovr
+}
+
+const deleteReq = async (req) => {
+    try {
+        boardLoading.value = true
+        await failtologs.deleteLog(req.id)
+        snackbar.add({
+            type: "success",
+            text: failtologs.successMessage
+        })
+    } finally {
+        boardLoading.value = false
+    }
+}
+
+const changePaginate = (newParams) => {
+    getParams.value.page = newParams.page ?? ""
+}
+</script>
+
+<template>
+    <LayoutBoards class="w-full" :loading="boardLoading">
+        <div class="pb-2 text-gray-500 p-2">
+            <LayoutPsTable
+                :header-columns="headers"
+                :datas="logList"
+                :actions="actions"
+                @edit-row="setEdit"
+                @delete-row="deleteReq"
+                @show-table="showInformation"
+            />
+        </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination :links="pagination" @change-params="changePaginate" />
+        </div>
+        <HrmsAttendanceFailtologInfoModal
+            v-model:show-modal="showInfoModal"
+            :data="infoModalData"
+            :show-approvals="false"
+        />
+        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+            {{ errorMessage }}
+        </p>
+        <p
+            v-show="successMessage"
+            hidden
+            class="success-message text-green-600 text-center font-semibold italic"
+        >
+            {{ successMessage }}
+        </p>
+    </LayoutBoards>
+</template>

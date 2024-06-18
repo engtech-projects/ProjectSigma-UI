@@ -95,16 +95,20 @@ export default {
     },
     watch: {
         "successMessage" () {
-            this.$snackbar.add({
-                type: "success",
-                text: this.successMessage
-            })
+            if (this.successMessage) {
+                this.$snackbar.add({
+                    type: "success",
+                    text: this.successMessage
+                })
+            }
         },
         "errorMessage" () {
-            this.$snackbar.add({
-                type: "success",
-                text: this.errorMessage
-            })
+            if (this.errorMessage) {
+                this.$snackbar.add({
+                    type: "success",
+                    text: this.errorMessage
+                })
+            }
         },
     },
     mounted () {
@@ -117,40 +121,30 @@ export default {
             this.isEdit = true
         },
         async getEventsList () {
-            const { data, error } = await useFetch(
+            await useHRMSApi(
                 "/api/events",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     onResponse: ({ response }) => {
-                        this.eventsList = response._data.data.data
-                        this.loadEvents(this.eventsList)
+                        if (response.ok) {
+                            this.eventsList = response._data.data.data
+                            this.loadEvents(this.eventsList)
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
         async createEvent () {
             this.isLoading = true
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useHRMSApi(
                 "/api/events",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.event,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -158,9 +152,8 @@ export default {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
+                            this.clearForm()
                             this.getEventsList()
-                            this.clearForm()
-                            this.clearForm()
                             this.successMessage = response._data.message
                         }
                     },
@@ -187,11 +180,11 @@ export default {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getEventsList()
+                            this.successMessage = response._data.message
                             this.clearForm()
+                            this.getEventsList()
                             this.isEdit = false
                             this.showModal = false
-                            this.successMessage = response._data.message
                         }
                     },
                 }
@@ -217,10 +210,10 @@ export default {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
+                            this.successMessage = response._data.message
                             this.getEventsList()
                             this.isEdit = false
                             this.showModal = false
-                            this.successMessage = response._data.message
                         }
                     },
                 }
@@ -284,11 +277,14 @@ export default {
                 <div>
                     <label for="eventTypr">Event Type</label>
                     <select id="" v-model="event.event_type" name="" class="w-full rounded" required>
-                        <option value="Holiday">
-                            Holiday
-                        </option>
                         <option value="Company Event">
                             Company Event
+                        </option>
+                        <option value="Special Holiday">
+                            Special Holiday
+                        </option>
+                        <option value="Regular Holiday">
+                            Regular Holiday
                         </option>
                     </select>
                 </div>
@@ -302,9 +298,9 @@ export default {
                         <option value="Long Event">
                             Long Event
                         </option>
-                        <option value="Yearly Repeat">
+                        <!-- <option value="Yearly Repeat">
                             Yearly Repeat
-                        </option>
+                        </option> -->
                     </select>
                 </div>
 
@@ -414,11 +410,14 @@ export default {
                             v-model="toEditEvent.event_type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
-                            <option value="Holiday">
-                                Holiday
-                            </option>
                             <option value="Company Event">
                                 Company Event
+                            </option>
+                            <option value="Special Holiday">
+                                Special Holiday
+                            </option>
+                            <option value="Regular Holiday">
+                                Regular Holiday
                             </option>
                         </select>
                     </div>
@@ -441,9 +440,9 @@ export default {
                             <option value="Long Event">
                                 Long Event
                             </option>
-                            <option value="Yearly Repeat">
+                            <!-- <option value="Yearly Repeat">
                                 Yearly Repeat
-                            </option>
+                            </option> -->
                         </select>
                     </div>
                 </div>

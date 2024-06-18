@@ -49,7 +49,7 @@ const snackbar = useSnackbar()
             <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
             <span>Create New Book</span>
         </NuxtLink>
-        <LayoutBoards title="Books List" class="w-full" :loading="bookStore.isLoading">
+        <LayoutBoards title="List of Books" class="w-full" :loading="bookStore.isLoading">
             <div class="pb-2 text-gray-500">
                 <LayoutPsTable
                     id="listTable"

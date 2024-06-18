@@ -1,64 +1,24 @@
 <script setup lang="ts">
+import { useFailToLogStore } from "@/stores/hrms/attendance/failtolog"
+import { useEnumsStore } from "@/stores/hrms/enum"
+
+const failtologstore = useFailToLogStore()
+failtologstore.getAllList()
+failtologstore.getMyApprovalRequests()
+failtologstore.getMyRequests()
+
+const enums = useEnumsStore()
+enums.getEmployeeEnum()
+// enums.getDepartmentEnums()
+// enums.getProjectEnums()
+
 useHead({
-    title: "Failure to Log",
+    title: "Failure To Log",
     meta: [
         { name: "description", content: "" }
     ],
-
 })
 
-const headers = [
-    { text: "ID", value: "id" },
-    { text: "EMPLOYEE", value: "employee_name" },
-    { text: "LOG DATE", value: "logdate" },
-    { text: "TIME IN", value: "timein" },
-    { text: "TIME OUT", value: "timeout" },
-    { text: "REASON", value: "reason" },
-]
-
-const items = [
-    {
-        id: "Employee-0011",
-        employee_name: "Employee 11",
-        logdate: "10/24/23",
-        timein: "10/24/23",
-        timeout: "10/24/23",
-        reason: "reason101",
-    },
-    {
-        id: "Employee-0011",
-        employee_name: "Employee 11",
-        logdate: "10/24/23",
-        timein: "10/24/23",
-        timeout: "10/24/23",
-        reason: "reason101",
-    },
-    {
-        id: "Employee-0011",
-        employee_name: "Employee 11",
-        logdate: "10/24/23",
-        timein: "10/24/23",
-        timeout: "10/24/23",
-        reason: "reason101",
-    },
-    {
-        id: "Employee-0011",
-        employee_name: "Employee 11",
-        logdate: "10/24/23",
-        timein: "10/24/23",
-        timeout: "10/24/23",
-        reason: "reason101",
-    },
-    {
-        id: "Employee-0011",
-        employee_name: "Employee 11",
-        logdate: "10/24/23",
-        timein: "10/24/23",
-        timeout: "10/24/23",
-        reason: "reason101",
-    },
-
-]
 </script>
 
 <template>
@@ -67,20 +27,24 @@ const items = [
             AccessibilityTypes.hrms_attendance_failure_to_log,
         ])"
     >
-        <div class="mt-10 md:mt-0 md:flex gap-2">
-            <HrmsAttendanceFailToLogForm class="md:w-1/2" />
+        <div class="md:flex gap-2">
+            <HrmsAttendanceFailtologFormLog class="md:w-1/2" />
             <div class="md:w-1/2 p-2 w-full">
                 <HrmsCommonTabsMainContainer>
                     <template #tab-titles>
-                        <HrmsCommonTabsTabTitle target-id="leaverequest-all-list" title="All List" />
-                        <HrmsCommonTabsTabTitle target-id="leaverequest-my-approvals" title="My Approvals" />
+                        <HrmsCommonTabsTabTitle target-id="allList" title="All List" />
+                        <HrmsCommonTabsTabTitle target-id="myRequestList" title="My Request" />
+                        <HrmsCommonTabsTabTitle target-id="myApprovalsList" title="My Approvals" />
                     </template>
                     <template #tab-containers>
-                        <HrmsCommonTabsTabContainer id="leaverequest-all-list">
-                            <HrmsLeaveAllList />
+                        <HrmsCommonTabsTabContainer id="allList">
+                            <HrmsAttendanceFailtologAllList />
                         </HrmsCommonTabsTabContainer>
-                        <HrmsCommonTabsTabContainer id="leaverequest-my-approvals">
-                            <HrmsLeaveApprovalList />
+                        <HrmsCommonTabsTabContainer id="myRequestList">
+                            <HrmsAttendanceFailtologMyRequests />
+                        </HrmsCommonTabsTabContainer>
+                        <HrmsCommonTabsTabContainer id="myApprovalsList">
+                            <HrmsAttendanceFailtologMyApprovals />
                         </HrmsCommonTabsTabContainer>
                     </template>
                 </HrmsCommonTabsMainContainer>

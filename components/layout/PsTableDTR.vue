@@ -23,11 +23,84 @@ defineProps({
         type: Object,
         required: true,
     },
+    period: {
+        type: Object,
+        required: true,
+    }
 })
+
+const formatDateRange = (start: string, end: string) => {
+    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+
+    const startDate = new Date(start)
+    const endDate = new Date(end)
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        return "-"
+    }
+
+    const startDay = startDate.getDate()
+    const startMonth = months[startDate.getMonth()]
+
+    const endDay = endDate.getDate()
+    const endMonth = months[endDate.getMonth()]
+    const endYear = endDate.getFullYear()
+
+    if (startMonth === endMonth) {
+        return `${startMonth} ${startDay}-${endDay}, ${endYear}`
+    } else {
+        return `${startMonth} ${startDay}-${endMonth} ${endDay}, ${endYear}`
+    }
+}
+
+const printTable = () => {
+    const printContents = document.getElementById("table-to-print").innerHTML
+    const originalContents = document.body.innerHTML
+    document.body.innerHTML = printContents
+    window.print()
+    document.body.innerHTML = originalContents
+}
+
 </script>
 
 <template>
-    <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+    <div id="table-to-print" class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+        <button class="print-button mb-4 px-4 py-2 bg-blue-500 text-white rounded justify-end" @click="printTable">
+            Print
+        </button>
+        <div v-if="employee.fullname && employee.information?.current_employment?.position?.name && period" class="text-black pb-2">
+            <div class="text-center block overflow-hidden">
+                <div class="flex items-center justify-center">
+                    <div class="text-lg font-bold mx-auto ">
+                        EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
+                        <div class="text-sm text-center indent-4 font-medium">
+                            <p>P-1, Poblacion 8, Buenavista, Agusan Del Norte</p>
+                            <p>Email add: evenparcorporation@gmail.com</p>
+                            <p>DAILY ATTENDANCE/ACCOMPLISHMENT REPORT</p>
+                        </div>
+                    </div>
+                    <img src="/evenpar.jpg" alt="Header Image" class="w-20 ml-4 justify-end" />
+                </div>
+            </div>
+            <br>
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-sm">
+                        <span class="font-bold">NAME:</span>
+                        <span class="font-bold">{{ employee.fullname }}</span><br>
+                        <span class="font-bold">DESIGNATION:</span>
+                        <span class="font-bold">{{ employee.information.current_employment.position.name }}</span>
+                    </p>
+                </div>
+                <div>
+                    <p class="text-sm">
+                        <span class="font-bold">PERIOD COVERED:</span>
+                        <spam class="font-bold">{{ formatDateRange(period.from, period.to) }}</spam>
+                    </p>
+                </div>
+            </div>
+
+        </div>
         <table class="table-auto w-full border-collapse">
             <thead class="bg-gray-900">
                 <tr>
@@ -286,7 +359,15 @@ defineProps({
 <style scoped>
 .active {
     background-color: #0475816b;
-    color:black;
+    color: black;
     font-weight: 500;
+}
+@media print {
+    .print-button {
+        display: none;
+    }
+}
+h1 {
+    font-size: 100px;
 }
 </style>

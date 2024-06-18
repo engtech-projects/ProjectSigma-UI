@@ -177,6 +177,7 @@ export interface EmployeeInternal {
     id: Number,
     employee_id: Number,
     position: Object,
+    position_id: Number,
     employment_status: String,
     immediate_supervisor: String,
     actual_salary: String,
@@ -971,6 +972,26 @@ export const useEmployeeInfo = defineStore("employee", {
                 "/api/employee/seminartraining/" + id,
                 {
                     method: "DELETE",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async updateInternalWorkExperience (formData: any, id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/employee/internalwork-experience/" + id,
+                {
+                    method: "PUT",
+                    body: formData,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.successMessage = response._data.message

@@ -482,15 +482,6 @@ const config = useRuntimeConfig()
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_books,
-                ])"
-                linkarea="/accounting/books"
-                icon="iconoir:book"
-                single-nav-title="Books"
-            />
-            <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
-                v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_transaction_type,
                 ])"
                 linkarea="/accounting/transaction-type"
@@ -515,15 +506,41 @@ const config = useRuntimeConfig()
                 icon="iconoir:notes"
                 single-nav-title="Posting Period"
             />
-            <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
+            <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_account_groups,
+                    AccessibilityTypes.hrms_setup_group
                 ])"
-                linkarea="/accounting/account-groups"
-                icon="iconoir:commodity"
-                single-nav-title="Account Groups"
-            />
+                icon="ion:logo-apple-ar"
+                title="Groups"
+            >
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_books,
+                    ])"
+                    linkarea="/accounting/books"
+                    icon="iconoir:book"
+                    single-nav-title="Books"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_account_groups,
+                    ])"
+                    linkarea="/accounting/account-groups"
+                    icon="iconoir:commodity"
+                    single-nav-title="Account"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_account_groups,
+                    ])"
+                    linkarea="/accounting/stakeholder-group"
+                    icon="iconoir:profile-circle"
+                    single-nav-title="Stakeholder"
+                />
+            </LayoutNavGroup>
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([

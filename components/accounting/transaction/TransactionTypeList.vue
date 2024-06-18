@@ -32,7 +32,6 @@ const changePaginate = (newParams) => {
 
 const headers = [
     { name: "Transaction Type Name", id: "transaction_type_name" },
-    { name: "Symbol", id: "symbol" },
 ]
 const actions = {
     edit: true,

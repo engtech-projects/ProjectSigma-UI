@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
 
-const { myPanList } = storeToRefs(pan)
+const { myPanList, pagination, getParams } = storeToRefs(pan)
 const boardLoading = ref(false)
 
 const panData = ref(null)
@@ -27,6 +27,9 @@ const headers = [
 const actions = {
     showTable: true,
 }
+const changePaginate = (newParams) => {
+    getParams.value.page = newParams.page ?? ""
+}
 
 </script>
 
@@ -38,6 +41,13 @@ const actions = {
                 :actions="actions"
                 :datas="myPanList"
                 @show-table="showInformation"
+            />
+        </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination
+                v-if="myPanList.length"
+                :links="pagination"
+                @change-params="changePaginate"
             />
         </div>
     </LayoutBoards>

@@ -30,7 +30,7 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Type Name", id: "account_type" },
+    { name: "Type Name", id: "account_type_name" },
     { name: "Category", id: "account_category" },
     { name: "Balance Type", id: "balance_type" },
     { name: "Notation", id: "notation" },
