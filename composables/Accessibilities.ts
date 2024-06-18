@@ -29,6 +29,7 @@ export enum AccessibilityTypes {
     hrms_employee_manpowerrequest_approval = "hrms:employee_manpower request_approval",
     hrms_employee_manpowerrequest_my_request = "hrms:employee_manpower request_my request",
     hrms_employee_201_group = "hrms:employee_201_",
+    hrms_employee_201_edit = "hrms:employee_201_edit",
     hrms_employee_201_PIS = "hrms:employee_201_pis",
     hrms_employee_201_staff_information_sheet = "hrms:employee_201_staff information sheet",
     hrms_employee_201_documents_memos = "hrms:employee_201_documents and memos",

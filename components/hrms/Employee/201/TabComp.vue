@@ -48,7 +48,13 @@ const setEdit = () => {
                     <HrmsCommonTabsTabContainer
                         id="pis201"
                     >
-                        <div v-show="employee.information.id" class="w-full p-2">
+                        <div
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_employee_201_edit,
+                            ])
+                                && employee.information.id"
+                            class="w-full p-2"
+                        >
                             <label class="inline-flex items-center cursor-pointer">
                                 <input
                                     type="checkbox"
@@ -65,7 +71,13 @@ const setEdit = () => {
                     <HrmsCommonTabsTabContainer
                         id="staffInformationSheet"
                     >
-                        <div v-show="employee.information.id" class="w-full p-2">
+                        <div
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_employee_201_edit,
+                            ])
+                                && employee.information.id"
+                            class="w-full p-2"
+                        >
                             <label class="inline-flex items-center cursor-pointer">
                                 <input
                                     type="checkbox"

@@ -1,0 +1,31 @@
+<script lang="ts" setup>
+const model = defineModel({ required: false, type: String, default: null })
+const options = [
+    {
+        name: "FIXED RATE",
+        value: "Fixed Rate",
+    },
+    {
+        name: "NON-FIXED RATE",
+        value: "Non Fixed Rate",
+    },
+    {
+        name: "WEEKLY",
+        value: "Weekly",
+    },
+    {
+        name: "MONTLY",
+        value: "Monthly",
+    },
+]
+</script>
+<template>
+    <select v-model="model" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <option :value="null" disabled selected>
+            Choose Employment Status
+        </option>
+        <option v-for="data, index in options" :key="index" :value="data.value">
+            {{ data.name }}
+        </option>
+    </select>
+</template>
