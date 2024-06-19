@@ -30,6 +30,7 @@ async function handleSubmit () {
                 type: "success",
                 text: stakeholderStore.successMessage
             })
+            stakeholderStore.reset()
         }
     } catch (error) {
         errorMessage.value = errorMessage
@@ -39,7 +40,8 @@ async function handleSubmit () {
         })
     } finally {
         isLoading.value = false
-        stakeholderStore.reset()
+        navigateTo("/accounting/stakeholder")
+        // stakeholderStore.reset()
     }
 }
 </script>

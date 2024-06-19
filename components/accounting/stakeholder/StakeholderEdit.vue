@@ -10,7 +10,7 @@ const modalStore = useModalStore()
 modalStore.title = "Create New Stakeholder Type"
 
 const stakeHolderTypeStore = useStakeHolderTypeStore()
-stakeHolderTypeStore.getStakeHolderTypes()
+await stakeHolderTypeStore.getStakeHolderTypes()
 
 function select (val:any) {
     stakeholderStore.stakeholder.stakeholder_type_id = val.stakeholder_type_id
@@ -24,6 +24,7 @@ async function handleSubmit () {
             type: "success",
             text: stakeholderStore.successMessage
         })
+        navigateTo("/accounting/stakeholder")
     } catch {
         snackbar.add({
             type: "error",
