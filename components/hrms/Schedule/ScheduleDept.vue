@@ -331,7 +331,6 @@ watch(errorMessage, (msg) => {
                                         id="eventTitleIn"
                                         v-model="newEvent.startTime"
                                         type="time"
-                                        step="1"
                                         class="w-44 md:w-44 rounded-lg"
                                         required
                                     >
@@ -342,7 +341,6 @@ watch(errorMessage, (msg) => {
                                         id="eventTitleOut"
                                         v-model="newEvent.endTime"
                                         type="time"
-                                        step="1"
                                         class="w-44 md:w-44 rounded-lg"
                                         required
                                     >

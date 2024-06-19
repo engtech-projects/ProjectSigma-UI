@@ -16,7 +16,7 @@ const daysOfWeek = ref([false, false, false, false, false, false, false])
 const newEvent = ref({
     id: null,
     groupType: "employee",
-    department_id: 1,
+    department_id: null,
     project_id: null,
     employee_id: null,
     scheduleType: "Regular",
@@ -163,7 +163,7 @@ function resetEvents () {
     newEvent.value = {
         id: null,
         groupType: "department",
-        department_id: 1,
+        department_id: null,
         project_id: null,
         employee_id: newEvent.value.employee_id,
         scheduleType: "Regular",
@@ -287,10 +287,6 @@ watch(errorMessage, (msg) => {
             </div>
             <div class="p-4 flex flex-col gap-4" :class="isEdit? 'border-t-8 border-green-500 rounded-md' : ''">
                 <AccountingSelectSearch :options="employeeList" title="fullName" opid="id" :selected-id="employee.id" @select="selectEmployee" />
-                <HrmsCommonDepartmentSelector
-                    id="schedule"
-                    v-model="newEvent.department_id"
-                />
             </div>
 
             <div class="p-4">
@@ -335,7 +331,6 @@ watch(errorMessage, (msg) => {
                                         id="eventTitleIn"
                                         v-model="newEvent.startTime"
                                         type="time"
-                                        step="1"
                                         class="w-44 md:w-44 rounded-lg"
                                         required
                                     >
@@ -346,7 +341,6 @@ watch(errorMessage, (msg) => {
                                         id="eventTitleOut"
                                         v-model="newEvent.endTime"
                                         type="time"
-                                        step="1"
                                         class="w-44 md:w-44 rounded-lg"
                                         required
                                     >
