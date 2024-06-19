@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useEmployeeInfo, EMPLOYMENT_CHILD } from "@/stores/hrms/employee"
+import { useEmployeeInfo } from "@/stores/hrms/employee"
 
 const employee = useEmployeeInfo()
 const { information, editable } = storeToRefs(employee)
