@@ -95,7 +95,7 @@ const printTable = () => {
                 <div>
                     <p class="text-sm">
                         <span class="font-bold">PERIOD COVERED:</span>
-                        <spam class="font-bold">{{ formatDateRange(period.from, period.to) }}</spam>
+                        <span class="font-bold">{{ formatDateRange(period.from, period.to) }}</span>
                     </p>
                 </div>
             </div>

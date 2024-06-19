@@ -98,10 +98,10 @@ const headers = [
                             <span class="text-teal-600 text-light">Date of Overtime: </span> {{ data.overtime_date }}
                         </div>
                         <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> From: </span> {{ data.overtime_start_time }}
+                            <span class="text-teal-600 text-light"> From: </span> {{ data.start_time_human }}
                         </div>
                         <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> To: </span> {{ data.overtime_end_time }}
+                            <span class="text-teal-600 text-light"> To: </span> {{ data.end_time_human }}
                         </div>
                         <div class="p-2 flex gap-2">
                             <span class="text-teal-600 text-light"> Purpose/Reason: </span> {{ data.reason }}
