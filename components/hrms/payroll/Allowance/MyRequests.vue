@@ -86,7 +86,7 @@ const boardLoading = ref(false)
                             <span class="text-teal-600 font-medium">Total Amount: </span> {{ generateAllowanceData.total_amount }}
                         </div>
                     </div> -->
-                    <HrmsPayrollAllowanceEmployeeTable prop-title="Request for Allowance" :prop-data="generateAllowanceData"/>
+                    <HrmsPayrollAllowanceEmployeeTable prop-title="Request for Allowance" :prop-data="generateAllowanceData" />
                     <div class="w-full">
                         <LayoutApprovalsListView :approvals="generateAllowanceData.approvals" />
                     </div>

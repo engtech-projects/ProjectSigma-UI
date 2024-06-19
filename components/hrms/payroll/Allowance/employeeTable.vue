@@ -23,8 +23,8 @@ const getDayNamesBetweenDates = (start, end) => {
 }
 const formatDate = (date) => {
     const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, "0")
+    const day = String(date.getDate()).padStart(2, "0")
     return `${year}-${month}-${day}`
 }
 const daysBetween = getDayNamesBetweenDates(props.propData.cutoff_start, props.propData.cutoff_end)
@@ -35,7 +35,9 @@ const daysBetween = getDayNamesBetweenDates(props.propData.cutoff_start, props.p
             <h1 class="text-xl font-bold">
                 EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
             </h1>
-            <h2 class="text-lg">{{ propTitle }}</h2>
+            <h2 class="text-lg">
+                {{ propTitle }}
+            </h2>
         </div>
         <div class="mb-2 flex justify-between">
             <div class="w-full flex gap-4">
@@ -77,7 +79,7 @@ const daysBetween = getDayNamesBetweenDates(props.propData.cutoff_start, props.p
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <!-- <tr>
                     <td class="border border-zinc-300 px-2 py-1">
                         6
                     </td>
@@ -112,7 +114,7 @@ const daysBetween = getDayNamesBetweenDates(props.propData.cutoff_start, props.p
                     <td colspan="2" class="border border-zinc-300 px-2 py-1">
                         TOTAL : 10000
                     </td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
     </div>

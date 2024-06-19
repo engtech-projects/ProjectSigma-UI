@@ -79,7 +79,7 @@ const printTable = () => {
                             <p>DAILY ATTENDANCE/ACCOMPLISHMENT REPORT</p>
                         </div>
                     </div>
-                    <img src="/evenpar.jpg" alt="Header Image" class="w-20 ml-4 justify-end" />
+                    <img src="/evenpar.jpg" alt="Header Image" class="w-20 ml-4 justify-end">
                 </div>
             </div>
             <br>
@@ -99,7 +99,6 @@ const printTable = () => {
                     </p>
                 </div>
             </div>
-
         </div>
         <table class="table-auto w-full border-collapse">
             <thead class="bg-gray-900">
