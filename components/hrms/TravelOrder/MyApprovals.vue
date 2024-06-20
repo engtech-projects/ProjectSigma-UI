@@ -3,19 +3,13 @@ import { storeToRefs } from "pinia"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 
 const travels = useTravelorderStore()
-const { myApprovalRequestList: travelList, remarks } = storeToRefs(travels)
+const { myApprovalRequestList: travelList } = storeToRefs(travels)
 
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
-const travelData = ref(null)
-const showInformationModal = ref(false)
-
+const infoModalData = ref({})
+const showInfoModal = ref(false)
 const showInformation = (data) => {
-    travelData.value = data
-    showInformationModal.value = true
-}
-const closeViewModal = () => {
-    showInformationModal.value = false
+    infoModalData.value = data
+    showInfoModal.value = true
 }
 
 const headers = [
@@ -26,43 +20,6 @@ const headers = [
     { name: "Duration", id: "duration_of_travel" },
     { name: "Remarks", id: "remarks" },
 ]
-const approvedRequest = async (id) => {
-    try {
-        boardLoading.value = true
-        await travels.approveApprovalForm(id)
-        snackbar.add({
-            type: "success",
-            text: travels.successMessage
-        })
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
-const clearRemarks = () => {
-    remarks.value = ""
-}
-const denyRequest = async (id) => {
-    try {
-        boardLoading.value = true
-        await travels.denyApprovalForm(id)
-        snackbar.add({
-            type: "success",
-            text: travels.successMessage
-        })
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
 
 const actions = {
     showTable: true,
@@ -80,101 +37,10 @@ const actions = {
                 @show-table="showInformation"
             />
         </div>
+        <HrmsTravelOrderInfoModal
+            v-model:show-modal="showInfoModal"
+            :data="infoModalData"
+            :show-approvals="true"
+        />
     </LayoutBoards>
-    <div v-if="showInformationModal">
-        <Teleport to="body">
-            <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <LayoutBoards title="" class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" :loading="boardLoading">
-                    <div class="flex gap-2 justify-between p-2">
-                        <p>Request Information</p>
-                        <button
-                            @click="closeViewModal"
-                        >
-                            <Icon name="cil:x" color="green" class="w-4 h-4 " />
-                            Close
-                        </button>
-                    </div>
-                    <!-- <pre>{{ travelData }}</pre> -->
-                    <div class="grid gap-2 md:justify-between">
-                        <div class="p-2 flex gap-2">
-                            <span class="text-gray-900 text-3xl">TRAVEL REQUEST TO: {{ travelData.destination }}</span>
-                        </div>
-                    </div>
-                    <div class="grid md:grid-cols-3 gap-2 md:justify-between p-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-sm">
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Requesting Office: </span> <span class="text-gray-900">{{ travelData.department.department_name }}</span>
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Purpose of Travel: </span> {{ travelData.purpose_of_travel }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Duration of Travel (days): </span> {{ travelData.duration_of_travel }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Remarks: </span> {{ travelData.remarks }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Requested By:</span> {{ travelData.requested_by.name }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Remarks: </span> {{ travelData.remarks }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light"> Request Status: </span> {{ travelData.request_status }}
-                        </div>
-                    </div>
-                    <div class="w-full">
-                        <LayoutApprovalsListView :approvals="travelData.approvals" />
-                    </div>
-                    <div class="flex gap-2 p-2 justify-end mt-8">
-                        <button
-                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm rounded-sm"
-                            @click="approvedRequest(travelData.id)"
-                        >
-                            Approve Request
-                        </button>
-                        <button
-                            data-popover-target="popover-deny-travelorder-request"
-                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm rounded-sm"
-                        >
-                            Deny Request
-                        </button>
-                    </div>
-                    <div id="popover-deny-travelorder-request" data-popover role="tooltip" class="absolute z-10 invisible inline-block w-96 text-sm text-gray-500 transition-opacity duration-300 bg-gray-800 border border-gray-200 shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 p-4">
-                        <div>
-                            <div class="text-white text-lg">
-                                Travel Order Request
-                            </div>
-                            <div>
-                                <div class="w-full">
-                                    <p class="text-md text-slate-400">
-                                        Are you sure you want to deny this process?
-                                    </p>
-                                </div>
-                                <div class="py-2 flex-col flex gap-2 text-slate-400">
-                                    <label for="deny-remarks">Your remarks if deny</label>
-                                    <textarea v-model="remarks" cols="4" rows="4" />
-                                </div>
-                                <div class="w-full py-2 flex gap-2 justify-end">
-                                    <button
-                                        class="rounded-lg bg-red-500 p-2 hover:bg-red-400 text-white round-sm"
-                                        @click="denyRequest(travelData.id)"
-                                    >
-                                        Deny Request
-                                    </button>
-                                    <button
-                                        class="rounded-lg bg-yellow-600 p-2 hover:bg-yellow-900 text-white round-sm"
-                                        @click="clearRemarks"
-                                    >
-                                        Clear
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div data-popper-arrow />
-                    </div>
-                </LayoutBoards>
-            </div>
-        </Teleport>
-    </div>
 </template>
