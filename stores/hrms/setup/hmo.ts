@@ -5,6 +5,7 @@ const config = useRuntimeConfig()
 export const useHMOStore = defineStore("hmo", {
     state: () => ({
         isEdit: false,
+        hmoMemberList: null,
         hmo: {
             id: null,
             hmo_name: null,
@@ -47,7 +48,25 @@ export const useHMOStore = defineStore("hmo", {
                 return error
             }
         },
-
+        async getHmoMembers (id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApi(
+                "api/hmo/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.hmoMemberList = response._data.data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async createHmo () {
             this.successMessage = ""
             this.errorMessage = ""
@@ -113,6 +132,7 @@ export const useHMOStore = defineStore("hmo", {
                 }
             )
             if (data.value) {
+                this.successMessage = data.value.message
                 this.getHmo()
                 return data
             } else if (error.value) {

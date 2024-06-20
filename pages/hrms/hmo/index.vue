@@ -42,7 +42,7 @@ const deleteHmo = async () => {
             >List of HMO
             </label>
             <NuxtLink
-                to="/hrms/setup/hmo/create"
+                to="/hrms/hmo/create"
                 class="text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
             >
                 <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
@@ -89,153 +89,23 @@ const deleteHmo = async () => {
                     </td>
                     <td class="py-2">
                         <div class="flex gap-3 items-center">
-                            <NuxtLink :to="'/hrms/setup/hmo/edit?hmo_id=' + hmo.id">
+                            <NuxtLink :to="'/hrms/hmo/edit?hmo_id=' + hmo.id">
                                 <Icon name="iconoir:edit" class="icon bg-green-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-green-500" />
                             </NuxtLink>
                             <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" @click="setDelete(hmo)" />
-                            <NuxtLink :to="'/hrms/setup/hmo/renew?hmo_id=' + hmo.id">
+                            <NuxtLink :to="'/hrms/hmo/renew?hmo_id=' + hmo.id">
                                 <Icon name="iconoir:crop-rotate-bl" class="icon bg-blue-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-blue-500" />
                             </NuxtLink>
                         </div>
                     </td>
                 </tr>
-                <!-- <tr>
-                    <td class="py-2">
-                        Pacific Cross Inc.
-                    </td>
-                    <td class="py-2">
-                        February 1, 2024
-                    </td>
-                    <td class="py-2">
-                        February 29, 2024
-                    </td>
-                    <td class="py-2">
-                        500,000.00
-                    </td>
-                    <td class="py-2">
-                        <div class="flex gap-3 items-center">
-                            <Icon name="iconoir:edit" class="icon bg-green-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-green-500" />
-                            <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" />
-                            <Icon name="iconoir:crop-rotate-bl" class="icon bg-blue-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-blue-500" />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="py-2">
-                        Pacific Cross Inc.
-                    </td>
-                    <td class="py-2">
-                        February 1, 2024
-                    </td>
-                    <td class="py-2">
-                        February 29, 2024
-                    </td>
-                    <td class="py-2">
-                        500,000.00
-                    </td>
-                    <td class="py-2">
-                        <div class="flex gap-3 items-center">
-                            <NuxtLink :to="'/hrms/setup/hmo/edit/' + 1">
-                                <Icon name="iconoir:edit" class="icon bg-green-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-green-500" />
-                            </NuxtLink>
-                            <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" @click="modalStore.showModal" />
-                            <NuxtLink :to="'/hrms/setup/hmo/renew/' + 1">
-                                <Icon name="iconoir:crop-rotate-bl" class="icon bg-blue-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-blue-500" />
-                            </NuxtLink>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="py-2">
-                        Pacific Cross Inc.
-                    </td>
-                    <td class="py-2">
-                        February 1, 2024
-                    </td>
-                    <td class="py-2">
-                        February 29, 2024
-                    </td>
-                    <td class="py-2">
-                        500,000.00
-                    </td>
-                    <td class="py-2">
-                        <div class="flex gap-3 items-center">
-                            <Icon name="iconoir:edit" class="icon bg-green-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-green-500" />
-                            <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" />
-                            <Icon name="iconoir:crop-rotate-bl" class="icon bg-blue-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-blue-500" />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="py-2">
-                        Pacific Cross Inc.
-                    </td>
-                    <td class="py-2">
-                        February 1, 2024
-                    </td>
-                    <td class="py-2">
-                        February 29, 2024
-                    </td>
-                    <td class="py-2">
-                        500,000.00
-                    </td>
-                    <td class="py-2">
-                        <div class="flex gap-3 items-center">
-                            <Icon name="iconoir:edit" class="icon bg-green-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-green-500" />
-                            <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" />
-                            <Icon name="iconoir:crop-rotate-bl" class="icon bg-blue-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-blue-500" />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="py-2">
-                        Pacific Cross Inc.
-                    </td>
-                    <td class="py-2">
-                        February 1, 2024
-                    </td>
-                    <td class="py-2">
-                        February 29, 2024
-                    </td>
-                    <td class="py-2">
-                        500,000.00
-                    </td>
-                    <td class="py-2">
-                        <div class="flex gap-3 items-center">
-                            <Icon name="iconoir:edit" class="icon bg-green-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-green-500" />
-                            <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" />
-                            <Icon name="iconoir:crop-rotate-bl" class="icon bg-blue-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-blue-500" />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="py-2">
-                        Pacific Cross Inc.
-                    </td>
-                    <td class="py-2">
-                        February 1, 2024
-                    </td>
-                    <td class="py-2">
-                        February 29, 2024
-                    </td>
-                    <td class="py-2">
-                        500,000.00
-                    </td>
-                    <td class="py-2">
-                        <div class="flex gap-3 items-center">
-                            <Icon name="iconoir:edit" class="icon bg-green-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-green-500" />
-                            <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" />
-                            <Icon name="iconoir:crop-rotate-bl" class="icon bg-blue-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-blue-500" />
-                        </div>
-                    </td>
-                </tr> -->
             </tbody>
         </table>
         <ModalContainer size="modal-sm">
             <div class="flex flex-col gap-6">
-                <center class="text-xl mb-4">
+                <div class="text-xl mb-4 m-auto">
                     Do you want to delete this HMO?
-                </center>
+                </div>
                 <div class="flex gap-3 justify-end">
                     <button class="rounded px-4 py-2 text-white bg-slate-500 hover:bg-slate-600" @click="modalStore.hideModal">
                         Cancel

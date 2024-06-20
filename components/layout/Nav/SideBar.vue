@@ -65,7 +65,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Daily Time Record"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_attendance_failure_to_log,
                     ])"
@@ -508,7 +507,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_setup_group
+                    'Admin only'
                 ])"
                 icon="ion:logo-apple-ar"
                 title="Groups"

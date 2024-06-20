@@ -1,13 +1,16 @@
 <script type="ts" setup>
 import { useModalStore } from "~/stores/modal"
-import { useHMOStore } from "~/stores/hrms/setup/hmo"
+import { useHMOStore } from "@/stores/hrms/setup/hmo"
+import { useEmployeeInfo } from "@/stores/hrms/employee"
 
+const employee = useEmployeeInfo()
+const { employeeList: generatedEmployeeList } = storeToRefs(employee)
+employee.getEmployeeList()
+const employees = setEmployees(generatedEmployeeList.value)
 const hmoStore = useHMOStore()
 const modalStore = useModalStore()
-const employees = ref([])
-const currentEmployee = ref({})
 const isLoading = ref(false)
-const searchInput = ref("")
+const searchInput = ref(null)
 const snackbar = useSnackbar()
 const newMember = ref({
     hmo_id: null,
@@ -17,35 +20,8 @@ const newMember = ref({
     member_belongs_to: null,
 })
 
-function generateFinalMembers () {
-    const members = ref([])
-    hmoEmployees.value.forEach((emp) => {
-        if (emp.checked) {
-            members.value.push({
-                hmo_id: null,
-                member_type: "employee",
-                employee_id: emp.id,
-                member_name: emp.first_name + " " + emp.family_name,
-                member_belongs_to: null
-            })
-            if (emp.members.length > 0) {
-                emp.members.forEach((mem) => {
-                    members.value.push({
-                        hmo_id: null,
-                        member_type: "external(addon)",
-                        employee_id: null,
-                        member_name: mem.firstname + " " + mem.lastname,
-                        member_belongs_to: emp.id
-                    })
-                })
-            }
-        }
-    })
-    return JSON.stringify(members.value)
-}
-
 async function handleSubmit () {
-    hmoStore.hmo.hmo_members = generateFinalMembers()
+    hmoStore.hmo.hmo_members = employees
     try {
         isLoading.value = true
         await hmoStore.createHmo()
@@ -68,73 +44,23 @@ async function handleSubmit () {
         })
     } finally {
         isLoading.value = false
-        await navigateTo("/hrms/setup/hmo")
+        await navigateTo("/hrms/hmo")
     }
 }
-
-async function fetchEmployees () {
-    await useHRMSApi(
-        "/api/employee/list",
-        {
-            onResponse: ({ response }) => {
-                if (response.ok) {
-                    employees.value = setEmployees(response._data?.data)
-                } else {
-                    throw new Error(response._data.message)
-                }
-            },
-        }
-    )
-}
-
 function setEmployees (employees) {
     const empList = []
     employees.forEach((emp) => {
-        emp.members = []
-        emp.checked = true
-        empList.push(emp)
+        empList.push({
+            hmo_id: null,
+            checked: true,
+            member_type: "employee",
+            employee_id: emp.id,
+            member_name: emp.fullname_last,
+            member_belongs_to: null
+        })
     })
     return empList
 }
-
-function addMember () {
-    currentEmployee.value.members.push(newMember.value)
-    modalStore.hideModal()
-    newMember.value = {
-        firstname: null,
-        middlename: null,
-        lastname: null
-    }
-}
-function removeMember (members, member) {
-    const arr = members.filter(m => m !== member)
-    return arr
-}
-function setAddEmployee (emp) {
-    currentEmployee.value = emp
-    modalStore.showModal()
-}
-const hmoEmployees = computed(() => {
-    const empList = []
-    employees.value.forEach((emp) => {
-        emp.members = []
-        emp.checked = true
-        empList.push(emp)
-    })
-    if (searchInput.value.length > 2) {
-        return empList.filter(val =>
-            val.first_name.toLowerCase().includes(searchInput.value.toLowerCase()) ||
-            val.family_name.toLowerCase().includes(searchInput.value.toLowerCase()) ||
-            (val.family_name.toLowerCase() + " " + val.first_name.toLowerCase()).includes(searchInput.value.toLowerCase()) ||
-            (val.first_name.toLowerCase() + " " + val.family_name.toLowerCase()).includes(searchInput.value.toLowerCase())
-        )
-    }
-    return empList
-})
-
-onMounted(async () => {
-    await fetchEmployees()
-})
 </script>
 
 <template>
@@ -154,7 +80,6 @@ onMounted(async () => {
                     for=""
                     class="text-xl font-semibold text-gray-900"
                 >Add HMO Share</label>
-
                 <div class="mt-5 b-6">
                     <label
                         for="hmo_name"
@@ -169,7 +94,6 @@ onMounted(async () => {
                         required
                     >
                 </div>
-
                 <div class="flex gap-4">
                     <div class="mt-5 b-6 flex-1">
                         <label
@@ -200,7 +124,6 @@ onMounted(async () => {
                         >
                     </div>
                 </div>
-
                 <div class="flex gap-4">
                     <div class="mt-5 b-6 flex-1">
                         <label
@@ -241,32 +164,22 @@ onMounted(async () => {
                         <input
                             id="searchEmployees"
                             v-model="searchInput"
+                            :debounce="500"
                             type="text"
                             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Employee Search"
                         >
                     </div>
-                    <div class="flex flex-col p-4">
-                        <div v-for="emp in hmoEmployees" :key="emp.id" class="flex flex-col">
+                    <div class="flex flex-col p-4 max-h-[500px] overflow-auto">
+                        <div v-for="emp, index in employees" :key="index" class="flex flex-col">
                             <div class="flex justify-between py-2 border-b border-slate-100">
                                 <div class="flex gap-2 items-center">
                                     <input v-model="emp.checked" type="checkbox">
                                     <span class="text-md text-slate-800">
-                                        {{ emp.family_name + ", " + emp.first_name + " " }}
+                                        {{ emp.member_name }}
                                     </span>
                                 </div>
                                 <Icon name="iconoir:plus" class="text-2xl text-slate-800 hover:text-blue-500 cursor-pointer" @click="setAddEmployee(emp)" />
-                            </div>
-                            <div v-if="emp.members.length > 0" class="flex flex-col gap-1 bg-slate-100 rounded">
-                                <div v-for="member,i in emp.members" :key="i" class="flex justify-between items-center hover:bg-slate-200 px-4 py-1 border-b border-white">
-                                    <div class="flex gap-2">
-                                        <Icon v-if="i===0" name="iconoir:long-arrow-down-right" />
-                                        <span v-else class="w-4" />
-                                        <span class="text-sm">{{ member.lastname + ", " + member.firstname + " " + member.middlename[0].toUpperCase() + "." }}</span>
-                                        <span class="rounded-full px-2 py-[1px] bg-green-400 text-white text-[11px]">Add-on</span>
-                                    </div>
-                                    <Icon name="iconoir:trash" class="text-slate-700 hover:text-red-500 cursor-pointer" @click="emp.members = removeMember(emp.members, member)" />
-                                </div>
                             </div>
                         </div>
                     </div>
