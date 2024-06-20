@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useJobapplicantStore, CURRENT_EMP, STATUS } from "@/stores/hrms/employee/jobapplicant"
+import { useJobapplicantStore, CURRENT_EMP } from "@/stores/hrms/employee/jobapplicant"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 
 const manpowers = useManpowerStore()
@@ -111,28 +111,10 @@ const handleResumeFileUpload = (event) => {
                 </div>
             </div>
 
-            <div class="grid md:grid-cols-5 md:gap-6">
+            <div class="flex justify-between">
                 <label class="block text-sm font-medium text-gray-900 dark:text-white pb-4 col-span-2">I. Personal Information</label>
-                <div class="relative z-0 w-full mb-5 group">
-                    <select
-                        v-model="jobapplicant.status"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-cyan-500 focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
-                    >
-                        <option value="select" disabled selected>
-                            -- Select --
-                        </option>
-                        <option v-for="stats, statusIndex in STATUS" :key="statusIndex" :value="stats">
-                            {{ stats }}
-                        </option>
-                    </select>
-                    <label for="floating_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Status</label>
-                </div>
-                <div>
-                    <div class="relative z-0 w-full mb-5 group col-span-2">
-                        <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.remarks" title="Remarks" />
-                    </div>
-                </div>
-                <div class="relative z-0 w-full mb-5 group">
+
+                <div class="relative z-0 mb-5 group">
                     <input
                         id="floating_date_of_application"
                         v-model="jobapplicant.date_of_application"
@@ -411,7 +393,7 @@ const handleResumeFileUpload = (event) => {
                     >
                     <label for="floating_children_birthdate" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Birth</label>
                 </div>
-                <button v-if="childIndex > 0" class="delete-button" @click.prevent="delChild(childIndex)">
+                <button class="delete-button" @click.prevent="delChild(childIndex)">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

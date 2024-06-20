@@ -39,6 +39,7 @@ async function handleSubmit () {
         })
     } finally {
         isLoading.value = false
+        navigateTo("/accounting/books")
     }
 }
 </script>

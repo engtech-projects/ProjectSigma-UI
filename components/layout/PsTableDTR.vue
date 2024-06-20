@@ -79,7 +79,7 @@ const printTable = () => {
                             <p>DAILY ATTENDANCE/ACCOMPLISHMENT REPORT</p>
                         </div>
                     </div>
-                    <img src="/evenpar.jpg" alt="Header Image" class="w-20 ml-4 justify-end" />
+                    <img src="/evenpar.jpg" alt="Header Image" class="w-20 ml-4 justify-end">
                 </div>
             </div>
             <br>
@@ -95,11 +95,10 @@ const printTable = () => {
                 <div>
                     <p class="text-sm">
                         <span class="font-bold">PERIOD COVERED:</span>
-                        <spam class="font-bold">{{ formatDateRange(period.from, period.to) }}</spam>
+                        <span class="font-bold">{{ formatDateRange(period.from, period.to) }}</span>
                     </p>
                 </div>
             </div>
-
         </div>
         <table class="table-auto w-full border-collapse">
             <thead class="bg-gray-900">
@@ -275,7 +274,7 @@ const printTable = () => {
                                     NO LOG
                                 </td>
                                 <td v-if="dataValue[1].ovetime.length > 0" class="p-2">
-                                    {{ dataValue[1].ovetime[0].end_time_human }}
+                                    {{ dataValue[1].ovetime[0].end_time_human }} ({{ dataValue[1].ovetime[0].applied_out?.time_human }})
                                 </td>
                                 <td v-else class="p-2">
                                     NO LOG
