@@ -29,10 +29,10 @@ const submitForm = async () => {
                 text: travels.successMessage
             })
         }
-    } catch {
+    } catch (error) {
         snackbar.add({
             type: "error",
-            text: travels.errorMessage
+            text: error
         })
     } finally {
         travels.clearMessages()

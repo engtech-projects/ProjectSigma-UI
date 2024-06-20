@@ -267,14 +267,14 @@ const printTable = () => {
                                 <td v-else class="p-2">
                                     0
                                 </td>
-                                <td v-if="dataValue[1].ovetime.length > 0" class="p-2">
-                                    {{ dataValue[1].ovetime[0].start_time_human }}
+                                <td v-if="dataValue[1].overtime.length > 0" class="p-2">
+                                    {{ dataValue[1].overtime[0].start_time_human }}
                                 </td>
                                 <td v-else class="p-2">
                                     NO LOG
                                 </td>
-                                <td v-if="dataValue[1].ovetime.length > 0" class="p-2">
-                                    {{ dataValue[1].ovetime[0].end_time_human }} ({{ dataValue[1].ovetime[0].applied_out?.time_human }})
+                                <td v-if="dataValue[1].overtime.length > 0" class="p-2">
+                                    {{ dataValue[1].overtime[0].end_time_human }} ({{ dataValue[1].overtime[0].applied_out?.time_human }})
                                 </td>
                                 <td v-else class="p-2">
                                     NO LOG
