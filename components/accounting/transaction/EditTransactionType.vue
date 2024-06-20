@@ -68,7 +68,7 @@ function select (val:any) {
                     >Book</label>
                     <select
                         id="book"
-                        v-model="transactionTypeStore.transactionType.book_id"
+                        v-model="transactionTypeStore.transactionType.book.book_id"
                         class="w-full rounded-lg"
                         required
                     >
@@ -98,7 +98,7 @@ function select (val:any) {
                     >Stakeholder Group</label>
                     <select
                         id="book"
-                        v-model="transactionTypeStore.transactionType.stakeholder_group_id"
+                        v-model="transactionTypeStore.transactionType.stakeholder_group.stakeholder_group_id"
                         class="w-full rounded-lg"
                         required
                     >

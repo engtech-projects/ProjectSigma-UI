@@ -16,6 +16,7 @@ async function handleSubmit () {
             type: "success",
             text: documentSeriesStore.successMessage
         })
+        navigateTo("/accounting/document-series")
     } catch {
         snackbar.add({
             type: "error",

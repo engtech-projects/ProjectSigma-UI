@@ -9,6 +9,12 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
             transaction_type_name: null,
             stakeholder_group_id: null,
             book_id: null,
+            book: {
+                book_id: null
+            },
+            stakeholder_group: {
+                stakeholder_group_id: null
+            },
             account_id: null,
             symbol: null,
             book: null,
@@ -67,7 +73,10 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.transactionType = response._data
+                        this.transactionType = response._data.data
+                        if (!this.transactionType.stakeholder_group) {
+                            this.transactionType.stakeholder_group = { stakeholder_group_id: null }
+                        }
                     },
                 }
             )
@@ -160,9 +169,15 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
             this.transactionType = {
                 transaction_type_id: null,
                 transaction_type_name: null,
-                book_id: null,
-                account_id: null,
                 stakeholder_group_id: null,
+                book_id: null,
+                book: {
+                    book_id: null
+                },
+                stakeholder_group: {
+                    stakeholder_group_id: null
+                },
+                account_id: null,
                 symbol: null,
                 book: null,
                 stakeholder_group: null
