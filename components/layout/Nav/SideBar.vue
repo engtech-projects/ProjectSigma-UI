@@ -507,7 +507,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_setup_group
+                    'Admin only'
                 ])"
                 icon="ion:logo-apple-ar"
                 title="Groups"
