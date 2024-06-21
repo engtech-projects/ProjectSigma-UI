@@ -66,61 +66,49 @@ const denyRequest = async (id) => {
 </script>
 
 <template>
-    <Teleport to="body">
-        <div v-if="showModal">
-            <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <LayoutBoards title="" class="bg-white p-4 w-8/12 h-auto mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" :loading="boardLoading">
-                    <div class="flex gap-2 justify-between p-2">
-                        <p class="text-base">
-                            Failure to Log
-                        </p>
-                        <button
-                            @click="closeViewModal"
-                        >
-                            <Icon name="cil:x" color="green" class="w-4 h-4 " />
-                            Close
-                        </button>
-                    </div>
-                    <div class="grid gap-2 md:justify-between">
-                        <div class="p-2 flex gap-2">
-                            <span class="text-gray-900 text-4xl">Failure to Log</span>
-                        </div>
-                    </div>
-                    <div class="grid md:grid-cols-3 gap-2 md:justify-between">
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light font-medium">Employee Name: </span> <span class="text-gray-900">{{ data.employee.fullname_first }}</span>
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light font-medium"> Date: </span> <span class="text-gray-900">{{ data.date }}</span>
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light font-medium">Time: </span> {{ data.time }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light font-medium">Log Type: </span> {{ data.log_type }}
-                        </div>
-                        <div class="p-2 flex gap-2">
-                            <span class="text-teal-600 text-light font-medium">Reason: </span> {{ data.reason }}
-                        </div>
-                    </div>
-                    <div class="w-full">
-                        <LayoutApprovalsListView :approvals="data.approvals" />
-                    </div>
-                    <div v-if="showApprovals" class="flex gap-2 p-2 justify-end">
-                        <button
-                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                            @click="approvedRequest(data.id)"
-                        >
-                            Approve Request
-                        </button>
-                        <button
-                            data-popover-target="popover-deny"
-                            class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                        >
-                            Deny Request
-                        </button>
-                    </div>
-                </LayoutBoards>
+
+    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="FAILURE TO LOG">
+        <template #body>
+            <div class="grid gap-2 md:justify-between">
+                <div class="p-2 flex gap-2">
+                    <span class="text-gray-900 text-4xl">Failure to Log</span>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-2 md:justify-between">
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium">Employee Name: </span> <span class="text-gray-900">{{ data.employee.fullname_first }}</span>
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium"> Date: </span> <span class="text-gray-900">{{ data.date }}</span>
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium">Time: </span> {{ data.time }}
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium">Log Type: </span> {{ data.log_type }}
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium">Reason: </span> {{ data.reason }}
+                </div>
+            </div>
+            <div class="w-full">
+                <LayoutApprovalsListView :approvals="data.approvals" />
+            </div>
+        </template>
+        <template #footer>
+            <div v-if="showApprovals" class="flex gap-2 p-2 justify-end relative">
+                <button
+                    class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
+                    @click="approvedRequest(data.id)"
+                >
+                    Approve Request
+                </button>
+                <button
+                    data-popover-target="popover-deny"
+                    class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
+                >
+                    Deny Request
+                </button>
                 <div id="popover-deny" data-popover role="tooltip" class="absolute z-10 invisible inline-block w-96 text-sm text-gray-500 transition-opacity duration-300 bg-gray-800 border border-gray-200 shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 p-4">
                     <div>
                         <div class="text-white text-lg">
@@ -155,6 +143,6 @@ const denyRequest = async (id) => {
                     <div data-popper-arrow />
                 </div>
             </div>
-        </div>
-    </Teleport>
+        </template>
+    </PsModal>
 </template>
