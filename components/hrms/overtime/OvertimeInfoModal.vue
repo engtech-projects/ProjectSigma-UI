@@ -114,6 +114,7 @@ const headers = [
                             <span class="text-teal-600 text-light"> Employees: </span>
                         </div>
                         <LayoutPsTable
+                            class="max-h-[200px] overflow-auto"
                             :header-columns="headers"
                             :datas="data.employees"
                             :actions="actions"
