@@ -1,6 +1,11 @@
 <script setup>
 import { useModalStore } from "~/stores/modal"
+import { useHMOStore } from "~/stores/hrms/setup/hmo"
+
 const modalStore = useModalStore()
+const HmoStore = useHMOStore()
+const isLoading = ref(false)
+const { hmo } = storeToRefs(HmoStore)
 const employees = ref([])
 const currentEmployee = ref({})
 const newMember = ref({
@@ -23,6 +28,59 @@ async function fetchEmployees () {
         }
     )
 }
+function generateFinalMembers () {
+    const members = ref([])
+    hmoEmployees.value.forEach((emp) => {
+        if (emp.checked) {
+            members.value.push({
+                hmo_id: null,
+                member_type: "employee",
+                employee_id: emp.id,
+                member_name: emp.first_name + " " + emp.family_name,
+                member_belongs_to: null
+            })
+            if (emp.members.length > 0) {
+                emp.members.forEach((mem) => {
+                    members.value.push({
+                        hmo_id: null,
+                        member_type: "external(addon)",
+                        employee_id: null,
+                        member_name: mem.firstname + " " + mem.lastname,
+                        member_belongs_to: emp.id
+                    })
+                })
+            }
+        }
+    })
+    return JSON.stringify(members.value)
+}
+
+async function handleSubmit () {
+    HmoStore.hmo.hmo_members = generateFinalMembers()
+    try {
+        isLoading.value = true
+        await HmoStore.createHmo()
+        if (HmoStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: HmoStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: HmoStore.successMessage
+            })
+        }
+    } catch (error) {
+        errorMessage.value = errorMessage
+        snackbar.add({
+            type: "error",
+            text: HmoStore.errorMessage
+        })
+    } finally {
+        isLoading.value = false
+    }
+}
 
 function addMember () {
     currentEmployee.value.members.push(newMember.value)
@@ -41,9 +99,10 @@ function setAddEmployee (emp) {
     currentEmployee.value = emp
     modalStore.showModal()
 }
+
 const hmoEmployees = computed(() => {
     const empList = []
-    employees.value.forEach((emp) => {
+    hmo.value.hmo_members.forEach((emp) => {
         emp.members = []
         emp.checked = true
         empList.push(emp)
@@ -58,33 +117,68 @@ onMounted(async () => {
 
 <template>
     <div
-        class="border-t-8 border-blue-500 mt-5 edit-item w-full max-w-full bg-white rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto"
+        class="border-t-8t-5 edit-item w-full max-w-full bg-white rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto"
     >
+        <div v-if="isLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center z-50">
+            <img
+                class="flex justify-center w-28 rounded-md"
+                src="/loader.gif"
+                alt="logo"
+            >
+        </div>
         <label
             for=""
             class="text-xl font-semibold text-gray-900"
         >Renew HMO</label>
-
         <div class="mt-5 b-6">
             <label
                 for="hmo-amount"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Amount</label>
+            >Total Amount</label>
             <input
                 id="hmoAmount"
                 type="number"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="0.00"
-                required
+                :value="hmo.employee_share + hmo.employer_share"
+                disabled
             >
         </div>
-
+        <div class="flex gap-4">
+            <div class="mt-5 b-6 w-full">
+                <label
+                    for="hmo-amount"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Employee Amount</label>
+                <input
+                    id="hmoEmployeeAmount"
+                    v-model="hmo.employee_share"
+                    type="number"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="0.00"
+                >
+            </div>
+            <div class="mt-5 b-6 w-full">
+                <label
+                    for="hmo-amount"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Employeer Amount</label>
+                <input
+                    id="hmoEmployeerAmount"
+                    v-model="hmo.employer_share"
+                    type="number"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="0.00"
+                >
+            </div>
+        </div>
         <div class="mt-5 b-6">
             <label
                 for="hmo_name"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >HMO Name</label>
             <input
+                v-model="hmo.hmo_name"
                 id="hmoName"
                 type="text"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -92,7 +186,6 @@ onMounted(async () => {
                 required
             >
         </div>
-
         <div class="flex gap-4">
             <div class="mt-5 b-6 flex-1">
                 <label
@@ -101,6 +194,7 @@ onMounted(async () => {
                 >HMO Start</label>
                 <input
                     id="hmoStart"
+                    v-model="hmo.hmo_start"
                     type="date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder=""
@@ -114,6 +208,7 @@ onMounted(async () => {
                 >HMO End</label>
                 <input
                     id="hmoEnd"
+                    v-model="hmo.hmo_start"
                     type="date"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder=""
@@ -127,13 +222,13 @@ onMounted(async () => {
                 for="employee"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >Employees</label>
-            <div class="flex flex-col p-4">
+            <div class="flex flex-col p-4 max-h-[300px] overflow-auto">
                 <div v-for="emp in hmoEmployees" :key="emp.id" class="flex flex-col">
                     <div class="flex justify-between py-2 border-b border-slate-100">
                         <div class="flex gap-2 items-center">
                             <input v-model="emp.checked" type="checkbox">
                             <span class="text-md text-slate-800">
-                                {{ emp.family_name + ", " + emp.first_name + " " + emp.middle_name[0].toUpperCase() + "." }}
+                                {{ emp.member_name }}
                             </span>
                         </div>
                         <Icon name="iconoir:plus" class="text-2xl text-slate-800 hover:text-blue-500 cursor-pointer" @click="setAddEmployee(emp)" />
@@ -162,7 +257,7 @@ onMounted(async () => {
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                @click="hmoStore.createHmo()"
+                @click="handleSubmit"
             >
                 Renew
             </button>
