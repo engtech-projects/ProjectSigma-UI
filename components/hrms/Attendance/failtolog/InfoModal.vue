@@ -66,7 +66,6 @@ const denyRequest = async (id) => {
 </script>
 
 <template>
-
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="FAILURE TO LOG">
         <template #body>
             <div class="grid gap-2 md:justify-between">
