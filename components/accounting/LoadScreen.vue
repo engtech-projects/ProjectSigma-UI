@@ -1,5 +1,5 @@
 <template>
-    <div v-if="props.isLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center z-50">
+    <div v-if="props.isLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
         <img
             class="flex justify-center w-28 rounded-md"
             src="/loader.gif"

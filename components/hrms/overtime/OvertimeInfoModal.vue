@@ -74,8 +74,8 @@ const headers = [
 <template>
     <Teleport to="body">
         <div v-if="showModal">
-            <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70 h-auto">
-                <LayoutBoards title="" class="bg-white p-4 w-8/12 mt-10 ml-64 gap-2 rounded-md overflow-auto relative" :loading="boardLoading">
+            <div class="w-full h-full bg-black bg-opacity-80 absolute top-0 left-0 flex justify-center items-center">
+                <LayoutBoards title="" class="bg-white p-4 max-w-[85%] min-w-[50%] max-h-[90%] min-h-[50%] mt-10 gap-2 rounded-md overflow-auto absolute" :loading="boardLoading">
                     <div class="flex gap-2 justify-between p-2">
                         <p class="text-base">
                             Overtime
@@ -114,7 +114,7 @@ const headers = [
                             <span class="text-teal-600 text-light"> Employees: </span>
                         </div>
                         <LayoutPsTable
-                            class="max-h-[200px] overflow-auto"
+                            class="max-h-[180px] overflow-auto"
                             :header-columns="headers"
                             :datas="data.employees"
                             :actions="actions"
