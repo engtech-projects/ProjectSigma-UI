@@ -15,7 +15,7 @@ const approveOnloadModal = ref(false)
 if (useRoute().query.id) {
     leaveRequest.getOne(useRoute().query.id)
     showOnloadModal.value = true
-    if ((useRoute().query.type || "") === "toApprove") {
+    if ((useRoute().query.type || "") === "Approve") {
         approveOnloadModal.value = true
     } else {
         notifStore.setSingleNotifAsRead(useRoute().query.notifId)

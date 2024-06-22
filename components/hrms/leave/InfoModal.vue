@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useLeaveRequest } from "@/stores/hrms/leaveRequest"
+import { useNotificationsStore } from "@/stores/notifications"
 
 defineProps({
     data: {
@@ -17,6 +18,7 @@ defineProps({
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const leaveReqStore = useLeaveRequest()
+const notifStore = useNotificationsStore()
 const { remarks } = storeToRefs(leaveReqStore)
 
 const snackbar = useSnackbar()
@@ -28,11 +30,13 @@ const closeViewModal = () => {
 const approvedRequest = async (id) => {
     try {
         boardLoading.value = true
-        await leaveReqStore.approveApprovalForm(id)
+        await leaveReqStore.approvedRequest(id)
         snackbar.add({
             type: "success",
             text: leaveReqStore.successMessage
         })
+        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+        navigateTo("")
         closeViewModal()
     } catch (error) {
         snackbar.add({
@@ -49,11 +53,13 @@ const clearRemarks = () => {
 const denyRequest = async (id) => {
     try {
         boardLoading.value = true
-        await leaveReqStore.denyApprovalForm(id)
+        await leaveReqStore.denyRequest(id)
         snackbar.add({
             type: "success",
             text: leaveReqStore.successMessage
         })
+        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+        navigateTo("")
         closeViewModal()
     } catch (error) {
         snackbar.add({
