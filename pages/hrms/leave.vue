@@ -1,14 +1,26 @@
 <script setup>
 import { useLeaveRequest } from "@/stores/hrms/leaveRequest"
 import { useEnumsStore } from "@/stores/hrms/enum"
+import { useNotificationsStore } from "@/stores/notifications"
 
+const notifStore = useNotificationsStore()
 const leaveRequest = useLeaveRequest()
 leaveRequest.allLeaves()
 leaveRequest.allApprovals()
 
 const enums = useEnumsStore()
 enums.getDepartmentEnums()
-
+const showOnloadModal = ref(false)
+const approveOnloadModal = ref(false)
+if (useRoute().query.id) {
+    leaveRequest.getOne(useRoute().query.id)
+    showOnloadModal.value = true
+    if ((useRoute().query.type || "") === "toApprove") {
+        approveOnloadModal.value = true
+    } else {
+        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+    }
+}
 useHead({
     title: "Leave",
     meta: [
@@ -24,16 +36,21 @@ useHead({
         ])"
     >
         <div
-            class="w-full flex p-2"
+            class="w-full flex flex-col md:flex-row gap-2"
         >
-            <div class="md:w-1/2 p-2 w-full">
+            <HrmsLeaveInfoModal
+                v-model:showModal="showOnloadModal"
+                :data="leaveRequest.payload"
+                :show-approvals="approveOnloadModal"
+            />
+            <div>
                 <HrmsLeaveForm
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_lnotnto_leave_form,
                     ])"
                 />
             </div>
-            <div class="md:w-1/2 p-2 w-full">
+            <div>
                 <HrmsCommonTabsMainContainer>
                     <template #tab-titles>
                         <HrmsCommonTabsTabTitle

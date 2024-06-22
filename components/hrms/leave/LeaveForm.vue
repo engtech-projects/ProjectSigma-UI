@@ -65,7 +65,7 @@ const submitAdd = async () => {
 </script>
 
 <template>
-    <LayoutBoards title="Leave Application Form" class="mt-5 edit-item w-full max-w-full">
+    <LayoutBoards title="Leave Application Form" class="edit-item w-full max-w-full">
         <form @submit.prevent="submitAdd">
             <div class="w-full p-2">
                 <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">

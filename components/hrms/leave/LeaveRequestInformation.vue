@@ -13,10 +13,10 @@ defineProps({
     <div class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
         <div class="px-4 py-5 sm:px-6">
             <h3 class="text-xl leading-6 font-medium text-gray-900">
-                {{ leaveData.employee.fullname_first }}
+                {{ leaveData.employee?.fullname_first }}
             </h3>
             <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                Leave Request of <span class="text-cyan-700">{{ leaveData.employee.fullname_first }}</span> for <span class="text-cyan-700">{{ leaveData.type }}</span>
+                Leave Request of <span class="text-cyan-700">{{ leaveData.employee?.fullname_first }}</span> for <span class="text-cyan-700">{{ leaveData.type }}</span>
             </p>
         </div>
         <div class="border-t border-gray-200">
