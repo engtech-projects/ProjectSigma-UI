@@ -19,6 +19,14 @@ if (useRoute().query.id) {
         approveOnloadModal.value = true
     } else {
         notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+        navigateTo({
+            path: "/hrms/leave",
+            query: {
+                id: useRoute().query.id,
+                type: "View",
+                notifId: useRoute().query.notifId,
+            },
+        })
     }
 }
 useHead({

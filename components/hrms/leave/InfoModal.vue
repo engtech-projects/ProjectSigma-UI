@@ -36,7 +36,14 @@ const approvedRequest = async (id) => {
             text: leaveReqStore.successMessage
         })
         notifStore.setSingleNotifAsRead(useRoute().query.notifId)
-        navigateTo("")
+        navigateTo({
+            path: "/hrms/leave",
+            query: {
+                id: useRoute().query.id,
+                type: "View",
+                notifId: useRoute().query.notifId,
+            },
+        })
         closeViewModal()
     } catch (error) {
         snackbar.add({
@@ -59,7 +66,14 @@ const denyRequest = async (id) => {
             text: leaveReqStore.successMessage
         })
         notifStore.setSingleNotifAsRead(useRoute().query.notifId)
-        navigateTo("")
+        navigateTo({
+            path: "/hrms/leave",
+            query: {
+                id: useRoute().query.id,
+                type: "View",
+                notifId: useRoute().query.notifId,
+            },
+        })
         closeViewModal()
     } catch (error) {
         snackbar.add({
