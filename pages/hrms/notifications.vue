@@ -32,7 +32,20 @@ const visitNotification = (notif) => {
         </h5>
 
         <div class="notification-list">
-            <!-- Replace this section with your dynamic data -->
+            <div
+                v-if="allList.length <= 0"
+                class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
+            >
+                <div class="pl-3 w-full">
+                    <div
+                        class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400"
+                    >
+                        <span class="font-semibold text-gray-900 dark:text-white">
+                            No Notifications
+                        </span>
+                    </div>
+                </div>
+            </div>
             <a
                 v-for="notification, index in allList"
                 :key="'AllNotifs' + index"
