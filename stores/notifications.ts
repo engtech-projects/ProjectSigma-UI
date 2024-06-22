@@ -1,44 +1,73 @@
 import { defineStore } from "pinia"
 
+const config = useRuntimeConfig()
+const { token } = useAuth()
+
 export const useNotificationsStore = defineStore("notificationsStore", {
     state: () => ({
+        allList: [],
         unreadList: [],
         streamingList: false,
     }),
     actions: {
-        getUnreadNotifications () {
-            useHRMSApi("api/notifications/unread", {
+        getAllNotifications () {
+            useHRMSApi("api/notifications/all", {
                 onResponseError: ({ response } : any) => {
                     throw new Error(response._data.message)
                 },
                 onResponse: ({ response } : any) => {
                     if (response.ok) {
-                        this.unreadList = response._data.data ?? []
+                        this.allList = response._data.data ?? []
                     }
                 },
             })
         },
-        getUnreadNotificationsStream () {
-            useHRMSApi("api/notifications/unread-stream", {
-                onResponseError: ({ response } : any) => {
-                    throw new Error(response._data.message)
+        async getNotificationsStream () {
+            const response = await $fetch<ReadableStream>(config.public.HRMS_API_URL + "/api/notifications/unread-stream", {
+                headers: {
+                    Authorization: token.value + "",
                 },
-                onResponse: ({ response } : any) => {
-                    if (response.ok) {
-                        this.unreadList = response._data.data ?? []
-                    }
-                },
+                method: "GET",
+                responseType: "stream",
             })
+
+            // Create a new ReadableStream from the response with TextDecoderStream to get the data as text
+            const reader = response.pipeThrough(new TextDecoderStream()).getReader()
+
+            // Read the chunk of data as we get it
+            while (true) {
+                const { value, done } = await reader.read()
+                if (done) { break }
+                // console.log("Received:", value)
+                if (value === "data: none" || value === "none") {
+                    continue
+                }
+                const event = JSON.parse(value.slice(6))
+                this.unreadList = event ?? []
+            }
         },
-        setAllUnreadAsRead () {
-            useHRMSApi("api/notifications/mark-read", {
+        async setAllUnreadAsRead () {
+            await useHRMSApi("api/notifications/read-all", {
                 method: "PUT"
             })
+            this.loadDatas()
         },
-        setSingleNotifAsRead (notifId: any) {
-            useHRMSApi("api/notifications/read/" + notifId, {
+        async setSingleNotifAsRead (notifId: any) {
+            await useHRMSApi("api/notifications/read/" + notifId, {
                 method: "PUT"
             })
+            this.loadDatas()
         },
+        async setSingleNotifAsUnread (notifId: any) {
+            await useHRMSApi("api/notifications/unread/" + notifId, {
+                method: "PUT"
+            })
+            this.loadDatas()
+        },
+        loadDatas () {
+            if (this.allList.length > 0) {
+                this.getAllNotifications()
+            }
+        }
     },
 })
