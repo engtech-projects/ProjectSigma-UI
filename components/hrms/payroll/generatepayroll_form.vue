@@ -12,15 +12,15 @@ const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const setEmployee = (adjustIndex: number, emp: { id: any }) => {
-    generateParams.value.adjustment[adjustIndex].id = emp.id
+    generateParams.value.adjustments[adjustIndex].id = emp.id
 }
 
 const addAdjustment = () => {
-    generateParams.value.adjustment.push({ id: "", adjustment_name: "", adjustment_amount: "" })
+    generateParams.value.adjustments.push({ id: "", adjustment_name: "", adjustment_amount: "" })
 }
 
 const delAdjustment = (adjustIndex: any) => {
-    generateParams.value.adjustment.splice(adjustIndex, 1)
+    generateParams.value.adjustments.splice(adjustIndex, 1)
 }
 
 const showInformationModal = ref(false)
@@ -146,13 +146,14 @@ const submitForm = async () => {
                                         ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                     </button>
                                 </div>
-                                <div v-for="(adjust, adjustIndex) in generateParams.adjustment" :key="adjustIndex" class="grid md:grid-cols-2 md:gap-2 pb-4">
+                                <div v-for="(adjust, adjustIndex) in generateParams.adjustments" :key="adjustIndex" class="grid md:grid-cols-2 md:gap-2 pb-4">
+                                    <!-- <pre>{{ adjust }}</pre> -->
                                     <div>
-                                        <label for="" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Employee Name</label>
+                                        <label for="" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
                                         <SearchBar class="flex" @search-changed="emp => setEmployee(adjustIndex, emp)" />
                                     </div>
                                     <div class="justify-items-end ml-auto">
-                                        <button v-if="adjustIndex > 0" class="delete-button " title="Remove Adjustment" @click.prevent="delAdjustment(adjustIndex)">
+                                        <button class="delete-button " title="Remove Adjustment" @click.prevent="delAdjustment(adjustIndex)">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 fill="none"

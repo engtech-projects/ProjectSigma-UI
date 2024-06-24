@@ -241,7 +241,7 @@ const config = useRuntimeConfig()
                     ])"
                     linkarea="/hrms/payroll/generatepayroll"
                     icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Generate Payroll"
+                    single-nav-title="Salary"
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
@@ -260,7 +260,7 @@ const config = useRuntimeConfig()
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Allowance"
                 />
-                <LayoutNavSingle
+                <!-- <LayoutNavSingle
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_payroll_payroll_record,
                     ])"
@@ -268,7 +268,7 @@ const config = useRuntimeConfig()
                     linkarea="/hrms/payroll/payrollrecord"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Payroll Record"
-                />
+                /> -->
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
