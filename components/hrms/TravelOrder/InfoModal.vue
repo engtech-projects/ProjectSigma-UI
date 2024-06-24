@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
+import { useNotificationsStore } from "@/stores/notifications"
 
 defineProps({
     data: {
@@ -17,6 +18,7 @@ defineProps({
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const travelOrderStore = useTravelorderStore()
+const notifStore = useNotificationsStore()
 const { remarks } = storeToRefs(travelOrderStore)
 
 const snackbar = useSnackbar()
@@ -32,6 +34,15 @@ const approvedRequest = async (id) => {
         snackbar.add({
             type: "success",
             text: travelOrderStore.successMessage
+        })
+        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+        navigateTo({
+            path: "/hrms/travelorder",
+            query: {
+                id: useRoute().query.id,
+                type: "View",
+                notifId: useRoute().query.notifId,
+            },
         })
         closeViewModal()
     } catch (error) {
@@ -53,6 +64,15 @@ const denyRequest = async (id) => {
         snackbar.add({
             type: "success",
             text: travelOrderStore.successMessage
+        })
+        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+        navigateTo({
+            path: "/hrms/travelorder",
+            query: {
+                id: useRoute().query.id,
+                type: "View",
+                notifId: useRoute().query.notifId,
+            },
         })
         closeViewModal()
     } catch (error) {
