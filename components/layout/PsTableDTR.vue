@@ -2,7 +2,6 @@
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 
 const employee = useEmployeeInfo()
-const { employeeIsSearched } = storeToRefs(employee)
 
 interface HeaderColumn {
     name: string,
@@ -16,6 +15,10 @@ defineProps({
         required: true,
     },
     datas: {
+        type: Array<any>,
+        required: true,
+    },
+    schedule: {
         type: Array<any>,
         required: true,
     },
@@ -119,7 +122,7 @@ const printTable = () => {
                     </th>
                     <th
                         scope="col"
-                        colspan="5"
+                        :colspan="(schedule.length * 2) + 1"
                         class="text-white p-2 border-solid border border-zinc-700"
                     >
                         Regular Time
@@ -127,50 +130,31 @@ const printTable = () => {
                     <th
                         scope="col"
                         colspan="3"
+                        rowspan="2"
                         class="text-white p-2 border-solid border border-zinc-700"
                     >
                         Overtime
                     </th>
                 </tr>
                 <tr>
-                    <th
-                        scope="col"
-                        colspan="2"
-                        class="text-white p-2 border-solid border border-zinc-700"
-                    >
-                        AM
-                    </th>
-                    <th
-                        scope="col"
-                        colspan="2"
-                        class="text-white p-2 border-solid border border-zinc-700"
-                    >
-                        PM
-                    </th>
-                    <th
-                        scope="col"
-                        colspan="1"
-                        rowspan="2"
-                        class="text-white p-2 border-solid border border-zinc-700"
-                    >
-                        Total Hours
-                    </th>
-                    <th
-                        scope="col"
-                        colspan="1"
-                        rowspan="2"
-                        class="text-white p-2 border-solid border border-zinc-700"
-                    >
-                        IN
-                    </th>
-                    <th
-                        scope="col"
-                        colspan="1"
-                        rowspan="2"
-                        class="text-white p-2 border-solid border border-zinc-700"
-                    >
-                        OUT
-                    </th>
+                    <template v-for="index in schedule.length/2" :key="'schedampm' + index">
+                        <th
+                            id="schedampmAM"
+                            scope="col"
+                            colspan="2"
+                            class="text-white p-2 border-solid border border-zinc-700"
+                        >
+                            AM
+                        </th>
+                        <th
+                            id="schedampmPM"
+                            scope="col"
+                            colspan="2"
+                            class="text-white p-2 border-solid border border-zinc-700"
+                        >
+                            PM
+                        </th>
+                    </template>
                     <th
                         scope="col"
                         colspan="1"
@@ -181,6 +165,22 @@ const printTable = () => {
                     </th>
                 </tr>
                 <tr>
+                    <template v-for="sched, index in schedule" :key="'sched' + index">
+                        <th
+                            scope="col"
+                            colspan="1"
+                            class="text-white p-2 border-solid border border-zinc-700"
+                        >
+                            IN {{ sched.start_time_human }}
+                        </th>
+                        <th
+                            scope="col"
+                            colspan="1"
+                            class="text-white p-2 border-solid border border-zinc-700"
+                        >
+                            OUT {{ sched.end_time_human }}
+                        </th>
+                    </template>
                     <th
                         scope="col"
                         colspan="1"
@@ -200,151 +200,100 @@ const printTable = () => {
                         colspan="1"
                         class="text-white p-2 border-solid border border-zinc-700"
                     >
-                        IN
-                    </th>
-                    <th
-                        scope="col"
-                        colspan="1"
-                        class="text-white p-2 border-solid border border-zinc-700"
-                    >
-                        OUT
+                        Total Hours
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <template v-if="employeeIsSearched">
-                    <template v-for="dataValue, index in datas" :key="index">
-                        <template v-if="dataValue[1].schedules_attendances.length > 0">
-                            <tr v-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="border text-center border-b">
+                <template v-if="datas.dtr">
+                    <template v-for="dataValue, index in datas.dtr" :key="index">
+                        <template v-if="dataValue">
+                            <tr v-if="dataValue.schedules_attendances[0].applied_ins!=null" class="border text-center border-b">
                                 <td class="p-2">
-                                    {{ dataValue[0] }}
+                                    {{ index }}
                                 </td>
-                                <td v-if="dataValue[1].schedules_attendances[0].applied_ins.project_id" class="p-2">
-                                    {{ dataValue[1].schedules_attendances[0].applied_ins.project.project_code }}
+                                <td v-if="dataValue.schedules_attendances[0].applied_ins.project_id" class="p-2">
+                                    {{ dataValue.schedules_attendances[0].applied_ins.project.project_code }}
                                 </td>
-                                <td v-else-if="dataValue[1].schedules_attendances[0].applied_ins.department_id" class="p-2">
-                                    {{ dataValue[1].schedules_attendances[0].applied_ins.department.department_name }}
+                                <td v-else-if="dataValue.schedules_attendances[0].applied_ins.department_id" class="p-2">
+                                    {{ dataValue.schedules_attendances[0].applied_ins.department.department_name }}
                                 </td>
-                                <td v-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2 am-time-in">
-                                    {{ dataValue[1].schedules_attendances[0].applied_ins.time_human }}
-                                </td>
-                                <td v-else-if="dataValue[1].schedules_attendances[1].applied_ins!=null" class="p-2">
-                                    NO LOG
-                                </td>
-                                <td v-else class="p-2">
-                                    ABSENT
-                                </td>
-                                <td v-if="dataValue[1].schedules_attendances[0].applied_outs != null" class="p-2 am-time-out">
-                                    {{ dataValue[1].schedules_attendances[0].applied_outs.time_human }}
-                                </td>
-                                <td v-else-if="dataValue[1].schedules_attendances[0].applied_outs == null && dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2">
-                                    NO LOG
-                                </td>
-                                <td v-else class="p-2">
-                                    ABSENT
-                                </td>
-                                <td v-if="dataValue[1].schedules_attendances[1].applied_ins != null" class="p-2 pm-time-in">
-                                    {{ dataValue[1].schedules_attendances[1].applied_ins.time_human }}
-                                </td>
-                                <td v-else-if="dataValue[1].schedules_attendances[0].applied_ins != null" class="p-2">
-                                    NO LOG
-                                </td>
-                                <td v-else class="p-2">
-                                    ABSENT
-                                </td>
-                                <td v-if="dataValue[1].schedules_attendances[1].applied_outs!=null" class="p-2">
-                                    {{ dataValue[1].schedules_attendances[1].applied_outs.time_human }}
-                                </td>
-                                <td v-else-if="dataValue[1].schedules_attendances[0].applied_ins!=null" class="p-2">
-                                    NO LOG
-                                </td>
-                                <td v-else class="p-2">
-                                    ABSENT
-                                </td>
-                                <td v-if="dataValue[1].metadata.regular.reg_hrs!=null" class="p-2">
-                                    {{ dataValue[1].metadata.regular.reg_hrs }}
-                                </td>
-                                <td v-else class="p-2">
-                                    0
-                                </td>
-                                <td v-if="dataValue[1].overtime.length > 0" class="p-2">
-                                    {{ dataValue[1].overtime[0].start_time_human }}
-                                </td>
-                                <td v-else class="p-2">
-                                    NO LOG
-                                </td>
-                                <td v-if="dataValue[1].overtime.length > 0" class="p-2">
-                                    {{ dataValue[1].overtime[0].end_time_human }} ({{ dataValue[1].overtime[0].applied_out?.time_human }})
-                                </td>
-                                <td v-else class="p-2">
-                                    NO LOG
-                                </td>
-                                <td v-if="dataValue[1].metadata.regular.overtime!=null" class="p-2">
-                                    {{ dataValue[1].metadata.regular.overtime }}
-                                </td>
-                                <td v-else class="p-2">
-                                    0
-                                </td>
+                                <template v-for="sched, index in schedule" :key="'attendance-logs' + index">
+                                    <td v-if="dataValue.schedules_attendances[0].applied_ins!=null" class="p-2 am-time-in">
+                                        {{ dataValue.schedules_attendances[0].applied_ins.time_human }}
+                                    </td>
+                                    <td v-else-if="dataValue.schedules_attendances[1].applied_ins!=null" class="p-2 am-time-in">
+                                        NO LOG
+                                    </td>
+                                    <td v-else class="p-2">
+                                        ABSENT
+                                    </td>
+                                </template>
                             </tr>
                             <tr v-else class="border text-center border-b">
                                 <td class="p-2">
-                                    {{ dataValue[0] }}
+                                    {{ index }}
                                 </td>
                                 <td class="p-2" />
-                                <td class="p-2">
-                                    ABSENT
-                                </td>
-                                <td class="p-2">
-                                    ABSENT
-                                </td>
-                                <td class="p-2">
-                                    ABSENT
-                                </td>
-                                <td class="p-2">
-                                    ABSENT
-                                </td>
-                                <td class="p-2">
+                                <template v-for="sched, index in schedule" :key="'attendance-logs' + index">
+                                    <td class="p-2">
+                                        ABSENT
+                                    </td>
+                                    <td class="p-2">
+                                        ABSENT
+                                    </td>
+                                </template>
+                                <td :key="'regular-total-hours'" class="p-2">
                                     0
                                 </td>
-                                <td class="p-2">
-                                    ABSENT
-                                </td>
-                                <td class="p-2">
-                                    ABSENT
-                                </td>
-                                <td class="p-2">
-                                    0
-                                </td>
+                                <template v-if="dataValue.overtime.length > 0">
+                                    <td class="p-2">
+                                        N/A
+                                    </td>
+                                    <td class="p-2">
+                                        N/A
+                                    </td>
+                                    <td :key="'overtime-total-hours'" class="p-2">
+                                        0
+                                    </td>
+                                </template>
+                                <template v-else>
+                                    <td class="p-2">
+                                        N/A
+                                    </td>
+                                    <td class="p-2">
+                                        N/A
+                                    </td>
+                                    <td :key="'overtime-total-hours'" class="p-2">
+                                        0
+                                    </td>
+                                </template>
                             </tr>
                         </template>
                         <template v-else>
                             <tr class="border text-center border-b">
                                 <td class="p-2">
-                                    {{ dataValue[0] }}
+                                    {{ index }}
                                 </td>
                                 <td class="p-2" />
-                                <td class="p-2">
-                                    NO SCHEDULE
-                                </td>
-                                <td class="p-2">
-                                    NO SCHEDULE
-                                </td>
-                                <td class="p-2">
-                                    NO SCHEDULE
-                                </td>
-                                <td class="p-2">
-                                    NO SCHEDULE
-                                </td>
-                                <td class="p-2">
+                                <template v-for="sched, index in schedule" :key="'attendance-logs' + index">
+                                    <td class="p-2">
+                                        NO SCHEDULE
+                                    </td>
+                                    <td class="p-2">
+                                        NO SCHEDULE
+                                    </td>
+                                </template>
+                                <td :key="'regular-total-hours'" class="p-2">
                                     0
                                 </td>
                                 <td class="p-2">
-                                    NO SCHEDULE
+                                    N/A
                                 </td>
                                 <td class="p-2">
-                                    NO SCHEDULE
+                                    N/A
                                 </td>
-                                <td class="p-2">
+                                <td :key="'overtime-total-hours'" class="p-2">
                                     0
                                 </td>
                             </tr>
