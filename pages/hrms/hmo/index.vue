@@ -39,7 +39,7 @@ const deleteHmo = async () => {
             <label
                 for=""
                 class="text-xl font-semibold text-gray-900"
-            >List of HMO
+            >HMO
             </label>
             <NuxtLink
                 to="/hrms/hmo/create"
@@ -51,22 +51,22 @@ const deleteHmo = async () => {
         </div>
         <table class="table w-full text-left mt-4">
             <thead class="border-b">
-                <th class="py-2">
+                <th class="py-2 font-light text-gray-500">
                     Name
                 </th>
-                <th class="py-2">
+                <th class="py-2 font-light text-gray-500">
                     From
                 </th>
-                <th class="py-2">
+                <th class="py-2 font-light text-gray-500">
                     To
                 </th>
-                <th class="py-2">
+                <th class="py-2 font-light text-gray-500">
                     Employer Share
                 </th>
-                <th class="py-2">
+                <th class="py-2 font-light text-gray-500">
                     Employee Share
                 </th>
-                <th class="py-2">
+                <th class="py-2 font-light text-gray-500">
                     Actions
                 </th>
             </thead>
@@ -89,12 +89,14 @@ const deleteHmo = async () => {
                     </td>
                     <td class="py-2">
                         <div class="flex gap-3 items-center">
-                            <NuxtLink :to="'/hrms/hmo/edit?hmo_id=' + hmo.id">
-                                <Icon name="iconoir:edit" class="icon bg-green-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-green-500" />
+                            <NuxtLink class="hidden" :to="'/hrms/hmo/edit?hmo_id=' + hmo.id">
+                                <Icon name="ion:pencil" class="icon bg-teal-700 rounded h-8 w-8 p-1 cursor-pointer hover:bg-teal-500 text-white" />
                             </NuxtLink>
-                            <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" @click="setDelete(hmo)" />
+                            <div class="hidden">
+                                <Icon name="ion:trash" class="icon bg-red-500 rounded h-8 w-8 p-1 cursor-pointer hover:bg-red-700 text-white hidden" @click="setDelete(hmo)" />
+                            </div>
                             <NuxtLink :to="'/hrms/hmo/renew?hmo_id=' + hmo.id">
-                                <Icon name="iconoir:crop-rotate-bl" class="icon bg-blue-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-blue-500" />
+                                <Icon name="iconoir:crop-rotate-bl" class="icon bg-teal-700 rounded h-8 w-8 p-1 cursor-pointer hover:bg-teal-900 text-white" />
                             </NuxtLink>
                         </div>
                     </td>

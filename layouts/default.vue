@@ -1,16 +1,16 @@
 <template>
     <div class="antialiased bg-gray-50 dark:bg-gray-900">
-        <!-- Header -->
-        <LayoutHeaderNav />
+        <main class="p-4 md:ml-64 h-auto pt-20">
+            <slot />
+        </main>
         <!-- Sidebar -->
-        <aside id="drawer-navigation" class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidenav">
+        <aside id="drawer-navigation" class="fixed top-0 left-0 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidenav">
             <div class="scrollstyle overflow-y-auto py-5 h-full bg-white dark:bg-gray-800">
                 <LayoutNavSideBar />
             </div>
         </aside>
-        <main class="p-4 md:ml-64 h-auto pt-20">
-            <slot />
-        </main>
+        <!-- Header -->
+        <LayoutHeaderNav />
     </div>
 </template>
 

@@ -1,5 +1,7 @@
 <script setup>
-import { useFailToLogStore } from "@/stores/hrms/attendance/failtolog"
+import { storeToRefs } from "pinia"
+import { useLeaveRequest } from "@/stores/hrms/leaveRequest"
+import { useNotificationsStore } from "@/stores/notifications"
 
 defineProps({
     data: {
@@ -15,8 +17,9 @@ defineProps({
 
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
-const failtologs = useFailToLogStore()
-const { remarks } = storeToRefs(failtologs)
+const leaveReqStore = useLeaveRequest()
+const notifStore = useNotificationsStore()
+const { remarks } = storeToRefs(leaveReqStore)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -27,10 +30,19 @@ const closeViewModal = () => {
 const approvedRequest = async (id) => {
     try {
         boardLoading.value = true
-        await failtologs.approveApprovalForm(id)
+        await leaveReqStore.approvedRequest(id)
         snackbar.add({
             type: "success",
-            text: failtologs.successMessage
+            text: leaveReqStore.successMessage
+        })
+        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+        navigateTo({
+            path: "/hrms/leave",
+            query: {
+                id: useRoute().query.id,
+                type: "View",
+                notifId: useRoute().query.notifId,
+            },
         })
         closeViewModal()
     } catch (error) {
@@ -48,10 +60,19 @@ const clearRemarks = () => {
 const denyRequest = async (id) => {
     try {
         boardLoading.value = true
-        await failtologs.denyApprovalForm(id)
+        await leaveReqStore.denyRequest(id)
         snackbar.add({
             type: "success",
-            text: failtologs.successMessage
+            text: leaveReqStore.successMessage
+        })
+        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+        navigateTo({
+            path: "/hrms/leave",
+            query: {
+                id: useRoute().query.id,
+                type: "View",
+                notifId: useRoute().query.notifId,
+            },
         })
         closeViewModal()
     } catch (error) {
@@ -66,33 +87,9 @@ const denyRequest = async (id) => {
 </script>
 
 <template>
-    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="FAILURE TO LOG">
+    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="LEAVE REQUEST">
         <template #body>
-            <div class="grid gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-4xl">Failure to Log</span>
-                </div>
-            </div>
-            <div class="grid md:grid-cols-3 gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Employee Name: </span> <span class="text-gray-900">{{ data.employee.fullname_first }}</span>
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium"> Date: </span> <span class="text-gray-900">{{ data.date }}</span>
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Time: </span> {{ data.time }}
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Log Type: </span> {{ data.log_type }}
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Reason: </span> {{ data.reason }}
-                </div>
-            </div>
-            <div class="w-full">
-                <LayoutApprovalsListView :approvals="data.approvals" />
-            </div>
+            <HrmsLeaveRequestInformation :leave-data="data" />
         </template>
         <template #footer>
             <div v-if="showApprovals" class="flex gap-2 p-2 justify-end relative">
@@ -111,7 +108,7 @@ const denyRequest = async (id) => {
                 <div id="popover-deny" data-popover role="tooltip" class="absolute z-10 invisible inline-block w-96 text-sm text-gray-500 transition-opacity duration-300 bg-gray-800 border border-gray-200 shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 p-4">
                     <div>
                         <div class="text-white text-lg">
-                            Failure to Log Request
+                            Overtime Request
                         </div>
                         <div>
                             <div class="w-full">
@@ -120,8 +117,8 @@ const denyRequest = async (id) => {
                                 </p>
                             </div>
                             <div class="py-2 flex-col flex gap-2">
-                                <label for="deny-remarks">Reason for Denial</label>
-                                <textarea v-model="remarks" cols="2" rows="2" />
+                                <label for="deny-remarks">Your remarks if deny</label>
+                                <textarea v-model="remarks" cols="30" rows="10" />
                             </div>
                             <div class="w-full py-2 flex gap-2 justify-end">
                                 <button
