@@ -51,7 +51,6 @@ const icons = {
 //             notifId: prop.notification.id,
 //         },
 //     })
-//     // notifStore.setSingleNotifAsRead(notif.id)
 // }
 const openModalNotification = async () => {
     switch (prop.notification.data.type) {
@@ -86,8 +85,12 @@ const openModalNotification = async () => {
         break
     }
     showModal.value = true
-    notifStore.setSingleNotifAsRead(notif.id)
 }
+watch(showModal, (newValue, oldValue) => {
+    if (oldValue && !newValue) {
+        notifStore.setSingleNotifAsRead(prop.notification.id)
+    }
+})
 </script>
 <template>
     <a
