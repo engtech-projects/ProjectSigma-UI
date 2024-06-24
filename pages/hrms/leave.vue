@@ -11,22 +11,11 @@ leaveRequest.allApprovals()
 const enums = useEnumsStore()
 enums.getDepartmentEnums()
 const showOnloadModal = ref(false)
-const approveOnloadModal = ref(false)
 if (useRoute().query.id) {
     await leaveRequest.getOne(useRoute().query.id)
     showOnloadModal.value = true
-    if ((useRoute().query.type || "") === "Approve") {
-        approveOnloadModal.value = true
-    } else {
+    if ((useRoute().query.type || "") !== "Approve") {
         notifStore.setSingleNotifAsRead(useRoute().query.notifId)
-        navigateTo({
-            path: "/hrms/leave",
-            query: {
-                id: useRoute().query.id,
-                type: "View",
-                notifId: useRoute().query.notifId,
-            },
-        })
     }
 }
 useHead({
@@ -49,7 +38,6 @@ useHead({
             <HrmsLeaveInfoModal
                 v-model:showModal="showOnloadModal"
                 :data="leaveRequest.payload"
-                :show-approvals="approveOnloadModal"
             />
             <div>
                 <HrmsLeaveForm

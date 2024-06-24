@@ -40,6 +40,5 @@ const boardLoading = ref(false)
     <HrmsOvertimeInfoModal
         v-model:show-modal="showInfoModal"
         :data="infoModalData"
-        :show-approvals="false"
     />
 </template>

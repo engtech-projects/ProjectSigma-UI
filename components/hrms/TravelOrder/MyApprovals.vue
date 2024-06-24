@@ -40,7 +40,6 @@ const actions = {
         <HrmsTravelOrderInfoModal
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
-            :show-approvals="true"
         />
     </LayoutBoards>
 </template>

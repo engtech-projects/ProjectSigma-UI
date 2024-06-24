@@ -1,6 +1,5 @@
 <script setup>
 import { useFailToLogStore } from "@/stores/hrms/attendance/failtolog"
-import { useNotificationsStore } from "@/stores/notifications"
 
 defineProps({
     data: {
@@ -17,7 +16,6 @@ defineProps({
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const failtologs = useFailToLogStore()
-const notifStore = useNotificationsStore()
 const { remarks } = storeToRefs(failtologs)
 
 const snackbar = useSnackbar()
@@ -33,15 +31,6 @@ const approvedRequest = async (id) => {
         snackbar.add({
             type: "success",
             text: failtologs.successMessage
-        })
-        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
-        navigateTo({
-            path: "/hrms/attendance/failtolog",
-            query: {
-                id: useRoute().query.id,
-                type: "View",
-                notifId: useRoute().query.notifId,
-            },
         })
         closeViewModal()
     } catch (error) {
@@ -63,15 +52,6 @@ const denyRequest = async (id) => {
         snackbar.add({
             type: "success",
             text: failtologs.successMessage
-        })
-        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
-        navigateTo({
-            path: "/hrms/attendance/failtolog",
-            query: {
-                id: useRoute().query.id,
-                type: "View",
-                notifId: useRoute().query.notifId,
-            },
         })
         closeViewModal()
     } catch (error) {

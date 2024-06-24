@@ -1,24 +1,17 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useLeaveRequest } from "@/stores/hrms/leaveRequest"
-import { useNotificationsStore } from "@/stores/notifications"
 
+const { data: userData } = useAuth()
+const showModal = defineModel("showModal", { required: false, type: Boolean })
 defineProps({
     data: {
         type: Object,
         required: true,
     },
-    showApprovals: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
 })
 
-const showModal = defineModel("showModal", { required: false, type: Boolean })
-
 const leaveReqStore = useLeaveRequest()
-const notifStore = useNotificationsStore()
 const { remarks } = storeToRefs(leaveReqStore)
 
 const snackbar = useSnackbar()
@@ -34,15 +27,6 @@ const approvedRequest = async (id) => {
         snackbar.add({
             type: "success",
             text: leaveReqStore.successMessage
-        })
-        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
-        navigateTo({
-            path: "/hrms/leave",
-            query: {
-                id: useRoute().query.id,
-                type: "View",
-                notifId: useRoute().query.notifId,
-            },
         })
         closeViewModal()
     } catch (error) {
@@ -65,15 +49,6 @@ const denyRequest = async (id) => {
             type: "success",
             text: leaveReqStore.successMessage
         })
-        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
-        navigateTo({
-            path: "/hrms/leave",
-            query: {
-                id: useRoute().query.id,
-                type: "View",
-                notifId: useRoute().query.notifId,
-            },
-        })
         closeViewModal()
     } catch (error) {
         snackbar.add({
@@ -92,7 +67,7 @@ const denyRequest = async (id) => {
             <HrmsLeaveRequestInformation :leave-data="data" />
         </template>
         <template #footer>
-            <div v-if="showApprovals" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end relative">
                 <button
                     class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
                     @click="approvedRequest(data.id)"

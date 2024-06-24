@@ -42,6 +42,5 @@ const boardLoading = ref(false)
     <HrmsPayrollInfoModal
         v-model:show-modal="showInfoModal"
         :data="infoModalData"
-        :show-approvals="false"
     />
 </template>

@@ -63,7 +63,6 @@ const changePaginate = (newParams) => {
         <HrmsAttendanceFailtologInfoModal
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
-            :show-approvals="false"
         />
         <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
             {{ errorMessage }}

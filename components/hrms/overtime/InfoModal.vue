@@ -1,24 +1,18 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useOvertimeStore } from "@/stores/hrms/overtime"
-import { useNotificationsStore } from "@/stores/notifications"
 
 defineProps({
     data: {
         type: Object,
         required: true,
     },
-    showApprovals: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
 })
 
+const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const overtimes = useOvertimeStore()
-const notifStore = useNotificationsStore()
 const { remarks } = storeToRefs(overtimes)
 
 const snackbar = useSnackbar()
@@ -34,15 +28,6 @@ const approvedRequest = async (id) => {
         snackbar.add({
             type: "success",
             text: overtimes.successMessage
-        })
-        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
-        navigateTo({
-            path: "/hrms/overtime",
-            query: {
-                id: useRoute().query.id,
-                type: "View",
-                notifId: useRoute().query.notifId,
-            },
         })
         closeViewModal()
     } catch (error) {
@@ -64,15 +49,6 @@ const denyRequest = async (id) => {
         snackbar.add({
             type: "success",
             text: overtimes.successMessage
-        })
-        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
-        navigateTo({
-            path: "/hrms/overtime",
-            query: {
-                id: useRoute().query.id,
-                type: "View",
-                notifId: useRoute().query.notifId,
-            },
         })
         closeViewModal()
     } catch (error) {
@@ -135,7 +111,7 @@ const headers = [
             </div>
         </template>
         <template #footer>
-            <div v-if="showApprovals" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end relative">
                 <button
                     class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
                     @click="approvedRequest(data.id)"

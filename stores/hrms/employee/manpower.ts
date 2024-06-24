@@ -110,6 +110,22 @@ export const useManpowerStore = defineStore("manpowers", {
         remarks: "",
     }),
     actions: {
+        async getOne (id: any) {
+            return await useHRMSApiO(
+                "/api/manpower/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getManpower () {
             await useHRMSApi(
                 "/api/manpower/resource",

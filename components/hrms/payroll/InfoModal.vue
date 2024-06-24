@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
-import { useNotificationsStore } from "@/stores/notifications"
 
 defineProps({
     data: {
@@ -17,7 +16,6 @@ defineProps({
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const genpayrollstore = useGeneratePayrollStore()
-const notifStore = useNotificationsStore()
 const { remarks, list: payrollDetails } = storeToRefs(genpayrollstore)
 
 const snackbar = useSnackbar()
@@ -33,15 +31,6 @@ const approvedRequest = async (id: any) => {
         snackbar.add({
             type: "success",
             text: genpayrollstore.successMessage
-        })
-        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
-        navigateTo({
-            path: "/hrms/payroll/generatepayroll",
-            query: {
-                id: useRoute().query.id,
-                type: "View",
-                notifId: useRoute().query.notifId,
-            },
         })
         closeViewModal()
     } catch (error) {
@@ -63,15 +52,6 @@ const denyRequest = async (id : any) => {
         snackbar.add({
             type: "success",
             text: genpayrollstore.successMessage
-        })
-        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
-        navigateTo({
-            path: "/hrms/payroll/generatepayroll",
-            query: {
-                id: useRoute().query.id,
-                type: "View",
-                notifId: useRoute().query.notifId,
-            },
         })
         closeViewModal()
     } catch (error) {
