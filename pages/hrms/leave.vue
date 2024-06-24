@@ -13,7 +13,7 @@ enums.getDepartmentEnums()
 const showOnloadModal = ref(false)
 const approveOnloadModal = ref(false)
 if (useRoute().query.id) {
-    leaveRequest.getOne(useRoute().query.id)
+    await leaveRequest.getOne(useRoute().query.id)
     showOnloadModal.value = true
     if ((useRoute().query.type || "") === "Approve") {
         approveOnloadModal.value = true
