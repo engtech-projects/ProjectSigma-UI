@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useOvertimeStore } from "@/stores/hrms/overtime"
+import { useNotificationsStore } from "@/stores/notifications"
 
 defineProps({
     data: {
@@ -17,6 +18,7 @@ defineProps({
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const overtimes = useOvertimeStore()
+const notifStore = useNotificationsStore()
 const { remarks } = storeToRefs(overtimes)
 
 const snackbar = useSnackbar()
@@ -32,6 +34,15 @@ const approvedRequest = async (id) => {
         snackbar.add({
             type: "success",
             text: overtimes.successMessage
+        })
+        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+        navigateTo({
+            path: "/hrms/overtime",
+            query: {
+                id: useRoute().query.id,
+                type: "View",
+                notifId: useRoute().query.notifId,
+            },
         })
         closeViewModal()
     } catch (error) {
@@ -53,6 +64,15 @@ const denyRequest = async (id) => {
         snackbar.add({
             type: "success",
             text: overtimes.successMessage
+        })
+        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+        navigateTo({
+            path: "/hrms/overtime",
+            query: {
+                id: useRoute().query.id,
+                type: "View",
+                notifId: useRoute().query.notifId,
+            },
         })
         closeViewModal()
     } catch (error) {
