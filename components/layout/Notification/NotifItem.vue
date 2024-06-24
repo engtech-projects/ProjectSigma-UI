@@ -1,30 +1,38 @@
 <script setup>
 import { useNotificationsStore } from "@/stores/notifications"
+import { useLeaveRequest } from "@/stores/hrms/leaveRequest"
+import { useTravelorderStore } from "@/stores/hrms/travelorder"
 
+leavereqStore = useLeaveRequest()
+travelOrder = useTravelorderStore()
 const prop = defineProps({
     notification: {
         type: Object,
         required: true,
     }
 })
+const showModal = ref(false)
 const notifStore = useNotificationsStore()
 const { allList } = storeToRefs(notifStore)
 if (allList.value.length <= 0) {
     notifStore.getAllNotifications()
 }
-const possibleLocations = {
-    LeaveRequest: "/hrms/leave",
-}
-const visitNotification = () => {
-    navigateTo({
-        path: possibleLocations[prop.notification.data.type],
-        query: {
-            id: prop.notification.data.metadata.id,
-            type: prop.notification.data.action_type,
-            notifId: prop.notification.id,
-        },
-    })
-    // notifStore.setSingleNotifAsRead(notif.id)
+// const possibleLocations = {
+//     LeaveRequest: "/hrms/leave",
+// }
+// const visitNotification = () => {
+//     navigateTo({
+//         path: possibleLocations[prop.notification.data.type],
+//         query: {
+//             id: prop.notification.data.metadata.id,
+//             type: prop.notification.data.action_type,
+//             notifId: prop.notification.id,
+//         },
+//     })
+//     // notifStore.setSingleNotifAsRead(notif.id)
+// }
+const openModalNotification = () => {
+    showModal.value = true
 }
 </script>
 <template>
@@ -32,7 +40,6 @@ const visitNotification = () => {
         :key="'AllNotifs' + index"
         href="#"
         class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
-        @click.prevent="visitNotification"
     >
         <!-- <div class="flex-shrink-0">
                     <img
@@ -82,9 +89,73 @@ const visitNotification = () => {
                     >
                         <Icon name="material-symbols:visibility-rounded" color="gray" class="w-5 h-5" />
                     </button>
+                    <button
+                        title="View Notification"
+                        @click.prevent="openModalNotification"
+                    >
+                        <Icon name="material-symbols:visibility-rounded" color="gray" class="w-5 h-5" />
+                    </button>
                 </div>
             </div>
 
         </div>
     </a>
+    <div v-if="showModal">
+        <template v-if=" prop.notification.data.type === 'LeaveEmployeeRequest'">
+            <HrmsLeaveInfoModal
+                v-model:showModal="showModal"
+                :show-approvals="prop.notification.data.action_type === 'Approve'"
+                :data="leavereqStore.payload"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'TravelOrder'">
+            <HrmsTravelOrderInfoModal
+                v-model:showModal="showModal"
+                :show-approvals="prop.notification.data.action_type === 'Approve'"
+                :data="leavereqStore.payload"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'Payroll'">
+            <HrmsPayrollInfoModal
+                v-model:showModal="showModal"
+                :show-approvals="prop.notification.data.action_type === 'Approve'"
+                :data="leavereqStore.payload"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'FailureToLog'">
+            <HrmsAttendanceFailtologInfoModal
+                v-model:showModal="showModal"
+                :show-approvals="prop.notification.data.action_type === 'Approve'"
+                :data="leavereqStore.payload"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'Overtime'">
+            <HrmsOvertimeInfoModal
+                v-model:showModal="showModal"
+                :show-approvals="prop.notification.data.action_type === 'Approve'"
+                :data="leavereqStore.payload"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'EmployeePanRequest'">
+            <HrmsTravelOrderInfoModal
+                v-model:showModal="showModal"
+                :show-approvals="prop.notification.data.action_type === 'Approve'"
+                :data="leavereqStore.payload"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'ManpowerRequest'">
+            <HrmsTravelOrderInfoModal
+                v-model:showModal="showModal"
+                :show-approvals="prop.notification.data.action_type === 'Approve'"
+                :data="leavereqStore.payload"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'GenerateAllowance'">
+            <HrmsTravelOrderInfoModal
+                v-model:showModal="showModal"
+                :show-approvals="prop.notification.data.action_type === 'Approve'"
+                :data="leavereqStore.payload"
+            />
+        </template>
+    </div>
 </template>
