@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+import { useNotificationsStore } from "@/stores/notifications"
 
 defineProps({
     data: {
@@ -16,6 +17,7 @@ defineProps({
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const genpayrollstore = useGeneratePayrollStore()
+const notifStore = useNotificationsStore()
 const { remarks, list: payrollDetails } = storeToRefs(genpayrollstore)
 
 const snackbar = useSnackbar()
@@ -24,13 +26,22 @@ const boardLoading = ref(false)
 const closeViewModal = () => {
     showModal.value = false
 }
-const approvedRequest = async (id) => {
+const approvedRequest = async (id: any) => {
     try {
         boardLoading.value = true
         await genpayrollstore.approveApprovalForm(id)
         snackbar.add({
             type: "success",
             text: genpayrollstore.successMessage
+        })
+        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+        navigateTo({
+            path: "/hrms/payroll/generatepayroll",
+            query: {
+                id: useRoute().query.id,
+                type: "View",
+                notifId: useRoute().query.notifId,
+            },
         })
         closeViewModal()
     } catch (error) {
@@ -45,13 +56,22 @@ const approvedRequest = async (id) => {
 const clearRemarks = () => {
     remarks.value = ""
 }
-const denyRequest = async (id) => {
+const denyRequest = async (id : any) => {
     try {
         boardLoading.value = true
         await genpayrollstore.denyApprovalForm(id)
         snackbar.add({
             type: "success",
             text: genpayrollstore.successMessage
+        })
+        notifStore.setSingleNotifAsRead(useRoute().query.notifId)
+        navigateTo({
+            path: "/hrms/payroll/generatepayroll",
+            query: {
+                id: useRoute().query.id,
+                type: "View",
+                notifId: useRoute().query.notifId,
+            },
         })
         closeViewModal()
     } catch (error) {
@@ -67,7 +87,6 @@ const denyRequest = async (id) => {
 </script>
 
 <template>
-    <!-- <pre>{{ }}</pre> -->
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Payroll">
         <template #body>
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
