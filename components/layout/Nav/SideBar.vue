@@ -173,7 +173,7 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_loans_and_advances_cash_advance,
+                        AccessibilityTypes.hrms_loans_and_advances_cash_advance_group,
                     ])"
                     linkarea="/hrms/loans/cashadvance"
                     icon="material-symbols:dynamic-form-outline-rounded"

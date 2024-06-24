@@ -23,17 +23,17 @@ const headers = [
     { name: "Installment Deduction", id: "installment_deduction" },
     { name: "Deduction Date start", id: "deduction_date_start" },
     { name: "Purpose", id: "purpose" },
+    { name: "Balance", id: "balance" },
+    { name: "Total Paid", id: "total_paid" },
+    { name: "Status", id: "request_status" },
 ]
 const actions = {
     showTable: true,
 }
-
-const boardLoading = ref(false)
-
 </script>
 
 <template>
-    <LayoutBoards title="My Requests" class="w-full" :loading="boardLoading">
+    <div class="w-full">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
@@ -42,7 +42,7 @@ const boardLoading = ref(false)
                 @show-table="showInformation"
             />
         </div>
-    </LayoutBoards>
+    </div>
     <div v-if="showInformationModal">
         <Teleport to="body">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">

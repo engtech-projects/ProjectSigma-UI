@@ -1,28 +1,43 @@
 <script setup>
-const boardLoading = ref(false)
 </script>
 
 <template>
-    <LayoutBoards title="Cash Advance" class="w-full" :loading="boardLoading">
-        <HrmsCommonTabsMainContainer>
-            <template #tab-titles>
-                <HrmsCommonTabsTabTitle title="All List" target-id="allListCA" />
-                <HrmsCommonTabsTabTitle v-show="false" title="My Releases" target-id="myApprovalsCA" />
-                <HrmsCommonTabsTabTitle title="My Approvals" target-id="myApprovalsCA" />
-            </template>
-            <template #tab-containers>
-                <HrmsCommonTabsTabContainer id="allListCA">
-                    <HrmsCashadvanceList />
-                </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer v-show="false" id="myApprovalsCA">
-                    <HrmsCashadvanceMyRequests />
-                </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer id="myApprovalsCA">
-                    <HrmsCashadvanceMyApprovals />
-                </HrmsCommonTabsTabContainer>
-            </template>
-        </HrmsCommonTabsMainContainer>
-    </LayoutBoards>
+    <HrmsCommonTabsMainContainer>
+        <template #tab-titles>
+            <HrmsCommonTabsTabTitle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.hrms_loans_and_advances_cash_advance_allrequests,
+                ])"
+                title="All Requests"
+                target-id="allListCA"
+            />
+            <HrmsCommonTabsTabTitle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.hrms_loans_and_advances_cash_advance_formsmyrequest,
+                ])"
+                title="My Requests"
+                target-id="myRequestsCA"
+            />
+            <HrmsCommonTabsTabTitle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.hrms_loans_and_advances_cash_advance_myapprovals,
+                ])"
+                title="My Approvals"
+                target-id="myApprovalsCA"
+            />
+        </template>
+        <template #tab-containers>
+            <HrmsCommonTabsTabContainer id="allListCA">
+                <HrmsCashadvanceList />
+            </HrmsCommonTabsTabContainer>
+            <HrmsCommonTabsTabContainer id="myRequestsCA">
+                <HrmsCashadvanceMyRequests />
+            </HrmsCommonTabsTabContainer>
+            <HrmsCommonTabsTabContainer id="myApprovalsCA">
+                <HrmsCashadvanceMyApprovals />
+            </HrmsCommonTabsTabContainer>
+        </template>
+    </HrmsCommonTabsMainContainer>
 </template>
 
 <style scoped>

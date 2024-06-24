@@ -24,12 +24,16 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_loans_and_advances_cash_advance,
+            AccessibilityTypes.hrms_loans_and_advances_cash_advance_group,
         ])"
     >
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col md:flex-row gap-4">
             <div>
-                <HrmsCashadvanceForm />
+                <HrmsCashadvanceForm
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.hrms_loans_and_advances_cash_advance_formsmyrequest,
+                    ])"
+                />
             </div>
             <div>
                 <HrmsCashadvanceTabs />
