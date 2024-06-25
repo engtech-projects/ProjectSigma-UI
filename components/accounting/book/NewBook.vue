@@ -10,7 +10,7 @@ const snackbar = useSnackbar()
 const isLoading = ref(false)
 
 const accountStore = useAccountStore()
-accountStore.getAccounts()
+await accountStore.getAccounts()
 
 function select (val:any) {
     bookStore.book.account_group_id = val.account_group_id
@@ -31,6 +31,7 @@ async function handleSubmit () {
                 type: "success",
                 text: bookStore.successMessage
             })
+            navigateTo("/accounting/books")
         }
     } catch (error) {
         errorMessage.value = errorMessage
@@ -40,19 +41,34 @@ async function handleSubmit () {
         })
     } finally {
         isLoading.value = false
-        navigateTo("/accounting/books")
     }
 }
-const accountsLists = computed(() => {
-    const accounts = []
-    accountStore.list.forEach((ac) => {
-        ac.checked = false
-        accounts.push(ac)
-    })
-    return accounts
+// const accountsLists = computed(() => {
+//     const accounts = []
+//     accountStore.list.forEach((ac) => {
+//         ac.checked = false
+//         accounts.push(ac)
+//     })
+//     return accounts
+// })
+// const checkedAccounts = computed(() => {
+//     return accountsLists.value.filter(al => al.checked)
+// })
+const accounts = ref([])
+onMounted(() => {
+    accounts.value = JSON.parse(JSON.stringify(accountStore.byTypes))
+    // console.log(accounts.value)
 })
 const checkedAccounts = computed(() => {
-    return accountsLists.value.filter(al => al.checked)
+    const ids = []
+    accounts.value.forEach((ac) => {
+        ac.types.forEach((acc) => {
+            if (acc.checked) {
+                ids.push(acc.account_id)
+            }
+        })
+    })
+    return ids
 })
 </script>
 
@@ -106,10 +122,18 @@ const checkedAccounts = computed(() => {
                         for="symbol"
                         class="text-xs italic"
                     >Accounts</label>
-                    <div class="flex flex-col">
-                        <div v-for="ac in accountsLists" :key="ac.account_id" class="flex gap-4 items-center py-1 border-b">
-                            <input type="checkbox" name="" id="" v-model="ac.checked">
-                            <span>{{ ac.account_name }}</span>
+                    <div class="flex flex-col ml-4">
+                        <div v-for="ac in accounts" :key="ac.id" class="flex flex-col gap-2">
+                            <div class="flex gap-4 items-center py-1 border-b">
+                                <input id="" v-model="ac.collapse" type="checkbox" name="">
+                                <span>{{ ac.type }}</span>
+                            </div>
+                            <div v-if="ac.collapse" class="flex flex-col ml-8">
+                                <div v-for="acc in ac.types" :key="acc.account_id" class="flex gap-4 items-center py-1 border-b">
+                                    <input id="" v-model="acc.checked" type="checkbox" name="">
+                                    <span class="text-slate-700">{{ acc.account_name }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

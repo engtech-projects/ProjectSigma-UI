@@ -96,20 +96,20 @@ const applyFilter = () => {
                 <table class="table-auto w-full border-collapse">
                     <thead>
                         <tr class="text-left">
-                            <th class="p-2">
+                            <th class="p-2 ">
                                 Date
+                            </th>
+                            <th class="p-2">
+                                Type
                             </th>
                             <th class="p-2">
                                 No.
                             </th>
                             <th class="p-2">
-                                Transaction Type
+                                Payee
                             </th>
                             <th class="p-2">
                                 Reference
-                            </th>
-                            <th class="p-2">
-                                Payee
                             </th>
                             <th class="p-2">
                                 Status
@@ -125,16 +125,16 @@ const applyFilter = () => {
                                 {{ trn.transaction_date }}
                             </td>
                             <td class="p-2">
-                                {{ trn.transaction_no }}
-                            </td>
-                            <td class="p-2">
                                 {{ trn.transaction_type.transaction_type_name }}
                             </td>
                             <td class="p-2">
-                                {{ trn.reference_no }}
+                                {{ trn.transaction_no }}
                             </td>
                             <td class="p-2">
                                 {{ trn.stakeholder.full_name }}
+                            </td>
+                            <td class="p-2">
+                                {{ trn.reference_no }}
                             </td>
                             <td class="p-2">
                                 {{ trn.status }}
