@@ -39,7 +39,7 @@ const getAttendance = async () => {
                 await dtrStore.getEmployeeDTR(information.value.id, filterDate.value.from, filterDate.value.to)
                 snackbar.add({
                     type: "success",
-                    text: employee.successMessage
+                    text: dtrStore.successMessage
                 })
             } else {
                 snackbar.add({
