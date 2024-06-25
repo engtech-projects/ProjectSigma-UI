@@ -36,6 +36,19 @@ defineProps({
     }
 })
 
+const displayItem: any[] = []
+const showItem = (item:any, reset:any) => {
+    if (!displayItem.includes(item) && !reset) {
+        displayItem.push(item)
+        return item
+    } else if (reset) {
+        displayItem.splice(0, displayItem.length)
+        return null
+    } else {
+        return null
+    }
+}
+
 const formatDateRange = (start: string, end: string) => {
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
 
@@ -210,18 +223,22 @@ const printTable = () => {
                                 <template v-for="schedule_index in dataValue.schedules_attendances" :key="'sched-data-' + schedule_index">
                                     <div v-if="schedule_index.applied_ins!=null">
                                         <div v-if="schedule_index.applied_ins.project!=null">
-                                            {{ schedule_index.applied_ins.project.project_code }}
+                                            {{ showItem(schedule_index.applied_ins.project.project_code, false) }}
+                                            <!-- {{ schedule_index.applied_ins.project.project_code }} -->
                                         </div>
                                         <div v-else-if="schedule_index.applied_ins.department!=null">
-                                            {{ schedule_index.applied_ins.department.department_name }}
+                                            {{ showItem(schedule_index.applied_ins.department.department_name, false ) }}
+                                            <!-- {{ schedule_index.applied_ins.department.department_name }} -->
                                         </div>
                                     </div>
                                     <div v-if="schedule_index.applied_outs!=null">
                                         <div v-if="schedule_index.applied_outs.project!=null">
-                                            {{ schedule_index.applied_outs.project.project_code }}
+                                            {{ showItem(schedule_index.applied_outs.project.project_code, false) }}
+                                            <!-- {{ schedule_index.applied_outs.project.project_code }} -->
                                         </div>
                                         <div v-else-if="schedule_index.applied_outs.department!=null">
-                                            {{ schedule_index.applied_outs.department.department_name }}
+                                            {{ showItem(schedule_index.applied_outs.department.department_name, false) }}
+                                            <!-- {{ schedule_index.applied_outs.department.department_name }} -->
                                         </div>
                                     </div>
                                 </template>
@@ -296,6 +313,7 @@ const printTable = () => {
                                 </td>
                             </template>
                         </tr>
+                        {{ showItem('', true) }}
                     </template>
                 </template>
             </tbody>
