@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import { useAccountStore } from "~/stores/accounting/account"
 import { useBookStore } from "~/stores/accounting/book"
+import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 
 const bookStore = useBookStore()
 const snackbar = useSnackbar()
 const isLoading = ref(false)
-
+const accountGroupStore = useAccountGroupStore()
+await accountGroupStore.getAccountGroups()
 const accountStore = useAccountStore()
 accountStore.getAccounts()
 
@@ -32,7 +34,7 @@ function select (val:any) {
 }
 
 const selectedId = computed(() => {
-    return bookStore.book.account_id
+    return bookStore.book.account_group_id
 })
 
 function cancelEdit () {
@@ -40,6 +42,17 @@ function cancelEdit () {
     bookStore.reset()
     return navigateTo("/accounting/books")
 }
+const accountsLists = computed(() => {
+    const accounts = []
+    accountStore.list.forEach((ac) => {
+        ac.checked = false
+        accounts.push(ac)
+    })
+    return accounts
+})
+// const checkedAccounts = computed(() => {
+//     return accountsLists.value.filter(al => al.checked)
+// })
 </script>
 
 <template>
@@ -64,8 +77,8 @@ function cancelEdit () {
                     <label
                         for="book_name"
                         class="text-xs italic"
-                    >Account</label>
-                    <AccountingSelectSearch :options="accountStore.list" title="account_name" opid="account_id" :selected-id="selectedId" @select="select" />
+                    >Account Group</label>
+                    <AccountingSelectSearch :options="accountGroupStore.list" title="account_name" opid="account_id" :selected-id="selectedId" @select="select" />
                 </div>
 
                 <div>
@@ -80,6 +93,18 @@ function cancelEdit () {
                         class="w-full rounded-lg"
                         required
                     >
+                </div>
+                <div>
+                    <label
+                        for="symbol"
+                        class="text-xs italic"
+                    >Accounts</label>
+                    <div class="flex flex-col">
+                        <div v-for="ac in accountsLists" :key="ac.account_id" class="flex gap-4 items-center py-1 border-b">
+                            <input type="checkbox" name="" id="" v-model="ac.checked">
+                            <span>{{ ac.account_name }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 

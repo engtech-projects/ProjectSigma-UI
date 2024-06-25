@@ -481,6 +481,15 @@ const config = useRuntimeConfig()
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
+                    AccessibilityTypes.accounting_books,
+                ])"
+                linkarea="/accounting/books"
+                icon="iconoir:book"
+                single-nav-title="Books"
+            />
+            <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
+                v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_transaction_type,
                 ])"
                 linkarea="/accounting/transaction-type"
@@ -512,15 +521,6 @@ const config = useRuntimeConfig()
                 icon="ion:logo-apple-ar"
                 title="Groups"
             >
-                <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_books,
-                    ])"
-                    linkarea="/accounting/books"
-                    icon="iconoir:book"
-                    single-nav-title="Books"
-                />
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([

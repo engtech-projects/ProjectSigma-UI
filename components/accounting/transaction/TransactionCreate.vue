@@ -139,12 +139,12 @@ const accountsList = computed(() => {
                 <div class="flex gap-4">
                     <div class="flex-1">
                         <label
-                            for="amount"
+                            for="particulars"
                             class="text-xs italic"
-                        >Amount</label>
+                        >Particulars</label>
                         <input
-                            id="amount"
-                            v-model="transactionStore.transaction.amount"
+                            id="particulars"
+                            v-model="transactionStore.transaction.particulars"
                             type="number"
                             class="w-full rounded-lg"
                             required

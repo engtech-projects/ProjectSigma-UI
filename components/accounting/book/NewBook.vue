@@ -19,6 +19,7 @@ function select (val:any) {
 async function handleSubmit () {
     try {
         isLoading.value = true
+        bookStore.book.account_ids = JSON.stringify(checkedAccounts.value)
         await bookStore.createAccount()
         if (bookStore.errorMessage !== "") {
             snackbar.add({
@@ -42,6 +43,17 @@ async function handleSubmit () {
         navigateTo("/accounting/books")
     }
 }
+const accountsLists = computed(() => {
+    const accounts = []
+    accountStore.list.forEach((ac) => {
+        ac.checked = false
+        accounts.push(ac)
+    })
+    return accounts
+})
+const checkedAccounts = computed(() => {
+    return accountsLists.value.filter(al => al.checked)
+})
 </script>
 
 <template>
@@ -88,6 +100,18 @@ async function handleSubmit () {
                         class="w-full rounded-lg"
                         required
                     >
+                </div>
+                <div>
+                    <label
+                        for="symbol"
+                        class="text-xs italic"
+                    >Accounts</label>
+                    <div class="flex flex-col">
+                        <div v-for="ac in accountsLists" :key="ac.account_id" class="flex gap-4 items-center py-1 border-b">
+                            <input type="checkbox" name="" id="" v-model="ac.checked">
+                            <span>{{ ac.account_name }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
