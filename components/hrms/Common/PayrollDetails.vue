@@ -1,13 +1,10 @@
-<script setup lang="ts">
-import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
-const genpayrollstore = useGeneratePayrollStore()
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
-const { payrollDraft } = storeToRefs(genpayrollstore)
+<script lang="ts" setup>
+// import { useEmployeeInfo } from "@/stores/hrms/employee"
+// const employee = useEmployeeInfo()
 
-const loanTypes = ref([])
-const cashAdvances = ref([])
-const otherDeductions = ref([])
+// import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+// const genpayrollstore = useGeneratePayrollStore()
+
 const formatDateRange = (start: string, end: string) => {
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
 
@@ -31,99 +28,45 @@ const formatDateRange = (start: string, end: string) => {
         return `${startMonth} ${startDay}-${endMonth} ${endDay}, ${endYear}`
     }
 }
-
-const payrollTemplateRef = ref<HTMLElement | null>(null)
-
-const printDraft = () => {
-    if (payrollTemplateRef.value) {
-        const printWindow = window.open("", "", "height=600,width=800")
-        printWindow.document.write("<html><head><title>Print Payroll Draft</title>")
-        printWindow.document.write("<style>")
-        printWindow.document.write(`
-            @media print {
-                body { font-family: Arial, sans-serif; }
-                table { width: 100%; border-collapse: collapse; }
-                th, td { border: 1px solid black; padding: 8px; text-align: center; }
-                .text-gray-900 { color: #111827; }
-                .text-gray-800 { color: #1f2937; }
-                .text-gray-950 { color: #1e293b; }
-                .header { text-align: center; margin-bottom: 20px; }
-                .details { margin-top: 40px; display: flex; justify-content: start; }
-                .details div { flex: 1; text-align: left; }
-                .signatures { margin-top: 40px; display: flex; justify-content: space-between; }
-                .signatures div { flex: 1; text-align: center; }
-                .print\\:hidden { display: none; }
-            }
-        `)
-        printWindow.document.write("</style>")
-        printWindow.document.write("</head><body>")
-        printWindow.document.write(`
-            <div class="header">
-                <h1>EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION</h1>
-                <div class="details">
-            </div>
-            ${payrollTemplateRef.value.outerHTML}
-            <div class="signatures">
-        `)
-        printWindow.document.write("</body></html>")
-        printWindow.document.close()
-        printWindow.print()
-    }
+interface HeaderColumn {
+    name: string,
+    id: string,
+    style: string
 }
-
-const savePayroll = async () => {
-    try {
-        await genpayrollstore.createRequest()
-        snackbar.add({
-            type: "success",
-            text: "Successfully Saved Payroll Request"
-        })
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error
-        })
-    }
-}
-
-const showEditModal = ref(false)
-const showEdit = () => {
-    showEditModal.value = true
-}
-const closeViewModal = () => {
-    showEditModal.value = false
-}
+defineProps({
+    headerColumns: {
+        type: Array<HeaderColumn>,
+        required: true,
+    },
+    datas: {
+        type: Array<any>,
+        required: true,
+    },
+    actions: {
+        type: Object,
+        required: true,
+    },
+})
 
 </script>
-
 <template>
-    <!-- <pre>{{ payrollDraft }}</pre> -->
-    <div ref="payrollTemplateRef" class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
+    <!-- <pre>{{ datas }}</pre> -->
+    <div class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
         <div class="details flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
             <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900 uppercase">
-                {{ payrollDraft.release_type.toUpperCase() }}
+                {{ datas[0].release_type.toUpperCase() }}
             </div>
             <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900">
                 Payroll
             </div>
         </div>
-        <div class="border-t border-gray-200">
+        <div div class="border-t border-gray-200">
             <div class="flex justify-between p-2">
-                <!-- <pre>{{ payrollDraft.department }}</pre> -->
                 <div class="text-md leading-6 font-medium text-gray-900">
-                    {{ payrollDraft.group_type }}: <strong>{{ payrollDraft.group_type === 'Department' ? payrollDraft.department.department_name : payrollDraft.project.project_code }}</strong>
+                    <!-- {{ datas[0].group_type }}: <strong>{{ datas[0].group_type === 'Department' ? datas[0].department.department_name : datas[0].project.project_code }}</strong> -->
                 </div>
                 <div class="text-md leading-6 font-medium text-gray-900">
-                    Period Covered: <strong>{{ formatDateRange(payrollDraft.cutoff_start, payrollDraft.cutoff_end) }}</strong>
-                </div>
-                <div class="hover:text-slate-400 print:hidden" @click="showEdit">
-                    <button
-                        title="Edit Draft"
-                        type="submit"
-                        class="flex-auto justify-center gap-2 shadow-sm text-sm"
-                    >
-                        <Icon name="material-symbols:edit-square-outline-rounded" class="h-7 w-7 text-green-500 hover:text-green-400" />
-                    </button>
+                    Period Covered: <strong>{{ formatDateRange(datas[0].cutoff_start, datas[0].cutoff_end) }}</strong>
                 </div>
             </div>
         </div>
@@ -184,9 +127,16 @@ const closeViewModal = () => {
                             >
                                 Total Gross Pay
                             </th>
-                            <th
+                            <!-- <th
                                 scope="col"
                                 :colspan="5 + loanTypes.length + cashAdvances.length + otherDeductions.length"
+                                class="p-2 border-solid border border-slate-400 bg-sky-200"
+                            >
+                                Salary Deduction
+                            </th> -->
+                            <th
+                                scope="col"
+                                :colspan="6 + datas[0].payroll_details.deductions.length"
                                 class="p-2 border-solid border border-slate-400 bg-sky-200"
                             >
                                 Salary Deduction
@@ -356,10 +306,10 @@ const closeViewModal = () => {
                                 rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                {{ loansType }}
+                                <!-- {{ loansType }} -->
                             </th>
                             <th
-                                v-for="cashAdvance, key in cashAdvances"
+                                v-for="cashAdvance, key in datas[0].payroll_details.deductions"
                                 :key="key + 'cashAdvanceTitles'"
                                 rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
@@ -372,7 +322,7 @@ const closeViewModal = () => {
                                 rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                {{ otherDeduction }}
+                                <!-- {{ otherDeduction }} -->
                             </th>
                         </tr>
                         <tr>
@@ -394,132 +344,152 @@ const closeViewModal = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(data, index) in payrollDraft.payroll" :key="index" class="bg-white border-b text-gray-950">
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ index + 1 }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.family_name }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.first_name }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400 text-sm">
-                                {{ data.current_employment.position.name ?? "-" }}
-                            </td>
-                            <td class="p-2 border-solid border border-slate-400">
-                                SG{{ data.current_employment.employee_salarygrade.salary_grade_level.salary_grade_level ?? "-" }}-{{ data.current_employment.employee_salarygrade.step_name }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.regular.reg_hrs ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.rest.reg_hrs ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.regular_holidays.reg_hrs ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.special_holidays.reg_hrs ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.regular.overtime ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.rest.overtime ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.regular_holidays.overtime ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.special_holidays.overtime ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.regular.regular ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.rest.regular ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.regular_holidays.regular ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.special_holidays.regular ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.regular.overtime ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.rest.overtime ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.regular_holidays.overtime ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.special_holidays.overtime ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.total_gross_pay ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.sss.employee_compensation ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.phic.employee_compensation ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hmdf.employee_compensation ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.ewtc ?? "-" }}
-                            </td>
-                            <!-- <td class="p-4 border-solid border border-slate-400 text-xs">
-                                Loans: {{ data.payroll_records.salary_deduction.loan.total_paid ?? "-" }}
+                        <template v-for="dataValue, index in datas" :key="index">
+                            <!-- <pre>{{ dataValue }}</pre> -->
+                            <tr class="bg-white border-b text-gray-950">
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ index + 1 }}
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    <pre>{{ dataValue }}</pre>
+                                    <!-- <pre>{{ dataValue.payroll_details. }}</pre> -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    <!-- {{ dataValue.first_name }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400 text-sm">
+                                    <!-- {{ data.current_employment.position.name ?? "-" }} -->
+                                </td>
+                                <td class="p-2 border-solid border border-slate-400">
+                                    <!-- SG{{ data.current_employment.employee_salarygrade.salary_grade_level.salary_grade_level ?? "-" }}-{{ data.current_employment.employee_salarygrade.step_name }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    <!-- {{ data.payroll_records.hours_worked.regular.reg_hrs ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    <!-- {{ data.payroll_records.hours_worked.rest.reg_hrs ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    <!-- {{ data.payroll_records.hours_worked.regular_holidays.reg_hrs ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    <!-- {{ data.payroll_records.hours_worked.special_holidays.reg_hrs ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    <!-- {{ data.payroll_records.hours_worked.regular.overtime ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    <!-- {{ data.payroll_records.hours_worked.rest.overtime ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    <!-- {{ data.payroll_records.hours_worked.regular_holidays.overtime ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    <!-- {{ data.payroll_records.hours_worked.special_holidays.overtime ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].regular_hours }}
+                                    <!-- {{ data.payroll_records.gross_pays.regular.regular ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].rest_hours }}
+                                    <!-- {{ data.payroll_records.gross_pays.rest.regular ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].regular_holiday_hours }}
+                                    <!-- {{ data.payroll_records.gross_pays.regular_holidays.regular ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].special_holiday_hours }}
+                                    <!-- {{ data.payroll_records.gross_pays.special_holidays.regular ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].regular_overtime }}
+                                    <!-- {{ data.payroll_records.gross_pays.regular.overtime ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].rest_overtime }}
+                                    <!-- {{ data.payroll_records.gross_pays.rest.overtime ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].regular_holiday_overtime }}
+                                    <!-- {{ data.payroll_records.gross_pays.regular_holidays.overtime ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].special_holiday_overtime }}
+                                    <!-- {{ data.payroll_records.gross_pays.special_holidays.overtime ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].gross_pay }}
+                                    <!-- {{ data.payroll_records.total_gross_pay ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].sss_employee_compensation }}
+                                    <!-- {{ data.payroll_records.salary_deduction.sss.employee_compensation ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].philhealth_employee_contribution }}
+                                    <!-- {{ data.payroll_records.salary_deduction.phic.employee_compensation ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].pagibig_employee_compensation }}
+                                    <!-- {{ data.payroll_records.salary_deduction.hmdf.employee_compensation ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].withholdingtax_contribution }}
+                                    <!-- {{ data.payroll_records.salary_deduction.ewtc ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400 text-xs">
+                                    {{ dataValue.payroll_details[0].deductions[0] }}
+                                    <!-- Loans: {{ data.payroll_records.salary_deduction.loan.total_paid ?? "-" }}
 
-                                Cash Advance: {{ data.payroll_records.salary_deduction.cash_advance.total_paid ?? "-" }}
+                                    Cash Advance: {{ data.payroll_records.salary_deduction.cash_advance.total_paid ?? "-" }}
 
-                                Other Deductions: {{ data.payroll_records.salary_deduction.other_deductions.total_paid ?? "-" }}
-                            </td> -->
-                            <td class="p-4 border border-solid border-slate-400 divide-y-*">
-                                <div class="mb-2">
-                                    <span class="font-bold text-xs">Cash Advance:</span> {{ data.payroll_records.salary_deduction.cash_advance.total_paid ?? "-" }}
-                                </div>
-                                <div class="mb-2">
-                                    <span class="font-bold text-xs">Coop Loans:</span> {{ data.payroll_records.salary_deduction.loan.total_paid ?? "-" }}
-                                </div>
-                                <div>
-                                    <span class="font-bold text-xs">Other Deductions:</span> {{ data.payroll_records.salary_deduction.other_deductions.total_paid ?? "-" }}
-                                </div>
-                            </td>
+                                    Other Deductions: {{ data.payroll_records.salary_deduction.other_deductions.total_paid ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border border-solid border-slate-400 divide-y-*">
+                                    <div class="mb-2">
+                                        <!-- <span class="font-bold text-xs">Cash Advance:</span> {{ data.payroll_records.salary_deduction.cash_advance.total_paid ?? "-" }} -->
+                                    </div>
+                                    <div class="mb-2">
+                                        <!-- <span class="font-bold text-xs">Coop Loans:</span> {{ data.payroll_records.salary_deduction.loan.total_paid ?? "-" }} -->
+                                    </div>
+                                    <div>
+                                        <!-- <span class="font-bold text-xs">Other Deductions:</span> {{ data.payroll_records.salary_deduction.other_deductions.total_paid ?? "-" }} -->
+                                    </div>
+                                </td>
 
-                            <th
-                                v-for="loansType, key in loanTypes"
-                                :key="key + 'loanTypesValues'"
-                                class="p-4 border-solid border border-slate-400"
-                            >
-                                {{ loansType }}
-                            </th>
-                            <th
-                                v-for="cashAdvance, key in cashAdvances"
-                                :key="key + 'cashAdvanceValues'"
-                                class="p-4 border-solid border border-slate-400"
-                            >
-                                {{ cashAdvance }}
-                            </th>
-                            <th
-                                v-for="otherDeduction, key in otherDeductions"
-                                :key="key + 'otherDeductionValues'"
-                                class="p-4 border-solid border border-slate-400"
-                            >
-                                {{ otherDeduction }}
-                            </th>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.total_salary_deduction ?? "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.total_net_pay ?? "-" }}
-                            </td>
-                        </tr>
+                                <th
+                                    v-for="loansType, key in loanTypes"
+                                    :key="key + 'loanTypesValues'"
+                                    class="p-4 border-solid border border-slate-400"
+                                >
+                                    <!-- {{ loansType }} -->
+                                </th>
+                                <th
+                                    v-for="cashAdvance, key in cashAdvances"
+                                    :key="key + 'cashAdvanceValues'"
+                                    class="p-4 border-solid border border-slate-400"
+                                >
+                                    <!-- {{ cashAdvance }} -->
+                                </th>
+                                <th
+                                    v-for="otherDeduction, key in otherDeductions"
+                                    :key="key + 'otherDeductionValues'"
+                                    class="p-4 border-solid border border-slate-400"
+                                >
+                                    <!-- {{ otherDeduction }} -->
+                                </th>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].total_deduct }}
+                                    <!-- {{ data.payroll_records.total_salary_deduction ?? "-" }} -->
+                                </td>
+                                <td class="p-4 border-solid border border-slate-400">
+                                    {{ dataValue.payroll_details[0].net_pay }}
+                                    <!-- {{ data.payroll_records.total_net_pay ?? "-" }} -->
+                                </td>
+                            </tr>
+                        </template>
                         <tr class="bg-white text-gray-950">
                             <th
                                 scope="col"
@@ -551,58 +521,58 @@ const closeViewModal = () => {
                                 {{ " " }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRegHrsPayrollDraft }}
+                                <!-- {{ genpayrollstore.totalRegHrsPayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRestDayPayrollDraft }}
+                                <!-- {{ genpayrollstore.totalRestDayPayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRegHolPayrollDraft }}
+                                <!-- {{ genpayrollstore.totalRegHolPayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalSpcHolPayrollDraft }}
+                                <!-- {{ genpayrollstore.totalSpcHolPayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRegOTPayrollDraft }}
+                                <!-- {{ genpayrollstore.totalRegOTPayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRestDayOTPayrollDraft }}
+                                <!-- {{ genpayrollstore.totalRestDayOTPayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRegHolOTPayrollDraft }}
+                                <!-- {{ genpayrollstore.totalRegHolOTPayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalSpcHolOTPayrollDraft }}
+                                <!-- {{ genpayrollstore.totalSpcHolOTPayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalGrossPayPayrollDraft }}
+                                <!-- {{ genpayrollstore.totalGrossPayPayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalSSSEmployeePayrollDraft }}
+                                <!-- {{ genpayrollstore.totalSSSEmployeePayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalPHICEmployeePayrollDraft }}
+                                <!-- {{ genpayrollstore.totalPHICEmployeePayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalHDMFEmployeePayrollDraft }}
+                                <!-- {{ genpayrollstore.totalHDMFEmployeePayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalEWTCPayrollDraft }}
+                                <!-- {{ genpayrollstore.totalEWTCPayrollDraft }} -->
                             </td>
                             <td>
-                                {{ genpayrollstore.totalLoansPayrollDraft }}
+                                <!-- {{ genpayrollstore.totalLoansPayrollDraft }} -->
                             </td>
                             <td>
-                                <strong>{{ genpayrollstore.totalDeductionPayrollDraft }}</strong>
+                                <!-- <strong>{{ genpayrollstore.totalDeductionPayrollDraft }}</strong> -->
                             </td>
                             <td>
-                                <strong>{{ genpayrollstore.totalNetPayPayrollDraft }}</strong>
+                                <!-- <strong>{{ genpayrollstore.totalNetPayPayrollDraft }}</strong> -->
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="signatures grid md:grid-cols-4 gap-6 pt-5 p-4">
+            <!-- <div class="signatures grid md:grid-cols-4 gap-6 pt-5 p-4">
                 <div>
                     Prepared by:
                     <div class="indent-8">
@@ -641,45 +611,7 @@ const closeViewModal = () => {
                         PRESIDENT
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-2">
-        <div class="flex flex-row justify-end gap-2">
-            <div>
-                <button type="submit" class="text-white bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800" @click="printDraft">
-                    Print Draft
-                </button>
-            </div>
-            <div>
-                <button
-                    type="submit"
-                    class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                    @click="savePayroll()"
-                >
-                    Submit
-                </button>
-            </div>
-        </div>
-        <div v-if="showEditModal" :loading="boardLoading">
-            <Teleport to="body">
-                <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                    <div class="bg-white p-4 w-4/5 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
-                        <div class="flex gap-2 justify-end ml-auto p-2 ">
-                            <button
-                                title="Close"
-                                @click="closeViewModal"
-                            >
-                                <Icon name="cil:x" class="w-5 h-5 hover:bg-red-400 hover:rounded-sm hover:text-white" />
-                            </button>
-                        </div>
-                        <div class="p-2">
-                            <HrmsPayrollEditGeneratepayrollInformation />
-                        </div>
-                    </div>
-                </div>
-            </Teleport>
+            </div> -->
         </div>
     </div>
 </template>

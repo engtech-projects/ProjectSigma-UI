@@ -104,8 +104,10 @@ export const useTravelorderStore = defineStore("travels", {
                     body: this.travel,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.getTravelorders()
                             this.$reset()
+                            this.getMyApprovalRequests()
+                            this.getTravelorders()
+                            this.getMyRequests()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -128,8 +130,10 @@ export const useTravelorderStore = defineStore("travels", {
                     body: this.travel,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.getTravelorders()
                             this.$reset()
+                            this.getMyApprovalRequests()
+                            this.getTravelorders()
+                            this.getMyRequests()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -147,7 +151,9 @@ export const useTravelorderStore = defineStore("travels", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.$reset()
+                            this.getMyApprovalRequests()
                             this.getTravelorders()
+                            this.getMyRequests()
                             this.successMessage = response._data.message
                         }
                     },

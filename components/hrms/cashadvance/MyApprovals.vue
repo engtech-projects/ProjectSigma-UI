@@ -25,6 +25,9 @@ const headers = [
     { name: "Installment Deduction", id: "installment_deduction" },
     { name: "Deduction Date start", id: "deduction_date_start" },
     { name: "Purpose", id: "purpose" },
+    { name: "Balance", id: "balance" },
+    { name: "Total Paid", id: "total_paid" },
+    { name: "Status", id: "request_status" },
 ]
 const approvedRequest = async (id) => {
     try {
@@ -76,7 +79,7 @@ const changePaginate = (newParams) => {
 </script>
 
 <template>
-    <LayoutBoards title="My Approval List" class="w-full">
+    <div class="w-full">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
@@ -92,7 +95,7 @@ const changePaginate = (newParams) => {
                 @change-params="changePaginate"
             />
         </div>
-    </LayoutBoards>
+    </div>
     <div v-if="showInformationModal">
         <Teleport to="body">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">

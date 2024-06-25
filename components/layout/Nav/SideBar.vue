@@ -173,7 +173,7 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_loans_and_advances_cash_advance,
+                        AccessibilityTypes.hrms_loans_and_advances_cash_advance_group,
                     ])"
                     linkarea="/hrms/loans/cashadvance"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -241,7 +241,7 @@ const config = useRuntimeConfig()
                     ])"
                     linkarea="/hrms/payroll/generatepayroll"
                     icon="material-symbols:dynamic-form-outline-rounded"
-                    single-nav-title="Generate Payroll"
+                    single-nav-title="Salary"
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
@@ -260,7 +260,7 @@ const config = useRuntimeConfig()
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Allowance"
                 />
-                <LayoutNavSingle
+                <!-- <LayoutNavSingle
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_payroll_payroll_record,
                     ])"
@@ -268,7 +268,7 @@ const config = useRuntimeConfig()
                     linkarea="/hrms/payroll/payrollrecord"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Payroll Record"
-                />
+                /> -->
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
@@ -481,6 +481,15 @@ const config = useRuntimeConfig()
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
+                    AccessibilityTypes.accounting_books,
+                ])"
+                linkarea="/accounting/books"
+                icon="iconoir:book"
+                single-nav-title="Books"
+            />
+            <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
+                v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_transaction_type,
                 ])"
                 linkarea="/accounting/transaction-type"
@@ -512,15 +521,6 @@ const config = useRuntimeConfig()
                 icon="ion:logo-apple-ar"
                 title="Groups"
             >
-                <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_books,
-                    ])"
-                    linkarea="/accounting/books"
-                    icon="iconoir:book"
-                    single-nav-title="Books"
-                />
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([

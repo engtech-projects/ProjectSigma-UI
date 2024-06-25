@@ -38,6 +38,5 @@ const showInformation = (data) => {
     <HrmsOvertimeInfoModal
         v-model:show-modal="showInfoModal"
         :data="infoModalData"
-        :show-approvals="true"
     />
 </template>

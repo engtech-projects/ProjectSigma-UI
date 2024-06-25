@@ -59,7 +59,6 @@ const changePaginate = (newParams) => {
         <HrmsTravelOrderInfoModal
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
-            :show-approvals="false"
         />
     </LayoutBoards>
 </template>

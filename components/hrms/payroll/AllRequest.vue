@@ -1,16 +1,21 @@
-<script setup>
+<script  setup>
 import { storeToRefs } from "pinia"
-import { useOvertimeStore } from "@/stores/hrms/overtime"
+import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 
-const overtimes = useOvertimeStore()
-const { overtime, list: overtimeList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(overtimes)
+const genpayrollstore = useGeneratePayrollStore()
+const { payrollRecord, list: payrollList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(genpayrollstore)
+
+const snackbar = useSnackbar()
+const boardLoading = ref(false)
 
 const headers = [
+    { name: "Payroll Date", id: "payroll_date" },
     { name: "Charged to", id: "charging_name" },
-    { name: "Date of Overtime", id: "overtime_date" },
-    { name: "From", id: "start_time_human" },
-    { name: "To", id: "end_time_human" },
-    { name: "Purpose/Reason", id: "reason" },
+    { name: "Cut Off End", id: "cutoff_end" },
+    { name: "Cut Off Start", id: "cutoff_start" },
+    { name: "Payroll Type", id: "payroll_type" },
+    { name: "Release Type", id: "release_type" },
+    { name: "Request Status", id: "request_status" },
 ]
 const actions = {
     showTable: true, // edit: true, // delete: true
@@ -21,31 +26,25 @@ const showInformation = (data) => {
     infoModalData.value = data
     showInfoModal.value = true
 }
-
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
 const setEdit = (ovr) => {
     isEdit.value = true
-    overtime.value = ovr
+    payrollRecord.value = ovr
 }
-
 const deleteReq = async (req) => {
     try {
         boardLoading.value = true
-        await overtimes.deleteRequest(req.id)
+        await failtologs.deleteLog(req.id)
         snackbar.add({
             type: "success",
-            text: overtimes.successMessage
+            text: failtologs.successMessage
         })
     } finally {
         boardLoading.value = false
     }
 }
-
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }
-
 </script>
 
 <template>
@@ -53,7 +52,7 @@ const changePaginate = (newParams) => {
         <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable
                 :header-columns="headers"
-                :datas="overtimeList"
+                :datas="payrollList"
                 :actions="actions"
                 @edit-row="setEdit"
                 @delete-row="deleteReq"
@@ -63,9 +62,10 @@ const changePaginate = (newParams) => {
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
-        <HrmsOvertimeInfoModal
+        <HrmsPayrollInfoModal
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
+            :show-approvals="false"
         />
         <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
             {{ errorMessage }}

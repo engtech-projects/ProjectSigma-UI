@@ -1,5 +1,5 @@
-<script setup>
-import { useFailToLogStore } from "@/stores/hrms/attendance/failtolog"
+<script setup lang="ts">
+import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 
 defineProps({
     data: {
@@ -15,8 +15,8 @@ defineProps({
 
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
-const failtologs = useFailToLogStore()
-const { remarks } = storeToRefs(failtologs)
+const genpayrollstore = useGeneratePayrollStore()
+const { remarks, list: payrollDetails } = storeToRefs(genpayrollstore)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -24,13 +24,13 @@ const boardLoading = ref(false)
 const closeViewModal = () => {
     showModal.value = false
 }
-const approvedRequest = async (id) => {
+const approvedRequest = async (id: any) => {
     try {
         boardLoading.value = true
-        await failtologs.approveApprovalForm(id)
+        await genpayrollstore.approveApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: failtologs.successMessage
+            text: genpayrollstore.successMessage
         })
         closeViewModal()
     } catch (error) {
@@ -45,13 +45,13 @@ const approvedRequest = async (id) => {
 const clearRemarks = () => {
     remarks.value = ""
 }
-const denyRequest = async (id) => {
+const denyRequest = async (id : any) => {
     try {
         boardLoading.value = true
-        await failtologs.denyApprovalForm(id)
+        await genpayrollstore.denyApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: failtologs.successMessage
+            text: genpayrollstore.successMessage
         })
         closeViewModal()
     } catch (error) {
@@ -63,32 +63,39 @@ const denyRequest = async (id) => {
         boardLoading.value = false
     }
 }
+
 </script>
 
 <template>
-    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="FAILURE TO LOG">
+    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Payroll">
         <template #body>
-            <div class="grid gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-4xl">Failure to Log</span>
-                </div>
-            </div>
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Employee Name: </span> <span class="text-gray-900">{{ data.employee.fullname_first }}</span>
+                    <span class="text-teal-600 text-light font-medium">Payroll Date: </span> <span class="text-gray-900">{{ data.payroll_date }}</span>
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium"> Date: </span> <span class="text-gray-900">{{ data.date }}</span>
+                    <span class="text-teal-600 text-light font-medium">Charged To: </span> {{ data.charging_name }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Time: </span> {{ data.time }}
+                    <span class="text-teal-600 text-light font-medium">Cutoff Start: </span> {{ data.cutoff_start }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Log Type: </span> {{ data.log_type }}
+                    <span class="text-teal-600 text-light font-medium">Cutoff End: </span> {{ data.cutoff_end }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Reason: </span> {{ data.reason }}
+                    <span class="text-teal-600 text-light font-medium">Payroll Type: </span> {{ data.payroll_type }}
                 </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium">Release Type: </span> {{ data.release_type }}
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium">Request Status: </span> {{ data.request_status }}
+                </div>
+            </div>
+            <div class="flex">
+                <HrmsCommonPayrollDetails
+                    :datas="payrollDetails"
+                />
             </div>
             <div class="w-full">
                 <LayoutApprovalsListView :approvals="data.approvals" />
@@ -111,7 +118,7 @@ const denyRequest = async (id) => {
                 <div id="popover-deny" data-popover role="tooltip" class="absolute z-10 invisible inline-block w-96 text-sm text-gray-500 transition-opacity duration-300 bg-gray-800 border border-gray-200 shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 p-4">
                     <div>
                         <div class="text-white text-lg">
-                            Failure to Log Request
+                            Payroll Request
                         </div>
                         <div>
                             <div class="w-full">

@@ -748,7 +748,7 @@ const printDraft = () => {
                 <div>
                     Prepared by:
                     <div class="indent-8">
-                        <HrmsCommonEmployeeSelector />
+                        -
                     </div>
                     <div class="indent-8">
                         PAYROLL CLERK
@@ -757,7 +757,7 @@ const printDraft = () => {
                 <div>
                     Check by:
                     <div class="indent-8">
-                        <HrmsCommonEmployeeSelector />
+                        -
                     </div>
                     <div class="indent-8">
                         HR
@@ -766,7 +766,7 @@ const printDraft = () => {
                 <div>
                     Noted by:
                     <div class="indent-8">
-                        <HrmsCommonEmployeeSelector />
+                        -
                     </div>
                     <div class="indent-8">
                         PROJECT MANAGER
@@ -782,22 +782,6 @@ const printDraft = () => {
                     <div class="indent-8">
                         PRESIDENT
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-900 dark:border-gray-800 p-6 overflow-auto mt-6">
-        <label for="" class="block text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Adjustment</label>
-        <div v-for="(data, index1) in payrollDraft.adjustment" :key="index1" class="mb-4">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm">
-                <div class="text-lg text-gray-800 dark:text-gray-300">
-                    <span class="font-medium">Employee:</span> {{ data.id }}
-                </div>
-                <div class="text-lg text-gray-800 dark:text-gray-300">
-                    <span class="font-medium">Adjustment Name:</span> {{ data.adjustment_name }}
-                </div>
-                <div class="text-lg text-gray-800 dark:text-gray-300">
-                    <span class="font-medium">Adjustment Amount:</span> {{ data.adjustment_amount }}
                 </div>
             </div>
         </div>

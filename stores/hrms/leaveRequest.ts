@@ -90,6 +90,22 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 }
             )
         },
+        async getOne (id: any) {
+            return await useHRMSApiO(
+                "/api/leave-request/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async allLeaves () {
             this.successMessage = ""
             this.errorMessage = ""

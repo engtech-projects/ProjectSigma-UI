@@ -28,6 +28,8 @@ async function handleSubmit () {
                 type: "success",
                 text: transactionTypeStore.successMessage
             })
+            navigateTo("/accounting/transaction-type")
+            transactionTypeStore.reset()
         }
     } catch (error) {
         transactionTypeStore.errorMessage = errorMessage
@@ -36,9 +38,7 @@ async function handleSubmit () {
             text: transactionTypeStore.errorMessage
         })
     } finally {
-        transactionTypeStore.reset()
         boardLoading.value = false
-        navigateTo("/accounting/transaction-type")
     }
 }
 
