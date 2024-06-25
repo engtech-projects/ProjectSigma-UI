@@ -22,6 +22,10 @@ defineProps({
         type: Array<any>,
         required: true,
     },
+    designation: {
+        type: Array<any>,
+        required: true,
+    },
     actions: {
         type: Object,
         required: true,
@@ -203,18 +207,14 @@ const printTable = () => {
                                 {{ index }}
                             </td>
                             <td class="p-2">
-                                {{ dataValue.schedules_attendances[0].designation }}
+                                <template v-for="schedule_index in designation" :key="'sched-data-' + schedule_index">
+                                    <div>
+                                        {{ schedule_index.designation }}
+                                    </div>
+                                </template>
                             </td>
                             <template v-for="schedule_index in schedule" :key="'sched-data-' + schedule_index">
-                                <template v-if="dataValue.events.length > 0">
-                                    <td class="p-2">
-                                        HOLIDAY
-                                    </td>
-                                    <td class="p-2">
-                                        HOLIDAY
-                                    </td>
-                                </template>
-                                <template v-else-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)">
+                                <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)">
                                     <td v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins != null" class="p-2">
                                         {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins.time_human }}
                                     </td>
@@ -234,6 +234,14 @@ const printTable = () => {
                                         ABSENT
                                     </td>
                                 </template>
+                                <template v-else-if="dataValue.events.length > 0">
+                                    <td class="p-2">
+                                        HOLIDAY
+                                    </td>
+                                    <td class="p-2">
+                                        HOLIDAY
+                                    </td>
+                                </template>
                                 <template v-else>
                                     <td class="p-2">
                                         N/A
@@ -248,16 +256,16 @@ const printTable = () => {
                             </td>
                             <template v-if="dataValue.overtime.length > 0">
                                 <td v-if="dataValue.overtime[0].applied_in?.time_human!=null" class="p-2">
-                                    {{ dataValue.overtime[0].applied_in?.time_human }}
+                                    {{ dataValue.overtime[0].overtime_date + " ( " + dataValue.overtime[0].applied_in?.time_human + " ) " }}
                                 </td>
                                 <td v-else class="p-2">
-                                    NO LOG
+                                    {{ dataValue.overtime[0].overtime_date }}
                                 </td>
                                 <td v-if="dataValue.overtime[0].applied_out?.time_human!=null" class="p-2">
                                     {{ dataValue.overtime[0].applied_out?.time_human }}
                                 </td>
                                 <td v-else class="p-2">
-                                    NO LOG
+                                    (NO LOG / TIME OUT)
                                 </td>
                                 <td class="p-2">
                                     {{ dataValue.metadata.regular.overtime }}
