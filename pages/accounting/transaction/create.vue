@@ -10,7 +10,7 @@ useHead({
 
 <template>
     <div class="flex justify-center min-h-full">
-        <AccountingTransactionCreate class="flex-1 max-w-[1000px]" />
+        <AccountingTransactionCreate class="flex-1 w-full" />
     </div>
 </template>
 
