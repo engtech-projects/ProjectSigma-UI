@@ -207,9 +207,22 @@ const printTable = () => {
                                 {{ index }}
                             </td>
                             <td class="p-2">
-                                <template v-for="schedule_index in designation" :key="'sched-data-' + schedule_index">
-                                    <div>
-                                        {{ schedule_index.designation }}
+                                <template v-for="schedule_index in dataValue.schedules_attendances" :key="'sched-data-' + schedule_index">
+                                    <div v-if="schedule_index.applied_ins!=null">
+                                        <div v-if="schedule_index.applied_ins.project!=null">
+                                            {{ schedule_index.applied_ins.project.project_code }}
+                                        </div>
+                                        <div v-else-if="schedule_index.applied_ins.department!=null">
+                                            {{ schedule_index.applied_ins.department.department_name }}
+                                        </div>
+                                    </div>
+                                    <div v-if="schedule_index.applied_outs!=null">
+                                        <div v-if="schedule_index.applied_outs.project!=null">
+                                            {{ schedule_index.applied_outs.project.project_code }}
+                                        </div>
+                                        <div v-else-if="schedule_index.applied_outs.department!=null">
+                                            {{ schedule_index.applied_outs.department.department_name }}
+                                        </div>
                                     </div>
                                 </template>
                             </td>
