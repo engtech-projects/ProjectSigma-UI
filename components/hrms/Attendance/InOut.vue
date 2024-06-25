@@ -102,6 +102,7 @@ const headers = [
                 :header-columns="headers"
                 :actions="actions"
                 :schedule="dtrStore.dtrUniqueSchedules"
+                :designation="dtrStore.dtrUniqueDesignation"
                 :datas="employeeDtr"
                 :period="filterDate"
                 @show-table="showInformation"
