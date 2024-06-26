@@ -91,6 +91,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                     },
                 }
             )
+            this.$reset()
         },
         async getOne (id: any) {
             return await useHRMSApiO(
