@@ -22,6 +22,7 @@ export const EMPLOYEE_REQUEST_TYPE_RELEASED = "Released"
 export interface LeaveRequest {
     id: String,
     employee_id: Number | null,
+    charging: String,
     department_id: Number | null,
     project_id: Number | null,
     leave_id: String,
@@ -44,6 +45,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
         payload: {
             id: "",
             employee_id: null,
+            charging: "Department",
             department_id: null,
             project_id: null,
             leave_id: "",
