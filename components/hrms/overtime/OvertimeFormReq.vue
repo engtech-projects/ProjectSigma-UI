@@ -32,6 +32,8 @@ const submitForm = async () => {
                 text: overtimes.successMessage
             })
         }
+        overtimes.$reset()
+        overtime.value.approvals = await approvals.getApprovalByName(APPROVAL_OVERTIME)
     } catch {
         snackbar.add({
             type: "error",
