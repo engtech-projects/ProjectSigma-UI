@@ -29,11 +29,14 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
                 return []
             }
             const allScheds = Object.values(state.employee_dtr.dtr).map((sched:any) => {
-                return [...sched.schedules_attendances]
+                return [
+                    sched.schedules_attendances.applied_ins?.charging_designation,
+                    sched.schedules_attendances.applied_outs?.charging_designation,
+                ]
             }).flat(1)
             return allScheds.filter((sched: any, index: any) => {
-                return index === allScheds.findIndex((find: any) => {
-                    return sched.designation === find.designation
+                return sched && index === allScheds.findIndex((find: any) => {
+                    return sched === find
                 })
             })
         }
