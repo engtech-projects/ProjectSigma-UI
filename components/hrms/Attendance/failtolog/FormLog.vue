@@ -26,6 +26,7 @@ const submitAdd = async () => {
                 text: failtologs.successMessage
             })
         }
+        failtolog.value.approvals = await approvals.getApprovalByName(APPROVAL_FAILTOLOG)
     } catch {
         snackbar.add({
             type: "error",
