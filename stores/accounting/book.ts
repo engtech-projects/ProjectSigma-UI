@@ -121,10 +121,8 @@ export const useBookStore = defineStore("bookStore", {
             if (data.value) {
                 this.getBooks()
                 this.successMessage = data.value.message
-                console.log(data.value)
                 return data
             } else if (error.value) {
-                console.log(error.value)
                 this.errorMessage = error.value.data.message
                 return error
             }
