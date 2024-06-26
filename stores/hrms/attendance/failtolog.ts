@@ -29,6 +29,22 @@ export const useFailToLogStore = defineStore("Failtologs", {
         remarks: "",
     }),
     actions: {
+        async getOne (id: any) {
+            return await useHRMSApiO(
+                "/api/attendance/failed-log/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getAllList () {
             await useHRMSApi(
                 "/api/attendance/failed-log",
