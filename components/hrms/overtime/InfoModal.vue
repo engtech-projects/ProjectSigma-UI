@@ -68,7 +68,7 @@ const headers = [
 </script>
 
 <template>
-    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="OVERTIME">
+    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
         <template #body>
             <div class="grid gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">

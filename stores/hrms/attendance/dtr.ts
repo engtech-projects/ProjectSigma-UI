@@ -23,6 +23,22 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
                         sched.end_time_human === find.end_time_human
                 })
             })
+        },
+        dtrUniqueDesignation (state) {
+            if (!state.employee_dtr) {
+                return []
+            }
+            const allScheds = Object.values(state.employee_dtr.dtr).map((sched:any) => {
+                return [
+                    sched.schedules_attendances.applied_ins?.charging_designation,
+                    sched.schedules_attendances.applied_outs?.charging_designation,
+                ]
+            }).flat(1)
+            return allScheds.filter((sched: any, index: any) => {
+                return sched && index === allScheds.findIndex((find: any) => {
+                    return sched === find
+                })
+            })
         }
     },
     actions: {

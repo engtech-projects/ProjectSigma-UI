@@ -102,7 +102,7 @@ const accountsList = computed(() => {
 </script>
 
 <template>
-    <LayoutBoards title="Create New Transaction" :loading="boardLoading" class="w-full h-fit">
+    <LayoutBoards title="New Transaction" :loading="boardLoading" class="w-full h-fit">
         <form @submit.prevent="handleSubmit">
             <div class="flex flex-col gap-2">
                 <div class="flex gap-4">
@@ -145,7 +145,7 @@ const accountsList = computed(() => {
                         <input
                             id="particulars"
                             v-model="transactionStore.transaction.particulars"
-                            type="number"
+                            type="text"
                             class="w-full rounded-lg"
                             required
                         >
@@ -154,7 +154,7 @@ const accountsList = computed(() => {
                         <label
                             for="transaction_type"
                             class="text-xs italic"
-                        >Stakeholder</label>
+                        >Payee</label>
                         <AccountingSelectSearch
                             :options="stakeholderStore.list"
                             title="display_name"
@@ -165,13 +165,13 @@ const accountsList = computed(() => {
                     </div>
                 </div>
                 <span class="font-bold text-gray-700 mt-8">
-                    Transaction Details
+                    Transaction Entries
                 </span>
                 <form action="" @submit.prevent="addDetail">
                     <div class="flex gap-2">
                         <div class="flex flex-col gap-1 flex-1">
                             <label for="" class="text-xs italic">
-                                Stakeholder
+                                Project/Section Code
                             </label>
                             <select
                                 id="period"
@@ -227,8 +227,7 @@ const accountsList = computed(() => {
                             type="submit"
                             class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
                         >
-                            <Icon name="fa:plus-circle" class="mr-1" />
-                            Add
+                            Add line
                         </button>
                     </div>
                 </form>

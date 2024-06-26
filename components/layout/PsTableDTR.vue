@@ -22,6 +22,10 @@ defineProps({
         type: Array<any>,
         required: true,
     },
+    designation: {
+        type: Array<any>,
+        required: true,
+    },
     actions: {
         type: Object,
         required: true,
@@ -31,6 +35,19 @@ defineProps({
         required: true,
     }
 })
+
+const displayItem: any[] = []
+const showItem = (item:any, reset:any) => {
+    if (!displayItem.includes(item) && !reset) {
+        displayItem.push(item)
+        return item
+    } else if (reset) {
+        displayItem.splice(0, displayItem.length)
+        return null
+    } else {
+        return null
+    }
+}
 
 const formatDateRange = (start: string, end: string) => {
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
@@ -203,18 +220,31 @@ const printTable = () => {
                                 {{ index }}
                             </td>
                             <td class="p-2">
-                                {{ dataValue.schedules_attendances[0].designation }}
+                                <template v-for="schedule_index in dataValue.schedules_attendances" :key="'sched-data-' + schedule_index">
+                                    <div v-if="schedule_index.applied_ins!=null">
+                                        <div v-if="schedule_index.applied_ins.project!=null">
+                                            {{ showItem(schedule_index.applied_ins.project.project_code, false) }}
+                                            <!-- {{ schedule_index.applied_ins.project.project_code }} -->
+                                        </div>
+                                        <div v-else-if="schedule_index.applied_ins.department!=null">
+                                            {{ showItem(schedule_index.applied_ins.department.department_name, false ) }}
+                                            <!-- {{ schedule_index.applied_ins.department.department_name }} -->
+                                        </div>
+                                    </div>
+                                    <div v-if="schedule_index.applied_outs!=null">
+                                        <div v-if="schedule_index.applied_outs.project!=null">
+                                            {{ showItem(schedule_index.applied_outs.project.project_code, false) }}
+                                            <!-- {{ schedule_index.applied_outs.project.project_code }} -->
+                                        </div>
+                                        <div v-else-if="schedule_index.applied_outs.department!=null">
+                                            {{ showItem(schedule_index.applied_outs.department.department_name, false) }}
+                                            <!-- {{ schedule_index.applied_outs.department.department_name }} -->
+                                        </div>
+                                    </div>
+                                </template>
                             </td>
                             <template v-for="schedule_index in schedule" :key="'sched-data-' + schedule_index">
-                                <template v-if="dataValue.events.length > 0">
-                                    <td class="p-2">
-                                        HOLIDAY
-                                    </td>
-                                    <td class="p-2">
-                                        HOLIDAY
-                                    </td>
-                                </template>
-                                <template v-else-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)">
+                                <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)">
                                     <td v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins != null" class="p-2">
                                         {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins.time_human }}
                                     </td>
@@ -234,6 +264,14 @@ const printTable = () => {
                                         ABSENT
                                     </td>
                                 </template>
+                                <template v-else-if="dataValue.events.length > 0">
+                                    <td class="p-2">
+                                        HOLIDAY
+                                    </td>
+                                    <td class="p-2">
+                                        HOLIDAY
+                                    </td>
+                                </template>
                                 <template v-else>
                                     <td class="p-2">
                                         N/A
@@ -247,17 +285,11 @@ const printTable = () => {
                                 {{ dataValue.metadata.regular.reg_hrs }}
                             </td>
                             <template v-if="dataValue.overtime.length > 0">
-                                <td v-if="dataValue.overtime[0].applied_in?.time_human!=null" class="p-2">
-                                    {{ dataValue.overtime[0].applied_in?.time_human }}
+                                <td class="p-2">
+                                    {{ dataValue.overtime[0].start_time_human }}
                                 </td>
-                                <td v-else class="p-2">
-                                    NO LOG
-                                </td>
-                                <td v-if="dataValue.overtime[0].applied_out?.time_human!=null" class="p-2">
-                                    {{ dataValue.overtime[0].applied_out?.time_human }}
-                                </td>
-                                <td v-else class="p-2">
-                                    NO LOG
+                                <td class="p-2">
+                                    {{ dataValue.overtime[0].end_time_human }} ( {{ dataValue.overtime[0].applied_out?.time_human ?? "NO LOG" }} )
                                 </td>
                                 <td class="p-2">
                                     {{ dataValue.metadata.regular.overtime }}
@@ -275,6 +307,7 @@ const printTable = () => {
                                 </td>
                             </template>
                         </tr>
+                        {{ showItem('', true) }}
                     </template>
                 </template>
             </tbody>

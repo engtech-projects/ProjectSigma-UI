@@ -23,6 +23,35 @@ export const useAccountStore = defineStore("accountStore", {
         isLoading: false,
         isEdit: false
     }),
+    getters: {
+        types () {
+            return this.list.reduce((uniqueTypes, account) => {
+                if (!uniqueTypes.some(item => item.id === account.account_type.type_id)) {
+                    uniqueTypes.push(
+                        {
+                            id: account.account_type.type_id,
+                            type: account.account_type.account_type_name,
+                            collapse: false
+                        }
+                    )
+                }
+                return uniqueTypes
+            }, [])
+        },
+        byTypes () {
+            const btypes = JSON.parse(JSON.stringify(this.types))
+            btypes.forEach((type) => {
+                type.types = []
+                this.list.forEach((account) => {
+                    if (account.account_type.type_id === type.id) {
+                        account.checked = false
+                        type.types.push(account)
+                    }
+                })
+            })
+            return btypes
+        }
+    },
     actions: {
         async getAccounts () {
             this.isLoading = true
