@@ -285,17 +285,11 @@ const printTable = () => {
                                 {{ dataValue.metadata.regular.reg_hrs }}
                             </td>
                             <template v-if="dataValue.overtime.length > 0">
-                                <td v-if="dataValue.overtime[0].applied_in?.time_human!=null" class="p-2">
-                                    {{ dataValue.overtime[0].overtime_date + " ( " + dataValue.overtime[0].applied_in?.time_human + " ) " }}
+                                <td class="p-2">
+                                    {{ dataValue.overtime[0].start_time_human }}
                                 </td>
-                                <td v-else class="p-2">
-                                    {{ dataValue.overtime[0].overtime_date }}
-                                </td>
-                                <td v-if="dataValue.overtime[0].applied_out?.time_human!=null" class="p-2">
-                                    {{ dataValue.overtime[0].applied_out?.time_human }}
-                                </td>
-                                <td v-else class="p-2">
-                                    (NO LOG / TIME OUT)
+                                <td class="p-2">
+                                    {{ dataValue.overtime[0].end_time_human }} ( {{ dataValue.overtime[0].applied_out?.time_human }} )
                                 </td>
                                 <td class="p-2">
                                     {{ dataValue.metadata.regular.overtime }}
