@@ -289,7 +289,7 @@ const printTable = () => {
                                     {{ dataValue.overtime[0].start_time_human }}
                                 </td>
                                 <td class="p-2">
-                                    {{ dataValue.overtime[0].end_time_human }} ( {{ dataValue.overtime[0].applied_out?.time_human }} )
+                                    {{ dataValue.overtime[0].end_time_human }} ( {{ dataValue.overtime[0].applied_out?.time_human ?? "NO LOG" }} )
                                 </td>
                                 <td class="p-2">
                                     {{ dataValue.metadata.regular.overtime }}
