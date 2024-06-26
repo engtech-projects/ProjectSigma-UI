@@ -17,6 +17,7 @@ export const useOvertimeStore = defineStore("overtimes", {
         overtime: {
             id: null,
             employees: [] as any[],
+            charging: "",
             project_id: null,
             department_id: null,
             overtime_date: null,
