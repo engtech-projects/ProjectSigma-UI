@@ -70,7 +70,6 @@ const printDraft = () => {
         printWindow.print()
     }
 }
-
 const savePayroll = async () => {
     try {
         await genpayrollstore.createRequest()
@@ -93,7 +92,14 @@ const showEdit = () => {
 const closeViewModal = () => {
     showEditModal.value = false
 }
-
+function formatCurrency (number: Number, locale = "en-US") {
+    const formatter = new Intl.NumberFormat(locale, {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })
+    return formatter.format(number)
+}
 </script>
 
 <template>
@@ -109,14 +115,13 @@ const closeViewModal = () => {
         </div>
         <div class="border-t border-gray-200">
             <div class="flex justify-between p-2">
-                <!-- <pre>{{ payrollDraft.department }}</pre> -->
                 <div class="text-md leading-6 font-medium text-gray-900">
                     {{ payrollDraft.group_type }}: <strong>{{ payrollDraft.group_type === 'Department' ? payrollDraft.department.department_name : payrollDraft.project.project_code }}</strong>
                 </div>
                 <div class="text-md leading-6 font-medium text-gray-900">
                     Period Covered: <strong>{{ formatDateRange(payrollDraft.cutoff_start, payrollDraft.cutoff_end) }}</strong>
                 </div>
-                <div class="hover:text-slate-400 print:hidden" @click="showEdit">
+                <div class="hover:text-slate-400 print:hidden" hidden @click="showEdit">
                     <button
                         title="Edit Draft"
                         type="submit"
@@ -411,67 +416,67 @@ const closeViewModal = () => {
                                 SG{{ data.current_employment.employee_salarygrade.salary_grade_level.salary_grade_level ?? "-" }}-{{ data.current_employment.employee_salarygrade.step_name }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.regular.reg_hrs ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.hours_worked.regular.reg_hrs) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.rest.reg_hrs ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.hours_worked.rest.reg_hrs) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.regular_holidays.reg_hrs ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.hours_worked.regular_holidays.reg_hrs) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.special_holidays.reg_hrs ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.hours_worked.special_holidays.reg_hrs) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.regular.overtime ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.hours_worked.regular.overtime) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.rest.overtime ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.hours_worked.rest.overtime) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.regular_holidays.overtime ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.hours_worked.regular_holidays.overtime) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.hours_worked.special_holidays.overtime ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.hours_worked.special_holidays.overtime) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.regular.regular ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.gross_pays.regular.regular) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.rest.regular ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.gross_pays.rest.regular) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.regular_holidays.regular ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.gross_pays.regular_holidays.regular) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.special_holidays.regular ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.gross_pays.special_holidays.regular) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.regular.overtime ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.gross_pays.regular.overtime) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.rest.overtime ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.gross_pays.rest.overtime) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.regular_holidays.overtime ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.gross_pays.regular_holidays.overtime) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.gross_pays.special_holidays.overtime ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.gross_pays.special_holidays.overtime) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.total_gross_pay ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.total_gross_pay) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.sss.employee_compensation ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.salary_deduction.sss.employee_compensation) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.phic.employee_compensation ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.salary_deduction.phic.employee_compensation) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hmdf.employee_compensation ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.salary_deduction.hmdf.employee_compensation) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.ewtc ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.salary_deduction.ewtc) ?? "-" }}
                             </td>
                             <!-- <td class="p-4 border-solid border border-slate-400 text-xs">
                                 Loans: {{ data.payroll_records.salary_deduction.loan.total_paid ?? "-" }}
@@ -481,7 +486,7 @@ const closeViewModal = () => {
                                 Other Deductions: {{ data.payroll_records.salary_deduction.other_deductions.total_paid ?? "-" }}
                             </td> -->
                             <td class="p-4 border border-solid border-slate-400 divide-y-*">
-                                <div class="mb-2">
+                                <!-- <div class="mb-2">
                                     <span class="font-bold text-xs">Cash Advance:</span> {{ data.payroll_records.salary_deduction.cash_advance.total_paid ?? "-" }}
                                 </div>
                                 <div class="mb-2">
@@ -489,7 +494,7 @@ const closeViewModal = () => {
                                 </div>
                                 <div>
                                     <span class="font-bold text-xs">Other Deductions:</span> {{ data.payroll_records.salary_deduction.other_deductions.total_paid ?? "-" }}
-                                </div>
+                                </div> -->
                             </td>
 
                             <th
@@ -497,27 +502,27 @@ const closeViewModal = () => {
                                 :key="key + 'loanTypesValues'"
                                 class="p-4 border-solid border border-slate-400"
                             >
-                                {{ loansType }}
+                                {{ formatCurrency(loansType) }}
                             </th>
                             <th
                                 v-for="cashAdvance, key in cashAdvances"
                                 :key="key + 'cashAdvanceValues'"
                                 class="p-4 border-solid border border-slate-400"
                             >
-                                {{ cashAdvance }}
+                                {{ formatCurrency(cashAdvance) }}
                             </th>
                             <th
                                 v-for="otherDeduction, key in otherDeductions"
                                 :key="key + 'otherDeductionValues'"
                                 class="p-4 border-solid border border-slate-400"
                             >
-                                {{ otherDeduction }}
+                                {{ formatCurrency(otherDeduction) ?? "-" }}
                             </th>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.total_salary_deduction ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.total_salary_deduction) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.total_net_pay ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.total_net_pay) ?? "-" }}
                             </td>
                         </tr>
                         <tr class="bg-white text-gray-950">
@@ -551,52 +556,52 @@ const closeViewModal = () => {
                                 {{ " " }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRegHrsPayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalRegHrsPayrollDraft) }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRestDayPayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalRestDayPayrollDraft) }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRegHolPayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalRegHolPayrollDraft) }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalSpcHolPayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalSpcHolPayrollDraft) }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRegOTPayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalRegOTPayrollDraft) }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRestDayOTPayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalRestDayOTPayrollDraft) }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalRegHolOTPayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalRegHolOTPayrollDraft) }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalSpcHolOTPayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalSpcHolOTPayrollDraft) }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalGrossPayPayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalGrossPayPayrollDraft) }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalSSSEmployeePayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalSSSEmployeePayrollDraft) ?? "-" }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalPHICEmployeePayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalPHICEmployeePayrollDraft) ?? "-" }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalHDMFEmployeePayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalHDMFEmployeePayrollDraft) ?? "-" }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalEWTCPayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalEWTCPayrollDraft) }}
                             </td>
                             <td>
-                                {{ genpayrollstore.totalLoansPayrollDraft }}
+                                {{ formatCurrency(genpayrollstore.totalLoansPayrollDraft) }}
                             </td>
                             <td>
-                                <strong>{{ genpayrollstore.totalDeductionPayrollDraft }}</strong>
+                                <strong>{{ formatCurrency(genpayrollstore.totalDeductionPayrollDraft) }}</strong>
                             </td>
                             <td>
-                                <strong>{{ genpayrollstore.totalNetPayPayrollDraft }}</strong>
+                                <strong>{{ formatCurrency(genpayrollstore.totalNetPayPayrollDraft) }}</strong>
                             </td>
                         </tr>
                     </tbody>

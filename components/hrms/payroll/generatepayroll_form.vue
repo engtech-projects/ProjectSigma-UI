@@ -11,15 +11,15 @@ generateParams.value.approvals = await approvals.getApprovalByName(APPROVAL_GP)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-const setEmployee = (adjustIndex: number, emp: { id: any }) => {
-    generateParams.value.adjustments[adjustIndex].id = emp.id
+const setEmployee = (adjustIndex, emp) => {
+    generateParams.value.adjustments[adjustIndex].employee_id = emp.id
 }
 
 const addAdjustment = () => {
-    generateParams.value.adjustments.push({ id: "", adjustment_name: "", adjustment_amount: "" })
+    generateParams.value.adjustments.push({ employee_id: "", adjustment_name: "", adjustment_amount: "" })
 }
 
-const delAdjustment = (adjustIndex: any) => {
+const delAdjustment = (adjustIndex) => {
     generateParams.value.adjustments.splice(adjustIndex, 1)
 }
 
@@ -32,13 +32,10 @@ const closeViewModal = () => {
     showInformationModal.value = false
 }
 
-// const payrollDraft = ref([])
-
 const submitForm = async () => {
     try {
         boardLoading.value = true
         await genpayrollstore.generatePayrollDraft()
-        // payrollDraft.value = generatedList
         snackbar.add({ type: "success", text: "Payroll Draft Successfully Generated." })
         showInformation()
     } catch (error) {
@@ -146,8 +143,9 @@ const submitForm = async () => {
                                         ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                     </button>
                                 </div>
-                                <div v-for="(adjust, adjustIndex) in generateParams.adjustments" :key="adjustIndex" class="grid md:grid-cols-2 md:gap-2 pb-4">
-                                    <!-- <pre>{{ adjust }}</pre> -->
+                                <div v-for="adjust, adjustIndex in generateParams.adjustments" :key="adjustIndex" class="grid md:grid-cols-2 md:gap-2 pb-4">
+                                    <pre>{{ adjust }}</pre>
+                                    <!-- <pre>{{ generateParams.adjustments }}</pre> -->
                                     <div>
                                         <label for="" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
                                         <SearchBar class="flex" @search-changed="emp => setEmployee(adjustIndex, emp)" />
@@ -161,7 +159,9 @@ const submitForm = async () => {
                                                 stroke-width="1.5"
                                                 stroke="currentColor"
                                                 class="w-8 h-8 text-red-600 hover:text-red-400"
-                                            ><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                            >
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
                                         </button>
                                     </div>
                                     <div>
@@ -230,7 +230,7 @@ const submitForm = async () => {
     <div v-if="showInformationModal" :loading="boardLoading">
         <Teleport to="body">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <div class="bg-white p-4 w-4/5 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
+                <div class="bg-white p-4 w-4/5 h-4/5 mt-10 ml-54 gap-2 rounded-md overflow-auto absolute">
                     <div class="flex gap-2 justify-end ml-auto p-2 ">
                         <button
                             title="Close"
