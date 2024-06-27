@@ -9,6 +9,7 @@ const { list: accountTypeList, accountType, isEdit, getParams, pagination, error
 const setEdit = (atype) => {
     isEdit.value = true
     accountType.value = atype
+    accountType.value.account_type = accountType.value.account_type_name
 }
 
 const deleteAccountType = async (atype) => {
