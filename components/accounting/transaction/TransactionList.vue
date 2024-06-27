@@ -125,7 +125,7 @@ const applyFilter = () => {
                                 {{ trn.transaction_date }}
                             </td>
                             <td class="p-2">
-                                {{ trn.transaction_type.transaction_type_name }}
+                                {{ trn.transaction_type? trn.transaction_type_name : "" }}
                             </td>
                             <td class="p-2">
                                 {{ trn.transaction_no }}
