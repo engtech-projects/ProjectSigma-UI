@@ -15,7 +15,9 @@ const stakeholderStore = useStakeholderStore()
 await stakeholderStore.getStakeholders()
 const stakeholderGroupStore = useStakeholderGroupStore()
 await stakeholderGroupStore.getStakeholderGroups()
-transactionStore.transaction.transaction_type_id = transactionStore.transaction.transaction_type.transaction_type_id
+if (transactionStore.transaction.transaction_type) {
+    transactionStore.transaction.transaction_type_id = transactionStore.transaction.transaction_type.transaction_type_id
+}
 definePageMeta({
     layout: "default",
 })
