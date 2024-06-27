@@ -67,4 +67,19 @@ const pan = usePersonelActionNotice()
             </div>
         </td>
     </tr>
+    <tr>
+        <td colspan="2" class="border border-slate-300 p-2">
+            <div>
+                <label
+                    for="small-input"
+                    class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
+                >Salary Type:</label>
+            </div>
+        </td>
+        <td colspan="2" class="border border-slate-300 p-2">
+            <div>
+                <HrmsCommonEmploymentSalaryTypeSelector v-model="pan.personelActionNotice.salary_type" />
+            </div>
+        </td>
+    </tr>
 </template>

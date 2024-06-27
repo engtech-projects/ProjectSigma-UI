@@ -101,4 +101,19 @@ const pan = usePersonelActionNotice()
             </div>
         </td>
     </tr>
+    <tr class="border border-slate-300 p-2">
+        <td colspan="2" class="border border-slate-300 p-2">
+            <div class="m-2">
+                <label
+                    for="PromotionSalaryType"
+                    class="flex text-sm text-black-700 dark:text-white"
+                >SALARY TYPE: </label>
+            </div>
+        </td>
+        <td colspan="2" class="border border-slate-300 p-2">
+            <div class="m-2">
+                <HrmsCommonEmploymentSalaryTypeSelector v-model="pan.personelActionNotice.salary_type" />
+            </div>
+        </td>
+    </tr>
 </template>
