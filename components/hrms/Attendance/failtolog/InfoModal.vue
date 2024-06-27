@@ -78,10 +78,10 @@ const denyRequest = async (id) => {
                     <span class="text-teal-600 text-light font-medium">Employee Name: </span> <span class="text-gray-900">{{ data.employee.fullname_first }}</span>
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium"> Date: </span> <span class="text-gray-900">{{ data.date }}</span>
+                    <span class="text-teal-600 text-light font-medium"> Date: </span> <span class="text-gray-900">{{ data.date_human }}</span>
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Time: </span> {{ data.time }}
+                    <span class="text-teal-600 text-light font-medium">Time: </span> {{ data.time_human }}
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light font-medium">Log Type: </span> {{ data.log_type }}
