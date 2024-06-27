@@ -75,7 +75,8 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         remarks: "",
         successMessage: "",
         errorHandler: [],
-        pagination: {},
+        allPagination: {},
+        myRequestPagination: {},
         getParams: {},
     }),
     actions: {
@@ -117,6 +118,22 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 }
             )
         },
+        async getOne (id: any) {
+            return await useHRMSApiO(
+                "/api/pan/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getAllPan () {
             this.successMessage = ""
             this.errorMessage = ""
@@ -128,7 +145,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.allPanList = response._data.data.data ?? []
-                            this.pagination = {
+                            this.allPagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
                                 last_page: response._data.data.last_page_url,
@@ -171,7 +188,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.myPanList = response._data.data ?? []
-                            this.pagination = {
+                            this.myRequestPagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
                                 last_page: response._data.data.last_page_url,

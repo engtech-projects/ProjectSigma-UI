@@ -24,15 +24,19 @@ const setParams = (link) => {
             <Icon name="ep:d-arrow-left" class="h-5 w-5 lg:h-5 lg:w-5" />
         </a>
         <div class="flex items-center space-x-1">
-            <a
+            <template
                 v-for="link,index in links.pages"
                 :key="index"
-                href="#"
-                :class="link.active ? 'bg-color1 text-black': 'bg-white'"
-                @click.prevent="setParams(link.url)"
             >
-                {{ link.label.includes('Next') ? "Next" : link.label.includes('Prev') ? "Back" : link.label }}
-            </a>
+                <a
+                    v-if="link.url"
+                    href="#"
+                    :class="link.active ? 'bg-color1 text-black': 'bg-white'"
+                    @click.prevent="setParams(link.url)"
+                >
+                    {{ link.label.includes('Next') ? "Next" : link.label.includes('Prev') ? "Back" : link.label }}
+                </a>
+            </template>
         </div>
         <a
             v-if="links.last_page"
