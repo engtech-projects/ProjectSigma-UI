@@ -2,20 +2,8 @@
 import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
-
 const { allPanList, pagination, getParams } = storeToRefs(pan)
 const boardLoading = ref(false)
-
-const panData = ref(null)
-const showInformationModal = ref(false)
-
-const showInformation = (data) => {
-    panData.value = data
-    showInformationModal.value = true
-}
-const closeViewModal = () => {
-    showInformationModal.value = false
-}
 
 const headers = [
     { name: "REQUEST TYPE", id: "type" },
@@ -23,12 +11,17 @@ const headers = [
     { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
     { name: "REQUEST STATUS", id: "request_status" },
 ]
-
 const actions = {
     showTable: true,
 }
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
+}
+const infoModalData = ref({})
+const showInfoModal = ref(false)
+const showInformation = (data) => {
+    infoModalData.value = data
+    showInfoModal.value = true
 }
 </script>
 
@@ -49,33 +42,9 @@ const changePaginate = (newParams) => {
                 @change-params="changePaginate"
             />
         </div>
+        <HrmsEmployeePanInfoModal
+            v-model:show-modal="showInfoModal"
+            :data="infoModalData"
+        />
     </LayoutBoards>
-    <div v-if="showInformationModal">
-        <Teleport to="body">
-            <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <div class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
-                    <div class="flex gap-2 justify-between p-2">
-                        <p>Personel Action Notice (<span class="text-blue-500">{{ panData.type }}</span>)</p>
-                        <button
-                            @click="closeViewModal"
-                        >
-                            <Icon name="cil:x" color="green" class="w-4 h-4 " />
-                            Close
-                        </button>
-                    </div>
-                    <div class="p-2">
-                        <HrmsEmployeePanPersonalActionFormInfo :pan-data="panData" />
-                    </div>
-                    <div class="flex gap-2 justify-end p-2">
-                        <button
-                            @click="closeViewModal"
-                        >
-                            <Icon name="cil:x" color="green" class="w-4 h-4 " />
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </Teleport>
-    </div>
 </template>
