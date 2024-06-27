@@ -14,7 +14,7 @@ const headers = [
 const actions = {
     showTable: true,
 }
-const infoModalData = ref(null)
+const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
     infoModalData.value = data
