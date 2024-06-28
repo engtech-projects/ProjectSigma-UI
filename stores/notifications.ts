@@ -23,12 +23,14 @@ export const useNotificationsStore = defineStore("notificationsStore", {
             })
         },
         async getNotificationsStream () {
-            const response = await $fetch<ReadableStream>(config.public.HRMS_API_URL + "/api/notifications/unread-stream", {
+            const response = await $fetch<ReadableStream>("/api/notifications/unread-stream", {
                 headers: {
                     Authorization: token.value + "",
                 },
                 method: "GET",
                 responseType: "stream",
+                baseURL: config.public.HRMS_API_URL,
+                keepalive: true,
             })
 
             // Create a new ReadableStream from the response with TextDecoderStream to get the data as text
