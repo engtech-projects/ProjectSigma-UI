@@ -12,7 +12,7 @@ useHead({
 })
 
 const pan = usePersonelActionNotice()
-pan.fetchPersonelActionList()
+pan.reloadResources()
 </script>
 
 <template>
