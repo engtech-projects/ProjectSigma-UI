@@ -40,7 +40,6 @@ export const useNotificationsStore = defineStore("notificationsStore", {
             while (true) {
                 const { value, done } = await reader.read()
                 if (done) { break }
-                // console.log("Received:", value)
                 if (value === "data: none" || value === "none") {
                     continue
                 }

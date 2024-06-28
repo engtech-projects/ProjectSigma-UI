@@ -2,9 +2,6 @@
 import { useChartOfAccountsStore } from "~/stores/accounting/chartofaccounts"
 
 const accounts = useChartOfAccountsStore()
-onMounted(() => {
-    console.log(accounts.list)
-})
 </script>
 
 <template>

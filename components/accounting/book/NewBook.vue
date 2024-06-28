@@ -57,7 +57,6 @@ async function handleSubmit () {
 const accounts = ref([])
 onMounted(() => {
     accounts.value = JSON.parse(JSON.stringify(accountStore.byTypes))
-    // console.log(accounts.value)
 })
 const checkedAccounts = computed(() => {
     const ids = []

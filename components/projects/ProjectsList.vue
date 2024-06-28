@@ -40,8 +40,6 @@ const actions = {
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-// onMounted(console.log(pagination))
-
 </script>
 
 <template>
