@@ -26,6 +26,8 @@ const submitForm = async () => {
                 text: genallowstore.successMessage
             })
         }
+        genallowstore.$reset()
+        generateAllowance.value.approvals = await approvals.getApprovalByName(APPROVAL_GA)
     } catch {
         snackbar.add({
             type: "error",

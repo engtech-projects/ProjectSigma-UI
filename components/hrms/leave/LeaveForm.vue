@@ -49,6 +49,7 @@ const submitAdd = async () => {
                 text: leaveRequest.successMessage
             })
         }
+        leaveRequest.payload.approvals = await approval.getApprovalByName(EMPLOYEE_APPROVAL_REQ)
     } catch (error) {
         snackbar.add({
             type: "error",
