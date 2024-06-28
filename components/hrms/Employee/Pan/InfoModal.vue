@@ -23,7 +23,7 @@ const closeViewModal = () => {
 }
 const denyRequest = async (id) => {
     try {
-        approvalLoading.value = true
+        boardLoading.value = true
         await pan.denyRequest(id)
         snackbar.add({
             type: "success",
@@ -35,7 +35,7 @@ const denyRequest = async (id) => {
             text: error || "something went wrong."
         })
     } finally {
-        approvalLoading.value = false
+        boardLoading.value = false
     }
     clearRemarks()
 }
@@ -46,7 +46,7 @@ const clearRemarks = () => {
 
 const approvedRequest = async (id) => {
     try {
-        approvalLoading.value = true
+        boardLoading.value = true
         await pan.approvedPanRequest(id)
         snackbar.add({
             type: "success",
@@ -59,7 +59,7 @@ const approvedRequest = async (id) => {
             text: error || "something went wrong."
         })
     } finally {
-        approvalLoading.value = false
+        boardLoading.value = false
     }
 }
 
