@@ -5,7 +5,7 @@ import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
 const { myApprovalRequestList: manpowerList } = storeToRefs(manpowers)
 
-const infoModalData = ref(null)
+const infoModalData = ref({})
 const showInfoModal = ref(false)
 
 const showInformation = (data) => {

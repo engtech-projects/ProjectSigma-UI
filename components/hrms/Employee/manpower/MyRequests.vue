@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
 const { myRequestList: manpowerList } = storeToRefs(manpowers)
-const infoModalData = ref(null)
+const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
     infoModalData.value = data
