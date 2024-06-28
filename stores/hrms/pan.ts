@@ -187,7 +187,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
-                            this.myPanList = response._data.data ?? []
+                            this.myPanList = response._data.data.data ?? []
                             this.myRequestPagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
