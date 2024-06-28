@@ -179,7 +179,6 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
                 },
                 account_id: null,
                 symbol: null,
-                book: null,
                 stakeholder_group: null
             }
             this.successMessage = ""
