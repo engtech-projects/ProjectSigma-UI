@@ -142,6 +142,25 @@ watch(showModal, (newValue, oldValue) => {
         </div>
     </a>
     <div v-if="showModal">
+        <template v-if=" prop.notification.data.type === 'ManpowerRequest'">
+            <HrmsEmployeeManpowerInfoModal
+                v-model:showModal="showModal"
+                :data="modalData.data"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'FailureToLog'">
+            <HrmsAttendanceFailtologInfoModal
+                v-model:showModal="showModal"
+                :show-approvals="prop.notification.data.action_type === 'Approve'"
+                :data="modalData.data"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'EmployeePanRequest'">
+            <HrmsEmployeePanInfoModal
+                v-model:showModal="showModal"
+                :data="modalData.data"
+            />
+        </template>
         <template v-if=" prop.notification.data.type === 'LeaveEmployeeRequest'">
             <HrmsLeaveInfoModal
                 v-model:showModal="showModal"
@@ -154,17 +173,9 @@ watch(showModal, (newValue, oldValue) => {
                 :data="modalData.data"
             />
         </template>
-        <template v-if=" prop.notification.data.type === 'Payroll'">
-            <HrmsPayrollInfoModal
+        <template v-if=" prop.notification.data.type === 'CashAdvance'">
+            <HrmsCashadvanceInfoModal
                 v-model:showModal="showModal"
-                :show-approvals="prop.notification.data.action_type === 'Approve'"
-                :data="modalData.data"
-            />
-        </template>
-        <template v-if=" prop.notification.data.type === 'FailureToLog'">
-            <HrmsAttendanceFailtologInfoModal
-                v-model:showModal="showModal"
-                :show-approvals="prop.notification.data.action_type === 'Approve'"
                 :data="modalData.data"
             />
         </template>
@@ -174,20 +185,15 @@ watch(showModal, (newValue, oldValue) => {
                 :data="modalData.data"
             />
         </template>
-        <template v-if=" prop.notification.data.type === 'EmployeePanRequest'">
-            <HrmsEmployeePanInfoModal
-                v-model:showModal="showModal"
-                :data="modalData.data"
-            />
-        </template>
-        <template v-if=" prop.notification.data.type === 'ManpowerRequest'">
-            <HrmsEmployeeManpowerInfoModal
-                v-model:showModal="showModal"
-                :data="modalData.data"
-            />
-        </template>
         <template v-if=" prop.notification.data.type === 'GenerateAllowance'">
             <HrmsTravelOrderInfoModal
+                v-model:showModal="showModal"
+                :show-approvals="prop.notification.data.action_type === 'Approve'"
+                :data="modalData.data"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'Payroll'">
+            <HrmsPayrollInfoModal
                 v-model:showModal="showModal"
                 :show-approvals="prop.notification.data.action_type === 'Approve'"
                 :data="modalData.data"
