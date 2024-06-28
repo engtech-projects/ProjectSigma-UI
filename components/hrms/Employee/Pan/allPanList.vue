@@ -2,6 +2,7 @@
 import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
+pan.getAllPan()
 const { allPanList, allPagination: pagination, getParams } = storeToRefs(pan)
 const boardLoading = ref(false)
 

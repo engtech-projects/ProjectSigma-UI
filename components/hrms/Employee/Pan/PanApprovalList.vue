@@ -3,6 +3,7 @@ import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
 
+pan.getPanApprovals()
 const { approvalPanList } = storeToRefs(pan)
 const headers = [
     { name: "REQUEST TYPE", id: "type" },
