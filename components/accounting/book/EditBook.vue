@@ -73,18 +73,18 @@ const checkedAccounts = computed(() => {
 onMounted(() => {
     accounts.value = JSON.parse(JSON.stringify(accountStore.byTypes))
     if (bookStore.book.account_groups) {
-        bookStore.book.account_group_id = bookStore.book.account_groups[0].account_group_id
-        accounts.value.forEach((ac) => {
-            ac.types.forEach((acc) => {
-                bookStore.book.account_groups[0].accounts.forEach((ag) => {
-                    if (acc.account_id === ag.account_id) {
-                        acc.checked = true
-                        ac.collapse = true
-                    }
-                })
+        bookStore.book.account_group_id = bookStore.book.account_groups.account_group_id
+    }
+    accounts.value.forEach((ac) => {
+        ac.types.forEach((acc) => {
+            bookStore.book.accounts.forEach((ag) => {
+                if (acc.account_id === ag.account_id) {
+                    acc.checked = true
+                    ac.collapse = true
+                }
             })
         })
-    }
+    })
 })
 </script>
 

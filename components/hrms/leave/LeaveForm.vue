@@ -5,7 +5,6 @@ import { useApprovalStore } from "~/stores/hrms/setup/approvals"
 import { useLeaveRequest, EMPLOYEE_WITH_PAY, EMPLOYEE_WITHOUT_PAY, EMPLOYEE_APPROVAL_REQ } from "~/stores/hrms/leaveRequest"
 
 // const leaves = useLeaveStore()
-const selectType = ref("")
 const employee = useEmployeeInfo()
 const approval = useApprovalStore()
 const leaveRequest = useLeaveRequest()
@@ -50,6 +49,7 @@ const submitAdd = async () => {
                 text: leaveRequest.successMessage
             })
         }
+        leaveRequest.payload.approvals = await approval.getApprovalByName(EMPLOYEE_APPROVAL_REQ)
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -80,9 +80,10 @@ const submitAdd = async () => {
                 </div>
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <HrmsCommonDepartmentProjectSelector
-                        v-model:select-type="selectType"
+                        v-model:select-type="leaveRequest.payload.charging"
                         v-model:department-id="leaveRequest.payload.department_id"
                         v-model:project-id="leaveRequest.payload.project_id"
+                        title="Charging"
                     />
                     <div class="mb-6">
                         <label for="date_filed" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date Filed</label>

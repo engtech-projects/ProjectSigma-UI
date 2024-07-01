@@ -12,16 +12,31 @@ export const RELEASE_TYPE = [
     ATM, CASH
 ]
 
-export interface PayrollAdjustment {
-    id: number;
+export interface Adjustment {
+    employee_id: Number;
     adjustment_name: string;
     adjustment_amount: string;
+}
+export interface Deduction {
+    id: number;
+    deduction_name: string;
+    deduction_amount: string;
+    deduction_type: string;
+}
+export interface Charging {
+    id: number;
+    charging_name: string;
+    charging_amount: string;
+    charging_type: string;
 }
 
 export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
     state: () => ({
         isEdit: false,
         generateParams: {
+            adjustments: [] as Adjustment[],
+            charging: [] as Charging[],
+            deductions: [] as Deduction[],
             group_type: null,
             project_id: null,
             department_id: null,
@@ -34,8 +49,8 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             deduct_philhealth: 0,
             deduct_pagibig: 0,
             employee_ids: [] as number[],
-            adjustments: [] as PayrollAdjustment[],
             approvals: [] as any[],
+            payroll_details: [],
         },
         payrollDraft: [] as any,
         payrollRecord: {
@@ -44,6 +59,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             project_id: null,
             department_id: null,
             payroll_date: "",
+            payroll_details: [] as any[],
             payroll_type: null,
             release_type: null,
             cutoff_start: "",
@@ -59,7 +75,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         myApprovalRequestList: [],
         myRequestList: [],
         pagination: {},
-        getParams: {},
+        getParams: {
+            employee_id: null,
+        },
         errorMessage: "",
         successMessage: "",
         remarks: "",
@@ -107,6 +125,71 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         loans: data.payroll_records.salary_deduction.loan,
                         cash_advance: data.payroll_records.salary_deduction.cash_advance,
                         other_deductions: data.payroll_records.salary_deduction.other_deduction,
+                    }
+                }),
+            }
+        },
+        payrollDetail (state) {
+            return {
+                ...state.payrollDraft,
+                payroll_details: state.payrollDraft.payroll.map(function (data: any) {
+                    return {
+                        employee_id: data.id,
+                        regular_hours: data.payroll_records.hours_worked.regular.reg_hrs,
+                        rest_hours: data.payroll_records.hours_worked.rest.reg_hrs,
+                        regular_holiday_hours: data.payroll_records.hours_worked.regular_holidays.reg_hrs,
+                        special_holiday_hours: data.payroll_records.hours_worked.special_holidays.reg_hrs,
+                        regular_overtime: data.payroll_records.hours_worked.regular.overtime,
+                        rest_overtime: data.payroll_records.hours_worked.rest.overtime,
+                        regular_holiday_overtime: data.payroll_records.hours_worked.regular_holidays.overtime,
+                        special_holiday_overtime: data.payroll_records.hours_worked.special_holidays.overtime,
+
+                        regular_pay: data.payroll_records.gross_pays.regular.regular,
+                        rest_pay: data.payroll_records.gross_pays.rest.regular,
+                        regular_holiday_pay: data.payroll_records.gross_pays.regular_holidays.regular,
+                        special_holiday_pay: data.payroll_records.gross_pays.special_holidays.regular,
+                        regular_ot_pay: data.payroll_records.gross_pays.regular.overtime,
+                        rest_ot_pay: data.payroll_records.gross_pays.rest.overtime,
+                        regular_holiday_ot_pay: data.payroll_records.gross_pays.regular_holidays.overtime,
+                        special_holiday_ot_pay: data.payroll_records.gross_pays.special_holidays.overtime,
+                        gross_pay: data.payroll_records.total_gross_pay,
+                        late_hours: data.payroll_records.hours_worked.regular.late,
+
+                        sss_employee_contribution: data.payroll_records.salary_deduction.sss.employee_contribution,
+                        sss_employer_contribution: data.payroll_records.salary_deduction.sss.employer_contribution,
+                        sss_employee_compensation: data.payroll_records.salary_deduction.sss.employee_compensation,
+                        sss_employer_compensation: data.payroll_records.salary_deduction.sss.employer_compensation,
+                        philhealth_employee_compensation: data.payroll_records.salary_deduction.phic.employee_compensation,
+                        philhealth_employer_compensation: data.payroll_records.salary_deduction.phic.employer_compensation,
+                        // pagibig_employee_contribution: data.payroll_records.salary_deduction.,
+                        // pagibig_employer_contribution: data.payroll_records.salary_deduction.,
+                        pagibig_employee_compensation: data.payroll_records.salary_deduction.hmdf.employee_compensation,
+                        pagibig_employer_compensation: data.payroll_records.salary_deduction.hmdf.employer_compensation,
+                        withholdingtax_contribution: data.payroll_records.salary_deduction.ewtc,
+                        total_deduct: data.payroll_records.total_salary_deduction,
+                        net_pay: data.payroll_records.total_net_pay,
+                        loans: data.payroll_records.salary_deduction.loan,
+                        cash_advance: data.payroll_records.salary_deduction.cash_advance,
+                        other_deductions: data.payroll_records.salary_deduction.other_deduction,
+
+                        deductions: data.deductions.map((deduction: any) => ({
+                            charge_id: deduction.charge_id,
+                            name: deduction.name,
+                            amount: deduction.amount,
+                            type: deduction.type
+                        })),
+
+                        // adjustments: data.payroll_records.adjustment.map((adj: any) => ({
+                        //     name: adj.name,
+                        //     amount: adj.amount
+                        // })),
+
+                        // charging: data.payroll_records.charging.map((charge: any) => ({
+                        //     name: charge.name,
+                        //     amount: charge.amount,
+                        //     charge_id: charge.charge_id,
+                        //     type: charge.type
+                        // }))
                     }
                 }),
             }
@@ -261,6 +344,8 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
     },
     actions: {
         async generatePayrollDraft () {
+            this.successMessage = ""
+            this.errorMessage = ""
             const payload = {
                 ...this.generateParams,
                 employee_ids: JSON.stringify(this.generateParams.employee_ids),
@@ -271,12 +356,12 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 {
                     method: "GET",
                     params: payload,
-                    onResponseError: ({ response }: any) => {
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }: any) => {
+                    onResponse: ({ response }) => {
                         if (response.ok) {
                             this.payrollDraft = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -338,7 +423,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 "/api/payroll/create-payroll",
                 {
                     method: "POST",
-                    body: this.formattedPayrollDraft,
+                    body: this.payrollDetail,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.$reset()

@@ -7,15 +7,15 @@ const failtologs = useFailToLogStore()
 const { myRequestList } = storeToRefs(failtologs)
 
 const headers = [
-    { name: "Date", id: "date" },
-    { name: "Time", id: "time" },
+    { name: "Date", id: "date_human" },
+    { name: "Time", id: "time_human" },
     { name: "Log Type", id: "log_type" },
     { name: "Reason", id: "reason" },
 ]
 const actions = {
     showTable: true,
 }
-const infoModalData = ref(null)
+const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
     infoModalData.value = data

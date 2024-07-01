@@ -31,6 +31,7 @@ const addManpwr = async () => {
                 text: manpowers.successMessage
             })
         }
+        manpower.value.approvals = await approvals.getApprovalByName(APPROVAL_MANPOWERREQ)
     } catch {
         snackbar.add({
             type: "error",

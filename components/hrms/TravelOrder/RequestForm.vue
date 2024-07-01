@@ -8,8 +8,7 @@ const approvals = useApprovalStore()
 const travels = useTravelorderStore()
 const { travel, errorMessage, successMessage } = storeToRefs(travels)
 
-const formApproval = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
-travel.value.approvals = formApproval
+travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -23,6 +22,8 @@ const submitForm = async () => {
                 type: "error",
                 text: travels.errorMessage
             })
+            travels.$reset()
+            travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
         } else {
             snackbar.add({
                 type: "success",

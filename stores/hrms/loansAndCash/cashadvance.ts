@@ -53,6 +53,22 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
         remarks: "",
     }),
     actions: {
+        async getOne (id: any) {
+            return await useHRMSApiO(
+                "/api/cash-advance/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getCA () {
             await useHRMSApi(
                 "/api/cash-advance/resource",

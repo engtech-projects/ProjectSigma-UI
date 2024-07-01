@@ -106,10 +106,6 @@ const fetchDeductions = async () => {
     })
 }
 
-// const showDetails = (item) => {
-//     console.log(item)
-// }
-
 fetchDeductions()
 
 </script>

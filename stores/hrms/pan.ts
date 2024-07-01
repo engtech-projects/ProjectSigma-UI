@@ -75,7 +75,8 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         remarks: "",
         successMessage: "",
         errorHandler: [],
-        pagination: {},
+        allPagination: {},
+        myRequestPagination: {},
         getParams: {},
     }),
     actions: {
@@ -92,7 +93,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
-                            this.fetchPersonelActionList()
+                            this.reloadResources()
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -117,6 +118,22 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 }
             )
         },
+        async getOne (id: any) {
+            return await useHRMSApiO(
+                "/api/pan/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getAllPan () {
             this.successMessage = ""
             this.errorMessage = ""
@@ -128,7 +145,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.allPanList = response._data.data.data ?? []
-                            this.pagination = {
+                            this.allPagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
                                 last_page: response._data.data.last_page_url,
@@ -170,8 +187,8 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
-                            this.myPanList = response._data.data ?? []
-                            this.pagination = {
+                            this.myPanList = response._data.data.data ?? []
+                            this.myRequestPagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
                                 last_page: response._data.data.last_page_url,
@@ -194,12 +211,12 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
-                            this.fetchPersonelActionList()
+                            this.reloadResources()
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
-                        this.fetchPersonelActionList()
+                        this.reloadResources()
                     },
                 }
             )
@@ -217,7 +234,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     body: formData,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.fetchPersonelActionList()
+                            this.reloadResources()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -227,13 +244,19 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 }
             )
         },
-        fetchPersonelActionList () {
+        reloadResources () {
             const backup = this.personelActionNotice.approvals
             this.$reset()
             this.personelActionNotice.approvals = backup
-            this.getAllPan()
-            this.getPanApprovals()
-            this.myPanRequest()
+            if (this.allPanList) {
+                this.getAllPan()
+            }
+            if (this.approvalPanList.length > 0) {
+                this.getPanApprovals()
+            }
+            if (this.myPanList.length > 0) {
+                this.myPanRequest()
+            }
         }
     },
 })

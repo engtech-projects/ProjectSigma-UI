@@ -37,7 +37,6 @@ export const useEventStore = defineStore("eventStore", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        console.log(response._data.data)
                         this.list = response._data.data
                         this.pagination = {
                             first_page: response._data.data.first_page_url,

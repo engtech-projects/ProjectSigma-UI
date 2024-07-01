@@ -23,27 +23,33 @@ export const useNotificationsStore = defineStore("notificationsStore", {
             })
         },
         async getNotificationsStream () {
-            const response = await $fetch<ReadableStream>(config.public.HRMS_API_URL + "/api/notifications/unread-stream", {
+            const response = await $fetch<ReadableStream>("/api/notifications/unread-stream", {
                 headers: {
                     Authorization: token.value + "",
                 },
                 method: "GET",
                 responseType: "stream",
+                baseURL: config.public.HRMS_API_URL,
+                keepalive: true,
+                onResponseError: () => {
+                    response.cancel()
+                    this.getNotificationsStream()
+                },
             })
-
             // Create a new ReadableStream from the response with TextDecoderStream to get the data as text
             const reader = response.pipeThrough(new TextDecoderStream()).getReader()
 
             // Read the chunk of data as we get it
             while (true) {
-                const { value, done } = await reader.read()
-                if (done) { break }
-                // console.log("Received:", value)
-                if (value === "data: none" || value === "none") {
-                    continue
+                try {
+                    const { value, done } = await reader.read()
+                    if (done) { break }
+                    const readData = value.split(":")
+                    const event = JSON.parse(readData[readData.length - 1])
+                    this.unreadList = event ?? []
+                } finally {
+                    this.unreadList = this.unreadList ?? []
                 }
-                const event = JSON.parse(value.slice(6))
-                this.unreadList = event ?? []
             }
         },
         async setAllUnreadAsRead () {

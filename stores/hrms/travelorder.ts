@@ -39,6 +39,22 @@ export const useTravelorderStore = defineStore("travels", {
         remarks: "",
     }),
     actions: {
+        async getOne (id: any) {
+            return await useHRMSApiO(
+                "/api/travelorder-request/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getTravelorders () {
             await useFetch(
                 "/api/travelorder-request/resource",

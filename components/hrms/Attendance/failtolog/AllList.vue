@@ -6,8 +6,8 @@ const failtologs = useFailToLogStore()
 const { failtolog, list: logList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(failtologs)
 
 const headers = [
-    { name: "Date", id: "date" },
-    { name: "Time", id: "time" },
+    { name: "Date", id: "date_human" },
+    { name: "Time", id: "time_human" },
     { name: "Log Type", id: "log_type" },
     { name: "Reason", id: "reason" },
 ]

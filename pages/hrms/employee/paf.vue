@@ -1,5 +1,4 @@
 <script setup>
-import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useEnumsStore } from "@/stores/hrms/enum"
 const enums = useEnumsStore()
 enums.getSalarygradeEnums()
@@ -11,8 +10,6 @@ useHead({
     title: "Personal Action Notice",
 })
 
-const pan = usePersonelActionNotice()
-pan.fetchPersonelActionList()
 </script>
 
 <template>

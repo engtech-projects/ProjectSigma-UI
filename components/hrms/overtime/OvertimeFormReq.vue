@@ -10,7 +10,6 @@ if (allEmployeeEnum.value.list.length <= 0) {
     enums.getEmployeeEnum()
 }
 const approvals = useApprovalStore()
-const chargingFilter = ref("Department")
 const overtimes = useOvertimeStore()
 const { overtime, errorMessage, successMessage } = storeToRefs(overtimes)
 
@@ -33,6 +32,8 @@ const submitForm = async () => {
                 text: overtimes.successMessage
             })
         }
+        overtimes.$reset()
+        overtime.value.approvals = await approvals.getApprovalByName(APPROVAL_OVERTIME)
     } catch {
         snackbar.add({
             type: "error",
@@ -52,7 +53,7 @@ const submitForm = async () => {
                 <div class="grid grid-cols-2 gap-2 mb-2">
                     <div class="flex-1 gap-4">
                         <HrmsCommonDepartmentProjectSelector
-                            v-model:select-type="chargingFilter"
+                            v-model:select-type="overtime.charging"
                             v-model:department-id="overtime.department_id"
                             v-model:project-id="overtime.project_id"
                             title="Charging"
