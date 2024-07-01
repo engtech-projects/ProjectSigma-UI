@@ -69,6 +69,7 @@ async function handleSubmit () {
                 type: "success",
                 text: transactionStore.successMessage
             })
+            navigateTo("/accounting/transaction")
         }
     } catch (error) {
         transactionStore.errorMessage = errorMessage
@@ -79,7 +80,6 @@ async function handleSubmit () {
     } finally {
         // transactionStore.reset()
         boardLoading.value = false
-        navigateTo("/accounting/transaction")
     }
 }
 
