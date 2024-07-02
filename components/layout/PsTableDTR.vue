@@ -245,31 +245,44 @@ const printTable = () => {
                             </td>
                             <template v-for="schedule_index in schedule" :key="'sched-data-' + schedule_index">
                                 <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)">
-                                    <td v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins != null" class="p-2">
-                                        {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins.time_human }}
-                                    </td>
-                                    <td v-else-if="dataValue.metadata.regular.reg_hrs > 0" class="p-2">
-                                        NO LOG
-                                    </td>
-                                    <td v-else class="p-2">
-                                        ABSENT
-                                    </td>
-                                    <td v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs != null" class="p-2">
-                                        {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs.time_human }}
-                                    </td>
-                                    <td v-else-if="dataValue.metadata.regular.reg_hrs > 0" class="p-2">
-                                        NO LOG
-                                    </td>
-                                    <td v-else class="p-2">
-                                        ABSENT
-                                    </td>
-                                </template>
-                                <template v-else-if="dataValue.events.length > 0">
                                     <td class="p-2">
-                                        HOLIDAY
+                                        <template v-if="dataValue.events.length > 0">
+                                            {{ dataValue.events[0].event_type }}
+                                            <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins != null">
+                                                ({{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins.time_human }})
+                                            </template>
+                                        </template>
+                                        <template v-else>
+                                            <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins != null">
+                                                {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins.time_human }}
+                                            </template>
+                                            <template v-else-if="dataValue.metadata.regular.reg_hrs > 0">
+                                                NO LOG
+                                            </template>
+                                            <template v-else-if="dataValue.events.length > 0" />
+                                            <template v-else>
+                                                ABSENT
+                                            </template>
+                                        </template>
                                     </td>
                                     <td class="p-2">
-                                        HOLIDAY
+                                        <template v-if="dataValue.events.length > 0">
+                                            {{ dataValue.events[0].event_type }}
+                                            <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs != null">
+                                                ({{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs.time_human }})
+                                            </template>
+                                        </template>
+                                        <template v-else>
+                                            <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs != null">
+                                                {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs.time_human }}
+                                            </template>
+                                            <template v-else-if="dataValue.metadata.regular.reg_hrs > 0">
+                                                NO LOG
+                                            </template>
+                                            <template v-else>
+                                                ABSENT
+                                            </template>
+                                        </template>
                                     </td>
                                 </template>
                                 <template v-else>
