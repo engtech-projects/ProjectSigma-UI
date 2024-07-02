@@ -44,9 +44,9 @@ export const useNotificationsStore = defineStore("notificationsStore", {
                 try {
                     const { value, done } = await reader.read()
                     if (done) { break }
-                    const readData = value.trimEnd().split(":")
+                    const readData = value.trim().split(":")
                     const event = JSON.parse(readData[readData.length - 1])
-                    this.unreadList = event ?? []
+                    this.unreadList = event.notifs ?? []
                 } finally {
                     this.unreadList = this.unreadList ?? []
                 }
