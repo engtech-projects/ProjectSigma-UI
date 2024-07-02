@@ -247,7 +247,7 @@ const printTable = () => {
                                 <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)">
                                     <td class="p-2">
                                         <template v-if="dataValue.events.length > 0">
-                                            {{dataValue.events[0].event_type}}
+                                            {{ dataValue.events[0].event_type }}
                                             <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins != null">
                                                 ({{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins.time_human }})
                                             </template>
@@ -267,7 +267,7 @@ const printTable = () => {
                                     </td>
                                     <td class="p-2">
                                         <template v-if="dataValue.events.length > 0">
-                                            {{dataValue.events[0].event_type}}
+                                            {{ dataValue.events[0].event_type }}
                                             <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs != null">
                                                 ({{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs.time_human }})
                                             </template>
