@@ -32,8 +32,8 @@ export const useNotificationsStore = defineStore("notificationsStore", {
                 baseURL: config.public.HRMS_API_URL,
                 keepalive: true,
                 onResponseError: () => {
-                    response.cancel()
-                    this.getNotificationsStream()
+                    // response.cancel()
+                    // this.getNotificationsStream()
                 },
             })
             // Create a new ReadableStream from the response with TextDecoderStream to get the data as text
@@ -44,9 +44,10 @@ export const useNotificationsStore = defineStore("notificationsStore", {
                 try {
                     const { value, done } = await reader.read()
                     if (done) { break }
-                    const readData = value.trim().split(":")
+                    let readData = value.trim().split("\n")
+                    readData = readData[readData.length - 1].split(": ", 2)
                     const event = JSON.parse(readData[readData.length - 1])
-                    this.unreadList = event.notifs ?? []
+                    this.unreadList = event ?? []
                 } finally {
                     this.unreadList = this.unreadList ?? []
                 }
