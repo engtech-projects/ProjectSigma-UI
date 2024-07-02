@@ -44,7 +44,7 @@ export const useNotificationsStore = defineStore("notificationsStore", {
                 try {
                     const { value, done } = await reader.read()
                     if (done) { break }
-                    const readData = value.split(":")
+                    const readData = value.trimEnd().split(":")
                     const event = JSON.parse(readData[readData.length - 1])
                     this.unreadList = event ?? []
                 } finally {
