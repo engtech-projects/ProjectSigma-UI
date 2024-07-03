@@ -10,7 +10,7 @@ useHead({
 
 <template>
     <div class="flex justify-center min-h-full">
-        <AccountingAccountGroupNew class="flex-1 max-w-[1000px]" />
+        <AccountingAccountGroupNew class="flex-1" />
     </div>
 </template>
 

@@ -1,44 +1,69 @@
 <script lang="ts" setup>
-import { useAccountType } from "~/stores/accounting/accounttype"
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+import { useAccountStore } from "~/stores/accounting/account"
 
 const accountGroupStore = useAccountGroupStore()
+const accountStore = useAccountStore()
+await accountStore.getAccounts()
 const snackbar = useSnackbar()
 const isLoading = ref(false)
-
-const accountType = useAccountType()
-accountType.getAccountTypes()
-
-function select (val:any) {
-    accountGroupStore.accountGroup.type_id = val.type_id
-}
+const accounts = ref([])
 
 async function handleSubmit () {
     try {
         isLoading.value = true
+        accountGroupStore.accountGroup.account_ids = JSON.stringify(checkedAccounts.value)
         await accountGroupStore.editAccountGroup()
-        snackbar.add({
-            type: "success",
-            text: accountGroupStore.successMessage
-        })
-    } catch {
+        if (accountGroupStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: accountGroupStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: accountGroupStore.successMessage
+            })
+            navigateTo("/accounting/account-groups")
+        }
+    } catch (error) {
+        errorMessage.value = errorMessage
         snackbar.add({
             type: "error",
-            text: accountGroupStore.errorMessage || "something went wrong."
+            text: accountGroupStore.errorMessage
         })
     } finally {
         isLoading.value = false
     }
 }
-function cancelEdit () {
-    accountGroupStore.isEdit = false
-    accountGroupStore.reset()
-    return navigateTo("/accounting/account-groups")
-}
+const checkedAccounts = computed(() => {
+    const ids = []
+    accounts.value.forEach((ac) => {
+        ac.types.forEach((acc) => {
+            if (acc.checked) {
+                ids.push(acc.account_id)
+            }
+        })
+    })
+    return ids
+})
+onMounted(() => {
+    accounts.value = JSON.parse(JSON.stringify(accountStore.byTypes))
+    accounts.value.forEach((ac) => {
+        ac.types.forEach((acc) => {
+            accountGroupStore.accountGroup.accounts.forEach((ag) => {
+                if (acc.account_id === ag.account_id) {
+                    acc.checked = true
+                    ac.collapse = true
+                }
+            })
+        })
+    })
+})
 </script>
 
 <template>
-    <LayoutBoards title="Create New Account Group" :loading="isLoading" class="w-full border-t-8 rounded-lg border-teal-500">
+    <LayoutBoards title="Edit Account Group" :loading="isLoading" class="w-full">
         <form @submit.prevent="handleSubmit">
             <div class="flex flex-col gap-2">
                 <div>
@@ -55,7 +80,7 @@ function cancelEdit () {
                     >
                 </div>
 
-                <div>
+                <!-- <div>
                     <label
                         for="account_type"
                         class="text-xs italic"
@@ -67,16 +92,37 @@ function cancelEdit () {
                         :selected-id="accountGroupStore.accountGroup.type_id"
                         @select="select"
                     />
+                </div> -->
+            </div>
+
+            <div>
+                <label
+                    for="symbol"
+                    class="text-xs italic"
+                >Accounts</label>
+                <div class="flex flex-col ml-4">
+                    <div v-for="ac in accounts" :key="ac.id" class="flex flex-col gap-2">
+                        <div class="flex gap-4 items-center py-1 border-b">
+                            <input id="" v-model="ac.collapse" type="checkbox" name="">
+                            <span>{{ ac.type }}</span>
+                        </div>
+                        <div v-if="ac.collapse" class="flex flex-col ml-8">
+                            <div v-for="acc in ac.types" :key="acc.account_id" class="flex gap-4 items-center py-1 border-b">
+                                <input id="" v-model="acc.checked" type="checkbox" name="">
+                                <span class="text-slate-700">{{ acc.account_name }}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="flex justify-end gap-4">
-                <button
-                    class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5"
-                    @click.prevent="cancelEdit"
+                <NuxtLink
+                    to="/accounting/account-groups"
+                    class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5 text-center"
                 >
                     Cancel
-                </button>
+                </NuxtLink>
                 <button
                     type="submit"
                     class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"

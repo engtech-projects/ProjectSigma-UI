@@ -1,13 +1,18 @@
 <script lang="ts" setup>
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+import { useAccountStore } from "~/stores/accounting/account"
 
 const accountGroupStore = useAccountGroupStore()
+const accountStore = useAccountStore()
+await accountStore.getAccounts()
 const snackbar = useSnackbar()
 const isLoading = ref(false)
+const accounts = ref([])
 
 async function handleSubmit () {
     try {
         isLoading.value = true
+        accountGroupStore.accountGroup.account_ids = JSON.stringify(checkedAccounts.value)
         await accountGroupStore.createAccountGroup()
         if (accountGroupStore.errorMessage !== "") {
             snackbar.add({
@@ -19,6 +24,7 @@ async function handleSubmit () {
                 type: "success",
                 text: accountGroupStore.successMessage
             })
+            navigateTo("/accounting/account-groups")
         }
     } catch (error) {
         errorMessage.value = errorMessage
@@ -30,6 +36,20 @@ async function handleSubmit () {
         isLoading.value = false
     }
 }
+const checkedAccounts = computed(() => {
+    const ids = []
+    accounts.value.forEach((ac) => {
+        ac.types.forEach((acc) => {
+            if (acc.checked) {
+                ids.push(acc.account_id)
+            }
+        })
+    })
+    return ids
+})
+onMounted(() => {
+    accounts.value = JSON.parse(JSON.stringify(accountStore.byTypes))
+})
 </script>
 
 <template>
@@ -63,6 +83,27 @@ async function handleSubmit () {
                         @select="select"
                     />
                 </div> -->
+            </div>
+
+            <div>
+                <label
+                    for="symbol"
+                    class="text-xs italic"
+                >Accounts</label>
+                <div class="flex flex-col ml-4">
+                    <div v-for="ac in accounts" :key="ac.id" class="flex flex-col gap-2">
+                        <div class="flex gap-4 items-center py-1 border-b">
+                            <input id="" v-model="ac.collapse" type="checkbox" name="">
+                            <span>{{ ac.type }}</span>
+                        </div>
+                        <div v-if="ac.collapse" class="flex flex-col ml-8">
+                            <div v-for="acc in ac.types" :key="acc.account_id" class="flex gap-4 items-center py-1 border-b">
+                                <input id="" v-model="acc.checked" type="checkbox" name="">
+                                <span class="text-slate-700">{{ acc.account_name }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="flex justify-end gap-4">

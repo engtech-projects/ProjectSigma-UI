@@ -7,6 +7,7 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
         accountGroup: {
             account_group_id: null,
             account_group_name: null,
+            account_ids: {},
             accounts: [],
             account_id: []
         },
@@ -159,6 +160,7 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
                 account_group_id: null,
                 account_group_name: null,
                 accounts: [],
+                account_ids: {},
                 account_id: []
             }
             this.successMessage = ""
