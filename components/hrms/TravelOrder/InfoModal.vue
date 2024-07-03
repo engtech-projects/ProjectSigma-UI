@@ -115,7 +115,7 @@ const denyRequest = async (id) => {
                 <div id="popover-deny" data-popover role="tooltip" class="absolute z-10 invisible inline-block w-96 text-sm text-gray-500 transition-opacity duration-300 bg-gray-800 border border-gray-200 shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 p-4">
                     <div>
                         <div class="text-white text-lg">
-                            Overtime Request
+                            Travel Order Request
                         </div>
                         <div>
                             <div class="w-full">
