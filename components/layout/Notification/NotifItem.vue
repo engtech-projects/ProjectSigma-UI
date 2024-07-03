@@ -103,14 +103,14 @@ watch(showModal, (newValue, oldValue) => {
     <a
         :key="'AllNotifs'"
         href="#"
-        class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
+        class="relative flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
     >
         <div class="flex-shrink-0">
             <div class="w-11 h-11 rounded-full">
                 <Icon :name="icons[notification.data.type]" class="w-full h-full" />
             </div>
         </div>
-        <div class="pl-3 w-full">
+        <div class="pl-3 w-full ">
             <div
                 class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400"
             >
@@ -146,6 +146,9 @@ watch(showModal, (newValue, oldValue) => {
                 </div>
             </div>
 
+        </div>
+        <div v-if="loading" class="absolute rounded-xl p-8 inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+            <span><Icon name="eos-icons:three-dots-loading" color="teal" class="w-12 h-12" /></span>
         </div>
     </a>
     <div v-if="showModal">
@@ -206,8 +209,5 @@ watch(showModal, (newValue, oldValue) => {
                 :data="modalData.data"
             />
         </template>
-    </div>
-    <div v-if="loading" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50 ">
-        <span><Icon name="eos-icons:three-dots-loading" color="teal" class="w-12 h-12" /></span>
     </div>
 </template>
