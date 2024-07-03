@@ -24,6 +24,7 @@ const prop = defineProps({
 })
 const showModal = ref(false)
 const modalData = ref({})
+const loading = ref(false)
 const { allList } = storeToRefs(notifStore)
 if (allList.value.length <= 0) {
     notifStore.getAllNotifications()
@@ -53,44 +54,50 @@ const icons = {
 //     })
 // }
 const openModalNotification = async () => {
-    switch (prop.notification.data.type) {
-    case "ManpowerRequest":
-        modalData.value = await manpowerStore.getOne(prop.notification.data.metadata.id)
-        break
-    case "FailureToLog":
-        modalData.value = await faillogStore.getOne(prop.notification.data.metadata.id)
-        break
-    case "EmployeePanRequest":
-        modalData.value = await panStore.getOne(prop.notification.data.metadata.id)
-        break
-    case "LeaveEmployeeRequest":
-        modalData.value = await leavereqStore.getOne(prop.notification.data.metadata.id)
-        break
-    case "TravelOrder":
-        modalData.value = await travelOrder.getOne(prop.notification.data.metadata.id)
-        break
-    case "CashAdvance":
-        modalData.value = await cashadvanceStore.getOne(prop.notification.data.metadata.id)
-        break
-    case "Overtime":
-        modalData.value = await overtimeStore.getOne(prop.notification.data.metadata.id)
-        break
-    case "GenerateAllowance":
-        modalData.value = await leavereqStore.getOne(prop.notification.data.metadata.id)
-        break
-    case "Payroll":
-        modalData.value = await leavereqStore.getOne(prop.notification.data.metadata.id)
-        break
-    default:
-        break
+    loading.value = true
+    try {
+        switch (prop.notification.data.type) {
+        case "ManpowerRequest":
+            modalData.value = await manpowerStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "FailureToLog":
+            modalData.value = await faillogStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "EmployeePanRequest":
+            modalData.value = await panStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "LeaveEmployeeRequest":
+            modalData.value = await leavereqStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "TravelOrder":
+            modalData.value = await travelOrder.getOne(prop.notification.data.metadata.id)
+            break
+        case "CashAdvance":
+            modalData.value = await cashadvanceStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "Overtime":
+            modalData.value = await overtimeStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "GenerateAllowance":
+            modalData.value = await leavereqStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "Payroll":
+            modalData.value = await leavereqStore.getOne(prop.notification.data.metadata.id)
+            break
+        default:
+            break
+        }
+        showModal.value = true
+    } finally {
+        loading.value = false
     }
-    showModal.value = true
 }
 watch(showModal, (newValue, oldValue) => {
     if (oldValue && !newValue) {
         notifStore.setSingleNotifAsRead(prop.notification.id)
     }
 })
+
 </script>
 <template>
     <a
@@ -199,5 +206,8 @@ watch(showModal, (newValue, oldValue) => {
                 :data="modalData.data"
             />
         </template>
+    </div>
+    <div v-if="loading" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-50 ">
+        <span><Icon name="eos-icons:three-dots-loading" color="teal" class="w-12 h-12" /></span>
     </div>
 </template>
