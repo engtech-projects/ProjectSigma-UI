@@ -8,6 +8,8 @@ export const useNotificationsStore = defineStore("notificationsStore", {
         allList: [],
         unreadList: [],
         streamingList: false,
+        pagination: {},
+        getParams: {},
     }),
     actions: {
         getAllNotifications () {
@@ -17,7 +19,12 @@ export const useNotificationsStore = defineStore("notificationsStore", {
                 },
                 onResponse: ({ response } : any) => {
                     if (response.ok) {
-                        this.allList = response._data.data ?? []
+                        this.allList = response._data.data.data ?? []
+                        this.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
                     }
                 },
             })

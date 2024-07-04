@@ -70,6 +70,7 @@ const printDraft = () => {
         printWindow.print()
     }
 }
+
 const savePayroll = async () => {
     try {
         await genpayrollstore.createRequest()
@@ -103,7 +104,6 @@ function formatCurrency (number: Number, locale = "en-US") {
 </script>
 
 <template>
-    <!-- <pre>{{ payrollDraft }}</pre> -->
     <div ref="payrollTemplateRef" class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
         <div class="details flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
             <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900 uppercase">
@@ -177,7 +177,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                             </th>
                             <th
                                 scope="col"
-                                colspan="8"
+                                :colspan="9"
                                 class="p-2 border-solid border border-slate-400 bg-sky-200"
                             >
                                 Gross Pay
@@ -326,6 +326,12 @@ function formatCurrency (number: Number, locale = "en-US") {
                                 Spc.Hol. O.T
                             </th>
                             <th
+                                rowspan="2"
+                                class="px-4 border-solid border border-slate-400"
+                            >
+                                Adjustments
+                            </th>
+                            <th
                                 class="px-4 border-solid border border-slate-400"
                                 colspan="1"
                             >
@@ -464,6 +470,11 @@ function formatCurrency (number: Number, locale = "en-US") {
                                 {{ formatCurrency(data.payroll_records.gross_pays.special_holidays.overtime) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
+                                <div v-for="(adjust, index1) in data.payroll_records.gross_pays.adjustments" :key="index1">
+                                    <strong>{{ adjust.adjustment_name }}:</strong> {{ formatCurrency(adjust.adjustment_amount) }}
+                                </div>
+                            </td>
+                            <td class="p-4 border-solid border border-slate-400">
                                 {{ formatCurrency(data.payroll_records.total_gross_pay) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
@@ -478,25 +489,22 @@ function formatCurrency (number: Number, locale = "en-US") {
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ formatCurrency(data.payroll_records.salary_deduction.ewtc) ?? "-" }}
                             </td>
-                            <!-- <td class="p-4 border-solid border border-slate-400 text-xs">
-                                Loans: {{ data.payroll_records.salary_deduction.loan.total_paid ?? "-" }}
-
-                                Cash Advance: {{ data.payroll_records.salary_deduction.cash_advance.total_paid ?? "-" }}
-
-                                Other Deductions: {{ data.payroll_records.salary_deduction.other_deductions.total_paid ?? "-" }}
-                            </td> -->
-                            <td class="p-4 border border-solid border-slate-400 divide-y-*">
-                                <!-- <div class="mb-2">
-                                    <span class="font-bold text-xs">Cash Advance:</span> {{ data.payroll_records.salary_deduction.cash_advance.total_paid ?? "-" }}
+                            <td class="p-2 border-solid border border-slate-400">
+                                <div class="divide-y">
+                                    <div>
+                                        <strong>Loans:</strong>
+                                        {{ formatCurrency(data.payroll_records.salary_deduction.loan.total_paid) ?? "-" }}
+                                    </div>
+                                    <div>
+                                        <strong>CA:</strong>
+                                        {{ formatCurrency(data.payroll_records.salary_deduction.cash_advance.total_paid) ?? "-" }}
+                                    </div>
+                                    <div>
+                                        <strong>Other Deductions:</strong>
+                                        {{ formatCurrency(data.payroll_records.salary_deduction.other_deductions.total_paid) ?? "-" }}
+                                    </div>
                                 </div>
-                                <div class="mb-2">
-                                    <span class="font-bold text-xs">Coop Loans:</span> {{ data.payroll_records.salary_deduction.loan.total_paid ?? "-" }}
-                                </div>
-                                <div>
-                                    <span class="font-bold text-xs">Other Deductions:</span> {{ data.payroll_records.salary_deduction.other_deductions.total_paid ?? "-" }}
-                                </div> -->
                             </td>
-
                             <th
                                 v-for="loansType, key in loanTypes"
                                 :key="key + 'loanTypesValues'"
@@ -580,6 +588,9 @@ function formatCurrency (number: Number, locale = "en-US") {
                                 {{ formatCurrency(genpayrollstore.totalSpcHolOTPayrollDraft) }}
                             </td>
                             <td>
+                                {{ formatCurrency(genpayrollstore.totalAdjustments) }}
+                            </td>
+                            <td>
                                 {{ formatCurrency(genpayrollstore.totalGrossPayPayrollDraft) }}
                             </td>
                             <td>
@@ -607,7 +618,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                     </tbody>
                 </table>
             </div>
-            <div class="signatures grid md:grid-cols-4 gap-6 pt-5 p-4">
+            <!-- <div class="signatures grid md:grid-cols-4 gap-6 pt-5 p-4">
                 <div>
                     Prepared by:
                     <div class="indent-8">
@@ -646,7 +657,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                         PRESIDENT
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 

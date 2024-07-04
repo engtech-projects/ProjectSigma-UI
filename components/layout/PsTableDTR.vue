@@ -22,7 +22,7 @@ defineProps({
         type: Array<any>,
         required: true,
     },
-    designation: {
+    overtime: {
         type: Array<any>,
         required: true,
     },
@@ -145,7 +145,7 @@ const printTable = () => {
                     </th>
                     <th
                         scope="col"
-                        colspan="3"
+                        :colspan="(overtime.length * 2) + 1"
                         rowspan="2"
                         class="text-white p-2 border-solid border border-zinc-700"
                     >
@@ -189,23 +189,26 @@ const printTable = () => {
                             OUT {{ sched.end_time_human }}
                         </th>
                     </template>
+                    <template v-for="sched, index in overtime" :key="'overtime' + index">
+                        <th
+                            scope="col"
+                            colspan="1"
+                            class="text-white p-2 border-solid border border-zinc-700"
+                        >
+                            IN {{ sched.start_time_human }}
+                        </th>
+                        <th
+                            scope="col"
+                            colspan="1"
+                            class="text-white p-2 border-solid border border-zinc-700"
+                        >
+                            OUT {{ sched.end_time_human }}
+                        </th>
+                    </template>
                     <th
                         scope="col"
                         colspan="1"
-                        class="text-white p-2 border-solid border border-zinc-700"
-                    >
-                        IN
-                    </th>
-                    <th
-                        scope="col"
-                        colspan="1"
-                        class="text-white p-2 border-solid border border-zinc-700"
-                    >
-                        OUT
-                    </th>
-                    <th
-                        scope="col"
-                        colspan="1"
+                        rowspan="2"
                         class="text-white p-2 border-solid border border-zinc-700"
                     >
                         Total Hours
@@ -224,21 +227,17 @@ const printTable = () => {
                                     <div v-if="schedule_index.applied_ins!=null">
                                         <div v-if="schedule_index.applied_ins.project!=null">
                                             {{ showItem(schedule_index.applied_ins.project.project_code, false) }}
-                                            <!-- {{ schedule_index.applied_ins.project.project_code }} -->
                                         </div>
                                         <div v-else-if="schedule_index.applied_ins.department!=null">
                                             {{ showItem(schedule_index.applied_ins.department.department_name, false ) }}
-                                            <!-- {{ schedule_index.applied_ins.department.department_name }} -->
                                         </div>
                                     </div>
                                     <div v-if="schedule_index.applied_outs!=null">
                                         <div v-if="schedule_index.applied_outs.project!=null">
                                             {{ showItem(schedule_index.applied_outs.project.project_code, false) }}
-                                            <!-- {{ schedule_index.applied_outs.project.project_code }} -->
                                         </div>
                                         <div v-else-if="schedule_index.applied_outs.department!=null">
                                             {{ showItem(schedule_index.applied_outs.department.department_name, false) }}
-                                            <!-- {{ schedule_index.applied_outs.department.department_name }} -->
                                         </div>
                                     </div>
                                 </template>
@@ -297,28 +296,37 @@ const printTable = () => {
                             <td class="p-2">
                                 {{ dataValue.metadata.regular.reg_hrs }}
                             </td>
-                            <template v-if="dataValue.overtime.length > 0">
-                                <td class="p-2">
-                                    {{ dataValue.overtime[0].start_time_human }}
-                                </td>
-                                <td class="p-2">
-                                    {{ dataValue.overtime[0].end_time_human }} ( {{ dataValue.overtime[0].applied_out?.time_human ?? "NO LOG" }} )
-                                </td>
-                                <td class="p-2">
-                                    {{ dataValue.metadata.regular.overtime }}
-                                </td>
+                            <template v-for="schedule_index in overtime" :key="'overtime-data-' + schedule_index">
+                                <template v-if="dataValue.overtime.find((element:any) => element.id === schedule_index.id)">
+                                    <td class="p-2">
+                                        <template v-if="dataValue.overtime.find((element:any) => element.id === schedule_index.id)?.start_time_human != null">
+                                            {{ dataValue.overtime.find((element:any) => element.id === schedule_index.id)?.start_time_human }}
+                                        </template>
+                                        <template v-else>
+                                            N/A
+                                        </template>
+                                    </td>
+                                    <td class="p-2">
+                                        <template v-if="dataValue.overtime.find((element:any) => element.id === schedule_index.id)?.end_time_human != null">
+                                            {{ dataValue.overtime.find((element:any) => element.id === schedule_index.id)?.end_time_human }} ( {{ dataValue.overtime.find((element:any) => element.id === schedule_index.id)?.applied_out?.time_human ?? "NO LOG" }} )
+                                        </template>
+                                        <template v-else>
+                                            NO LOG
+                                        </template>
+                                    </td>
+                                </template>
+                                <template v-else>
+                                    <td class="p-2">
+                                        N/A
+                                    </td>
+                                    <td class="p-2">
+                                        N/A
+                                    </td>
+                                </template>
                             </template>
-                            <template v-else>
-                                <td class="p-2">
-                                    N/A
-                                </td>
-                                <td class="p-2">
-                                    N/A
-                                </td>
-                                <td class="p-2">
-                                    0
-                                </td>
-                            </template>
+                            <td class="p-2">
+                                {{ dataValue.metadata.regular.overtime }}
+                            </td>
                         </tr>
                         {{ showItem('', true) }}
                     </template>

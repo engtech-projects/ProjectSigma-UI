@@ -6,9 +6,12 @@ useHead({
 })
 
 const notifStore = useNotificationsStore()
-const { allList } = storeToRefs(notifStore)
+const { allList, pagination, getParams } = storeToRefs(notifStore)
 if (allList.value.length <= 0) {
     notifStore.getAllNotifications()
+}
+const changePaginate = (newParams) => {
+    getParams.value.page = newParams.page ?? ""
 }
 </script>
 <template>
@@ -31,6 +34,9 @@ if (allList.value.length <= 0) {
                 <LayoutNotificationNotifItem :notification="notif" />
             </template>
             <!-- End of dynamic data section -->
+        </div>
+        <div class="flex justify-center mx-auto pt-2">
+            <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
     </div>
 </template>
