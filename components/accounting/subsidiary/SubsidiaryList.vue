@@ -50,7 +50,7 @@ const snackbar = useSnackbar()
             <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
             <span>Create New Subsidiary</span>
         </NuxtLink>
-        <LayoutBoards title="Subsidiary List" class="w-full" :loading="subsidiaryStore.isLoading">
+        <LayoutBoards title="List of Subsidiary Accounts" class="w-full" :loading="subsidiaryStore.isLoading">
             <div class="pb-2 text-gray-500">
                 <LayoutPsTable
                     id="listTable"

@@ -57,7 +57,7 @@ const boardLoading = ref(false)
             <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
             <span>New Stakeholder</span>
         </NuxtLink>
-        <LayoutBoards title="Stakeholder List" class="w-full" :loading="stakeholderStore.isLoading">
+        <LayoutBoards title="List of Stakeholders" class="w-full" :loading="stakeholderStore.isLoading">
             <div class="pb-2 text-gray-500">
                 <LayoutPsTable
                     id="listTable"

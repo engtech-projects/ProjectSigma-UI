@@ -17,11 +17,14 @@ const snackbar = useSnackbar()
 async function updateTransactionType () {
     try {
         boardLoading.value = true
+        transactionTypeStore.transactionType.book_id = transactionTypeStore.transactionType.book.book_id
+        transactionTypeStore.transactionType.stakeholder_group_id = transactionTypeStore.transactionType.stakeholder_group.stakeholder_group_id
         await transactionTypeStore.editTransactionType()
         snackbar.add({
             type: "success",
             text: transactionTypeStore.successMessage
         })
+        navigateTo("/accounting/transaction-type")
     } catch {
         snackbar.add({
             type: "error",
@@ -39,9 +42,6 @@ function cancelEdit () {
     return navigateTo("/accounting/transaction-type")
 }
 
-function select (val:any) {
-    transactionTypeStore.transactionType.account_id = val.account_id
-}
 </script>
 
 <template>
@@ -76,19 +76,6 @@ function select (val:any) {
                             {{ book.book_name }}
                         </option>
                     </select>
-                </div>
-                <div>
-                    <label
-                        for="book"
-                        class="text-xs italic"
-                    >Account</label>
-                    <AccountingSelectSearch
-                        :options="accountStore.list"
-                        title="account_name"
-                        opid="account_id"
-                        :selected-id="transactionTypeStore.transactionType.account_id"
-                        @select="select"
-                    />
                 </div>
 
                 <div>

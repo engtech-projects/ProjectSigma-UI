@@ -13,6 +13,7 @@ async function handleSubmit () {
             type: "success",
             text: postingPeriodStore.successMessage
         })
+        navigateTo("/accounting/posting-periods")
     } catch {
         snackbar.add({
             type: "error",
