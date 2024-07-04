@@ -127,85 +127,41 @@ const submitForm = async () => {
                 </div>
 
                 <div>
-                    <div>
-                        <div class="z-40 mb-5 grid grid-cols-1 gap-6 sm:grid-cols-2">
-                            <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-                                <div class="flex items-center justify-between align">
-                                    <label for="" class="text-xl font-semibold text-gray-900 pb-2">Adjustment</label>
-                                    <button class="add-button " title="Add More Adjustment" @click.prevent="addAdjustment">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke-width="1.5"
-                                            stroke="currentColor"
-                                            class="w-8 h-8 text-green-600 hover:text-green-900"
-                                        ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                    </button>
-                                </div>
-                                <div v-for="adjust, adjustIndex in generateParams.adjustments" :key="adjustIndex" class="grid md:grid-cols-2 md:gap-2 pb-4">
-                                    <pre>{{ adjust }}</pre>
-                                    <!-- <pre>{{ generateParams.adjustments }}</pre> -->
-                                    <div>
-                                        <label for="" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
-                                        <SearchBar class="flex" @search-changed="emp => setEmployee(adjustIndex, emp)" />
-                                    </div>
-                                    <div class="justify-items-end ml-auto">
-                                        <button class="delete-button " title="Remove Adjustment" @click.prevent="delAdjustment(adjustIndex)">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke-width="1.5"
-                                                stroke="currentColor"
-                                                class="w-8 h-8 text-red-600 hover:text-red-400"
-                                            >
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div>
-                                        <LayoutFormPsTextInput v-model="adjust.adjustment_name" title="Adjustment Name" class="flex-auto" :required="false" />
-                                    </div>
-                                    <div>
-                                        <LayoutFormPsNumberInput v-model="adjust.adjustment_amount" title="Adjustment Amount" class="flex-auto" :required="false" />
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-                    <label for="" class="text-xl font-semibold text-gray-900">Waive Fees</label>
-                    <div class="mt-4 flex flex-col">
-                        <div class="mb-5 grid grid-cols-1 gap-6 sm:grid-cols-4">
-                            <div>
-                                <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee</label>
-                                <input id="employee" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
-                            </div>
-                            <div>
-                                <label for="fee_type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fee Type</label>
-                                <select id="cutoff_dates" name="cutoff_dates" class="block w-full p-2.5 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
-                                    <option value="1">
-                                        Cash Advance
-                                    </option>
-                                    <option value="2">
-                                        Loan
-                                    </option>
-                                    <option value="3">
-                                        Other Deduction
-                                    </option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="fee_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fee Name</label>
-                                <input id="fee_name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            </div>
-                            <div class="flex justify-end items-center">
-                                <button type="submit" class="mt-5 min-w-min text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    <Icon name="ic:baseline-plus" color="white" class="w-5 h-5" />
+                    <div class="mb-5 w-2/3 flex flex-row gap-4 relative">
+                        <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
+                            <div class="flex items-center justify-between">
+                                <label for="" class="text-xl font-semibold text-gray-900 pb-2">Adjustment</label>
+                                <button class="add-button " title="Add More Adjustment" @click.prevent="addAdjustment">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="w-8 h-8 text-green-600 hover:text-green-900"
+                                    ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                 </button>
                             </div>
-                        </div>
-                    </div>
-                </div> -->
+                            <div v-for="adjust, adjustIndex in generateParams.adjustments" :key="adjustIndex" class="flex flex-row gap-x-4 pb-8 items-center justify-between">
+                                <div class="w-1/2">
+                                    <label for="">Employee</label>
+                                    <SearchBar @search-changed="emp => setEmployee(adjustIndex, emp)" />
+                                </div>
+                                <LayoutFormPsTextInput v-model="adjust.adjustment_name" title="Adjustment Name" class="w-1/4" :required="false" />
+                                <LayoutFormPsNumberInput v-model="adjust.adjustment_amount" title="Adjustment Amount" class="w-1/4" :required="false" />
+                                <button class="delete-button " title="Remove Adjustment" @click.prevent="delAdjustment(adjustIndex)">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="w-8 h-8 text-red-600 hover:text-red-400"
+                                    >
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="">

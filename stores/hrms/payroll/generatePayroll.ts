@@ -34,9 +34,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
     state: () => ({
         isEdit: false,
         generateParams: {
-            adjustments: [] as Adjustment[],
-            charging: [] as Charging[],
-            deductions: [] as Deduction[],
+            adjustments: [] as Array<Adjustment>,
+            charging: [] as Array<Charging>,
+            deductions: [] as Array<Deduction>,
             group_type: null,
             project_id: null,
             department_id: null,
@@ -86,7 +86,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         formattedPayrollDraft (state) {
             return {
                 ...state.payrollDraft,
-                payroll: state.payrollDraft.payroll.map(function (data: any) {
+                payroll: state.payrollDraft.payroll.map(function (data) {
                     return {
                         employee_id: data.id,
                         regular_hours: data.payroll_records.hours_worked.regular,
@@ -124,14 +124,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         net_pay: data.payroll_records.total_net_pay,
                         loans: data.payroll_records.salary_deduction.loan,
                         cash_advance: data.payroll_records.salary_deduction.cash_advance,
-                        other_deductions: data.payroll_records.salary_deduction.other_deduction,
+                        other_deductions: data.payroll_records.salary_deduction.other_deductions,
                     }
                 }),
-            }
-        },
-        payrollDetail (state) {
-            return {
-                ...state.payrollDraft,
                 payroll_details: state.payrollDraft.payroll.map(function (data: any) {
                     return {
                         employee_id: data.id,
@@ -170,34 +165,64 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         net_pay: data.payroll_records.total_net_pay,
                         loans: data.payroll_records.salary_deduction.loan,
                         cash_advance: data.payroll_records.salary_deduction.cash_advance,
-                        other_deductions: data.payroll_records.salary_deduction.other_deduction,
-
-                        deductions: data.deductions.map((deduction: any) => ({
-                            charge_id: deduction.charge_id,
-                            name: deduction.name,
-                            amount: deduction.amount,
-                            type: deduction.type
+                        other_deductions: data.payroll_records.salary_deduction.other_deductions,
+                        adjustments: data.payroll_records.gross_pays.adjustments.map((adj: Adjustment) => ({
+                            employee_id: adj.employee_id,
+                            adjustment_name: adj.adjustment_name,
+                            adjustment_amount: adj.adjustment_amount
                         })),
-
-                        // adjustments: data.payroll_records.adjustment.map((adj: any) => ({
-                        //     name: adj.name,
-                        //     amount: adj.amount
+                        // deductions: data.payroll_records.gross_pays.deductions.map((deduct: Deduction) => ({
+                        //     charge_id: data.charge_id,
+                        //     name: data.name,
+                        //     amount: data.amount,
+                        //     type: data.type,
                         // })),
-
-                        // charging: data.payroll_records.charging.map((charge: any) => ({
-                        //     name: charge.name,
-                        //     amount: charge.amount,
-                        //     charge_id: charge.charge_id,
-                        //     type: charge.type
-                        // }))
+                        // chargings: data.payroll_records.gross_pays.chargings.map((chg: Charging) => ({
+                        //     charge_id: chg.charge_id,
+                        //     name: chg.name,
+                        //     amount: chg.amount,
+                        //     type: chg.type,
+                        // })),
+                        deductions: {
+                            sss_employee_contribution: data.payroll_records.salary_deduction.sss.employee_contribution,
+                            sss_employer_contribution: data.payroll_records.salary_deduction.sss.employer_contribution,
+                            sss_employee_compensation: data.payroll_records.salary_deduction.sss.employee_compensation,
+                            sss_employer_compensation: data.payroll_records.salary_deduction.sss.employer_compensation,
+                            philhealth_employee_compensation: data.payroll_records.salary_deduction.phic.employee_compensation,
+                            philhealth_employer_compensation: data.payroll_records.salary_deduction.phic.employer_compensation,
+                            pagibig_employee_compensation: data.payroll_records.salary_deduction.hmdf.employee_compensation,
+                            pagibig_employer_compensation: data.payroll_records.salary_deduction.hmdf.employer_compensation,
+                        },
                     }
                 }),
             }
         },
-        totalLoansPayrollDraft (state) {
+
+        totalAdjustments (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { loan: string } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.loan)
+            state.payrollDraft.payroll.forEach((element: any) => {
+                if (Array.isArray(element.payroll_records.gross_pays.adjustments)) {
+                    element.payroll_records.gross_pays.adjustments.forEach((adjustment: any) => {
+                        total += parseFloat(adjustment.adjustment_amount) || 0
+                    })
+                }
+            })
+            return total.toFixed(2)
+        },
+        totalAdjustment (state) {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { adjustments: { adjustment_amount: string } } } }) => {
+                total += parseFloat(element.payroll_records.gross_pays.adjustments.adjustment_amount)
+            })
+            return total.toFixed(2)
+        },
+        totalLoansPayrollDraft (state: any): string {
+            let total = 0
+            state.payrollDraft.payroll.forEach((element: any) => {
+                const salaryDeduction = element.payroll_records.salary_deduction
+                total += parseFloat(salaryDeduction.cash_advance.total_paid) || 0
+                total += parseFloat(salaryDeduction.loan.total_paid) || 0
+                total += parseFloat(salaryDeduction.other_deductions.total_paid) || 0
             })
             return total.toFixed(2)
         },
@@ -210,8 +235,8 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         },
         totalOtherDeductionsPayrollDraft (state) {
             let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { other_deduction: string } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.other_deduction)
+            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { other_deductions: { total_paid: string } } } }) => {
+                total += parseFloat(element.payroll_records.salary_deduction.other_deductions.total_paid)
             })
             return total.toFixed(2)
         },
@@ -239,42 +264,42 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         totalHDMFEmployerPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { hmdf: { employer_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.hmdf.employer_compensation)
+                total += parseFloat(element.payroll_records.salary_deduction.hmdf.employer_compensation) ?? 0
             })
             return total.toFixed(2)
         },
         totalHDMFEmployeePayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { hmdf: { employee_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.hmdf.employee_compensation)
+                total += parseFloat(element.payroll_records.salary_deduction.hmdf.employee_compensation) ?? 0
             })
             return total.toFixed(2)
         },
         totalPHICEmployerPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { phic: { employer_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.phic.employer_compensation)
+                total += parseFloat(element.payroll_records.salary_deduction.phic.employer_compensation) ?? 0
             })
             return total.toFixed(2)
         },
         totalPHICEmployeePayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { phic: { employee_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.phic.employee_compensation)
+                total += parseFloat(element.payroll_records.salary_deduction.phic.employee_compensation) ?? 0
             })
             return total.toFixed(2)
         },
         totalSSSEmployerPayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { sss: { employer_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.sss.employer_compensation)
+                total += parseFloat(element.payroll_records.salary_deduction.sss.employer_compensation) ?? 0
             })
             return total.toFixed(2)
         },
         totalSSSEmployeePayrollDraft (state) {
             let total = 0
             state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { sss: { employee_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.sss.employee_compensation)
+                total += parseFloat(element.payroll_records.salary_deduction.sss.employee_compensation) ?? 0
             })
             return total.toFixed(2)
         },
@@ -350,6 +375,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 ...this.generateParams,
                 employee_ids: JSON.stringify(this.generateParams.employee_ids),
                 approvals: JSON.stringify(this.generateParams.approvals),
+                adjustments: JSON.stringify(this.generateParams.adjustments),
             }
             await useHRMSApiO(
                 "/api/payroll/generate-payroll",
@@ -423,7 +449,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 "/api/payroll/create-payroll",
                 {
                     method: "POST",
-                    body: this.payrollDetail,
+                    body: this.formattedPayrollDraft,
                     onResponse: ({ response }) => {
                         if (response.status >= 200 && response.status <= 299) {
                             this.$reset()

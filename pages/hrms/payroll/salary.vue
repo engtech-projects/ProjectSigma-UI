@@ -13,7 +13,7 @@ enums.getDepartmentEnums()
 enums.getProjectEnums()
 
 useHead({
-    title: "Generate Payroll",
+    title: "Salary",
 })
 
 </script>

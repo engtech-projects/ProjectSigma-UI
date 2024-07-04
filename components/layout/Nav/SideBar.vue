@@ -239,7 +239,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_payroll_generate_payroll,
                     ])"
-                    linkarea="/hrms/payroll/generatepayroll"
+                    linkarea="/hrms/payroll/salary"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Salary"
                 />
