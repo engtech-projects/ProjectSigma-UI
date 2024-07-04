@@ -24,19 +24,17 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
                 })
             })
         },
-        dtrUniqueDesignation (state) {
+        dtrUniqueOvertime (state) {
             if (!state.employee_dtr) {
                 return []
             }
             const allScheds = Object.values(state.employee_dtr.dtr).map((sched:any) => {
-                return [
-                    sched.schedules_attendances.applied_ins?.charging_designation,
-                    sched.schedules_attendances.applied_outs?.charging_designation,
-                ]
+                return [...sched.overtime]
             }).flat(1)
             return allScheds.filter((sched: any, index: any) => {
-                return sched && index === allScheds.findIndex((find: any) => {
-                    return sched === find
+                return index === allScheds.findIndex((find: any) => {
+                    return sched.start_time_human === find.start_time_human &&
+                        sched.end_time_human === find.end_time_human
                 })
             })
         }
