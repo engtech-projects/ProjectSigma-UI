@@ -11,7 +11,7 @@ notifStore.getNotificationsStream()
         >
             Unread Notifications
         </div>
-        <div class="overflow-y-auto max-h-72">
+        <div class="overflow-y-auto max-h-72 scroll-smooth">
             <template v-if="unreadList.length <= 0">
                 <div href="#" class="flex py-3 px-4 border-b dark:hover:bg-gray-600 dark:border-gray-600">
                     <div class="pl-3 w-full">
@@ -46,3 +46,24 @@ notifStore.getNotificationsStream()
         </NuxtLink>
     </div>
 </template>
+<style scoped>
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+</style>
