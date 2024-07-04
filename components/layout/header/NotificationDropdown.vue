@@ -9,9 +9,9 @@ notifStore.getNotificationsStream()
         <div
             class="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 dark:bg-gray-600 dark:text-gray-300"
         >
-            Notifications
+            Unread Notifications
         </div>
-        <div>
+        <div class="overflow-y-auto max-h-72">
             <template v-if="unreadList.length <= 0">
                 <div href="#" class="flex py-3 px-4 border-b dark:hover:bg-gray-600 dark:border-gray-600">
                     <div class="pl-3 w-full">
