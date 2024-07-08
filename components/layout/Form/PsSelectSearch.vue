@@ -9,32 +9,38 @@ const props = defineProps({
         default: "",
     },
     searchList: {
-        type: Array<Object>,
+        type: Array<any>,
         default: [],
     }
 })
 const result = defineModel("result", { type: Object, required: true })
 const searchInput = defineModel("searchInput", { type: String, required: true })
 const showDD = ref(false)
-function toggleDD () {
-    showDD.value = !showDD.value
+let toggleTimeout = null
+const openDD = () => {
+    if (toggleTimeout) {
+        clearTimeout(toggleTimeout)
+    }
+    showDD.value = true
+}
+const closeDD = () => {
+    toggleTimeout = setTimeout(() => {
+        showDD.value = false
+    }, 100)
 }
 function selectOption (option: any) {
     result.value = option
-    toggleDD()
+    closeDD()
 }
 function clearSelection () {
     result.value = {}
 }
-function offComponentFocus () {
-    toggleDD()
-}
 </script>
 
 <template>
-    <div>
+    <div id="PSSELECTSEARCH" tabindex="50" @focusin="openDD" @focusout="closeDD">
         <div class="border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer">
-            <div class="h-full flex flex-1 items-center overflow-hidden py-[9px]" @click="toggleDD">
+            <div class="h-full flex flex-1 items-center overflow-hidden py-[9px]">
                 <input
                     v-if="showDD"
                     v-model="searchInput"
@@ -42,7 +48,6 @@ function offComponentFocus () {
                     class="border border-slate-300 rounded w-full h-full"
                     placeholder="Search"
                     @click.stop
-                    @blur="offComponentFocus"
                 >
                 <span v-else class="flex-1">{{ result ? result[title] : placeholder }}</span>
                 <div v-show="result" @click="clearSelection">
