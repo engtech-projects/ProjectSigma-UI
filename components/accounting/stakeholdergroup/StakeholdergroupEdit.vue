@@ -11,6 +11,7 @@ const isLoading = ref(false)
 async function handleSubmit () {
     try {
         isLoading.value = true
+        stakeholderGroupStore.stakeholderGroup.stakeholder_type_ids = JSON.stringify(checkedStakeholderTypes.value)
         await stakeholderGroupStore.editStakeholderGroup()
         if (stakeholderGroupStore.errorMessage !== "") {
             snackbar.add({
@@ -34,10 +35,33 @@ async function handleSubmit () {
         navigateTo("/accounting/stakeholder-group")
     }
 }
-const select = (st:any) => {
-    stakeholderGroupStore.stakeholderGroup.stakeholder_type_id = st.stakeholder_type_id
-}
 
+const stakeholderTypes = computed(() => {
+    console.log(stakeholderGroupStore.stakeholderGroup)
+    const arr = JSON.parse(JSON.stringify(stakeHolderTypeStore.list))
+    arr.forEach((st) => {
+        st.checked = false
+        stakeholderGroupStore.stakeholderGroup.type_groups.forEach((sst) => {
+            if (st.stakeholder_type_id === sst.stakeholder_type_id) {
+                st.checked = true
+            }
+        })
+    })
+    return arr
+})
+
+const checkedStakeholderTypes = computed(() => {
+    const ids = []
+    stakeholderTypes.value.forEach((st) => {
+        if (st.checked) {
+            ids.push(st.stakeholder_type_id)
+        }
+    })
+    return ids
+})
+onMounted(() => {
+
+})
 </script>
 
 <template>
@@ -62,13 +86,16 @@ const select = (st:any) => {
                         for="account_type"
                         class="text-xs italic"
                     >Stakeholder Type</label>
-                    <AccountingSelectSearch
-                        :options="stakeHolderTypeStore.list"
-                        title="stakeholder_type_name"
-                        opid="stakeholder_type_id"
-                        :selected-id="stakeholderGroupStore.stakeholderGroup.stakeholder_type_id"
-                        @select="select"
-                    />
+                    <div>
+                        <div class="flex flex-col ml-4">
+                            <div v-for="st in stakeholderTypes" :key="st.stakeholder_type_id" class="flex flex-col gap-2">
+                                <div class="flex gap-4 items-center py-1 border-b">
+                                    <input id="" v-model="st.checked" type="checkbox" name="">
+                                    <span>{{ st.stakeholder_type_name }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

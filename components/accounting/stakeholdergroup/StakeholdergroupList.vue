@@ -10,7 +10,7 @@ const { list: stakeholderGroupList, stakeholderGroup, isEdit, getParams, paginat
 const setEdit = (st) => {
     isEdit.value = true
     stakeholderGroup.value = st
-    return navigateTo("/accounting/stakeholder-group/edit/" + st.stakeholder_group_id)
+    return navigateTo("/accounting/stakeholder-group/edit?id=" + st.stakeholder_group_id)
 }
 
 const deleteStakeholderGroup = async (st) => {

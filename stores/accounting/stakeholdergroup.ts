@@ -7,7 +7,8 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
         stakeholderGroup: {
             stakeholder_group_id: null,
             stakeholder_group_name: null,
-            stakeholder_type_id: null
+            stakeholder_type_id: null,
+            type_groups: []
         },
         list: [],
         pagination: {},
@@ -38,6 +39,31 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
                             pages: response._data.links,
                             last_page: response._data.last_page_url,
                         }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async getStakeholderGroup (id:any) {
+            this.isLoading = true
+            const { data, error } = await useFetch(
+                "/api/v1/stakeholder-group/" + id,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        this.stakeholderGroup = response._data.data
                     },
                 }
             )
@@ -130,7 +156,8 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
             this.stakeholderGroup = {
                 stakeholder_group_id: null,
                 stakeholder_group_name: null,
-                stakeholder_type_id: null
+                stakeholder_type_id: null,
+                type_groups: []
             }
             this.successMessage = ""
             this.errorMessage = ""

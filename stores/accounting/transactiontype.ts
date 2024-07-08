@@ -18,7 +18,6 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
             account_id: null,
             symbol: null,
             book: null,
-            stakeholder_group: null
         },
         list: [],
         pagination: {},
@@ -179,7 +178,6 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
                 },
                 account_id: null,
                 symbol: null,
-                stakeholder_group: null
             }
             this.successMessage = ""
             this.errorMessage = ""
