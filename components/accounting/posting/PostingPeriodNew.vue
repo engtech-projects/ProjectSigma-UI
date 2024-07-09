@@ -19,6 +19,7 @@ async function handleSubmit () {
                 type: "success",
                 text: postingPeriodStore.successMessage
             })
+            navigateTo("/accounting/posting-period")
         }
     } catch (error) {
         errorMessage.value = errorMessage

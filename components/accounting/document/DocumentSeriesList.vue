@@ -51,7 +51,7 @@ const snackbar = useSnackbar()
             <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
             <span>Create New Series</span>
         </NuxtLink>
-        <LayoutBoards title="Document Series List" class="w-full" :loading="documentSeriesStore.isLoading">
+        <LayoutBoards title="List of Document Series" class="w-full" :loading="documentSeriesStore.isLoading">
             <div class="pb-2 text-gray-500">
                 <LayoutPsTable
                     id="listTable"

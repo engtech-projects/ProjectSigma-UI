@@ -65,9 +65,6 @@ async function updateType () {
 //     transactionTypeStore.isEdit = false
 //     transactionTypeStore.reset()
 // }
-function select (val:any) {
-    transactionTypeStore.transactionType.account_id = val.account_id
-}
 </script>
 
 <template>
@@ -102,19 +99,6 @@ function select (val:any) {
                             {{ book.book_name }}
                         </option>
                     </select>
-                </div>
-                <div>
-                    <label
-                        for="book"
-                        class="text-xs italic"
-                    >Account</label>
-                    <AccountingSelectSearch
-                        :options="accountStore.list"
-                        title="account_name"
-                        opid="account_id"
-                        :selected-id="transactionTypeStore.transactionType.account_id"
-                        @select="select"
-                    />
                 </div>
 
                 <div>
