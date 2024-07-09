@@ -26,9 +26,9 @@ defineProps({
                 <div v-for="employee, index in employees" :key="index" class="flex flex-col items-center">
                     <HrmsDashboardAbsencesItem
                         title="Generate Memo"
-                        :name="employee.name"
-                        :avatar="employee.avatar"
-                        :absences="employee.absences"
+                        :name="employee.fullname_first"
+                        :avatar="employee.profile_photo"
+                        :absences="employee.absent_count"
                     />
                 </div>
             </div>
