@@ -308,7 +308,7 @@ const printTable = () => {
                                     </td>
                                     <td class="p-2">
                                         <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.end_time_human != null">
-                                            {{ dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.end_time_human }} ( {{ dataValue.overtime.find((element:any) => element.id === schedule_index.id)?.applied_out?.time_human ?? "NO LOG" }} )
+                                            {{ dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.end_time_human }} ( {{ dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.applied_out?.time_human ?? "NO LOG" }} )
                                         </template>
                                         <template v-else>
                                             NO LOG
