@@ -244,7 +244,7 @@ const printTable = () => {
                             </td>
                             <template v-for="schedule_index in schedule" :key="'sched-data-' + schedule_index">
                                 <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)">
-                                    <td class="p-2">
+                                    <td class="TimeIn p-2">
                                         <template v-if="dataValue.events.length > 0">
                                             {{ dataValue.events[0].event_type }}
                                             <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins != null">
@@ -264,7 +264,7 @@ const printTable = () => {
                                             </template>
                                         </template>
                                     </td>
-                                    <td class="p-2">
+                                    <td class="TimeOut p-2">
                                         <template v-if="dataValue.events.length > 0">
                                             {{ dataValue.events[0].event_type }}
                                             <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs != null">
@@ -297,18 +297,18 @@ const printTable = () => {
                                 {{ dataValue.metadata.regular.reg_hrs }}
                             </td>
                             <template v-for="schedule_index in overtime" :key="'overtime-data-' + schedule_index">
-                                <template v-if="dataValue.overtime.find((element:any) => element.id === schedule_index.id)">
+                                <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)">
                                     <td class="p-2">
-                                        <template v-if="dataValue.overtime.find((element:any) => element.id === schedule_index.id)?.start_time_human != null">
-                                            {{ dataValue.overtime.find((element:any) => element.id === schedule_index.id)?.start_time_human }}
+                                        <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.start_time_human != null">
+                                            {{ dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.start_time_human }}
                                         </template>
                                         <template v-else>
                                             N/A
                                         </template>
                                     </td>
                                     <td class="p-2">
-                                        <template v-if="dataValue.overtime.find((element:any) => element.id === schedule_index.id)?.end_time_human != null">
-                                            {{ dataValue.overtime.find((element:any) => element.id === schedule_index.id)?.end_time_human }} ( {{ dataValue.overtime.find((element:any) => element.id === schedule_index.id)?.applied_out?.time_human ?? "NO LOG" }} )
+                                        <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.end_time_human != null">
+                                            {{ dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.end_time_human }} ( {{ dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.applied_out?.time_human ?? "NO LOG" }} )
                                         </template>
                                         <template v-else>
                                             NO LOG

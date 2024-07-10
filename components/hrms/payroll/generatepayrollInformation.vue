@@ -501,7 +501,9 @@ function formatCurrency (number: Number, locale = "en-US") {
                                     </div>
                                     <div>
                                         <strong>Other Deductions:</strong>
-                                        {{ formatCurrency(data.payroll_records.salary_deduction.other_deductions.total_paid) ?? "-" }}
+                                        <div v-for="(otherDeduct, index1) in data.payroll_records.salary_deduction.other_deductions.other_deduction" :key="index1">
+                                            {{ formatCurrency(otherDeduct.installment_deduction) ?? "-" }}
+                                        </div>
                                     </div>
                                 </div>
                             </td>
@@ -605,9 +607,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                             <td>
                                 {{ formatCurrency(genpayrollstore.totalEWTCPayrollDraft) }}
                             </td>
-                            <td>
-                                {{ formatCurrency(genpayrollstore.totalLoansPayrollDraft) }}
-                            </td>
+                            <td></td>
                             <td>
                                 <strong>{{ formatCurrency(genpayrollstore.totalDeductionPayrollDraft) }}</strong>
                             </td>

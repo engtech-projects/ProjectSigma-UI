@@ -13,10 +13,6 @@ defineProps({
             <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">
                 Late This Month
             </h5>
-            <!-- <div class="flex flex-col gap-2">
-                <label class="" for="">Date Filter:</label>
-                <VueDatePicker v-model="date" range class="z-15" />
-            </div> -->
         </div>
         <div class="mt-5 overflow-auto min-h-96 max-h-96">
             <div class="grid grid-cols-4 justify-start mt-4 gap-4 p-2">
@@ -26,9 +22,9 @@ defineProps({
                 <div v-for="employee, index in employees" :key="index" class="flex flex-col items-center">
                     <HrmsDashboardLatesItem
                         title="Generate Memo"
-                        :name="employee.name"
-                        :avatar="employee.avatar"
-                        :late="employee.late"
+                        :name="employee.fullname_first"
+                        :avatar="employee.profile_photo"
+                        :late="employee.late_count"
                     />
                 </div>
             </div>
