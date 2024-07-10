@@ -7,11 +7,15 @@ const stats = useDashboardStatisticsStore()
 stats.getMonthlyBirthday()
 stats.getMonthlyLates()
 stats.getMonthlyAbsences()
-stats.getLatesAbsenceStats()
 stats.getDeptProjStats()
 stats.getGenderStats()
 mains.getactiveAll()
+
 const { latesAbsenceStats, deptProjStats, genderStats } = storeToRefs(stats)
+latesAbsenceStats.value = {
+    lates: stats.monthlyLates.list ? stats.monthlyLates.list.length : 0,
+    absents: stats.monthlyAbsences.list ? stats.monthlyAbsences.list.length : 0,
+}
 useHead({
     title: "Dashboard",
     meta: [{ name: "description", content: "SIGMA Dashboard" }],
@@ -61,7 +65,7 @@ useHead({
                 <div
                     class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
                 >
-                    <HrmsDashboardLatesAbsencesChart :labels="Object.keys(latesAbsenceStats.list)" :data="Object.values(latesAbsenceStats.list)" />
+                    <HrmsDashboardLatesAbsencesChart :labels="Object.keys(latesAbsenceStats)" :data="Object.values(latesAbsenceStats)" />
                 </div>
             </template>
             <div
