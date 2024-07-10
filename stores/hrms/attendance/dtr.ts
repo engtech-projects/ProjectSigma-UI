@@ -7,7 +7,6 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
         } as any,
         successMessage: "",
         errorMessage: "",
-        filterAttendanceList: [],
     }),
     getters: {
         dtrUniqueSchedules (state) {

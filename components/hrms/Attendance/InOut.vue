@@ -27,6 +27,10 @@ const showInformation = () => {
     showInformationModal.value = true
 }
 
+watch(information, () => {
+    dtrStore.$reset()
+})
+
 const getAttendance = async () => {
     try {
         if (filterDate.value.from > filterDate.value.to) {
