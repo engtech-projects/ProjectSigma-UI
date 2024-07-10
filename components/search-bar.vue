@@ -10,7 +10,7 @@ const { searchEmployeeParams, searchResultList } = storeToRefs(employeeSearch)
 const employeeInfo = ref<EmployeeInformation>({} as EmployeeInformation)
 const emit = defineEmits(["searchChanged"])
 watch(employeeInfo, async (newValue) => {
-    if (newValue) {
+    if (newValue?.id) {
         await employee.getEmployeeInformation(newValue.id)
         emit("searchChanged", newValue)
     } else {
