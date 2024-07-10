@@ -132,6 +132,13 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
                     onResponse: ({ response } : any) => {
                         if (response.ok) {
                             this.latesAbsenceStats.list = response._data.data ?? {}
+                            this.monthlyLates.list = response._data.data.employees.filter((employee : Object) => {
+                                return employee?.late_count > 0
+                            })
+                            this.monthlyAbsences.list = response._data.data.employees.filter((employee : Object) => {
+                                return employee?.absent_count > 0
+                            })
+                            this.monthlyAbsences.list = response._data.data ?? {}
                         }
                     },
                 }
