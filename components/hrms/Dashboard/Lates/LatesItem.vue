@@ -31,7 +31,7 @@ defineProps({
         default: "/avatarexample.png",
     },
     late: {
-        type: String,
+        type: Number,
         required: true,
     },
 })
