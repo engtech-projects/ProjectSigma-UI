@@ -147,7 +147,7 @@ watch(showModal, (newValue, oldValue) => {
             </div>
 
         </div>
-        <div v-if="loading" class="absolute rounded-xl p-8 inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+        <div v-if="loading" class="absolute p-8 inset-0 flex items-center justify-center bg-black bg-opacity-10 z-50">
             <span><Icon name="eos-icons:three-dots-loading" color="teal" class="w-12 h-12" /></span>
         </div>
     </a>
