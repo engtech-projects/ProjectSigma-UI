@@ -660,7 +660,7 @@ function formatCurrency (number: Number, locale = "en-US") {
             </div> -->
         </div>
     </div>
-
+    <HrmsPayrollChargingTable />
     <div class="mt-2">
         <div class="flex flex-row justify-end gap-2">
             <div>
