@@ -256,7 +256,15 @@ const printTable = () => {
                                                 {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins.time_human }}
                                             </template>
                                             <template v-else-if="dataValue.metadata.regular.reg_hrs > 0">
-                                                NO LOG
+                                                <template v-if="dataValue.travel_order">
+                                                    ON TRAVEL ORDER
+                                                </template>
+                                                <template v-else-if="dataValue.leave">
+                                                    ON LEAVE
+                                                </template>
+                                                <template v-else>
+                                                    NO LOG
+                                                </template>
                                             </template>
                                             <template v-else-if="dataValue.events.length > 0" />
                                             <template v-else>
@@ -276,7 +284,15 @@ const printTable = () => {
                                                 {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs.time_human }}
                                             </template>
                                             <template v-else-if="dataValue.metadata.regular.reg_hrs > 0">
-                                                NO LOG
+                                                <template v-if="dataValue.travel_order">
+                                                    ON TRAVEL ORDER
+                                                </template>
+                                                <template v-else-if="dataValue.leave">
+                                                    ON LEAVE
+                                                </template>
+                                                <template v-else>
+                                                    NO LOG
+                                                </template>
                                             </template>
                                             <template v-else>
                                                 ABSENT
