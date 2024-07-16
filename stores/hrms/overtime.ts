@@ -24,6 +24,7 @@ export const useOvertimeStore = defineStore("overtimes", {
             overtime_start_time: "",
             overtime_end_time: "",
             reason: null,
+            meal_deduction: false,
             approvals: [],
             request_status: ""
         },
