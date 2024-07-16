@@ -1,6 +1,6 @@
 
 # BUILDING FOR CI CD - Static Nuxt.js
-name: ProjectSigma_UI Build and Push to CI-Pipeline Branch Manual Trigger
+name: ProjectSigma_UI Build and Push to evenpar-Pipeline Branch
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -21,7 +21,7 @@ permissions:
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: "manualbuild ProjectSigma_UI"
+  group: "build ProjectSigma_UI evenpar"
   cancel-in-progress: true
 
 jobs:
