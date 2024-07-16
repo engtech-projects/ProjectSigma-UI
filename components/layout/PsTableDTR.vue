@@ -256,10 +256,10 @@ const printTable = () => {
                                                 {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins.time_human }}
                                             </template>
                                             <template v-else-if="dataValue.metadata.regular.reg_hrs > 0">
-                                                <template v-if="dataValue.travel_order">
+                                                <template v-if="dataValue.travel_order.length > 0">
                                                     ON TRAVEL ORDER
                                                 </template>
-                                                <template v-else-if="dataValue.leave">
+                                                <template v-else-if="dataValue.leave.length > 0">
                                                     ON LEAVE
                                                 </template>
                                                 <template v-else>
@@ -284,10 +284,10 @@ const printTable = () => {
                                                 {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs.time_human }}
                                             </template>
                                             <template v-else-if="dataValue.metadata.regular.reg_hrs > 0">
-                                                <template v-if="dataValue.travel_order">
+                                                <template v-if="dataValue.travel_order.length > 0">
                                                     ON TRAVEL ORDER
                                                 </template>
-                                                <template v-else-if="dataValue.leave">
+                                                <template v-else-if="dataValue.leave.length > 0">
                                                     ON LEAVE
                                                 </template>
                                                 <template v-else>
