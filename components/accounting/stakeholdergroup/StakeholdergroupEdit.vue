@@ -37,7 +37,6 @@ async function handleSubmit () {
 }
 
 const stakeholderTypes = computed(() => {
-    console.log(stakeholderGroupStore.stakeholderGroup)
     const arr = JSON.parse(JSON.stringify(stakeHolderTypeStore.list))
     arr.forEach((st) => {
         st.checked = false
