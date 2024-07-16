@@ -5,27 +5,27 @@ import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
 const stakeholderGroupStore = useStakeholderGroupStore()
 await stakeholderGroupStore.getStakeholderGroups()
 
-const { list: stakeholderGroupList, stakeholderGroup, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(stakeholderGroupStore)
+const { list: stakeholderGroupList, getParams, pagination, errorMessage, successMessage } = storeToRefs(stakeholderGroupStore)
 
-const setEdit = (st) => {
-    isEdit.value = true
-    stakeholderGroup.value = st
-    return navigateTo("/accounting/stakeholder-group/edit?id=" + st.stakeholder_group_id)
-}
+// const setEdit = (st) => {
+//     isEdit.value = true
+//     stakeholderGroup.value = st
+//     return navigateTo("/accounting/stakeholder-group/edit?id=" + st.stakeholder_group_id)
+// }
 
-const deleteStakeholderGroup = async (st) => {
-    try {
-        boardLoading.value = true
-        stakeholderGroupStore.isLoading = true
-        await stakeholderGroupStore.deleteStakeholderGroup(st.stakeholder_group_id)
-        snackbar.add({
-            type: "success",
-            text: stakeholderGroupStore.successMessage
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
+// const deleteStakeholderGroup = async (st) => {
+//     try {
+//         boardLoading.value = true
+//         stakeholderGroupStore.isLoading = true
+//         await stakeholderGroupStore.deleteStakeholderGroup(st.stakeholder_group_id)
+//         snackbar.add({
+//             type: "success",
+//             text: stakeholderGroupStore.successMessage
+//         })
+//     } finally {
+//         boardLoading.value = false
+//     }
+// }
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
@@ -34,13 +34,13 @@ const changePaginate = (newParams) => {
 const headers = [
     { name: "Group Name", id: "stakeholder_group_name" },
 ]
-const actions = {
-    edit: true,
-    delete: true
-}
+// const actions = {
+//     edit: true,
+//     delete: true
+// }
 
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
+// const snackbar = useSnackbar()
+// const boardLoading = ref(false)
 
 </script>
 
@@ -59,9 +59,6 @@ const boardLoading = ref(false)
                     id="listTable"
                     :header-columns="headers"
                     :datas="stakeholderGroupList"
-                    :actions="actions"
-                    @edit-row="setEdit"
-                    @delete-row="deleteStakeholderGroup"
                 />
                 <!-- <i v-if="!stakeholderGroupList.length&&!stakeholderGroupStore.isLoading" class="p-4 text-center block">No data available.</i> -->
             </div>
