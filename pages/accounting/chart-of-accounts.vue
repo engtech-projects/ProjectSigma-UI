@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { useAccountStore } from "@/stores/accounting/account"
+import { useAccountType } from "@/stores/accounting/accounttype"
 import { useChartOfAccountsStore } from "@/stores/accounting/chartofaccounts"
 
 const accounts = useChartOfAccountsStore()
-const accountStore = useAccountStore()
+const accountTypeStore = useAccountType()
+await accountTypeStore.getAccountTypes()
 const btnAction = ref("chart")
 accounts.getAccounts()
 definePageMeta({
@@ -31,7 +32,7 @@ useHead({
                 @click="btnAction = 'type'"
             >
                 <Icon name="fa:plus-circle" class="mr-1" />
-                New Type
+                Account Types
             </button>
             <button
                 :class="btnAction=='account'?'active':''"
@@ -39,18 +40,16 @@ useHead({
                 @click="btnAction = 'account'"
             >
                 <Icon name="fa:plus-circle" class="mr-1" />
-                New Account
+                Accounts
             </button>
         </div>
         <div class="flex gap-4">
             <!-- <AccountingNewAccountCategory v-show="btnAction == 'class'" class="flex-1" /> -->
             <div v-show="btnAction == 'type'" class="flex flex-1 gap-4">
-                <AccountingNewType class="flex-1" />
+                <!-- <AccountingNewType class="flex-1" /> -->
                 <AccountingAccountTypeList class="flex-2" />
             </div>
             <div v-show="btnAction == 'account'" class="flex flex-1 gap-4">
-                <AccountingNewAccount v-if="!accountStore.isEdit" class="flex-1 h-fit" />
-                <AccountingEditAccount v-else class="flex-1 h-fit" />
                 <AccountingAccountList class="flex-2 h-fit" />
             </div>
 

@@ -3,26 +3,26 @@ import { storeToRefs } from "pinia"
 import { useBookStore } from "~/stores/accounting/book"
 
 const bookStore = useBookStore()
-const { list: bookList, book, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(bookStore)
+const { list: bookList, getParams, pagination, errorMessage, successMessage } = storeToRefs(bookStore)
 
-const setEdit = (bk) => {
-    isEdit.value = true
-    book.value = bk
-    return navigateTo("/accounting/books/edit?id=" + bk.book_id)
-}
+// const setEdit = (bk) => {
+//     isEdit.value = true
+//     book.value = bk
+//     return navigateTo("/accounting/books/edit?id=" + bk.book_id)
+// }
 
-const deleteBook = async (bk) => {
-    try {
-        bookStore.isLoading = true
-        await bookStore.deleteBook(bk.book_id)
-        snackbar.add({
-            type: "success",
-            text: bookStore.successMessage
-        })
-    } finally {
-        bookStore.isLoading = false
-    }
-}
+// const deleteBook = async (bk) => {
+//     try {
+//         bookStore.isLoading = true
+//         await bookStore.deleteBook(bk.book_id)
+//         snackbar.add({
+//             type: "success",
+//             text: bookStore.successMessage
+//         })
+//     } finally {
+//         bookStore.isLoading = false
+//     }
+// }
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
@@ -32,32 +32,29 @@ const headers = [
     { name: "Book Name", id: "book_name" },
     { name: "Symbol", id: "symbol" },
 ]
-const actions = {
-    edit: true,
-    delete: true
-}
+// const actions = {
+//     edit: true,
+//     delete: true
+// }
 
-const snackbar = useSnackbar()
+// const snackbar = useSnackbar()
 </script>
 
 <template>
     <div class="flex flex-col items-end gap-4">
-        <NuxtLink
+        <!-- <NuxtLink
             to="/accounting/books/create"
             class="flex-1 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
         >
             <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
             <span>Create New Book</span>
-        </NuxtLink>
+        </NuxtLink> -->
         <LayoutBoards title="List of Books" class="w-full" :loading="bookStore.isLoading">
             <div class="pb-2 text-gray-500">
                 <LayoutPsTable
                     id="listTable"
                     :header-columns="headers"
                     :datas="bookList"
-                    :actions="actions"
-                    @edit-row="setEdit"
-                    @delete-row="deleteBook"
                 />
                 <i v-if="!bookList.length&&!bookStore.isLoading" class="p-4 text-center block">No data available.</i>
             </div>

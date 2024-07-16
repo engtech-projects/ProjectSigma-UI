@@ -4,27 +4,27 @@ import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
 
 const transactionTypeStore = useTransactionTypeStore()
 await transactionTypeStore.getTransactionTypes()
-const { list: typeList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(transactionTypeStore)
+const { list: typeList, getParams, pagination, errorMessage, successMessage } = storeToRefs(transactionTypeStore)
 
-const setEdit = (ttype) => {
-    isEdit.value = true
-    transactionTypeStore.transactionType = ttype
-    return navigateTo("/accounting/transaction-type/edit?id=" + ttype.transaction_type_id)
-}
+// const setEdit = (ttype) => {
+//     isEdit.value = true
+//     transactionTypeStore.transactionType = ttype
+//     return navigateTo("/accounting/transaction-type/edit?id=" + ttype.transaction_type_id)
+// }
 
-const isLoading = ref(false)
-const deleteType = async (ttype) => {
-    try {
-        transactionTypeStore.isLoading = true
-        await transactionTypeStore.deleteTransactionType(ttype.transaction_type_id)
-        snackbar.add({
-            type: "success",
-            text: transactionTypeStore.successMessage
-        })
-    } finally {
-        isLoading.value = false
-    }
-}
+// const isLoading = ref(false)
+// const deleteType = async (ttype) => {
+//     try {
+//         transactionTypeStore.isLoading = true
+//         await transactionTypeStore.deleteTransactionType(ttype.transaction_type_id)
+//         snackbar.add({
+//             type: "success",
+//             text: transactionTypeStore.successMessage
+//         })
+//     } finally {
+//         isLoading.value = false
+//     }
+// }
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
@@ -34,23 +34,23 @@ const headers = [
     { name: "Transaction Type Name", id: "transaction_type_name" },
     { name: "Symbol", id: "symbol" }
 ]
-const actions = {
-    edit: true,
-    delete: true
-}
+// const actions = {
+//     edit: true,
+//     delete: true
+// }
 
-const snackbar = useSnackbar()
+// const snackbar = useSnackbar()
 </script>
 
 <template>
     <div class="flex flex-col items-end gap-4">
-        <NuxtLink
+        <!-- <NuxtLink
             to="/accounting/transaction-type/create"
             class="flex-1 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
         >
             <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
             <span>Create New Type</span>
-        </NuxtLink>
+        </NuxtLink> -->
         <LayoutBoards title="Transaction Type List" class="w-full" :loading="transactionTypeStore.isLoading">
             <div class="pb-2 text-gray-500">
                 <LayoutPsTable
@@ -58,8 +58,6 @@ const snackbar = useSnackbar()
                     :header-columns="headers"
                     :datas="typeList"
                     :actions="actions"
-                    @edit-row="setEdit"
-                    @delete-row="deleteType"
                 />
                 <i v-if="!typeList.length&&!transactionTypeStore.isLoading" class="p-4 text-center block">No data available.</i>
             </div>
