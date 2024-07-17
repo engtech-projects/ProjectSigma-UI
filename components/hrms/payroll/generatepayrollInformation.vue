@@ -493,22 +493,22 @@ function formatCurrency (number: Number, locale = "en-US") {
                                 {{ formatCurrency(data.payroll_records.total_gross_pay) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ formatCurrency(data.payroll_records.salary_deduction.sss.employee_contribution) ?? "-" }}
+                                {{ data.payroll_records.salary_deduction.sss.employee_contribution ? formatCurrency(data.payroll_records.salary_deduction.sss.employee_contribution) : "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ formatCurrency(data.payroll_records.salary_deduction.sss.employee_compensation) ?? "-" }}
+                                {{ data.payroll_records.salary_deduction.sss.employee_compensation ? formatCurrency(data.payroll_records.salary_deduction.sss.employee_compensation) : "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ formatCurrency(data.payroll_records.salary_deduction.phic.employee_contribution) ?? "-" }}
+                                {{ data.payroll_records.salary_deduction.phic.employee_contribution ? formatCurrency(data.payroll_records.salary_deduction.phic.employee_contribution) : "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ formatCurrency(data.payroll_records.salary_deduction.phic.employee_compensation) ?? "-" }}
+                                {{ data.payroll_records.salary_deduction.phic.employee_compensation ? formatCurrency(data.payroll_records.salary_deduction.phic.employee_compensation) : "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ formatCurrency(data.payroll_records.salary_deduction.hmdf.employee_contribution) ?? "-" }}
+                                {{ data.payroll_records.salary_deduction.hmdf.employee_contribution ? formatCurrency(data.payroll_records.salary_deduction.hmdf.employee_contribution) : "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ formatCurrency(data.payroll_records.salary_deduction.hmdf.employee_compensation) ?? "-" }}
+                                {{ data.payroll_records.salary_deduction.hmdf.employee_compensation ? formatCurrency(data.payroll_records.salary_deduction.hmdf.employee_compensation) : "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ formatCurrency(data.payroll_records.salary_deduction.ewtc) ?? "-" }}
@@ -623,7 +623,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                                 {{ " " }}
                             </td>
                             <td>
-                                {{ formatCurrency(genpayrollstore.totalSSSEmployeePayrollDraft) ?? "-" }}
+                                {{ genpayrollstore.totalSSSEmployeePayrollDraft ? formatCurrency(genpayrollstore.totalSSSEmployeePayrollDraft) : "-" }}
                             </td>
                             <td>
                                 {{ " " }}
