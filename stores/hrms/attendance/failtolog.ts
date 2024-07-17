@@ -50,6 +50,7 @@ export const useFailToLogStore = defineStore("Failtologs", {
                 "/api/attendance/failed-log",
                 {
                     method: "GET",
+                    params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.list = response._data.data.data
