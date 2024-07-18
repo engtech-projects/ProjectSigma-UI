@@ -1,5 +1,5 @@
 # Deploying to EVENPAR server
-name: Deploy ProjectSigma_UI to EVENPAR SERVER
+name: EVENPAR - Deploy
 
 on:
   workflow_dispatch:
@@ -7,20 +7,33 @@ env:
   APP_NAME: "ProjectSigma_UI"
 
 concurrency:
-  group: "manual deployftp ProjectSigma_UI "
+  group: "evenpar deployftp ProjectSigma_UI"
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  deploy-local:
     runs-on:
       labels: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ci-pipe-evenpar
+          ref: ci-pipe-evenpar-local
       - name: Upload ftp
         uses : SamKirkland/FTP-Deploy-Action@4.3.2
         with:
-          server: ${{ vars.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ vars.FTP_SERVER_EVENPAR_LOCAL }}
+          username: ${{ secrets.FTP_USERNAME_EVENPAR_LOCAL }}
+          password: ${{ secrets.FTP_PASSWORD_EVENPAR_LOCAL }}
+  deploy-online:
+    runs-on:
+      labels: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ci-pipe-evenpar-online
+      - name: Upload ftp
+        uses : SamKirkland/FTP-Deploy-Action@4.3.2
+        with:
+          server: ${{ vars.FTP_SERVER_EVENPAR_ONLINE }}
+          username: ${{ secrets.FTP_USERNAME_EVENPAR_ONLINE }}
+          password: ${{ secrets.FTP_PASSWORD_EVENPAR_ONLINE }}
