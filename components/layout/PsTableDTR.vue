@@ -74,19 +74,22 @@ const formatDateRange = (start: string, end: string) => {
 }
 
 const printTable = () => {
+    const headContent = document.getElementsByTagName("head")[0].innerHTML
     const printContents = document.getElementById("table-to-print").innerHTML
-    const originalContents = document.body.innerHTML
-    document.body.innerHTML = printContents
-    window.print()
-    document.body.innerHTML = originalContents
+    const printWindow = window.open("", "_blank")
+    printWindow.document.write(headContent)
+    printWindow.document.write(printContents)
+    setTimeout(() => {
+        printWindow.print()
+    }, 1000)
 }
 </script>
 
 <template>
+    <button class="print-button mb-4 px-4 py-2 bg-blue-500 text-white rounded justify-end" @click="printTable">
+        Print
+    </button>
     <div id="table-to-print" class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-        <button class="print-button mb-4 px-4 py-2 bg-blue-500 text-white rounded justify-end" @click="printTable">
-            Print
-        </button>
         <div v-if="employee.fullname && employee.information?.current_employment?.position?.name && period" class="text-black pb-2">
             <div class="text-center block overflow-hidden">
                 <div class="flex items-center justify-center">
