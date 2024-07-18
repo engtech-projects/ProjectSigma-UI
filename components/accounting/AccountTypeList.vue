@@ -4,27 +4,7 @@ import { useAccountType } from "~/stores/accounting/accounttype"
 
 const accountTypeStore = useAccountType()
 
-const { list: accountTypeList, accountType, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(accountTypeStore)
-
-const setEdit = (atype) => {
-    isEdit.value = true
-    accountType.value = atype
-    accountType.value.account_type = accountType.value.account_type_name
-}
-
-const deleteAccountType = async (atype) => {
-    try {
-        boardLoading.value = true
-        accountTypeStore.isLoading = true
-        await accountTypeStore.deleteAccountType(atype.type_id)
-        snackbar.add({
-            type: "success",
-            text: accountTypeStore.successMessage
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
+const { list: accountTypeList, getParams, pagination, errorMessage, successMessage } = storeToRefs(accountTypeStore)
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
@@ -36,26 +16,16 @@ const headers = [
     { name: "Balance Type", id: "balance_type" },
     { name: "Notation", id: "notation" },
 ]
-const actions = {
-    edit: true,
-    delete: true
-}
-
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
 
 </script>
 
 <template>
-    <LayoutBoards title="Account Type List" class="w-full" :loading="accountTypeStore.isLoading">
+    <LayoutBoards title="List of Account Types" class="w-full" :loading="accountTypeStore.isLoading">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable
                 id="listTable"
                 :header-columns="headers"
                 :datas="accountTypeList"
-                :actions="actions"
-                @edit-row="setEdit"
-                @delete-row="deleteAccountType"
             />
             <i v-if="!accountTypeList.length&&!accountTypeStore.isLoading" class="p-4 text-center block">No data available.</i>
         </div>

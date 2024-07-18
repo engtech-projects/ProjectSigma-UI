@@ -474,6 +474,15 @@ const config = useRuntimeConfig()
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_chart_of_accounts,
                 ])"
+                linkarea="/accounting/journal-entry"
+                icon="iconoir:plug-type-l"
+                single-nav-title="Journal Entry"
+            />
+            <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.accounting_chart_of_accounts,
+                ])"
                 linkarea="/accounting/chart-of-accounts"
                 icon="ci:table"
                 single-nav-title="Chart of Accounts"
@@ -486,6 +495,15 @@ const config = useRuntimeConfig()
                 linkarea="/accounting/books"
                 icon="iconoir:book"
                 single-nav-title="Books"
+            />
+            <LayoutNavSingle
+                v-show="config.public.APP_ENV == 'local'"
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.accounting_chart_of_accounts,
+                ])"
+                linkarea="/accounting/requests"
+                icon="iconoir:bell-notification"
+                single-nav-title="Requests"
             />
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"

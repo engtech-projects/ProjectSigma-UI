@@ -11,6 +11,7 @@ const { employee_dtr: employeeDtr } = storeToRefs(dtrStore)
 
 const snackbar = useSnackbar()
 const utils = useUtilities()
+const loading = ref(false)
 const date = new Date()
 const y = date.getFullYear()
 const m = date.getMonth()
@@ -32,6 +33,7 @@ watch(information, () => {
 })
 
 const getAttendance = async () => {
+    loading.value = true
     try {
         if (filterDate.value.from > filterDate.value.to) {
             snackbar.add({
@@ -57,6 +59,8 @@ const getAttendance = async () => {
             type: "error",
             text: error
         })
+    } finally {
+        loading.value = false
     }
 }
 
@@ -78,7 +82,7 @@ const headers = [
 </script>
 
 <template>
-    <div class="shadow-md border border-gray-200 rounded-lg p-4 bg-white mb-3 w-full md:w-3/4">
+    <LayoutBoards :loading="loading">
         <div class="flex w-full mb-4">
             <div class="div">
                 <form class="w-full grid grid-cols-1 gap-4 md:grid-cols-3" @submit.prevent="getAttendance">
@@ -112,5 +116,5 @@ const headers = [
                 @show-table="showInformation"
             />
         </div>
-    </div>
+    </LayoutBoards>
 </template>

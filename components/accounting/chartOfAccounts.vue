@@ -26,9 +26,9 @@ const accounts = useChartOfAccountsStore()
                             <th class="p-2">
                                 Balance
                             </th>
-                            <th class="p-2 text-right">
+                            <!-- <th class="p-2 text-right">
                                 Actions
-                            </th>
+                            </th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -46,11 +46,11 @@ const accounts = useChartOfAccountsStore()
                             <td class="border px-2">
                                 {{ ac.opening_balance }}
                             </td>
-                            <td class="text-right border px-2">
+                            <!-- <td class="text-right border px-2">
                                 <button>
                                     <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
                                 </button>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
                 </table>

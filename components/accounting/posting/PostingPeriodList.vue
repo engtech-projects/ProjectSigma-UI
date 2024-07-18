@@ -5,27 +5,27 @@ import { usePostingPeriodStore } from "~/stores/accounting/postingperiod"
 const postingPeriodStore = usePostingPeriodStore()
 await postingPeriodStore.getPostingPeriods()
 
-const { list: periodList, postingPeriod, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(postingPeriodStore)
+const { list: periodList, getParams, pagination, errorMessage, successMessage } = storeToRefs(postingPeriodStore)
 
-const setEdit = (prd) => {
-    isEdit.value = true
-    postingPeriod.value = prd
-    return navigateTo("/accounting/posting-period/edit/" + prd.period_id)
-}
+// const setEdit = (prd) => {
+//     isEdit.value = true
+//     postingPeriod.value = prd
+//     return navigateTo("/accounting/posting-period/edit/" + prd.period_id)
+// }
 
-const deletePostingPeriod = async (prd) => {
-    try {
-        boardLoading.value = true
-        postingPeriodStore.isLoading = true
-        await postingPeriodStore.deletePostingPeriod(prd.period_id)
-        snackbar.add({
-            type: "success",
-            text: postingPeriodStore.successMessage
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
+// const deletePostingPeriod = async (prd) => {
+//     try {
+//         boardLoading.value = true
+//         postingPeriodStore.isLoading = true
+//         await postingPeriodStore.deletePostingPeriod(prd.period_id)
+//         snackbar.add({
+//             type: "success",
+//             text: postingPeriodStore.successMessage
+//         })
+//     } finally {
+//         boardLoading.value = false
+//     }
+// }
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
@@ -36,34 +36,31 @@ const headers = [
     { name: "Period End", id: "period_end" },
     { name: "Status", id: "status" },
 ]
-const actions = {
-    edit: true,
-    delete: true
-}
+// const actions = {
+//     edit: true,
+//     delete: true
+// }
 
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
+// const snackbar = useSnackbar()
+// const boardLoading = ref(false)
 
 </script>
 
 <template>
     <div class="flex flex-col items-end gap-4">
-        <NuxtLink
+        <!-- <NuxtLink
             to="/accounting/posting-period/create"
             class="flex-1 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
         >
             <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
             <span>New Posting Period</span>
-        </NuxtLink>
+        </NuxtLink> -->
         <LayoutBoards title="Posting Period List" class="w-full" :loading="postingPeriodStore.isLoading">
             <div class="pb-2 text-gray-500">
                 <LayoutPsTable
                     id="listTable"
                     :header-columns="headers"
                     :datas="periodList"
-                    :actions="actions"
-                    @edit-row="setEdit"
-                    @delete-row="deletePostingPeriod"
                 />
                 <i v-if="!periodList.length&&!postingPeriodStore.isLoading" class="p-4 text-center block">No data available.</i>
             </div>

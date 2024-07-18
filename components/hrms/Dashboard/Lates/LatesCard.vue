@@ -23,8 +23,8 @@ defineProps({
                     <HrmsDashboardLatesItem
                         title="Generate Memo"
                         :name="employee.fullname_first"
-                        :avatar="employee.profile_photo"
-                        :late="employee.late_count"
+                        :avatar="employee.profile_photo && employee.profile_photo.base64 !== 'File doesn\'t exists.' ? employee.profile_photo.base64 : '/avatarexample.png'"
+                        :late="employee.lates"
                     />
                 </div>
             </div>

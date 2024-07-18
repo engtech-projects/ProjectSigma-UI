@@ -31,7 +31,7 @@ const setParams = (link) => {
                 <a
                     v-if="link.url"
                     href="#"
-                    :class="link.active ? 'bg-color1 text-black': 'bg-white'"
+                    :class="link.active ? 'bg-teal-700 text-white': 'bg-white text-black'"
                     @click.prevent="setParams(link.url)"
                 >
                     {{ link.label.includes('Next') ? "Next" : link.label.includes('Prev') ? "Back" : link.label }}

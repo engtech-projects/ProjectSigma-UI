@@ -5,26 +5,26 @@ import { useAccountStore } from "~/stores/accounting/account"
 const accountStore = useAccountStore()
 await accountStore.getAccounts()
 
-const { list: accountList, account, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(accountStore)
+const { list: accountList, getParams, pagination, errorMessage, successMessage } = storeToRefs(accountStore)
 
-const setEdit = (acct) => {
-    isEdit.value = true
-    account.value = acct
-}
+// const setEdit = (acct) => {
+//     isEdit.value = true
+//     account.value = acct
+// }
 
-const deleteAccount = async (acct) => {
-    try {
-        boardLoading.value = true
-        accountStore.isLoading = true
-        await accountStore.deleteAccount(acct.account_id)
-        snackbar.add({
-            type: "success",
-            text: account.successMessage
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
+// const deleteAccount = async (acct) => {
+//     try {
+//         boardLoading.value = true
+//         accountStore.isLoading = true
+//         await accountStore.deleteAccount(acct.account_id)
+//         snackbar.add({
+//             type: "success",
+//             text: account.successMessage
+//         })
+//     } finally {
+//         boardLoading.value = false
+//     }
+// }
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
@@ -36,26 +36,23 @@ const headers = [
     { name: "Description", id: "account_description" },
     { name: "Status", id: "status" },
 ]
-const actions = {
-    edit: true,
-    delete: true
-}
+// const actions = {
+//     edit: true,
+//     delete: true
+// }
 
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
+// const snackbar = useSnackbar()
+// const boardLoading = ref(false)
 
 </script>
 
 <template>
-    <LayoutBoards title="Account List" class="w-full" :loading="accountStore.isLoading">
+    <LayoutBoards title="List of Accounts" class="w-full" :loading="accountStore.isLoading">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable
                 id="listTable"
                 :header-columns="headers"
                 :datas="accountList"
-                :actions="actions"
-                @edit-row="setEdit"
-                @delete-row="deleteAccount"
             />
             <i v-if="!accountList.length&&!accountStore.isLoading" class="p-4 text-center block">No data available.</i>
         </div>

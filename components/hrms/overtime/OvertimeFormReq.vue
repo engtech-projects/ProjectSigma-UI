@@ -89,12 +89,15 @@ const submitForm = async () => {
                             >
                         </div>
                         <div>
-                            <LayoutFormPsTextInput v-model="overtime.reason" title="Purpose/Reason" name="Purpose/Reason" />
+                            <LayoutFormPsTextInput v-model="overtime.reason" title="Purpose/Reason" name="Purpose/Reason" :required="true" />
                         </div>
-                        <HrmsCommonRequestedBy title="Prepared by" />
+                        <div>
+                            <LayoutFormPsBooleanInput v-model="overtime.meal_deduction" title="Add 1hr Meal Deduction" name="Add 1hr Meal Deduction" />
+                        </div>
                     </div>
                 </div>
                 <div class="w-full rounded-lg p-4 bg-slate-100 ">
+                    <HrmsCommonRequestedBy title="Prepared by" />
                     <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Recommending Approval:</label>
                     <HrmsSetupApprovalsList
                         v-for="(approv, apr) in overtime.approvals"

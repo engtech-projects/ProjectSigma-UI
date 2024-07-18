@@ -16,7 +16,7 @@ const props = defineProps({
 const result = defineModel("result", { type: Object, required: true })
 const searchInput = defineModel("searchInput", { type: String, required: true })
 const showDD = ref(false)
-let toggleTimeout = null
+let toggleTimeout: any = null
 const openDD = () => {
     if (toggleTimeout) {
         clearTimeout(toggleTimeout)

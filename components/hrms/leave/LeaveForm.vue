@@ -49,6 +49,7 @@ const submitAdd = async () => {
                 text: leaveRequest.successMessage
             })
         }
+        leaveRequest.payload.employee_id = employeeinfo.id
         leaveRequest.payload.approvals = await approval.getApprovalByName(EMPLOYEE_APPROVAL_REQ)
     } catch (error) {
         snackbar.add({
@@ -65,7 +66,7 @@ const submitAdd = async () => {
 </script>
 
 <template>
-    <LayoutBoards title="Leave Application Form" class="edit-item w-full max-w-full">
+    <LayoutBoards title="Leave Application Form" class="edit-item w-full max-w-full" :loading="boardLoading">
         <form @submit.prevent="submitAdd">
             <div class="w-full p-2">
                 <div class="mt-5 grid gap-6 mb-6 md:grid-cols-2">
@@ -152,7 +153,7 @@ const submitAdd = async () => {
                     <div class="w-full">
                         <label for="" class="text-xl font-semibold text-gray-900">EMPLOYEE'S LEAVE RECORD (HRD use only)</label>
                         <!-- <pre>{{ employeeinfo }}</pre> -->
-                        <LayoutPsTable :header-columns="headers" :datas="employeeinfo.leaveCredits" :actions="{}" />
+                        <LayoutPsTable :header-columns="headers" :datas="employeeinfo.leaveCredits ?? []" :actions="{}" />
                     </div>
                 </div>
                 <div class="max-w-full flex flex-row-reverse mt-5">
