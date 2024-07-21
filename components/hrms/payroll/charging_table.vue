@@ -273,31 +273,31 @@ function formatCurrency (number: Number, locale = "en-US") {
                             </template>
                         </td>
                         <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(departmentData, departmentIndex) in data.payroll_records.gross_pays.chargings.departments" :key="departmentIndex">
+                            <template v-for="(departmentData, departmentIndex) in data.payroll_records.gross_pays.chargings.travels" :key="departmentIndex">
                                 {{ departmentData.designation }}
                             </template>
-                            <template v-if="data.payroll_records.gross_pays.chargings.departments.length == 0">
+                            <template v-if="data.payroll_records.gross_pays.chargings.travels.length == 0">
                                 {{ "-" }}
                             </template>
                         </td>
                         <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(departmentData, departmentIndex) in data.payroll_records.gross_pays.chargings.departments" :key="departmentIndex">
+                            <template v-for="(departmentData, departmentIndex) in data.payroll_records.gross_pays.chargings.travels" :key="departmentIndex">
                                 {{ departmentData.reg_hrs ?? "-" }}
                             </template>
-                            <template v-if="(data.payroll_records.gross_pays.chargings.departments.length == 0)">
+                            <template v-if="(data.payroll_records.gross_pays.chargings.travels.length == 0)">
                                 {{ "0.00" }}
                             </template>
                         </td>
                         <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(departmentData, departmentIndex) in data.payroll_records.gross_pays.chargings.departments" :key="departmentIndex">
+                            <template v-for="(departmentData, departmentIndex) in data.payroll_records.gross_pays.chargings.travels" :key="departmentIndex">
                                 {{ formatCurrency(departmentData.amt) ?? "-" }}
                             </template>
-                            <template v-if="(data.payroll_records.gross_pays.chargings.departments.length == 0)">
+                            <template v-if="(data.payroll_records.gross_pays.chargings.travels.length == 0)">
                                 {{ "0.00" }}
                             </template>
                         </td>
                         <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(specholtData, specholIndex) in data.payroll_records.gross_pays.chargings.special_holiday" :key="specholIndex">
+                            <template v-for="(specholtData, specholIndex) in data.payroll_records.gross_pays.chargings.leaves" :key="specholIndex">
                                 {{ specholtData.designation }}
                             </template>
                             <template v-if="!data.payroll_records.gross_pays.chargings.specholtData">
@@ -305,7 +305,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                             </template>
                         </td>
                         <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(specholtData, specholIndex) in data.payroll_records.gross_pays.chargings.special_holiday" :key="specholIndex">
+                            <template v-for="(specholtData, specholIndex) in data.payroll_records.gross_pays.chargings.leaves" :key="specholIndex">
                                 {{ specholtData.reg_hrs }}
                             </template>
                             <template v-if="(!data.payroll_records.gross_pays.chargings.specholtData)">
@@ -313,7 +313,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                             </template>
                         </td>
                         <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(specholtData, specholIndex) in data.payroll_records.gross_pays.chargings.special_holiday" :key="specholIndex">
+                            <template v-for="(specholtData, specholIndex) in data.payroll_records.gross_pays.chargings.leaves" :key="specholIndex">
                                 {{ formatCurrency(specholtData.amt) }}
                             </template>
                             <template v-if="(!data.payroll_records.gross_pays.chargings.specholtData)">
