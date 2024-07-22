@@ -87,20 +87,6 @@ function formatCurrency (number: Number, locale = "en-US") {
                             colspan="3"
                             class="p-2 border-solid border border-slate-400 bg-sky-200"
                         >
-                            Travels
-                        </th>
-                        <th
-                            scope="col"
-                            colspan="3"
-                            class="p-2 border-solid border border-slate-400 bg-sky-200"
-                        >
-                            Leaves
-                        </th>
-                        <th
-                            scope="col"
-                            colspan="3"
-                            class="p-2 border-solid border border-slate-400 bg-sky-200"
-                        >
                             SSS
                         </th>
                         <th
@@ -135,42 +121,6 @@ function formatCurrency (number: Number, locale = "en-US") {
                             class="px-8 border-solid border border-slate-400"
                         >
                             First Name
-                        </th>
-                        <th
-                            rowspan="2"
-                            class="px-8 border-solid border border-slate-400"
-                        >
-                            Name
-                        </th>
-                        <th
-                            rowspan="2"
-                            class="px-8 border-solid border border-slate-400"
-                        >
-                            Hours
-                        </th>
-                        <th
-                            rowspan="2"
-                            class="px-8 border-solid border border-slate-400"
-                        >
-                            Amount
-                        </th>
-                        <th
-                            rowspan="2"
-                            class="px-8 border-solid border border-slate-400"
-                        >
-                            Name
-                        </th>
-                        <th
-                            rowspan="2"
-                            class="px-8 border-solid border border-slate-400"
-                        >
-                            Hours
-                        </th>
-                        <th
-                            rowspan="2"
-                            class="px-8 border-solid border border-slate-400"
-                        >
-                            Amount
                         </th>
                         <th
                             rowspan="2"
@@ -270,54 +220,6 @@ function formatCurrency (number: Number, locale = "en-US") {
                         <td class="p-4 border-solid border border-slate-400">
                             <template v-for="(salaryData, salaryIndex) in data.payroll_records.gross_pays.chargings.salary" :key="salaryIndex">
                                 {{ salaryData.amt }}
-                            </template>
-                        </td>
-                        <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(departmentData, departmentIndex) in data.payroll_records.gross_pays.chargings.travels" :key="departmentIndex">
-                                {{ departmentData.designation }}
-                            </template>
-                            <template v-if="data.payroll_records.gross_pays.chargings.travels.length == 0">
-                                {{ "-" }}
-                            </template>
-                        </td>
-                        <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(departmentData, departmentIndex) in data.payroll_records.gross_pays.chargings.travels" :key="departmentIndex">
-                                {{ departmentData.reg_hrs ?? "-" }}
-                            </template>
-                            <template v-if="(data.payroll_records.gross_pays.chargings.travels.length == 0)">
-                                {{ "0.00" }}
-                            </template>
-                        </td>
-                        <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(departmentData, departmentIndex) in data.payroll_records.gross_pays.chargings.travels" :key="departmentIndex">
-                                {{ formatCurrency(departmentData.amt) ?? "-" }}
-                            </template>
-                            <template v-if="(data.payroll_records.gross_pays.chargings.travels.length == 0)">
-                                {{ "0.00" }}
-                            </template>
-                        </td>
-                        <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(specholtData, specholIndex) in data.payroll_records.gross_pays.chargings.leaves" :key="specholIndex">
-                                {{ specholtData.designation }}
-                            </template>
-                            <template v-if="!data.payroll_records.gross_pays.chargings.specholtData">
-                                {{ "-" }}
-                            </template>
-                        </td>
-                        <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(specholtData, specholIndex) in data.payroll_records.gross_pays.chargings.leaves" :key="specholIndex">
-                                {{ specholtData.reg_hrs }}
-                            </template>
-                            <template v-if="(!data.payroll_records.gross_pays.chargings.specholtData)">
-                                {{ "0.00" }}
-                            </template>
-                        </td>
-                        <td class="p-4 border-solid border border-slate-400">
-                            <template v-for="(specholtData, specholIndex) in data.payroll_records.gross_pays.chargings.leaves" :key="specholIndex">
-                                {{ formatCurrency(specholtData.amt) }}
-                            </template>
-                            <template v-if="(!data.payroll_records.gross_pays.chargings.specholtData)">
-                                {{ "0.00" }}
                             </template>
                         </td>
                         <td class="p-4 border-solid border border-slate-400">

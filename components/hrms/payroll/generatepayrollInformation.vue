@@ -191,7 +191,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                             </th>
                             <th
                                 scope="col"
-                                :colspan="8 + loanTypes.length + cashAdvances.length + otherDeductions.length"
+                                :colspan="6 + loanTypes.length + cashAdvances.length + otherDeductions.length"
                                 class="p-2 border-solid border border-slate-400 bg-sky-200"
                             >
                                 Salary Deduction
@@ -339,13 +339,13 @@ function formatCurrency (number: Number, locale = "en-US") {
                             </th>
                             <th
                                 class="px-4 border-solid border border-slate-400"
-                                colspan="2"
+                                rowspan="2"
                             >
                                 PHIC
                             </th>
                             <th
                                 class="px-4 border-solid border border-slate-400"
-                                colspan="2"
+                                rowspan="2"
                             >
                                 HMDF
                             </th>
@@ -387,26 +387,6 @@ function formatCurrency (number: Number, locale = "en-US") {
                             </th>
                         </tr>
                         <tr>
-                            <th
-                                class="px-4 border-solid border border-slate-400"
-                            >
-                                Employee Contribution
-                            </th>
-                            <th
-                                class="px-4 border-solid border border-slate-400"
-                            >
-                                Employee Compensation
-                            </th>
-                            <th
-                                class="px-4 border-solid border border-slate-400"
-                            >
-                                Employee Contribution
-                            </th>
-                            <th
-                                class="px-4 border-solid border border-slate-400"
-                            >
-                                Employee Compensation
-                            </th>
                             <th
                                 class="px-4 border-solid border border-slate-400"
                             >
@@ -499,13 +479,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                                 {{ data.payroll_records.salary_deduction.sss.employee_compensation ? formatCurrency(data.payroll_records.salary_deduction.sss.employee_compensation) : "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.phic.employee_contribution ? formatCurrency(data.payroll_records.salary_deduction.phic.employee_contribution) : "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
                                 {{ data.payroll_records.salary_deduction.phic.employee_compensation ? formatCurrency(data.payroll_records.salary_deduction.phic.employee_compensation) : "-" }}
-                            </td>
-                            <td class="p-4 border-solid border border-slate-400">
-                                {{ data.payroll_records.salary_deduction.hmdf.employee_contribution ? formatCurrency(data.payroll_records.salary_deduction.hmdf.employee_contribution) : "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ data.payroll_records.salary_deduction.hmdf.employee_compensation ? formatCurrency(data.payroll_records.salary_deduction.hmdf.employee_compensation) : "-" }}
@@ -626,13 +600,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                                 {{ genpayrollstore.totalSSSEmployeePayrollDraft ? formatCurrency(genpayrollstore.totalSSSEmployeePayrollDraft) : "-" }}
                             </td>
                             <td>
-                                {{ " " }}
-                            </td>
-                            <td>
                                 {{ formatCurrency(genpayrollstore.totalPHICEmployeePayrollDraft) ?? "-" }}
-                            </td>
-                            <td>
-                                {{ " " }}
                             </td>
                             <td>
                                 {{ formatCurrency(genpayrollstore.totalHDMFEmployeePayrollDraft) ?? "-" }}
