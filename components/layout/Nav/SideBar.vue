@@ -459,6 +459,22 @@ const config = useRuntimeConfig()
                 icon="ic:baseline-space-dashboard"
                 single-nav-title="Inventory Dashboard"
             />
+            <LayoutNavGroup
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.inventory_setup_group
+                ])"
+                icon="ion:ios-people"
+                title="Setup"
+            >
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.inventory_dashboard,
+                    ])"
+                    linkarea="/inventory/setup/approvals"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Approvals"
+                />
+            </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
         <!-- Accounting -->
