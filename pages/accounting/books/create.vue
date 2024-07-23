@@ -6,6 +6,7 @@ definePageMeta({
 useHead({
     title: "New Book",
 })
+navigateTo("/accounting/books")
 </script>
 
 <template>
