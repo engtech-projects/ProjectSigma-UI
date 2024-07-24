@@ -77,7 +77,10 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         errorHandler: [],
         allPagination: {},
         myRequestPagination: {},
-        getParams: {},
+        getParams: {
+            employee: "",
+        },
+        getParamsMyList: {},
     }),
     actions: {
         async savePan () {
@@ -183,7 +186,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 "/api/pan/my-request",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.getParamsMyList,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message

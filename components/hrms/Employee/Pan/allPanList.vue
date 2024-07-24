@@ -28,6 +28,7 @@ const showInformation = (data) => {
 
 <template>
     <LayoutBoards title="" class="w-full" :loading="boardLoading">
+        <LayoutFormPsTextInput v-model="getParams.employee" title="Search Employee/Applicant Name" />
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
