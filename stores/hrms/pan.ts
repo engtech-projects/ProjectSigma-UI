@@ -246,17 +246,21 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         },
         reloadResources () {
             const backup = this.personelActionNotice.approvals
-            this.$reset()
-            this.personelActionNotice.approvals = backup
+            const callFunctions = []
             if (this.allPanList.length > 0) {
-                this.getAllPan()
+                callFunctions.push(this.getAllPan)
             }
             if (this.approvalPanList.length > 0) {
-                this.getPanApprovals()
+                callFunctions.push(this.getPanApprovals)
             }
             if (this.myPanList.length > 0) {
-                this.myPanRequest()
+                callFunctions.push(this.myPanRequest)
             }
+            this.$reset()
+            this.personelActionNotice.approvals = backup
+            callFunctions.forEach((element) => {
+                element()
+            })
         }
     },
 })

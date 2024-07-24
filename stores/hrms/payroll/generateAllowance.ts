@@ -39,8 +39,8 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
             data: {},
             params: {
                 group_type: null,
-                department_id: "",
-                project_id: "",
+                department_id: null,
+                project_id: null,
                 charge_assignment: "",
                 allowance_date: "",
             },
@@ -64,14 +64,31 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 }
             )
         },
+        async getOne (id: any) {
+            return await useHRMSApiO(
+                "/api/employee-allowance/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getAllRequests () {
             await useHRMSApi(
                 "/api/employee-allowance/resource",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.allRequests.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
+                            this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
@@ -88,8 +105,10 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 "/api/employee-allowance/my-requests",
                 {
                     method: "GET",
+                    params: this.myRequests.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
+                            this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
@@ -109,8 +128,10 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 "/api/employee-allowance/my-approvals",
                 {
                     method: "GET",
+                    params: this.myApprovals.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
+                            this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data
                         } else {
                             this.errorMessage = response._data.message
@@ -123,12 +144,12 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
         async createRequest () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApi(
+            await useHRMSApiO(
                 "/api/employee-allowance/resource",
                 {
                     method: "POST",
                     body: this.generateAllowance,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.reloadResources()
@@ -238,17 +259,21 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
         },
         reloadResources () {
             const backup = this.generateAllowance.approvals
-            this.$reset()
-            this.generateAllowance.approvals = backup
+            const callFunctions = []
             if (this.allRequests.isLoaded) {
-                this.getAllRequests()
+                callFunctions.push(this.getAllRequests)
             }
             if (this.myRequests.isLoaded) {
-                this.getMyRequests()
+                callFunctions.push(this.getMyRequests)
             }
             if (this.myApprovals.isLoaded) {
-                this.getMyApprovals()
+                callFunctions.push(this.getMyApprovals)
             }
+            this.$reset()
+            this.generateAllowance.approvals = backup
+            callFunctions.forEach((element) => {
+                element()
+            })
         }
     },
 })

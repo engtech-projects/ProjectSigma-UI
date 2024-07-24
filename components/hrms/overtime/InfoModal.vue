@@ -89,6 +89,9 @@ const headers = [
                     <span class="text-teal-600 text-light"> To: </span> {{ data.end_time_human }}
                 </div>
                 <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light"> Meal Deduction: </span> {{ data.meal_deduction ? "Yes" : "No" }}
+                </div>
+                <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light"> Purpose/Reason: </span> {{ data.reason }}
                 </div>
             </div>

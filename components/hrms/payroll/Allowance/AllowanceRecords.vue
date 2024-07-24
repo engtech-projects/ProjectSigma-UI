@@ -8,7 +8,7 @@ const { allowanceRecords } = storeToRefs(genallowstore)
 </script>
 
 <template>
-    <LayoutBoards class="w-full" :loading="boardLoading">
+    <LayoutBoards class="w-full">
         <HrmsPayrollAllowanceFilterSelector />
         <HrmsPayrollAllowanceRecordTable :data="allowanceRecords.data" />
     </LayoutBoards>

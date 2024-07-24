@@ -7,12 +7,13 @@ const getDatas = () => {
 }
 </script>
 <template>
-    <div>
+    <div class="grid grid-cols-3 gap-2">
         <div class="flex flex-row">
             <HrmsCommonDepartmentProjectSelector
                 v-model:select-type="allowanceRecords.params.group_type"
                 v-model:projectId="allowanceRecords.params.project_id"
                 v-model:departmentId="allowanceRecords.params.department_id"
+                title="Charging"
             />
         </div>
         <div class="flex flex-row">

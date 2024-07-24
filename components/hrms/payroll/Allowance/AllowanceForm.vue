@@ -23,8 +23,9 @@ const submitForm = async () => {
         } else {
             snackbar.add({
                 type: "success",
-                text: genallowstore.successMessage
+                text: "Successfully created an Allowance Request"
             })
+            genallowstore.reloadResources()
         }
     } catch {
         snackbar.add({
@@ -32,8 +33,6 @@ const submitForm = async () => {
             text: genallowstore.errorMessage
         })
     } finally {
-        genallowstore.clearMessages()
-        genallowstore.reloadResources()
         boardLoading.value = false
     }
 }

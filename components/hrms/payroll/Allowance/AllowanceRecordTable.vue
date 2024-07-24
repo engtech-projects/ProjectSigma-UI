@@ -6,7 +6,7 @@ const prop = defineProps({
     },
 })
 const totalAllowanceAmount = () => {
-    return prop.data.employee_allowances.reduce((acc, item) => acc + item.allowance_amount, 0)
+    return prop.data.employee_allowances?.reduce((acc, item) => acc + item.allowance_amount, 0)
 }
 </script>
 <template>
