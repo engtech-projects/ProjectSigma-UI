@@ -78,9 +78,9 @@ export const useNotificationsStore = defineStore("notificationsStore", {
             })
             this.loadDatas()
         },
-        loadDatas () {
+        async loadDatas () {
             if (this.allList.length > 0) {
-                this.getAllNotifications()
+                await this.getAllNotifications()
             }
         }
     },

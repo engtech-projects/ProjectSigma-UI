@@ -25,10 +25,6 @@ const prop = defineProps({
 const showModal = ref(false)
 const modalData = ref({})
 const loading = ref(false)
-const { allList } = storeToRefs(notifStore)
-if (allList.value.length <= 0) {
-    notifStore.getAllNotifications()
-}
 const icons = {
     ManpowerRequest: "ic:round-people-alt",
     FailureToLog: "ic:baseline-flag-circle",

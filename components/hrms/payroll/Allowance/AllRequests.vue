@@ -3,10 +3,16 @@ import { storeToRefs } from "pinia"
 import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
 
 const genallowstore = useGenerateAllowanceStore()
-const { myRequests } = storeToRefs(genallowstore)
-if (!myRequests.value.isLoaded) {
-    myRequests.value.isLoaded = true
-    genallowstore.getMyRequests()
+const { allRequests, errorMessage, successMessage } = storeToRefs(genallowstore)
+if (!allRequests.value.isLoaded) {
+    allRequests.value.isLoaded = true
+    genallowstore.getAllRequests()
+}
+
+const boardLoading = ref(false)
+
+const changePaginate = (newParams) => {
+    allRequests.value.params.page = newParams.page ?? ""
 }
 
 const headers = [
@@ -15,12 +21,10 @@ const headers = [
     { name: "Cutoff End", id: "cutoff_end_human" },
     { name: "Allowance Date", id: "allowance_date_human" },
     { name: "Total # of Day(s)", id: "total_days" },
+
 ]
 const actions = {
     showTable: true,
-}
-const changePaginate = (newParams) => {
-    myRequests.value.params.page = newParams.page ?? ""
 }
 const infoModalData = ref({})
 const showInfoModal = ref(false)
@@ -29,23 +33,31 @@ const showInformation = (data) => {
     showInfoModal.value = true
 }
 
-const boardLoading = ref(false)
-
 </script>
 
 <template>
-    <LayoutBoards title="My Requests" class="w-full" :loading="boardLoading">
-        <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+    <LayoutBoards class="w-full" :loading="boardLoading">
+        <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable
                 :header-columns="headers"
+                :datas="allRequests.list"
                 :actions="actions"
-                :datas="myRequests.list ?? []"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
+            <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
         </div>
+        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
+            {{ errorMessage }}
+        </p>
+        <p
+            v-show="successMessage"
+            hidden
+            class="success-message text-green-600 text-center font-semibold italic"
+        >
+            {{ successMessage }}
+        </p>
     </LayoutBoards>
     <HrmsPayrollAllowanceInfoModal
         v-model:show-modal="showInfoModal"

@@ -7,9 +7,11 @@ useHead({
 
 const notifStore = useNotificationsStore()
 const { allList, pagination, getParams } = storeToRefs(notifStore)
-if (allList.value.length <= 0) {
-    notifStore.getAllNotifications()
-}
+onMounted(() => {
+    if (allList.value.length <= 0) {
+        notifStore.getAllNotifications()
+    }
+})
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }

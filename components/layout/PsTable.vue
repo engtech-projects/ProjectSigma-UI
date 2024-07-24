@@ -16,7 +16,8 @@ defineProps({
     },
     actions: {
         type: Object,
-        required: true,
+        required: false,
+        default: null,
     },
 })
 

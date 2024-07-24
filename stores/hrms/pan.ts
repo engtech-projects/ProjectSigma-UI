@@ -248,7 +248,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             const backup = this.personelActionNotice.approvals
             this.$reset()
             this.personelActionNotice.approvals = backup
-            if (this.allPanList) {
+            if (this.allPanList.length > 0) {
                 this.getAllPan()
             }
             if (this.approvalPanList.length > 0) {
