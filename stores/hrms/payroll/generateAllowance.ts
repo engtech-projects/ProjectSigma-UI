@@ -130,9 +130,8 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                     body: this.generateAllowance,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            // this.getGA()
-                            // this.$reset()
                             this.successMessage = response._data.message
+                            this.reloadResources()
                         } else {
                             this.errorMessage = response._data.message
                         }
@@ -229,8 +228,8 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResources()
+                            this.successMessage = response._data.message
                             return response._data
                         }
                     },
