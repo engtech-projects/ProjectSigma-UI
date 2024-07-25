@@ -44,6 +44,7 @@ jobs:
           server: ${{ vars.FTP_SERVER_EVENPAR }}
           username: ${{ secrets.FTP_USERNAME_EVENPAR }}
           password: ${{ secrets.FTP_PASSWORD_EVENPAR }}
+          protocol: ftp
           # username: ${{ secrets.FTP_USERNAME_EVENPAR_ONLINE }}
           # password: ${{ secrets.FTP_PASSWORD_EVENPAR_ONLINE }}
 
