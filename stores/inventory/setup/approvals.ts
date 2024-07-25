@@ -18,7 +18,9 @@ export const useApprovalStore = defineStore("approvals", {
         formApproval: {} as Approval,
         list: [],
         pagination: {},
-        getParams: {},
+        getParams: {
+            module: "Inventory"
+        },
         errorMessage: "",
         successMessage: "",
     }),
