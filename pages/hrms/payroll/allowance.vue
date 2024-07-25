@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
 import { useEnumsStore } from "@/stores/hrms/enum"
-
-const genallowances = useGenerateAllowanceStore()
-// const { isEdit } = storeToRefs(stores)
-genallowances.getMyRequests()
-genallowances.getMyApprovalRequests()
-genallowances.getGA()
 
 const enums = useEnumsStore()
 enums.getEmployeeEnum()
@@ -29,7 +22,8 @@ useHead({
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle target-id="generateallowance" title="Generate Allowance" />
                     <HrmsCommonTabsTabTitle target-id="allowance-records" title="Allowance Records" />
-                    <HrmsCommonTabsTabTitle target-id="myRequestList" title="My Request" />
+                    <HrmsCommonTabsTabTitle target-id="allRequestsList" title="All Requests" />
+                    <HrmsCommonTabsTabTitle target-id="myRequestList" title="My Requests" />
                     <HrmsCommonTabsTabTitle target-id="myApprovalsList" title="My Approvals" />
                 </template>
                 <template #tab-containers>
@@ -37,7 +31,10 @@ useHead({
                         <HrmsPayrollAllowanceForm />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="allowance-records">
-                        <HrmsPayrollAllowanceTable />
+                        <HrmsPayrollAllowanceRecords />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer id="allRequestsList">
+                        <HrmsPayrollAllowanceAllRequests />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="myRequestList">
                         <HrmsPayrollAllowanceMyRequests />

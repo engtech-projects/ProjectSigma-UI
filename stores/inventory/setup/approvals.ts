@@ -1,13 +1,6 @@
 import { defineStore } from "pinia"
 
-export const APPROVAL_MANPOWERREQ = "Manpower Request"
-export const APPROVAL_TRAVELORDER = "Travel Order"
-export const APPROVAL_OVERTIME = "Overtime"
-export const APPROVAL_CA = "Cash Advance"
-export const APPROVAL_GA = "Generate Allowance"
-export const APPROVAL_GP = "Payroll"
-export const APPROVAL_LEAVE = "Leave"
-export const APPROVAL_FAILTOLOG = "Failure To Log"
+export const APPROVAL_NEW_ITEM_PROFILE = "New Item Profile"
 
 export interface Approver {
     type: string,
@@ -26,7 +19,7 @@ export const useApprovalStore = defineStore("approvals", {
         list: [],
         pagination: {},
         getParams: {
-            module: "HRMS"
+            module: "Inventory"
         },
         errorMessage: "",
         successMessage: "",

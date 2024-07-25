@@ -6,6 +6,7 @@ definePageMeta({
 useHead({
     title: "New Account Group",
 })
+navigateTo("/accounting/account-groups")
 </script>
 
 <template>

@@ -77,7 +77,10 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         errorHandler: [],
         allPagination: {},
         myRequestPagination: {},
-        getParams: {},
+        getParams: {
+            employee: "",
+        },
+        getParamsMyList: {},
     }),
     actions: {
         async savePan () {
@@ -183,7 +186,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 "/api/pan/my-request",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.getParamsMyList,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
@@ -246,17 +249,21 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         },
         reloadResources () {
             const backup = this.personelActionNotice.approvals
-            this.$reset()
-            this.personelActionNotice.approvals = backup
-            if (this.allPanList) {
-                this.getAllPan()
+            const callFunctions = []
+            if (this.allPanList.length > 0) {
+                callFunctions.push(this.getAllPan)
             }
             if (this.approvalPanList.length > 0) {
-                this.getPanApprovals()
+                callFunctions.push(this.getPanApprovals)
             }
             if (this.myPanList.length > 0) {
-                this.myPanRequest()
+                callFunctions.push(this.myPanRequest)
             }
+            this.$reset()
+            this.personelActionNotice.approvals = backup
+            callFunctions.forEach((element) => {
+                element()
+            })
         }
     },
 })

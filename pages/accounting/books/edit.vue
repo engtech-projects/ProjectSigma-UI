@@ -13,6 +13,7 @@ if (!useRoute().query.id) {
 } else {
     await bookStore.getBook(useRoute().query.id)
 }
+navigateTo("/accounting/books")
 </script>
 
 <template>

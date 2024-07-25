@@ -23,38 +23,48 @@ const submitForm = async () => {
         } else {
             snackbar.add({
                 type: "success",
-                text: genallowstore.successMessage
+                text: "Successfully created an Allowance Request"
             })
+            genallowstore.reloadResources()
         }
-        genallowstore.$reset()
-        generateAllowance.value.approvals = await approvals.getApprovalByName(APPROVAL_GA)
     } catch {
         snackbar.add({
             type: "error",
             text: genallowstore.errorMessage
         })
     } finally {
-        genallowstore.clearMessages()
-        genallowances.getMyRequests()
-        genallowances.getMyApprovalRequests()
         boardLoading.value = false
     }
 }
+const dateChanged = computed(() => {
+    if (generateAllowance.value.cutoff_start && generateAllowance.value.cutoff_end) {
+        generateAllowance.value.total_days = 1
+        const dateStart = new Date(generateAllowance.value.cutoff_end)
+        const dateEnd = new Date(generateAllowance.value.cutoff_start)
+        const dsMin = dateStart.setMinutes(dateStart.getMinutes() - dateStart.getTimezoneOffset())
+        const deMin = dateEnd.setMinutes(dateEnd.getMinutes() - dateEnd.getTimezoneOffset())
+        generateAllowance.value.total_days = (deMin - dsMin) / (24 * 60 * 60 * 1000) + 1
+    }
+})
 
 </script>
-
 <template>
     <LayoutBoards class="w-full" :loading="boardLoading">
         <div class="mt-5 mb-6">
             <form @submit.prevent="submitForm">
                 <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateAllowance.employees" title="Employee Name" name="Employee Name" />
                 <div class="mt-5 mb-5 flex gap-4 sm:grid-cols-3">
-                    <LayoutFormPsDateInput v-model="generateAllowance.cutoff_start" title="Cut-off Date (Start)" />
-                    <LayoutFormPsDateInput v-model="generateAllowance.cutoff_end" title="Cut-off Date (End)" />
+                    <LayoutFormPsDateInput v-model="generateAllowance.cutoff_start" title="Cut-off Date (Start)" @change="dateChanged" />
+                    <LayoutFormPsDateInput v-model="generateAllowance.cutoff_end" title="Cut-off Date (End)" @change="dateChanged" />
                     <LayoutFormPsDateInput v-model="generateAllowance.allowance_date" title="Allowance Date" />
                     <LayoutFormPsNumberInput v-model="generateAllowance.total_days" title="Total Day(s)" />
                     <div class="flex-1">
-                        <HrmsCommonDepartmentProjectSelector v-model:select-type="generateAllowance.group_type" v-model:department-id="generateAllowance.department_id" v-model:project-id="generateAllowance.project_id" />
+                        <HrmsCommonDepartmentProjectSelector
+                            v-model:select-type="generateAllowance.group_type"
+                            v-model:department-id="generateAllowance.department_id"
+                            v-model:project-id="generateAllowance.project_id"
+                            title="Charging"
+                        />
                     </div>
                 </div>
                 <div class="w-full mb-2 rounded-lg p-4 bg-slate-100 ">

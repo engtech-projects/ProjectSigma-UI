@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
 pan.myPanRequest()
-const { myPanList, myRequestPagination: pagination, getParams } = storeToRefs(pan)
+const { myPanList, myRequestPagination: pagination, getParamsMyList } = storeToRefs(pan)
 const boardLoading = ref(false)
 
 const headers = [
@@ -17,7 +17,7 @@ const actions = {
     showTable: true,
 }
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    getParamsMyList.value.page = newParams.page ?? ""
 }
 const infoModalData = ref({})
 const showInfoModal = ref(false)

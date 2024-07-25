@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useOvertimeStore } from "@/stores/hrms/overtime"
+import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
 
 defineProps({
     data: {
@@ -12,8 +12,8 @@ defineProps({
 const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
-const overtimes = useOvertimeStore()
-const { remarks } = storeToRefs(overtimes)
+const resourceStore = useGenerateAllowanceStore()
+const { remarks } = storeToRefs(resourceStore)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -24,10 +24,10 @@ const closeViewModal = () => {
 const approvedRequest = async (id) => {
     try {
         boardLoading.value = true
-        await overtimes.approveApprovalForm(id)
+        await resourceStore.approveApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: overtimes.successMessage
+            text: resourceStore.successMessage
         })
         closeViewModal()
     } catch (error) {
@@ -45,10 +45,10 @@ const clearRemarks = () => {
 const denyRequest = async (id) => {
     try {
         boardLoading.value = true
-        await overtimes.denyApprovalForm(id)
+        await resourceStore.denyApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: overtimes.successMessage
+            text: resourceStore.successMessage
         })
         closeViewModal()
     } catch (error) {
@@ -61,54 +61,68 @@ const denyRequest = async (id) => {
     }
 }
 
-const headers = [
-    { name: "Employee Name", id: "fullname_first" },
+const employeeAllowanceHeaders = [
+    { name: "Employee", id: "employee" },
+    { name: "Employee Position", id: "employee_position" },
+    { name: "Allowance Rate", id: "allowance_rate" },
+    { name: "Allowance Day(s)", id: "allowance_days" },
+    { name: "Allowance Amount", id: "allowance_amount" },
 ]
 
 </script>
 
 <template>
-    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
+    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Allowance Request">
         <template #body>
-            <div class="grid gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-4xl">Overtime</span>
-                </div>
-            </div>
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> Charged to: </span> <span class="text-gray-900">{{ data.charging_name }}</span>
+                <div class="p-2 flex flex-col gap-1">
+                    <span class="text-teal-600 text-light">
+                        Charging:
+                    </span>
+                    <span class="text-gray-900">
+                        {{ data.charge_name }}
+                    </span>
                 </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light">Date of Overtime: </span> {{ data.overtime_date }}
+                <div class="p-2 flex flex-col gap-1">
+                    <span class="text-teal-600 text-light">
+                        Cutoff Start:
+                    </span>
+                    <span class="text-gray-900 text-sm font-bold">
+                        {{ data.cutoff_start_human }}
+                    </span>
                 </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> From: </span> {{ data.start_time_human }}
+                <div class="p-2 flex flex-col gap-1">
+                    <span class="text-teal-600 text-light">
+                        Cutoff End:
+                    </span>
+                    <span class="text-gray-900 text-sm font-bold">
+                        {{ data.cutoff_end_human }}
+                    </span>
                 </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> To: </span> {{ data.end_time_human }}
+                <div class="p-2 flex flex-col gap-1">
+                    <span class="text-teal-600 text-light">
+                        Allowance Date:
+                    </span>
+                    <span class="text-gray-900 text-sm font-bold">
+                        {{ data.allowance_date_human }}
+                    </span>
                 </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> Meal Deduction: </span> {{ data.meal_deduction ? "Yes" : "No" }}
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> Purpose/Reason: </span> {{ data.reason }}
+                <div class="p-2 flex flex-col gap-1">
+                    <span class="text-teal-600 text-light">
+                        Total # of Day(s):
+                    </span>
+                    <span class="text-gray-900 text-sm font-bold">
+                        {{ data.total_days }}
+                    </span>
                 </div>
             </div>
+            <LayoutPsTable
+                :header-columns="employeeAllowanceHeaders"
+                :datas="data.employee_allowances ?? []"
+            />
             <div class="w-full">
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> Employees: </span>
-                </div>
-                <LayoutPsTable
-                    class="max-h-[180px] overflow-auto"
-                    :header-columns="headers"
-                    :datas="data.employees"
-                    :actions="actions"
-                />
-            </div>
-            <div class="w-full">
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> Prepared by: </span> {{ data.prepared_by.name }}
+                    <span class="text-teal-600 text-light"> Prepared by: </span> {{ data.requested_by_user }}
                 </div>
                 <LayoutApprovalsListView :approvals="data.approvals" />
             </div>

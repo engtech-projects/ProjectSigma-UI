@@ -32,7 +32,7 @@ defineProps({
                         {{ apprv.fullname_first }}
                     </li>
                     <li class="w-full p-2 text-center">
-                        {{ apprv.status }} {{ (apprv.status === 'Approved') ? apprv.date_approved : "" }}
+                        {{ apprv.status }} {{ (apprv.status === 'Approved') ? apprv.date_approved : "" }} {{ (apprv.status === 'Denied') ? "(" + apprv.remarks + ")" : "" }}
                     </li>
                 </template>
             </ol>

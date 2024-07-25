@@ -7,6 +7,7 @@ import { useFailToLogStore } from "@/stores/hrms/attendance/failtolog"
 import { useOvertimeStore } from "@/stores/hrms/overtime"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
+import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
 
 const notifStore = useNotificationsStore()
 const manpowerStore = useManpowerStore()
@@ -16,6 +17,7 @@ const leavereqStore = useLeaveRequest()
 const travelOrder = useTravelorderStore()
 const cashadvanceStore = useCashadvanceStore()
 const overtimeStore = useOvertimeStore()
+const genAllowanceStore = useGenerateAllowanceStore()
 const prop = defineProps({
     notification: {
         type: Object,
@@ -25,10 +27,6 @@ const prop = defineProps({
 const showModal = ref(false)
 const modalData = ref({})
 const loading = ref(false)
-const { allList } = storeToRefs(notifStore)
-if (allList.value.length <= 0) {
-    notifStore.getAllNotifications()
-}
 const icons = {
     ManpowerRequest: "ic:round-people-alt",
     FailureToLog: "ic:baseline-flag-circle",
@@ -37,8 +35,8 @@ const icons = {
     TravelOrder: "material-symbols:googler-travel",
     CashAdvance: "material-symbols:dynamic-form-outline-rounded",
     Overtime: "mingcute:time-line",
-    GenerateAllowance: "",
-    Payroll: "",
+    GenerateAllowance: "tabler:pig-money",
+    Payroll: "carbon:money",
 }
 // const possibleLocations = {
 //     LeaveRequest: "/hrms/leave",
@@ -79,7 +77,7 @@ const openModalNotification = async () => {
             modalData.value = await overtimeStore.getOne(prop.notification.data.metadata.id)
             break
         case "GenerateAllowance":
-            modalData.value = await leavereqStore.getOne(prop.notification.data.metadata.id)
+            modalData.value = await genAllowanceStore.getOne(prop.notification.data.metadata.id)
             break
         case "Payroll":
             modalData.value = await leavereqStore.getOne(prop.notification.data.metadata.id)
@@ -196,9 +194,8 @@ watch(showModal, (newValue, oldValue) => {
             />
         </template>
         <template v-if=" prop.notification.data.type === 'GenerateAllowance'">
-            <HrmsTravelOrderInfoModal
+            <HrmsPayrollAllowanceInfoModal
                 v-model:showModal="showModal"
-                :show-approvals="prop.notification.data.action_type === 'Approve'"
                 :data="modalData.data"
             />
         </template>
