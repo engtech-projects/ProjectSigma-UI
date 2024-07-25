@@ -10,7 +10,7 @@ if (!myRequests.value.isLoaded) {
 }
 
 const headers = [
-    { name: "Charge Department", id: "charge_assignment.department_name" },
+    { name: "Charge Department", id: "charge_name" },
     { name: "Cutoff Start", id: "cutoff_start_human" },
     { name: "Cutoff End", id: "cutoff_end_human" },
     { name: "Allowance Date", id: "allowance_date_human" },

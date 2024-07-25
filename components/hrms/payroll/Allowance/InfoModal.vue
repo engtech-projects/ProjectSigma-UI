@@ -80,7 +80,7 @@ const employeeAllowanceHeaders = [
                         Charging:
                     </span>
                     <span class="text-gray-900">
-                        {{ data.charge_assignment.department_name ?? data.charge_assignment.name }}
+                        {{ data.charge_name }}
                     </span>
                 </div>
                 <div class="p-2 flex flex-col gap-1">

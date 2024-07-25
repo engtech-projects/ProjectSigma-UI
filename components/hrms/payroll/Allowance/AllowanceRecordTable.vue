@@ -21,7 +21,7 @@ const totalAllowanceAmount = () => {
         </div>
         <div class="mb-2 flex justify-between">
             <div class="w-full flex gap-4">
-                <span class="font-semibold text-sm">Office/Project: </span> <span class="font-light text-sm">{{ data.charge_assignment?.name }}</span>
+                <span class="font-semibold text-sm">Office/Project: </span> <span class="font-light text-sm">{{ data.charge_name }}</span>
                 <!-- <span class="font-semibold text-sm ml-4">Period Covered: </span> <span class="font-light text-sm">{{ data.cutoff_start_human }} - {{ data.cutoff_end_human }}</span> -->
                 <span class="font-semibold text-sm ml-4">Allowance Date: </span> <span class="font-light text-sm">{{ data.allowance_date_human }}</span>
             </div>
