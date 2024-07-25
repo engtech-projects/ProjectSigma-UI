@@ -53,5 +53,6 @@ const changePaginate = (newParams) => {
     <HrmsCashadvanceInfoModal
         v-model:show-modal="showInfoModal"
         :data="infoModalData"
+        type="infoModalData"
     />
 </template>

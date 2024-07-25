@@ -7,13 +7,43 @@ defineProps({
         type: Object,
         required: true,
     },
+    type: {
+        type: String,
+        required: true,
+    },
 })
+const showMakePayment = ref(false)
+
+const setShowPayment = (val) => {
+    showMakePayment.value = val
+}
+
+const utils = useUtilities()
+// const resetPayment = () => {
+//     const id = newPayment.value.cashadvance_id
+//     newPayment.value = {
+//         id: null,
+//         cashadvance_id: id,
+//         amount_paid: null,
+//         date_paid: utils.value.dateToString(new Date()),
+//         payment_type: "Manual",
+//         posting_status: "Posted",
+//         paymentAmount: null,
+//     }
+// }
+// const updateCA = () => {
+//     cashadvances.list.forEach((el) => {
+//         if (el.id === ca.value.id) {
+//             ca.value = el
+//         }
+//     })
+// }
 
 const cashadvances = useCashadvanceStore()
 const { data: userData } = useAuth()
 
 const showModal = defineModel("showModal", { required: false, type: Boolean })
-const { remarks } = storeToRefs(cashadvances)
+const { remarks, ca, newPayment } = storeToRefs(cashadvances)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -61,78 +91,236 @@ const denyRequest = async (id) => {
         showInformationModal.value = false
     }
 }
+
+async function nowMakePayment (id) {
+    try {
+        this.newPayment.cashadvance_id = id
+        this.newPayment.paymentAmount = this.newPayment.amount_paid
+        await cashadvances.makePayment(id)
+        boardLoading.value = false
+        snackbar.add({
+            type: "success",
+            text: cashadvances.successMessage
+        })
+    } catch {
+        boardLoading.value = false
+        snackbar.add({
+            type: "error",
+            text: cashadvances.errorMessage || "something went wrong."
+        })
+    } finally {
+        // accountType.clearMessages()
+    }
+}
 </script>
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
         <template #body>
-            <div class="grid gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-4xl">{{ data.employee.fullname_last }}</span>
+            <template v-if="type != 'AllRequest'">
+                <div class="grid gap-2 md:justify-between">
+                    <div class="p-2 flex gap-2">
+                        <span class="text-gray-900 text-4xl">{{ data.employee.fullname_last }}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="grid md:grid-cols-3 gap-2 md:justify-between">
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Designation:
-                    </span>
-                    <span class="text-gray-900">
-                        {{ data.designation }}
-                    </span>
+                <div class="grid md:grid-cols-3 gap-2 md:justify-between">
+                    <div class="p-2 flex flex-col gap-1">
+                        <span class="text-teal-600 text-light">
+                            Designation:
+                        </span>
+                        <span class="text-gray-900">
+                            {{ data.designation }}
+                        </span>
+                    </div>
+                    <div class="p-2 flex flex-col gap-1">
+                        <span class="text-teal-600 text-light">
+                            Department:
+                        </span>
+                        <span class="text-gray-900 text-sm font-bold">
+                            {{ data.department? data.department.department_name : "" }}
+                        </span>
+                    </div>
+                    <div class="p-2 flex flex-col gap-1">
+                        <span class="text-teal-600 text-light">
+                            Project:
+                        </span>
+                        <span class="text-gray-900 text-sm font-bold">
+                            {{ !data.project? "N/A" : data.project.project_code }}
+                        </span>
+                    </div>
+                    <div class="p-2 flex flex-col gap-1">
+                        <span class="text-teal-600 text-light">
+                            Amount Requested:
+                        </span>
+                        <span class="text-gray-900 text-sm font-bold">
+                            {{ data.amount }}
+                        </span>
+                    </div>
+                    <div class="p-2 flex flex-col gap-1">
+                        <span class="text-teal-600 text-light">
+                            Amount Approved:
+                        </span>
+                        <span class="text-gray-900 text-sm font-bold">
+                            {{ data.total_paid }}
+                        </span>
+                    </div>
+                    <div class="p-2 flex flex-col gap-1">
+                        <span class="text-teal-600 text-light">
+                            Terms:
+                        </span>
+                        <span class="text-gray-900 text-sm font-bold">
+                            {{ data.terms_of_payment }}
+                        </span>
+                    </div>
+                    <div class="p-2 flex flex-col gap-1">
+                        <span class="text-teal-600 text-light">
+                            Remarks:
+                        </span>
+                        <span class="text-gray-900 text-sm font-bold">
+                            {{ data.remarks }}
+                        </span>
+                    </div>
                 </div>
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Department:
-                    </span>
-                    <span class="text-gray-900 text-sm font-bold">
-                        {{ data.department? data.department.department_name : "" }}
-                    </span>
-                </div>
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Project:
-                    </span>
-                    <span class="text-gray-900 text-sm font-bold">
-                        {{ !data.project? "N/A" : data.project.project_code }}
-                    </span>
-                </div>
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Amount Requested:
-                    </span>
-                    <span class="text-gray-900 text-sm font-bold">
-                        {{ data.amount }}
-                    </span>
-                </div>
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Amount Approved:
-                    </span>
-                    <span class="text-gray-900 text-sm font-bold">
-                        {{ data.total_paid }}
-                    </span>
-                </div>
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Terms:
-                    </span>
-                    <span class="text-gray-900 text-sm font-bold">
-                        {{ data.terms_of_payment }}
-                    </span>
-                </div>
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Remarks:
-                    </span>
-                    <span class="text-gray-900 text-sm font-bold">
-                        {{ data.remarks }}
-                    </span>
-                </div>
-            </div>
-            <div class="w-full">
+            </template>
+            <div v-if="type != 'AllRequest'" class="w-full">
                 <LayoutApprovalsListView :approvals="data.approvals" />
             </div>
+            <template v-if="type == 'AllRequest'">
+                <div class="flex gap-2 justify-between p-2">
+                    <p class="text-slate-600">
+                        Cash Advance (<span class="text-blue-500">{{ ca.id }}</span>)
+                    </p>
+                </div>
+                <form action="" @submit.prevent="nowMakePayment(ca.id)">
+                    <div class="flex flex-col gap-2">
+                        <div v-if="showMakePayment">
+                            <div class="flex gap-4 mb-2">
+                                <div class="flex flex-1 flex-col gap-1">
+                                    <label for="" class="text-gray-500 text-sm">Payment Amount</label>
+                                    <input
+                                        v-model="newPayment.amount_paid"
+                                        type="number"
+                                        class="border border-gray-200 bg-white rounded-md"
+                                        placeholder="0.00"
+                                        required
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else class="flex flex-col gap-2 p-2">
+                            <div class="grid gap-4">
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="flex flex-1 flex-col gap-1">
+                                        <label class="font-semibold text-gray-700">Employee Name: </label>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.employee.fullname_first || ''" disabled>
+                                    </div>
+                                    <div class="flex flex-1 flex-col gap-1">
+                                        <label class="font-semibold text-gray-700">Project: </label>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.project ? ca.project.project_code : 'N/A' " disabled>
+                                    </div>
+                                    <div class="flex flex-1 flex-col gap-1">
+                                        <label class="font-semibold text-gray-700">Department: </label>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.department ? ca.department.department_name : 'N/A' " disabled>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="flex flex-1 flex-col gap-1">
+                                        <label class="font-semibold text-gray-700">Cash Advance Amount: </label>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.amount" disabled>
+                                    </div>
+                                    <div class="flex flex-1 flex-col gap-1">
+                                        <label class="font-semibold text-gray-700">Terms: </label>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.terms_of_payment" disabled>
+                                    </div>
+                                    <div class="flex flex-1 flex-col gap-1">
+                                        <label class="font-semibold text-gray-700">Purpose/Reason(s): </label>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.purpose" disabled>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="flex flex-1 flex-col gap-1">
+                                        <label class="font-semibold text-gray-700">Installment Deduction: </label>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.installment_deduction" disabled>
+                                    </div>
+                                    <div class="flex flex-1 flex-col gap-1">
+                                        <label class="font-semibold text-gray-700">Deduction Date start: </label>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.deduction_date_start" disabled>
+                                    </div>
+                                    <div class="flex flex-1 flex-col gap-1">
+                                        <label class="font-semibold text-gray-700">Balance: </label>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.balance" disabled>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="flex flex-1 flex-col gap-1">
+                                        <label class="font-semibold text-gray-700">Total Amount Paid: </label>
+                                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.total_paid" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col mt-6 p-2">
+                            <div class="flex items-center justify-between border-b pb-2">
+                                <label for="" class="text-md text-slate-700 font-bold">Payments List</label>
+                                <div v-if="showMakePayment" class="flex gap-4 items-center">
+                                    <button class="bg-gray-100 rounded-md px-4 py-1 text-gray-800 hover:bg-gray-200 active:bg-gray-300" @click="setShowPayment(false)">
+                                        <Icon name="mingcute:minus-circle-line" class="font-bold text-md text-gray-600 mb-1" />
+                                        Cancel
+                                    </button>
+                                    <button class="bg-green-500 rounded-md px-8 py-1 text-white hover:bg-green-600 active:bg-green-700" @click="setShowPayment(true)">
+                                        <Icon name="iconoir:hand-card" class="font-bold text-xl" />
+                                        Pay
+                                    </button>
+                                </div>
+                                <button v-else class="bg-green-500 rounded-md px-4 py-1 text-white hover:bg-green-600 active:bg-green-700" @click="setShowPayment(true)">
+                                    <Icon name="iconoir:hand-card" class="font-bold text-xl" />
+                                    Make Payment
+                                </button>
+                            </div>
+
+                            <!-- Employee Payments' List -->
+                            <!-- <pre>{{ ca }}</pre> -->
+                            <table v-if="ca.cash_advance_payments.length > 0" class="table w-full text-left mt-4 border">
+                                <thead class="border-b">
+                                    <th class="p-2">
+                                        Amount Paid
+                                    </th>
+                                    <th class="p-2">
+                                        Date Paid
+                                    </th>
+                                    <th class="p-2">
+                                        Payment Type
+                                    </th>
+                                    <th class="p-2">
+                                        Posting Status
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="payment in ca.cash_advance_payments" :key="payment.id" class="border">
+                                        <td class="px-2 p-1 text-slate-600">
+                                            {{ utils.formatCurrency(payment.amount_paid) }}
+                                        </td>
+                                        <td class="px-2 p-1 text-slate-600">
+                                            {{ payment.date_paid }}
+                                        </td>
+                                        <td class="px-2 p-1 text-slate-600">
+                                            {{ payment.payment_type }}
+                                        </td>
+                                        <td class="px-2 p-1 text-slate-600">
+                                            {{ payment.posting_status }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div v-else class="w-full py-4 flex justify-center bg-slate-100 items-center">
+                                <span>No payments yet.</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </template>
         </template>
-        <template #footer>
+        <template v-if="type != 'AllRequest'" #footer>
             <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end">
                 <button
                     class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
