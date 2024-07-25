@@ -45,6 +45,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME_EVENPAR }}
           password: ${{ secrets.FTP_PASSWORD_EVENPAR }}
           protocol: ftp
+          port: 6000
           # username: ${{ secrets.FTP_USERNAME_EVENPAR_ONLINE }}
           # password: ${{ secrets.FTP_PASSWORD_EVENPAR_ONLINE }}
 
