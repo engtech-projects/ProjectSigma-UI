@@ -13,7 +13,7 @@ const model = defineModel({ required: false, type: Number, default: null })
             Choose Position
         </option>
         <option v-for="data, index in positionEnum.list" :key="index" :value="data.id">
-            {{ data.name }}
+            {{ data.name.split(",")[0] }} - {{ data.department_name }}
         </option>
     </select>
 </template>
