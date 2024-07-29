@@ -15,6 +15,17 @@ export interface SavedFaceDescriptor {
 
 export const useAttendancePortal = defineStore("attendancePortal", {
     state: () => ({
+        attendanceLogs: {
+            isLoaded: false,
+            list: [],
+            params: {
+                date: null,
+                employee_id: null,
+                project_id: null as null | Number,
+                department_id: null as null | Number,
+            },
+            pagination: {},
+        },
         attendanceLogList: [],
         facialPatterList: [] as Array<SavedFaceDescriptor>,
         attendancePortalList: [],
@@ -25,8 +36,10 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             employee_id: null as null | Number,
             log_type: null as null | String,
             group_type: null as null | String,
-            name: null as null | String
+            name: null as null | String,
+            page: 2,
         },
+        attendancePortalPagination: {},
         pagination: {},
         getParams: {
             date: null,
@@ -139,11 +152,12 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 "/api/attendance/all-attendance-logs",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.attendanceLogs.params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.attendanceLogList = response._data.data.data
-                            this.pagination = {
+                            this.attendanceLogs.isLoaded = true
+                            this.attendanceLogs.list = response._data.data.data
+                            this.attendanceLogs.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
                                 last_page: response._data.data.last_page_url,
@@ -159,13 +173,19 @@ export const useAttendancePortal = defineStore("attendancePortal", {
         async getAttendancePortal () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApiO(
+            await useHRMSApi(
                 "/api/attendance-portal/resource",
                 {
                     method: "GET",
+                    params: this.attendancePortalParams,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.attendancePortalList = response._data.data.data
+                            this.attendancePortalPagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
