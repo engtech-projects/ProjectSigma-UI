@@ -29,8 +29,8 @@ const utils = useUtilities()
 // }
 // const updateCA = () => {
 //     cashadvances.list.forEach((el) => {
-//         if (el.id === ca.value.id) {
-//             ca.value = el
+//         if (el.id === data.value.id) {
+//             data.value = el
 //         }
 //     })
 // }
@@ -39,7 +39,7 @@ const cashadvances = useCashadvanceStore()
 const { data: userData } = useAuth()
 
 const showModal = defineModel("showModal", { required: false, type: Boolean })
-const { remarks, ca, newPayment } = storeToRefs(cashadvances)
+const { remarks, newPayment } = storeToRefs(cashadvances)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -112,56 +112,56 @@ async function nowMakePayment (id) {
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Cash Advance">
         <template #body>
-            <form action="" @submit.prevent="nowMakePayment(ca.id)">
+            <form action="" @submit.prevent="nowMakePayment(data.id)">
                 <div class="flex flex-col gap-2">
                     <div class="flex flex-col gap-2 p-2">
                         <div class="grid gap-4">
                             <div class="grid grid-cols-3 gap-4">
                                 <div class="flex flex-1 flex-col gap-1">
                                     <label class="font-semibold text-gray-700">Employee Name: </label>
-                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.employee.fullname_first || ''" disabled>
+                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.employee.fullname_first || ''" disabled>
                                 </div>
                                 <div class="flex flex-1 flex-col gap-1">
                                     <label class="font-semibold text-gray-700">Project: </label>
-                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.project ? ca.project.project_code : 'N/A' " disabled>
+                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.project ? data.project.project_code : 'N/A' " disabled>
                                 </div>
                                 <div class="flex flex-1 flex-col gap-1">
                                     <label class="font-semibold text-gray-700">Department: </label>
-                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.department ? ca.department.department_name : 'N/A' " disabled>
+                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.department ? data.department.department_name : 'N/A' " disabled>
                                 </div>
                             </div>
                             <div class="grid grid-cols-3 gap-4">
                                 <div class="flex flex-1 flex-col gap-1">
                                     <label class="font-semibold text-gray-700">Cash Advance Amount: </label>
-                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.amount" disabled>
+                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.amount" disabled>
                                 </div>
                                 <div class="flex flex-1 flex-col gap-1">
                                     <label class="font-semibold text-gray-700">Terms: </label>
-                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.terms_of_payment" disabled>
+                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.terms_of_payment" disabled>
                                 </div>
                                 <div class="flex flex-1 flex-col gap-1">
                                     <label class="font-semibold text-gray-700">Purpose/Reason(s): </label>
-                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.purpose" disabled>
+                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.purpose" disabled>
                                 </div>
                             </div>
                             <div class="grid grid-cols-3 gap-4">
                                 <div class="flex flex-1 flex-col gap-1">
                                     <label class="font-semibold text-gray-700">Installment Deduction: </label>
-                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.installment_deduction" disabled>
+                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.installment_deduction" disabled>
                                 </div>
                                 <div class="flex flex-1 flex-col gap-1">
                                     <label class="font-semibold text-gray-700">Deduction Date start: </label>
-                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.deduction_date_start" disabled>
+                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.deduction_date_start" disabled>
                                 </div>
                                 <div class="flex flex-1 flex-col gap-1">
                                     <label class="font-semibold text-gray-700">Balance: </label>
-                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.balance" disabled>
+                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.balance" disabled>
                                 </div>
                             </div>
                             <div class="grid grid-cols-3 gap-4">
                                 <div class="flex flex-1 flex-col gap-1">
                                     <label class="font-semibold text-gray-700">Total Amount Paid: </label>
-                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="ca.total_paid" disabled>
+                                    <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.total_paid" disabled>
                                 </div>
                             </div>
                         </div>
@@ -204,7 +204,7 @@ async function nowMakePayment (id) {
                         </div>
 
                         <!-- Employee Payments' List -->
-                        <table v-if="ca.cash_advance_payments.length > 0" class="table w-full text-left mt-4 border">
+                        <table v-if="data.cash_advance_payments.length > 0" class="table w-full text-left mt-4 border">
                             <thead class="border-b">
                                 <th class="p-2">
                                     Amount Paid
@@ -220,7 +220,7 @@ async function nowMakePayment (id) {
                                 </th>
                             </thead>
                             <tbody>
-                                <tr v-for="payment in ca.cash_advance_payments" :key="payment.id" class="border">
+                                <tr v-for="payment in data.cash_advance_payments" :key="payment.id" class="border">
                                     <td class="px-2 p-1 text-slate-600">
                                         {{ utils.formatCurrency(payment.amount_paid) }}
                                     </td>
