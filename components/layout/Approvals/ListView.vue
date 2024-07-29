@@ -13,28 +13,38 @@ defineProps({
         </p>
         <div v-for="(apprv, index) in approvals" :key="index" class="bg-gray-50 w-full">
             <ol class="flex w-full justify-between">
-                <template v-if="apprv.employee">
-                    <li class="w-full p-2 text-left">
-                        {{ apprv.type }}
-                    </li>
-                    <li class="w-full p-2 text-left">
+                <li class="w-full p-2 text-left">
+                    {{ apprv.type }}
+                </li>
+                <li class="w-full p-2 text-left">
+                    <template v-if="apprv.employee">
                         {{ apprv.employee.fullname_first }}
-                    </li>
-                    <li class="w-full p-2 text-center">
-                        {{ apprv.status }} {{ (apprv.status === 'Approved') ? apprv.date_approved : "" }}
-                    </li>
-                </template>
-                <template v-else>
-                    <li class="w-full p-2 text-left">
-                        {{ apprv.type }}
-                    </li>
-                    <li class="w-full p-2 text-left">
+                    </template>
+                    <template v-else>
                         {{ apprv.fullname_first }}
-                    </li>
-                    <li class="w-full p-2 text-center">
-                        {{ apprv.status }} {{ (apprv.status === 'Approved') ? apprv.date_approved : "" }} {{ (apprv.status === 'Denied') ? "(" + apprv.remarks + ")" : "" }}
-                    </li>
-                </template>
+                    </template>
+                </li>
+                <li class="w-full p-2 text-center">
+                    <template v-if="apprv.status === 'Approved'">
+                        <p class="text-green-700">
+                            {{ apprv.status }}
+                        </p>
+                        <p class="text-slate-400">
+                            {{ apprv.date_approved }}
+                        </p>
+                    </template>
+                    <template v-else>
+                        <p class="text-red-700">
+                            {{ apprv.status }}
+                        </p>
+                        <p class="text-slate-400">
+                            {{ apprv.date_denied }}
+                        </p>
+                        <p class="text-gray-700">
+                            {{ apprv.remarks }}
+                        </p>
+                    </template>
+                </li>
             </ol>
         </div>
     </div>
