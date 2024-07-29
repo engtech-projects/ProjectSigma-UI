@@ -18,6 +18,16 @@ export const usePositionStore = defineStore("positions", {
             department_name: null,
             name: null,
         },
+        allRequests: {
+            isLoaded: false,
+            list: [],
+            params: {
+                name: "",
+            },
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         list: [],
         pagination: {},
         getParams: {},
@@ -36,10 +46,10 @@ export const usePositionStore = defineStore("positions", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    params: this.getParams,
+                    params: this.allRequests.params,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data
-                        this.pagination = {
+                        this.allRequests.list = response._data.data.data
+                        this.allRequests.pagination = {
                             first_page: response._data.data.first_page_url,
                             pages: response._data.data.links,
                             last_page: response._data.data.last_page_url,
@@ -72,7 +82,6 @@ export const usePositionStore = defineStore("positions", {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getPosition()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -101,7 +110,6 @@ export const usePositionStore = defineStore("positions", {
                 }
             )
             if (data.value) {
-                this.getPosition()
                 this.reset()
                 this.successMessage = data.value.message
                 return data
@@ -127,7 +135,7 @@ export const usePositionStore = defineStore("positions", {
                 }
             )
             if (data.value) {
-                this.getPosition()
+                this.reset()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -137,10 +145,7 @@ export const usePositionStore = defineStore("positions", {
         },
 
         reset () {
-            this.position = {
-                id: null,
-                name: null,
-            }
+            this.$reset()
             this.isEdit = false
             this.successMessage = ""
             this.errorMessage = ""

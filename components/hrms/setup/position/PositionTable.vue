@@ -4,7 +4,7 @@ import { usePositionStore } from "@/stores/hrms/setup/position"
 
 const positions = usePositionStore()
 
-const { list: positionList, isEdit, position, getParams, pagination, errorMessage, successMessage } = storeToRefs(positions)
+const { allRequests, isEdit, position, getParams, pagination, errorMessage, successMessage } = storeToRefs(positions)
 
 const setEdit = (pos) => {
     isEdit.value = true
@@ -50,7 +50,8 @@ const boardLoading = ref(false)
 <template>
     <LayoutBoards title="Position List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="positionList" :actions="actions" @edit-row="setEdit" @delete-row="deletePos" />
+            <LayoutFormPsTextInput v-model="allRequests.params.name" title="Search Position Name" />
+            <LayoutPsTable :header-columns="headers" :datas="allRequests.list" :actions="actions" @edit-row="setEdit" @delete-row="deletePos" />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
