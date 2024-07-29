@@ -45,7 +45,7 @@ defineProps({
                         </p>
                     </template>
                     <template v-else>
-                        <p class="text-red-700">
+                        <p>
                             {{ apprv.status }}
                         </p>
                     </template>
