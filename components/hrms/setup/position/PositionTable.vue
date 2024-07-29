@@ -4,7 +4,7 @@ import { usePositionStore } from "@/stores/hrms/setup/position"
 
 const positions = usePositionStore()
 
-const { allRequests, isEdit, position, getParams, pagination, errorMessage, successMessage } = storeToRefs(positions)
+const { allRequests, isEdit, position, errorMessage, successMessage } = storeToRefs(positions)
 
 const setEdit = (pos) => {
     isEdit.value = true
@@ -24,15 +24,10 @@ const deletePos = async (pos) => {
 }
 
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
-    // getParams.value.syId = newParams.id ?? ""
-    // getParams.value.semId = newParams.semId ?? ""
-    // getParams.value.feeType = newParams.feeType ?? ""
-    // getParams.value.particularName = newParams.particularName ?? ""
+    allRequests.value.params.page = newParams.page ?? ""
 }
 
 const headers = [
-    // { name: "Position ID", id: "id" },
     { name: "Department", id: "departments.department_name" },
     { name: "Position Type", id: "position_type" },
     { name: "Position Name", id: "name" },
@@ -54,7 +49,7 @@ const boardLoading = ref(false)
             <LayoutPsTable :header-columns="headers" :datas="allRequests.list" :actions="actions" @edit-row="setEdit" @delete-row="deletePos" />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
         </div>
         <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
             {{ errorMessage }}
