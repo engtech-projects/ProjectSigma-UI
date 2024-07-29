@@ -61,6 +61,5 @@ const changePaginate = (newParams) => {
     <HrmsCashadvanceInfoModal
         v-model:show-modal="showInformationModal"
         :data="ca"
-        type="AllRequest"
     />
 </template>

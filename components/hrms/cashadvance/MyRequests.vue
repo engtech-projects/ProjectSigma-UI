@@ -43,6 +43,5 @@ const actions = {
     <HrmsCashadvanceInfoModal
         v-model:show-modal="showInfoModal"
         :data="infoModalData"
-        type="infoModalData"
     />
 </template>
