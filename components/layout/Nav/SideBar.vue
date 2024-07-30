@@ -474,6 +474,14 @@ const config = useRuntimeConfig()
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Approvals"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.inventory_setup_approvals,
+                    ])"
+                    linkarea="/inventory/setup/item-group"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Item Group"
+                />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
 

@@ -101,6 +101,7 @@ export enum AccessibilityTypes {
     inventory_dashboard = "inventory:dashboard",
     inventory_setup_group = "inventory:setup",
     inventory_setup_approvals = "inventory:setup_approvals",
+    inventory_setup_item_group = "inventory:inventory_item_group",
     inventory_setup_new_item_profile = "inventory:new-item-profile",
 
     // ACCOUNTING
