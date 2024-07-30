@@ -3,6 +3,8 @@ import { storeToRefs } from "pinia"
 import { usePostingPeriodStore } from "~/stores/accounting/postingperiod"
 
 const postingPeriodStore = usePostingPeriodStore()
+await postingPeriodStore.getPostingPeriods()
+
 const { list: periodList, getParams, pagination, errorMessage, successMessage } = storeToRefs(postingPeriodStore)
 
 // const setEdit = (prd) => {

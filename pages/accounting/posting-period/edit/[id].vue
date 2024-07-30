@@ -6,6 +6,7 @@ definePageMeta({
 useHead({
     title: "Edit Posting Period",
 })
+navigateTo("/accounting/posting-period")
 // const route = useRoute()
 </script>
 

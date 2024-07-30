@@ -5,6 +5,7 @@ definePageMeta({
 useHead({
     title: "New Subsidiary Account",
 })
+navigateTo("/accounting/subsidiary")
 </script>
 
 <template>
