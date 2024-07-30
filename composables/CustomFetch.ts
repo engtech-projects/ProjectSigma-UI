@@ -9,9 +9,18 @@ const portalToken = useCookie("portal_token",
         expires: cookieExpiry
     }
 )
-const tokencopy = portalToken.value
+const portalToken2 = useCookie("portal_token_backup",
+    {
+        expires: cookieExpiry
+    }
+)
+const tokencopy = portalToken.value === "Resetting" ? portalToken2.value : portalToken.value
 if (portalToken.value) {
+    if (portalToken.value === "Resetting") {
+        portalToken.value = portalToken2.value
+    }
     setTimeout(() => {
+        portalToken2.value = portalToken.value
         portalToken.value = "Resetting"
         setTimeout(() => {
             portalToken.value = tokencopy
