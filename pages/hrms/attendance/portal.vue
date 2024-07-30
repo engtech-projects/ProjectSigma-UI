@@ -5,7 +5,7 @@ const boardLoading = ref(false)
 const listLoader = ref(false)
 const attendancePortal = useAttendancePortal()
 await attendancePortal.getAttendancePortal()
-const { attendancePortalParams, attendancePortalList, ipAddress } = storeToRefs(attendancePortal)
+const { attendancePortalParams, attendancePortalList, attendancePortalPagination, ipAddress } = storeToRefs(attendancePortal)
 const headers = [
     { name: "NAME", id: "name_location" },
     { name: "PROJECT / DEPARTMENT", id: "name" },
@@ -57,6 +57,9 @@ const setupAttendancePortal = async () => {
 const actions = {
     delete: true
 }
+const changePaginate = (pageInfo) => {
+    attendancePortalParams.value.page = pageInfo.page ?? "''"
+}
 </script>
 <template>
     <LayoutAcessContainer
@@ -103,6 +106,9 @@ const actions = {
                             :datas="attendancePortalList"
                             @delete-row="deleteAttendancePortal"
                         />
+                    </div>
+                    <div class="flex justify-center mx-auto">
+                        <CustomPagination :links="attendancePortalPagination" @change-params="changePaginate" />
                     </div>
                 </LayoutBoards>
             </div>

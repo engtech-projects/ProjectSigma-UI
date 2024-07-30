@@ -18,7 +18,7 @@ defineProps({
                 </li>
                 <li class="w-full p-2 text-left">
                     <template v-if="apprv.employee">
-                        {{ apprv.employee.fullname_first }}
+                        {{ apprv.employee?.fullname_first }}
                     </template>
                     <template v-else>
                         {{ apprv.fullname_first }}
@@ -33,7 +33,7 @@ defineProps({
                             {{ apprv.date_approved }}
                         </p>
                     </template>
-                    <template v-else>
+                    <template v-else-if="apprv.status === 'Denied'">
                         <p class="text-red-700">
                             {{ apprv.status }}
                         </p>
@@ -42,6 +42,11 @@ defineProps({
                         </p>
                         <p class="text-gray-700">
                             {{ apprv.remarks }}
+                        </p>
+                    </template>
+                    <template v-else>
+                        <p>
+                            {{ apprv.status }}
                         </p>
                     </template>
                 </li>

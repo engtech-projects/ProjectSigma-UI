@@ -8,9 +8,9 @@ export const TERMS = [
     BIMONTHLY,
     WEEKLY,
 ]
+const utils = useUtilities()
 
 export interface CashAdvance {
-
     id: null | Number,
     employee_id: null | Number,
     department_id: null | Number,
@@ -24,6 +24,7 @@ export interface CashAdvance {
     request_status: String,
     approvals: String
 }
+
 export const useCashadvanceStore = defineStore("Cashadvances", {
     state: () => ({
         isEdit: false,
@@ -42,7 +43,16 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             approvals: [],
             cash_advance_payments: [],
         },
-
+        newPayment: {
+            id: null,
+            cashadvance_id: null,
+            amount_paid: null,
+            date_paid: utils.value.dateToString(new Date()),
+            payment_type: "Manual",
+            posting_status: "Posted",
+            paymentAmount: null,
+        },
+        ca: [],
         list: [],
         myApprovalRequestList: [],
         myRequestList: [],
@@ -68,6 +78,32 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     },
                 }
             )
+        },
+        async makePayment (id: number) {
+            await useHRMSApi(
+                "/api/cash-advance/manual-payment/" + id, {
+                    method: "POST",
+                    watch: false,
+                    body: this.newPayment,
+                    onResponseError: ({ response }) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data.data
+                            this.getCA()
+                            this.list.forEach((el) => {
+                                if (el.id === this.ca.value.id) {
+                                    this.ca.value = el
+                                }
+                            })
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                        this.$reset()
+                    },
+                })
         },
         async getCA () {
             await useHRMSApi(
