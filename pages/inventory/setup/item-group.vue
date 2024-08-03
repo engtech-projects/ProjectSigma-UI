@@ -1,11 +1,9 @@
 <script setup>
-
-// import { storeToRefs } from "pinia"
 import { useItemStore } from "@/stores/inventory/setup/itemgroup"
 import { useEnumsStore } from "@/stores/inventory/enum"
 
-const approvals = useItemStore()
-approvals.getApproval()
+const itemStore = useItemStore()
+await itemStore.getItemGroups()
 
 const enums = useEnumsStore()
 enums.getUserEmployeeEnums()
