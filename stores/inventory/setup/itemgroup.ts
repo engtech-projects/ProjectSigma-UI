@@ -15,6 +15,7 @@ export interface SubItemGroup {
 }
 export interface ItemGroup {
     name: string,
+    expand: boolean | true,
     sub_groups: Array<String> | null,
 }
 export const useItemStore = defineStore("itemgroups", {
@@ -42,6 +43,7 @@ export const useItemStore = defineStore("itemgroups", {
                             return {
                                 id: val.id,
                                 name: val.name,
+                                expand: true,
                                 sub_groups: val.sub_groups,
                             }
                         })

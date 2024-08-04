@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import { storeToRefs } from "pinia"
 import { useItemStore } from "@/stores/inventory/setup/itemgroup"
 const itemStore = useItemStore()
 const { list: itemLis, subitemgroup, itemgroup } = storeToRefs(itemStore)
@@ -26,42 +25,42 @@ defineProps({
     },
 })
 
-const showItemAppend = ref(false)
+const showAppend = ref(false)
 const editItemGroup = ref(false)
 const boardLoading = ref(false)
-const itemName = ref("")
-
-const addItemGroup = () => {
-    showItemAppend.value = false
+const addItemGroup = async (nameItem: any) => {
+    showAppend.value = false
     const newSubItemGroup = []
     subitemgroup.value.forEach((element) => {
         newSubItemGroup.push(element.name)
     })
-    itemgroup.value.name = itemName
+    itemgroup.value.name = nameItem
     itemgroup.value.sub_groups = newSubItemGroup
-    itemStore.createItemGroup()
-    itemStore.getItemGroups()
+    await itemStore.createItemGroup()
+    await itemStore.getItemGroups()
 }
-const addSubItemGroup = () => {
-    subitemgroup.value.push({ name: "" })
-}
-const removeSubItemGroup = (id: number) => {
-    delete subitemgroup.value[id]
-    subitemgroup.value = subitemgroup.value.filter(function (data) {
-        return data !== undefined
-    })
+
+const hideItemGroup = () => {
+    showAppend.value = false
+    subitemgroup.value = []
 }
 const showItemGroup = () => {
-    showItemAppend.value = true
+    showAppend.value = true
 }
 const showEditItemGroup = () => {
     editItemGroup.value = true
 }
-const hideItemGroup = () => {
-    showItemAppend.value = false
-    subitemgroup.value = []
-}
 
+const checkElement = (e: any, items: any) => {
+    const getId = e.target.id
+    if (items[getId]) {
+        if (items[getId].expand) {
+            items[getId].expand = false
+        } else {
+            items[getId].expand = true
+        }
+    }
+}
 </script>
 <template>
     <InventorySetupItemGroupLayoutBoards title="Item Group" class="w-full" :loading="boardLoading" :action="showItemGroup">
@@ -69,81 +68,59 @@ const hideItemGroup = () => {
             <table class="table-auto w-full border-collapse">
                 <thead>
                     <tr>
-                        <th scope="col" class="p-2">
-                            Item
-                        </th>
-                        <th scope="col" class="p-2">
-                            Actions
-                        </th>
+                        <InventoryCommonTableItemTh title="Items" />
+                        <InventoryCommonTableItemTh title="Actions" />
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-show="showItemAppend" class="border-b-2 border-gray-300">
-                        <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                            <div class="flex flex-col">
-                                <div class="flex flex-row justify-center gap-1">
-                                    <div class="flex flex-col">
-                                        <input
-                                            v-model="itemName"
-                                            type="text"
-                                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
-                                        >
-                                        <div class="addSubItem">
-                                            <template v-for="(wrk, index) in subitemgroup" :key="index">
-                                                <div class="subItem">
-                                                    <div class="pl-12 flex flex-row">
-                                                        <div class="itemText">
-                                                            <input
-                                                                v-model="wrk.name"
-                                                                type="text"
-                                                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
-                                                            >
-                                                        </div>
-                                                        <div class="cancel-control">
-                                                            <button class="text-red-700 font-medium rounded-lg text-lg hover:text-white hover:bg-red-700 px-2 py-1" @click="removeSubItemGroup(index)">
-                                                                <Icon name="mdi:remove" class="h-5 w-5 lg:h-5 lg:w-5" />
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </template>
-                                            <button class="bg-transparent text-xs text-left mb-4" @click="addSubItemGroup()">
-                                                + Add Sub Group
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="flex flex-row justify-center items-center px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                            <div class="save-control">
-                                <button class="text-emerald-700 font-medium rounded-lg text-lg hover:text-white hover:bg-emerald-700 px-2 py-1" @click="addItemGroup">
-                                    <Icon name="mdi:plus" class="h-5 w-5 lg:h-5 lg:w-5" />
-                                </button>
-                            </div>
-                            <div class="cancel-control">
-                                <button
-                                    class="text-red-700 font-medium rounded-lg text-lg hover:text-white hover:bg-red-700 px-2 py-1"
-                                    @click="hideItemGroup"
-                                >
-                                    <Icon name="mdi:remove" class="h-5 w-5 lg:h-5 lg:w-5" />
-                                </button>
-                            </div>
-                        </td>
+                    <tr v-show="showAppend" class="border-b-2 border-gray-300">
+                        <InventoryCommonTableItemAppend @addItem="addItemGroup" @hideItem="hideItemGroup" :subitemholder="subitemgroup" />
                     </tr>
                     <tr v-for="dataValue, index in itemLis" :key="index" class="bg-white border-b">
                         <template v-if="editItemGroup">
                             <InventorySetupItemGroupEdit />
                         </template>
                         <template v-else>
-                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                <div class="flex flex-col gap-1 my-2">
-                                    <div class="text-lg">
-                                        {{ dataValue.name }}
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                <div class="flex flex-col gap-1 my-2" data-accordion="collapse">
+                                    <div class="text-lg flex flex-row gap-1 items-center">
+                                        <Icon
+                                            v-show="dataValue.expand"
+                                            :id="index"
+                                            :key="index"
+                                            name="mdi:minus"
+                                            class="h-5 w-5 lg:h-5 lg:w-5"
+                                            :data-accordion-target="'#acbody-' + String(index)"
+                                            aria-expanded="true"
+                                            :aria-controls="'#acbody-' + String(index)"
+                                            @click="checkElement($event, itemLis)"
+                                        />
+                                        <Icon
+                                            v-show="!dataValue.expand"
+                                            :id="index"
+                                            :key="String(index)+'plus'"
+                                            name="mdi:plus"
+                                            class="h-5 w-5 lg:h-5 lg:w-5"
+                                            :data-accordion-target="'#acbody-' + String(index)"
+                                            aria-expanded="true"
+                                            :aria-controls="'#acbody-' + String(index)"
+                                            @click="checkElement($event, itemLis)"
+                                        />
+                                        <p class="text-sm">
+                                            {{ dataValue.name }}
+                                        </p>
                                     </div>
-                                    <div class="flex flex-col ml-7 text-sm">
-                                        <span v-for="subData, subIndex in dataValue.sub_groups" :key="subIndex">
-                                            {{ subData }}
+                                    <div
+                                        :id="'acbody-' + String(index)"
+                                        :key="index"
+                                        class="hidden flex flex-col ps-7 text-sm relative before:absolute before:top-0 before:start-3 before:w-0.5 before:-ms-px before:h-full before:bg-gray-100"
+                                        :aria-labelledby="'acbody-' + String(index)"
+                                    >
+                                        <span v-for="subData, subIndex in dataValue.sub_groups" :key="subIndex" class="flex flex-row gap-1">
+                                            <Icon name="mdi:minus" class="h-5 w-5 lg:h-5 lg:w-5" />
+                                            <p class="text-sm">
+                                                {{ subData }}
+                                            </p>
                                         </span>
                                     </div>
                                 </div>
