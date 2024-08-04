@@ -27,9 +27,7 @@ export const useItemStore = defineStore("itemgroups", {
         subitemgroup: [] as Array<SubItemGroup>,
         edititemgroup: [] as Array<SubItemGroup>,
         pagination: {},
-        getParams: {
-            module: "Inventory"
-        },
+        getParams: {},
         errorMessage: "",
         successMessage: "",
     }),
@@ -39,19 +37,25 @@ export const useItemStore = defineStore("itemgroups", {
                 "/api/item-group/resource",
                 {
                     method: "GET",
+                    params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data.map((val: any) => {
-                            return {
-                                id: val.id,
-                                name: val.name,
-                                expand: true,
-                                sub_groups: val.sub_groups,
+                        if (response.ok) {
+                            this.list = response._data.data.data.map((val: any) => {
+                                return {
+                                    id: val.id,
+                                    name: val.name,
+                                    expand: true,
+                                    sub_groups: val.sub_groups,
+                                }
+                            })
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
                             }
-                        })
-                        this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
                         }
                     },
                 }

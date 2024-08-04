@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useItemStore } from "@/stores/inventory/setup/itemgroup"
 const itemStore = useItemStore()
-const { list: itemLis, subitemgroup, itemgroup, edititemgroup } = storeToRefs(itemStore)
+const { list: itemLis, subitemgroup, getParams, itemgroup, edititemgroup, errorMessage, successMessage, pagination } = storeToRefs(itemStore)
 
 interface HeaderColumn {
     name: string,
@@ -24,12 +24,15 @@ defineProps({
         default: null,
     },
 })
-
+const changePaginate = (newParams: any) => {
+    getParams.value.page = newParams.page ?? ""
+}
 const editIdItem = ref()
 const editName = ref("")
 const showAppend = ref(false)
 const showEdit = ref(false)
 const boardLoading = ref(false)
+const snackbar = useSnackbar()
 const addItemGroup = async (nameItem: any) => {
     showAppend.value = false
     const newSubItemGroup: any[] = []
@@ -40,6 +43,18 @@ const addItemGroup = async (nameItem: any) => {
     itemgroup.value.sub_groups = newSubItemGroup
     await itemStore.createItemGroup()
     await itemStore.getItemGroups()
+
+    if (errorMessage.value !== "") {
+        snackbar.add({
+            type: "error",
+            text: errorMessage.value
+        })
+    } else {
+        snackbar.add({
+            type: "success",
+            text: successMessage.value
+        })
+    }
 }
 
 const updateItemGroup = async (nameItem: any) => {
@@ -53,6 +68,18 @@ const updateItemGroup = async (nameItem: any) => {
     showEdit.value = false
     await itemStore.updateItemGroup(editIdItem.value)
     await itemStore.getItemGroups()
+
+    if (errorMessage.value !== "") {
+        snackbar.add({
+            type: "error",
+            text: errorMessage.value
+        })
+    } else {
+        snackbar.add({
+            type: "success",
+            text: successMessage.value
+        })
+    }
 }
 
 const showItemGroup = () => {
@@ -116,7 +143,7 @@ const checkElement = (e: any, items: any) => {
                                             :id="index"
                                             :key="index"
                                             name="mdi:minus"
-                                            class="h-5 w-5 lg:h-5 lg:w-5"
+                                            class="cursor-pointer h-5 w-5 lg:h-5 lg:w-5"
                                             :data-accordion-target="'#acbody-' + String(index)"
                                             aria-expanded="true"
                                             :aria-controls="'#acbody-' + String(index)"
@@ -127,7 +154,7 @@ const checkElement = (e: any, items: any) => {
                                             :id="index"
                                             :key="String(index)+'plus'"
                                             name="mdi:plus"
-                                            class="h-5 w-5 lg:h-5 lg:w-5"
+                                            class="cursor-pointer h-5 w-5 lg:h-5 lg:w-5"
                                             :data-accordion-target="'#acbody-' + String(index)"
                                             aria-expanded="true"
                                             :aria-controls="'#acbody-' + String(index)"
@@ -164,6 +191,13 @@ const checkElement = (e: any, items: any) => {
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination
+                v-if="itemLis.length"
+                :links="pagination"
+                @change-params="changePaginate"
+            />
         </div>
     </InventorySetupItemGroupLayoutBoards>
 </template>
