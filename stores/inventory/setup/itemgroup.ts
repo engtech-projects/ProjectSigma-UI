@@ -25,6 +25,7 @@ export const useItemStore = defineStore("itemgroups", {
         list: [],
         itemgroup: {} as ItemGroup,
         subitemgroup: [] as Array<SubItemGroup>,
+        edititemgroup: [] as Array<SubItemGroup>,
         pagination: {},
         getParams: {
             module: "Inventory"
@@ -71,7 +72,25 @@ export const useItemStore = defineStore("itemgroups", {
                     body: this.itemgroup,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            // this.getApproval()
+                            this.$reset()
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async updateItemGroup (id: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useInventoryApi(
+                "/api/item-group/resource/" + id,
+                {
+                    method: "PATCH",
+                    body: this.itemgroup,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
                             this.$reset()
                             this.successMessage = response._data.message
                         } else {

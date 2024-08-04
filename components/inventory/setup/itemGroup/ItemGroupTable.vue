@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useItemStore } from "@/stores/inventory/setup/itemgroup"
 const itemStore = useItemStore()
-const { list: itemLis, subitemgroup, itemgroup } = storeToRefs(itemStore)
+const { list: itemLis, subitemgroup, itemgroup, edititemgroup } = storeToRefs(itemStore)
 
 interface HeaderColumn {
     name: string,
@@ -25,12 +25,14 @@ defineProps({
     },
 })
 
+const editIdItem = ref()
+const editName = ref("")
 const showAppend = ref(false)
-const editItemGroup = ref(false)
+const showEdit = ref(false)
 const boardLoading = ref(false)
 const addItemGroup = async (nameItem: any) => {
     showAppend.value = false
-    const newSubItemGroup = []
+    const newSubItemGroup: any[] = []
     subitemgroup.value.forEach((element) => {
         newSubItemGroup.push(element.name)
     })
@@ -40,15 +42,38 @@ const addItemGroup = async (nameItem: any) => {
     await itemStore.getItemGroups()
 }
 
+const updateItemGroup = async (nameItem: any) => {
+    const newSubItemGroup: any[] = []
+    edititemgroup.value.forEach((element) => {
+        newSubItemGroup.push(element.name)
+    })
+    itemgroup.value.name = nameItem
+    itemgroup.value.sub_groups = newSubItemGroup
+    edititemgroup.value = []
+    showEdit.value = false
+    await itemStore.updateItemGroup(editIdItem.value)
+    await itemStore.getItemGroups()
+}
+
+const showItemGroup = () => {
+    showAppend.value = true
+}
 const hideItemGroup = () => {
     showAppend.value = false
     subitemgroup.value = []
 }
-const showItemGroup = () => {
-    showAppend.value = true
+const showEditItemGroup = (data: any, getname: string, id: number) => {
+    editIdItem.value = id
+    showEdit.value = true
+    edititemgroup.value = []
+    editName.value = getname
+    data.forEach((element:any) => {
+        edititemgroup.value.push({ name: element })
+    })
 }
-const showEditItemGroup = () => {
-    editItemGroup.value = true
+const hideEditItemGroup = () => {
+    edititemgroup.value = []
+    showEdit.value = false
 }
 
 const checkElement = (e: any, items: any) => {
@@ -74,13 +99,15 @@ const checkElement = (e: any, items: any) => {
                 </thead>
                 <tbody>
                     <tr v-show="showAppend" class="border-b-2 border-gray-300">
-                        <InventoryCommonTableItemAppend @addItem="addItemGroup" @hideItem="hideItemGroup" :subitemholder="subitemgroup" />
+                        <InventoryCommonTableItemAppend :subitemholder="subitemgroup" @add-item="addItemGroup" @hide-item="hideItemGroup" />
                     </tr>
+                    <template v-if="showEdit">
+                        <tr class="bg-white border-b">
+                            <InventorySetupItemGroupEdit :nameholder="editName" :subitemgroup="edititemgroup" @update-itemgroup="updateItemGroup" @hide-edit="hideEditItemGroup" />
+                        </tr>
+                    </template>
                     <tr v-for="dataValue, index in itemLis" :key="index" class="bg-white border-b">
-                        <template v-if="editItemGroup">
-                            <InventorySetupItemGroupEdit />
-                        </template>
-                        <template v-else>
+                        <template v-if="!showEdit">
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 <div class="flex flex-col gap-1 my-2" data-accordion="collapse">
                                     <div class="text-lg flex flex-row gap-1 items-center">
@@ -128,7 +155,7 @@ const checkElement = (e: any, items: any) => {
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                 <button
                                     class="text-blue-500 bg-transparent font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-                                    @click="showEditItemGroup"
+                                    @click="showEditItemGroup(dataValue.sub_groups, dataValue.name, dataValue.id)"
                                 >
                                     <Icon name="mdi:pencil" class="h-5 w-5 lg:h-5 lg:w-5" />
                                 </button>
