@@ -3,21 +3,7 @@ import { useItemStore } from "@/stores/inventory/setup/itemgroup"
 const itemStore = useItemStore()
 const { list: itemLis, subitemgroup, getParams, itemgroup, edititemgroup, errorMessage, successMessage, pagination } = storeToRefs(itemStore)
 
-interface HeaderColumn {
-    name: string,
-    id: string,
-    style: string
-}
-
 defineProps({
-    headerColumns: {
-        type: Array<HeaderColumn>,
-        required: true,
-    },
-    datas: {
-        type: Array<any>,
-        required: true,
-    },
     actions: {
         type: Object,
         required: false,
