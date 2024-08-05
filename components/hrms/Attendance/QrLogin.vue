@@ -15,7 +15,7 @@ const QRCodeConfiguration = {
     rememberLastUsedCamera: false,
     useBarCodeDetectorIfSupported: true,
     supportedScanTypes: [
-        Html5QrcodeScanType.SCAN_TYPE_FILE
+        Html5QrcodeScanType.SCAN_TYPE_CAMERA
     ],
 }
 qrAttendanceParams.value.log_type = CATEGORY_TIME_IN
