@@ -485,7 +485,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.inventory_setup_approvals,
+                        AccessibilityTypes.inventory_setup_item_group,
                     ])"
                     linkarea="/inventory/setup/item-group"
                     icon="material-symbols:dynamic-form-outline-rounded"
