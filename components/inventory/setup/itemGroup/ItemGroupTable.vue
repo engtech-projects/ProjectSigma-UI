@@ -103,13 +103,15 @@ const hideEditItemGroup = () => {
     showEdit.value = false
 }
 
-const checkElement = (e: any, items: any) => {
+const checkElement = async (e: any) => {
     const getId = e.target.id
-    if (items[getId]) {
-        if (items[getId].expand) {
-            items[getId].expand = false
+    const getItem = await itemLis.value[getId]
+
+    if (getItem) {
+        if (itemLis.value[getId].expand) {
+            itemLis.value[getId].expand = false
         } else {
-            items[getId].expand = true
+            itemLis.value[getId].expand = true
         }
     }
 }
@@ -147,7 +149,7 @@ const checkElement = (e: any, items: any) => {
                                             :data-accordion-target="'#acbody-' + String(index)"
                                             aria-expanded="true"
                                             :aria-controls="'#acbody-' + String(index)"
-                                            @click="checkElement($event, itemLis)"
+                                            @click="checkElement($event)"
                                         />
                                         <Icon
                                             v-show="!dataValue.expand"
@@ -158,7 +160,7 @@ const checkElement = (e: any, items: any) => {
                                             :data-accordion-target="'#acbody-' + String(index)"
                                             aria-expanded="true"
                                             :aria-controls="'#acbody-' + String(index)"
-                                            @click="checkElement($event, itemLis)"
+                                            @click="checkElement($event)"
                                         />
                                         <p class="text-sm">
                                             {{ dataValue.name }}
@@ -167,7 +169,7 @@ const checkElement = (e: any, items: any) => {
                                     <div
                                         :id="'acbody-' + String(index)"
                                         :key="index"
-                                        class="hidden flex flex-col ps-7 text-sm relative before:absolute before:top-0 before:start-3 before:w-0.5 before:-ms-px before:h-full before:bg-gray-100"
+                                        class="hidden flex flex-col ps-7 text-sm relative before:absolute before:top-0 before:start-3 before:w-0.5 before:-ms-px before:h-full before:bg-gray-200"
                                         :aria-labelledby="'acbody-' + String(index)"
                                     >
                                         <span v-for="subData, subIndex in dataValue.sub_groups" :key="subIndex" class="flex flex-row gap-1">
