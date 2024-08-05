@@ -1,5 +1,7 @@
 import { defineStore } from "pinia"
 
+const { token } = useAuth()
+
 export interface Approver {
     type: string,
     user_id: number | null,
@@ -23,6 +25,9 @@ export const useItemStore = defineStore("itemgroups", {
         isEdit: false,
         formApproval: {} as Approval,
         list: [],
+        searchItemParams: {
+            query: "",
+        },
         itemgroup: {} as ItemGroup,
         subitemgroup: [] as Array<SubItemGroup>,
         edititemgroup: [] as Array<SubItemGroup>,
@@ -99,6 +104,24 @@ export const useItemStore = defineStore("itemgroups", {
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async searchItemGroup () {
+            await useInventoryApi(
+                "/api/item-group/search",
+                {
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.searchItemParams,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.list = response._data?.data
                         }
                     },
                 }

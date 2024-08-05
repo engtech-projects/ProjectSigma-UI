@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { useItemStore } from "@/stores/inventory/setup/itemgroup"
+const itemSearch = useItemStore()
+itemSearch.searchItemGroup()
+const { searchItemParams } = storeToRefs(itemSearch)
+
 defineProps({
     title: {
         type: String,
@@ -9,11 +14,13 @@ defineProps({
         type: Boolean,
         default: false,
     },
-    action: {
-        type: Function,
-        default: null
-    }
 })
+
+const emit = defineEmits(["action"])
+const doAction = () => {
+    emit("action")
+}
+
 </script>
 
 <template>
@@ -37,19 +44,13 @@ defineProps({
                         <button
                             type="button"
                             class="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:ring-blue-300 font-semibold text-sm px-3 py-2 me-2 mb-2 flex justify-center"
-                            @click="action"
+                            @click="doAction"
                         >
                             <Icon name="mdi:plus" class="h-5 w-5 text-white" />
                             Add Item
                         </button>
                     </div>
-                    <div class="search-field">
-                        <input
-                            type="text"
-                            placeholder="Search"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
-                        >
-                    </div>
+                    <InventoryCommonFormItemSearch v-model:search-input="searchItemParams.query" />
                 </div>
             </div>
             <div class="h-full">

@@ -14,11 +14,15 @@ useHead({
 </script>
 
 <template>
-    <!-- <LayoutAcessContainer> -->
-    <!-- </LayoutAcessContainer> -->
-    <div class="flex flex-col md:flex-row gap-4">
-        <div class="w-2/3">
-            <InventorySetupItemGroupTable />
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.inventory_setup_item_group,
+        ])"
+    >
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="w-2/3">
+                <InventorySetupItemGroupTable />
+            </div>
         </div>
-    </div>
+    </LayoutAcessContainer>
 </template>

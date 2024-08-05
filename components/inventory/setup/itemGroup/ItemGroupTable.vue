@@ -103,7 +103,7 @@ const checkElement = async (e: any) => {
 }
 </script>
 <template>
-    <InventorySetupItemGroupLayoutBoards title="Item Group" class="w-full" :loading="boardLoading" :action="showItemGroup">
+    <InventoryCommonLayoutInventoryBoards title="Item Group" class="w-full" :loading="boardLoading" :action="showItemGroup">
         <div class="pb-2 text-gray-500">
             <table class="table-auto w-full border-collapse">
                 <thead>
@@ -187,5 +187,5 @@ const checkElement = async (e: any) => {
                 @change-params="changePaginate"
             />
         </div>
-    </InventorySetupItemGroupLayoutBoards>
+    </InventoryCommonLayoutInventoryBoards>
 </template>
