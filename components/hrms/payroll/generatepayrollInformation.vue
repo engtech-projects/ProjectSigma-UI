@@ -608,7 +608,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                             <td>
                                 {{ formatCurrency(genpayrollstore.totalEWTCPayrollDraft) }}
                             </td>
-                            <td></td>
+                            <td />
                             <td>
                                 <strong>{{ formatCurrency(genpayrollstore.totalDeductionPayrollDraft) }}</strong>
                             </td>
@@ -661,7 +661,6 @@ function formatCurrency (number: Number, locale = "en-US") {
             </div> -->
         </div>
     </div>
-    <HrmsPayrollChargingTable />
     <div class="mt-2">
         <div class="flex flex-row justify-end gap-2">
             <div>
