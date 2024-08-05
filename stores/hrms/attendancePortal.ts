@@ -39,6 +39,14 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             name: null as null | String,
             page: 2,
         },
+        qrAttendanceParams: {
+            project_id: null as null | Number,
+            department_id: null as null | Number,
+            employee_code: null as null | String,
+            offset: null as null | Number,
+            result: null as null | String,
+            log_type: null as null | String,
+        },
         attendancePortalPagination: {},
         pagination: {},
         getParams: {
@@ -245,6 +253,26 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.lastSuccessLogEmployee = response._data.data
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async saveAttendanceLogQr () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAttendancePortalApiO(
+                "/api/attendance/qr",
+                {
+                    method: "POST",
+                    body: this.qrAttendanceParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data
                         } else {

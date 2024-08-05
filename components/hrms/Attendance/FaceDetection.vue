@@ -70,7 +70,6 @@ const startCamera = () => {
         })
     })
 }
-// startCamera()
 const captureImage = async () => {
     try {
         await attendancePortal.saveOrUpdateEmployeePattern(faceLandMarks.value, employee.information.id)
