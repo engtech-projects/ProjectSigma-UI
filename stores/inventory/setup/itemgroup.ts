@@ -1,7 +1,5 @@
 import { defineStore } from "pinia"
 
-export const APPROVAL_NEW_ITEM_PROFILE = "New Item Profile"
-
 export interface Approver {
     type: string,
     user_id: number | null,
@@ -12,37 +10,52 @@ export interface Approval {
     form: string,
     approvals: Array<Approver>,
 }
-export const useItemStore = defineStore("approvals", {
+export interface SubItemGroup {
+    name: string | null,
+}
+export interface ItemGroup {
+    name: string,
+    expand: boolean | true,
+    sub_groups: Array<String> | null,
+}
+export const useItemStore = defineStore("itemgroups", {
     state: () => ({
         isEdit: false,
         formApproval: {} as Approval,
         list: [],
+        itemgroup: {} as ItemGroup,
+        subitemgroup: [] as Array<SubItemGroup>,
+        edititemgroup: [] as Array<SubItemGroup>,
         pagination: {},
-        getParams: {
-            module: "Inventory"
-        },
+        getParams: {},
         errorMessage: "",
         successMessage: "",
     }),
     actions: {
-        async getApproval () {
-            const { data, error } = await useHRMSApi(
-                "/api/approvals",
+        async getItemGroups () {
+            const { data, error } = await useInventoryApi(
+                "/api/item-group/resource",
                 {
                     method: "GET",
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data.map((val: any) => {
-                            return {
-                                id: val.id,
-                                form: val.form,
-                                approvals: val.approvals,
+                        if (response.ok) {
+                            this.list = response._data.data.data.map((val: any) => {
+                                return {
+                                    id: val.id,
+                                    name: val.name,
+                                    expand: true,
+                                    sub_groups: val.sub_groups,
+                                }
+                            })
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
                             }
-                        })
-                        this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
                         }
                     },
                 }
@@ -53,58 +66,35 @@ export const useItemStore = defineStore("approvals", {
                 return error
             }
         },
-
-        async getApprovalByName (approvalName: String) {
-            const { data } = await useHRMSApi<any>(
-                "/api/get-form-requests/" + approvalName,
+        async createItemGroup () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useInventoryApi(
+                "/api/item-group/resource",
                 {
-                    method: "GET",
-                    watch: false,
+                    method: "POST",
+                    body: this.itemgroup,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            return response._data.data.approvals.map((approv: any) => {
-                                return {
-                                    type: approv.type,
-                                    status: "Pending",
-                                    user_id: approv.user_id,
-                                    userselector: approv.userselector,
-                                    date_approved: "",
-                                    remarks: "",
-                                    employee: approv.employee,
-                                }
-                            })
+                            this.$reset()
+                            this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
                         }
                     },
                 }
             )
-            if (data.value) {
-                return data.value.data.approvals.map((approv: any) => {
-                    return {
-                        type: approv.type,
-                        status: "Pending",
-                        user_id: approv.user_id,
-                        userselector: approv.userselector,
-                        date_approved: "",
-                        remarks: "",
-                        employee: approv.employee,
-                    }
-                })
-            }
         },
-
-        async createApproval () {
+        async updateItemGroup (id: any) {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApiO(
-                "/api/approvals",
+            await useInventoryApi(
+                "/api/item-group/resource/" + id,
                 {
-                    method: "POST",
-                    body: this.formApproval,
+                    method: "PATCH",
+                    body: this.itemgroup,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.getApproval()
                             this.$reset()
                             this.successMessage = response._data.message
                         } else {
@@ -128,7 +118,7 @@ export const useItemStore = defineStore("approvals", {
                     body: this.formApproval,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.getApproval()
+                            // this.getApproval()
                             this.$reset()
                             this.successMessage = response._data.message
                         } else {
@@ -146,7 +136,7 @@ export const useItemStore = defineStore("approvals", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
-                            this.getApproval()
+                            // this.getApproval()
                         } else {
                             this.errorMessage = response._data.message
                         }
