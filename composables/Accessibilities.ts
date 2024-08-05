@@ -16,7 +16,8 @@ export enum AccessibilityTypes {
     hrms_attendance_face_recognition = "hrms:attendance_face recognition",
     hrms_attendance_biomentrics = "hrms:attendance_biomentrics",
     hrms_attendance_attendance_login = "hrms:attendance_attendance login",
-    hrms_attendance_qr_code = "hrms:attendance_qr",
+    hrms_attendance_qr_generator = "hrms:attendance_generate QR",
+    hrms_attendance_qr_login = "hrms:attendance_attendance QR",
     hrms_attendance_attendance_logs = "hrms:attendance_attendance logs",
     hrms_attendance_dtr = "hrms:attendance_dtr",
     // EMPLOYEE

@@ -1,10 +1,8 @@
-<script setup lang="ts">
-useHead({
-    title: "Employee QR Code",
-    meta: [
-        { name: "description", content: "" }
-    ],
+<script setup>
 
+useHead({
+    title: "QR Code",
+    meta: [{ name: "description", content: "" }],
 })
 </script>
 
@@ -15,7 +13,7 @@ useHead({
         ])"
     >
         <div class="w-full">
-            Employee QR
+            <HrmsAttendanceQrGenerator />
         </div>
     </LayoutAcessContainer>
 </template>
