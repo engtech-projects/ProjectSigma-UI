@@ -491,6 +491,14 @@ const config = useRuntimeConfig()
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Item Group"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.inventory_setup_item_group,
+                    ])"
+                    linkarea="/inventory/setup/unit-of-measurement"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Unit Of Measurement"
+                />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
