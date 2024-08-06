@@ -33,13 +33,11 @@ const onScanSuccess = async (decodedText, decodedResult) => {
             type: "success",
             text: attendancePortal.successMessage
         })
-        initQRCode()
     } catch (error) {
         snackbar.add({
             type: "error",
             text: error || "something went wrong."
         })
-        initQRCode()
     } finally {
         boardLoading.value = false
         useAttendancePortal.$reset()
