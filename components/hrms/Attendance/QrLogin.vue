@@ -8,7 +8,7 @@ const boardLoading = ref(false)
 const { qrAttendanceParams, CATEGORY_TIME_IN } = storeToRefs(attendancePortal)
 const grouptype = ref(null)
 const errorMessage = ref(null)
-let html5QrcodeScanner;
+let html5QrcodeScanner
 const QRCodeConfiguration = {
     fps: 10,
     qrbox: 250,
