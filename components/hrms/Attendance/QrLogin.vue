@@ -18,6 +18,11 @@ const QRCodeConfiguration = {
         Html5QrcodeScanType.SCAN_TYPE_CAMERA
     ],
 }
+onBeforeRouteLeave(() => {
+    stream.getTracks().forEach((track) => {
+        track.stop()
+    })
+})
 qrAttendanceParams.value.log_type = CATEGORY_TIME_IN
 const onScanSuccess = async (decodedText, decodedResult) => {
     qrAttendanceParams.value.employee_code = decodedText
