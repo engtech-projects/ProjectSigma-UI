@@ -8,6 +8,7 @@ const boardLoading = ref(false)
 const { qrAttendanceParams, CATEGORY_TIME_IN } = storeToRefs(attendancePortal)
 const grouptype = ref(null)
 const errorMessage = ref(null)
+let html5QrcodeScanner;
 const QRCodeConfiguration = {
     fps: 10,
     qrbox: 250,
@@ -19,9 +20,7 @@ const QRCodeConfiguration = {
     ],
 }
 onBeforeRouteLeave(() => {
-    stream.getTracks().forEach((track) => {
-        track.stop()
-    })
+    html5QrcodeScanner.clear()
 })
 qrAttendanceParams.value.log_type = CATEGORY_TIME_IN
 const onScanSuccess = async (decodedText, decodedResult) => {
@@ -54,7 +53,7 @@ onNuxtReady(() => {
     initQRCode()
 })
 const initQRCode = () => {
-    const html5QrcodeScanner = new Html5QrcodeScanner("reader", QRCodeConfiguration, false)
+    html5QrcodeScanner = new Html5QrcodeScanner("reader", QRCodeConfiguration, false)
     html5QrcodeScanner.render(onScanSuccess, onScanFailure)
 }
 </script>

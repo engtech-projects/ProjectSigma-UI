@@ -1,8 +1,8 @@
 <script setup>
 
 useHead({
-    title: "QR Code",
-    meta: [{ name: "description", content: "" }],
+    title: "QR Generator",
+    meta: [{ name: "QR Generator", content: "" }],
 })
 </script>
 
