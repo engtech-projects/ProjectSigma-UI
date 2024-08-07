@@ -1,6 +1,6 @@
 
 # BUILDING FOR CI CD - Static Nuxt.js
-name: EVENPAR - Build and Push to Pipeline Branch
+name: EVENPAR ProjectSigma_UI - Build and Push to Pipeline Branch
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -28,10 +28,10 @@ jobs:
   build-nuxt-local:
     runs-on: ubuntu-latest
     env:
-      HRMS_API_URL: 'https://projectsigma-hrmsapi.evenpar.construction'
-      ACCOUNTING_API_URL: 'https://projectsigma-accountingapi.evenpar.construction'
-      INVENTORY_API_URL: 'https://projectsigma-inventoryapi.evenpar.construction'
-      PROJECT_API_URL: 'https://projectsigma-projectsapi.evenpar.construction'
+      HRMS_API_URL: 'https://projectsigma-hrmsapi.evenparconstruction.com'
+      ACCOUNTING_API_URL: 'https://projectsigma-accountingapi.evenparconstruction.com'
+      INVENTORY_API_URL: 'https://projectsigma-inventoryapi.evenparconstruction.com'
+      PROJECT_API_URL: 'https://projectsigma-projectsapi.evenparconstruction.com'
       BULK_UPLOAD_ENABLED: false
       DEPLOYCHECK: false
     steps:
@@ -59,41 +59,5 @@ jobs:
               git init
               git add -A
               git commit -m 'deploy to CI-Evenpar-Pipeline'
-              git push -f https://$GIT_USERNAME:${{ secrets.GITHUB_TOKEN }}@github.com/$GIT_USERNAME/$REPOSITORY_NAME.git master:ci-pipe-evenpar-local
-        shell: bash
-  build-nuxt-online:
-    runs-on: ubuntu-latest
-    env:
-      HRMS_API_URL: 'https://projectsigma-hrmsapi.evenpar.construction'
-      ACCOUNTING_API_URL: 'https://projectsigma-accountingapi.evenpar.construction'
-      INVENTORY_API_URL: 'https://projectsigma-inventoryapi.evenpar.construction'
-      PROJECT_API_URL: 'https://projectsigma-projectsapi.evenpar.construction'
-      BULK_UPLOAD_ENABLED: false
-      DEPLOYCHECK: false
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: main
-      - run: corepack enable
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: ZeroTier Evenpar
-        uses: zerotier/github-action@v1.0.1
-        with:
-          network_id: ${{ secrets.ZEROTIER_NETWORK_ID }}
-          auth_token: ${{ secrets.ZEROTIER_CENTRAL_TOKEN }}
-      - name: Build Nuxt
-        run: |
-              npm ci;
-              npm install;
-              npx nuxt build --preset github_pages;
-              cd dist
-              git config --global user.email "engtechsolutions2020@gmail.com"
-              git config --global user.name "EngtechDeploy"
-              git init
-              git add -A
-              git commit -m 'deploy to CI-Evenpar-Pipeline'
-              git push -f https://$GIT_USERNAME:${{ secrets.GITHUB_TOKEN }}@github.com/$GIT_USERNAME/$REPOSITORY_NAME.git master:ci-pipe-evenpar-online
+              git push -f https://$GIT_USERNAME:${{ secrets.GITHUB_TOKEN }}@github.com/$GIT_USERNAME/$REPOSITORY_NAME.git master:ci-pipe-evenpar
         shell: bash
