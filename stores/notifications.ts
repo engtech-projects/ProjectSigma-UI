@@ -14,6 +14,7 @@ export const useNotificationsStore = defineStore("notificationsStore", {
     actions: {
         getAllNotifications () {
             useHRMSApi("api/notifications/all", {
+                params: this.getParams,
                 onResponseError: ({ response } : any) => {
                     throw new Error(response._data.message)
                 },
