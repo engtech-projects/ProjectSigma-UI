@@ -3,7 +3,7 @@ name: EVENPAR - Deploy ProjectSigma_UI
 
 on:
   workflow_run:
-    workflows: EVENPAR - Build and Push to Pipeline Branch
+    workflows: EVENPAR ProjectSigma_UI - Build and Push to Pipeline Branch
     types:
       - completed
   # Allows you to run this workflow manually from the Actions tab
