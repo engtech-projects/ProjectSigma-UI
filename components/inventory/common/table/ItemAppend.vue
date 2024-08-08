@@ -9,6 +9,7 @@ const nameholder = ref("")
 const emit = defineEmits(["addItem", "hideItem"])
 const doAddItem = (name: any) => {
     emit("addItem", name)
+    nameholder.value = ""
 }
 const doHideItem = () => {
     emit("hideItem")

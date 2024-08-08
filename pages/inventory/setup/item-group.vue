@@ -20,7 +20,7 @@ useHead({
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">
-            <div class="w-2/3">
+            <div class="w-2/3 mx-auto">
                 <InventorySetupItemGroupTable />
             </div>
         </div>

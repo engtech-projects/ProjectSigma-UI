@@ -1,15 +1,11 @@
 <script setup lang="ts">
 defineProps({
-    nameholder: {
+    subgroup: {
         type: Array,
         required: true,
-    },
-    subitemgroup: {
-        type: Array,
-        required: true,
-    },
+    }
 })
-
+const name = defineModel("name", { type: String, required: true })
 const addSub = (data: any) => {
     data.push({ name: "" })
 }
@@ -24,15 +20,13 @@ const removeSub = (id: number, item: any) => {
                 <div class="flex flex-col w-full">
                     <div class="w-full flex flex-row gap-2 items-center py-2">
                         <label for="new-item" class="text-xs font-bold m-0 p-0">Edit Item :</label>
-                        <template v-for="(item, index) in nameholder" :key="index">
-                            <input
-                                v-model="item.name"
-                                type="text"
-                                class="block p-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-cyan-600 m-0"
-                            >
-                        </template>
+                        <input
+                            v-model="name"
+                            type="text"
+                            class="block p-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-cyan-600 m-0"
+                        >
                     </div>
-                    <template v-for="(item, index) in subitemgroup" :key="index">
+                    <template v-for="(item, index) in subgroup" :key="index">
                         <div class="subItem w-full">
                             <div class="pl-12 flex flex-row">
                                 <div class="w-full flex flex-row gap-2 items-center py-2">
@@ -45,7 +39,7 @@ const removeSub = (id: number, item: any) => {
                                     >
                                 </div>
                                 <div class="cancel-control flex items-center">
-                                    <button class="text-red-700 font-medium rounded-lg text-lg hover:text-white hover:bg-red-700 px-2" @click="removeSub(index, subitemgroup)">
+                                    <button class="text-red-700 font-medium rounded-lg text-lg hover:text-white hover:bg-red-700 px-2" @click="removeSub(index, subgroup)">
                                         <Icon name="mdi:remove" class="h-5 w-5 lg:h-5 lg:w-5" />
                                     </button>
                                 </div>
@@ -53,7 +47,7 @@ const removeSub = (id: number, item: any) => {
                         </div>
                     </template>
                     <div class="flex flex-row justify-end mt-4">
-                        <button class="bg-emerald-800 px-2 py-1 text-white text-xs text-left mb-4" @click="addSub(subitemgroup)">
+                        <button class="bg-emerald-800 px-2 py-1 text-white text-xs text-left mb-4" @click="addSub(subgroup)">
                             <Icon name="mdi:plus" class="h-5 w-5 lg:h-5 lg:w-5" /> Sub Group
                         </button>
                     </div>

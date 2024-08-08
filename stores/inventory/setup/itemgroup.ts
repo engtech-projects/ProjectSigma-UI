@@ -18,6 +18,7 @@ export interface SubItemGroup {
 export interface ItemGroup {
     name: string,
     expand: boolean | true,
+    edit: boolean | false,
     sub_groups: Array<String> | null,
 }
 export const useItemStore = defineStore("itemgroups", {
@@ -30,7 +31,6 @@ export const useItemStore = defineStore("itemgroups", {
         },
         itemgroup: {} as ItemGroup,
         subitemgroup: [] as Array<SubItemGroup>,
-        edititemgroup: [] as Array<SubItemGroup>,
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -50,6 +50,7 @@ export const useItemStore = defineStore("itemgroups", {
                                     id: val.id,
                                     name: val.name,
                                     expand: true,
+                                    edit: false,
                                     sub_groups: val.sub_groups,
                                 }
                             })
@@ -100,7 +101,8 @@ export const useItemStore = defineStore("itemgroups", {
                     body: this.itemgroup,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.$reset()
+                            // this.$reset()
+                            // this.searchItemGroup()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
