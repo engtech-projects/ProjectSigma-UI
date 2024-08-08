@@ -116,9 +116,6 @@ const initQRCode = () => {
                     >30 Minutes</label>
                 </div>
             </div>
-            <div>
-                {{ qrAttendanceParams.decode_result }}
-            </div>
         </div>
         <LayoutBoards :loading="boardLoading" class="shadow-md p-4 bg-white mb-3 border border-gray-300 rounded-lg w-full md:w-1/2 flex flex-col">
             <p class="flex justify-center text-2xl font-normal text-gray-900 pb-5 antialiased tracking-wide">

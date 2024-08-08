@@ -114,7 +114,7 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
                     },
                     onResponse: ({ response } : any) => {
                         if (response.ok) {
-                            this.monthlyAbsences.list = response._data.data ?? []
+                            this.monthlyAbsences.list = response._data ?? []
                         }
                     },
                 }

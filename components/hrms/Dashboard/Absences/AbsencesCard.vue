@@ -27,8 +27,8 @@ defineProps({
                     <HrmsDashboardAbsencesItem
                         title="Generate Memo"
                         :name="employee.fullname_first"
-                        :avatar="employee.profile_photo"
-                        :absences="employee.absent_count"
+                        :avatar="employee.profile_photo && employee.profile_photo.base64 !== 'File doesn\'t exists.' ? employee.profile_photo.base64 : '/avatarexample.png'"
+                        :absences="employee.absent"
                     />
                 </div>
             </div>
