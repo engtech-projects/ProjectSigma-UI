@@ -39,8 +39,8 @@ const submitForm = async () => {
 const dateChanged = computed(() => {
     if (generateAllowance.value.cutoff_start && generateAllowance.value.cutoff_end) {
         generateAllowance.value.total_days = 1
-        const dateStart = new Date(generateAllowance.value.cutoff_end)
-        const dateEnd = new Date(generateAllowance.value.cutoff_start)
+        const dateStart = new Date(generateAllowance.value.cutoff_start)
+        const dateEnd = new Date(generateAllowance.value.cutoff_end)
         const dsMin = dateStart.setMinutes(dateStart.getMinutes() - dateStart.getTimezoneOffset())
         const deMin = dateEnd.setMinutes(dateEnd.getMinutes() - dateEnd.getTimezoneOffset())
         generateAllowance.value.total_days = (deMin - dsMin) / (24 * 60 * 60 * 1000) + 1
