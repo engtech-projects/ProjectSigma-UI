@@ -493,7 +493,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.inventory_setup_item_group,
+                        AccessibilityTypes.inventory_setup_unit_of_measurements,
                     ])"
                     linkarea="/inventory/setup/unit-of-measurement"
                     icon="material-symbols:dynamic-form-outline-rounded"

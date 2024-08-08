@@ -16,18 +16,18 @@ const addUOM = async () => {
         if (main.errorMessage !== "") {
             snackbar.add({
                 type: "error",
-                text: main.errorMessage
+                text: errorMessage.value
             })
         } else {
             snackbar.add({
                 type: "success",
-                text: main.successMessage
+                text: successMessage.value
             })
         }
     } catch {
         snackbar.add({
             type: "error",
-            text: main.errorMessage
+            text: errorMessage.value
         })
     } finally {
         main.clearMessages()
@@ -68,41 +68,6 @@ const addUOM = async () => {
                         class="w-full rounded-lg"
                         required
                     >
-                </div>
-                <div class="grid grid-rows-1 mb-2">
-                    <label for="group_type" class="text-sm italic">Group Type</label>
-                    <select
-                        id="group_type"
-                        v-model="uom.group_id"
-                        class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                        required
-                    >
-                        <option value="" disabled selected>
-                            Choose Group Type
-                        </option>
-                        <!-- <option v-for="shareType, index in SHARE_TYPES" :key="index" :value="shareType">
-                            {{ shareType }}
-                        </option> -->
-                    </select>
-                </div>
-                <div class="grid grid-rows-1 mb-2">
-                    <label for="type" class="text-sm italic">UOM Type</label>
-                    <select
-                        id="type"
-                        v-model="uom.is_standard"
-                        class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                        required
-                    >
-                        <option value="" disabled selected>
-                            Choose UOM Type
-                        </option>
-                        <option value="0">
-                            Custom
-                        </option>
-                        <option value="1">
-                            Standard
-                        </option>
-                    </select>
                 </div>
                 <div class="flex justify-end">
                     <button

@@ -3,26 +3,33 @@ import { storeToRefs } from "pinia"
 import { useUOM } from "@/stores/inventory/setup/uom"
 
 const main = useUOM()
-const { uom, errorMessage, successMessage } = storeToRefs(main)
+const { uom, listGroup, errorMessage, successMessage } = storeToRefs(main)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const cancelEdit = () => {
-    uom.reset()
+    main.reset()
 }
-const editCont = async () => {
+const doEditUOM = async () => {
     try {
         boardLoading.value = true
-        await uom.editUOM()
-        snackbar.add({
-            type: "success",
-            text: uom.successMessage
-        })
+        await main.editUOM()
+        if (main.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: errorMessage.value
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: successMessage.value
+            })
+        }
     } catch {
         snackbar.add({
             type: "error",
-            text: uom.errorMessage || "something went wrong."
+            text: errorMessage.value || "something went wrong."
         })
     } finally {
         uom.clearMessages()
@@ -33,12 +40,12 @@ const editCont = async () => {
 </script>
 
 <template>
-    <LayoutEditBoards title="Edit Contribution" :loading="boardLoading">
+    <LayoutEditBoards title="Unit of Measurement" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
-            <form @submit.prevent="editCont">
+            <form @submit.prevent="doEditUOM">
                 <label
                     class="text-sm"
-                >Add UOM Record</label>
+                >Edit UOM Record</label>
                 <div class="mb-2">
                     <label
                         for="name"
@@ -65,42 +72,38 @@ const editCont = async () => {
                         required
                     >
                 </div>
-                <div class="grid grid-rows-1 mb-2">
-                    <label for="group_type" class="text-sm italic">Group Type</label>
+                <div class="mb-2">
+                    <label
+                        for="is_standard"
+                        class="text-sm italic"
+                    >Standard</label>
                     <select
-                        id="group_type"
-                        v-model="uom.group_id"
-                        class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                        required
-                    >
-                        <option value="" disabled selected>
-                            Choose Group Type
-                        </option>
-                        <!-- <option v-for="shareType, index in SHARE_TYPES" :key="index" :value="shareType">
-                            {{ shareType }}
-                        </option> -->
-                    </select>
-                </div>
-                <div class="grid grid-rows-1 mb-2">
-                    <label for="type" class="text-sm italic">UOM Type</label>
-                    <select
-                        id="type"
                         v-model="uom.is_standard"
-                        class="bg-slate-100 border border-slate-300 rounded py-1.5 pl-3 cursor-pointer focus:outline focus:outline-color1 focus:bg-white"
-                        required
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-cyan-500 focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
                     >
-                        <option value="" disabled selected>
-                            Choose UOM Type
+                        <option :key="1">
+                            Yes
                         </option>
-                        <option value="0">
-                            Custom
-                        </option>
-                        <option value="1">
-                            Standard
+                        <option :key="0">
+                            No
                         </option>
                     </select>
                 </div>
-                <div class="flex justify-end">
+                <div class="mb-2">
+                    <label
+                        for="group_id"
+                        class="text-sm italic"
+                    >Group</label>
+                    <select
+                        v-model="uom.group_id"
+                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-cyan-500 focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
+                    >
+                        <option v-for="item in listGroup" :key="item.value">
+                            {{ item.value }}
+                        </option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2">
                     <button
                         type="submit"
                         class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"

@@ -16,6 +16,7 @@ export const useUOM = defineStore("UOM", {
             is_standard: null,
         },
         list: [],
+        listGroup: [],
         listCustom: [],
         listStandard: [],
         pagination: {},
@@ -23,10 +24,26 @@ export const useUOM = defineStore("UOM", {
         errorMessage: "",
         successMessage: "",
     }),
+    getters: {
+        standard: (state) => {
+            return state.list.map(function (data:any) {
+                return data.is_standard ? data : null
+            }).filter(function (data:any) {
+                return data != null
+            })
+        },
+        custom: (state) => {
+            return state.list.map(function (data:any) {
+                return data.is_standard ? null : data
+            }).filter(function (data:any) {
+                return data != null
+            })
+        }
+    },
     actions: {
         async getUOM () {
             const { data, error } = await useFetch(
-                "/api/uom",
+                "/api/uom/resource",
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
@@ -51,12 +68,37 @@ export const useUOM = defineStore("UOM", {
                 return error
             }
         },
-
+        async getGroupUOM () {
+            const { data, error } = await useFetch(
+                "/api/uom/group",
+                {
+                    baseURL: config.public.INVENTORY_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    onResponse: ({ response }) => {
+                        this.listGroup = response._data.data.data
+                        this.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
         async addUOM () {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/uom",
+                "/api/uom/resource",
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "POST",
@@ -64,15 +106,18 @@ export const useUOM = defineStore("UOM", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.uom,
+                    body: {
+                        id: this.uom.id,
+                        name: this.uom.name,
+                        symbol: this.uom.symbol,
+                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getUOM()
-                            this.reset()
                             this.successMessage = response._data.message
+                            this.getUOM()
                         }
                     },
                 }
@@ -86,7 +131,7 @@ export const useUOM = defineStore("UOM", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/uom/" + this.uom.id,
+                "/api/uom/resource/" + this.uom.id,
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "PATCH",
@@ -98,11 +143,12 @@ export const useUOM = defineStore("UOM", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
+                        this.getUOM()
+                        this.reset()
                     },
                 }
             )
             if (data.value) {
-                this.getContribution()
                 this.reset()
                 this.successMessage = data.value.message
                 return data
@@ -111,9 +157,9 @@ export const useUOM = defineStore("UOM", {
                 return error
             }
         },
-        async deleteContribution (id : number) {
+        async deleteUOM (id : number) {
             const { data, error } = await useFetch(
-                "/api/uom/" + id,
+                "/api/uom/resource/" + id,
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "DELETE",
@@ -124,11 +170,13 @@ export const useUOM = defineStore("UOM", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
+                        this.getUOM()
+                        this.reset()
                     },
                 }
             )
             if (data.value) {
-                this.getContribution()
+                this.reset()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {

@@ -1,10 +1,10 @@
 <script  setup>
-import { storeToRefs } from "pinia"
-import { usePhilhealthStore } from "@/stores/hrms/setup/philhealth"
+import { useUOM } from "@/stores/inventory/setup/uom"
 
-const contributions = usePhilhealthStore()
-const { isEdit } = storeToRefs(contributions)
-contributions.getContribution()
+const main = useUOM()
+const { isEdit } = storeToRefs(main)
+await main.getUOM()
+await main.getGroupUOM()
 
 useHead({
     title: "Unit of Measurement",
@@ -15,12 +15,12 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_setup_phil_health,
+            AccessibilityTypes.inventory_setup_unit_of_measurements,
         ])"
     >
         <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-4">
             <InventorySetupUnitOfMeasurementAddForm v-show="!isEdit" />
-            <HrmsPhilhealthEditContribution v-show="isEdit" />
+            <InventorySetupUnitOfMeasurementEditForm v-show="isEdit" />
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
