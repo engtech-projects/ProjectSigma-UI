@@ -85,6 +85,7 @@ export const useItemStore = defineStore("itemgroups", {
                             this.$reset()
                             this.successMessage = response._data.message
                         } else {
+                            this.$reset()
                             this.errorMessage = response._data.message
                         }
                     },
@@ -172,6 +173,9 @@ export const useItemStore = defineStore("itemgroups", {
                 }
             )
         },
-
+        reset () {
+            this.successMessage = ""
+            this.errorMessage = ""
+        },
     },
 })
