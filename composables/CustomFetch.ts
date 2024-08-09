@@ -121,7 +121,7 @@ export function useAttendancePortalApiO (url: string, params: any) {
 }
 export function useProjectsApi<T> (url: string, options: AsyncDataOptions<T>|UseFetchOptions<T> = {}) {
     const defaults: UseFetchOptions<T> = {
-        baseURL: config.public.PROJECT_API_URL,
+        baseURL: config.public.PROJECTS_API_URL,
         key: url,
         headers: {
             Authorization: token.value + "",
@@ -138,7 +138,7 @@ export function useProjectsApi<T> (url: string, options: AsyncDataOptions<T>|Use
     return useFetch(url, params)
 }
 export const useProjectsApiO = ofetch.create({
-    baseURL: config.public.PROJECT_API_URL,
+    baseURL: config.public.PROJECTS_API_URL,
     headers: {
         Authorization: token.value + "",
         Accept: "application/json"

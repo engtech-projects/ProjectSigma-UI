@@ -56,7 +56,7 @@ export const useProjectStore = defineStore("projects", {
             const { data, error } = await useFetch(
                 "/api/projects/" + id,
                 {
-                    baseURL: config.public.PROJECT_API_URL,
+                    baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
                     headers: {
                         Authorization: token.value + "",
@@ -81,7 +81,7 @@ export const useProjectStore = defineStore("projects", {
             const { data, error } = await useFetch(
                 "/api/projects",
                 {
-                    baseURL: config.public.PROJECT_API_URL,
+                    baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
                     headers: {
                         Authorization: token.value + "",
@@ -112,7 +112,7 @@ export const useProjectStore = defineStore("projects", {
             await useFetch(
                 "/api/projects",
                 {
-                    baseURL: config.public.PROJECT_API_URL,
+                    baseURL: config.public.PROJECTS_API_URL,
                     method: "POST",
                     headers: {
                         Authorization: token.value + "",
@@ -143,7 +143,7 @@ export const useProjectStore = defineStore("projects", {
             const { data, error } = await useFetch<any>(
                 "/api/projects/" + this.information.id,
                 {
-                    baseURL: config.public.PROJECT_API_URL,
+                    baseURL: config.public.PROJECTS_API_URL,
                     method: "PATCH",
                     headers: {
                         Authorization: token.value + ""
@@ -167,7 +167,7 @@ export const useProjectStore = defineStore("projects", {
             const { data, error } = await useFetch<any>(
                 "/api/projects/" + id,
                 {
-                    baseURL: config.public.PROJECT_API_URL,
+                    baseURL: config.public.PROJECTS_API_URL,
                     method: "DELETE",
                     headers: {
                         Authorization: token.value + ""

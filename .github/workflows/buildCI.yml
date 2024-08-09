@@ -37,7 +37,7 @@ jobs:
       HRMS_API_URL: 'https://projectsigma-hrmsapi-staging.engtechglobalsolutions.com'
       ACCOUNTING_API_URL: 'https://projectsigma-accountingapi-staging.engtechglobalsolutions.com'
       INVENTORY_API_URL: 'https://projectsigma-inventoryapi-staging.engtechglobalsolutions.com'
-      PROJECT_API_URL: 'https://projectsigma-projectsapi-staging.engtechglobalsolutions.com'
+      PROJECTS_API_URL: 'https://projectsigma-projectsapi-staging.engtechglobalsolutions.com'
       BULK_UPLOAD_ENABLED: true
       DEPLOYCHECK: true
     if: github.ref == 'refs/heads/staging'
@@ -73,7 +73,7 @@ jobs:
       HRMS_API_URL: 'https://projectsigma-hrmsapi.engtechglobalsolutions.com'
       ACCOUNTING_API_URL: 'https://projectsigma-accountingapi.engtechglobalsolutions.com'
       INVENTORY_API_URL: 'https://projectsigma-inventoryapi.engtechglobalsolutions.com'
-      PROJECT_API_URL: 'https://projectsigma-projectsapi.engtechglobalsolutions.com'
+      PROJECTS_API_URL: 'https://projectsigma-projectsapi.engtechglobalsolutions.com'
       BULK_UPLOAD_ENABLED: true
       DEPLOYCHECK: true
     if: github.ref == 'refs/heads/main'
