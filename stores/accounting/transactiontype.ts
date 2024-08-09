@@ -17,7 +17,6 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
             },
             account_id: null,
             symbol: null,
-            book: null,
         },
         list: [],
         pagination: {},

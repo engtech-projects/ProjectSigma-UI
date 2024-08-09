@@ -16,7 +16,8 @@ export enum AccessibilityTypes {
     hrms_attendance_face_recognition = "hrms:attendance_face recognition",
     hrms_attendance_biomentrics = "hrms:attendance_biomentrics",
     hrms_attendance_attendance_login = "hrms:attendance_attendance login",
-    hrms_attendance_qr_code = "hrms:attendance_qr",
+    hrms_attendance_qr_generator = "hrms:attendance_generate QR",
+    hrms_attendance_qr_login = "hrms:attendance_attendance QR",
     hrms_attendance_attendance_logs = "hrms:attendance_attendance logs",
     hrms_attendance_dtr = "hrms:attendance_dtr",
     // EMPLOYEE
@@ -101,6 +102,8 @@ export enum AccessibilityTypes {
     inventory_dashboard = "inventory:dashboard",
     inventory_setup_group = "inventory:setup",
     inventory_setup_approvals = "inventory:setup_approvals",
+    inventory_setup_item_group = "inventory:setup_item group",
+    inventory_setup_unit_of_measurements = "inventory:setup_unit of measurements",
     inventory_setup_new_item_profile = "inventory:new-item-profile",
 
     // ACCOUNTING

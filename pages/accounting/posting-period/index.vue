@@ -1,5 +1,8 @@
 <script lang="ts" setup>
+import { usePostingPeriodStore } from "~/stores/accounting/postingperiod"
 
+const postingPeriodStore = usePostingPeriodStore()
+await postingPeriodStore.getPostingPeriods()
 definePageMeta({
     layout: "default",
 })

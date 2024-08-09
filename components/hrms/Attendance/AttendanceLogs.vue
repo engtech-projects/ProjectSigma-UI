@@ -39,11 +39,8 @@ const grouptype = ref(null)
                     <input v-model="attendanceLogs.params.date" type="date" class="w-full rounded py-2">
                 </div>
                 <div class="w-full">
-                    <HrmsCommonDepartmentProjectSelector
-                        v-model:select-type="grouptype"
-                        v-model:department-id="attendanceLogs.params.department_id"
-                        v-model:project-id="attendanceLogs.params.project_id"
-                        title="Filter Department/Project"
+                    <HrmsCommonAttendanceTypeSelector
+                        v-model:attendance-type="attendanceLogs.params.attendance_type"
                     />
                 </div>
                 <div class="w-full">
@@ -51,6 +48,14 @@ const grouptype = ref(null)
                         Clear Filter
                     </button>
                 </div>
+            </div>
+            <div class="w-1/2 px-2">
+                <HrmsCommonDepartmentProjectSelector
+                    v-model:select-type="grouptype"
+                    v-model:department-id="attendanceLogs.params.department_id"
+                    v-model:project-id="attendanceLogs.params.project_id"
+                    title="Filter Department/Project"
+                />
             </div>
             <div class="w-full p-4">
                 <LayoutPsTable

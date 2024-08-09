@@ -258,7 +258,7 @@ const printTable = () => {
                                             <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins != null">
                                                 {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins.time_human }}
                                             </template>
-                                            <template v-else-if="dataValue.metadata.regular.reg_hrs > 0">
+                                            <template v-else-if="dataValue.metadata.total.reg_hrs > 0">
                                                 <template v-if="dataValue.travel_order.length > 0">
                                                     ON TRAVEL ORDER
                                                 </template>
@@ -286,7 +286,7 @@ const printTable = () => {
                                             <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs != null">
                                                 {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs.time_human }}
                                             </template>
-                                            <template v-else-if="dataValue.metadata.regular.reg_hrs > 0">
+                                            <template v-else-if="dataValue.metadata.total.reg_hrs > 0">
                                                 <template v-if="dataValue.travel_order.length > 0">
                                                     ON TRAVEL ORDER
                                                 </template>
@@ -313,7 +313,7 @@ const printTable = () => {
                                 </template>
                             </template>
                             <td class="p-2">
-                                {{ dataValue.metadata.regular.reg_hrs }}
+                                {{ dataValue.metadata.total.reg_hrs }}
                             </td>
                             <template v-for="schedule_index in overtime" :key="'overtime-data-' + schedule_index">
                                 <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)">
@@ -322,7 +322,7 @@ const printTable = () => {
                                             {{ dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.applied_in?.time_human ?? "NO LOG" }}
                                         </template>
                                         <template v-else>
-                                            N/A
+                                            NO LOG
                                         </template>
                                     </td>
                                     <td class="p-2">
@@ -344,7 +344,7 @@ const printTable = () => {
                                 </template>
                             </template>
                             <td class="p-2">
-                                {{ dataValue.metadata.regular.overtime }}
+                                {{ dataValue.metadata.total.overtime }}
                             </td>
                         </tr>
                         {{ showItem('', true) }}

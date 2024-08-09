@@ -82,7 +82,7 @@ export default defineNuxtConfig({
             HRMS_API_URL: process.env.HRMS_API_URL,
             ACCOUNTING_API_URL: process.env.ACCOUNTING_API_URL,
             INVENTORY_API_URL: process.env.INVENTORY_API_URL,
-            PROJECT_API_URL: process.env.PROJECT_API_URL,
+            PROJECTS_API_URL: process.env.PROJECTS_API_URL,
             APP_ENV: process.env.APP_ENV || "production",
             BULK_UPLOAD_ENABLED: process.env.BULK_UPLOAD_ENABLED || "false",
             FACE_MAX_DESCRIPTOR_DISTANCE: process.env.FACE_MAX_DESCRIPTOR_DISTANCE ? parseFloat(process.env.FACE_MAX_DESCRIPTOR_DISTANCE) : 0.4,

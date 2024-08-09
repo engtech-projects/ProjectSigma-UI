@@ -92,11 +92,20 @@ const config = useRuntimeConfig()
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_attendance_qr_code,
+                        AccessibilityTypes.hrms_attendance_qr_generator,
                     ])"
-                    linkarea="/hrms/attendance/qrcode"
+                    linkarea="/hrms/attendance/qr-generate"
                     icon="material-symbols:qr-code-scanner-rounded"
-                    single-nav-title="QR Code"
+                    single-nav-title="Generate QR Code"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.hrms_attendance_qr_login,
+                    ])"
+                    linkarea="/hrms/attendance/qr-login"
+                    icon="material-symbols:qr-code-scanner-rounded"
+                    single-nav-title="Attendance QR"
                 />
             </LayoutNavGroup>
             <LayoutNavSingle
@@ -473,6 +482,22 @@ const config = useRuntimeConfig()
                     linkarea="/inventory/setup/approvals"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Approvals"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.inventory_setup_item_group,
+                    ])"
+                    linkarea="/inventory/setup/item-group"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Item Group"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.inventory_setup_unit_of_measurements,
+                    ])"
+                    linkarea="/inventory/setup/unit-of-measurement"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Unit Of Measurement"
                 />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>

@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 
 const employee = useEmployeeInfo()
-const { information, editable } = storeToRefs(employee)
+const { information, editable, EMPLOYMENT_CHILD } = storeToRefs(employee)
 const snackbar = useSnackbar()
 
 const addChild = () => {

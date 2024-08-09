@@ -112,7 +112,9 @@ const saveEmployeeAttendanceLog = async (employeeID) => {
         resetMessages()
     }
 }
-startCamera()
+onMounted(() => {
+    startCamera()
+})
 let timeout = null
 const resetMessages = () => {
     clearTimeout(timeout)

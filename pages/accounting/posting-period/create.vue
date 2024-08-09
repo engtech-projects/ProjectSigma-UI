@@ -6,6 +6,7 @@ definePageMeta({
 useHead({
     title: "New Posting Period",
 })
+navigateTo("/accounting/posting-period")
 </script>
 
 <template>

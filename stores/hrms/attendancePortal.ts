@@ -5,6 +5,8 @@ export const CATEGORY_TIME_IN = "In"
 export const CATEGORY_TIME_OUT = "Out"
 export const GROUP_TYPE_PROJECT = "Project"
 export const GROUP_TYPE_DEPARTMENT = "Department"
+export const ATTENDANCE_TYPE_FACIAL = "Facial"
+export const ATTENDANCE_TYPE_QRCODE = "QR Code"
 
 export interface SavedFaceDescriptor {
     id: number,
@@ -23,6 +25,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 employee_id: null,
                 project_id: null as null | Number,
                 department_id: null as null | Number,
+                attendance_type: null as null | String,
             },
             pagination: {},
         },

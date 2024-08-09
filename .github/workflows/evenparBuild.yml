@@ -31,7 +31,7 @@ jobs:
       HRMS_API_URL: 'https://projectsigma-hrmsapi.evenparconstruction.com'
       ACCOUNTING_API_URL: 'https://projectsigma-accountingapi.evenparconstruction.com'
       INVENTORY_API_URL: 'https://projectsigma-inventoryapi.evenparconstruction.com'
-      PROJECT_API_URL: 'https://projectsigma-projectsapi.evenparconstruction.com'
+      PROJECTS_API_URL: 'https://projectsigma-projectsapi.evenparconstruction.com'
       BULK_UPLOAD_ENABLED: false
       DEPLOYCHECK: false
     steps:

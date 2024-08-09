@@ -11,7 +11,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_attendance_qr_code,
+            AccessibilityTypes.hrms_attendance_qr_generator,
         ])"
     >
         <div class="w-full">
