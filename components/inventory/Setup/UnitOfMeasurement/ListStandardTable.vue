@@ -4,15 +4,10 @@ import { useUOM } from "@/stores/inventory/setup/uom"
 
 const main = useUOM()
 
-const { listStandard, isEdit, uom, getParams, pagination, errorMessage, successMessage } = storeToRefs(main)
+const { standard, getParams, pagination, errorMessage, successMessage } = storeToRefs(main)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
-const setEdit = (cont) => {
-    isEdit.value = true
-    uom.value = cont
-}
 
 const deleteCont = async (cont) => {
     try {
@@ -44,7 +39,7 @@ const headers = [
     { name: "Symbol", id: "symbol" },
 ]
 const actions = {
-    edit: true,
+    edit: false,
     delete: true
 }
 
@@ -52,7 +47,7 @@ const actions = {
 
 <template>
     <div class="pb-2 text-gray-500 ">
-        <LayoutPsTable :header-columns="headers" :datas="listStandard" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
+        <LayoutPsTable :header-columns="headers" :datas="standard" :actions="actions" @delete-row="deleteCont" />
     </div>
     <div class="flex justify-center mx-auto p-2">
         <CustomPagination :links="pagination" @change-params="changePaginate" />

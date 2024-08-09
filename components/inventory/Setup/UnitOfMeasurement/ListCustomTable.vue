@@ -4,7 +4,7 @@ import { useUOM } from "@/stores/inventory/setup/uom"
 
 const main = useUOM()
 
-const { listCustom, isEdit, uom, getParams, pagination, errorMessage, successMessage } = storeToRefs(main)
+const { custom, isEdit, uom, getParams, pagination, errorMessage, successMessage } = storeToRefs(main)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -51,7 +51,7 @@ const actions = {
 
 <template>
     <div class="pb-2 text-gray-500 ">
-        <LayoutPsTable :header-columns="headers" :datas="listCustom" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
+        <LayoutPsTable :header-columns="headers" :datas="custom" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
     </div>
     <div class="flex justify-center mx-auto p-2">
         <CustomPagination :links="pagination" @change-params="changePaginate" />

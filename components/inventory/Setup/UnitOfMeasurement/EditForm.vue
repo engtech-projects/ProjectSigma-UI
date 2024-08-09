@@ -25,8 +25,7 @@ const doEditUOM = async () => {
                 type: "success",
                 text: successMessage.value
             })
-            await main.getUOMCustom()
-            await main.getUOMStandard()
+            await main.getUOM()
         }
     } catch {
         snackbar.add({

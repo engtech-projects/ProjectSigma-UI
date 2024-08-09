@@ -2,13 +2,14 @@
 import { useUOM } from "@/stores/inventory/setup/uom"
 
 const main = useUOM()
-const { isEdit } = storeToRefs(main)
-await main.getUOMCustom()
-await main.getUOMStandard()
+const { isEdit, isStandard } = storeToRefs(main)
 useHead({
     title: "Unit of Measurement",
 })
-
+await main.getUOM()
+const standard = (type) => {
+    isStandard.value = type
+}
 </script>
 
 <template>
@@ -18,17 +19,19 @@ useHead({
         ])"
     >
         <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-4">
-            <InventorySetupUnitOfMeasurementAddForm v-show="!isEdit"/>
-            <InventorySetupUnitOfMeasurementEditForm v-show="isEdit"/>
+            <InventorySetupUnitOfMeasurementAddForm v-show="!isEdit" />
+            <InventorySetupUnitOfMeasurementEditForm v-show="isEdit" />
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         title="Custom UOM"
                         target-id="customUOMList"
+                        @click="standard(false)"
                     />
                     <HrmsCommonTabsTabTitle
                         title="Standard UOM"
                         target-id="standardUOMList"
+                        @click="standard(true)"
                     />
                 </template>
                 <template #tab-containers>
