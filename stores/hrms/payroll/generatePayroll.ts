@@ -67,7 +67,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             deduct_sss: 0,
             deduct_philhealth: 0,
             deduct_pagibig: 0,
-            adjustment: [],
+            adjustments: [],
             approvals: []
         },
         list: [],

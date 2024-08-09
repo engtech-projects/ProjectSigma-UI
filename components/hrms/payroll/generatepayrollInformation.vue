@@ -359,7 +359,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                                 rowspan="2"
                                 class="px-4 border-solid border border-slate-400"
                             >
-                                Loans
+                                Other Deductions
                             </th>
                             <th
                                 v-for="loansType, key in loanTypes"
@@ -464,7 +464,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ formatCurrency(data.payroll_records.gross_pays.special_holidays.overtime) ?? "-" }}
                             </td>
-                            <td class="p-4 border-solid border border-slate-400">
+                            <td class="p-4 border-solid border border-slate-400 divide-y">
                                 <div v-for="(adjust, index1) in data.payroll_records.gross_pays.adjustments" :key="index1">
                                     <strong>{{ adjust.adjustment_name }}:</strong> {{ formatCurrency(adjust.adjustment_amount) }}
                                 </div>
@@ -492,16 +492,26 @@ function formatCurrency (number: Number, locale = "en-US") {
                                     <div>
                                         <strong>Loans:</strong>
                                         {{ formatCurrency(data.payroll_records.salary_deduction.loan.total_paid) ?? "-" }}
+                                        <div v-for="(loan, index1) in data.payroll_records.salary_deduction.loan.loans" :key="'loanName'+index1">
+                                            {{ loan.id }}: {{ formatCurrency(loan.installment_deduction) ?? "-" }}
+                                        </div>
                                     </div>
                                     <div>
                                         <strong>CA:</strong>
                                         {{ formatCurrency(data.payroll_records.salary_deduction.cash_advance.total_paid) ?? "-" }}
+                                        <div v-for="(cAdv, index1) in data.payroll_records.salary_deduction.cash_advance.cash_advance" :key="'cAdvName'+index1">
+                                            {{ cAdv.id }}: {{ formatCurrency(cAdv.installment_deduction) ?? "-" }}
+                                        </div>
                                     </div>
                                     <div>
                                         <strong>Other Deductions:</strong>
-                                        <div v-for="(otherDeduct, index1) in data.payroll_records.salary_deduction.other_deductions.other_deduction" :key="index1">
-                                            {{ formatCurrency(otherDeduct.installment_deduction) ?? "-" }}
+                                        {{ formatCurrency(data.payroll_records.salary_deduction.other_deductions.total_paid) ?? "-" }}
+                                        <div v-for="(otherDeduct, index1) in data.payroll_records.salary_deduction.other_deductions.other_deduction" :key="'oDed'+index1">
+                                            {{ otherDeduct.otherdeduction_name }}:{{ formatCurrency(otherDeduct.installment_deduction) ?? "-" }}
                                         </div>
+                                    </div>
+                                    <div>
+                                        <strong>HMO:</strong>
                                     </div>
                                 </div>
                             </td>
