@@ -23,6 +23,8 @@ const addUOM = async () => {
                 type: "success",
                 text: successMessage.value
             })
+            await main.getUOMCustom()
+            await main.getUOMStandard()
         }
     } catch {
         snackbar.add({

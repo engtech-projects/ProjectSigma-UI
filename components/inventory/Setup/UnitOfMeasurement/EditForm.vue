@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useUOM } from "@/stores/inventory/setup/uom"
 
 const main = useUOM()
-const { uom, listGroup, errorMessage, successMessage } = storeToRefs(main)
+const { uom, errorMessage, successMessage } = storeToRefs(main)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -25,6 +25,8 @@ const doEditUOM = async () => {
                 type: "success",
                 text: successMessage.value
             })
+            await main.getUOMCustom()
+            await main.getUOMStandard()
         }
     } catch {
         snackbar.add({
@@ -32,7 +34,7 @@ const doEditUOM = async () => {
             text: errorMessage.value || "something went wrong."
         })
     } finally {
-        uom.clearMessages()
+        main.clearMessages()
         boardLoading.value = false
     }
 }
@@ -71,37 +73,6 @@ const doEditUOM = async () => {
                         class="w-full rounded-lg"
                         required
                     >
-                </div>
-                <div class="mb-2">
-                    <label
-                        for="is_standard"
-                        class="text-sm italic"
-                    >Standard</label>
-                    <select
-                        v-model="uom.is_standard"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-cyan-500 focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
-                    >
-                        <option :key="1">
-                            Yes
-                        </option>
-                        <option :key="0">
-                            No
-                        </option>
-                    </select>
-                </div>
-                <div class="mb-2">
-                    <label
-                        for="group_id"
-                        class="text-sm italic"
-                    >Group</label>
-                    <select
-                        v-model="uom.group_id"
-                        class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-cyan-500 focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
-                    >
-                        <option v-for="item in listGroup" :key="item.value">
-                            {{ item.value }}
-                        </option>
-                    </select>
                 </div>
                 <div class="flex justify-end gap-2">
                     <button

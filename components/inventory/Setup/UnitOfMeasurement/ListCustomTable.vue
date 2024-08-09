@@ -2,9 +2,9 @@
 import { storeToRefs } from "pinia"
 import { useUOM } from "@/stores/inventory/setup/uom"
 
-const storeUOM = useUOM()
+const main = useUOM()
 
-const { isEdit, uom, getParams, pagination, errorMessage, successMessage } = storeToRefs(storeUOM)
+const { listCustom, isEdit, uom, getParams, pagination, errorMessage, successMessage } = storeToRefs(main)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -17,7 +17,7 @@ const setEdit = (cont) => {
 const deleteCont = async (cont) => {
     try {
         boardLoading.value = true
-        await storeUOM.deleteUOM(cont.id)
+        await main.deleteUOM(cont.id)
         if (main.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -28,6 +28,7 @@ const deleteCont = async (cont) => {
                 type: "success",
                 text: successMessage.value
             })
+            await main.getUOMCustom()
         }
     } finally {
         boardLoading.value = false
@@ -50,7 +51,7 @@ const actions = {
 
 <template>
     <div class="pb-2 text-gray-500 ">
-        <LayoutPsTable :header-columns="headers" :datas="storeUOM.custom" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
+        <LayoutPsTable :header-columns="headers" :datas="listCustom" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />
     </div>
     <div class="flex justify-center mx-auto p-2">
         <CustomPagination :links="pagination" @change-params="changePaginate" />

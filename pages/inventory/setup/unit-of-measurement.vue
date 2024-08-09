@@ -3,9 +3,8 @@ import { useUOM } from "@/stores/inventory/setup/uom"
 
 const main = useUOM()
 const { isEdit } = storeToRefs(main)
-await main.getUOM()
-await main.getGroupUOM()
-
+await main.getUOMCustom()
+await main.getUOMStandard()
 useHead({
     title: "Unit of Measurement",
 })
@@ -19,8 +18,8 @@ useHead({
         ])"
     >
         <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-4">
-            <InventorySetupUnitOfMeasurementAddForm v-show="!isEdit" />
-            <InventorySetupUnitOfMeasurementEditForm v-show="isEdit" />
+            <InventorySetupUnitOfMeasurementAddForm v-show="!isEdit"/>
+            <InventorySetupUnitOfMeasurementEditForm v-show="isEdit"/>
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle

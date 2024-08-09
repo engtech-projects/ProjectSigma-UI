@@ -68,6 +68,60 @@ export const useUOM = defineStore("UOM", {
                 return error
             }
         },
+        async getUOMCustom () {
+            const { data, error } = await useFetch(
+                "/api/uom/resource",
+                {
+                    baseURL: config.public.INVENTORY_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: { custom: null },
+                    onResponse: ({ response }) => {
+                        this.listCustom = response._data.data.data
+                        this.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getUOMStandard () {
+            const { data, error } = await useFetch(
+                "/api/uom/resource",
+                {
+                    baseURL: config.public.INVENTORY_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: { standard: null },
+                    onResponse: ({ response }) => {
+                        this.listStandard = response._data.data.data
+                        this.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
         async getGroupUOM () {
             const { data, error } = await useFetch(
                 "/api/uom/group",
@@ -139,7 +193,11 @@ export const useUOM = defineStore("UOM", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.uom,
+                    body: {
+                        id: this.uom.id,
+                        name: this.uom.name,
+                        symbol: this.uom.symbol,
+                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
