@@ -30,7 +30,6 @@ const addUOM = async () => {
             text: errorMessage.value
         })
     } finally {
-        main.clearMessages()
         boardLoading.value = false
     }
 }

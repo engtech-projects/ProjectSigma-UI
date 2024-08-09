@@ -6,10 +6,12 @@ const { isEdit, isStandard } = storeToRefs(main)
 useHead({
     title: "Unit of Measurement",
 })
-await main.getUOM()
-const standard = (type) => {
+const standard = async (type) => {
+    main.list = []
     isStandard.value = type
+    await main.getUOM()
 }
+standard(false)
 </script>
 
 <template>

@@ -17,33 +17,27 @@ export const useUOM = defineStore("UOM", {
             is_standard: null,
         },
         list: [],
-        listCustom: [],
-        listStandard: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
     }),
-    getters: {
-        standard: (state) => {
-            return state.list.map(function (data:any) {
-                return data.is_standard ? data : null
-            }).filter(function (data:any) {
-                return data != null
-            })
-        },
-        custom: (state) => {
-            return state.list.map(function (data:any) {
-                return data.is_standard ? null : data
-            }).filter(function (data:any) {
-                return data != null
-            })
-        }
-    },
     actions: {
+        typeUOM () {
+            if (this.isStandard) {
+                this.getParams = {
+                    filter: "standard",
+                }
+            } else {
+                this.getParams = {
+                    filter: "custom",
+                }
+            }
+        },
         async getUOM () {
+            this.typeUOM()
             const { data, error } = await useFetch(
-                "/api/uom/resource",
+                "/api/uom/resource?standard",
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
@@ -84,24 +78,20 @@ export const useUOM = defineStore("UOM", {
                         id: this.uom.id,
                         name: this.uom.name,
                         symbol: this.uom.symbol,
-                        is_standard: this.isStandard,
+                        // is_standard: this.isStandard,
                     },
                     watch: false,
                     onResponse: ({ response }) => {
-                        if (!response.ok) {
-                            this.errorMessage = response._data.message
-                        } else {
+                        this.reset()
+                        if (response.ok) {
                             this.successMessage = response._data.message
-                            this.getUOM()
-                            this.$reset()
+                        } else {
+                            this.errorMessage = response._data.message
                         }
+                        this.getUOM()
                     },
                 }
             )
-        },
-        clearMessages () {
-            this.errorMessage = ""
-            this.successMessage = ""
         },
         async editUOM () {
             this.successMessage = ""
@@ -123,9 +113,13 @@ export const useUOM = defineStore("UOM", {
                     },
                     watch: false,
                     onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
-                        this.getUOM()
-                        this.reset()
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getUOM()
+                            this.reset()
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
                     },
                 }
             )
@@ -150,9 +144,13 @@ export const useUOM = defineStore("UOM", {
                     },
                     watch: false,
                     onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
-                        this.getUOM()
-                        this.reset()
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getUOM()
+                            this.reset()
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
                     },
                 }
             )
@@ -174,8 +172,8 @@ export const useUOM = defineStore("UOM", {
                 is_standard: null,
             }
             this.isEdit = false
-            this.successMessage = ""
             this.errorMessage = ""
+            this.successMessage = ""
         },
     },
 })

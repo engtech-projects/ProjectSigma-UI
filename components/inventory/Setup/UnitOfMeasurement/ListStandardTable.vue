@@ -4,7 +4,7 @@ import { useUOM } from "@/stores/inventory/setup/uom"
 
 const main = useUOM()
 
-const { standard, getParams, pagination, errorMessage, successMessage } = storeToRefs(main)
+const { list, pagination, getParams, errorMessage, successMessage } = storeToRefs(main)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -23,7 +23,7 @@ const deleteCont = async (cont) => {
                 type: "success",
                 text: successMessage.value
             })
-            await main.getUOMStandard()
+            await main.getUOM()
         }
     } finally {
         boardLoading.value = false
@@ -47,7 +47,7 @@ const actions = {
 
 <template>
     <div class="pb-2 text-gray-500 ">
-        <LayoutPsTable :header-columns="headers" :datas="standard" :actions="actions" @delete-row="deleteCont" />
+        <LayoutPsTable :header-columns="headers" :datas="list" :actions="actions" @delete-row="deleteCont" />
     </div>
     <div class="flex justify-center mx-auto p-2">
         <CustomPagination :links="pagination" @change-params="changePaginate" />
