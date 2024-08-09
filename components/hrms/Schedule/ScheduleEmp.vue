@@ -84,7 +84,7 @@ async function fetchSchedules () {
             onResponse: ({ response }) => {
                 isCalendarLoading.value = false
                 if (response.ok) {
-                    errorMessage.value = response._data.message
+                    // errorMessage.value = response._data.message
                 } else {
                     events.value = []
                     response._data.data.forEach((ev: any) => {
