@@ -20,7 +20,7 @@ const closeViewModal = () => {
         <div
             v-if="showModal"
             :id="'psModal-'+compId"
-            class="w-full h-full bg-black bg-opacity-80 fixed top-0 left-0 flex justify-center items-center"
+            class="w-full h-full bg-black bg-opacity-80 fixed top-0 left-0 flex justify-center items-center z-50"
             @click="closeViewModal()"
         >
             <div v-if="isLoading" class="absolute rounded-lg w-full h-full flex items-center justify-center" @click.stop>
