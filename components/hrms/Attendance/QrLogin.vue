@@ -1,11 +1,11 @@
 <script setup>
 import { Html5QrcodeScanner, Html5QrcodeScanType } from "html5-qrcode"
-import { useAttendancePortal } from "~/stores/hrms/attendancePortal"
+import { useQrAttendancePortal } from "~/stores/hrms/qrAttendancePortal"
 
-const attendancePortal = useAttendancePortal()
+const attendancePortal = useQrAttendancePortal()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-const { qrAttendanceParams, CATEGORY_TIME_IN } = storeToRefs(attendancePortal)
+const { qrAttendanceParams, tempEmployeeCode, CATEGORY_TIME_IN } = storeToRefs(attendancePortal)
 const grouptype = ref(null)
 const errorMessage = ref(null)
 let html5QrcodeScanner
@@ -25,29 +25,29 @@ onBeforeRouteLeave(() => {
 qrAttendanceParams.value.log_type = CATEGORY_TIME_IN
 const onScanSuccess = async (decodedText, decodedResult) => {
     qrAttendanceParams.value.employee_code = decodedText
-    qrAttendanceParams.value.result = JSON.stringify(decodedResult)
-    try {
-        boardLoading.value = true
-        await attendancePortal.saveAttendanceLogQr()
-        snackbar.add({
-            type: "success",
-            text: attendancePortal.successMessage
-        })
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    } finally {
-        boardLoading.value = false
-        useAttendancePortal.$reset()
+    if (tempEmployeeCode.value !== decodedText) {
+        tempEmployeeCode.value = decodedText
+        qrAttendanceParams.value.result = JSON.stringify(decodedResult)
+        try {
+            boardLoading.value = true
+            await attendancePortal.saveAttendanceLogQr()
+            snackbar.add({
+                type: "success",
+                text: attendancePortal.successMessage
+            })
+        } catch (error) {
+            snackbar.add({
+                type: "error",
+                text: error || "something went wrong."
+            })
+        }
         boardLoading.value = false
     }
 }
 const onScanFailure = (error) => {
     errorMessage.value = error
 }
-onNuxtReady(() => {
+onMounted(() => {
     initQRCode()
 })
 const initQRCode = () => {
