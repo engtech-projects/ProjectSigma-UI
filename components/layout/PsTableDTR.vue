@@ -220,10 +220,10 @@ const printTable = () => {
             </thead>
             <tbody>
                 <template v-if="datas.dtr">
-                    <template v-for="dataValue, index in datas.dtr" :key="index">
+                    <template v-for="dataValue, dtrDate in datas.dtr" :key="dtrDate">
                         <tr class="border text-center border-b">
                             <td class="p-2">
-                                {{ index }}
+                                {{ dtrDate }}
                             </td>
                             <td class="p-2">
                                 <template v-for="schedule_index in dataValue.schedules_attendances" :key="'sched-data-' + schedule_index">
@@ -318,16 +318,22 @@ const printTable = () => {
                             <template v-for="schedule_index in overtime" :key="'overtime-data-' + schedule_index">
                                 <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)">
                                     <td class="p-2">
-                                        <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.start_time_human != null">
+                                        <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.applied_in != null">
                                             {{ dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.applied_in?.time_human ?? "NO LOG" }}
+                                        </template>
+                                        <template v-else-if="dataValue.travel_order.length > 0">
+                                            ON TRAVEL ORDER
                                         </template>
                                         <template v-else>
                                             NO LOG
                                         </template>
                                     </td>
                                     <td class="p-2">
-                                        <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.end_time_human != null">
+                                        <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.applied_out != null">
                                             {{ dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.applied_out?.time_human ?? "NO LOG" }}
+                                        </template>
+                                        <template v-else-if="dataValue.travel_order.length > 0">
+                                            ON TRAVEL ORDER
                                         </template>
                                         <template v-else>
                                             NO LOG
