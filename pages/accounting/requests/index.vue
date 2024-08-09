@@ -12,8 +12,12 @@ useHead({
 </script>
 
 <template>
-    <div class="flex flex-col gap-2">
-        <p>Requests Page</p>
+    <div class="flex flex gap-4">
+        <!-- <div class="flex-1">
+            <AccountingTransactionEditTransactionType v-if="transactionTypeStore.isEdit" class="flex-1" />
+            <AccountingTransactionNewTransactionType v-else class="flex-1" />
+        </div> -->
+        <AccountingRequestsList class="flex-2" />
     </div>
 </template>
 
