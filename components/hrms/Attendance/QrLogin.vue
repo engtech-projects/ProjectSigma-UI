@@ -36,6 +36,7 @@ const onScanSuccess = async (decodedText, decodedResult) => {
                 text: attendancePortal.successMessage
             })
         } catch (error) {
+            tempEmployeeCode.value = null
             snackbar.add({
                 type: "error",
                 text: error || "something went wrong."
