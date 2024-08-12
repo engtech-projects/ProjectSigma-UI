@@ -20,7 +20,9 @@ const QRCodeConfiguration = {
     ],
 }
 onBeforeRouteLeave(() => {
-    html5QrcodeScanner.clear()
+    if (html5QrcodeScanner) {
+        html5QrcodeScanner.clear()
+    }
 })
 qrAttendanceParams.value.log_type = CATEGORY_TIME_IN
 const onScanSuccess = async (decodedText, decodedResult) => {

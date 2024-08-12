@@ -15,9 +15,11 @@ const faceProbability = ref(null)
 const cameraStarted = ref(false)
 
 onBeforeRouteLeave(() => {
-    stream.getTracks().forEach((track) => {
-        track.stop()
-    })
+    if (stream) {
+        stream.getTracks().forEach((track) => {
+            track.stop()
+        })
+    }
 })
 
 const startCamera = () => {

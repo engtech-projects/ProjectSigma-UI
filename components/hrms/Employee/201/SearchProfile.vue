@@ -6,7 +6,9 @@ const employee = useEmployeeInfo()
 const { information: employeeInformation, employeeIsSearched, editable } = storeToRefs(employee)
 // CLOSE CAMERA ON LEAVE PAGE
 onBeforeRouteLeave(() => {
-    employee.$reset()
+    if (employee) {
+        employee.$reset()
+    }
 })
 </script>
 <template>
