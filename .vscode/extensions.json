@@ -5,6 +5,7 @@
         "vue.volar",
         "nuxtr.nuxt-vscode-extentions",
         "dbaeumer.vscode-eslint",
-        "rvest.vs-code-prettier-eslint"
+        "rvest.vs-code-prettier-eslint",
+        "bradlc.vscode-tailwindcss"
     ]
 }

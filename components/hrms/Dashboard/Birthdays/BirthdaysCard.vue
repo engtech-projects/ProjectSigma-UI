@@ -8,7 +8,7 @@ defineProps({
 </script>
 <template>
     <LayoutBoards title="Birthdays This Month">
-        <div class="grid grid-cols-4 justify-start mt-4 gap-4 p-2">
+        <div class="grid grid-cols-4 justify-start mt-4 gap-4 p-2 max-h-96 overflow-y-scroll">
             <div v-if="employees.length <= 0">
                 No birthdays found this month.
             </div>
