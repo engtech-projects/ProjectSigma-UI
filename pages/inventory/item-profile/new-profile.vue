@@ -31,7 +31,7 @@ useHead({
                 <InventoryItemProfileNewItemProfileForm />
             </div>
             <div>
-                <HrmsTravelOrderTabList />
+                <InventoryItemProfileTabList />
             </div>
         </div>
     </LayoutAcessContainer>
