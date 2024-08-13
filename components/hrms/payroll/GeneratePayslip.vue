@@ -92,7 +92,7 @@ const submitForm = async () => {
                         </button>
                     </div>
                     <div class="p-2">
-                        <HrmsPayrollGeneratepayrollInformation />
+                        <HrmsPayrollSalaryGeneratePayrollDraft />
                     </div>
                 </div>
             </div>

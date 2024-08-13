@@ -30,7 +30,7 @@ const closeViewModal = () => {
                     alt="logo"
                 >
             </div>
-            <div class="max-w-[85%] min-w-[50%] max-h-[80%] min-h-[50%] bg-white rounded-md relative flex flex-col" @click.stop>
+            <div class="pb-2 max-w-[85%] min-w-[50%] max-h-[80%] min-h-[50%] bg-white rounded-md relative flex flex-col" @click.stop>
                 <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-between border-b rounded-t dark:border-gray-600">
                     <h3 v-if="title" class="pl-4 text-xl font-light text-gray-900 dark:text-white p-4">
                         {{ title }}

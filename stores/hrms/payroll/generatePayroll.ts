@@ -445,20 +445,17 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         async createRequest () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApi(
+            await useHRMSApiO(
                 "/api/payroll/create-payroll",
                 {
                     method: "POST",
                     body: this.formattedPayrollDraft,
                     onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
-                            this.$reset()
-                            this.getAllList()
-                            this.getMyApprovalRequests()
-                            this.getMyRequests()
+                        if (response.ok) {
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -477,7 +474,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                     method: "PATCH",
                     body: this.payrollRecord,
                     onResponse: ({ response }: any) => {
-                        if (response.status >= 200 && response.status <= 299) {
+                        if (response.ok) {
                             this.$reset()
                             this.successMessage = response._data.message
                         } else {

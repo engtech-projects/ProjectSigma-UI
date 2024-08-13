@@ -28,10 +28,6 @@ const showInformationModal = ref(false)
 const showInformation = () => {
     showInformationModal.value = true
 }
-const closeViewModal = () => {
-    showInformationModal.value = false
-}
-
 const submitForm = async () => {
     try {
         boardLoading.value = true
@@ -48,7 +44,7 @@ const submitForm = async () => {
 </script>
 
 <template>
-    <LayoutBoards title="Generate Payroll" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="" class="w-full" :loading="boardLoading">
         <div class="mt-5 mb-6 p-2">
             <form @submit.prevent="submitForm">
                 <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateParams.employee_ids" title="Employee Name" name="Employee Name" />
@@ -125,45 +121,44 @@ const submitForm = async () => {
                         v-model="generateParams.approvals[apr]"
                     />
                 </div>
-
-                <div>
-                    <div class="mb-5 w-2/3 flex flex-row gap-4 relative">
-                        <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
-                            <div class="flex items-center justify-between">
-                                <label for="" class="text-xl font-semibold text-gray-900 pb-2">Adjustment</label>
-                                <button class="add-button " title="Add More Adjustment" @click.prevent="addAdjustment">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor"
-                                        class="w-8 h-8 text-green-600 hover:text-green-900"
-                                    ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                </button>
+                <div class="mb-5 w-2/3 flex flex-row gap-4">
+                    <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
+                        <div class="flex items-center justify-between">
+                            <label for="" class="text-xl font-semibold text-gray-900 pb-2">Adjustment</label>
+                            <button class="add-button " title="Add More Adjustment" @click.prevent="addAdjustment">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-8 h-8 text-green-600 hover:text-green-900"
+                                ><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </button>
+                        </div>
+                        <div v-for="adjust, adjustIndex in generateParams.adjustments" :key="adjustIndex" class="flex flex-row gap-x-4 pb-8 items-center justify-between">
+                            <div class="w-1/2">
+                                <label for="">Employee</label>
+                                <SearchBar @search-changed="emp => setEmployee(adjustIndex, emp)" />
                             </div>
-                            <div v-for="adjust, adjustIndex in generateParams.adjustments" :key="adjustIndex" class="flex flex-row gap-x-4 pb-8 items-center justify-between">
-                                <div class="w-full md:w-1/2">
-                                    <label for="">Employee</label>
-                                    <SearchBar @search-changed="emp => setEmployee(adjustIndex, emp)" />
-                                </div>
-                                <LayoutFormPsTextInput v-model="adjust.adjustment_name" title="Adjustment Name" class="w-1/4" :required="false" />
-                                <LayoutFormPsNumberInput v-model="adjust.adjustment_amount" title="Adjustment Amount" class="w-1/4" :required="false" />
-                                <button class="delete-button " title="Remove Adjustment" @click.prevent="delAdjustment(adjustIndex)">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor"
-                                        class="w-8 h-8 text-red-600 hover:text-red-400"
-                                    >
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </button>
-                            </div>
+                            <LayoutFormPsTextInput v-model="adjust.adjustment_name" title="Adjustment Name" class="w-1/4" :required="false" />
+                            <LayoutFormPsNumberInput v-model="adjust.adjustment_amount" title="Adjustment Amount" class="w-1/4" :required="false" />
+                            <button class="delete-button " title="Remove Adjustment" @click.prevent="delAdjustment(adjustIndex)">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="w-8 h-8 text-red-600 hover:text-red-400"
+                                >
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
+                </div>
+                <div>
                     <div class="">
                         <div class="flex flex-row justify-between">
                             <div>
@@ -182,24 +177,9 @@ const submitForm = async () => {
             </form>
         </div>
     </LayoutBoards>
-
-    <div v-if="showInformationModal" :loading="boardLoading">
-        <Teleport to="body">
-            <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <div class="bg-white p-4 w-4/5 h-4/5 mt-10 ml-54 gap-2 rounded-md overflow-auto absolute">
-                    <div class="flex gap-2 justify-end ml-auto p-2 ">
-                        <button
-                            title="Close"
-                            @click="closeViewModal"
-                        >
-                            <Icon name="cil:x" class="w-5 h-5 hover:bg-red-400 hover:rounded-sm hover:text-white" />
-                        </button>
-                    </div>
-                    <div class="p-2">
-                        <HrmsPayrollGeneratepayrollInformation />
-                    </div>
-                </div>
-            </div>
-        </Teleport>
-    </div>
+    <PsModal v-model:show-modal="showInformationModal" title="Generate Payroll Draft">
+        <template #body>
+            <HrmsPayrollSalaryGeneratePayrollDraft v-if="showInformationModal" />
+        </template>
+    </PsModal>
 </template>

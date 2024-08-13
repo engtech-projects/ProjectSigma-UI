@@ -27,16 +27,34 @@ useHead({
         <div class="grid grid-cols-1 md:flex-row gap-4">
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
-                    <HrmsCommonTabsTabTitle target-id="payrollForm" title="Generate Payroll" />
-                    <HrmsCommonTabsTabTitle target-id="allRequest" title="All Request" />
-                    <HrmsCommonTabsTabTitle target-id="myRequestList" title="My Request" />
-                    <HrmsCommonTabsTabTitle target-id="myApprovalsList" title="My Approvals" />
-                    <HrmsCommonTabsTabTitle target-id="payrollRecord" title="Payroll Record" />
-                    <HrmsCommonTabsTabTitle target-id="generatePayslip" title="Generate Payslip" />
+                    <HrmsCommonTabsTabTitle
+                        target-id="payrollForm"
+                        title="Generate Payroll"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        target-id="allRequest"
+                        title="All Request"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        target-id="myRequestList"
+                        title="My Request"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        target-id="myApprovalsList"
+                        title="My Approvals"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        target-id="payrollRecord"
+                        title="Payroll Record"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        target-id="generatePayslip"
+                        title="Generate Payslip"
+                    />
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer id="payrollForm">
-                        <HrmsPayrollGeneratepayrollForm />
+                        <HrmsPayrollSalaryGeneratePayrollGenerateForm />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="allRequest">
                         <HrmsPayrollAllRequest />
@@ -55,10 +73,6 @@ useHead({
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>
-        </div>
-        <div class="grid grid-cols-1 md:flex-row gap-4">
-            <!-- <HrmsPayrollGeneratepayrollForm /> -->
-            <!-- <HrmsPayrollGeneratepayrollTable /> -->
         </div>
     </LayoutAcessContainer>
 </template>
