@@ -275,7 +275,7 @@ watch(errorMessage, (msg) => {
         <head>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         </head>
-        <div class="w-full md:w-1/2 justify-start border border-teal-100 shadow-md rounded-lg mt-5 relative">
+        <div class="w-full w-full md:w-1/2 justify-start border border-teal-100 shadow-md rounded-lg mt-5 relative">
             <div v-if="isLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center z-50">
                 <img
                     class="flex justify-center w-28 rounded-md"

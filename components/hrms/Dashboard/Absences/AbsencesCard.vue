@@ -13,13 +13,9 @@ defineProps({
             <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">
                 Absences This Month
             </h5>
-            <!-- <div class="flex flex-col gap-2">
-                <label class="" for="">Date Filter:</label>
-                <VueDatePicker v-model="date" range class="z-15" />
-            </div> -->
         </div>
         <div class="mt-5 overflow-auto min-h-96 max-h-96">
-            <div class="grid grid-cols-4 justify-start mt-4 gap-4 p-2">
+            <div class="grid grid-cols-3 md:grid-cols-4 justify-start mt-4 gap-4 p-2">
                 <div v-if="employees.length <= 0">
                     No absences found this month.
                 </div>

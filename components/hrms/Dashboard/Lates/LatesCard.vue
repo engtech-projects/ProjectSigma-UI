@@ -15,7 +15,7 @@ defineProps({
             </h5>
         </div>
         <div class="mt-5 overflow-auto min-h-96 max-h-96">
-            <div class="grid grid-cols-4 justify-start mt-4 gap-4 p-2">
+            <div class="grid grid-cols-3 md:grid-cols-4 justify-start mt-4 gap-4 p-2">
                 <div v-if="employees.length <= 0">
                     No Lates found this month.
                 </div>

@@ -74,7 +74,7 @@ const closeForm = () => {
         </LayoutEditBoards>
         <Teleport to="body">
             <div v-if="showFormComponent" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70" @click="closeForm">
-                <div class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md shadow-lg overflow-auto absolute" @click.stop>
+                <div class="bg-white p-4 w-full h-[460px] md:w-8/12 md:h-4/5 md:mt-10 md:ml-64 gap-2 rounded-md shadow-lg overflow-auto absolute" @click.stop>
                     <HrmsEmployeeJobApplicationForm class="pt-2" />
                 </div>
             </div>

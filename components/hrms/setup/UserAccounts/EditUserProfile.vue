@@ -131,7 +131,7 @@ const savePassword = () => {
                         </div>
                     </div>
                     <div v-show="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                        <div class="bg-white p-4 mt-10 ml-64 gap-4 rounded-md shadow-lg overflow-auto absolute space-x-4">
+                        <div class="bg-white p-4 md:mt-10 md:ml-64 gap-4 rounded-md shadow-lg overflow-auto absolute space-x-4">
                             <span class="close cursor-pointer text-md flex justify-end ml-auto" @click="closeModal">&times;</span>
                             <h3>Confirm Password</h3>
                             <input v-model="editCurrent.params.current_password" class="rounded-lg" type="password" placeholder="Enter your password" required>

@@ -96,7 +96,7 @@ const closeApplicantDetail = () => {
 
         <Teleport to="body">
             <div v-if="applicantDetail" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70" @click="closeApplicantDetail">
-                <div class="p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute" @click.stop>
+                <div class="p-4 w-full h-[460px] md:w-8/12 md:h-4/5 md:mt-10 md:ml-64 gap-2 rounded-md overflow-auto absolute" @click.stop>
                     <div v-if="applicantDetail">
                         <div v-for="(applicant, key) in applicantDetail" :key="key" class="border px-4 py-2">
                             <span class="font-semibold">{{ key }}:</span>

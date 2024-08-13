@@ -3,7 +3,7 @@
         <div
             class="flex items-center justify-between text-lg font-semibold text-gray-900 dark:text-white"
         >
-            <h3 class="text-6xl mb-4 ">
+            <h3 class="text-4xl md:text-6xl mb-4 ">
                 {{ title }}
             </h3>
 

@@ -143,7 +143,7 @@ const submitForm = async () => {
                                 </button>
                             </div>
                             <div v-for="adjust, adjustIndex in generateParams.adjustments" :key="adjustIndex" class="flex flex-row gap-x-4 pb-8 items-center justify-between">
-                                <div class="w-1/2">
+                                <div class="w-full md:w-1/2">
                                     <label for="">Employee</label>
                                     <SearchBar @search-changed="emp => setEmployee(adjustIndex, emp)" />
                                 </div>
