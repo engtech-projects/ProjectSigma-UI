@@ -1,23 +1,8 @@
 <script setup lang="ts">
-import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
-import { useEnumsStore } from "@/stores/hrms/enum"
-
-const genpayrollstore = useGeneratePayrollStore()
-genpayrollstore.getAllList()
-genpayrollstore.getMyApprovalRequests()
-genpayrollstore.getMyRequests()
-
-const enums = useEnumsStore()
-enums.getEmployeeEnum()
-enums.getDepartmentEnums()
-enums.getProjectEnums()
-
 useHead({
     title: "Salary",
 })
-
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
@@ -57,13 +42,13 @@ useHead({
                         <HrmsPayrollSalaryGeneratePayrollGenerateForm />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="allRequest">
-                        <HrmsPayrollAllRequest />
+                        <HrmsPayrollSalaryGeneratePayrollAllRequests />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="myRequestList">
-                        <HrmsPayrollMyRequests />
+                        <HrmsPayrollSalaryGeneratePayrollMyRequests />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="myApprovalsList">
-                        <HrmsPayrollMyApprovals />
+                        <HrmsPayrollSalaryGeneratePayrollMyApprovals />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="payrollRecord">
                         <HrmsPayrollPayrollrecordTable />

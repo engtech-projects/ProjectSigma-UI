@@ -73,10 +73,15 @@ export enum AccessibilityTypes {
     hrms_lnotnto_travel_order_my_approvals = "hrms:leaves and overtime_travel order_myapprovals",
     // PAYROLL
     hrms_payroll_group = "hrms:payroll_",
+    hrms_payroll_salary_group = "hrms:payroll_salary",
+    hrms_payroll_salary_generatepayroll = "hrms:payroll_salary_generate payroll_form and my requests",
+    hrms_payroll_salary_allrequest = "hrms:payroll_generate payroll_all request",
+    hrms_payroll_salary_myapprovals = "hrms:payroll_generate payroll_my approvals",
+    hrms_payroll_salary_disburserequest = "hrms:payroll_generate payroll_disbursement request",
     hrms_payroll_generate_payroll = "hrms:payroll_generate payroll",
-    hrms_payroll_13th_month = "hrms:payroll_13th month",
-    hrms_payroll_allowance = "hrms:payroll_allowance",
     hrms_payroll_payroll_record = "hrms:payroll_payroll record",
+    hrms_payroll_13thmonth = "hrms:payroll_13th month",
+    hrms_payroll_allowance = "hrms:payroll_allowance",
     // SCHEDULE
     hrms_schedule_group = "hrms:schedule_",
     hrms_schedule_department = "hrms:schedule_department",

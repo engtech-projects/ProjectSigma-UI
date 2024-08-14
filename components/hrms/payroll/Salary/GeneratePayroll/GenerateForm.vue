@@ -11,18 +11,6 @@ generateParams.value.approvals = await approvals.getApprovalByName(APPROVAL_GP)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-const setEmployee = (adjustIndex, emp) => {
-    generateParams.value.adjustments[adjustIndex].employee_id = emp.id
-}
-
-const addAdjustment = () => {
-    generateParams.value.adjustments.push({ employee_id: "", adjustment_name: "", adjustment_amount: "" })
-}
-
-const delAdjustment = (adjustIndex) => {
-    generateParams.value.adjustments.splice(adjustIndex, 1)
-}
-
 const showInformationModal = ref(false)
 
 const showInformation = () => {
@@ -31,13 +19,12 @@ const showInformation = () => {
 const submitForm = async () => {
     try {
         boardLoading.value = true
-        await genpayrollstore.generatePayrollDraft()
+        await genpayrollstore.draftPayrollRequest()
         snackbar.add({ type: "success", text: "Payroll Draft Successfully Generated." })
         showInformation()
     } catch (error) {
-        snackbar.add({ type: "error", text: genpayrollstore.errorMessage })
+        snackbar.add({ type: "error", text: error })
     } finally {
-        genpayrollstore.clearMessages()
         boardLoading.value = false
     }
 }
@@ -125,7 +112,7 @@ const submitForm = async () => {
                     <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
                         <div class="flex items-center justify-between">
                             <label for="" class="text-xl font-semibold text-gray-900 pb-2">Adjustment</label>
-                            <button class="add-button " title="Add More Adjustment" @click.prevent="addAdjustment">
+                            <button type="button" class="add-button " title="Add More Adjustment" @click.prevent="genpayrollstore.addAdjustment">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -139,11 +126,11 @@ const submitForm = async () => {
                         <div v-for="adjust, adjustIndex in generateParams.adjustments" :key="adjustIndex" class="flex flex-row gap-x-4 pb-8 items-center justify-between">
                             <div class="w-1/2">
                                 <label for="">Employee</label>
-                                <SearchBar @search-changed="emp => setEmployee(adjustIndex, emp)" />
+                                <HrmsCommonSearchEmployeeSelector v-model="generateParams.adjustments[adjustIndex].employee_id" />
                             </div>
                             <LayoutFormPsTextInput v-model="adjust.adjustment_name" title="Adjustment Name" class="w-1/4" :required="false" />
                             <LayoutFormPsNumberInput v-model="adjust.adjustment_amount" title="Adjustment Amount" class="w-1/4" :required="false" />
-                            <button class="delete-button " title="Remove Adjustment" @click.prevent="delAdjustment(adjustIndex)">
+                            <button class="delete-button " title="Remove Adjustment" @click.prevent="genpayrollstore.removeAdjustment(adjustIndex)">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
