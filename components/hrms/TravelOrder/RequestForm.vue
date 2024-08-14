@@ -47,7 +47,7 @@ const submitForm = async () => {
     <LayoutBoards title="Travel Order Form" class="w-full" :loading="boardLoading">
         <div class="text-gray-500">
             <form @submit.prevent="submitForm">
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 p-2">
                     <div class="flex-1 pt-8">
                         <div>
                             <HrmsCommonMultipleEmployeeSelector v-model="travel.employee_ids" />
@@ -100,7 +100,7 @@ const submitForm = async () => {
                         <div>
                             <LayoutFormPsTextInput v-model="travel.remarks" title="Remarks" />
                         </div>
-                        <div>
+                        <div class>
                             <HrmsCommonRequestedBy title="Prepared by" />
                         </div>
                     </div>
