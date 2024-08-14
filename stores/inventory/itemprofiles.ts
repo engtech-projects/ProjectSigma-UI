@@ -11,6 +11,13 @@ export const REQ_STATUS = [
     DENIED,
 ]
 
+export interface SubItemGroup {
+    name: string | null,
+}
+export interface ItemGroup {
+    name: string,
+}
+
 export const useItemProfileStore = defineStore("itemprofiles", {
     state: () => ({
         isEdit: false,
@@ -40,6 +47,9 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             noted_by: [],
             request_status: ""
         },
+        itemgroup: {} as ItemGroup,
+        subitemgroup: [],
+        uom: [],
         list: [],
         myApprovalRequestList: [],
         myRequestList: [],
@@ -65,6 +75,69 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                     },
                 }
             )
+        },
+        async getUOM () {
+            const { data, error } = await useFetch(
+                "/api/uom/resource",
+                {
+                    baseURL: config.public.INVENTORY_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    onResponse: ({ response }) => {
+                        this.uom = response._data.data.data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getItemGroups () {
+            const { data, error } = await useInventoryApi(
+                "/api/item-group/resource",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.itemgroup = response._data.data.data.map((val: any) => {
+                                return {
+                                    id: val.id,
+                                    name: val.name,
+                                }
+                            })
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getSubItemGroups (id: number) {
+            const { data, error } = await useInventoryApi(
+                "/api/item-group/resource/" + id,
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        this.subitemgroup = response._data.data.sub_groups
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
         },
         async getItemProfile () {
             await useFetch(
