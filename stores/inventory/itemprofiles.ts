@@ -99,7 +99,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getItemGroups () {
             const { data, error } = await useInventoryApi(
-                "/api/item-group/resource",
+                "/api/item-group/list",
                 {
                     method: "GET",
                     params: this.getParams,
