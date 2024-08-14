@@ -50,8 +50,8 @@ const submitForm = async () => {
     <LayoutBoards title="Overtime Authorization Form" class="w-full" :loading="boardLoading">
         <div class="text-gray-500">
             <form @submit.prevent="submitForm">
-                <div class="grid grid-cols-2 gap-2 mb-2">
-                    <div class="flex-1 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2 p-2">
+                    <div class="gap-4 p-2 w-full">
                         <HrmsCommonDepartmentProjectSelector
                             v-model:select-type="overtime.charging"
                             v-model:department-id="overtime.department_id"
@@ -62,7 +62,7 @@ const submitForm = async () => {
                         <HrmsCommonMultipleEmployeeSelector v-model="overtime.employees" title="Employee Name" name="Employee Name" />
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">
-                        <div>
+                        <div class="py-2">
                             <label for="requstedBy" class="text-sm font-semibold text-gray-700">Date of Overtime</label>
                             <input
                                 v-model="overtime.overtime_date"
@@ -70,7 +70,7 @@ const submitForm = async () => {
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             >
                         </div>
-                        <div>
+                        <div class="py-2">
                             <label for="time_from" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From</label>
                             <input
                                 id="time_from"
@@ -79,7 +79,7 @@ const submitForm = async () => {
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
                         </div>
-                        <div>
+                        <div class="py-2">
                             <label for="time_to" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To</label>
                             <input
                                 id="time_to"
@@ -88,10 +88,10 @@ const submitForm = async () => {
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             >
                         </div>
-                        <div>
+                        <div class="py-2">
                             <LayoutFormPsTextInput v-model="overtime.reason" title="Purpose/Reason" name="Purpose/Reason" :required="true" />
                         </div>
-                        <div>
+                        <div class="py-2">
                             <LayoutFormPsBooleanInput v-model="overtime.meal_deduction" title="Add 1hr Meal Deduction" name="Add 1hr Meal Deduction" />
                         </div>
                     </div>
@@ -106,7 +106,7 @@ const submitForm = async () => {
                     />
                 </div>
 
-                <div class="flex justify-end">
+                <div class="flex justify-end p-4">
                     <button type="submit" class="flex-1 text-white p-2 rounded-lg bg-teal-600 content-center mt-5">
                         Submit Form
                     </button>

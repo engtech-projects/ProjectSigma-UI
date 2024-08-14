@@ -41,7 +41,7 @@ const submitForm = async () => {
             <form @submit.prevent="submitForm">
                 <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateParams.employee_ids" title="Employee Name" name="Employee Name" />
 
-                <div class="mt-5 mb-5 flex gap-4 sm:grid-cols-3">
+                <div class="mt-5 mb-5 flex gap-4 md:grid-cols-3 grid-cols-1">
                     <LayoutFormPsDateInput v-model="generateParams.payroll_date" title="Payroll Date" required />
 
                     <div class="flex-1">

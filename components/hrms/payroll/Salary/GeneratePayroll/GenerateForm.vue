@@ -48,13 +48,13 @@ const submitForm = async () => {
         <div class="mt-5 mb-6 p-2">
             <form @submit.prevent="submitForm">
                 <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateParams.employee_ids" title="Employee Name" name="Employee Name" />
-
-                <div class="mt-5 mb-5 flex gap-4 sm:grid-cols-3">
-                    <LayoutFormPsDateInput v-model="generateParams.cutoff_start" title="Cut-off Date (Start)" required />
-                    <LayoutFormPsDateInput v-model="generateParams.cutoff_end" title="Cut-off Date (End)" required />
-                    <LayoutFormPsDateInput v-model="generateParams.payroll_date" title="Payroll Date" required />
-
-                    <div class="flex-1">
+                <div class="mt-5 mb-5">
+                    <div class="w-full flex gap-2 md:flex-row flex-col">
+                        <LayoutFormPsDateInput v-model="generateParams.cutoff_start" class="w-full" title="Cut-off Date (Start)" required />
+                        <LayoutFormPsDateInput v-model="generateParams.cutoff_end" class="w-full" title="Cut-off Date (End)" required />
+                        <LayoutFormPsDateInput v-model="generateParams.payroll_date" class="w-full" title="Payroll Date" required />
+                    </div>
+                    <div class="flex-1 p-2">
                         <HrmsCommonDepartmentProjectSelector
                             v-model:select-type="generateParams.group_type"
                             v-model:department-id="generateParams.department_id"
