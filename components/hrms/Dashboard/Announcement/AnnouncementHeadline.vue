@@ -32,19 +32,21 @@ const toggleExpand = () => {
         <div
             class="flex items-center justify-between text-lg font-semibold text-gray-900 dark:text-white"
         >
-            <h3 class="text-4xl md:text-6xl mb-4 ">
+            <h3 class="text-md md:text-6xl mb-4 ">
                 {{ title }}
             </h3>
             <span v-if="title!='No Announcement'" class="bg-teal-100 text-teal-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-blue-300 ms-3">Latest</span>
         </div>
         <time class="block mb-2 text-xl font-normal leading-none text-gray-700 dark:text-gray-500">{{ date }}</time>
-        <div class="mb-4 text-2xl font-normal text-gray-500 dark:text-gray-400 italic">
+        <div v-if="content?.length > maxContentLength && !isFirstCard && !expandContent" class="mb-4 text-2xl font-normal text-gray-500 dark:text-gray-400 italic">
             {{ content?.slice(0, maxContentLength) }}
-            <div v-if="expandContent && !isFirstCard" class="mb-4 font-norma text-2xl text-gray-500 dark:text-gray-400">
-                {{ content?.slice(maxContentLength, content.length ) }}
-                <span class="text-blue-700 cursor-pointer hover:underline dark:text-blue-300" @click="toggleExpand"> Show Less</span>
-            </div>
-            <span v-if="content?.length > maxContentLength && !isFirstCard && !expandContent" class="text-blue-700 cursor-pointer hover:underline dark:text-blue-300" @click="toggleExpand">... View All</span>
+            <span class="text-blue-700 cursor-pointer hover:underline dark:text-blue-300" @click="toggleExpand">... View All</span>
+        </div>
+        <div v-else class="mb-4 font-norma text-2xl text-gray-500 dark:text-gray-400">
+            {{ content }}
+            <p class="text-blue-700 cursor-pointer hover:underline dark:text-blue-300" @click="toggleExpand">
+                Show Less
+            </p>
         </div>
     </div>
 </template>
