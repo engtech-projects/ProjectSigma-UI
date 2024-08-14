@@ -19,7 +19,7 @@
         </div>
 
         <div v-if="expandContent && !isFirstCard" class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-            {{ content }}
+            {{ content?.slice(maxContentLength, content.length ) }}
             <span class="text-blue-700 cursor-pointer hover:underline dark:text-blue-300" @click="toggleExpand"> Show Less</span>
         </div>
     </div>
