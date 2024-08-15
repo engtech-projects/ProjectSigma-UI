@@ -6,7 +6,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_payroll_generate_payroll,
+            AccessibilityTypes.hrms_payroll_salary_group,
         ])"
     >
         <div class="grid grid-cols-1 md:flex-row gap-4">
@@ -38,22 +38,52 @@ useHead({
                     />
                 </template>
                 <template #tab-containers>
-                    <HrmsCommonTabsTabContainer id="payrollForm">
+                    <HrmsCommonTabsTabContainer
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_form,
+                        ])"
+                        id="payrollForm"
+                    >
                         <HrmsPayrollSalaryGeneratePayrollGenerateForm />
                     </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="allRequest">
+                    <HrmsCommonTabsTabContainer
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_allrequests,
+                        ])"
+                        id="allRequest"
+                    >
                         <HrmsPayrollSalaryGeneratePayrollAllRequests />
                     </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="myRequestList">
+                    <HrmsCommonTabsTabContainer
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_form,
+                        ])"
+                        id="myRequestList"
+                    >
                         <HrmsPayrollSalaryGeneratePayrollMyRequests />
                     </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="myApprovalsList">
+                    <HrmsCommonTabsTabContainer
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_myapprovals,
+                        ])"
+                        id="myApprovalsList"
+                    >
                         <HrmsPayrollSalaryGeneratePayrollMyApprovals />
                     </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="payrollRecord">
+                    <HrmsCommonTabsTabContainer
+                        v-if="useCheckAccessibility([
+                            'AdminOnly',
+                        ])"
+                        id="payrollRecord"
+                    >
                         <HrmsPayrollPayrollrecordTable />
                     </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="generatePayslip">
+                    <HrmsCommonTabsTabContainer
+                        v-if="useCheckAccessibility([
+                            'AdminOnly',
+                        ])"
+                        id="generatePayslip"
+                    >
                         <HrmsPayrollGeneratePayslip />
                     </HrmsCommonTabsTabContainer>
                 </template>
