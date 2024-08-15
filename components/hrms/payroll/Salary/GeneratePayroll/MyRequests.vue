@@ -10,10 +10,10 @@ if (!myRequests.value.isLoaded) {
 }
 
 const headers = [
-    { name: "Payroll Date", id: "payroll_date" },
+    { name: "Payroll Date", id: "payroll_date_human" },
     { name: "Charged to", id: "charging_name" },
-    { name: "Cut Off End", id: "cutoff_end" },
-    { name: "Cut Off Start", id: "cutoff_start" },
+    { name: "Cut Off Start", id: "cutoff_start_human" },
+    { name: "Cut Off End", id: "cutoff_end_human" },
     { name: "Payroll Type", id: "payroll_type" },
     { name: "Release Type", id: "release_type" },
     { name: "Request Status", id: "request_status" },

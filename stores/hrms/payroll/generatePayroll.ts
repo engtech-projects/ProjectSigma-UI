@@ -33,9 +33,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
     state: () => ({
         isEdit: false,
         generateParams: {
-            adjustments: [] as Array<Adjustment>,
-            charging: [] as Array<Charging>,
-            deductions: [] as Array<Deduction>,
+            adjustments: [] as Adjustment[],
+            charging: [] as Charging[],
+            deductions: [] as Deduction[],
             group_type: null,
             project_id: null,
             department_id: null,
@@ -139,6 +139,10 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         net_pay: data.payroll_records.total_net_pay,
                         loans: data.payroll_records.salary_deduction.loan,
                         cash_advance: data.payroll_records.salary_deduction.cash_advance,
+                        adjustments: data.payroll_records.adjustments.map((adjust: any) => ({
+                            name: adjust.adjustment_name,
+                            amount: adjust.adjustment_amount,
+                        })),
                         deductions: [
                             ...data.payroll_records.salary_deduction.loan.loans.map((loan: { installment_deduction: any }) => ({
                                 name: "Loan",
@@ -214,7 +218,6 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                                 last_page: response._data.data.last_page_url,
                             }
                         } else {
-                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
@@ -232,7 +235,6 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                             this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data
                         } else {
-                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
@@ -273,6 +275,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             return response._data
+                            this.reloadResources()
                         } else {
                             throw new Error(response._data.message)
                         }
