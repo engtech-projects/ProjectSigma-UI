@@ -262,14 +262,16 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             )
         },
         async createPayrollRequest () {
-            await useHRMSApiO(
+            return await useHRMSApiO(
                 "/api/payroll/create-payroll",
                 {
                     method: "POST",
                     body: this.formattedPayrollDraft,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.reloadResources()
                             return response._data
                         } else {
                             throw new Error(response._data.message)

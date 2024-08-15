@@ -47,7 +47,7 @@ const savePayroll = async () => {
         await genpayrollstore.createPayrollRequest()
         snackbar.add({
             type: "success",
-            text: "Successfully Saved Payroll Request"
+            text: "Successfully saved payroll request."
         })
     } catch (error) {
         snackbar.add({
