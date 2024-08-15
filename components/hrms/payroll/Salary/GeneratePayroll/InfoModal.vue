@@ -16,7 +16,6 @@ defineProps({
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const genpayrollstore = useGeneratePayrollStore()
-const { remarks, list: payrollDetails } = storeToRefs(genpayrollstore)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -27,10 +26,10 @@ const closeViewModal = () => {
 const approvedRequest = async (id: any) => {
     try {
         boardLoading.value = true
-        await genpayrollstore.approveApprovalForm(id)
+        const approveData = await genpayrollstore.approveApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: genpayrollstore.successMessage
+            text: genpayrollstore.approval.successMessage ?? approveData
         })
         closeViewModal()
     } catch (error) {
@@ -42,16 +41,13 @@ const approvedRequest = async (id: any) => {
         boardLoading.value = false
     }
 }
-const clearRemarks = () => {
-    remarks.value = ""
-}
 const denyRequest = async (id : any) => {
     try {
         boardLoading.value = true
         await genpayrollstore.denyApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: genpayrollstore.successMessage
+            text: "Successfully Denied"
         })
         closeViewModal()
     } catch (error) {
@@ -92,11 +88,6 @@ const denyRequest = async (id : any) => {
                     <span class="text-teal-600 text-light font-medium">Request Status: </span> {{ data.request_status }}
                 </div>
             </div>
-            <div class="flex">
-                <HrmsCommonPayrollDetails
-                    :datas="payrollDetails"
-                />
-            </div>
             <div class="w-full">
                 <LayoutApprovalsListView :approvals="data.approvals" />
             </div>
@@ -109,45 +100,7 @@ const denyRequest = async (id : any) => {
                 >
                     Approve Request
                 </button>
-                <button
-                    data-popover-target="popover-deny"
-                    class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                >
-                    Deny Request
-                </button>
-                <div id="popover-deny" data-popover role="tooltip" class="absolute z-10 invisible inline-block w-96 text-sm text-gray-500 transition-opacity duration-300 bg-gray-800 border border-gray-200 shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 p-4">
-                    <div>
-                        <div class="text-white text-lg">
-                            Payroll Request
-                        </div>
-                        <div>
-                            <div class="w-full">
-                                <p class="text-md">
-                                    Are you sure you want to deny this process?
-                                </p>
-                            </div>
-                            <div class="py-2 flex-col flex gap-2">
-                                <label for="deny-remarks">Reason for Denial</label>
-                                <textarea v-model="remarks" cols="2" rows="2" />
-                            </div>
-                            <div class="w-full py-2 flex gap-2 justify-end">
-                                <button
-                                    class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                                    @click="denyRequest(data.id)"
-                                >
-                                    Deny Request
-                                </button>
-                                <button
-                                    class="bg-yellow-600 p-2 hover:bg-yellow-900 text-white round-sm"
-                                    @click="clearRemarks"
-                                >
-                                    Clear
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div data-popper-arrow />
-                </div>
+                <HrmsCommonApprovalDenyButton :deny-id="data.id" @deny="denyRequest" />
             </div>
         </template>
     </PsModal>

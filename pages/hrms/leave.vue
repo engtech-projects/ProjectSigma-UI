@@ -39,14 +39,14 @@ useHead({
                 v-model:showModal="showOnloadModal"
                 :data="leaveRequest.payload"
             />
-            <div>
+            <div class="w-full">
                 <HrmsLeaveForm
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_lnotnto_leave_form,
                     ])"
                 />
             </div>
-            <div>
+            <div class="w-full">
                 <HrmsCommonTabsMainContainer>
                     <template #tab-titles>
                         <HrmsCommonTabsTabTitle
@@ -55,6 +55,13 @@ useHead({
                             ])"
                             target-id="leaverequest-all-list"
                             title="All List"
+                        />
+                        <HrmsCommonTabsTabTitle
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_lnotnto_leave_my_request,
+                            ])"
+                            target-id="leaverequest-my-request"
+                            title="My Request"
                         />
                         <HrmsCommonTabsTabTitle
                             v-if="useCheckAccessibility([
@@ -67,6 +74,9 @@ useHead({
                     <template #tab-containers>
                         <HrmsCommonTabsTabContainer id="leaverequest-all-list">
                             <HrmsLeaveAllList />
+                        </HrmsCommonTabsTabContainer>
+                        <HrmsCommonTabsTabContainer id="leaverequest-my-request">
+                            <HrmsLeaveMyRequests />
                         </HrmsCommonTabsTabContainer>
                         <HrmsCommonTabsTabContainer id="leaverequest-my-approvals">
                             <HrmsLeaveApprovalList />

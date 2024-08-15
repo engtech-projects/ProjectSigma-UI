@@ -254,7 +254,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_payroll_13th_month,
+                        AccessibilityTypes.hrms_payroll_13thmonth,
                     ])"
                     v-show="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/payroll/13thmonthpay"

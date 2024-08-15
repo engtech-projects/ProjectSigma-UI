@@ -93,3 +93,35 @@ export const useUtilities = () => {
     }
     return ref({ upperFirst, upperWords, formatCurrency, formatTime, addOneDay, dateToString, addDaysToDate })
 }
+
+export const useFormatCurrency = (number: number | string, locale = "en-US") => {
+    const formatter = new Intl.NumberFormat(locale, {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })
+    return formatter.format(number)
+}
+export const useFormatDateRange = (start: string, end: string) => {
+    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+
+    const startDate = new Date(start)
+    const endDate = new Date(end)
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        return "-"
+    }
+
+    const startDay = startDate.getDate()
+    const startMonth = months[startDate.getMonth()]
+
+    const endDay = endDate.getDate()
+    const endMonth = months[endDate.getMonth()]
+    const endYear = endDate.getFullYear()
+
+    if (startMonth === endMonth) {
+        return `${startMonth} ${startDay}-${endDay}, ${endYear}`
+    } else {
+        return `${startMonth} ${startDay}-${endMonth} ${endDay}, ${endYear}`
+    }
+}

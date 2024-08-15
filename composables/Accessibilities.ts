@@ -60,6 +60,7 @@ export enum AccessibilityTypes {
     hrms_lnotnto_leave_form = "hrms:leaves and overtime_leave_form",
     hrms_lnotnto_leave_list = "hrms:leaves and overtime_leave_list",
     hrms_lnotnto_leave_my_approvals = "hrms:leaves and overtime_leave_my approvals",
+    hrms_lnotnto_leave_my_request = "hrms:leaves and overtime_leave_my_request",
     hrms_lnotnto_overtime_group = "hrms:leaves and overtime_overtime_",
     hrms_lnotnto_overtime_form = "hrms:leaves and overtime_overtime_form",
     hrms_lnotnto_overtime_list = "hrms:leaves and overtime_overtime_list",
@@ -72,10 +73,15 @@ export enum AccessibilityTypes {
     hrms_lnotnto_travel_order_my_approvals = "hrms:leaves and overtime_travel order_myapprovals",
     // PAYROLL
     hrms_payroll_group = "hrms:payroll_",
+    hrms_payroll_salary_group = "hrms:payroll_salary",
+    hrms_payroll_salary_generatepayroll = "hrms:payroll_salary_generate payroll_form and my requests",
+    hrms_payroll_salary_allrequest = "hrms:payroll_generate payroll_all request",
+    hrms_payroll_salary_myapprovals = "hrms:payroll_generate payroll_my approvals",
+    hrms_payroll_salary_disburserequest = "hrms:payroll_generate payroll_disbursement request",
     hrms_payroll_generate_payroll = "hrms:payroll_generate payroll",
-    hrms_payroll_13th_month = "hrms:payroll_13th month",
-    hrms_payroll_allowance = "hrms:payroll_allowance",
     hrms_payroll_payroll_record = "hrms:payroll_payroll record",
+    hrms_payroll_13thmonth = "hrms:payroll_13th month",
+    hrms_payroll_allowance = "hrms:payroll_allowance",
     // SCHEDULE
     hrms_schedule_group = "hrms:schedule_",
     hrms_schedule_department = "hrms:schedule_department",
@@ -105,7 +111,10 @@ export enum AccessibilityTypes {
     inventory_setup_item_group = "inventory:setup_item group",
     inventory_setup_unit_of_measurements = "inventory:setup_unit of measurements",
     inventory_item_profile_group = "inventory:item profile",
-    inventory_new_item_profile = "inventory:new_item profile",
+    inventory_new_item_profile = "inventory:item profile_new profile",
+    inventory_new_item_profile_all_request = "inventory:item profile_new_all request",
+    inventory_new_item_profile_my_approvals = "inventory:item profile_new_my approvals",
+    inventory_new_item_profile_forms_and_my_requests = "inventory:item profile_new_forms and my requests",
 
     // ACCOUNTING
     accounting_group = "accounting:",

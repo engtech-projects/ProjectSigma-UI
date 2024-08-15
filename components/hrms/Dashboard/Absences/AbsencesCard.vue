@@ -10,7 +10,7 @@ defineProps({
 <template>
     <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex flex-col justify-evenly gap-2">
-            <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">
+            <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b p-2">
                 Absences This Month
             </h5>
         </div>

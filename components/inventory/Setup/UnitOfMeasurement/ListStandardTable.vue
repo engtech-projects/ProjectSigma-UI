@@ -38,16 +38,12 @@ const headers = [
     { name: "Name", id: "name" },
     { name: "Symbol", id: "symbol" },
 ]
-const actions = {
-    edit: false,
-    delete: true
-}
 
 </script>
 
 <template>
     <div class="pb-2 text-gray-500 ">
-        <LayoutPsTable :header-columns="headers" :datas="list" :actions="actions" @delete-row="deleteCont" />
+        <LayoutPsTable :header-columns="headers" :datas="list" @delete-row="deleteCont" />
     </div>
     <div class="flex justify-center mx-auto p-2">
         <CustomPagination :links="pagination" @change-params="changePaginate" />

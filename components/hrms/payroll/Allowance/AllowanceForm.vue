@@ -53,16 +53,19 @@ const dateChanged = computed(() => {
         <div class="mt-5 mb-6">
             <form @submit.prevent="submitForm">
                 <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateAllowance.employees" title="Employee Name" name="Employee Name" />
-                <div class="mt-5 mb-5 flex gap-4 sm:grid-cols-3">
-                    <LayoutFormPsDateInput v-model="generateAllowance.cutoff_start" title="Cut-off Date (Start)" @change="dateChanged" />
-                    <LayoutFormPsDateInput v-model="generateAllowance.cutoff_end" title="Cut-off Date (End)" @change="dateChanged" />
-                    <LayoutFormPsDateInput v-model="generateAllowance.allowance_date" title="Allowance Date" />
-                    <LayoutFormPsNumberInput v-model="generateAllowance.total_days" title="Total Day(s)" />
-                    <div class="flex-1">
+                <div class="mt-5 mb-5 grid gap-4">
+                    <div class="w-full flex gap-2 md:flex-row flex-col">
+                        <LayoutFormPsDateInput v-model="generateAllowance.cutoff_start" class="w-full" title="Cut-off Date (Start)" @change="dateChanged" />
+                        <LayoutFormPsDateInput v-model="generateAllowance.cutoff_end" class="w-full" title="Cut-off Date (End)" @change="dateChanged" />
+                        <LayoutFormPsDateInput v-model="generateAllowance.allowance_date" class="w-full" title="Allowance Date" />
+                    </div>
+                    <div class="w-full flex gap-2 p-2  md:flex-row flex-col">
+                        <LayoutFormPsNumberInput v-model="generateAllowance.total_days" class="md:w-1/3 w-full" title="Total Day(s)" />
                         <HrmsCommonDepartmentProjectSelector
                             v-model:select-type="generateAllowance.group_type"
                             v-model:department-id="generateAllowance.department_id"
                             v-model:project-id="generateAllowance.project_id"
+                            class="md:w-1/3 w-full"
                             title="Charging"
                         />
                     </div>

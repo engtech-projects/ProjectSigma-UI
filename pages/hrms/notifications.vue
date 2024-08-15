@@ -18,7 +18,7 @@ const changePaginate = (newParams) => {
 </script>
 <template>
     <div class="flex flex-col border-2 mt-6 p-2 w-full md:w-1/2 max-w-full bg-white border-gray-200 rounded-lg shadow sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700 mx-auto">
-        <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b flex items-center justify-between">
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b flex items-center justify-between p-2">
             All Notifications
         </h5>
 
