@@ -1,9 +1,10 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useLeaveRequest } from "~/stores/hrms/leaveRequest"
+
 const leaveRequest = useLeaveRequest()
 
-const { myRequest } = storeToRefs(leaveRequest)
+const { myRequestList, getParams } = storeToRefs(leaveRequest)
 const boardLoading = ref(false)
 
 const leaveRequestData = ref(null)
@@ -13,15 +14,15 @@ const showInformation = (data) => {
     leaveRequestData.value = data
     showInformationModal.value = true
 }
-const closeViewModal = () => {
-    showInformationModal.value = false
-}
 
 const headers = [
-    { name: "REQUEST TYPE", id: "type" },
-    { name: "DATE REQUESTED", id: "request_created_at" },
-    { name: "DATE EFFECTIVITY", id: "date_of_effictivity" },
-    { name: "REQUEST STATUS", id: "request_status" },
+    { name: "EMPLOYEE NAME", id: "employee.fullname_last" },
+    { name: "LEAVE AVAILMENT", id: "leave" },
+    { name: "DATE FROM ", id: "date_of_absence_from" },
+    { name: "DATE TO ", id: "date_of_absence_to" },
+    { name: "REASONS", id: "reason_for_absence" },
+    { name: "WITH PAY", id: "with_pay" },
+    { name: "LEAVE STATUS", id: "request_status" },
 ]
 
 const actions = {
@@ -31,42 +32,19 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards title="" class="w-full" :loading="boardLoading">
+    <LayoutBoards class="w-full" :loading="boardLoading">
+        <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="myRequest ?? []"
+                :datas="myRequestList ?? []"
                 @show-table="showInformation"
             />
         </div>
     </LayoutBoards>
-    <div v-if="showInformationModal">
-        <Teleport to="body">
-            <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <div class="bg-white p-4 w-full h-[460px] md:w-8/12 md:h-4/5 md:mt-10 md:ml-64 gap-2 rounded-md overflow-auto absolute">
-                    <div class="flex gap-2 justify-between p-2">
-                        <p>Leave Request Notice</p>
-                        <button
-                            @click="closeViewModal"
-                        >
-                            <Icon name="cil:x" color="green" class="w-4 h-4 " />
-                            Close
-                        </button>
-                    </div>
-                    <div class="p-2">
-                        <HrmsEmployeePanPersonalActionFormInfo :pan-data="leaveRequestData" />
-                    </div>
-                    <div class="flex gap-2 justify-end p-2">
-                        <button
-                            @click="closeViewModal"
-                        >
-                            <Icon name="cil:x" color="green" class="w-4 h-4 " />
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </Teleport>
-    </div>
+    <HrmsLeaveInfoModal
+        v-model:showModal="showInformationModal"
+        :data="leaveRequestData"
+    />
 </template>

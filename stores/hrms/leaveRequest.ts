@@ -40,7 +40,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
     state: () => ({
         allList: [],
         approvalList: [],
-        myRequest: [],
+        myRequestList: [],
         isEdit: false,
         payload: {
             id: "",
@@ -125,6 +125,24 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                                 pages: response._data.meta.links,
                                 last_page: response._data.links.last,
                             }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async myRequest () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApi(
+                "/api/leave-request/my-request",
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.myRequestList = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

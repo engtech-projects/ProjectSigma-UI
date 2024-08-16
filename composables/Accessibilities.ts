@@ -60,7 +60,7 @@ export enum AccessibilityTypes {
     hrms_lnotnto_leave_form = "hrms:leaves and overtime_leave_form",
     hrms_lnotnto_leave_list = "hrms:leaves and overtime_leave_list",
     hrms_lnotnto_leave_my_approvals = "hrms:leaves and overtime_leave_my approvals",
-    hrms_lnotnto_leave_my_request = "hrms:leaves and overtime_leave_my_request",
+    hrms_lnotnto_leave_my_request = "hrms:leaves and overtime_leave_my request",
     hrms_lnotnto_overtime_group = "hrms:leaves and overtime_overtime_",
     hrms_lnotnto_overtime_form = "hrms:leaves and overtime_overtime_form",
     hrms_lnotnto_overtime_list = "hrms:leaves and overtime_overtime_list",
