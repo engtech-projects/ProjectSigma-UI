@@ -30,7 +30,7 @@ defineProps({
         default: "/avatarexample.png",
     },
     absences: {
-        type: String,
+        type: Number,
         required: true,
     },
 })
