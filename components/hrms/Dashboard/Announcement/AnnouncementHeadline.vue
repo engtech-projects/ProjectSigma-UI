@@ -44,7 +44,7 @@ const toggleExpand = () => {
         </div>
         <div v-else class="mb-4 font-norma text-2xl text-gray-500 dark:text-gray-400">
             {{ content }}
-            <p class="text-blue-700 cursor-pointer hover:underline dark:text-blue-300" @click="toggleExpand">
+            <p v-if="content" class="text-blue-700 cursor-pointer hover:underline dark:text-blue-300" @click="toggleExpand">
                 Show Less
             </p>
         </div>
