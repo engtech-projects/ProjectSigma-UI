@@ -7,6 +7,7 @@ const notifStore = useNotificationsStore()
 const leaveRequest = useLeaveRequest()
 leaveRequest.allLeaves()
 leaveRequest.allApprovals()
+leaveRequest.myRequest()
 
 const enums = useEnumsStore()
 enums.getDepartmentEnums()
