@@ -27,7 +27,6 @@ const headers = [
     { name: "REASONS", id: "reason_for_absence" },
     { name: "WITH PAY", id: "with_pay" },
     { name: "LEAVE STATUS", id: "request_status" },
-
 ]
 
 const actions = {
