@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const usePostingPeriodStore = defineStore("postingPeriodStore", {
     state: () => ({
@@ -21,15 +19,10 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
     actions: {
         async getPostingPeriods () {
             this.isLoading = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/posting-period",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
@@ -52,15 +45,10 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
         async createPostingPeriod () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useAccountingApi(
                 "/api/v1/posting-period",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.postingPeriod,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -79,14 +67,10 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
         async editPostingPeriod () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/posting-period/" + this.postingPeriod.period_id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.postingPeriod,
                     watch: false,
                 }
@@ -102,14 +86,10 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
         },
 
         async deletePostingPeriod (id: number) {
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/posting-period/" + id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.postingPeriod,
                     watch: false,
                     onResponse: ({ response }) => {

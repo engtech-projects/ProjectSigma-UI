@@ -102,6 +102,7 @@ export const useFormatCurrency = (number: number | string, locale = "en-US") => 
     })
     return formatter.format(number)
 }
+
 export const useFormatDateRange = (start: string, end: string) => {
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
 

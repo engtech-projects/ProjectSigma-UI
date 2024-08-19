@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const useAccountGroupStore = defineStore("accountGroupStore", {
     state: () => ({
@@ -22,15 +20,10 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
     actions: {
         async getAccountGroups () {
             this.isLoading = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/account-group",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
@@ -51,15 +44,10 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
         },
 
         async showAccountGroup (id:any) {
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/account-group/" + id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.accountGroup = response._data
@@ -76,15 +64,10 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
         async createAccountGroup () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useAccountingApi(
                 "/api/v1/account-group",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.accountGroup,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -107,14 +90,10 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
             this.accountGroup.accounts.forEach((element) => {
                 this.accountGroup.account_id.push(element.account_id)
             })
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/account-group/" + this.accountGroup.account_group_id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.accountGroup,
                     watch: false,
                 }
@@ -130,14 +109,10 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
         },
 
         async deleteAccountType (id: number) {
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/account-group/" + id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.accountGroup,
                     watch: false,
                     onResponse: ({ response }) => {

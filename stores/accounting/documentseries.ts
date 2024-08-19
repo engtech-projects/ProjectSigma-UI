@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const useDocumentSeriesStore = defineStore("documentSeriesStore", {
     state: () => ({
@@ -23,15 +21,10 @@ export const useDocumentSeriesStore = defineStore("documentSeriesStore", {
     actions: {
         async getSeries () {
             this.isLoading = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/document-series",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
@@ -54,15 +47,10 @@ export const useDocumentSeriesStore = defineStore("documentSeriesStore", {
         async createSeries () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useAccountingApi(
                 "/api/v1/document-series",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.documentSeries,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -81,14 +69,10 @@ export const useDocumentSeriesStore = defineStore("documentSeriesStore", {
         async editSeries () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/document-series/" + this.documentSeries.series_id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.documentSeries,
                     watch: false,
                 }
@@ -104,14 +88,10 @@ export const useDocumentSeriesStore = defineStore("documentSeriesStore", {
         },
 
         async deleteSeries (id: number) {
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/document-series/" + id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.documentSeries,
                     watch: false,
                     onResponse: ({ response }) => {
