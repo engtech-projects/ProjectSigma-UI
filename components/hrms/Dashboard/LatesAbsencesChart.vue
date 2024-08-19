@@ -12,7 +12,7 @@ defineProps({
 </script>
 <template>
     <LayoutBoards title="Late and Absences Chart">
-        <LayoutChartDoughnut
+        <LayoutChartBarSummary
             v-if="data.length > 0"
             :labels="labels"
             :datas="data"
