@@ -59,7 +59,7 @@ useHead({
                         />
                         <HrmsCommonTabsTabTitle
                             v-if="useCheckAccessibility([
-                                AccessibilityTypes.hrms_lnotnto_leave_my_request,
+                                AccessibilityTypes.hrms_lnotnto_leave_form,
                             ])"
                             target-id="leaverequest-my-request"
                             title="My Request"
