@@ -9,7 +9,7 @@ const { isEdit } = storeToRefs(approvals)
 approvals.getApproval()
 
 const enums = useEnumsStore()
-enums.getUserEmployeeEnums()
+await enums.getUserEmployeeEnums()
 
 useHead({
     title: "Approvals",
