@@ -113,6 +113,15 @@ const updateInternalWorkExperience = async (id, params) => {
                                 "{{ emprecord.employee_department?.department_name }}"
                             </p>
                         </td>
+                        <td class="border border-slate-300 p-1">
+                            <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Salary Type</label>
+                            <div>
+                                <HrmsCommonEmploymentSalaryTypeSelector v-if="editable" v-model="emprecord.salary_type" />
+                                <p v-else class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-normal dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    "{{ emprecord.salary_type }}"
+                                </p>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
