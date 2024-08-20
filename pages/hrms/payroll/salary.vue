@@ -29,10 +29,16 @@ useHead({
                         title="My Approvals"
                     />
                     <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            'AdminOnly',
+                        ])"
                         target-id="payrollRecord"
                         title="Payroll Record"
                     />
                     <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            'AdminOnly',
+                        ])"
                         target-id="generatePayslip"
                         title="Generate Payslip"
                     />
