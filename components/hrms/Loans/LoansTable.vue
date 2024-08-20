@@ -25,7 +25,7 @@
                     aria-controls="irregular"
                     aria-selected="false"
                 >
-                    Payments List
+                    Payment List
                 </button>
             </li>
         </ul>
@@ -145,7 +145,7 @@
                     </div> -->
                     <div class="flex flex-col mt-6">
                         <div class="flex items-center justify-between border-b pb-2">
-                            <label for="" class="text-md text-slate-700 font-bold">Payments List</label>
+                            <label for="" class="text-md text-slate-700 font-bold">Payment List</label>
                             <div v-if="showMakePayment" class="flex gap-4 items-center">
                                 <button class="bg-gray-100 rounded-md px-4 py-1 text-gray-800 hover:bg-gray-200 active:bg-gray-300" @click="setShowPayment(false)">
                                     <Icon name="mingcute:minus-circle-line" class="font-bold text-md text-gray-600 mb-1" />

@@ -1,5 +1,6 @@
 <script setup>
-defineProps({
+import { Bar } from "vue-chartjs"
+const props = defineProps({
     labels: {
         type: Array,
         required: true,
@@ -9,13 +10,23 @@ defineProps({
         required: true,
     },
 })
+const chartData = () => {
+    return {
+        labels: props.labels,
+        datasets: [{ data: props.data }],
+    }
+}
+const chartOptions = {
+    responsive: true,
+}
+
 </script>
 <template>
     <LayoutBoards title="Late and Absences Chart">
-        <LayoutChartBarSummary
+        <Bar
             v-if="data.length > 0"
-            :labels="labels"
-            :datas="data"
+            :data="chartData()"
+            :options="chartOptions"
         />
     </LayoutBoards>
 </template>
