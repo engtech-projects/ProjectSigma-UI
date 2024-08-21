@@ -536,7 +536,7 @@ const handleResumeFileUpload = (event) => {
                     <LayoutFormPsTextInputTemplate1 v-model="wrk.dpt_agency_office_company" title="Department/Agency/Office/Company" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
-                    <LayoutFormPsTextInputTemplate1 v-model="wrk.monthly_salary" title="Monthly Salary" />
+                    <LayoutFormPsTextInputTemplate1 v-model="wrk.monthly_salary" input-type="number" input-step="0.01" title="Monthly Salary" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <LayoutFormPsTextInputTemplate1 v-model="wrk.status_of_appointment" title="Status of Appointment" />

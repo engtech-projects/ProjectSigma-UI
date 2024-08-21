@@ -7,10 +7,6 @@ const { manpowerHiringList: manpowerList, manpower, getParams, errorMessage, suc
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
-    // getParams.value.syId = newParams.id ?? ""
-    // getParams.value.semId = newParams.semId ?? ""
-    // getParams.value.feeType = newParams.feeType ?? ""
-    // getParams.value.particularName = newParams.particularName ?? ""
 }
 
 const headers = [
