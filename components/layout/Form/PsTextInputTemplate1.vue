@@ -18,6 +18,10 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    inputType: {
+        type: String,
+        default: "text"
+    }
 })
 </script>
 
@@ -26,7 +30,7 @@ defineProps({
         <input
             :id="compId"
             v-model="model"
-            type="text"
+            :type="inputType"
             :name="name"
             :placeholder="placeholder"
             :required="required"

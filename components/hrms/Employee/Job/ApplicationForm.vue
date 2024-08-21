@@ -31,6 +31,8 @@ const submitForm = async () => {
                 text: jobapplicantstore.successMessage
             })
             errorMessage.value = ""
+            jobapplicantstore.$reset()
+            jobapplicantstore.showFormComponent = false
         }
     } catch (error) {
         errorMessage.value = jobapplicantstore.errorMessage
@@ -221,7 +223,7 @@ const handleResumeFileUpload = (event) => {
             </div>
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="relative z-0 w-full mb-5 group">
-                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.contact_info" title="Contact Information" />
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.contact_info" title="Contact Number" />
                 </div>
                 <div class="relative z-0 w-full mb-5 group">
                     <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.email" title="Email Address" />
