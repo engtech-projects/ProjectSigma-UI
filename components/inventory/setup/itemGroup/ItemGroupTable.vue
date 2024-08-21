@@ -27,8 +27,6 @@ const addItemGroup = async (name: any) => {
     itemgroup.value.name = name
     itemgroup.value.sub_groups = newSubItemGroup
     await itemStore.createItemGroup()
-    await itemStore.getItemGroups()
-
     if (errorMessage.value !== "") {
         snackbar.add({
             type: "error",
@@ -40,6 +38,7 @@ const addItemGroup = async (name: any) => {
             text: successMessage.value
         })
     }
+    itemStore.reset()
     subitemgroup.value = []
 }
 
@@ -71,7 +70,6 @@ const updateItemGroup = async (id: number, name: string, group: any) => {
             }
             return itemname
         })
-        itemgroup.value = {}
     }
 }
 

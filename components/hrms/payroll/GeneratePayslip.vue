@@ -41,7 +41,7 @@ const submitForm = async () => {
             <form @submit.prevent="submitForm">
                 <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateParams.employee_ids" title="Employee Name" name="Employee Name" />
 
-                <div class="mt-5 mb-5 flex gap-4 sm:grid-cols-3">
+                <div class="mt-5 mb-5 flex gap-4 md:grid-cols-3 grid-cols-1">
                     <LayoutFormPsDateInput v-model="generateParams.payroll_date" title="Payroll Date" required />
 
                     <div class="flex-1">
@@ -82,7 +82,7 @@ const submitForm = async () => {
     <div v-if="showInformationModal" :loading="boardLoading">
         <Teleport to="body">
             <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                <div class="bg-white p-4 w-8/12 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
+                <div class="bg-white p-4 w-full h-[460px] md:w-8/12 md:h-4/5 md:mt-10 md:ml-64 gap-2 rounded-md overflow-auto absolute">
                     <div class="flex gap-2 justify-end ml-auto p-2 ">
                         <button
                             title="Close"
@@ -92,7 +92,7 @@ const submitForm = async () => {
                         </button>
                     </div>
                     <div class="p-2">
-                        <HrmsPayrollGeneratepayrollInformation />
+                        <HrmsPayrollSalaryGeneratePayrollDraft />
                     </div>
                 </div>
             </div>

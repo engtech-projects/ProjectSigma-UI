@@ -84,7 +84,7 @@ const applyFilter = () => {
                 </div>
             </div>
             <NuxtLink
-                to="/accounting/transaction/create"
+                to="/accounting/journal-entry/create"
                 class="w-48 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
             >
                 <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
@@ -97,25 +97,19 @@ const applyFilter = () => {
                     <thead>
                         <tr class="text-left">
                             <th class="p-2 ">
-                                Date
+                                Account
                             </th>
                             <th class="p-2">
-                                Type
+                                Debit
                             </th>
                             <th class="p-2">
-                                No.
+                                Credit
                             </th>
                             <th class="p-2">
-                                Payee
+                                Description
                             </th>
                             <th class="p-2">
-                                Reference
-                            </th>
-                            <th class="p-2">
-                                Status
-                            </th>
-                            <th class="p-2 text-right">
-                                Actions
+                                Name
                             </th>
                         </tr>
                     </thead>

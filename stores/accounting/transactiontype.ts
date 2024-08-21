@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const useTransactionTypeStore = defineStore("transactionTypeStore", {
     state: () => ({
@@ -29,15 +27,10 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
     actions: {
         async getTransactionTypes () {
             this.isLoading = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/transaction-type",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
@@ -59,15 +52,10 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
 
         async getTransactionType (id:any) {
             this.isLoading = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/transaction-type/" + id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
@@ -88,15 +76,10 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
         async createTransactionType () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useAccountingApi(
                 "/api/v1/transaction-type",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.transactionType,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -115,14 +98,10 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
         async editTransactionType () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/transaction-type/" + this.transactionType.transaction_type_id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.transactionType,
                     watch: false,
                 }
@@ -138,14 +117,10 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
         },
 
         async deleteTransactionType (id: number) {
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/transaction-type/" + id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.transactionType,
                     watch: false,
                     onResponse: ({ response }) => {

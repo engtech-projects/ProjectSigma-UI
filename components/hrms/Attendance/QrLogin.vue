@@ -20,7 +20,9 @@ const QRCodeConfiguration = {
     ],
 }
 onBeforeRouteLeave(() => {
-    html5QrcodeScanner.clear()
+    if (html5QrcodeScanner) {
+        html5QrcodeScanner.clear()
+    }
 })
 qrAttendanceParams.value.log_type = CATEGORY_TIME_IN
 const onScanSuccess = async (decodedText, decodedResult) => {
@@ -36,6 +38,7 @@ const onScanSuccess = async (decodedText, decodedResult) => {
                 text: attendancePortal.successMessage
             })
         } catch (error) {
+            tempEmployeeCode.value = null
             snackbar.add({
                 type: "error",
                 text: error || "something went wrong."

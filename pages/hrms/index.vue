@@ -42,7 +42,7 @@ useHead({
             >
                 <HrmsDashboardBirthdaysCard
                     :employees="stats.monthlyBirthdays.list"
-                    class="md: mt-2 md:mt-0 p-2"
+                    class="md:mt-0"
                 />
             </div>
             <div

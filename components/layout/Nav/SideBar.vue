@@ -246,7 +246,7 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_payroll_generate_payroll,
+                        AccessibilityTypes.hrms_payroll_salary_group,
                     ])"
                     linkarea="/hrms/payroll/salary"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -254,7 +254,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_payroll_13th_month,
+                        AccessibilityTypes.hrms_payroll_13thmonth,
                     ])"
                     v-show="config.public.APP_ENV == 'local'"
                     linkarea="/hrms/payroll/13thmonthpay"
@@ -470,6 +470,22 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
+                    AccessibilityTypes.inventory_item_profile_group
+                ])"
+                icon="ion:ios-people"
+                title="Item Profile"
+            >
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.inventory_new_item_profile,
+                    ])"
+                    linkarea="/inventory/item-profile/new-profile"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="New Item Profile"
+                />
+            </LayoutNavGroup>
+            <LayoutNavGroup
+                v-if="useCheckAccessibility([
                     AccessibilityTypes.inventory_setup_group
                 ])"
                 icon="ion:ios-people"
@@ -506,7 +522,7 @@ const config = useRuntimeConfig()
         <LayoutNavModuleGroup
             v-show="config.public.APP_ENV == 'local'"
             v-if="useCheckAccessibility([
-                AccessibilityTypes.accounting_group,
+                'AdminOnly',
             ])"
             title="Accounting"
         >

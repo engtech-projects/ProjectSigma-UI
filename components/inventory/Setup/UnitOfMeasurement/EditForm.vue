@@ -33,7 +33,6 @@ const doEditUOM = async () => {
             text: errorMessage.value || "something went wrong."
         })
     } finally {
-        main.clearMessages()
         boardLoading.value = false
     }
 }

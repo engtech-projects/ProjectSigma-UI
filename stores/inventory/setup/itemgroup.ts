@@ -59,7 +59,6 @@ export const useItemStore = defineStore("itemgroups", {
                                 pages: response._data.data.links,
                                 last_page: response._data.data.last_page_url,
                             }
-                            this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
                         }
@@ -80,11 +79,14 @@ export const useItemStore = defineStore("itemgroups", {
                 {
                     method: "POST",
                     body: this.itemgroup,
+                    watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.$reset()
+                            this.reset()
                             this.successMessage = response._data.message
+                            this.getItemGroups()
                         } else {
+                            this.reset()
                             this.errorMessage = response._data.message
                         }
                     },
@@ -99,13 +101,16 @@ export const useItemStore = defineStore("itemgroups", {
                 {
                     method: "PATCH",
                     body: this.itemgroup,
+                    watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            // this.$reset()
-                            // this.searchItemGroup()
+                            this.reset()
                             this.successMessage = response._data.message
+                            this.getItemGroups()
                         } else {
+                            this.reset()
                             this.errorMessage = response._data.message
+                            this.getItemGroups()
                         }
                     },
                 }
@@ -129,10 +134,6 @@ export const useItemStore = defineStore("itemgroups", {
                 }
             )
         },
-        clearMessages () {
-            this.errorMessage = ""
-            this.successMessage = ""
-        },
         async editApprovals () {
             this.successMessage = ""
             this.errorMessage = ""
@@ -141,10 +142,11 @@ export const useItemStore = defineStore("itemgroups", {
                 {
                     method: "PATCH",
                     body: this.formApproval,
+                    watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             // this.getApproval()
-                            this.$reset()
+                            this.reset()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -158,11 +160,13 @@ export const useItemStore = defineStore("itemgroups", {
                 "/api/approvals/" + id,
                 {
                     method: "DELETE",
+                    watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
+                            this.reset()
                             this.successMessage = response._data.message
-                            // this.getApproval()
                         } else {
+                            this.reset()
                             this.errorMessage = response._data.message
                         }
                     },
@@ -172,6 +176,10 @@ export const useItemStore = defineStore("itemgroups", {
                 }
             )
         },
-
+        reset () {
+            this.itemgroup = {} as ItemGroup
+            this.successMessage = ""
+            this.errorMessage = ""
+        },
     },
 })

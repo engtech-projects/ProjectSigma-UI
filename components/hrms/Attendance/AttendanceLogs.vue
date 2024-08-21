@@ -49,7 +49,7 @@ const grouptype = ref(null)
                     </button>
                 </div>
             </div>
-            <div class="w-1/2 px-2">
+            <div class="w-full md:w-1/2 px-2">
                 <HrmsCommonDepartmentProjectSelector
                     v-model:select-type="grouptype"
                     v-model:department-id="attendanceLogs.params.department_id"

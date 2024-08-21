@@ -1,8 +1,6 @@
 <template>
     <div class="flex flex-col items-center">
-        <div class="rounded max-w-28 max-h-28">
-            <img class="m-auto h-full" :src="avatar" alt="Avatar">
-        </div>
+        <HrmsCommonEmployeeAvatar :avatar="avatar" />
         <h3 class="text-sm sm:text-xs font-medium">
             {{ name }}
         </h3>

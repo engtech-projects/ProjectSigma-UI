@@ -4,7 +4,6 @@ import FullCalendar from "@fullcalendar/vue3"
 import interactionPlugin from "@fullcalendar/interaction"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
-// import VueDatePicker from "@vuepic/vue-datepicker"
 import "@vuepic/vue-datepicker/dist/main.css"
 import { useEmployeeInfo } from "~/stores/hrms/employee"
 const utils = useUtilities()
@@ -84,8 +83,6 @@ async function fetchSchedules () {
             onResponse: ({ response }) => {
                 isCalendarLoading.value = false
                 if (response.ok) {
-                    errorMessage.value = response._data.message
-                } else {
                     events.value = []
                     response._data.data.forEach((ev: any) => {
                         if (ev.groupType === "employee") {
@@ -162,7 +159,7 @@ function resetEvents () {
     daysOfWeek.value = [false, false, false, false, false, false, false]
     newEvent.value = {
         id: null,
-        groupType: "department",
+        groupType: "employee",
         department_id: null,
         project_id: null,
         employee_id: newEvent.value.employee_id,

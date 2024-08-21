@@ -40,7 +40,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             log_type: null as null | String,
             group_type: null as null | String,
             name: null as null | String,
-            page: 2,
+            page: 1,
         },
         attendancePortalPagination: {},
         pagination: {},

@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const useAccountStore = defineStore("accountStore", {
     state: () => ({
@@ -55,16 +53,12 @@ export const useAccountStore = defineStore("accountStore", {
     actions: {
         async getAccounts () {
             this.isLoading = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/accounts",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
+                    watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
                         this.list = response._data.account
@@ -86,15 +80,10 @@ export const useAccountStore = defineStore("accountStore", {
         async createAccount () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useAccountingApi(
                 "/api/v1/accounts",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.account,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -113,14 +102,10 @@ export const useAccountStore = defineStore("accountStore", {
         async editAccount () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/account/" + this.account.account_id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.account,
                     watch: false,
                 }

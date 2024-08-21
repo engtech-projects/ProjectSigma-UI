@@ -267,8 +267,8 @@ export default {
 
 <template>
     <div class="mt-10 md:mt-0 md:flex gap-2 ">
-        <LayoutBoards title="Add New Event" :loading="isLoading" class="w-1/3">
-            <form action="" class="space-y-2 mt-4" @submit.prevent="createEvent">
+        <LayoutBoards title="Add New Event" :loading="isLoading" class="w-full md:w-1/3">
+            <form action="" class="space-y-2 mt-4 p-2" @submit.prevent="createEvent">
                 <div>
                     <label for="eventTitle">Event Title</label>
                     <input id="eventTitle" v-model="event.title" type="text" class="w-full rounded" required>
@@ -342,7 +342,7 @@ export default {
             <FullCalendar ref="fCalendar" :options="calendarOptions" class="mt-10" />
         </div>
         <ModalContainer title="Event Details" :loading="isLoading" :local="true" :show="showModal" @hide="showModal=false">
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-4 w-full">
                 <div class="flex flex-col gap">
                     <label for="" class="text-sm text-slate-600 px-2">
                         Event Title

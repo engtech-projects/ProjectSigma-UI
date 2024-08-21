@@ -10,12 +10,12 @@ defineProps({
 <template>
     <div class="w-full max-w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex flex-col justify-evenly gap-2">
-            <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b">
+            <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b p-2">
                 Late This Month
             </h5>
         </div>
         <div class="mt-5 overflow-auto min-h-96 max-h-96">
-            <div class="grid grid-cols-4 justify-start mt-4 gap-4 p-2">
+            <div class="grid grid-cols-3 md:grid-cols-4 justify-start mt-4 gap-4 p-2">
                 <div v-if="employees.length <= 0">
                     No Lates found this month.
                 </div>

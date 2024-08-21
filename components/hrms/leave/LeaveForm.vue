@@ -61,6 +61,7 @@ const submitAdd = async () => {
         boardLoading.value = false
         leaveRequest.allLeaves()
         leaveRequest.allApprovals()
+        leaveRequest.myRequest()
     }
 }
 </script>

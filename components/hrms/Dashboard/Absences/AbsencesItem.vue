@@ -1,5 +1,5 @@
 <template>
-    <img class="rounded w-32 h-28 p-1" :src="avatar" alt="Avatar">
+    <HrmsCommonEmployeeAvatar :avatar="avatar" />
     <h3 class="text-sm sm:text-xs font-medium">
         {{ name }}
     </h3>
@@ -30,7 +30,7 @@ defineProps({
         default: "/avatarexample.png",
     },
     absences: {
-        type: String,
+        type: Number,
         required: true,
     },
 })

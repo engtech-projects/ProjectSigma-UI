@@ -13,7 +13,7 @@ export const RELEASE_TYPE = [
 ]
 
 export interface Adjustment {
-    employee_id: Number;
+    employee_id: Number | null;
     adjustment_name: string;
     adjustment_amount: string;
 }
@@ -33,9 +33,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
     state: () => ({
         isEdit: false,
         generateParams: {
-            adjustments: [] as Array<Adjustment>,
-            charging: [] as Array<Charging>,
-            deductions: [] as Array<Deduction>,
+            adjustments: [] as Adjustment[],
+            charging: [] as Charging[],
+            deductions: [] as Deduction[],
             group_type: null,
             project_id: null,
             department_id: null,
@@ -51,7 +51,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             approvals: [] as any[],
             payroll_details: [],
         },
-        payrollDraft: [] as any,
+        payrollDraft: {} as any,
         payrollRecord: {
             id: null,
             employee_ids: [] as number[],
@@ -70,66 +70,43 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             adjustments: [],
             approvals: []
         },
-        list: [],
-        myApprovalRequestList: [],
-        myRequestList: [],
-        pagination: {},
-        getParams: {
-            employee_id: null,
+        editRequest: { // NOT USED
         },
-        errorMessage: "",
-        successMessage: "",
-        remarks: "",
+        allRequests: {
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        myApprovals: {
+            isLoaded: false,
+            list: [],
+            params: {},
+        },
+        myRequests: {
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        approval: {
+            params: {
+                id: null,
+                remarks: "",
+            },
+            errorMessage: "",
+            successMessage: "",
+        }
     }),
     getters: {
         formattedPayrollDraft (state) {
             return {
                 ...state.payrollDraft,
-                payroll: state.payrollDraft.payroll.map(function (data) {
+                payroll_details: state.payrollDraft.payroll_details.map(function (data: any) {
                     return {
+                        ...data.payroll_records,
                         employee_id: data.id,
-                        regular_hours: data.payroll_records.hours_worked.regular,
-                        rest_hours: data.payroll_records.hours_worked.rest.regular,
-                        regular_holiday_hours: data.payroll_records.hours_worked.regular_holidays.regular,
-                        special_holiday_hours: data.payroll_records.hours_worked.special_holidays.regular,
-                        regular_overtime: data.payroll_records.hours_worked.regular.overtime,
-                        rest_overtime: data.payroll_records.hours_worked.rest.overtime,
-                        regular_holiday_overtime: data.payroll_records.hours_worked.regular_holidays.overtime,
-                        special_holiday_overtime: data.payroll_records.hours_worked.special_holidays.overtime,
-
-                        regular_pay: data.payroll_records.gross_pays.regular.regular,
-                        rest_pay: data.payroll_records.gross_pays.rest.regular,
-                        regular_holiday_pay: data.payroll_records.gross_pays.regular_holidays.regular,
-                        special_holiday_pay: data.payroll_records.gross_pays.special_holidays.reg_hrs,
-                        regular_ot_pay: data.payroll_records.gross_pays.regular.overtime,
-                        rest_ot_pay: data.payroll_records.gross_pays.rest.overtime,
-                        regular_holiday_ot_pay: data.payroll_records.gross_pays.regular_holidays.overtime,
-                        special_holiday_ot_pay: data.payroll_records.gross_pays.special_holidays.overtime,
-                        gross_pay: data.payroll_records.total_gross_pay,
-                        late_hours: data.payroll_records.hours_worked.regular.late,
-
-                        sss_employee_contribution: data.payroll_records.salary_deduction.sss.employee_contribution,
-                        sss_employer_contribution: data.payroll_records.salary_deduction.sss.employer_contribution,
-                        sss_employee_compensation: data.payroll_records.salary_deduction.sss.employee_compensation,
-                        sss_employer_compensation: data.payroll_records.salary_deduction.sss.employer_compensation,
-                        philhealth_employee_compensation: data.payroll_records.salary_deduction.phic.employee_compensation,
-                        philhealth_employer_compensation: data.payroll_records.salary_deduction.phic.employer_compensation,
-                        // pagibig_employee_contribution: data.payroll_records.salary_deduction.,
-                        // pagibig_employer_contribution: data.payroll_records.salary_deduction.,
-                        pagibig_employee_compensation: data.payroll_records.salary_deduction.hmdf.employee_compensation,
-                        pagibig_employer_compensation: data.payroll_records.salary_deduction.hmdf.employer_compensation,
-                        withholdingtax_contribution: data.payroll_records.salary_deduction.ewtc,
-                        total_deduct: data.payroll_records.total_salary_deduction,
-                        net_pay: data.payroll_records.total_net_pay,
-                        loans: data.payroll_records.salary_deduction.loan,
-                        cash_advance: data.payroll_records.salary_deduction.cash_advance,
-                        // other_deductions: data.payroll_records.salary_deduction.other_deductions,
-                        other_deductions: Array.isArray(data.payroll_records.salary_deduction.other_deductions.other_deduction) ? data.payroll_records.salary_deduction.other_deductions.other_deduction : [],
-                    }
-                }),
-                payroll_details: state.payrollDraft.payroll.map(function (data: any) {
-                    return {
-                        employee_id: data.id,
+                        // Hrs Worked
                         regular_hours: data.payroll_records.hours_worked.regular.reg_hrs,
                         rest_hours: data.payroll_records.hours_worked.rest.reg_hrs,
                         regular_holiday_hours: data.payroll_records.hours_worked.regular_holidays.reg_hrs,
@@ -138,7 +115,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         rest_overtime: data.payroll_records.hours_worked.rest.overtime,
                         regular_holiday_overtime: data.payroll_records.hours_worked.regular_holidays.overtime,
                         special_holiday_overtime: data.payroll_records.hours_worked.special_holidays.overtime,
-
+                        // Salary
                         regular_pay: data.payroll_records.gross_pays.regular.regular,
                         rest_pay: data.payroll_records.gross_pays.rest.regular,
                         regular_holiday_pay: data.payroll_records.gross_pays.regular_holidays.regular,
@@ -148,16 +125,13 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         regular_holiday_ot_pay: data.payroll_records.gross_pays.regular_holidays.overtime,
                         special_holiday_ot_pay: data.payroll_records.gross_pays.special_holidays.overtime,
                         gross_pay: data.payroll_records.total_gross_pay,
-                        late_hours: data.payroll_records.hours_worked.regular.late,
-
+                        // Deductions
                         sss_employee_contribution: data.payroll_records.salary_deduction.sss.employee_contribution,
                         sss_employer_contribution: data.payroll_records.salary_deduction.sss.employer_contribution,
                         sss_employee_compensation: data.payroll_records.salary_deduction.sss.employee_compensation,
                         sss_employer_compensation: data.payroll_records.salary_deduction.sss.employer_compensation,
                         philhealth_employee_compensation: data.payroll_records.salary_deduction.phic.employee_compensation,
                         philhealth_employer_compensation: data.payroll_records.salary_deduction.phic.employer_compensation,
-                        // pagibig_employee_contribution: data.payroll_records.salary_deduction.,
-                        // pagibig_employer_contribution: data.payroll_records.salary_deduction.,
                         pagibig_employee_compensation: data.payroll_records.salary_deduction.hmdf.employee_compensation,
                         pagibig_employer_compensation: data.payroll_records.salary_deduction.hmdf.employer_compensation,
                         withholdingtax_contribution: data.payroll_records.salary_deduction.ewtc,
@@ -165,13 +139,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         net_pay: data.payroll_records.total_net_pay,
                         loans: data.payroll_records.salary_deduction.loan,
                         cash_advance: data.payroll_records.salary_deduction.cash_advance,
-                        // other_deductions: data.payroll_records.salary_deduction.other_deductions,
-                        other_deductions: Array.isArray(data.payroll_records.salary_deduction.other_deductions.other_deduction) ? data.payroll_records.salary_deduction.other_deductions.other_deduction : [],
-
-                        adjustments: data.payroll_records.gross_pays.adjustments.map((adj: Adjustment) => ({
-                            employee_id: adj.employee_id,
-                            name: adj.adjustment_name,
-                            amount: adj.adjustment_amount
+                        adjustments: data.payroll_records.adjustments.map((adjust: any) => ({
+                            name: adjust.adjustment_name,
+                            amount: adjust.adjustment_amount,
                         })),
                         deductions: [
                             ...data.payroll_records.salary_deduction.loan.loans.map((loan: { installment_deduction: any }) => ({
@@ -190,187 +160,88 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                                 type: "Other Deduction"
                             }))
                         ],
-                        // chargings: {
-                        //     department: [
-                        //     ],
-                        //     project: [
-                        //     ],
-                        // }
                     }
                 }),
             }
         },
-
-        totalAdjustments (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: any) => {
-                if (Array.isArray(element.payroll_records.gross_pays.adjustments)) {
-                    element.payroll_records.gross_pays.adjustments.forEach((adjustment: any) => {
-                        total += parseFloat(adjustment.adjustment_amount) || 0
-                    })
-                }
-            })
-            return total.toFixed(2)
-        },
-        totalLoansPayrollDraft (state: any): string {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: any) => {
-                const salaryDeduction = element.payroll_records.salary_deduction
-                total += parseFloat(salaryDeduction.cash_advance.total_paid) || 0
-                total += parseFloat(salaryDeduction.loan.total_paid) || 0
-                total += parseFloat(salaryDeduction.other_deductions.total_paid) || 0
-            })
-            return total.toFixed(2)
-        },
-        totalCashAdvancePayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { cash_advance: string } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.cash_advance)
-            })
-            return total.toFixed(2)
-        },
-        // totalOtherDeductionsPayrollDraft (state) {
-        //     let total = 0
-        //     state.payrollDraft.payroll.forEach((element: any) => {
-        //         if (Array.isArray(element.payroll_records.salary_deduction.other_deductions.other_deduction)) {
-        //             element.payroll_records.salary_deduction.other_deductions.other_deduction.forEach((otherDed: any) => {
-        //                 total += parseFloat(otherDed.installment_deduction) || 0
-        //             })
-        //         }
-        //     })
-        //     return total.toFixed(2)
-        // },
-        totalNetPayPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { total_net_pay: string } }) => {
-                total += parseFloat(element.payroll_records.total_net_pay)
-            })
-            return total.toFixed(2)
-        },
-        totalDeductionPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { total_salary_deduction: string } }) => {
-                total += parseFloat(element.payroll_records.total_salary_deduction)
-            })
-            return total.toFixed(2)
-        },
-        totalEWTCPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { ewtc: string } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.ewtc)
-            })
-            return total.toFixed(2)
-        },
-        totalHDMFEmployerPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { hmdf: { employer_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.hmdf.employer_compensation) ?? 0
-            })
-            return total.toFixed(2)
-        },
-        totalHDMFEmployeePayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { hmdf: { employee_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.hmdf.employee_compensation) ?? 0
-            })
-            return total.toFixed(2)
-        },
-        totalPHICEmployerPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { phic: { employer_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.phic.employer_compensation) ?? 0
-            })
-            return total.toFixed(2)
-        },
-        totalPHICEmployeePayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { phic: { employee_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.phic.employee_compensation) ?? 0
-            })
-            return total.toFixed(2)
-        },
-        totalSSSEmployerPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { sss: { employer_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.sss.employer_compensation) ?? 0
-            })
-            return total.toFixed(2)
-        },
-        totalSSSEmployeePayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { salary_deduction: { sss: { employee_compensation: string } } } }) => {
-                total += parseFloat(element.payroll_records.salary_deduction.sss.employee_compensation) ?? 0
-            })
-            return total.toFixed(2)
-        },
-        totalGrossPayPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { total_gross_pay: string } }) => {
-                total += parseFloat(element.payroll_records.total_gross_pay)
-            })
-            return total.toFixed(2)
-        },
-        totalSpcHolOTPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { special_holidays: { overtime: string } } } }) => {
-                total += parseFloat(element.payroll_records.gross_pays.special_holidays.overtime)
-            })
-            return total.toFixed(2)
-        },
-        totalRegHolOTPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { regular_holidays: { overtime: string } } } }) => {
-                total += parseFloat(element.payroll_records.gross_pays.regular_holidays.overtime)
-            })
-            return total.toFixed(2)
-        },
-        totalRestDayOTPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { rest: { overtime: string } } } }) => {
-                total += parseFloat(element.payroll_records.gross_pays.rest.overtime)
-            })
-            return total.toFixed(2)
-        },
-        totalRegOTPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { regular: { overtime: string } } } }) => {
-                total += parseFloat(element.payroll_records.gross_pays.regular.overtime)
-            })
-            return total.toFixed(2)
-        },
-        totalSpcHolPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { special_holidays: { regular: string } } } }) => {
-                total += parseFloat(element.payroll_records.gross_pays.special_holidays.regular) ?? 0
-            })
-            return total.toFixed(2)
-        },
-        totalRegHolPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { regular_holidays: { regular: string } } } }) => {
-                total += parseFloat(element.payroll_records.gross_pays.regular_holidays.regular) ?? 0
-            })
-            return total.toFixed(2)
-        },
-        totalRestDayPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { rest: { regular: string } } } }) => {
-                total += parseFloat(element.payroll_records.gross_pays.rest.regular) ?? 0
-            })
-            return total.toFixed(2)
-        },
-        totalRegHrsPayrollDraft (state) {
-            let total = 0
-            state.payrollDraft.payroll.forEach((element: { payroll_records: { gross_pays: { regular: { regular: string } } } }) => {
-                total += parseFloat(element.payroll_records.gross_pays.regular.regular) ?? 0
-            })
-            return total.toFixed(2)
-        },
     },
     actions: {
-        async generatePayrollDraft () {
-            this.successMessage = ""
-            this.errorMessage = ""
+        async getOne (id: any, getParams: any) {
+            return await useHRMSApiO(
+                "/api/payroll/resource/" + id,
+                {
+                    method: "GET",
+                    params: getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getAllRequests () {
+            await useHRMSApi(
+                "/api/payroll/resource",
+                {
+                    method: "GET",
+                    params: this.allRequests.params,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.allRequests.isLoaded = true
+                            this.allRequests.list = response._data.data.data
+                            this.allRequests.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getMyRequests () {
+            await useHRMSApi(
+                "/api/payroll/my-requests",
+                {
+                    method: "GET",
+                    params: this.myRequests.params,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.myRequests.isLoaded = true
+                            this.myRequests.list = response._data.data.data
+                            this.myRequests.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getMyApprovals () {
+            await useHRMSApi(
+                "/api/payroll/my-approvals",
+                {
+                    method: "GET",
+                    params: this.myApprovals.params,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.myApprovals.isLoaded = true
+                            this.myApprovals.list = response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async draftPayrollRequest () {
             const payload = {
                 ...this.generateParams,
                 employee_ids: JSON.stringify(this.generateParams.employee_ids),
@@ -382,149 +253,49 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 {
                     method: "GET",
                     params: payload,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.payrollDraft = response._data.data
                         } else {
-                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
                 }
             )
         },
-        async getAllList () {
-            await useHRMSApi(
-                "/api/payroll/resource",
-                {
-                    method: "GET",
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.list = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getMyRequests () {
-            await useHRMSApi(
-                "/api/payroll/my-requests",
-                {
-                    method: "GET",
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.myRequestList = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getMyApprovalRequests () {
-            await useHRMSApi(
-                "/api/payroll/my-approvals",
-                {
-                    method: "GET",
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.myApprovalRequestList = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-
-        async createRequest () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApi(
+        async createPayrollRequest () {
+            return await useHRMSApiO(
                 "/api/payroll/create-payroll",
                 {
                     method: "POST",
                     body: this.formattedPayrollDraft,
-                    onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
-                            this.$reset()
-                            this.getAllList()
-                            this.getMyApprovalRequests()
-                            this.getMyRequests()
-                            this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        clearMessages () {
-            this.errorMessage = ""
-            this.successMessage = ""
-        },
-        async editRequest () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApiO(
-                "/api/payroll/resource/" + this.payrollRecord.id,
-                {
-                    method: "PATCH",
-                    body: this.payrollRecord,
-                    onResponse: ({ response }: any) => {
-                        if (response.status >= 200 && response.status <= 299) {
-                            this.$reset()
-                            this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        async deleteRequest (id: number) {
-            await useHRMSApi(
-                "/api/payroll/resource/" + id,
-                {
-                    method: "DELETE",
-                    watch: false,
                     onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
-                        if (response.status >= 200 && response.status <= 299) {
-                            this.$reset()
-                            this.successMessage = response._data.message
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data
+                            this.reloadResources()
+                        } else {
+                            throw new Error(response._data.message)
                         }
                     },
                 }
             )
         },
         async approveApprovalForm (id: number) {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApiO(
+            return await useHRMSApiO(
                 "/api/approvals/approve/Payroll/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
-                            this.getMyApprovalRequests()
-                            this.getAllList()
-                            this.getMyRequests()
+                            this.reloadResources()
                             return response._data
                         } else {
-                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
@@ -532,31 +303,49 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             )
         },
         async denyApprovalForm (id: string) {
-            this.successMessage = ""
-            this.errorMessage = ""
             const formData = new FormData()
             formData.append("id", id)
-            formData.append("remarks", this.remarks)
+            formData.append("remarks", this.approval.params.remarks)
             await useHRMSApiO(
                 "/api/approvals/disapprove/Payroll/" + id,
                 {
                     method: "POST",
                     body: formData,
                     onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
-                            this.getMyApprovalRequests()
-                            this.getAllList()
-                            this.getMyRequests()
+                            this.reloadResources()
                             return response._data
                         }
                     },
                 }
             )
+        },
+        reloadResources () {
+            const backup = this.generateParams.approvals
+            const callFunctions = []
+            if (this.allRequests.isLoaded) {
+                callFunctions.push(this.getAllRequests)
+            }
+            if (this.myRequests.isLoaded) {
+                callFunctions.push(this.getMyRequests)
+            }
+            if (this.myApprovals.isLoaded) {
+                callFunctions.push(this.getMyApprovals)
+            }
+            this.$reset()
+            this.generateParams.approvals = backup
+            callFunctions.forEach((element) => {
+                element()
+            })
+        },
+        addAdjustment () {
+            this.generateParams.adjustments.push({ employee_id: null, adjustment_name: "", adjustment_amount: "" })
+        },
+        removeAdjustment (index: any) {
+            this.generateParams.adjustments.splice(index, 1)
         },
     },
 })

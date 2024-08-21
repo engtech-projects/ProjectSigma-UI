@@ -17,9 +17,11 @@ let context = null
 let displaySize = null
 // CLOSE CAMERA ON LEAVE PAGE
 onBeforeRouteLeave(() => {
-    stream.getTracks().forEach((track) => {
-        track.stop()
-    })
+    if (stream) {
+        stream.getTracks().forEach((track) => {
+            track.stop()
+        })
+    }
 })
 const startCamera = () => {
     Promise.all([

@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
     state: () => ({
@@ -21,15 +19,10 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
     actions: {
         async getStakeholderGroups () {
             this.isLoading = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/stakeholder-group",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
@@ -51,15 +44,10 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
 
         async getStakeholderGroup (id:any) {
             this.isLoading = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/stakeholder-group/" + id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
@@ -77,15 +65,10 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
         async createStakeholderGroup () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useAccountingApi(
                 "/api/v1/stakeholder-group",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.stakeholderGroup,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -104,14 +87,10 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
         async editStakeholderGroup () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/stakeholder-group/" + this.stakeholderGroup.stakeholder_group_id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.stakeholderGroup,
                     watch: false,
                 }
@@ -127,14 +106,10 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
         },
 
         async deleteStakeholderGroup (id: number) {
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/stakeholder-group/" + id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.stakeholderGroup,
                     watch: false,
                     onResponse: ({ response }) => {

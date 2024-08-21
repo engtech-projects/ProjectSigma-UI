@@ -2,7 +2,6 @@
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 const genpayrollstore = useGeneratePayrollStore()
 const snackbar = useSnackbar()
-const boardLoading = ref(false)
 const { payrollDraft } = storeToRefs(genpayrollstore)
 
 const loanTypes = ref([])
@@ -89,9 +88,6 @@ const savePayroll = async () => {
 const showEditModal = ref(false)
 const showEdit = () => {
     showEditModal.value = true
-}
-const closeViewModal = () => {
-    showEditModal.value = false
 }
 function formatCurrency (number: Number, locale = "en-US") {
     const formatter = new Intl.NumberFormat(locale, {
@@ -441,7 +437,7 @@ function formatCurrency (number: Number, locale = "en-US") {
                                 {{ formatCurrency(data.payroll_records.hours_worked.special_holidays.overtime) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
-                                {{ formatCurrency(data.payroll_records.gross_pays.regular.regular) ?? "-" }}
+                                {{ formatCurrency(data.payroll_records.gross_pays?.regular?.regular) ?? "-" }}
                             </td>
                             <td class="p-4 border-solid border border-slate-400">
                                 {{ formatCurrency(data.payroll_records.gross_pays.rest.regular) ?? "-" }}
@@ -688,24 +684,10 @@ function formatCurrency (number: Number, locale = "en-US") {
                 </button>
             </div>
         </div>
-        <div v-if="showEditModal" :loading="boardLoading">
-            <Teleport to="body">
-                <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70">
-                    <div class="bg-white p-4 w-4/5 h-4/5 mt-10 ml-64 gap-2 rounded-md overflow-auto absolute">
-                        <div class="flex gap-2 justify-end ml-auto p-2 ">
-                            <button
-                                title="Close"
-                                @click="closeViewModal"
-                            >
-                                <Icon name="cil:x" class="w-5 h-5 hover:bg-red-400 hover:rounded-sm hover:text-white" />
-                            </button>
-                        </div>
-                        <div class="p-2">
-                            <HrmsPayrollEditGeneratepayrollInformation />
-                        </div>
-                    </div>
-                </div>
-            </Teleport>
-        </div>
+        <PsModal v-model:show-modal="showEditModal">
+            <template #body>
+                <HrmsPayrollEditGeneratepayrollInformation />
+            </template>
+        </PsModal>
     </div>
 </template>
