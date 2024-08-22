@@ -2,17 +2,12 @@
 import { storeToRefs } from "pinia"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
-
 const approvals = useApprovalStore()
-
 const travels = useTravelorderStore()
 const { travel, errorMessage, successMessage } = storeToRefs(travels)
-
 travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
-
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
 const submitForm = async () => {
     try {
         boardLoading.value = true
@@ -42,7 +37,6 @@ const submitForm = async () => {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Travel Order Form" class="w-full" :loading="boardLoading">
         <div class="text-gray-500">
@@ -113,7 +107,6 @@ const submitForm = async () => {
                         v-model="travel.approvals[apr]"
                     />
                 </div>
-
                 <div class="flex justify-end">
                     <button type="submit" class="flex-1 text-white p-2 rounded-lg bg-teal-600 content-center mt-5">
                         Submit Form
@@ -137,13 +130,11 @@ const submitForm = async () => {
         </div>
     </LayoutBoards>
 </template>
-
 <style scoped>
 .error-message,
 .success-message {
     transition: opacity 1s ease;
 }
-
 .error-message.fade-out,
 .success-message.fade-out {
     animation-duration: 1s;

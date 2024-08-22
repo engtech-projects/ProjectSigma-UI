@@ -14,7 +14,7 @@ const showInformation = (data) => {
 }
 
 const headers = [
-    { name: "Requesting Department", id: "requesting_department" },
+    { name: "Requesting Department", id: "requesting_department_name" },
     { name: "Position/Title", id: "position.name" },
     { name: "Date Requested", id: "date_requested" },
     { name: "Date Required", id: "date_required" },

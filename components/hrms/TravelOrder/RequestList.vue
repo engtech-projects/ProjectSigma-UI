@@ -1,12 +1,9 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
-
 const travels = useTravelorderStore()
 const { list: travelList, getParams, pagination, errorMessage, successMessage } = storeToRefs(travels)
-
 const boardLoading = ref(false)
-
 const headers = [
     { name: "Requesting Office", id: "department.department_name" },
     { name: "Destination", id: "destination" },
@@ -19,23 +16,21 @@ const actions = {
     edit: false,
     delete: false,
 }
-
 const infoModalData = ref({})
+// const tempFilteredData = ref([])
 const showInfoModal = ref(false)
 const showInformation = (data) => {
     infoModalData.value = data
     showInfoModal.value = true
 }
-
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }
 </script>
-
 <template>
     <LayoutBoards class="w-full" :loading="boardLoading">
+        <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
         <div class="pb-2 text-gray-500 p-2">
-            <!-- <pre>{{ travelList }}</pre> -->
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"

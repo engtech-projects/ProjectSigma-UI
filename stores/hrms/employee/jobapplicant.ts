@@ -279,6 +279,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         jobApplicantIsSearch: false as Boolean,
         errorMessage: "",
         successMessage: "",
+        showFormComponent: false,
     }),
     getters: {
         fullname (state) {

@@ -67,6 +67,12 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
     }),
 
     getters: {
+        latesAbsencesSummary (state) {
+            return {
+                lates: state.monthlyLates.list ? state.monthlyLates.list.length : 0,
+                absents: state.monthlyAbsences.list ? state.monthlyAbsences.list.length : 0,
+            }
+        }
     },
     actions: {
         async getMonthlyBirthday () {

@@ -11,11 +11,7 @@ stats.getDeptProjStats()
 stats.getGenderStats()
 mains.getactiveAll()
 
-const { latesAbsenceStats, deptProjStats, genderStats } = storeToRefs(stats)
-latesAbsenceStats.value = {
-    lates: stats.monthlyLates.list ? stats.monthlyLates.list.length : 0,
-    absents: stats.monthlyAbsences.list ? stats.monthlyAbsences.list.length : 0,
-}
+const { deptProjStats, genderStats } = storeToRefs(stats)
 useHead({
     title: "Dashboard",
     meta: [{ name: "description", content: "SIGMA Dashboard" }],
@@ -65,7 +61,7 @@ useHead({
                 <div
                     class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
                 >
-                    <HrmsDashboardLatesAbsencesChart :labels="Object.keys(latesAbsenceStats)" :data="Object.values(latesAbsenceStats)" />
+                    <HrmsDashboardLatesAbsencesChart :labels="Object.keys(stats.latesAbsencesSummary)" :data="Object.values(stats.latesAbsencesSummary)" />
                 </div>
             </template>
             <div

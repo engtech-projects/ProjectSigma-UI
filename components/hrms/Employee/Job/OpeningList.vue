@@ -7,15 +7,11 @@ const { manpowerHiringList: manpowerList, manpower, getParams, errorMessage, suc
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
-    // getParams.value.syId = newParams.id ?? ""
-    // getParams.value.semId = newParams.semId ?? ""
-    // getParams.value.feeType = newParams.feeType ?? ""
-    // getParams.value.particularName = newParams.particularName ?? ""
 }
 
 const headers = [
     { name: "Position/Title", id: "position.name" },
-    { name: "Requesting Department", id: "requesting_department" },
+    { name: "Requesting Department", id: "requesting_department_name" },
     { name: "Employment Type", id: "employment_type" },
     { name: "Nature of Request", id: "nature_of_request" },
 ]
