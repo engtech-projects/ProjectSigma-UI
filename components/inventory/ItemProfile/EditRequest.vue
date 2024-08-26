@@ -9,7 +9,6 @@ const { data: userData } = useAuth()
 // const { departmentsList } = storeToRefs(departments)
 
 const approvals = useApprovalStore()
-
 const travels = useTravelorderStore()
 const { travel, errorMessage, successMessage } = storeToRefs(travels)
 
@@ -51,63 +50,19 @@ const editRequest = async () => {
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">
                         <div>
-                            <label for="requestingOffice" class="text-sm italic font-semibold text-gray-700">Requesting Office</label>
-                            <HrmsCommonDepartmentSelector id="requestingOffice" v-model="travel.requesting_office" />
+                            <LayoutFormPsTextInput v-model="travel.destination" title="Destination" />
                         </div>
                         <div>
-                            <label for="destination" class="text-sm italic font-semibold text-gray-700">Destination</label>
-                            <input
-                                id="destination"
-                                v-model="travel.destination"
-                                type="text"
-                                class="w-full rounded-lg"
-                            >
+                            <LayoutFormPsTextInput v-model="travel.destination" title="Destination" />
                         </div>
                         <div>
-                            <label for="purposeOfTravel" class="text-sm italic font-semibold text-gray-700">Purpose of Travel</label>
-                            <input
-                                id="purposeOfTravel"
-                                v-model="travel.purpose_of_travel"
-                                type="text"
-                                class="w-full rounded-lg"
-                            >
+                            <LayoutFormPsTextInput v-model="travel.destination" title="Destination" />
                         </div>
                         <div>
-                            <label for="DateTimeTravel" class="text-sm italic font-semibold text-gray-700">Date and Time of Travel</label>
-                            <!-- <VueDatePicker v-model="travel.date_and_time_of_travel" :is-24="false" /> -->
-                            <input
-                                id="DateTimeTravel"
-                                v-model="travel.date_and_time_of_travel"
-                                type="date"
-                                class="w-full rounded-lg"
-                            >
+                            <LayoutFormPsTextInput v-model="travel.destination" title="Destination" />
                         </div>
                         <div>
-                            <label for="DurationTravel" class="text-sm italic font-semibold text-gray-700">Duration of Travel (days)</label>
-                            <input
-                                id="DurationTravel"
-                                v-model="travel.duration_of_travel"
-                                type="number"
-                                class="w-full rounded-lg"
-                            >
-                        </div>
-                        <div>
-                            <label for="MeansTravel" class="text-sm italic font-semibold text-gray-700">Means of Transportation</label>
-                            <input
-                                id="MeansTravel"
-                                v-model="travel.means_of_transportation"
-                                type="text"
-                                class="w-full rounded-lg"
-                            >
-                        </div>
-                        <div>
-                            <label for="remarks" class="text-sm italic font-semibold text-gray-700">Remarks</label>
-                            <input
-                                id="remarks"
-                                v-model="travel.remarks"
-                                type="text"
-                                class="w-full rounded-lg "
-                            >
+                            <LayoutFormPsTextInput v-model="travel.destination" title="Destination" />
                         </div>
                         <div>
                             <label for="requstedBy" class="text-sm italic font-semibold text-gray-700">Requested By</label>
@@ -128,15 +83,6 @@ const editRequest = async () => {
                         v-model="travel.approvals[apr]"
                     />
                 </div>
-
-                <!-- <div>
-                    <EasyDataTable
-                        v-model:items-selected="selectedEmployees"
-                        class="mt-5"
-                        :headers="headers"
-                        :items="employeeList"
-                    />
-                </div> -->
                 <div class="flex justify-end gap-2">
                     <button
                         type="submit"

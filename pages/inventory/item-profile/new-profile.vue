@@ -1,21 +1,18 @@
-<script setup lang="ts">
-import { useTravelorderStore } from "@/stores/hrms/travelorder"
-import { useEnumsStore } from "@/stores/hrms/enum"
+<script setup>
+import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
+const main = useItemProfileStore()
+// import { useTravelorderStore } from "@/stores/hrms/travelorder"
+// const travels = useTravelorderStore()
+// travels.getMyRequests()
+// travels.getMyApprovalRequests()
+// travels.getTravelorders()
 
-const travels = useTravelorderStore()
-// const { isEdit } = storeToRefs(travels)
-travels.getMyRequests()
-travels.getMyApprovalRequests()
-travels.getTravelorders()
+await main.getUOM()
 
-const enums = useEnumsStore()
-enums.getEmployeeEnum()
-enums.getUserEmployeeEnums()
-enums.getDepartmentEnums()
-enums.getProjectEnums()
 useHead({
     title: "New Item Profile",
 })
+
 </script>
 
 <template>
@@ -25,12 +22,12 @@ useHead({
         ])"
     >
         <div
-            class="grid grid-cols-1 md:grid-cols-2 gap-4"
+            class="grid grid-cols-1 gap-4"
         >
-            <div>
-                <InventoryItemProfileNewItemProfileForm />
+            <div class="col-span-1">
+                <InventoryItemProfileTable />
             </div>
-            <div>
+            <div class="col-span-1">
                 <InventoryItemProfileTabList />
             </div>
         </div>
