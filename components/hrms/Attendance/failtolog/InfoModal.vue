@@ -6,11 +6,6 @@ defineProps({
         type: Object,
         required: true,
     },
-    showApprovals: {
-        type: Boolean,
-        required: false,
-        default: false,
-    },
 })
 
 const showModal = defineModel("showModal", { required: false, type: Boolean })
@@ -95,7 +90,7 @@ const denyRequest = async (id) => {
             </div>
         </template>
         <template #footer>
-            <div v-if="showApprovals" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end">
                 <HrmsCommonApprovalDenyButton
                     v-model:deny-remarks="remarks"
                     :request-id="data.id"
