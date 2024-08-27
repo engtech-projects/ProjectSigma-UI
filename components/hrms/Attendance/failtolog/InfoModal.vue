@@ -13,6 +13,7 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
 const failtologs = useFailToLogStore()
 const { remarks } = storeToRefs(failtologs)
 
+const { data: userData } = useAuth()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
