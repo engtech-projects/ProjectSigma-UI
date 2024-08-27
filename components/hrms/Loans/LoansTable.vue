@@ -30,7 +30,7 @@
             </li>
         </ul>
         <div id="default-tab-content">
-            <div class="z-50">
+            <div class="w-full">
                 <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
             </div>
             <div id="regular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800 z-0" role="tabpanel" aria-labelledby="regular-tab">
