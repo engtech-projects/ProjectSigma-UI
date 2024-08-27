@@ -26,6 +26,7 @@ const submitAdd = async () => {
                 text: failtologs.successMessage
             })
         }
+        failtolog.value.employee_id = ""
         failtolog.value.approvals = await approvals.getApprovalByName(APPROVAL_FAILTOLOG)
     } catch {
         snackbar.add({
@@ -46,7 +47,7 @@ const submitAdd = async () => {
                 <div class="mt-2 grid gap-6 mb-2 md:grid-cols-2">
                     <div>
                         <label for="employee" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                        <HrmsCommonEmployeeSelector v-model="failtolog.employee_id" title="Employee Name" name="Employee Name" />
+                        <HrmsCommonSearchEmployeeSelector v-model="failtolog.employee_id" />
                     </div>
                     <div class="w-full">
                         <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Log Type</label>
