@@ -47,6 +47,7 @@ const changePaginate = (newParams) => {
 
 <template>
     <LayoutBoards class="w-full" :loading="boardLoading">
+        <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
         <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable
                 :header-columns="headers"
