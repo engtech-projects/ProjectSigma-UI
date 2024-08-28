@@ -11,7 +11,6 @@ export const REQ_STATUS = [
     PENDING,
     DENIED,
 ]
-
 export interface SubItemGroup {
     name: string | null,
 }
@@ -158,6 +157,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
+                    watch: false,
                     headers: {
                         Authorization: token.value + "",
                         Accept: "application/json"
@@ -173,9 +173,51 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 return error
             }
         },
+        async getAllRequests () {
+            await useInventoryApi(
+                "/api/item-profile/resource",
+                {
+                    method: "GET",
+                    params: this.allRequests.params,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.allRequests.isLoaded = true
+                            this.allRequests.list = response._data.data.data
+                            this.allRequests.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getMyRequests () {
+            await useInventoryApi(
+                "/api/item-profile/my-requests",
+                {
+                    method: "GET",
+                    params: this.myRequests.params,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.myRequests.isLoaded = true
+                            this.myRequests.list = response._data.data.data
+                            this.myRequests.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getMyApprovals () {
-            await useHRMSApi(
-                "/api/payroll/my-approvals",
+            await useInventoryApi(
+                "/api/item-profile/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
@@ -203,7 +245,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                         Accept: "application/json"
                     },
                     onResponse: ({ response }) => {
-                        this.uom = response._data.data.data
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
                     },
                 }
             )
@@ -277,22 +323,6 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 }
             )
         },
-        async getMyRequests () {
-            await useHRMSApi(
-                "/api/item-profile/my-request",
-                {
-                    method: "GET",
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.myRequests.list = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
         async getMyApprovalRequests () {
             await useHRMSApi(
                 "/api/item-profile/my-approvals",
@@ -314,6 +344,8 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             this.successMessage = ""
         },
         reset () {
+            this.formItemProfile = {} as ItemProfile
+            this.newItemProfile = [] as NewItemProfile[]
             this.itemProfile = {
                 id: null,
                 sku: "",

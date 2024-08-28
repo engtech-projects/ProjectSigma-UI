@@ -1,9 +1,9 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useTravelorderStore } from "@/stores/hrms/travelorder"
+import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
-const travels = useTravelorderStore()
-const { list: travelList, getParams, pagination, errorMessage, successMessage } = storeToRefs(travels)
+const mains = useItemProfileStore()
+const { list: List, getParams, pagination, errorMessage, successMessage } = storeToRefs(mains)
 
 const boardLoading = ref(false)
 
@@ -35,11 +35,10 @@ const changePaginate = (newParams) => {
 <template>
     <LayoutBoards class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 p-2">
-            <!-- <pre>{{ travelList }}</pre> -->
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="travelList ?? []"
+                :datas="List ?? []"
                 @show-table="showInformation"
             />
         </div>

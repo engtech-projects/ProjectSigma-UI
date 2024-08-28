@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useTravelorderStore } from "@/stores/hrms/travelorder"
+import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
 defineProps({
     data: {
@@ -12,8 +12,8 @@ defineProps({
 const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
-const travelOrderStore = useTravelorderStore()
-const { remarks } = storeToRefs(travelOrderStore)
+const profileStore = useItemProfileStore()
+const { remarks } = storeToRefs(profileStore)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -24,10 +24,10 @@ const closeViewModal = () => {
 const approvedRequest = async (id) => {
     try {
         boardLoading.value = true
-        await travelOrderStore.approveApprovalForm(id)
+        await profileStore.approveApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: travelOrderStore.successMessage
+            text: profileStore.successMessage
         })
         closeViewModal()
     } catch (error) {
@@ -45,10 +45,10 @@ const clearRemarks = () => {
 const denyRequest = async (id) => {
     try {
         boardLoading.value = true
-        await travelOrderStore.denyApprovalForm(id)
+        await profileStore.denyApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: travelOrderStore.successMessage
+            text: profileStore.successMessage
         })
         closeViewModal()
     } catch (error) {

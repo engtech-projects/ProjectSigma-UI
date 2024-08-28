@@ -15,8 +15,8 @@ defineProps({
     },
 })
 const showAppend = ref(false)
+const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
 const uomTypes = ref({
     allType: uom,
     lengthType: uomLength,
@@ -26,30 +26,42 @@ const uomTypes = ref({
     forceType: uomForce,
     dimensionType: uomDimension,
 })
-
 const inventoryTypes = ref(
     [
         {
+            id: "Inventoriable",
             name: "Inventoriable",
         },
         {
+            id: "Inventoriable",
             name: "Non-Inventoriable",
         },
     ]
 )
-
 const addItemProfile = (item: any) => {
     showAppend.value = false
     newItemProfile.value.push(item)
     addItemPrfoile.value = []
-    profileStore.reset()
 }
-
-const doStoreItemProfile = () => {
-    if (newItemProfile.value.length >= 1) {
-        formItemProfile.value.item_profiles = newItemProfile.value
-        newItemProfile.value = []
-        profileStore.reset()
+const doStoreItemProfile = async () => {
+    try {
+        if (newItemProfile.value.length >= 1) {
+            formItemProfile.value.item_profiles = newItemProfile.value
+            await profileStore.storeItemProfile()
+            snackbar.add({
+                type: "success",
+                text: profileStore.successMessage
+            })
+            newItemProfile.value = []
+            profileStore.reset()
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    } finally {
+        boardLoading.value = false
     }
 }
 const doEditItem = (index: number) => {
@@ -59,14 +71,13 @@ const doEditItem = (index: number) => {
         profileStore.reset()
     }
 }
-
 const showItemProfile = () => {
-    profileStore.reset()
     addItemPrfoile.value.push(itemProfile.value)
     showAppend.value = true
 }
 const hideItemProfile = () => {
     showAppend.value = false
+    addItemPrfoile.value = []
 }
 const removeItemProfile = (id: number) => {
     newItemProfile.value.splice(id, 1)
@@ -83,8 +94,8 @@ const hideEditItem = async (index: number) => {
 }
 </script>
 <template>
-    <InventoryCommonLayoutInventoryBoards title="New Profile" class="w-full" :loading="boardLoading" @action="showItemProfile">
-        <div class="pb-2 text-gray-500 overflow-x-auto">
+    <InventoryCommonLayoutItemProfileBoards title="New Profile" class="w-full" :loading="boardLoading" @action="showItemProfile">
+        <div class="pb-2 text-gray-500 overflow-x-auto mb-4">
             <table class="table-auto w-full border-collapse">
                 <thead>
                     <tr>
@@ -204,5 +215,5 @@ const hideEditItem = async (index: number) => {
                 Submit Form
             </button>
         </div>
-    </InventoryCommonLayoutInventoryBoards>
+    </InventoryCommonLayoutItemProfileBoards>
 </template>

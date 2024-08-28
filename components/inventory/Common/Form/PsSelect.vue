@@ -5,8 +5,8 @@ const props = defineProps({
         default: "",
     },
     selectList: {
-        type: Array<any>,
-        default: [],
+        type: Object,
+        default: null,
     }
 })
 const model = defineModel({ type: String, required: true })
@@ -24,7 +24,7 @@ function selectOption (option: any) {
             <option
                 v-for="option, i in props.selectList"
                 :key="i"
-                :value="option.name"
+                :value="option.id"
                 @click="selectOption(option.id)"
             >
                 {{ option.name }}
