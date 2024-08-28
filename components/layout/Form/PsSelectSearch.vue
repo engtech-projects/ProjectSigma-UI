@@ -73,7 +73,7 @@ function clearSearchQuery () {
             <div class="relative">
                 <div
                     v-if="showDD"
-                    class="absolute max-h-72 left-0 min-w-full py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2"
+                    class="absolute max-h-72 left-0 min-w-full py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2 z-10"
                 >
                     <div v-if="props.searchList.length" class="flex flex-col overflow-auto">
                         <span
