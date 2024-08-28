@@ -49,13 +49,6 @@ useHead({
                     </template>
                 </HrmsCommonTabsMainContainer>
             </div>
-            <div v-if="false" class="shadow-md border border-gray-200 p-4 rounded-lg w-full">
-                <label for="" class="text-xl font-normal text-gray-900">Log Failures Table</label>
-                <Table
-                    :tbl-headers="headers"
-                    :tbl-items="items"
-                />
-            </div>
         </div>
     </LayoutAcessContainer>
 </template>

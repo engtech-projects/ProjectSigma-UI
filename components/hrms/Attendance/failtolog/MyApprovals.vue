@@ -39,6 +39,5 @@ const boardLoading = ref(false)
     <HrmsAttendanceFailtologInfoModal
         v-model:show-modal="showInfoModal"
         :data="infoModalData"
-        :show-approvals="true"
     />
 </template>

@@ -144,19 +144,22 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                             amount: adjust.adjustment_amount,
                         })),
                         deductions: [
-                            ...data.payroll_records.salary_deduction.loan.loans.map((loan: { installment_deduction: any }) => ({
+                            ...data.payroll_records.salary_deduction.loan.loans.map((loan: any) => ({
+                                loans_id: loan.id,
                                 name: "Loan",
-                                amount: loan.installment_deduction,
+                                amount: loan.max_payroll_payment,
                                 type: "Loan"
                             })),
-                            ...data.payroll_records.salary_deduction.cash_advance.cash_advance.map((cashAdvance: { total_paid: any }) => ({
+                            ...data.payroll_records.salary_deduction.cash_advance.cash_advance.map((cashAdvance: any) => ({
+                                cash_advance_id: cashAdvance.id,
                                 name: "Cash Advance",
-                                amount: cashAdvance.total_paid,
+                                amount: cashAdvance.max_payroll_payment,
                                 type: "Cash Advance"
                             })),
-                            ...data.payroll_records.salary_deduction.other_deductions.other_deduction.map((otherDeduction: { otherdeduction_name: any; installment_deduction: any }) => ({
+                            ...data.payroll_records.salary_deduction.other_deductions.other_deduction.map((otherDeduction: any) => ({
+                                other_deduction_id: otherDeduction.id,
                                 name: otherDeduction.otherdeduction_name,
-                                amount: otherDeduction.installment_deduction,
+                                amount: otherDeduction.max_payroll_payment,
                                 type: "Other Deduction"
                             }))
                         ],
