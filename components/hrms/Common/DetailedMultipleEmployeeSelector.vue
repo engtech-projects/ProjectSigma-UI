@@ -33,6 +33,9 @@ const selectAllEmployees = () => {
                     <option value="SalaryType">
                         Salary Type
                     </option>
+                    <option value="EmployeeName">
+                        Employee Name
+                    </option>
                 </select>
             </div>
             <div class="w-2/3">
@@ -68,6 +71,10 @@ const selectAllEmployees = () => {
                 </template>
             </div>
         </div>
+        <LayoutFormPsTextInput
+            v-model="allEmployeeEnum.nameFilter"
+            title="Search Employee"
+        />
         <div>
             <label class="items-center space-x-2">
                 <input v-model="selectAll" type="checkbox" class="h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all checked:border-gray-900 checked:bg-gray-900 hover:before:opacity-10" @change="selectAllEmployees">

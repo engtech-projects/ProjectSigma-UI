@@ -95,18 +95,22 @@ const showEdit = () => {
         </div>
 
         <div>
-            <div class="relative overflow-x-auto shadow-md">
+            <div class="relative print:overflow-visible overflow-x-auto shadow-md">
                 <HrmsPayrollSalaryPayrollInfoTable :payroll-request="payrollDraft" />
             </div>
-            <div class="relative overflow-x-auto shadow-md">
-                <HrmsPayrollSalaryChargingTable :payroll-request="payrollDraft" />
-            </div>
         </div>
+    </div>
+    <div class="relative overflow-x-auto shadow-md">
+        <HrmsPayrollSalaryChargingTable :payroll-request="payrollDraft" />
     </div>
     <div class="mt-2">
         <div class="flex flex-row justify-end gap-2">
             <div>
-                <button type="submit" class="text-white bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800" @click="printDraft">
+                <button
+                    type="submit"
+                    class="text-white bg-yellow-400 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-yellow-300 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800"
+                    @click="printDraft"
+                >
                     Print Draft
                 </button>
             </div>
