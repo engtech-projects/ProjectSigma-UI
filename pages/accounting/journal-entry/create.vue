@@ -1,8 +1,5 @@
 <script lang="ts" setup>
 
-definePageMeta({
-    layout: "default",
-})
 useHead({
     title: "New Entry",
 })
