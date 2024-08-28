@@ -9,8 +9,6 @@ failtologstore.getMyRequests()
 
 const enums = useEnumsStore()
 enums.getEmployeeEnum()
-// enums.getDepartmentEnums()
-// enums.getProjectEnums()
 
 useHead({
     title: "Failure To Log",

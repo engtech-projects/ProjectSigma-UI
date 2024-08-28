@@ -151,13 +151,13 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                                 type: "Loan"
                             })),
                             ...data.payroll_records.salary_deduction.cash_advance.cash_advance.map((cashAdvance: any) => ({
-                                cash_advance_id: cashAdvance.id,
+                                cashadvance_id: cashAdvance.id,
                                 name: "Cash Advance",
                                 amount: cashAdvance.max_payroll_payment,
                                 type: "Cash Advance"
                             })),
                             ...data.payroll_records.salary_deduction.other_deductions.other_deduction.map((otherDeduction: any) => ({
-                                other_deduction_id: otherDeduction.id,
+                                otherdeduction_id: otherDeduction.id,
                                 name: otherDeduction.otherdeduction_name,
                                 amount: otherDeduction.max_payroll_payment,
                                 type: "Other Deduction"

@@ -51,9 +51,10 @@ async function handleSubmit () {
         boardLoading.value = true
         transactionStore.transaction.status = "open"
         transactionStore.transaction.amount = 100
+        transactionStore.transaction.stakeholder_id = 2
         transactionStore.transaction.details = JSON.stringify([{
-            stakeholder_id: 1,
-            account_id: 1,
+            stakeholder_id: 2,
+            account_id: 3,
             debit: transactionStore.transaction.amount,
             credit: 0
         }])
@@ -69,7 +70,7 @@ async function handleSubmit () {
                 type: "success",
                 text: transactionStore.successMessage
             })
-            navigateTo("/accounting/transaction")
+            navigateTo("/accounting/journal-entry")
         }
     } catch (error) {
         transactionStore.errorMessage = errorMessage
@@ -143,9 +144,9 @@ const accountsList = computed(() => {
                         >Status</label>
                         <input
                             id="particulars"
-                            v-model="transactionStore.transaction.particulars"
                             type="text"
                             class="w-full rounded-lg"
+                            value="open"
                             required
                         >
                     </div>
@@ -277,7 +278,7 @@ const accountsList = computed(() => {
 
             <div class="flex justify-end gap-4">
                 <NuxtLink
-                    to="/accounting/transaction"
+                    to="/accounting/journal-entry"
                     class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5 text-center"
                 >
                     Cancel

@@ -4,7 +4,7 @@ import { useFailToLogStore } from "@/stores/hrms/attendance/failtolog"
 
 const failtologs = useFailToLogStore()
 
-const { myRequestList } = storeToRefs(failtologs)
+const { myRequests } = storeToRefs(failtologs)
 
 const headers = [
     { name: "Date", id: "date_human" },
@@ -24,6 +24,10 @@ const showInformation = (data) => {
 
 const boardLoading = ref(false)
 
+const changePaginate = (newParams) => {
+    myRequests.value.params.page = newParams.page ?? ""
+}
+
 </script>
 
 <template>
@@ -32,9 +36,12 @@ const boardLoading = ref(false)
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="myRequestList ?? []"
+                :datas="myRequests.list"
                 @show-table="showInformation"
             />
+        </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
     <HrmsAttendanceFailtologInfoModal
