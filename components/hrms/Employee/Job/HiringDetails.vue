@@ -34,7 +34,7 @@ const closeForm = () => {
             <div class="text-gray-600 text-sm p-2">
                 <div class="rounded p-2 grid grid-cols-2 " @change="setDetail">
                     <template v-for="(detailList, index) in manpowerData" :key="index">
-                        <div v-if="!['id', 'Requested By', 'job_applicants'].includes(index)" class="border px-4 py-2">
+                        <div v-if="!['id', 'job_applicants'].includes(index)" class="border px-4 py-2">
                             <span class="font-semibold">{{ index }}: </span>
                             <template v-if="index === 'Total Applicants'">
                                 {{ detailList }}
