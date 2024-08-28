@@ -7,7 +7,7 @@ defineProps({
 })
 </script>
 <template>
-    <th scope="col" class="p-2 border-0 border-b">
+    <th scope="col" class="p-2 border-0 border-b text-sm">
         {{ title }}
     </th>
 </template>

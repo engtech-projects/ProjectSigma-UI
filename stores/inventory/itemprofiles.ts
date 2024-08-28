@@ -19,42 +19,41 @@ export interface ItemGroup {
     name: string,
 }
 export interface NewItemProfile {
-    id: number,
+    id?: number,
     sku: string,
     item_description: string,
-    thickness_val: number,
-    thickness_uom: number,
-    length_val: number,
-    length_uom: number,
-    width_val: number,
-    width_uom: number,
-    height_val: number,
-    height_uom: number,
-    outside_diameter_val: number,
-    outside_diameter_uom: number,
-    inside_diameter_val: number,
-    inside_diameter_uom: number,
+    thickness_val?: number,
+    thickness_uom?: number,
+    length_val?: number,
+    length_uom?: number,
+    width_val?: number,
+    width_uom?: number,
+    height_val?: number,
+    height_uom?: number,
+    outside_diameter_val?: number,
+    outside_diameter_uom?: number,
+    inside_diameter_val?: number,
+    inside_diameter_uom?: number,
     specification: string,
-    volume: number,
+    volume?: number,
     grade: string,
     color: string,
-    uom: number,
+    uom?: number,
     uom_group_id: string,
-    uom_conversion_value: number,
+    uom_conversion_value?: number,
     inventory_type: string,
     active_status: string,
     is_approved: boolean,
     is_edit: boolean,
 }
 export interface ItemProfile {
-    itemss: Array<NewItemProfile>,
-    approvals: Array<string>,
+    item_profiles: Array<any>,
+    approvals: Array<any>,
 }
 
 export const useItemProfileStore = defineStore("itemprofiles", {
     state: () => ({
         isEdit: false,
-        newItemProfile: [] as NewItemProfile[],
         itemProfile: {
             id: null,
             sku: "",
@@ -79,11 +78,13 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             uom_group_id: "",
             uom_conversion_value: null,
             inventory_type: "",
-            active_status: "",
+            active_status: "Inactive",
             is_approved: false,
             is_edit: false,
         },
+        addItemPrfoile: [],
         formItemProfile: {} as ItemProfile,
+        newItemProfile: [] as NewItemProfile[],
         itemgroup: {} as ItemGroup,
         subitemgroup: {} as SubItemGroup,
         uom: {} as any,
@@ -157,6 +158,46 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    onResponse: ({ response }) => {
+                        this.uom = response._data.data.data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getMyApprovals () {
+            await useHRMSApi(
+                "/api/payroll/my-approvals",
+                {
+                    method: "GET",
+                    params: this.myApprovals.params,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.myApprovals.isLoaded = true
+                            this.myApprovals.list = response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async storeItemProfile () {
+            const { data, error } = await useFetch(
+                "/api/item-profile/resource",
+                {
+                    baseURL: config.public.INVENTORY_API_URL,
+                    method: "POST",
+                    body: this.formItemProfile,
+                    watch: false,
                     headers: {
                         Authorization: token.value + "",
                         Accept: "application/json"
@@ -271,6 +312,38 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
+        },
+        reset () {
+            this.itemProfile = {
+                id: null,
+                sku: "",
+                item_description: "",
+                thickness_val: null,
+                thickness_uom: null,
+                length_val: null,
+                length_uom: null,
+                width_val: null,
+                width_uom: null,
+                height_val: null,
+                height_uom: null,
+                outside_diameter_val: null,
+                outside_diameter_uom: null,
+                inside_diameter_val: null,
+                inside_diameter_uom: null,
+                specification: "",
+                volume: null,
+                grade: "",
+                color: "",
+                uom: null,
+                uom_group_id: "",
+                uom_conversion_value: null,
+                inventory_type: "",
+                active_status: "Inactive",
+                is_approved: false,
+                is_edit: false,
+            }
+            this.successMessage = ""
+            this.errorMessage = ""
         },
     },
 })

@@ -1,6 +1,7 @@
 <script setup>
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 const main = useItemProfileStore()
+const { myApprovals } = storeToRefs(main)
 // import { useTravelorderStore } from "@/stores/hrms/travelorder"
 // const travels = useTravelorderStore()
 // travels.getMyRequests()
@@ -8,6 +9,11 @@ const main = useItemProfileStore()
 // travels.getTravelorders()
 
 await main.getUOM()
+
+if (!myApprovals.value.isLoaded) {
+    myApprovals.value.isLoaded = true
+    main.getMyApprovals()
+}
 
 useHead({
     title: "New Item Profile",

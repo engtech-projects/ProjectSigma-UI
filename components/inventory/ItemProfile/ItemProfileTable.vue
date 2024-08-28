@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
+import { useApprovalStore, APPROVAL_NEW_ITEM_PROFILE } from "@/stores/inventory/setup/approvals"
+
 const profileStore = useItemProfileStore()
-const { newItemProfile, uom, itemProfile, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension } = storeToRefs(profileStore)
+const { newItemProfile, formItemProfile, addItemPrfoile, uom, itemProfile, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension } = storeToRefs(profileStore)
+const approvalsStore = useApprovalStore()
+formItemProfile.value.approvals = await approvalsStore.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
 
 defineProps({
     actions: {
@@ -11,9 +15,7 @@ defineProps({
     },
 })
 const showAppend = ref(false)
-const showEdit = ref(false)
 const boardLoading = ref(false)
-// const snackbar = useSnackbar()
 
 const uomTypes = ref({
     allType: uom,
@@ -25,43 +27,42 @@ const uomTypes = ref({
     dimensionType: uomDimension,
 })
 
+const inventoryTypes = ref(
+    [
+        {
+            name: "Inventoriable",
+        },
+        {
+            name: "Non-Inventoriable",
+        },
+    ]
+)
+
 const addItemProfile = (item: any) => {
     showAppend.value = false
     newItemProfile.value.push(item)
+    addItemPrfoile.value = []
+    profileStore.reset()
 }
 
-// const updateItemGroup = async (id: number, name: string, group: any) => {
-//     const newSubItemGroup: any[] = []
-//     group.forEach((element) => {
-//         newSubItemGroup.push(element.name)
-//     })
-//     itemgroup.value.name = name
-//     itemgroup.value.sub_groups = newSubItemGroup
-//     showEdit.value = false
-//     await itemStore.updateItemGroup(id)
-
-//     if (errorMessage.value !== "",) {
-//         snackbar.add({
-//             type: "error",
-//             text: errorMessage.value
-//         })
-//     } else {
-//         snackbar.add({
-//             type: "success",
-//             text: successMessage.value
-//         })
-//         newItemProfile.value.map(function (itemname: any) {
-//             if (itemname.id === id) {
-//                 itemname.name = name
-//                 itemname.sub_groups = newSubItemGroup
-//                 itemname.edit = false
-//             }
-//             return itemname
-//         })
-//     }
-// }
+const doStoreItemProfile = () => {
+    if (newItemProfile.value.length >= 1) {
+        formItemProfile.value.item_profiles = newItemProfile.value
+        newItemProfile.value = []
+        profileStore.reset()
+    }
+}
+const doEditItem = (index: number) => {
+    if (newItemProfile.value.length >= 1) {
+        newItemProfile.value[index] = itemProfile.value
+        newItemProfile.value[index].is_edit = false
+        profileStore.reset()
+    }
+}
 
 const showItemProfile = () => {
+    profileStore.reset()
+    addItemPrfoile.value.push(itemProfile.value)
     showAppend.value = true
 }
 const hideItemProfile = () => {
@@ -72,19 +73,18 @@ const removeItemProfile = (id: number) => {
 }
 const showEditItemProfile = async (index: number) => {
     const getItem = await newItemProfile.value[index]
-    if (getItem) {
-        if (newItemProfile.value[index].is_edit) {
-            newItemProfile.value[index].is_edit = false
-        } else {
-            newItemProfile.value[index].is_edit = true
-        }
-    }
-    showEdit.value = true
+    itemProfile.value = getItem
+    getItem.is_edit = true
+}
+const hideEditItem = async (index: number) => {
+    const getItem = await newItemProfile.value[index]
+    getItem.is_edit = false
+    profileStore.reset()
 }
 </script>
 <template>
     <InventoryCommonLayoutInventoryBoards title="New Profile" class="w-full" :loading="boardLoading" @action="showItemProfile">
-        <div class="pb-2 text-gray-500">
+        <div class="pb-2 text-gray-500 overflow-x-auto">
             <table class="table-auto w-full border-collapse">
                 <thead>
                     <tr>
@@ -101,20 +101,19 @@ const showEditItemProfile = async (index: number) => {
                         <InventoryCommonTableItemTh title="Grade" />
                         <InventoryCommonTableItemTh title="Color" />
                         <InventoryCommonTableItemTh title="UOM" />
-                        <InventoryCommonTableItemTh title="UOM value" />
                         <InventoryCommonTableItemTh title="Inventory Type" />
+                        <InventoryCommonTableItemTh title="Item Approved" />
                         <InventoryCommonTableItemTh title="Status" />
-                        <InventoryCommonTableItemTh title="Approved" />
                         <InventoryCommonTableItemTh title="Action" />
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-show="showAppend" class="border-b-2 border-gray-300">
-                        <InventoryItemProfileItemAppend :item-profile="itemProfile" :uom-types="uomTypes" @add-item="addItemProfile" @hide-item="hideItemProfile" />
+                        <InventoryItemProfileItemAppend :append-item-profile="addItemPrfoile" :inventory-types="inventoryTypes" :uom-types="uomTypes" @add-item="addItemProfile" @hide-item="hideItemProfile" />
                     </tr>
                     <tr v-for="dataValue, index in newItemProfile" :key="index" class="bg-white border-b">
                         <template v-if="dataValue.is_edit">
-                            <span>edit</span>
+                            <InventoryItemProfileItemEdit :item-profile="itemProfile" :inventory-types="inventoryTypes" :uom-types="uomTypes" @do-edit-item="doEditItem(index)" @do-hide-edit-item="hideEditItem(index)" />
                         </template>
                         <template v-if="!dataValue.is_edit">
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
@@ -163,16 +162,13 @@ const showEditItemProfile = async (index: number) => {
                                 {{ dataValue.uom }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.uom_conversion_value }}
-                            </td>
-                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.inventory_type }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.active_status }}
+                                {{ dataValue.is_approved }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.is_approved }}
+                                {{ dataValue.active_status }}
                             </td>
                         </template>
                         <td v-if="!dataValue.is_edit" class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
@@ -193,11 +189,20 @@ const showEditItemProfile = async (index: number) => {
                 </tbody>
             </table>
         </div>
+        <div class="flex w-full">
+            <div class="pt-5 w-full mb-2 rounded-lg p-4 bg-slate-100 ">
+                <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white"> Approval:</label>
+                <HrmsSetupApprovalsList
+                    v-for="(approv, apr) in formItemProfile.approvals"
+                    :key="'hrmsetupapprovallist' + apr"
+                    v-model="formItemProfile.approvals[apr]"
+                />
+            </div>
+        </div>
         <div class="flex justify-end w-full">
-            <button type="submit" class="flex-1 text-white p-2 rounded-lg bg-teal-600 content-center mt-5 max-w-max">
+            <button type="submit" class="flex-1 text-white p-2 rounded-lg bg-teal-600 content-center mt-5 max-w-max" @click="doStoreItemProfile">
                 Submit Form
             </button>
         </div>
-        <!-- <InventorySetupItemGroupEdit :data="dataValue" @update-itemgroup="updateItemGroup" @hide-edit="hideEditItemGroup(dataValue)" /> -->
     </InventoryCommonLayoutInventoryBoards>
 </template>
