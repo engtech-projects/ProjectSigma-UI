@@ -31,10 +31,11 @@ const setDetail = (jobapp) => {
         const applicantCount = jobapp.job_applicants.length
 
         manpower.value = {
+            id: jobapp.id,
             Position: jobapp.position,
             "Requesting Department": jobapp.requesting_department_name,
             "Brief Description": jobapp.brief_description,
-            "Charged To": jobapp.charged_to,
+            // "Charged To": jobapp.charged_to,
             "Employment Type": jobapp.employment_type,
             "Nature of Request": jobapp.nature_of_request,
             "Requested By": jobapp.requested_by_user.name,

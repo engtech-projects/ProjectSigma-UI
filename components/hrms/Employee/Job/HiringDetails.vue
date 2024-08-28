@@ -33,23 +33,20 @@ const closeForm = () => {
         <LayoutEditBoards title="Job Opening Details" class="w-full" :loading="boardLoading">
             <div class="text-gray-600 text-sm p-2">
                 <div class="rounded p-2 grid grid-cols-2 " @change="setDetail">
-                    <div v-for="(detailList, index) in manpowerData" :key="index" class="border px-4 py-2">
-                        <span class="font-semibold">{{ index }}: </span>
-                        <template v-if="index === 'Total Applicants'">
-                            {{ detailList }}
-                        </template>
-                        <template v-else-if="index === 'job_applicants'">
-                            <span class="hidden">
+                    <template v-for="(detailList, index) in manpowerData" :key="index">
+                        <div v-if="!['id', 'Requested By', 'job_applicants'].includes(index)" class="border px-4 py-2">
+                            <span class="font-semibold">{{ index }}: </span>
+                            <template v-if="index === 'Total Applicants'">
                                 {{ detailList }}
-                            </span>
-                        </template>
-                        <template v-else-if="index === 'Position'">
-                            {{ detailList.name }}
-                        </template>
-                        <template v-else>
-                            {{ detailList }}
-                        </template>
-                    </div>
+                            </template>
+                            <template v-else-if="index === 'Position'">
+                                {{ detailList.name }}
+                            </template>
+                            <template v-else>
+                                {{ detailList }}
+                            </template>
+                        </div>
+                    </template>
                 </div>
                 <HrmsEmployeeJobProcessApplicant />
                 <div class="flex justify-end mt-4">
