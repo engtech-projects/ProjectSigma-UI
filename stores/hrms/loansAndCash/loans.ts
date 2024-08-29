@@ -85,10 +85,10 @@ export const useLoansStore = defineStore("LoansStore", {
                 },
                 onResponse: ({ response }) => {
                     if (response.ok) {
+                        this.resetCreateData()
+                        this.getAllList()
                         this.createData.data = response._data.data
                         this.createData.successMessage = response._data.message
-                        this.getAllList()
-                        this.resetCreateData()
                     }
                 },
             })
