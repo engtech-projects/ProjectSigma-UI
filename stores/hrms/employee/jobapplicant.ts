@@ -347,10 +347,9 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             this.successMessage = ""
             this.errorMessage = ""
             const formData = new FormData()
-            formData.append("manpowerrequests_id", this.jobapplicant.manpowerrequests_id)
-            formData.append("application_name", this.jobapplicant.application_name)
-            formData.append("application_letter_attachment", this.jobapplicant.application_letter_attachment)
-            formData.append("resume_attachment", this.jobapplicant.resume_attachment)
+            formData.append("manpowerrequests_id", this.jobapplicant.manpowerrequests_id ?? "")
+            formData.append("application_letter_attachment", this.jobapplicant.application_letter_attachment ?? "")
+            formData.append("resume_attachment", this.jobapplicant.resume_attachment ?? "")
             formData.append("lastname", this.jobapplicant.lastname)
             formData.append("firstname", this.jobapplicant.firstname)
             formData.append("middlename", this.jobapplicant.middlename)
@@ -410,13 +409,14 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 {
                     method: "POST",
                     body: formData,
-                    onResponse: ({ response }) => {
-                        if (!response.ok) {
-                            this.errorMessage = response._data.message
-                        } else {
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
                             this.getJobApplicant()
                             this.$reset()
                             this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -438,7 +438,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         Accept: "application/json"
                     },
                     body: this.jobapplicant,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
@@ -459,7 +459,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         this.successMessage = response._data.message
                     },
                 }

@@ -34,6 +34,7 @@ const submitForm = async () => {
             jobapplicantstore.$reset()
             jobapplicantstore.showFormComponent = false
         }
+        manpowers.reloadResources()
     } catch (error) {
         errorMessage.value = jobapplicantstore.errorMessage
         snackbar.add({
@@ -42,7 +43,6 @@ const submitForm = async () => {
         })
     } finally {
         jobapplicantstore.clearMessages()
-        manpowers.getManpowerHiringRequests()
         boardLoading.value = false
     }
 }
