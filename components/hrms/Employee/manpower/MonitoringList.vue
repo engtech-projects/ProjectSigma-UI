@@ -3,7 +3,12 @@
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
-const { list: manpowerList, errorMessage, successMessage, pagination, getParams } = storeToRefs(manpowers)
+const { allRequests } = storeToRefs(manpowers)
+onMounted(() => {
+    if (!allRequests.value.isLoaded) {
+        manpowers.getAllRequests()
+    }
+})
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 
@@ -12,7 +17,7 @@ const showInformation = (data) => {
     showInfoModal.value = true
 }
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    allRequests.value.params.page = newParams.page ?? ""
 }
 
 const headers = [
@@ -29,34 +34,22 @@ const actions = {
     showTable: true,
 }
 
-const boardLoading = ref(false)
-
 </script>
 
 <template>
-    <LayoutBoards class="w-full" :loading="boardLoading">
+    <LayoutLoadingContainer class="w-full" :loading="allRequests.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="manpowerList ?? []"
+                :datas="allRequests.list ?? []"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto p-2">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
         </div>
-        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
-            {{ errorMessage }}
-        </p>
-        <p
-            v-show="successMessage"
-            hidden
-            class="success-message text-green-600 text-center font-semibold italic"
-        >
-            {{ successMessage }}
-        </p>
-    </LayoutBoards>
+    </LayoutLoadingContainer>
     <HrmsEmployeeManpowerInfoModal
         v-model:show-modal="showInfoModal"
         :data="infoModalData"

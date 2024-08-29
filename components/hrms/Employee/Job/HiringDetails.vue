@@ -19,13 +19,10 @@ const emit = defineEmits(["setDetail"])
 const setDetail = (event) => {
     emit("setDetail", props.manpowerData, event.target.value)
 }
+const showAddApplicant = ref(false)
 const addApplicant = () => {
-    jobapplicants.showFormComponent = true
+    showAddApplicant.value = true
 }
-const closeForm = () => {
-    jobapplicants.showFormComponent = false
-}
-
 </script>
 
 <template>
@@ -67,12 +64,10 @@ const closeForm = () => {
                 {{ successMessage }}
             </p>
         </LayoutEditBoards>
-        <Teleport to="body">
-            <div v-if="jobapplicants.showFormComponent" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70" @click="closeForm">
-                <div class="bg-white p-4 w-full h-[460px] md:w-8/12 md:h-4/5 md:mt-10 md:ml-64 gap-2 rounded-md shadow-lg overflow-auto absolute" @click.stop>
-                    <HrmsEmployeeJobApplicationForm class="pt-2" />
-                </div>
-            </div>
-        </Teleport>
+        <PsModal v-model:show-modal="showAddApplicant" :is-loading="boardLoading" title="APPLICATION FORM">
+            <template #body>
+                <HrmsEmployeeJobApplicationForm class="pt-2" />
+            </template>
+        </PsModal>
     </div>
 </template>

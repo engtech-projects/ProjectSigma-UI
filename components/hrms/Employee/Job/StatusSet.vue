@@ -24,4 +24,3 @@ const remarks = defineModel("remarks", { required: true, type: String })
         </div>
     </div>
 </template>
-~/stores/hrms/employee/jobapplicant

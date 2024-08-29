@@ -84,4 +84,3 @@ const edit = async () => {
         </form>
     </LayoutBoards>
 </template>
-~/stores/hrms/setup/settings

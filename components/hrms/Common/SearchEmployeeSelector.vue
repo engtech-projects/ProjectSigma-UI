@@ -3,6 +3,13 @@ import { storeToRefs } from "pinia"
 import { useEnumsStore } from "@/stores/hrms/enum"
 import { useEmployeeSearch } from "@/stores/hrms/employeeSearch"
 import type { EmployeeInformation } from "~/stores/hrms/employee"
+defineProps({
+    title: {
+        type: String,
+        required: false,
+        default: "Employee Name",
+    }
+})
 const enums = useEnumsStore()
 const { allEmployeeEnum } = storeToRefs(enums)
 if (allEmployeeEnum.value.list?.length <= 0) {
@@ -27,7 +34,7 @@ watch(employeeId, (newValue) => {
             for="employee_name"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
-            Employee Name
+            {{ title }}
         </label>
         <LayoutFormPsSelectSearch v-model:result="employeeId" v-model:search-input="searchEmployeeParams.key" :search-list="searchResultList" title="fullname_last" placeholder="Search Employee" />
     </div>
