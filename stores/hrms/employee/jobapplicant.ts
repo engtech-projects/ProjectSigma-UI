@@ -411,8 +411,8 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                     body: formData,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.getJobApplicant()
                             this.$reset()
+                            this.getJobApplicant()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message

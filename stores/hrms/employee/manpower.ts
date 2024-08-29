@@ -158,8 +158,8 @@ export const useManpowerStore = defineStore("manpowers", {
                         this.allRequests.isLoading = true
                     },
                     onResponse: ({ response }) => {
+                        this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.isLoading = false
                             this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
@@ -182,8 +182,8 @@ export const useManpowerStore = defineStore("manpowers", {
                         this.myRequests.isLoading = true
                     },
                     onResponse: ({ response }) => {
+                        this.myRequests.isLoading = false
                         if (response.ok) {
-                            this.myRequests.isLoading = false
                             this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
@@ -209,8 +209,8 @@ export const useManpowerStore = defineStore("manpowers", {
                         this.myApprovals.isLoading = true
                     },
                     onResponse: ({ response }) => {
+                        this.myApprovals.isLoading = false
                         if (response.ok) {
-                            this.myApprovals.isLoading = false
                             this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data.data
                             // this.myApprovals.pagination = {
@@ -236,8 +236,8 @@ export const useManpowerStore = defineStore("manpowers", {
                         this.forHiringRequests.isLoading = true
                     },
                     onResponse: ({ response }) => {
+                        this.forHiringRequests.isLoading = false
                         if (response.ok) {
-                            this.forHiringRequests.isLoading = false
                             this.forHiringRequests.isLoaded = true
                             this.forHiringRequests.list = response._data.data.data
                             this.forHiringRequests.pagination = {
