@@ -80,8 +80,9 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 {
                     method: "POST",
                     body: requestData,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.$reset()
                             this.successMessage = response._data.message
                             return response._data
                         } else {
@@ -91,7 +92,6 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                     },
                 }
             )
-            this.$reset()
         },
         async getOne (id: any) {
             return await useHRMSApiO(
@@ -176,7 +176,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 "/api/approvals/approve/LeaveEmployeeRequest/" + id,
                 {
                     method: "POST",
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
                         } else {
@@ -199,7 +199,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 {
                     method: "POST",
                     body: formData,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.fetchLeaveRequestList()
                             this.successMessage = response._data.message
