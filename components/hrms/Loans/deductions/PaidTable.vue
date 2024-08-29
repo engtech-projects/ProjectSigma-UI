@@ -1,10 +1,10 @@
 <script setup>
 import { useOtherDeductionStore } from "@/stores/hrms/loansAndCash/otherDeduction"
 const otherDeductionStore = useOtherDeductionStore()
-const { allList } = storeToRefs(otherDeductionStore)
+const { paidList } = storeToRefs(otherDeductionStore)
 onMounted(() => {
-    if (!allList.value.isLoaded) {
-        otherDeductionStore.getAllList()
+    if (!paidList.value.isLoaded) {
+        otherDeductionStore.getPaidList()
     }
 })
 const headers = [
@@ -18,9 +18,8 @@ const headers = [
 ]
 
 const changePaginate = (newParams) => {
-    allList.value.params.page = newParams.page ?? ""
+    paidList.value.params.page = newParams.page ?? ""
 }
-
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 
@@ -28,18 +27,19 @@ const showInformation = (data) => {
     infoModalData.value = data
     showInfoModal.value = true
 }
+
 </script>
 <template>
     <LayoutLoadingContainer>
         <div class="w-full">
-            <HrmsCommonSearchEmployeeSelector v-model="allList.params.employee_id" />
+            <HrmsCommonSearchEmployeeSelector v-model="paidList.params.employee_id" />
         </div>
         <div class="w-full">
             <div class="mt-5 mb-6 ">
                 <EasyDataTable
                     class="mt-5"
                     :headers="headers"
-                    :items="allList.list"
+                    :items="paidList.list"
                     :hide-footer="true"
                 >
                     <template #item-actions="item">
@@ -57,7 +57,7 @@ const showInformation = (data) => {
             </div>
             <div class="flex justify-center mx-auto">
                 <CustomPagination
-                    :links="allList.pagination"
+                    :links="paidList.pagination"
                     @change-params="changePaginate"
                 />
             </div>

@@ -1,12 +1,32 @@
+<script setup>
+import { useOtherDeductionStore } from "@/stores/hrms/loansAndCash/otherDeduction"
+const otherDeductionStore = useOtherDeductionStore()
+const { createData } = storeToRefs(otherDeductionStore)
+const snackbar = useSnackbar()
+const submitAdd = async () => {
+    try {
+        await otherDeductionStore.createResource()
+        snackbar.add({
+            type: "success",
+            text: createData.value.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error
+        })
+    }
+}
+</script>
 <template>
     <form @submit.prevent="submitAdd">
-        <AccountingLoadScreen :is-loading="isLoading" />
+        <AccountingLoadScreen :is-loading="createData.isLoading" />
         <div class="md:mt-0 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
             <label for="" class="text-xl font-semibold text-gray-900">Other Deductions Form</label>
             <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                     <label for="deduction_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deduction Name</label>
-                    <input id="deductionName" v-model="newDeduction.otherdeduction_name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <input id="deductionName" v-model="createData.data.otherdeduction_name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                 </div>
                 <div>
                     <label
@@ -15,22 +35,21 @@
                     >
                         Employee Name
                     </label>
-                    <SearchBar v-if="0" @search-changed="employeeSearched" />
-                    <HrmsCommonMultipleEmployeeSelector v-model="newDeduction.employees" />
+                    <HrmsCommonMultipleEmployeeSelector v-model="createData.data.employees" />
                 </div>
             </div>
             <div class="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
                     <label for="amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Amount</label>
-                    <input id="amount" v-model="newDeduction.amount" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <input id="amount" v-model="createData.data.amount" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                 </div>
                 <div>
                     <label for="installment_amount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Monthly Deduction</label>
-                    <input id="installmentAmount" v-model="newDeduction.installment_deduction" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <input id="installmentAmount" v-model="createData.data.installment_deduction" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     <div class="text-xs">
-                        Bi-Monthly Deduction: {{ (newDeduction.installment_deduction ? (newDeduction.installment_deduction/2) : 0) }}
+                        Bi-Monthly Deduction: {{ (createData.data.installment_deduction ? (createData.data.installment_deduction/2) : 0) }}
                         <br>
-                        Weekly Deduction: {{ (newDeduction.installment_deduction ? (newDeduction.installment_deduction/4) : 0) }}
+                        Weekly Deduction: {{ (createData.data.installment_deduction ? (createData.data.installment_deduction/4) : 0) }}
                     </div>
                 </div>
             </div>
@@ -41,7 +60,7 @@
                         <div class="flex flex-wrap items-center mb-4 gap-3">
                             <input
                                 id="termsMonthly"
-                                v-model="newDeduction.terms_of_payment"
+                                v-model="createData.data.terms_of_payment"
                                 type="radio"
                                 value="monthly"
                                 name="default-radio"
@@ -52,7 +71,7 @@
                         <div class="flex flex-wrap items-center mb-4 gap-3">
                             <input
                                 id="termsBiMonth"
-                                v-model="newDeduction.terms_of_payment"
+                                v-model="createData.data.terms_of_payment"
                                 type="radio"
                                 value="bimonthly"
                                 name="default-radio"
@@ -63,7 +82,7 @@
                         <div class="flex flex-wrap items-center mb-4 gap-3">
                             <input
                                 id="termsWeekly"
-                                v-model="newDeduction.terms_of_payment"
+                                v-model="createData.data.terms_of_payment"
                                 type="radio"
                                 value="weekly"
                                 name="default-radio"
@@ -72,7 +91,7 @@
                             <label for="termsWeekly" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Weekly</label>
                         </div>
                     </div>
-                    <LayoutFormPsDateInput v-model="newDeduction.deduction_date_start" title="Deduction Start Date" />
+                    <LayoutFormPsDateInput v-model="createData.data.deduction_date_start" title="Deduction Start Date" />
                 </div>
             </div>
             <div class="max-w-full flex flex-row-reverse mt-5">
@@ -83,73 +102,6 @@
         </div>
     </form>
 </template>
-
-<script setup>
-import { useEmployeeInfo } from "@/stores/hrms/employee"
-const emit = defineEmits(["stored"])
-const employeeStore = useEmployeeInfo()
-const employeeSearched = () => {
-    newDeduction.value.employee_id = employeeStore.information.id
-    newDeduction.value.employees.push(employeeStore.information.id)
-}
-const snackbar = useSnackbar()
-const isLoading = ref(false)
-const newDeduction = ref({
-    id: null,
-    otherdeduction_name: null,
-    amount: null,
-    terms_of_payment: null,
-    installment_deduction: null,
-    employees: [],
-    deduction_date_start: ""
-})
-
-const resetDeduction = () => {
-    newDeduction.value = {
-        id: null,
-        employee_id: null,
-        otherdeduction_name: null,
-        amount: null,
-        terms_of_payment: null,
-        installment_deduction: null,
-        employees: [],
-        deduction_date_start: ""
-    }
-}
-
-const saveDeduction = async () => {
-    isLoading.value = true
-    await useHRMSApi("/api/other-deduction/resource", {
-        method: "POST",
-        watch: false,
-        body: newDeduction.value,
-        onResponseError: ({ response }) => {
-            isLoading.value = false
-            snackbar.add({
-                type: "error",
-                text: response._data.message
-            })
-            throw new Error(response._data.message)
-        },
-        onResponse: ({ response }) => {
-            if (response.ok) {
-                isLoading.value = false
-                emit("stored")
-                resetDeduction()
-                snackbar.add({
-                    type: "success",
-                    text: response._data.message
-                })
-            }
-        },
-    })
-}
-
-const submitAdd = () => {
-    saveDeduction()
-}
-</script>
-
 <style scoped>
 .customize-table {
     --easy-table-body-row-hover-font-color:none !important;
