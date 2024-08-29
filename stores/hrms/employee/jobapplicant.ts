@@ -404,7 +404,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             formData.append("icoe_zip", this.jobapplicant.icoe_zip)
             formData.append("remarks", this.jobapplicant.remarks)
 
-            await useHRMSApiO(
+            return await useHRMSApiO(
                 "/api/job-applicants",
                 {
                     method: "POST",

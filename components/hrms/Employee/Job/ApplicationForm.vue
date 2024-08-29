@@ -19,27 +19,15 @@ const submitForm = async () => {
         jobapplicant.value.manpowerrequests_id = manpower.value.id
         boardLoading.value = true
         await jobapplicantstore.createJobapplicant()
-        if (jobapplicantstore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: jobapplicantstore.errorMessage
-            })
-            boardLoading.value = false
-        } else {
-            snackbar.add({
-                type: "success",
-                text: jobapplicantstore.successMessage
-            })
-            errorMessage.value = ""
-            jobapplicantstore.$reset()
-            jobapplicantstore.showFormComponent = false
-        }
+        snackbar.add({
+            type: "success",
+            text: jobapplicantstore.successMessage
+        })
         manpowers.reloadResources()
     } catch (error) {
-        errorMessage.value = jobapplicantstore.errorMessage
         snackbar.add({
             type: "error",
-            text: jobapplicantstore.errorMessage
+            text: error
         })
     } finally {
         jobapplicantstore.clearMessages()
