@@ -46,28 +46,38 @@ const showMakePayment = () => {
                 <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.date_filed" disabled>
             </div>
             <div class="flex flex-1 flex-col gap-1">
-                <label for="" class="text-gray-500 text-sm">Amount</label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.amount)" disabled>
+                <label for="" class="text-gray-500 text-sm">Deduction Name</label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.otherdeduction_name" disabled>
             </div>
         </div>
         <div class="flex gap-4">
             <div class="flex flex-1 flex-col gap-1">
-                <label for="" class="text-gray-500 text-sm">Deduction Name</label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.otherdeduction_name" disabled>
-            </div>
-            <div class="flex flex-1 flex-col gap-1">
-                <label for="" class="text-gray-500 text-sm">Monthly Deduction</label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.installment_deduction)" disabled>
+                <label for="" class="text-gray-500 text-sm">Total Amount</label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.amount)" disabled>
             </div>
             <div class="flex flex-1 flex-col gap-1">
                 <label for="" class="text-gray-500 text-sm">Payroll Auto Deduction Start</label>
                 <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.deduction_date_start" disabled>
             </div>
+            <div class="flex flex-1 flex-col gap-1">
+                <label for="" class="text-gray-500 text-sm">Monthly Deduction</label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.installment_deduction)" disabled>
+            </div>
+        </div>
+        <div class="flex gap-4">
+            <div class="flex flex-1 flex-col gap-1">
+                <label for="" class="text-gray-500 text-sm">Total Paid</label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.total_paid)" disabled>
+            </div>
+            <div class="flex flex-1 flex-col gap-1">
+                <label for="" class="text-gray-500 text-sm">Remaining Balance</label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.remaining_balance)" disabled>
+            </div>
         </div>
         <div class="flex flex-col mt-6">
             <div class="flex items-center justify-between border-b pb-2">
-                <label for="" class="text-md text-slate-700 font-bold">Payment List</label>
-                <button v-if="!data.isFullyPaid" class="bg-green-500 rounded-md px-4 py-1 text-white hover:bg-green-600 active:bg-green-700" @click="showMakePayment()">
+                <label for="" class="text-md text-slate-700 font-bold">Payment History</label>
+                <button v-if="!data.is_fully_paid" class="bg-green-500 rounded-md px-4 py-1 text-white hover:bg-green-600 active:bg-green-700" @click="showMakePayment()">
                     <Icon name="iconoir:hand-card" class="font-bold text-xl" />
                     Make Payment
                 </button>

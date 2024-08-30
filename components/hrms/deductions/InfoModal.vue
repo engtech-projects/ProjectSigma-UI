@@ -13,7 +13,7 @@ const closeViewModal = () => {
 <template>
     <PsModal v-model:show-modal="showModal" title="Other Deduction Details">
         <template #body>
-            <HrmsLoansDeductionsDeductionDetails :data="data" @close-modal="closeViewModal" />
+            <HrmsDeductionsDeductionDetails :data="data" @close-modal="closeViewModal" />
         </template>
     </PsModal>
 </template>

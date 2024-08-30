@@ -1,10 +1,10 @@
 <script setup>
 import { useOtherDeductionStore } from "@/stores/hrms/loansAndCash/otherDeduction"
 const otherDeductionStore = useOtherDeductionStore()
-const { ongoingList } = storeToRefs(otherDeductionStore)
+const { allList } = storeToRefs(otherDeductionStore)
 onMounted(() => {
-    if (!ongoingList.value.isLoaded) {
-        otherDeductionStore.getOngoingList()
+    if (!allList.value.isLoaded) {
+        otherDeductionStore.getAllList()
     }
 })
 const headers = [
@@ -18,8 +18,9 @@ const headers = [
 ]
 
 const changePaginate = (newParams) => {
-    ongoingList.value.params.page = newParams.page ?? ""
+    allList.value.params.page = newParams.page ?? ""
 }
+
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 
@@ -27,19 +28,18 @@ const showInformation = (data) => {
     infoModalData.value = data
     showInfoModal.value = true
 }
-
 </script>
 <template>
     <LayoutLoadingContainer>
         <div class="w-full">
-            <HrmsCommonSearchEmployeeSelector v-model="ongoingList.params.employee_id" />
+            <HrmsCommonSearchEmployeeSelector v-model="allList.params.employee_id" />
         </div>
         <div class="w-full">
             <div class="mt-5 mb-6 ">
                 <EasyDataTable
                     class="mt-5"
                     :headers="headers"
-                    :items="ongoingList.list"
+                    :items="allList.list"
                     :hide-footer="true"
                 >
                     <template #item-actions="item">
@@ -57,12 +57,12 @@ const showInformation = (data) => {
             </div>
             <div class="flex justify-center mx-auto">
                 <CustomPagination
-                    :links="ongoingList.pagination"
+                    :links="allList.pagination"
                     @change-params="changePaginate"
                 />
             </div>
         </div>
-        <HrmsLoansDeductionsInfoModal v-model:show-modal="showInfoModal" :data="infoModalData" />
+        <HrmsDeductionsInfoModal v-model:show-modal="showInfoModal" :data="infoModalData" />
     </LayoutLoadingContainer>
 </template>
 

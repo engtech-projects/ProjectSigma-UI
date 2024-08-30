@@ -62,7 +62,7 @@ const showInformation = (data) => {
                 />
             </div>
         </div>
-        <HrmsLoansDeductionsInfoModal v-model:show-modal="showInfoModal" :data="infoModalData" />
+        <HrmsDeductionsInfoModal v-model:show-modal="showInfoModal" :data="infoModalData" />
     </LayoutLoadingContainer>
 </template>
 

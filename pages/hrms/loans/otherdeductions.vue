@@ -16,7 +16,7 @@ useHead({
         ])"
     >
         <div class="grid grid-cols-1 gap-2">
-            <HrmsLoansDeductionsForm />
+            <HrmsDeductionsForm />
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
@@ -50,16 +50,16 @@ useHead({
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer :id="'tab1'+compID">
-                        <HrmsLoansDeductionsTable />
+                        <HrmsDeductionsTable />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer :id="'tab2'+compID">
-                        <HrmsLoansDeductionsOngoingTable />
+                        <HrmsDeductionsOngoingTable />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer :id="'tab3'+compID">
-                        <HrmsLoansDeductionsPaidTable />
+                        <HrmsDeductionsPaidTable />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer :id="'tab4'+compID">
-                        <HrmsLoansDeductionsPaymentsTable />
+                        <HrmsDeductionsPaymentsTable />
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>

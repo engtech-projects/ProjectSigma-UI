@@ -231,8 +231,8 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.paymentData.successMessage = response._data.message
                             this.reloadResources()
+                            this.paymentData.successMessage = response._data.message
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)
