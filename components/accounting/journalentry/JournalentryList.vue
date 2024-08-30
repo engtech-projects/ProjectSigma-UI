@@ -47,10 +47,21 @@ const changePaginate = (newParams) => {
 // }
 
 // const snackbar = useSnackbar()
+const journalList = computed(() => {
+    const list = []
+    transactionStore.list.forEach((trans) => {
+        trans.transaction_details.forEach((d) => {
+            list.push(d)
+        })
+    })
+    return list
+})
+
 const filter = ref("all")
 const applyFilter = () => {
     transactionStore.getTransactions(filter.value !== "all" ? filter.value : null)
 }
+applyFilter()
 </script>
 
 <template>
@@ -97,7 +108,13 @@ const applyFilter = () => {
                     <thead>
                         <tr class="text-left">
                             <th class="p-2 ">
+                                #
+                            </th>
+                            <th class="p-2 ">
                                 Account
+                            </th>
+                            <th>
+                                Stakeholder
                             </th>
                             <th class="p-2">
                                 Debit
@@ -105,33 +122,30 @@ const applyFilter = () => {
                             <th class="p-2">
                                 Credit
                             </th>
-                            <th class="p-2">
+                            <!-- <th class="p-2">
                                 Description
                             </th>
                             <th class="p-2">
                                 Name
-                            </th>
+                            </th> -->
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="trn, i in transactionStore.list" :key="i" class="border text-left">
+                        <tr v-for="trn, i in journalList" :key="i" class="border text-left">
                             <td class="p-2">
-                                {{ trn.transaction_date }}
+                                {{ trn.account? trn.account.account_number : "" }}
                             </td>
                             <td class="p-2">
-                                {{ trn.transaction_type? trn.transaction_type_name : "" }}
+                                {{ trn.account? trn.account.account_name : "" }}
                             </td>
                             <td class="p-2">
-                                {{ trn.transaction_no }}
+                                {{ trn.payee }}
                             </td>
                             <td class="p-2">
-                                {{ trn.stakeholder.full_name }}
+                                {{ trn.debit > 0 ? trn.debit : "" }}
                             </td>
                             <td class="p-2">
-                                {{ trn.reference_no }}
-                            </td>
-                            <td class="p-2">
-                                {{ trn.status }}
+                                {{ trn.credit > 0 ? trn.credit : "" }}
                             </td>
                             <!-- <td class="text-right">
                                 <button @click="setEdit(trn)">

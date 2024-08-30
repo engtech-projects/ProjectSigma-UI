@@ -52,12 +52,7 @@ async function handleSubmit () {
         transactionStore.transaction.status = "open"
         transactionStore.transaction.amount = 100
         transactionStore.transaction.stakeholder_id = 2
-        transactionStore.transaction.details = JSON.stringify([{
-            stakeholder_id: 2,
-            account_id: 3,
-            debit: transactionStore.transaction.amount,
-            credit: 0
-        }])
+        transactionStore.transaction.details = JSON.stringify(tdetails.value)
         transactionStore.transaction.description = "No description."
         await transactionStore.createTransaction()
         if (transactionStore.errorMessage !== "") {
@@ -98,6 +93,24 @@ const accountsList = computed(() => {
         return transactionTypeStore.transactionType.book.accounts
     }
     return []
+})
+
+const tdetails = computed(() => {
+    const dds = ref([])
+    details.value.forEach((detail) => {
+        const dd = ref({
+            stakeholder_id: null,
+            account_id: null,
+            debit: 0,
+            credit: 0
+        })
+        dd.value.stakeholder_id = detail.stakeholder_id
+        dd.value.account_id = detail.account_id
+        dd.value.debit = detail.debit
+        dd.value.credit = detail.credit
+        dds.value.push(dd.value)
+    })
+    return dds.value
 })
 </script>
 
