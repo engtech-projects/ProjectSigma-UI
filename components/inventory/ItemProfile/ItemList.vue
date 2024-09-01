@@ -8,8 +8,6 @@ const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }
 const headers = [
-    { name: "Item Profile", id: "item_profile" },
-    { name: " Stock info", id: "stock_info" },
 ]
 const actions = {
     edit: false,

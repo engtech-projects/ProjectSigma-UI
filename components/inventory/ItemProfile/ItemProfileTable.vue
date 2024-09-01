@@ -3,7 +3,7 @@ import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 import { useApprovalStore, APPROVAL_NEW_ITEM_PROFILE } from "@/stores/inventory/setup/approvals"
 
 const profileStore = useItemProfileStore()
-const { newItemProfile, formItemProfile, addItemPrfoile, uom, itemProfile, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension } = storeToRefs(profileStore)
+const { newItemProfile, formItemProfile, addItemProfile, uom, itemProfile, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension } = storeToRefs(profileStore)
 const approvalsStore = useApprovalStore()
 formItemProfile.value.approvals = await approvalsStore.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
 
@@ -26,6 +26,7 @@ const uomTypes = ref({
     forceType: uomForce,
     dimensionType: uomDimension,
 })
+
 const inventoryTypes = ref(
     [
         {
@@ -38,22 +39,31 @@ const inventoryTypes = ref(
         },
     ]
 )
-const addItemProfile = (item: any) => {
+const doAddItemProfile = (item:any) => {
     showAppend.value = false
+    addItemProfile.value = []
     newItemProfile.value.push(item)
-    addItemPrfoile.value = []
 }
 const doStoreItemProfile = async () => {
     try {
         if (newItemProfile.value.length >= 1) {
             formItemProfile.value.item_profiles = newItemProfile.value
             await profileStore.storeItemProfile()
-            snackbar.add({
-                type: "success",
-                text: profileStore.successMessage
-            })
-            newItemProfile.value = []
-            profileStore.reset()
+            if (profileStore.successMessage) {
+                snackbar.add({
+                    type: "success",
+                    text: profileStore.successMessage
+                })
+                newItemProfile.value = []
+                profileStore.reset()
+                profileStore.getMyApprovals()
+                profileStore.approvalReset()
+            } else if (profileStore.errorMessage) {
+                snackbar.add({
+                    type: "error",
+                    text: profileStore.errorMessage
+                })
+            }
         }
     } catch (error) {
         snackbar.add({
@@ -66,18 +76,25 @@ const doStoreItemProfile = async () => {
 }
 const doEditItem = (index: number) => {
     if (newItemProfile.value.length >= 1) {
-        newItemProfile.value[index] = itemProfile.value
+        newItemProfile.value[index] = itemProfile.value ? itemProfile.value : null
         newItemProfile.value[index].is_edit = false
         profileStore.reset()
     }
 }
+
+const getTypeUom = (id: number) => {
+    const index = id - 1
+    return index
+}
+
 const showItemProfile = () => {
-    addItemPrfoile.value.push(itemProfile.value)
+    addItemProfile.value = []
+    addItemProfile.value.push(itemProfile.value)
     showAppend.value = true
 }
 const hideItemProfile = () => {
     showAppend.value = false
-    addItemPrfoile.value = []
+    addItemProfile.value = []
 }
 const removeItemProfile = (id: number) => {
     newItemProfile.value.splice(id, 1)
@@ -120,7 +137,7 @@ const hideEditItem = async (index: number) => {
                 </thead>
                 <tbody>
                     <tr v-show="showAppend" class="border-b-2 border-gray-300">
-                        <InventoryItemProfileItemAppend :append-item-profile="addItemPrfoile" :inventory-types="inventoryTypes" :uom-types="uomTypes" @add-item="addItemProfile" @hide-item="hideItemProfile" />
+                        <InventoryItemProfileItemAppend :append-item-profile="addItemProfile" :inventory-types="inventoryTypes" :uom-types="uomTypes" @add-item="doAddItemProfile" @hide-item="hideItemProfile" />
                     </tr>
                     <tr v-for="dataValue, index in newItemProfile" :key="index" class="bg-white border-b">
                         <template v-if="dataValue.is_edit">
@@ -135,7 +152,7 @@ const hideEditItem = async (index: number) => {
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.thickness_val }}
-                                {{ dataValue.thickness_uom }}
+                                {{ getTypeUom(dataValue.thickness_uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.length_val }}

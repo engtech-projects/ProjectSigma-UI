@@ -3,16 +3,27 @@ import { storeToRefs } from "pinia"
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
 const mains = useItemProfileStore()
-const { list: List, getParams, pagination, errorMessage, successMessage } = storeToRefs(mains)
+const { allRequests: List, getParams, pagination, errorMessage, successMessage } = storeToRefs(mains)
 
 const boardLoading = ref(false)
 
 const headers = [
-    { name: "Requesting Office", id: "department.department_name" },
-    { name: "Destination", id: "destination" },
-    { name: "Purpose", id: "purpose_of_travel" },
-    { name: "Duration", id: "duration_of_travel" },
-    { name: "Remarks", id: "remarks" },
+    { name: "ID", id: "item_profiles.id" },
+    { name: "SKU", id: "item_profiles.sku" },
+    { name: "Item Description", id: "item_profiles.item_description" },
+    { name: "Thickness", id: "item_profiles.thickness_val" },
+    { name: "Length", id: "item_profiles.thickness_val" },
+    { name: "Width", id: "item_profiles.width_val" },
+    { name: "Height", id: "item_profiles.height_val" },
+    { name: "Outside Diameter", id: "item_profiles.outside_diameter_val" },
+    { name: "Inside Diameter", id: "item_profiles.inside_diameter_val" },
+    { name: "Specification", id: "item_profiles.specification" },
+    { name: "Volume", id: "item_profiles.volume" },
+    { name: "Color", id: "item_profiles.color" },
+    { name: "Grade", id: "item_profiles.grade" },
+    { name: "Inventory Type", id: "item_profiles.inventory_type" },
+    { name: "Active Status", id: "item_profiles.active_status" },
+    { name: "Is Approved", id: "item_profiles.is_approved" },
 ]
 const actions = {
     showTable: true,
@@ -38,7 +49,7 @@ const changePaginate = (newParams) => {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="List ?? []"
+                :datas="List.list ?? []"
                 @show-table="showInformation"
             />
         </div>

@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
 const mains = useItemProfileStore()
-const { myApprovalRequestList: List } = storeToRefs(mains)
+const { myApprovals: List } = storeToRefs(mains)
 
 const infoModalData = ref({})
 const showInfoModal = ref(false)
@@ -13,12 +13,8 @@ const showInformation = (data) => {
 }
 
 const headers = [
-    { name: "Requested by", id: "requested_by.name" },
-    { name: "Requesting Office", id: "department.department_name" },
-    { name: "Destination", id: "destination" },
-    { name: "Purpose", id: "purpose_of_travel" },
-    { name: "Duration", id: "duration_of_travel" },
-    { name: "Remarks", id: "remarks" },
+    { name: "Item Summary", id: "item_profiles" },
+    { name: "Requested by", id: "approvals" },
 ]
 
 const actions = {
@@ -33,11 +29,11 @@ const actions = {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="List ?? []"
+                :datas="List.list ?? []"
                 @show-table="showInformation"
             />
         </div>
-        <HrmsTravelOrderInfoModal
+        <InventoryItemProfileInfoModal
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
         />

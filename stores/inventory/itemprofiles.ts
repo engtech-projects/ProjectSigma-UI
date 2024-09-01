@@ -35,6 +35,7 @@ export interface NewItemProfile {
     inside_diameter_uom?: number,
     specification: string,
     volume?: number,
+    volume_uom?: number,
     grade: string,
     color: string,
     uom?: number,
@@ -81,7 +82,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             is_approved: false,
             is_edit: false,
         },
-        addItemPrfoile: [],
+        addItemProfile: [],
         formItemProfile: {} as ItemProfile,
         newItemProfile: [] as NewItemProfile[],
         itemgroup: {} as ItemGroup,
@@ -117,6 +118,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         getParams: {},
         errorMessage: "",
         successMessage: "",
+        remarks: "",
     }),
     getters: {
         uomLength (state) {
@@ -175,14 +177,14 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getAllRequests () {
             await useInventoryApi(
-                "/api/item-profile/resource",
+                "/api/item-profile/all-request",
                 {
                     method: "GET",
                     params: this.allRequests.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.allRequests.isLoaded = true
-                            this.allRequests.list = response._data.data.data
+                            this.allRequests.list = response._data.data
                             this.allRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
@@ -195,14 +197,14 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getMyRequests () {
             await useInventoryApi(
-                "/api/item-profile/my-requests",
+                "/api/item-profile/my-request",
                 {
                     method: "GET",
                     params: this.myRequests.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.myRequests.isLoaded = true
-                            this.myRequests.list = response._data.data.data
+                            this.myRequests.list = response._data.data
                             this.myRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
@@ -249,6 +251,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -305,7 +308,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             await useFetch(
                 "/api/item-profile/resource",
                 {
-                    baseURL: config.public.HRMS_API_URL,
+                    baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
                     headers: {
                         Authorization: token.value + "",
@@ -324,7 +327,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             )
         },
         async getMyApprovalRequests () {
-            await useHRMSApi(
+            await useInventoryApi(
                 "/api/item-profile/my-approvals",
                 {
                     method: "GET",
@@ -339,13 +342,64 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 }
             )
         },
+        async approveApprovalForm (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useInventoryApi(
+                "/api/approvals/approve/RequestItemProfiling/" + id,
+                {
+                    method: "POST",
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async denyApprovalForm (id: string) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const formData = new FormData()
+            formData.append("id", id)
+            formData.append("remarks", this.remarks)
+            await useInventoryApi(
+                "/api/approvals/disapprove/RequestItemProfiling/" + id,
+                {
+                    method: "POST",
+                    body: formData,
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        }
+                    },
+                }
+            )
+        },
+        approvalReset () {
+            this.getAllRequests()
+            this.getMyRequests()
+            this.getMyApprovals()
+        },
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
         },
         reset () {
             this.formItemProfile = {} as ItemProfile
-            this.newItemProfile = [] as NewItemProfile[]
             this.itemProfile = {
                 id: null,
                 sku: "",

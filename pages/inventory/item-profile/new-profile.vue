@@ -4,9 +4,9 @@ const main = useItemProfileStore()
 const { myApprovals } = storeToRefs(main)
 // import { useTravelorderStore } from "@/stores/hrms/travelorder"
 // const travels = useTravelorderStore()
-// travels.getMyRequests()
-// travels.getMyApprovalRequests()
-// travels.getTravelorders()
+main.getAllRequests()
+main.getMyRequests()
+main.getMyApprovals()
 
 await main.getUOM()
 

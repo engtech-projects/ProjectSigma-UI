@@ -32,27 +32,34 @@ const doHideItem = () => {
         </td>
         <td colspan="1" class="p-3 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsNumberInput v-model="itemProfile.thickness_val" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" title="Thickness" />
+            <InventoryCommonFormPsSelect v-model="itemProfile.thickness_uom" title="Type" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
         </td>
         <td colspan="1" class="p-3 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsNumberInput v-model="itemProfile.length_val" title="Length" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" />
+            <InventoryCommonFormPsSelect v-model="itemProfile.length_uom" title="Type" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
         </td>
         <td colspan="1" class="p-3 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsNumberInput v-model="itemProfile.width_val" title="Width" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" />
+            <InventoryCommonFormPsSelect v-model="itemProfile.width_uom" title="Type" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
         </td>
         <td colspan="1" class="p-3 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsNumberInput v-model="itemProfile.height_val" title="Height" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" />
+            <InventoryCommonFormPsSelect v-model="itemProfile.height_uom" title="Type" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
         </td>
         <td colspan="1" class="p-3 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsNumberInput v-model="itemProfile.outside_diameter_val" title="Outside Diameter" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" />
+            <InventoryCommonFormPsSelect v-model="itemProfile.outside_diameter_uom" title="Type" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
         </td>
         <td colspan="1" class="p-3 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsNumberInput v-model="itemProfile.inside_diameter_val" title="Inside Diameter" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" />
+            <InventoryCommonFormPsSelect v-model="itemProfile.inside_diameter_uom" title="Type" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
         </td>
         <td colspan="1" class="p-3 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsTextInput v-model="itemProfile.specification" title="Specification" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" />
         </td>
         <td colspan="1" class="p-3 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsTextInput v-model="itemProfile.volume" title="Volume" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" />
+            <InventoryCommonFormPsSelect v-model="itemProfile.volume_uom" title="Type" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
         </td>
         <td colspan="1" class="p-3 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsTextInput v-model="itemProfile.grade" title="Grade" add-class="min-w-20 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" />
