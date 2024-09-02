@@ -2,10 +2,10 @@
 import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
 const utils = useUtilities()
 const loansStore = useLoansStore()
-const { getParams, paidList } = storeToRefs(loansStore)
+const { getParams, ongoingList } = storeToRefs(loansStore)
 onMounted(() => {
-    if (!paidList.value.isLoaded) {
-        loansStore.paidList()
+    if (!ongoingList.value.isLoaded) {
+        loansStore.getOngoingList()
     }
 })
 const headers = [
@@ -17,9 +17,9 @@ const headers = [
 ]
 const employeeList = computed(() => {
     const list = []
-    if (loansStore.paidList.list) {
-        for (const i in loansStore.allList.data) {
-            const item = loansStore.allList.data[i]
+    if (loansStore.ongoingList.list) {
+        for (const i in loansStore.ongoingList.list) {
+            const item = loansStore.ongoingList.list[i]
             item.fullName = item.employee.family_name + ", " + item.employee.first_name
             item.date_filed = utils.value.dateToString(new Date(item.created_at))
             list.push(item)

@@ -49,6 +49,27 @@ export const useLoansStore = defineStore("LoansStore", {
             errorMessage: "",
             loading: "",
         },
+        ongoingList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        paidList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        paymentsList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
         pagination: {},
         getParams: {},
     }),
@@ -66,6 +87,78 @@ export const useLoansStore = defineStore("LoansStore", {
                         this.allList.data = response._data.data
                         this.allList.successMessage = response._data.message
                         this.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
+                    }
+                },
+            })
+        },
+        async getOngoingList () {
+            return await useHRMSApi("/api/loans/ongoing", {
+                method: "GET",
+                params: this.ongoingList.params,
+                onRequest: () => {
+                    this.ongoingList.isLoading = true
+                },
+                onResponseError: ({ response }) => {
+                    throw new Error(response._data.message)
+                },
+                onResponse: ({ response }) => {
+                    this.ongoingList.isLoading = false
+                    if (response.ok) {
+                        this.ongoingList.isLoaded = true
+                        this.ongoingList.list = response._data.data.data
+                        this.ongoingList.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
+                    }
+                },
+            })
+        },
+        async getPaidList () {
+            return await useHRMSApi("/api/loans/paid", {
+                method: "GET",
+                params: this.paidList.params,
+                onRequest: () => {
+                    this.paidList.isLoading = true
+                },
+                onResponseError: ({ response }) => {
+                    throw new Error(response._data.message)
+                },
+                onResponse: ({ response }) => {
+                    this.paidList.isLoading = false
+                    if (response.ok) {
+                        this.paidList.isLoaded = true
+                        this.paidList.list = response._data.data.data
+                        this.paidList.pagination = {
+                            first_page: response._data.data.first_page_url,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.last_page_url,
+                        }
+                    }
+                },
+            })
+        },
+        async getPaymentsList () {
+            return await useHRMSApi("/api/loans/payments", {
+                method: "GET",
+                params: this.paymentsList.params,
+                onRequest: () => {
+                    this.paymentsList.isLoading = true
+                },
+                onResponseError: ({ response }) => {
+                    throw new Error(response._data.message)
+                },
+                onResponse: ({ response }) => {
+                    this.paymentsList.isLoading = false
+                    if (response.ok) {
+                        this.paymentsList.isLoaded = true
+                        this.paymentsList.list = response._data.data.data
+                        this.paymentsList.pagination = {
                             first_page: response._data.data.first_page_url,
                             pages: response._data.data.links,
                             last_page: response._data.data.last_page_url,

@@ -5,7 +5,7 @@ const loansStore = useLoansStore()
 const { getParams, paidList } = storeToRefs(loansStore)
 onMounted(() => {
     if (!paidList.value.isLoaded) {
-        loansStore.paidList()
+        loansStore.getPaidList()
     }
 })
 const headers = [
@@ -17,9 +17,9 @@ const headers = [
 ]
 const employeeList = computed(() => {
     const list = []
-    if (loansStore.paidList.list) {
-        for (const i in loansStore.allList.data) {
-            const item = loansStore.allList.data[i]
+    if (loansStore.paidList.data) {
+        for (const i in loansStore.paidList.data.data) {
+            const item = loansStore.paidList.data.data[i]
             item.fullName = item.employee.family_name + ", " + item.employee.first_name
             item.date_filed = utils.value.dateToString(new Date(item.created_at))
             list.push(item)
