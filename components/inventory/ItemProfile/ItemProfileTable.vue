@@ -3,7 +3,7 @@ import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 import { useApprovalStore, APPROVAL_NEW_ITEM_PROFILE } from "@/stores/inventory/setup/approvals"
 
 const profileStore = useItemProfileStore()
-const { newItemProfile, formItemProfile, addItemProfile, itemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension } = storeToRefs(profileStore)
+const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension } = storeToRefs(profileStore)
 const approvalsStore = useApprovalStore()
 formItemProfile.value.approvals = await approvalsStore.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
 
@@ -26,7 +26,6 @@ const uomTypes = ref({
     forceType: uomForce,
     dimensionType: uomDimension,
 })
-
 const inventoryTypes = ref(
     [
         {
@@ -39,30 +38,22 @@ const inventoryTypes = ref(
         },
     ]
 )
-const doAddItemProfile = (item:any, id: number) => {
+const doAddItemProfile = (item: any) => {
+    showAppend.value = false
     newItemProfile.value.push(item)
-    addItemProfile.value.splice(id, 1)
+    addItemProfile.value = []
 }
 const doStoreItemProfile = async () => {
     try {
         if (newItemProfile.value.length >= 1) {
             formItemProfile.value.item_profiles = newItemProfile.value
             await profileStore.storeItemProfile()
-            if (profileStore.successMessage) {
-                snackbar.add({
-                    type: "success",
-                    text: profileStore.successMessage
-                })
-                newItemProfile.value = []
-                profileStore.reset()
-                profileStore.getMyApprovals()
-                profileStore.approvalReset()
-            } else if (profileStore.errorMessage) {
-                snackbar.add({
-                    type: "error",
-                    text: profileStore.errorMessage
-                })
-            }
+            snackbar.add({
+                type: "success",
+                text: profileStore.successMessage
+            })
+            newItemProfile.value = []
+            profileStore.reset()
         }
     } catch (error) {
         snackbar.add({
@@ -73,47 +64,50 @@ const doStoreItemProfile = async () => {
         boardLoading.value = false
     }
 }
-const doEditItem = (index: number) => {
+const doEditItem = (data:any, index: number) => {
     if (newItemProfile.value.length >= 1) {
-        newItemProfile.value[index] = itemProfile.value ? itemProfile.value : null
+        newItemProfile.value[index] = data
         newItemProfile.value[index].is_edit = false
         profileStore.reset()
     }
 }
-
 const showItemProfile = () => {
-    addItemProfile.value.push({
-        id: null,
-        sku: null,
-        item_description: "",
-        thickness_val: null,
-        thickness_uom: null,
-        length_val: null,
-        length_uom: null,
-        width_val: null,
-        width_uom: null,
-        height_val: null,
-        height_uom: null,
-        outside_diameter_val: null,
-        outside_diameter_uom: null,
-        inside_diameter_val: null,
-        inside_diameter_uom: null,
-        specification: "",
-        volume: null,
-        grade: "",
-        color: "",
-        uom: null,
-        uom_group_id: "",
-        uom_conversion_value: null,
-        inventory_type: "",
-        active_status: "Inactive",
-        is_approved: false,
-        is_edit: false,
-    })
+    addItemProfile.value.push(
+        {
+            id: null,
+            sku: "",
+            item_description: "",
+            thickness_val: null,
+            thickness_uom: null,
+            length_val: null,
+            length_uom: null,
+            width_val: null,
+            width_uom: null,
+            height_val: null,
+            height_uom: null,
+            outside_diameter_val: null,
+            outside_diameter_uom: null,
+            inside_diameter_val: null,
+            inside_diameter_uom: null,
+            specification: "",
+            volume: null,
+            volume_uom: null,
+            grade: "",
+            color: "",
+            uom: null,
+            uom_group_id: "",
+            uom_conversion_value: null,
+            inventory_type: "",
+            active_status: "Inactive",
+            is_approved: false,
+            is_edit: false,
+        }
+    )
     showAppend.value = true
 }
-const removeAppendItemProfile = (id: number) => {
-    addItemProfile.value.splice(id, 1)
+const hideItemProfile = () => {
+    showAppend.value = false
+    addItemProfile.value = []
 }
 const removeItemProfile = (id: number) => {
     newItemProfile.value.splice(id, 1)
@@ -142,22 +136,22 @@ const hideEditItem = async (index: number) => {
                         <InventoryCommonTableItemTh title="Height" />
                         <InventoryCommonTableItemTh title="Outside diameter" />
                         <InventoryCommonTableItemTh title="Inside diameter" />
-                        <InventoryCommonTableItemTh title="Volume" />
                         <InventoryCommonTableItemTh title="Specification" />
+                        <InventoryCommonTableItemTh title="Volume" />
                         <InventoryCommonTableItemTh title="Grade" />
                         <InventoryCommonTableItemTh title="Color" />
                         <InventoryCommonTableItemTh title="UOM" />
                         <InventoryCommonTableItemTh title="Inventory Type" />
+                        <InventoryCommonTableItemTh title="Item Approved" />
+                        <InventoryCommonTableItemTh title="Status" />
                         <InventoryCommonTableItemTh title="Action" />
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-if="addItemProfile.length >= 1">
-                        <InventoryItemProfileItemAppend :append-item-profile="addItemProfile" :inventory-types="inventoryTypes" :uom-types="uomTypes" @add-item="doAddItemProfile" @remove-item="removeAppendItemProfile" />
-                    </template>
+                    <InventoryCommonTableItemProfileAppend :append-item-profile="addItemProfile" :inventory-types="inventoryTypes" :uom-types="uomTypes" @add-item="doAddItemProfile" @hide-item="hideItemProfile" />
                     <tr v-for="dataValue, index in newItemProfile" :key="index" class="bg-white border-b">
                         <template v-if="dataValue.is_edit">
-                            <InventoryItemProfileItemEdit :item-profile="dataValue" :inventory-types="inventoryTypes" :uom-types="uomTypes" @do-edit-item="doEditItem(index)" @do-hide-edit-item="hideEditItem(index)" />
+                            <InventoryCommonTableItemProfileEdit :item-profile="dataValue" :inventory-types="inventoryTypes" :uom-types="uomTypes" @do-edit-item="doEditItem(dataValue, index)" @do-hide-edit-item="hideEditItem(index)" />
                         </template>
                         <template v-if="!dataValue.is_edit">
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
@@ -207,6 +201,12 @@ const hideEditItem = async (index: number) => {
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.inventory_type }}
+                            </td>
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                {{ dataValue.is_approved }}
+                            </td>
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                {{ dataValue.active_status }}
                             </td>
                         </template>
                         <td v-if="!dataValue.is_edit" class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">

@@ -72,6 +72,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             inside_diameter_uom: null,
             specification: "",
             volume: null,
+            volume_uom: null,
             grade: "",
             color: "",
             uom: null,
@@ -82,7 +83,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             is_approved: false,
             is_edit: false,
         },
-        addItemProfile: [] as Array<ItemProfile>,
+        addItemProfile: [] as Array<any>,
         formItemProfile: {} as ItemProfile,
         newItemProfile: [] as Array<NewItemProfile>,
         itemgroup: {} as ItemGroup,
@@ -113,6 +114,12 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             },
             errorMessage: "",
             successMessage: "",
+        },
+        page: {
+            list: [],
+            approval: {
+                list: [],
+            }
         },
         pagination: {},
         getParams: {},
@@ -400,34 +407,6 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         reset () {
             this.formItemProfile = {} as ItemProfile
-            this.itemProfile = {
-                id: null,
-                sku: "",
-                item_description: "",
-                thickness_val: null,
-                thickness_uom: null,
-                length_val: null,
-                length_uom: null,
-                width_val: null,
-                width_uom: null,
-                height_val: null,
-                height_uom: null,
-                outside_diameter_val: null,
-                outside_diameter_uom: null,
-                inside_diameter_val: null,
-                inside_diameter_uom: null,
-                specification: "",
-                volume: null,
-                grade: "",
-                color: "",
-                uom: null,
-                uom_group_id: "",
-                uom_conversion_value: null,
-                inventory_type: "",
-                active_status: "Inactive",
-                is_approved: false,
-                is_edit: false,
-            }
             this.successMessage = ""
             this.errorMessage = ""
         },

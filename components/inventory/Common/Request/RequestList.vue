@@ -53,7 +53,7 @@ const changePaginate = (newParams) => {
         >
             {{ successMessage }}
         </p>
-        <HrmsTravelOrderInfoModal
+        <InventoryItemProfileInfoModal
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
         />
