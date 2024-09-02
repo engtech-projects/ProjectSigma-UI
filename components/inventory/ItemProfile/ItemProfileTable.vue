@@ -136,15 +136,13 @@ const hideEditItem = async (index: number) => {
                         <InventoryCommonTableItemTh title="Height" />
                         <InventoryCommonTableItemTh title="Outside diameter" />
                         <InventoryCommonTableItemTh title="Inside diameter" />
-                        <InventoryCommonTableItemTh title="Specification" />
                         <InventoryCommonTableItemTh title="Volume" />
+                        <InventoryCommonTableItemTh title="Specification" />
                         <InventoryCommonTableItemTh title="Grade" />
                         <InventoryCommonTableItemTh title="Color" />
                         <InventoryCommonTableItemTh title="UOM" />
                         <InventoryCommonTableItemTh title="Inventory Type" />
-                        <InventoryCommonTableItemTh title="Item Approved" />
-                        <InventoryCommonTableItemTh title="Status" />
-                        <InventoryCommonTableItemTh title="Action" />
+                        <InventoryCommonTableItemTh title="Actions" />
                     </tr>
                 </thead>
                 <tbody>
@@ -185,10 +183,11 @@ const hideEditItem = async (index: number) => {
                                 {{ dataValue.inside_diameter_uom }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.specification }}
+                                {{ dataValue.volume }}
+                                {{ dataValue.volume_uom }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.volume }}
+                                {{ dataValue.specification }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.grade }}
@@ -201,12 +200,6 @@ const hideEditItem = async (index: number) => {
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.inventory_type }}
-                            </td>
-                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.is_approved }}
-                            </td>
-                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.active_status }}
                             </td>
                         </template>
                         <td v-if="!dataValue.is_edit" class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">

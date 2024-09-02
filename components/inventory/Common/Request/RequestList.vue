@@ -8,7 +8,7 @@ const { allRequests: List, getParams, pagination, errorMessage, successMessage }
 const boardLoading = ref(false)
 
 const headers = [
-    { name: "Item Summary", id: "item_summary" },
+    { name: "Item Summary", id: "items_summary" },
     { name: "Active Status", id: "item_profiles.active_status" },
     { name: "Is Approved", id: "item_profiles.is_approved" },
 ]
