@@ -13,8 +13,9 @@ const showInformation = (data) => {
 }
 
 const headers = [
-    { name: "Item Summary", id: "item_profiles" },
-    { name: "Requested by", id: "approvals" },
+    { name: "Item Summary", id: "item_summary" },
+    { name: "Active Status", id: "item_profiles.active_status" },
+    { name: "Is Approved", id: "item_profiles.is_approved" },
 ]
 
 const actions = {

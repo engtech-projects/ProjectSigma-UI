@@ -10,7 +10,7 @@ const compId = useId()
                         AccessibilityTypes.inventory_new_item_profile_all_request,
                     ])"
                     :target-id="'all-list' + compId"
-                    title="All List"
+                    title="All Request"
                 />
                 <HrmsCommonTabsTabTitle
                     :if-access="useCheckAccessibility([

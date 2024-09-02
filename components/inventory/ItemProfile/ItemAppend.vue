@@ -15,7 +15,7 @@ const props = defineProps({
 })
 const { uomTypes } = props
 const emit = defineEmits(["addItem", "removeItem"])
-const doAddItem = (item:any, index) => {
+const doAddItem = (item:any, index:number) => {
     emit("addItem", item[index], index)
 }
 const doRemoveItem = (item:any) => {

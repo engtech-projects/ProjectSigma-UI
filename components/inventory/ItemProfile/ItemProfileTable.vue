@@ -84,7 +84,7 @@ const doEditItem = (index: number) => {
 const showItemProfile = () => {
     addItemProfile.value.push({
         id: null,
-        sku: "",
+        sku: null,
         item_description: "",
         thickness_val: null,
         thickness_uom: null,
