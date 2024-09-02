@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 const loanStore = useLoansStore()
@@ -7,8 +7,6 @@ const { createData } = storeToRefs(loanStore)
 const snackbar = useSnackbar()
 const isLoading = ref(false)
 const employeeSearched = () => {
-    // deptProj.value = employeeStore.information.employee_internal.employee_department.department_name
-    // position.value = employeeStore.information.employee_internal.position
     loanStore.createData.data.employee_id = employeeStore.information.id
 }
 const deptProj = computed(() => {
@@ -36,11 +34,6 @@ const submitAdd = async () => {
         isLoading.value = false
     }
 }
-
-// const successMessage = computed(() => {
-//     return createData.successMessage
-// })
-
 </script>
 <template>
     <form class="relative" @submit.prevent="submitAdd">
