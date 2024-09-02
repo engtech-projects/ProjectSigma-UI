@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const useStakeholderStore = defineStore("stakeholderStore", {
     state: () => ({
@@ -33,15 +31,10 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
     actions: {
         async getStakeholders () {
             this.isLoading = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/stakeholder",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
@@ -64,15 +57,10 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
         async createStakeholder () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useAccountingApi(
                 "/api/v1/stakeholder",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.stakeholder,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -91,14 +79,10 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
         async editStakeholder () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/stakeholder/" + this.stakeholder.stakeholder_id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.stakeholder,
                     watch: false,
                 }
@@ -114,14 +98,10 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
         },
 
         async deleteStakeholder (id: number) {
-            const { data, error } = await useFetch(
+            const { data, error } = await useAccountingApi(
                 "/api/v1/stakeholder/" + id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.stakeholder,
                     watch: false,
                     onResponse: ({ response }) => {

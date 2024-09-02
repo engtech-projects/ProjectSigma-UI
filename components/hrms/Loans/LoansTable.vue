@@ -30,7 +30,10 @@
             </li>
         </ul>
         <div id="default-tab-content">
-            <div id="regular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800" role="tabpanel" aria-labelledby="regular-tab">
+            <div class="w-full">
+                <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
+            </div>
+            <div id="regular" class=" p-1 rounded-lg bg-gray-50 dark:bg-gray-800 z-0" role="tabpanel" aria-labelledby="regular-tab">
                 <div class="mt-5 mb-6 ">
                     <EasyDataTable
                         buttons-pagination

@@ -1,17 +1,29 @@
 <script setup>
-defineProps({
-    denyId: {
+const props = defineProps({
+    requestId: {
         type: Number,
         required: true,
     }
 })
-const emit = defineEmits(["deny"])
-const remarks = ref("")
+const denyRemarks = defineModel("denyRemarks", { required: true, type: String, default: null })
+const emit = defineEmits(["approve", "deny", "clear"])
+const approveRequest = () => {
+    emit("approve", props.requestId)
+}
 const denyRequest = () => {
-    emit("deny", remarks.value)
+    emit("deny", props.requestId)
+}
+const clearRemarks = () => {
+    emit("clear")
 }
 </script>
 <template>
+    <button
+        class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
+        @click="approveRequest()"
+    >
+        Approve Request
+    </button>
     <button
         data-popover-target="popover-deny"
         class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
@@ -28,12 +40,12 @@ const denyRequest = () => {
                 </div>
                 <div class="py-2 flex-col flex gap-2">
                     <label for="deny-remarks">Reason for Denial</label>
-                    <textarea v-model="remarks" cols="2" rows="2" />
+                    <textarea v-model="denyRemarks" cols="2" rows="2" />
                 </div>
                 <div class="w-full py-2 flex gap-2 justify-end">
                     <button
                         class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                        @click="denyRequest(denyId)"
+                        @click="denyRequest()"
                     >
                         Deny Request
                     </button>

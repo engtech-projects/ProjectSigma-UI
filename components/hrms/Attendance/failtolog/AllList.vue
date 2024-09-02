@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useFailToLogStore } from "@/stores/hrms/attendance/failtolog"
 
 const failtologs = useFailToLogStore()
-const { failtolog, list: logList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(failtologs)
+const { failtolog, allRequests, isEdit } = storeToRefs(failtologs)
 
 const headers = [
     { name: "Date", id: "date_human" },
@@ -12,7 +12,9 @@ const headers = [
     { name: "Reason", id: "reason" },
 ]
 const actions = {
-    showTable: true, // edit: true, // delete: true
+    showTable: true,
+    // edit: true,
+    // delete: true
 }
 const infoModalData = ref({})
 const showInfoModal = ref(false)
@@ -41,16 +43,17 @@ const deleteReq = async (req) => {
 }
 
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    allRequests.value.params.page = newParams.page ?? ""
 }
 </script>
 
 <template>
     <LayoutBoards class="w-full" :loading="boardLoading">
+        <HrmsCommonSearchEmployeeSelector v-model="allRequests.params.employee_id" />
         <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable
                 :header-columns="headers"
-                :datas="logList"
+                :datas="allRequests.list"
                 :actions="actions"
                 @edit-row="setEdit"
                 @delete-row="deleteReq"
@@ -58,21 +61,11 @@ const changePaginate = (newParams) => {
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
         </div>
         <HrmsAttendanceFailtologInfoModal
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
         />
-        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
-            {{ errorMessage }}
-        </p>
-        <p
-            v-show="successMessage"
-            hidden
-            class="success-message text-green-600 text-center font-semibold italic"
-        >
-            {{ successMessage }}
-        </p>
     </LayoutBoards>
 </template>

@@ -1,9 +1,9 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useTravelorderStore } from "@/stores/hrms/travelorder"
+import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
-const travels = useTravelorderStore()
-const { myRequestList: travelList } = storeToRefs(travels)
+const mains = useItemProfileStore()
+const { myRequestList: List } = storeToRefs(mains)
 
 const infoModalData = ref({})
 const showInfoModal = ref(false)
@@ -33,7 +33,7 @@ const boardLoading = ref(false)
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="travelList ?? []"
+                :datas="List ?? []"
                 @show-table="showInformation"
             />
         </div>

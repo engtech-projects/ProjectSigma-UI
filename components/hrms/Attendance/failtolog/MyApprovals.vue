@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useFailToLogStore } from "@/stores/hrms/attendance/failtolog"
 
 const failtologs = useFailToLogStore()
-const { myApprovalRequestList } = storeToRefs(failtologs)
+const { myApprovals } = storeToRefs(failtologs)
 
 const headers = [
     { name: "Date", id: "date_human" },
@@ -23,6 +23,9 @@ const showInformation = (data) => {
 
 const boardLoading = ref(false)
 
+const changePaginate = (newParams) => {
+    myApprovals.value.params.page = newParams.page ?? ""
+}
 </script>
 
 <template>
@@ -31,14 +34,16 @@ const boardLoading = ref(false)
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="myApprovalRequestList ?? []"
+                :datas="myApprovals.list"
                 @show-table="showInformation"
             />
+        </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
     <HrmsAttendanceFailtologInfoModal
         v-model:show-modal="showInfoModal"
         :data="infoModalData"
-        :show-approvals="true"
     />
 </template>

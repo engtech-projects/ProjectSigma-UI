@@ -51,12 +51,8 @@ async function handleSubmit () {
         boardLoading.value = true
         transactionStore.transaction.status = "open"
         transactionStore.transaction.amount = 100
-        transactionStore.transaction.details = JSON.stringify([{
-            stakeholder_id: 1,
-            account_id: 1,
-            debit: transactionStore.transaction.amount,
-            credit: 0
-        }])
+        transactionStore.transaction.stakeholder_id = 2
+        transactionStore.transaction.details = JSON.stringify(tdetails.value)
         transactionStore.transaction.description = "No description."
         await transactionStore.createTransaction()
         if (transactionStore.errorMessage !== "") {
@@ -69,7 +65,7 @@ async function handleSubmit () {
                 type: "success",
                 text: transactionStore.successMessage
             })
-            navigateTo("/accounting/transaction")
+            navigateTo("/accounting/journal-entry")
         }
     } catch (error) {
         transactionStore.errorMessage = errorMessage
@@ -97,6 +93,24 @@ const accountsList = computed(() => {
         return transactionTypeStore.transactionType.book.accounts
     }
     return []
+})
+
+const tdetails = computed(() => {
+    const dds = ref([])
+    details.value.forEach((detail) => {
+        const dd = ref({
+            stakeholder_id: null,
+            account_id: null,
+            debit: 0,
+            credit: 0
+        })
+        dd.value.stakeholder_id = detail.stakeholder_id
+        dd.value.account_id = detail.account_id
+        dd.value.debit = detail.debit
+        dd.value.credit = detail.credit
+        dds.value.push(dd.value)
+    })
+    return dds.value
 })
 </script>
 
@@ -143,9 +157,9 @@ const accountsList = computed(() => {
                         >Status</label>
                         <input
                             id="particulars"
-                            v-model="transactionStore.transaction.particulars"
                             type="text"
                             class="w-full rounded-lg"
+                            value="open"
                             required
                         >
                     </div>
@@ -277,7 +291,7 @@ const accountsList = computed(() => {
 
             <div class="flex justify-end gap-4">
                 <NuxtLink
-                    to="/accounting/transaction"
+                    to="/accounting/journal-entry"
                     class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5 text-center"
                 >
                     Cancel

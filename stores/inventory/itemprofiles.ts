@@ -5,17 +5,49 @@ const config = useRuntimeConfig()
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
 export const DENIED = "Denied"
+
 export const REQ_STATUS = [
     APPROVED,
     PENDING,
     DENIED,
 ]
-
 export interface SubItemGroup {
     name: string | null,
 }
 export interface ItemGroup {
     name: string,
+}
+export interface NewItemProfile {
+    id?: number,
+    sku: string,
+    item_description: string,
+    thickness_val?: number,
+    thickness_uom?: number,
+    length_val?: number,
+    length_uom?: number,
+    width_val?: number,
+    width_uom?: number,
+    height_val?: number,
+    height_uom?: number,
+    outside_diameter_val?: number,
+    outside_diameter_uom?: number,
+    inside_diameter_val?: number,
+    inside_diameter_uom?: number,
+    specification: string,
+    volume?: number,
+    grade: string,
+    color: string,
+    uom?: number,
+    uom_group_id: string,
+    uom_conversion_value?: number,
+    inventory_type: string,
+    active_status: string,
+    is_approved: boolean,
+    is_edit: boolean,
+}
+export interface ItemProfile {
+    item_profiles: Array<any>,
+    approvals: Array<any>,
 }
 
 export const useItemProfileStore = defineStore("itemprofiles", {
@@ -24,51 +56,158 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         itemProfile: {
             id: null,
             sku: "",
-            qr_code: null,
-            item_desc: "",
-            thickness: "",
-            length: "",
-            width: "",
-            height: "",
-            outisde_diameter: "",
-            inside_diameter: "",
+            item_description: "",
+            thickness_val: null,
+            thickness_uom: null,
+            length_val: null,
+            length_uom: null,
+            width_val: null,
+            width_uom: null,
+            height_val: null,
+            height_uom: null,
+            outside_diameter_val: null,
+            outside_diameter_uom: null,
+            inside_diameter_val: null,
+            inside_diameter_uom: null,
             specification: "",
+            volume: null,
             grade: "",
             color: "",
-            uom: "",
-            item_group: "",
-            subitem_group: "",
-            item_type: "",
-            convertions: "",
-            status: "",
-            approvals: [],
-            request_by: [],
-            verified_by: [],
-            noted_by: [],
-            request_status: ""
+            uom: null,
+            uom_group_id: "",
+            uom_conversion_value: null,
+            inventory_type: "",
+            active_status: "Inactive",
+            is_approved: false,
+            is_edit: false,
         },
+        addItemPrfoile: [],
+        formItemProfile: {} as ItemProfile,
+        newItemProfile: [] as NewItemProfile[],
         itemgroup: {} as ItemGroup,
-        subitemgroup: [],
-        uom: [],
+        subitemgroup: {} as SubItemGroup,
+        uom: {} as any,
         list: [],
-        myApprovalRequestList: [],
-        myRequestList: [],
+        allRequests: {
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        myApprovals: {
+            isLoaded: false,
+            list: [],
+            params: {},
+        },
+        myRequests: {
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        approval: {
+            params: {
+                id: null,
+                remarks: "",
+            },
+            errorMessage: "",
+            successMessage: "",
+        },
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
-        remarks: "",
     }),
+    getters: {
+        uomLength (state) {
+            return state.uom.filter(function (data: any) {
+                return data.group_id === 1 ? data : null
+            })
+        },
+        uomWeight (state) {
+            return state.uom.filter(function (data: any) {
+                return data.group_id === 2 ? data : null
+            })
+        },
+        uomVolume (state) {
+            return state.uom.filter(function (data: any) {
+                return data.group_id === 3 ? data : null
+            })
+        },
+        uomArea (state) {
+            return state.uom.filter(function (data: any) {
+                return data.group_id === 4 ? data : null
+            })
+        },
+        uomForce (state) {
+            return state.uom.filter(function (data: any) {
+                return data.group_id === 5 ? data : null
+            })
+        },
+        uomDimension (state) {
+            return state.uom.filter(function (data: any) {
+                return data.group_id === 6 ? data : null
+            })
+        },
+    },
     actions: {
-        async getOne (id: any) {
-            return await useHRMSApiO(
-                "/api/travelorder-request/resource/" + id,
+        async getUOM () {
+            const { data, error } = await useFetch(
+                "/api/uom/resource",
+                {
+                    baseURL: config.public.INVENTORY_API_URL,
+                    method: "GET",
+                    watch: false,
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    onResponse: ({ response }) => {
+                        this.uom = response._data.data.data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getAllRequests () {
+            await useInventoryApi(
+                "/api/item-profile/resource",
                 {
                     method: "GET",
-                    params: this.getParams,
-                    onResponse: ({ response }: any) => {
+                    params: this.allRequests.params,
+                    onResponse: ({ response }) => {
                         if (response.ok) {
-                            return response._data.data
+                            this.allRequests.isLoaded = true
+                            this.allRequests.list = response._data.data.data
+                            this.allRequests.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getMyRequests () {
+            await useInventoryApi(
+                "/api/item-profile/my-requests",
+                {
+                    method: "GET",
+                    params: this.myRequests.params,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.myRequests.isLoaded = true
+                            this.myRequests.list = response._data.data.data
+                            this.myRequests.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         } else {
                             throw new Error(response._data.message)
                         }
@@ -76,18 +215,41 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 }
             )
         },
-        async getUOM () {
+        async getMyApprovals () {
+            await useInventoryApi(
+                "/api/item-profile/my-approvals",
+                {
+                    method: "GET",
+                    params: this.myApprovals.params,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.myApprovals.isLoaded = true
+                            this.myApprovals.list = response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async storeItemProfile () {
             const { data, error } = await useFetch(
-                "/api/uom/resource",
+                "/api/item-profile/resource",
                 {
                     baseURL: config.public.INVENTORY_API_URL,
-                    method: "GET",
+                    method: "POST",
+                    body: this.formItemProfile,
+                    watch: false,
                     headers: {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
                     onResponse: ({ response }) => {
-                        this.uom = response._data.data.data
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
                     },
                 }
             )
@@ -141,7 +303,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getItemProfile () {
             await useFetch(
-                "/api/travelorder-request/resource",
+                "/api/item-profile/resource",
                 {
                     baseURL: config.public.HRMS_API_URL,
                     method: "GET",
@@ -161,56 +323,17 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 }
             )
         },
-        async getMyRequests () {
-            await useHRMSApi(
-                "/api/travelorder-request/my-request",
-                {
-                    method: "GET",
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.myRequestList = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
         async getMyApprovalRequests () {
             await useHRMSApi(
-                "/api/travelorder-request/my-approvals",
+                "/api/item-profile/my-approvals",
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.myApprovalRequestList = response._data.data
+                            this.myApprovals.list = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-
-        async createRequest () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApiO(
-                "/api/travelorder-request/resource",
-                {
-                    method: "POST",
-                    body: this.travel,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.$reset()
-                            this.getMyApprovalRequests()
-                            this.getItemProfile()
-                            this.getMyRequests()
-                            this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
                         }
                     },
                 }
@@ -220,107 +343,39 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             this.errorMessage = ""
             this.successMessage = ""
         },
-        async editRequest () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApiO(
-                "/api/travelorder-request/resource/" + this.travel.id,
-                {
-                    method: "PATCH",
-                    body: this.travel,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.$reset()
-                            this.getMyApprovalRequests()
-                            this.getItemProfile()
-                            this.getMyRequests()
-                            this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        async deleteRequest (id: number) {
-            const { data, error } = await useHRMSApi(
-                "/api/travelorder-request/resource/" + id,
-                {
-                    method: "DELETE",
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.$reset()
-                            this.getMyApprovalRequests()
-                            this.getItemProfile()
-                            this.getMyRequests()
-                            this.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-            if (error.value) {
-                this.errorMessage = error.value.data.message
-                throw new Error(this.errorMessage)
-                return error
+        reset () {
+            this.formItemProfile = {} as ItemProfile
+            this.newItemProfile = [] as NewItemProfile[]
+            this.itemProfile = {
+                id: null,
+                sku: "",
+                item_description: "",
+                thickness_val: null,
+                thickness_uom: null,
+                length_val: null,
+                length_uom: null,
+                width_val: null,
+                width_uom: null,
+                height_val: null,
+                height_uom: null,
+                outside_diameter_val: null,
+                outside_diameter_uom: null,
+                inside_diameter_val: null,
+                inside_diameter_uom: null,
+                specification: "",
+                volume: null,
+                grade: "",
+                color: "",
+                uom: null,
+                uom_group_id: "",
+                uom_conversion_value: null,
+                inventory_type: "",
+                active_status: "Inactive",
+                is_approved: false,
+                is_edit: false,
             }
-            if (data.value) {
-                this.getItemProfile()
-                return data
-            }
-        },
-        async approveApprovalForm (id: number) {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApiO(
-                "/api/approvals/approve/TravelOrder/" + id,
-                {
-                    method: "POST",
-                    onResponseError: ({ response }) => {
-                        this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                            this.getMyApprovalRequests()
-                            this.getItemProfile()
-                            this.getMyRequests()
-                            return response._data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async denyApprovalForm (id: string) {
-            this.successMessage = ""
-            this.errorMessage = ""
-            const formData = new FormData()
-            formData.append("id", id)
-            formData.append("remarks", this.remarks)
-            await useHRMSApiO(
-                "/api/approvals/disapprove/TravelOrder/" + id,
-                {
-                    method: "POST",
-                    body: formData,
-                    onResponseError: ({ response }) => {
-                        this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                            this.getMyApprovalRequests()
-                            this.getItemProfile()
-                            this.getMyRequests()
-                            return response._data
-                        }
-                    },
-                }
-            )
         },
     },
 })

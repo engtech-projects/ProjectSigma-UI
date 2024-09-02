@@ -13,18 +13,30 @@ useHead({
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_form,
+                        ])"
                         target-id="payrollForm"
                         title="Generate Payroll"
                     />
                     <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_allrequests,
+                        ])"
                         target-id="allRequest"
                         title="All Request"
                     />
                     <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_form,
+                        ])"
                         target-id="myRequestList"
                         title="My Request"
                     />
                     <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_myapprovals,
+                        ])"
                         target-id="myApprovalsList"
                         title="My Approvals"
                     />
@@ -45,49 +57,31 @@ useHead({
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer
-                        v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_form,
-                        ])"
                         id="payrollForm"
                     >
                         <HrmsPayrollSalaryGeneratePayrollGenerateForm />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_allrequests,
-                        ])"
                         id="allRequest"
                     >
                         <HrmsPayrollSalaryGeneratePayrollAllRequests />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_form,
-                        ])"
                         id="myRequestList"
                     >
                         <HrmsPayrollSalaryGeneratePayrollMyRequests />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_myapprovals,
-                        ])"
                         id="myApprovalsList"
                     >
                         <HrmsPayrollSalaryGeneratePayrollMyApprovals />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        v-if="useCheckAccessibility([
-                            'AdminOnly',
-                        ])"
                         id="payrollRecord"
                     >
                         <HrmsPayrollPayrollrecordTable />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        v-if="useCheckAccessibility([
-                            'AdminOnly',
-                        ])"
                         id="generatePayslip"
                     >
                         <HrmsPayrollGeneratePayslip />

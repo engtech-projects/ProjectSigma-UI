@@ -19,22 +19,35 @@ export const useFailToLogStore = defineStore("Failtologs", {
             reason: null,
             approvals: [],
         },
-        list: [],
-        myApprovalRequestList: [],
-        myRequestList: [],
-        pagination: {},
-        getParams: {},
         errorMessage: "",
         successMessage: "",
         remarks: "",
+        allRequests: {
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        myApprovals: {
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        myRequests: {
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
     }),
     actions: {
-        async getOne (id: any) {
+        async getOne (id: any): Promise<any> {
             return await useHRMSApiO(
                 "/api/attendance/failed-log/" + id,
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.allRequests.params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             return response._data.data
@@ -50,11 +63,11 @@ export const useFailToLogStore = defineStore("Failtologs", {
                 "/api/attendance/failed-log",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.allRequests.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.list = response._data.data.data
-                            this.pagination = {
+                            this.allRequests.list = response._data.data.data
+                            this.allRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
                                 last_page: response._data.data.last_page_url,
@@ -69,9 +82,15 @@ export const useFailToLogStore = defineStore("Failtologs", {
                 "/api/attendance/failure-to-log/my-requests",
                 {
                     method: "GET",
+                    params: this.myRequests.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.myRequestList = response._data.data.data
+                            this.myRequests.list = response._data.data.data
+                            this.myRequests.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -85,9 +104,15 @@ export const useFailToLogStore = defineStore("Failtologs", {
                 "/api/attendance/failure-to-log/my-approvals",
                 {
                     method: "GET",
+                    params: this.myApprovals.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.myApprovalRequestList = response._data.data.data
+                            this.myApprovals.list = response._data.data.data
+                            this.myApprovals.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -105,6 +130,7 @@ export const useFailToLogStore = defineStore("Failtologs", {
                 {
                     method: "POST",
                     body: this.failtolog,
+                    watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.$reset()

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 useHead({
     title: "Loans",
     meta: [

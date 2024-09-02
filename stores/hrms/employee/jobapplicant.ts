@@ -347,10 +347,9 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             this.successMessage = ""
             this.errorMessage = ""
             const formData = new FormData()
-            formData.append("manpowerrequests_id", this.jobapplicant.manpowerrequests_id)
-            formData.append("application_name", this.jobapplicant.application_name)
-            formData.append("application_letter_attachment", this.jobapplicant.application_letter_attachment)
-            formData.append("resume_attachment", this.jobapplicant.resume_attachment)
+            formData.append("manpowerrequests_id", this.jobapplicant.manpowerrequests_id ?? "")
+            formData.append("application_letter_attachment", this.jobapplicant.application_letter_attachment ?? "")
+            formData.append("resume_attachment", this.jobapplicant.resume_attachment ?? "")
             formData.append("lastname", this.jobapplicant.lastname)
             formData.append("firstname", this.jobapplicant.firstname)
             formData.append("middlename", this.jobapplicant.middlename)
@@ -405,18 +404,19 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             formData.append("icoe_zip", this.jobapplicant.icoe_zip)
             formData.append("remarks", this.jobapplicant.remarks)
 
-            await useHRMSApiO(
+            return await useHRMSApiO(
                 "/api/job-applicants",
                 {
                     method: "POST",
                     body: formData,
-                    onResponse: ({ response }) => {
-                        if (!response.ok) {
-                            this.errorMessage = response._data.message
-                        } else {
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.$reset()
                             this.getJobApplicant()
-                            this.reset()
                             this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -438,11 +438,11 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         Accept: "application/json"
                     },
                     body: this.jobapplicant,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.reset()
+                            this.$reset()
                             this.successMessage = response._data.message
                         }
                     },
@@ -459,7 +459,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         this.successMessage = response._data.message
                     },
                 }
@@ -472,100 +472,5 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 return error
             }
         },
-
-        reset () {
-            this.jobapplicant = {
-                id: null,
-                manpowerrequests_id: null,
-                application_letter_attachment: undefined,
-                resume_attachment: undefined,
-                status: "",
-                lastname: "",
-                firstname: "",
-                middlename: "",
-                name_suffix: "",
-                date_of_application: "",
-                date_of_birth: "",
-                per_address_street: "",
-                per_address_brgy: "",
-                per_address_city: "",
-                per_address_zip: "",
-                per_address_province: "",
-                pre_address_street: "",
-                pre_address_brgy: "",
-                pre_address_city: "",
-                pre_address_zip: "",
-                pre_address_province: "",
-                contact_info: "",
-                email: "",
-                how_did_u_learn_about_our_company: "",
-                desired_position: "",
-                currently_employed: "",
-                place_of_birth: "",
-                blood_type: "",
-                date_of_marriage: "",
-                sss: "",
-                philhealth: "",
-                pagibig: "",
-                tin: "",
-                citizenship: "",
-                religion: "",
-                height: "",
-                weight: "",
-                father_name: "",
-                mother_name: "",
-                gender: "",
-                civil_status: "",
-                name_of_spouse: "",
-                date_of_birth_spouse: "",
-                occupation_spouse: "",
-                telephone_spouse: "",
-                children: [],
-                icoe_name: "",
-                icoe_relationship: "",
-                telephone_icoe: "",
-                workexperience: [],
-                education: [
-                    {
-                        elementary_name: null,
-                        elementary_education: null,
-                        elementary_period_attendance_to: null,
-                        elementary_period_attendance_from: null,
-                        elementary_year_graduated: null,
-                        secondary_name: null,
-                        secondary_education: null,
-                        secondary_period_attendance_to: null,
-                        secondary_period_attendance_from: null,
-                        secondary_year_graduated: null,
-                        vocationalcourse_name: null,
-                        vocationalcourse_education: null,
-                        vocationalcourse_period_attendance_to: null,
-                        vocationalcourse_period_attendance_from: null,
-                        vocationalcourse_year_graduated: null,
-                        college_name: null,
-                        college_education: null,
-                        college_period_attendance_to: null,
-                        college_period_attendance_from: null,
-                        college_year_graduated: null,
-                        graduatestudies_name: null,
-                        graduatestudies_education: null,
-                        graduatestudies_period_attendance_to: null,
-                        graduatestudies_period_attendance_from: null,
-                        graduatestudies_year_graduated: null,
-                    }
-                ],
-                icoe_brgy: "",
-                icoe_city: "",
-                icoe_province: "",
-                icoe_street: "",
-                icoe_zip: "",
-                remarks: "",
-
-            }
-            this.isEdit = false
-            this.successMessage = ""
-            this.errorMessage = ""
-        },
-
     },
 })

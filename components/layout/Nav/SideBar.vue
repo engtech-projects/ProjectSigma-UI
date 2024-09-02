@@ -483,6 +483,14 @@ const config = useRuntimeConfig()
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="New Item Profile"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.inventory_new_item_profile,
+                    ])"
+                    linkarea="/inventory/item-profile/list-profile"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Item Profile List"
+                />
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([

@@ -159,7 +159,6 @@ watch(showModal, (newValue, oldValue) => {
         <template v-if=" prop.notification.data.type === 'FailureToLog'">
             <HrmsAttendanceFailtologInfoModal
                 v-model:showModal="showModal"
-                :show-approvals="prop.notification.data.action_type === 'Approve'"
                 :data="modalData.data"
             />
         </template>
@@ -202,7 +201,6 @@ watch(showModal, (newValue, oldValue) => {
         <template v-if=" prop.notification.data.type === 'Payroll'">
             <HrmsPayrollInfoModal
                 v-model:showModal="showModal"
-                :show-approvals="prop.notification.data.action_type === 'Approve'"
                 :data="modalData.data"
             />
         </template>

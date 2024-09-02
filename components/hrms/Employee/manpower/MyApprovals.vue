@@ -3,7 +3,12 @@
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
-const { myApprovalRequestList: manpowerList } = storeToRefs(manpowers)
+const { myApprovals } = storeToRefs(manpowers)
+onMounted(() => {
+    if (!myApprovals.value.isLoaded) {
+        manpowers.getMyApprovals()
+    }
+})
 
 const infoModalData = ref({})
 const showInfoModal = ref(false)
@@ -30,16 +35,16 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards class="w-full">
+    <LayoutLoadingContainer class="w-full" :loading="myApprovals.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="manpowerList ?? []"
+                :datas="myApprovals.list ?? []"
                 @show-table="showInformation"
             />
         </div>
-    </LayoutBoards>
+    </LayoutLoadingContainer>
     <HrmsEmployeeManpowerInfoModal
         v-model:show-modal="showInfoModal"
         :data="infoModalData"

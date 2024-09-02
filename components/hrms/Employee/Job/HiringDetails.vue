@@ -19,13 +19,10 @@ const emit = defineEmits(["setDetail"])
 const setDetail = (event) => {
     emit("setDetail", props.manpowerData, event.target.value)
 }
+const showAddApplicant = ref(false)
 const addApplicant = () => {
-    jobapplicants.showFormComponent = true
+    showAddApplicant.value = true
 }
-const closeForm = () => {
-    jobapplicants.showFormComponent = false
-}
-
 </script>
 
 <template>
@@ -33,23 +30,20 @@ const closeForm = () => {
         <LayoutEditBoards title="Job Opening Details" class="w-full" :loading="boardLoading">
             <div class="text-gray-600 text-sm p-2">
                 <div class="rounded p-2 grid grid-cols-2 " @change="setDetail">
-                    <div v-for="(detailList, index) in manpowerData" :key="index" class="border px-4 py-2">
-                        <span class="font-semibold">{{ index }}: </span>
-                        <template v-if="index === 'Total Applicants'">
-                            {{ detailList }}
-                        </template>
-                        <template v-else-if="index === 'job_applicants'">
-                            <span class="hidden">
+                    <template v-for="(detailList, index) in manpowerData" :key="index">
+                        <div v-if="!['id', 'job_applicants'].includes(index)" class="border px-4 py-2">
+                            <span class="font-semibold">{{ index }}: </span>
+                            <template v-if="index === 'Total Applicants'">
                                 {{ detailList }}
-                            </span>
-                        </template>
-                        <template v-else-if="index === 'Position'">
-                            {{ detailList.name }}
-                        </template>
-                        <template v-else>
-                            {{ detailList }}
-                        </template>
-                    </div>
+                            </template>
+                            <template v-else-if="index === 'Position'">
+                                {{ detailList.name }}
+                            </template>
+                            <template v-else>
+                                {{ detailList }}
+                            </template>
+                        </div>
+                    </template>
                 </div>
                 <HrmsEmployeeJobProcessApplicant />
                 <div class="flex justify-end mt-4">
@@ -70,12 +64,10 @@ const closeForm = () => {
                 {{ successMessage }}
             </p>
         </LayoutEditBoards>
-        <Teleport to="body">
-            <div v-if="jobapplicants.showFormComponent" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-70" @click="closeForm">
-                <div class="bg-white p-4 w-full h-[460px] md:w-8/12 md:h-4/5 md:mt-10 md:ml-64 gap-2 rounded-md shadow-lg overflow-auto absolute" @click.stop>
-                    <HrmsEmployeeJobApplicationForm class="pt-2" />
-                </div>
-            </div>
-        </Teleport>
+        <PsModal v-model:show-modal="showAddApplicant" :is-loading="boardLoading" title="APPLICATION FORM">
+            <template #body>
+                <HrmsEmployeeJobApplicationForm class="pt-2" />
+            </template>
+        </PsModal>
     </div>
 </template>
