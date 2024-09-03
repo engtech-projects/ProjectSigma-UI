@@ -1,36 +1,25 @@
 <script setup>
-import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
-const utils = useUtilities()
-const loansStore = useLoansStore()
-const { getParams, paidList } = storeToRefs(loansStore)
+import { useOtherDeductionStore } from "@/stores/hrms/loansAndCash/otherDeduction"
+const otherDeductionStore = useOtherDeductionStore()
+const { paidList } = storeToRefs(otherDeductionStore)
 onMounted(() => {
     if (!paidList.value.isLoaded) {
-        loansStore.paidList()
+        otherDeductionStore.getPaidList()
     }
 })
 const headers = [
-    { text: "Employee Name", value: "fullName" },
+    { text: "Employee Name", value: "employee.fullname_first" },
     { text: "Date Filed", value: "date_filed" },
-    { text: "Amount Loaned", value: "amount" },
-    { text: "Deduction", value: "installment_deduction" },
+    { text: "Deduction Name", value: "otherdeduction_name" },
+    { text: "Amount to Deduct", value: "amount" },
+    { text: "Term", value: "terms_of_payment" },
+    { text: "Monthly Deduction", value: "installment_deduction" },
     { text: "Action", value: "actions" },
 ]
-const employeeList = computed(() => {
-    const list = []
-    if (loansStore.paidList.list) {
-        for (const i in loansStore.allList.data) {
-            const item = loansStore.allList.data[i]
-            item.fullName = item.employee.family_name + ", " + item.employee.first_name
-            item.date_filed = utils.value.dateToString(new Date(item.created_at))
-            list.push(item)
-        }
-    }
-    return list
-})
-const changePaginate = (newParams) => {
-    getParams.value.params.page = newParams.page ?? ""
-}
 
+const changePaginate = (newParams) => {
+    paidList.value.params.page = newParams.page ?? ""
+}
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 
@@ -38,26 +27,29 @@ const showInformation = (data) => {
     infoModalData.value = data
     showInfoModal.value = true
 }
+
 </script>
 <template>
     <LayoutLoadingContainer>
         <div class="w-full">
-            <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
+            <HrmsCommonSearchEmployeeSelector v-model="paidList.params.employee_id" />
         </div>
         <div class="w-full">
             <div class="mt-5 mb-6 ">
                 <EasyDataTable
-                    buttons-pagination
                     class="mt-5"
-                    table-class-name="customize-table"
                     :headers="headers"
-                    :items="employeeList"
+                    :items="paidList.list"
                     :hide-footer="true"
                 >
                     <template #item-actions="item">
                         <div class="flex flex-row gap-1">
                             <button @click="showInformation(item)">
-                                <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
+                                <Icon
+                                    name="material-symbols:visibility-rounded"
+                                    color="white"
+                                    class="bg-teal-700 rounded h-8 w-8 p-1"
+                                />
                             </button>
                         </div>
                     </template>
@@ -65,15 +57,15 @@ const showInformation = (data) => {
             </div>
             <div class="flex justify-center mx-auto">
                 <CustomPagination
-                    v-if="employeeList.length"
-                    :links="loansStore.pagination"
+                    :links="paidList.pagination"
                     @change-params="changePaginate"
                 />
             </div>
         </div>
-        <HrmsLoansInfoModal v-model:show-modal="showInfoModal" :data="infoModalData" />
+        <HrmsDeductionsInfoModal v-model:show-modal="showInfoModal" :data="infoModalData" />
     </LayoutLoadingContainer>
 </template>
+
 <style scoped>
 .customize-table {
     --easy-table-header-item-padding: 10px 15px;
