@@ -13,7 +13,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.inventory_item_profile_group,
+            AccessibilityTypes.inventory_item_profile,
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">
