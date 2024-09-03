@@ -7,13 +7,13 @@ const transactionTypeStore = useTransactionTypeStore()
 await transactionTypeStore.getTransactionTypes()
 
 const transactionStore = useTransactionStore()
-const { list: transactionList, getParams, pagination, errorMessage, successMessage } = storeToRefs(transactionStore)
+const { list: transactionList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(transactionStore)
 
-// const setEdit = (ttype) => {
-//     isEdit.value = true
-//     transactionStore.transaction = ttype
-//     return navigateTo("/accounting/transaction/edit?id=" + ttype.transaction_id)
-// }
+const setEdit = (ttype) => {
+    isEdit.value = true
+    // transactionStore.transaction = ttype
+    return navigateTo("/accounting/journal-entry/edit?id=" + ttype.transaction_id)
+}
 
 // const isLoading = ref(false)
 // const deleteType = async (ttype) => {
@@ -51,6 +51,7 @@ const journalList = computed(() => {
     const list = []
     transactionStore.list.forEach((trans) => {
         trans.transaction_details.forEach((d) => {
+            d.transaction_id = trans.transaction_id
             list.push(d)
         })
     })
@@ -122,6 +123,7 @@ applyFilter()
                             <th class="p-2">
                                 Credit
                             </th>
+                            <!-- <th></th> -->
                             <!-- <th class="p-2">
                                 Description
                             </th>
@@ -147,11 +149,11 @@ applyFilter()
                             <td class="p-2">
                                 {{ trn.credit > 0 ? trn.credit : "" }}
                             </td>
-                            <!-- <td class="text-right">
+                            <td class="text-right">
                                 <button @click="setEdit(trn)">
                                     <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
                                 </button>
-                            </td> -->
+                            </td>
                         </tr>
                     </tbody>
                 </table>

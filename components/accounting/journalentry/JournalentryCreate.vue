@@ -89,10 +89,11 @@ function select (val:any) {
 }
 
 const accountsList = computed(() => {
-    if (transactionTypeStore.transactionType.book) {
-        return transactionTypeStore.transactionType.book.accounts
-    }
-    return []
+    return accountStore.list
+    // if (transactionTypeStore.transactionType.book) {
+    //     return transactionTypeStore.transactionType.book.accounts
+    // }
+    // return []
 })
 
 const tdetails = computed(() => {
@@ -112,6 +113,15 @@ const tdetails = computed(() => {
     })
     return dds.value
 })
+
+onMounted(() => {
+    transactionTypeStore.list.forEach((item) => {
+        if (item.transaction_type_name.toLowerCase() === "journal entry") {
+            transactionStore.transaction.transaction_type_id = item.transaction_type_id
+        }
+    })
+})
+
 </script>
 
 <template>
@@ -175,6 +185,15 @@ const tdetails = computed(() => {
                             required
                             disabled
                         >
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <label
+                            for="status"
+                            class="text-xs italic"
+                        >Note</label>
+                        <textarea v-model="transactionStore.transaction.note" class="w-full rounded-lg" />
                     </div>
                 </div>
                 <span class="font-bold text-gray-700 mt-8">

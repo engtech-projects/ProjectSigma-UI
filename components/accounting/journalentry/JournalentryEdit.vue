@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
 import { useTransactionStore } from "~/stores/accounting/transaction"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+// import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
 
 const transactionTypeStore = useTransactionTypeStore()
 const transactionStore = useTransactionStore()
-const stakeholderStore = useStakeholderStore()
+// const stakeholderStore = useStakeholderStore()
 const stakeholderGroupStore = useStakeholderGroupStore()
 const boardLoading = ref(false)
 const snackbar = useSnackbar()
@@ -61,7 +61,7 @@ async function handleSubmit () {
     } finally {
         // transactionStore.reset()
         boardLoading.value = false
-        navigateTo("/accounting/transaction")
+        navigateTo("/accounting/journal-entry")
     }
 }
 
@@ -72,9 +72,9 @@ async function handleSubmit () {
 function select (val:any) {
     transactionStore.transaction.transaction_type_id = val.transaction_type_id
 }
-function selectStakeholder (val:any) {
-    transactionStore.transaction.stakeholder_id = val.stakeholder_id
-}
+// function selectStakeholder (val:any) {
+//     transactionStore.transaction.stakeholder_id = val.stakeholder_id
+// }
 </script>
 
 <template>
@@ -99,7 +99,7 @@ function selectStakeholder (val:any) {
                         <label
                             for="transaction_date"
                             class="text-xs italic"
-                        >Transaction Date</label>
+                        >Journal Date</label>
                         <input
                             id="transactionDate"
                             v-model="transactionStore.transaction.transaction_date"
@@ -115,12 +115,13 @@ function selectStakeholder (val:any) {
                         <label
                             for="amount"
                             class="text-xs italic"
-                        >Amount</label>
+                        >Status</label>
                         <input
                             id="amount"
-                            v-model="transactionStore.transaction.amount"
-                            type="number"
+                            v-model="transactionStore.transaction.status"
+                            type="text"
                             class="w-full rounded-lg"
+                            disabled
                             required
                         >
                     </div>
@@ -128,14 +129,24 @@ function selectStakeholder (val:any) {
                         <label
                             for="transaction_type"
                             class="text-xs italic"
-                        >Stakeholder</label>
-                        <AccountingSelectSearch
-                            :options="stakeholderStore.list"
-                            title="display_name"
-                            opid="stakeholder_id"
-                            :selected-id="transactionStore.transaction.stakeholder.stakeholder_id"
-                            @select="selectStakeholder"
-                        />
+                        >Journal No.</label>
+                        <input
+                            id="journalNo"
+                            v-model="transactionStore.transaction.transaction_no"
+                            type="text"
+                            class="w-full rounded-lg"
+                            required
+                            disabled
+                        >
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1">
+                        <label
+                            for="status"
+                            class="text-xs italic"
+                        >Note</label>
+                        <textarea v-model="transactionStore.transaction.note" class="w-full rounded-lg" />
                     </div>
                 </div>
                 <span class="font-bold text-gray-700">
@@ -249,7 +260,7 @@ function selectStakeholder (val:any) {
 
             <div class="flex justify-end gap-4">
                 <NuxtLink
-                    to="/accounting/transaction"
+                    to="/accounting/journal-entry"
                     class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5 text-center"
                 >
                     Cancel
