@@ -1,34 +1,22 @@
 <script setup>
 import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
-const utils = useUtilities()
 const loansStore = useLoansStore()
-const { getParams, paidList } = storeToRefs(loansStore)
+const { paidList } = storeToRefs(loansStore)
 onMounted(() => {
     if (!paidList.value.isLoaded) {
         loansStore.getPaidList()
     }
 })
 const headers = [
-    { text: "Employee Name", value: "fullName" },
+    { text: "Employee Name", value: "employee.fullname_first" },
     { text: "Date Filed", value: "date_filed" },
     { text: "Amount Loaned", value: "amount" },
     { text: "Deduction", value: "installment_deduction" },
     { text: "Action", value: "actions" },
 ]
-const employeeList = computed(() => {
-    const list = []
-    if (loansStore.paidList.data) {
-        for (const i in loansStore.paidList.data.data) {
-            const item = loansStore.paidList.data.data[i]
-            item.fullName = item.employee.family_name + ", " + item.employee.first_name
-            item.date_filed = utils.value.dateToString(new Date(item.created_at))
-            list.push(item)
-        }
-    }
-    return list
-})
+
 const changePaginate = (newParams) => {
-    getParams.value.params.page = newParams.page ?? ""
+    loansStore.paidList.params.page = newParams.page ?? ""
 }
 
 const infoModalData = ref({})
@@ -42,7 +30,7 @@ const showInformation = (data) => {
 <template>
     <LayoutLoadingContainer>
         <div class="w-full">
-            <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
+            <HrmsCommonSearchEmployeeSelector v-model="loansStore.paidList.params.employee_id" />
         </div>
         <div class="w-full">
             <div class="mt-5 mb-6 ">
@@ -51,7 +39,7 @@ const showInformation = (data) => {
                     class="mt-5"
                     table-class-name="customize-table"
                     :headers="headers"
-                    :items="employeeList"
+                    :items="paidList.list"
                     :hide-footer="true"
                 >
                     <template #item-actions="item">
@@ -65,7 +53,7 @@ const showInformation = (data) => {
             </div>
             <div class="flex justify-center mx-auto">
                 <CustomPagination
-                    v-if="employeeList.length"
+                    v-if="paidList.list.length"
                     :links="loansStore.pagination"
                     @change-params="changePaginate"
                 />

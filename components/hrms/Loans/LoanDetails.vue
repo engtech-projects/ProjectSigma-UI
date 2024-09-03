@@ -11,12 +11,8 @@ defineProps({
         type: Object,
         required: true,
     },
-    showPayementButton: {
-        type: String,
-        required: true,
-    }
 })
-const emit = defineEmits(["closeViewModal"])
+const emit = defineEmits(["closeModal"])
 const newPayment = ref({
     id: null,
     loans_id: null,
@@ -75,11 +71,11 @@ const makePayment = async (loanId, employeeId) => {
                     type: "success",
                     text: response._data.message
                 })
+                data.value.payments.push(JSON.parse(JSON.stringify(newPayment.value)))
+                showMakePayment.value = false
+                resetPayment()
+                emit("closeModal")
             }
-            data.value.loan_payments_employee.push(JSON.parse(JSON.stringify(newPayment.value)))
-            showMakePayment.value = false
-            resetPayment()
-            emit("closeViewModal")
         },
     })
 }
@@ -106,7 +102,7 @@ const makePayment = async (loanId, employeeId) => {
                 <div class="flex gap-4">
                     <div class="flex flex-1 flex-col gap-1">
                         <label for="" class="text-gray-500 text-sm">Employee Name</label>
-                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.fullName" disabled>
+                        <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.employee.fullname_first" disabled>
                     </div>
                     <div class="flex flex-1 flex-col gap-1">
                         <label for="" class="text-gray-500 text-sm">Date Filed</label>
@@ -138,7 +134,7 @@ const makePayment = async (loanId, employeeId) => {
             </div>
             <div class="flex flex-col mt-6">
                 <div v-if="data.balance > 0" class="flex items-center justify-between border-b pb-2">
-                    <label for="" class="text-md text-slate-700 font-bold">Payment List</label>
+                    <label for="" class="text-md text-slate-700 font-bold">Payment History</label>
                     <div v-if="showMakePayment" class="flex gap-4 items-center">
                         <button class="bg-gray-100 rounded-md px-4 py-1 text-gray-800 hover:bg-gray-200 active:bg-gray-300" @click="setShowPayment(false)">
                             <Icon name="mingcute:minus-circle-line" class="font-bold text-md text-gray-600 mb-1" />
@@ -155,7 +151,7 @@ const makePayment = async (loanId, employeeId) => {
                     </button>
                 </div>
                 <!-- Employee Payments' List -->
-                <table v-if="data.loan_payments_employee.length > 0" class="table w-full text-left mt-4 border">
+                <table v-if="data.payments.length > 0" class="table w-full text-left mt-4 border">
                     <thead class="border-b">
                         <th class="py-2">
                             Amount Paid
@@ -171,7 +167,7 @@ const makePayment = async (loanId, employeeId) => {
                         </th>
                     </thead>
                     <tbody>
-                        <tr v-for="payment in data.loan_payments_employee" :key="payment.id" class="border">
+                        <tr v-for="payment in data.payments" :key="payment.id" class="border">
                             <td class="px-2 py-1 text-slate-600">
                                 {{ utils.formatCurrency(payment.amount_paid) }}
                             </td>
