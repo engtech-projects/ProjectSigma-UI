@@ -16,6 +16,13 @@ defineProps({
 })
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
+const getType = (id:number) => {
+    const symbol = uom.value.map((data: any) => {
+        return data.id === id ? data.symbol : null
+    }).filter((num:any): num is number => num !== null)
+    return symbol ? symbol[0] : null
+}
+
 const uomTypes = ref({
     allType: uom,
     lengthType: uomLength,
@@ -156,31 +163,31 @@ const hideEditItem = async (index: number) => {
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.thickness_val }}
-                                {{ dataValue.thickness_uom }}
+                                {{ getType(dataValue.thickness_uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.length_val }}
-                                {{ dataValue.length_uom }}
+                                {{ getType(dataValue.length_uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.width_val }}
-                                {{ dataValue.width_uom }}
+                                {{ getType(dataValue.width_uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.height_val }}
-                                {{ dataValue.height_uom }}
+                                {{ getType(dataValue.height_uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.outside_diameter_val }}
-                                {{ dataValue.outside_diameter_uom }}
+                                {{ getType(dataValue.outside_diameter_uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.inside_diameter_val }}
-                                {{ dataValue.inside_diameter_uom }}
+                                {{ getType(dataValue.inside_diameter_uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.volume }}
-                                {{ dataValue.volume_uom }}
+                                {{ getType(dataValue.volume_uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.specification }}

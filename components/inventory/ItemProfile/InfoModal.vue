@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { storeToRefs } from "pinia"
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
@@ -13,7 +13,14 @@ const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const profileStore = useItemProfileStore()
-const { remarks } = storeToRefs(profileStore)
+const { remarks, uom } = storeToRefs(profileStore)
+
+const getType = (id:number) => {
+    const symbol = uom.value.map((data: any) => {
+        return data.id === id ? data.symbol : null
+    }).filter((num:any): num is number => num !== null)
+    return symbol ? symbol[0] : null
+}
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -21,7 +28,7 @@ const boardLoading = ref(false)
 const closeViewModal = () => {
     showModal.value = false
 }
-const approvedRequest = async (id) => {
+const approvedRequest = async (id: number) => {
     try {
         boardLoading.value = true
         await profileStore.approveApprovalForm(id)
@@ -49,7 +56,7 @@ const approvedRequest = async (id) => {
 const clearRemarks = () => {
     remarks.value = ""
 }
-const denyRequest = async (id) => {
+const denyRequest = async (id: any) => {
     try {
         boardLoading.value = true
         await profileStore.denyApprovalForm(id)
@@ -86,14 +93,12 @@ const denyRequest = async (id) => {
                                 <InventoryCommonTableItemTh title="Height" />
                                 <InventoryCommonTableItemTh title="Outside diameter" />
                                 <InventoryCommonTableItemTh title="Inside diameter" />
-                                <InventoryCommonTableItemTh title="Specification" />
                                 <InventoryCommonTableItemTh title="Volume" />
+                                <InventoryCommonTableItemTh title="Specification" />
                                 <InventoryCommonTableItemTh title="Grade" />
                                 <InventoryCommonTableItemTh title="Color" />
                                 <InventoryCommonTableItemTh title="UOM" />
                                 <InventoryCommonTableItemTh title="Inventory Type" />
-                                <InventoryCommonTableItemTh title="Item Approved" />
-                                <InventoryCommonTableItemTh title="Status" />
                             </tr>
                         </thead>
                         <tbody>
@@ -106,33 +111,34 @@ const denyRequest = async (id) => {
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.thickness_val }}
-                                    {{ dataValue.thickness_uom }}
+                                    {{ getType(dataValue.thickness_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.length_val }}
-                                    {{ dataValue.length_uom }}
+                                    {{ getType(dataValue.length_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.width_val }}
-                                    {{ dataValue.width_uom }}
+                                    {{ getType(dataValue.width_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.height_val }}
-                                    {{ dataValue.height_uom }}
+                                    {{ getType(dataValue.height_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.outside_diameter_val }}
-                                    {{ dataValue.outside_diameter_uom }}
+                                    {{ getType(dataValue.outside_diameter_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.inside_diameter_val }}
-                                    {{ dataValue.inside_diameter_uom }}
-                                </td>
-                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ dataValue.specification }}
+                                    {{ getType(dataValue.inside_diameter_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.volume }}
+                                    {{ getType(dataValue.volume_uom) }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.specification }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.grade }}
@@ -145,12 +151,6 @@ const denyRequest = async (id) => {
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.inventory_type }}
-                                </td>
-                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ dataValue.is_approved }}
-                                </td>
-                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ dataValue.active_status }}
                                 </td>
                             </tr>
                         </tbody>
