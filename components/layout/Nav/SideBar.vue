@@ -470,7 +470,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.inventory_item_profile_group
+                    AccessibilityTypes.inventory_new_item_profile
                 ])"
                 icon="ion:ios-people"
                 title="Item Profile"
