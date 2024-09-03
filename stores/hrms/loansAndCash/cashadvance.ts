@@ -56,6 +56,8 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
         list: [],
         myApprovalRequestList: [],
         myRequestList: [],
+        paidCashAdvanceList: [],
+        ongoingCashAdvanceList: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -132,6 +134,38 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.myRequestList = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getOngoingCashAdvance () {
+            await useHRMSApi(
+                "/api/cash-advance/get-ongoing",
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.ongoingCashAdvanceList = response._data.data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getPaidCashAdvance () {
+            await useHRMSApi(
+                "/api/cash-advance/get-paid",
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.paidCashAdvanceList = response._data.data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
