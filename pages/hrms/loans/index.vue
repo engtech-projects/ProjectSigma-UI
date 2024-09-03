@@ -44,7 +44,7 @@ useHead({
                             AccessibilityTypes.hrms_loans_and_advances_loans,
                         ])"
                         :target-id="'tab4'+compID"
-                        title="Payments Loans"
+                        title="Loan Payments"
                     />
                 </template>
                 <template #tab-containers>
