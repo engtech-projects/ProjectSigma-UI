@@ -14,7 +14,6 @@ defineProps({
         default: null,
     },
 })
-const showAppend = ref(false)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 const uomTypes = ref({
@@ -38,10 +37,9 @@ const inventoryTypes = ref(
         },
     ]
 )
-const doAddItemProfile = (item: any) => {
-    showAppend.value = false
+const doAddItemProfile = (item: any, id: number) => {
     newItemProfile.value.push(item)
-    addItemProfile.value = []
+    addItemProfile.value.splice(id, 1)
 }
 const doStoreItemProfile = async () => {
     try {
@@ -103,11 +101,9 @@ const showItemProfile = () => {
             is_edit: false,
         }
     )
-    showAppend.value = true
 }
-const hideItemProfile = () => {
-    showAppend.value = false
-    addItemProfile.value = []
+const removeAppendItemProfile = (id: number) => {
+    addItemProfile.value.splice(id, 1)
 }
 const removeItemProfile = (id: number) => {
     newItemProfile.value.splice(id, 1)
@@ -146,7 +142,7 @@ const hideEditItem = async (index: number) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <InventoryCommonTableItemProfileAppend :append-item-profile="addItemProfile" :inventory-types="inventoryTypes" :uom-types="uomTypes" @add-item="doAddItemProfile" @hide-item="hideItemProfile" />
+                    <InventoryCommonTableItemProfileAppend :append-item-profile="addItemProfile" :inventory-types="inventoryTypes" :uom-types="uomTypes" @add-item="doAddItemProfile" @remove-item="removeAppendItemProfile" />
                     <tr v-for="dataValue, index in newItemProfile" :key="index" class="bg-white border-b">
                         <template v-if="dataValue.is_edit">
                             <InventoryCommonTableItemProfileEdit :item-profile="dataValue" :inventory-types="inventoryTypes" :uom-types="uomTypes" @do-edit-item="doEditItem(dataValue, index)" @do-hide-edit-item="hideEditItem(index)" />
