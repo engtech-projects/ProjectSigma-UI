@@ -4,7 +4,11 @@ import { useTransactionStore } from "~/stores/accounting/transaction"
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
 import { useAccountStore } from "~/stores/accounting/account"
+import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+import { useJournalStore } from "~/stores/accounting/journal"
 
+const journalStore = useJournalStore()
+const accountGroupStore = useAccountGroupStore()
 const accountStore = useAccountStore()
 await accountStore.getAccounts()
 
@@ -49,29 +53,29 @@ const addDetail = () => {
 async function handleSubmit () {
     try {
         boardLoading.value = true
-        transactionStore.transaction.status = "open"
-        transactionStore.transaction.amount = 100
-        transactionStore.transaction.stakeholder_id = 2
-        transactionStore.transaction.details = JSON.stringify(tdetails.value)
-        transactionStore.transaction.description = "No description."
-        await transactionStore.createTransaction()
-        if (transactionStore.errorMessage !== "") {
+        journalStore.journal.status = "open"
+        journalStore.journal.amount = 100
+        journalStore.journal.stakeholder_id = 2
+        journalStore.journal.details = JSON.stringify(tdetails.value)
+        journalStore.journal.description = "No description."
+        await journalStore.createJournal()
+        if (journalStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
-                text: transactionStore.errorMessage
+                text: journalStore.errorMessage
             })
         } else {
             snackbar.add({
                 type: "success",
-                text: transactionStore.successMessage
+                text: journalStore.successMessage
             })
             navigateTo("/accounting/journal-entry")
         }
     } catch (error) {
-        transactionStore.errorMessage = errorMessage
+        journalStore.errorMessage = errorMessage
         snackbar.add({
             type: "error",
-            text: transactionStore.errorMessage
+            text: journalStore.errorMessage
         })
     } finally {
         // transactionStore.reset()
@@ -83,18 +87,10 @@ async function handleSubmit () {
 //     transactionTypeStore.isEdit = false
 //     transactionTypeStore.reset()
 // }
-function select (val:any) {
-    transactionTypeStore.transactionType = val
-    transactionStore.transaction.transaction_type_id = val.transaction_type_id
-}
-
-const accountsList = computed(() => {
-    return accountStore.list
-    // if (transactionTypeStore.transactionType.book) {
-    //     return transactionTypeStore.transactionType.book.accounts
-    // }
-    // return []
-})
+// function select (val:any) {
+//     transactionTypeStore.transactionType = val
+//     transactionStore.transaction.transaction_type_id = val.transaction_type_id
+// }
 
 const tdetails = computed(() => {
     const dds = ref([])
@@ -114,12 +110,17 @@ const tdetails = computed(() => {
     return dds.value
 })
 
+const journalBase = computed(() => {
+    return journalStore.base.length > 0 ? journalStore.base[0] : null
+})
+
+const accountsList = computed(() => {
+    return accountGroupStore.list.filter(a => a.account_group_id === journalBase.value.book.account_group_id)[0]
+})
+// await accountGroupStore.showAccountGroup(journalBase.book.account_group_id)
+
 onMounted(() => {
-    transactionTypeStore.list.forEach((item) => {
-        if (item.transaction_type_name.toLowerCase() === "journal entry") {
-            transactionStore.transaction.transaction_type_id = item.transaction_type_id
-        }
-    })
+    console.log(accountsList.value)
 })
 
 </script>
@@ -131,35 +132,17 @@ onMounted(() => {
                 <div class="flex flex-col md:flex-row gap-4">
                     <div class="flex-1">
                         <label
-                            for="transaction_type"
-                            class="text-xs italic"
-                        >Transaction Type</label>
-                        <AccountingSelectSearch
-                            :options="transactionTypeStore.list"
-                            title="transaction_type_name"
-                            opid="transaction_type_id"
-                            :selected-id="transactionStore.transaction.transaction_type_id"
-                            @select="select"
-                        />
-                    </div>
-                    <div class="flex-1">
-                        <label
                             for="transaction_date"
                             class="text-xs italic"
                         >Journal Date</label>
                         <input
                             id="transactionDate"
-                            v-model="transactionStore.transaction.transaction_date"
+                            v-model="journalStore.journal.transaction_date"
                             type="date"
                             class="w-full rounded-lg"
                             required
-                            disabled
                         >
                     </div>
-                </div>
-                <!-- <div class="flex gap-4">
-                </div> -->
-                <div class="flex flex-col md:flex-row gap-4">
                     <div class="flex-1">
                         <label
                             for="status"
@@ -167,9 +150,9 @@ onMounted(() => {
                         >Status</label>
                         <input
                             id="particulars"
+                            v-model="journalStore.journal.status"
                             type="text"
                             class="w-full rounded-lg"
-                            value="open"
                             required
                         >
                     </div>
@@ -180,13 +163,15 @@ onMounted(() => {
                         >Journal No.</label>
                         <input
                             id="journalNo"
+                            v-model="journalStore.journal.transaction_no"
                             type="text"
                             class="w-full rounded-lg"
                             required
-                            disabled
                         >
                     </div>
                 </div>
+                <!-- <div class="flex gap-4">
+                </div> -->
                 <div class="flex flex-col md:flex-row gap-4">
                     <div class="flex-1">
                         <label
@@ -226,7 +211,7 @@ onMounted(() => {
                                 class="w-full rounded-lg"
                                 required
                             >
-                                <option v-for="p in accountsList" :key="p.account_id" :value="p.account_id">
+                                <option v-for="p in accountsList.accounts" :key="p.account_id" :value="p.account_id">
                                     {{ p.account_name }}
                                 </option>
                             </select>
