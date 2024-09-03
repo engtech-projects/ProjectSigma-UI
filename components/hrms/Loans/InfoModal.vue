@@ -12,7 +12,7 @@ const closeViewModal = () => {
 }
 </script>
 <template>
-    <PsModal v-model:show-modal="showModal" title="Other Deduction Details">
+    <PsModal v-model:show-modal="showModal" title="Loan Details">
         <template #body>
             <HrmsLoansLoanDetails :data="data" @close-modal="closeViewModal" />
         </template>
