@@ -184,7 +184,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getAllRequests () {
             await useInventoryApi(
-                "/api/item-profile/all-request",
+                "/api/item-profile/new-request/all-request",
                 {
                     method: "GET",
                     params: this.allRequests.params,
@@ -204,7 +204,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getMyRequests () {
             await useInventoryApi(
-                "/api/item-profile/my-request",
+                "/api/item-profile/new-request/my-request",
                 {
                     method: "GET",
                     params: this.myRequests.params,
@@ -226,7 +226,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getMyApprovals () {
             await useInventoryApi(
-                "/api/item-profile/my-approvals",
+                "/api/item-profile/new-request/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
@@ -243,7 +243,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async storeItemProfile () {
             const { data, error } = await useFetch(
-                "/api/item-profile/resource",
+                "/api/item-profile/new-request/resource",
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "POST",
@@ -313,7 +313,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getItemProfile () {
             await useFetch(
-                "/api/item-profile/resource",
+                "/api/item-profile/new-request/resource",
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
@@ -335,7 +335,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getMyApprovalRequests () {
             await useInventoryApi(
-                "/api/item-profile/my-approvals",
+                "/api/item-profile/new-request/my-approvals",
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
