@@ -6,6 +6,8 @@ const cashadvances = useCashadvanceStore()
 // const { isEdit } = storeToRefs(cashadvances)
 cashadvances.getMyRequests()
 cashadvances.getMyApprovalRequests()
+cashadvances.getOngoingCashAdvance()
+cashadvances.getPaidCashAdvance()
 cashadvances.getCA()
 
 const enums = useEnumsStore()
@@ -27,7 +29,7 @@ useHead({
             AccessibilityTypes.hrms_loans_and_advances_cash_advance_group,
         ])"
     >
-        <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-col gap-4">
             <div>
                 <HrmsCashadvanceForm
                     v-if="useCheckAccessibility([
