@@ -30,7 +30,7 @@ const showInformation = (data) => {
 
 </script>
 <template>
-    <LayoutLoadingContainer>
+    <LayoutLoadingContainer :loading="paidList.isLoading">
         <div class="w-full">
             <HrmsCommonSearchEmployeeSelector v-model="paidList.params.employee_id" />
         </div>

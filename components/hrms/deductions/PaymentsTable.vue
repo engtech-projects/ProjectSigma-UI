@@ -22,7 +22,7 @@ const changePaginate = (newParams) => {
 
 </script>
 <template>
-    <LayoutLoadingContainer>
+    <LayoutLoadingContainer :loading="paymentsList.isLoading">
         <div class="w-full">
             <HrmsCommonSearchEmployeeSelector v-model="paymentsList.params.employee_id" />
         </div>
