@@ -470,7 +470,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.inventory_new_item_profile
+                    AccessibilityTypes.inventory_item_profile
                 ])"
                 icon="ion:ios-people"
                 title="Item Profile"
@@ -485,7 +485,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.inventory_new_item_profile,
+                        AccessibilityTypes.inventory_item_profile,
                     ])"
                     linkarea="/inventory/item-profile/list-profile"
                     icon="material-symbols:dynamic-form-outline-rounded"

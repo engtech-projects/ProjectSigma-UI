@@ -15,7 +15,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.inventory_item_profile_group,
+            AccessibilityTypes.inventory_new_item_profile,
         ])"
     >
         <div class="grid grid-cols-1 gap-4">
