@@ -26,7 +26,7 @@ const actions = {
 <template>
     <LayoutBoards title="My Approval List" class="w-full">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <LayoutPsTable
+            <InventoryCommonLayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
                 :datas="List.list ?? []"
