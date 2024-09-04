@@ -91,17 +91,21 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         uom: {} as any,
         list: [],
         allRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
             pagination: {},
         },
         myApprovals: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
+            pagination: {},
         },
         myRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
@@ -191,7 +195,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.allRequests.isLoaded = true
-                            this.allRequests.list = response._data.data
+                            this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
@@ -211,7 +215,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.myRequests.isLoaded = true
-                            this.myRequests.list = response._data.data
+                            this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
@@ -233,7 +237,12 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
-                            this.myApprovals.list = response._data.data
+                            this.myApprovals.list = response._data.data.data
+                            this.myApprovals.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         } else {
                             throw new Error(response._data.message)
                         }
