@@ -117,6 +117,10 @@ export enum AccessibilityTypes {
     inventory_new_item_profile_forms_and_my_requests = "inventory:item profile_new profile forms and my requests",
 
     // ACCOUNTING
+    accounting_journal_group = "accounting:journal entry_",
+    accounting_journal_create = "accounting:journal entry_create",
+    accounting_journal_viewall = "accounting:journal entry_view all entries",
+    accounting_journal_modify = "accounting:journal entry_modify entry",
     accounting_group = "accounting:",
     accounting_dashboard = "accounting:dashboard",
     accounting_chart_of_accounts = "accounting:chart of accounts",

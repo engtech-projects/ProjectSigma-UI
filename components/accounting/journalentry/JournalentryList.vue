@@ -96,6 +96,9 @@ applyFilter()
                 </div>
             </div>
             <NuxtLink
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.accounting_journal_create,
+                ])"
                 to="/accounting/journal-entry/create"
                 class="w-48 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
             >
@@ -103,7 +106,14 @@ applyFilter()
                 <span>New Entry</span>
             </NuxtLink>
         </div>
-        <LayoutBoards title="List of Entries" class="w-full" :loading="transactionStore.isLoading">
+        <LayoutBoards
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.accounting_journal_viewall,
+            ])"
+            title="List of Entries"
+            class="w-full"
+            :loading="transactionStore.isLoading"
+        >
             <div class="pb-2 text-gray-500">
                 <table class="table-auto w-full border-collapse">
                     <thead>

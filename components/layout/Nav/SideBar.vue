@@ -537,7 +537,7 @@ const config = useRuntimeConfig()
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_chart_of_accounts,
+                    AccessibilityTypes.accounting_journal_group,
                 ])"
                 linkarea="/accounting/journal-entry"
                 icon="iconoir:plug-type-l"
