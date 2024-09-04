@@ -1,10 +1,7 @@
 <script lang="ts" setup>
 import { usePostingPeriodStore } from "~/stores/accounting/postingperiod"
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 const postingPeriodStore = usePostingPeriodStore()
 await postingPeriodStore.getPostingPeriods()
-const accountGroupStore = useAccountGroupStore()
-await accountGroupStore.getAccountGroups()
 
 definePageMeta({
     layout: "default",
