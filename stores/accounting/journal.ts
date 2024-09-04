@@ -5,19 +5,27 @@ const config = useRuntimeConfig()
 export const useJournalStore = defineStore("journalStore", {
     state: () => ({
         journal: {
-            transaction_id: null,
-            transaction_no: null,
-            transaction_date: null,
-            transaction_type_id: null,
-            reference_no: null,
-            amount: null,
-            stakeholder_id: null,
-            details: null,
-            period_id: null,
-            status: "open",
-            record_type: "Journal",
-            note: "",
-            description: "No comment"
+            entry: {
+                transaction_date: "",
+                transaction_no: "",
+                note: "",
+                period_id: "9",
+                reference_no: "JE",
+                transaction_type_id: 1,
+                stakeholder_id: 1,
+                description: "Journal Entry",
+                amount: 100,
+                status: "open"
+            },
+            details: [
+                {
+                    transaction_id: "1",
+                    stakeholder_id: "1",
+                    account_id: 10,
+                    debit: 100,
+                    credit: 0
+                },
+            ]
         },
         base: {},
         list: [],
