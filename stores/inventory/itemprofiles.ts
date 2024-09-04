@@ -313,7 +313,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getItemProfile () {
             await useFetch(
-                "/api/item-profile/new-request/resource",
+                "/api/item-profile/list",
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",

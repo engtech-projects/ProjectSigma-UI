@@ -17,7 +17,7 @@ useHead({
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">
-            <InventoryItemProfileItemList />
+            <InventoryItemProfileList />
         </div>
     </LayoutAcessContainer>
 </template>
