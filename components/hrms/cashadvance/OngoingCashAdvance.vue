@@ -3,8 +3,7 @@ import { storeToRefs } from "pinia"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 
 const cashadvances = useCashadvanceStore()
-cashadvances.getCA()
-const { list: cashadvanceList, pagination, getParams, ca } = storeToRefs(cashadvances)
+const { ongoingCashAdvanceList: cashadvanceList, pagination, getParams, ca } = storeToRefs(cashadvances)
 const showInformationModal = ref(false)
 const utils = useUtilities()
 

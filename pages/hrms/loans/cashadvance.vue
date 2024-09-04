@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 import { useEnumsStore } from "@/stores/hrms/enum"
-
-const cashadvances = useCashadvanceStore()
-// const { isEdit } = storeToRefs(cashadvances)
-cashadvances.getMyRequests()
-cashadvances.getMyApprovalRequests()
-cashadvances.getOngoingCashAdvance()
-cashadvances.getPaidCashAdvance()
-cashadvances.getCA()
 
 const enums = useEnumsStore()
 enums.getEmployeeEnum()

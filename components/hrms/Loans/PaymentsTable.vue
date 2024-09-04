@@ -1,63 +1,45 @@
 <script setup>
-import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
-const utils = useUtilities()
-const loansStore = useLoansStore()
-const { getParams, allList } = storeToRefs(loansStore)
+import { useOtherDeductionStore } from "@/stores/hrms/loansAndCash/otherDeduction"
+const otherDeductionStore = useOtherDeductionStore()
+const { paymentsList } = storeToRefs(otherDeductionStore)
 onMounted(() => {
-    if (!allList.value.isLoaded) {
-        loansStore.getAllList()
+    if (!paymentsList.value.isLoaded) {
+        otherDeductionStore.getPaymentsList()
     }
 })
 const headers = [
-    { text: "Employee Name", value: "fullName" },
-    { text: "Date Filed", value: "date_filed" },
-    { text: "Amount Loaned", value: "amount" },
-    { text: "Deduction", value: "installment_deduction" },
-    { text: "Action", value: "actions" },
+    { text: "Employee Name", value: "employee.fullname_first" },
+    { text: "Deduction Name", value: "otherdeduction.otherdeduction_name" },
+    { text: "Amount Paid", value: "amount_paid" },
+    { text: "Date Paid", value: "date_paid_human" },
+    { text: "Mode of Payment", value: "payment_type" },
+    // { text: "Action", value: "actions" },
 ]
-const employeeList = computed(() => {
-    const list = []
-    if (loansStore.allList.data) {
-        for (const i in loansStore.allList.data.data) {
-            const item = loansStore.allList.data.data[i]
-            item.fullName = item.employee.family_name + ", " + item.employee.first_name
-            item.date_filed = utils.value.dateToString(new Date(item.created_at))
-            list.push(item)
-        }
-    }
-    return list
-})
 const changePaginate = (newParams) => {
-    getParams.value.params.page = newParams.page ?? ""
-}
-
-const infoModalData = ref({})
-const showInfoModal = ref(false)
-
-const showInformation = (data) => {
-    infoModalData.value = data
-    showInfoModal.value = true
+    paymentsList.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>
     <LayoutLoadingContainer>
         <div class="w-full">
-            <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
+            <HrmsCommonSearchEmployeeSelector v-model="paymentsList.params.employee_id" />
         </div>
         <div class="w-full">
             <div class="mt-5 mb-6 ">
                 <EasyDataTable
-                    buttons-pagination
                     class="mt-5"
-                    table-class-name="customize-table"
                     :headers="headers"
-                    :items="employeeList"
+                    :items="paymentsList.list"
                     :hide-footer="true"
                 >
                     <template #item-actions="item">
                         <div class="flex flex-row gap-1">
-                            <button @click="showInformation(item)">
-                                <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
+                            <button @click="showDetails(item)">
+                                <Icon
+                                    name="material-symbols:visibility-rounded"
+                                    color="white"
+                                    class="bg-teal-700 rounded h-8 w-8 p-1"
+                                />
                             </button>
                         </div>
                     </template>
@@ -65,13 +47,11 @@ const showInformation = (data) => {
             </div>
             <div class="flex justify-center mx-auto">
                 <CustomPagination
-                    v-if="employeeList.length"
-                    :links="loansStore.pagination"
+                    :links="paymentsList.pagination"
                     @change-params="changePaginate"
                 />
             </div>
         </div>
-        <HrmsLoansInfoModal v-model:show-modal="showInfoModal" :data="infoModalData" />
     </LayoutLoadingContainer>
 </template>
 <style scoped>

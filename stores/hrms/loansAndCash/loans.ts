@@ -44,10 +44,11 @@ export const useLoansStore = defineStore("LoansStore", {
             errorMessage: "",
         },
         allList: {
-            data: [] as Loan[],
-            successMessage: "",
-            errorMessage: "",
-            loading: "",
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
         },
         ongoingList: {
             isLoading: false,
@@ -78,6 +79,9 @@ export const useLoansStore = defineStore("LoansStore", {
             await useHRMSApi("/api/loans/resource", {
                 method: "GET",
                 params: this.getParams,
+                onRequest: () => {
+                    this.allList.isLoading = true
+                },
                 onResponseError: ({ response }) => {
                     this.allList.errorMessage = response._data.message
                     throw new Error(response._data.message)
@@ -216,6 +220,25 @@ export const useLoansStore = defineStore("LoansStore", {
                 successMessage: "",
                 errorMessage: "",
             }
+        },
+        reloadResources () {
+            const callFunctions = []
+            if (this.allList.isLoaded) {
+                callFunctions.push(this.getAllList)
+            }
+            if (this.ongoingList.isLoaded) {
+                callFunctions.push(this.getOngoingList)
+            }
+            if (this.paidList.isLoaded) {
+                callFunctions.push(this.getPaidList)
+            }
+            if (this.paymentsList.isLoaded) {
+                callFunctions.push(this.getPaymentsList)
+            }
+            this.$reset()
+            callFunctions.forEach((element) => {
+                element()
+            })
         },
     },
 })

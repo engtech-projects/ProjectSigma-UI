@@ -2,8 +2,10 @@
 import { storeToRefs } from "pinia"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 const cashadvances = useCashadvanceStore()
-const { myApprovalRequestList: cashadvanceList } = storeToRefs(cashadvances)
-
+const { myApprovalRequestList } = storeToRefs(cashadvances)
+if (!myApprovalRequestList.value.isLoaded) {
+    cashadvances.getMyApprovalRequests()
+}
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 
@@ -38,13 +40,13 @@ const changePaginate = (newParams) => {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="cashadvanceList ?? []"
+                :datas="myApprovalRequestList ?? []"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination
-                v-if="cashadvanceList?.length"
+                v-if="myApprovalRequestList?.length"
                 :links="cashadvances.pagination"
                 @change-params="changePaginate"
             />

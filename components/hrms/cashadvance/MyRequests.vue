@@ -3,8 +3,10 @@ import { storeToRefs } from "pinia"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 
 const cashadvances = useCashadvanceStore()
-const { myRequestList: cashadvanceList } = storeToRefs(cashadvances)
-
+const { myRequestList } = storeToRefs(cashadvances)
+if (!myRequestList.value.isLoaded) {
+    cashadvances.getMyRequests()
+}
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 
@@ -35,7 +37,7 @@ const actions = {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="cashadvanceList ?? []"
+                :datas="myRequestList ?? []"
                 @show-table="showInformation"
             />
         </div>
