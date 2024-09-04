@@ -9,11 +9,11 @@ await transactionTypeStore.getTransactionTypes()
 const transactionStore = useTransactionStore()
 const { list: transactionList, getParams, pagination, errorMessage, successMessage } = storeToRefs(transactionStore)
 
-// const setEdit = (ttype) => {
-//     isEdit.value = true
-//     // transactionStore.transaction = ttype
-//     return navigateTo("/accounting/journal-entry/edit?id=" + ttype.transaction_id)
-// }
+const setEdit = (ttype) => {
+    // isEdit.value = true
+    // transactionStore.transaction = ttype
+    return navigateTo("/accounting/journal-entry/show?id=" + ttype.transaction_id)
+}
 
 // const isLoading = ref(false)
 // const deleteType = async (ttype) => {
@@ -50,10 +50,11 @@ const changePaginate = (newParams) => {
 const journalList = computed(() => {
     const list = []
     transactionStore.list.forEach((trans) => {
-        trans.transaction_details.forEach((d) => {
-            d.transaction_id = trans.transaction_id
-            list.push(d)
-        })
+        if (trans.transaction_type) {
+            if (trans.transaction_type.transaction_type_id === 1) {
+                list.push(trans)
+            }
+        }
     })
     return list
 })
@@ -68,7 +69,7 @@ applyFilter()
 <template>
     <div class="flex flex-col items-end gap-4">
         <div class="flex items-center gap-4 w-full">
-            <div class="flex gap-2 items-center px-4 py-1 rounded-lg flex-1">
+            <div v-if="useCheckAccessibility([AccessibilityTypes.accounting_journal_viewall])" class="flex gap-2 items-center px-4 py-1 rounded-lg flex-1">
                 <div class="flex flex-col gap-[2px]">
                     <label for="" class="text-xs">Transaction Type</label>
                     <div class="flex gap-2 h-8">
@@ -97,7 +98,7 @@ applyFilter()
             </div>
             <NuxtLink
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_journal_create,
+                    AccessibilityTypes.accounting_journal_create
                 ])"
                 to="/accounting/journal-entry/create"
                 class="w-48 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
@@ -108,7 +109,7 @@ applyFilter()
         </div>
         <LayoutBoards
             v-if="useCheckAccessibility([
-                AccessibilityTypes.accounting_journal_viewall,
+                AccessibilityTypes.accounting_journal_viewall
             ])"
             title="List of Entries"
             class="w-full"
@@ -119,51 +120,38 @@ applyFilter()
                     <thead>
                         <tr class="text-left">
                             <th class="p-2 ">
-                                #
+                                Journal Date
                             </th>
                             <th class="p-2 ">
-                                Account
+                                Journal No.
                             </th>
                             <th>
-                                Stakeholder
+                                Note
                             </th>
-                            <th class="p-2">
-                                Debit
+                            <th>
+                                Statuss
                             </th>
-                            <th class="p-2">
-                                Credit
-                            </th>
-                            <!-- <th></th> -->
-                            <!-- <th class="p-2">
-                                Description
-                            </th>
-                            <th class="p-2">
-                                Name
-                            </th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="trn, i in journalList" :key="i" class="border text-left">
                             <td class="p-2">
-                                {{ trn.account? trn.account.account_number : "" }}
+                                {{ trn.transaction_date }}
                             </td>
                             <td class="p-2">
-                                {{ trn.account? trn.account.account_name : "" }}
+                                {{ trn.transaction_no }}
                             </td>
                             <td class="p-2">
-                                {{ trn.payee }}
+                                {{ trn.note }}
                             </td>
                             <td class="p-2">
-                                {{ trn.debit > 0 ? trn.debit : "" }}
+                                {{ trn.status }}
                             </td>
-                            <td class="p-2">
-                                {{ trn.credit > 0 ? trn.credit : "" }}
-                            </td>
-                            <!-- <td class="text-right">
+                            <td class="text-right">
                                 <button @click="setEdit(trn)">
-                                    <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
+                                    <Icon name="iconoir:eye-empty" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
                                 </button>
-                            </td> -->
+                            </td>
                         </tr>
                     </tbody>
                 </table>

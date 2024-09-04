@@ -119,9 +119,9 @@ const accountsList = computed(() => {
 })
 // await accountGroupStore.showAccountGroup(journalBase.book.account_group_id)
 
-onMounted(() => {
-    console.log(accountsList.value)
-})
+// onMounted(() => {
+//     console.log(accountsList.value)
+// })
 
 </script>
 

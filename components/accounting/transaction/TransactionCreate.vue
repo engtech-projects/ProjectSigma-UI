@@ -51,12 +51,14 @@ async function handleSubmit () {
         boardLoading.value = true
         transactionStore.transaction.status = "open"
         transactionStore.transaction.amount = 100
-        transactionStore.transaction.details = JSON.stringify([{
-            stakeholder_id: 1,
-            account_id: 1,
-            debit: transactionStore.transaction.amount,
-            credit: 0
-        }])
+        transactionStore.transaction.note = "No comment"
+        // transactionStore.transaction.details = JSON.stringify([{
+        //     stakeholder_id: 1,
+        //     account_id: 1,
+        //     debit: transactionStore.transaction.amount,
+        //     credit: 0
+        // }])
+        transactionStore.transaction.details = JSON.stringify(details.value)
         transactionStore.transaction.description = "No description."
         await transactionStore.createTransaction()
         if (transactionStore.errorMessage !== "") {
@@ -95,11 +97,28 @@ function selectStakeholder (val:any) {
     transactionStore.transaction.stakeholder_id = val.stakeholder_id
 }
 const accountsList = computed(() => {
-    if (transactionTypeStore.transactionType.book) {
-        return transactionTypeStore.transactionType.book.accounts
-    }
-    return []
+    return accountStore.list
+    // if (transactionTypeStore.transactionType.book) {
+    //     return transactionTypeStore.transactionType.book.accounts
+    // }
+    // return []
 })
+
+// const detailsForSubmit = computed(() => {
+//     const arr = ref([])
+//     const item = ref({
+//         stakeholder_id: d.stakeholder_id,
+//         account_id: d.account_id,
+//         debit: d.debit,
+//         credit: d.credit
+//     })
+//     details.value.forEach((d) => {
+//         arr.value.push({
+
+//         })
+//     })
+//     return arr
+// })
 </script>
 
 <template>
