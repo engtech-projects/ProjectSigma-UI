@@ -530,7 +530,7 @@ const config = useRuntimeConfig()
         <LayoutNavModuleGroup
             v-show="config.public.APP_ENV == 'local'"
             v-if="useCheckAccessibility([
-                'AdminOnly',
+                AccessibilityTypes.accounting_group,
             ])"
             title="Accounting"
         >
