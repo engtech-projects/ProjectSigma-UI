@@ -36,7 +36,7 @@ const boardLoading = ref(false)
                 <tbody>
                     <tr v-for="dataValue, index in List" :key="index" class="bg-white border-b">
                         <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                            {{ dataValue.items_summary }}
+                            {{ dataValue.profile_summary }}
                         </td>
                         <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                             Lorem Ipsum

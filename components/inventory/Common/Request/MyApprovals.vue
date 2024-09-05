@@ -13,7 +13,7 @@ const showInformation = (data) => {
 }
 
 const headers = [
-    { name: "Item Summary", id: "items_summary" },
+    { name: "Item Summary", id: "profile_summary" },
     { name: "Active Status", id: "request_status" },
 ]
 

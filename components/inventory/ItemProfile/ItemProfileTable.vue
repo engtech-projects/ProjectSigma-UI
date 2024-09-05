@@ -78,12 +78,19 @@ const doStoreItemProfile = async () => {
         if (newItemProfile.value.length >= 1) {
             formItemProfile.value.item_profiles = newItemProfile.value
             await profileStore.storeItemProfile()
-            snackbar.add({
-                type: "success",
-                text: profileStore.successMessage
-            })
-            newItemProfile.value = []
-            profileStore.reset()
+            if (profileStore.errorMessage !== "") {
+                snackbar.add({
+                    type: "error",
+                    text: profileStore.errorMessage
+                })
+            } else {
+                snackbar.add({
+                    type: "success",
+                    text: profileStore.successMessage
+                })
+                profileStore.reset()
+                newItemProfile.value = []
+            }
         }
     } catch (error) {
         snackbar.add({

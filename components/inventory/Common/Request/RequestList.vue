@@ -6,7 +6,7 @@ const mains = useItemProfileStore()
 const { allRequests: List, getParams, pagination, errorMessage, successMessage } = storeToRefs(mains)
 const boardLoading = ref(false)
 const headers = [
-    { name: "Item Summary", id: "items_summary" },
+    { name: "Item Summary", id: "profile_summary" },
     { name: "Active Status", id: "request_status" },
 ]
 const actions = {
