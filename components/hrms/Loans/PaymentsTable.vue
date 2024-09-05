@@ -1,19 +1,17 @@
 <script setup>
-import { useOtherDeductionStore } from "@/stores/hrms/loansAndCash/otherDeduction"
-const otherDeductionStore = useOtherDeductionStore()
-const { paymentsList } = storeToRefs(otherDeductionStore)
+import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
+const loansStore = useLoansStore()
+const { paymentsList } = storeToRefs(loansStore)
 onMounted(() => {
     if (!paymentsList.value.isLoaded) {
-        otherDeductionStore.getPaymentsList()
+        loansStore.getPaymentsList()
     }
 })
 const headers = [
     { text: "Employee Name", value: "employee.fullname_first" },
-    { text: "Deduction Name", value: "otherdeduction.otherdeduction_name" },
     { text: "Amount Paid", value: "amount_paid" },
     { text: "Date Paid", value: "date_paid_human" },
     { text: "Mode of Payment", value: "payment_type" },
-    // { text: "Action", value: "actions" },
 ]
 const changePaginate = (newParams) => {
     paymentsList.value.params.page = newParams.page ?? ""
