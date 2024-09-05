@@ -28,6 +28,7 @@ const submitForm = async () => {
                 text: cashadvances.successMessage
             })
         }
+        cashadvances.reloadResources()
         cashadvance.value.approvals = await approvals.getApprovalByName(APPROVAL_CA)
     } catch {
         snackbar.add({

@@ -74,6 +74,7 @@ const makePayment = async (loanId, employeeId) => {
                 data.value.payments.push(JSON.parse(JSON.stringify(newPayment.value)))
                 showMakePayment.value = false
                 resetPayment()
+                loansStore.reloadResources()
                 emit("closeModal")
             }
         },

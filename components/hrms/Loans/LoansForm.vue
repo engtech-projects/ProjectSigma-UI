@@ -30,6 +30,7 @@ const submitAdd = async () => {
             type: "success",
             text: loanStore.createData.successMessage
         })
+        loanStore.reloadResources()
     } finally {
         isLoading.value = false
     }

@@ -131,12 +131,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data.data
-                            this.getCA()
-                            this.list.forEach((el) => {
-                                if (el.id === this.ca.value.id) {
-                                    this.ca.value = el
-                                }
-                            })
                         } else {
                             throw new Error(response._data.message)
                         }
@@ -373,8 +367,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.getMyApprovalRequests()
-                            // this.getManpower()
-                            // this.getMyRequests()
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -410,6 +402,25 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     },
                 }
             )
+        },
+        reloadResources () {
+            const callFunctions = []
+            if (this.cashAdvanceList.isLoaded) {
+                callFunctions.push(this.getCA)
+            }
+            if (this.ongoingCashAdvanceList.isLoaded) {
+                callFunctions.push(this.getOngoingCashAdvance)
+            }
+            if (this.paidCashAdvanceList.isLoaded) {
+                callFunctions.push(this.getPaidCashAdvance)
+            }
+            if (this.paymentCashAdvanceList.isLoaded) {
+                callFunctions.push(this.getPaymentsCashAdvance)
+            }
+            this.$reset()
+            callFunctions.forEach((element) => {
+                element()
+            })
         },
     },
 })
