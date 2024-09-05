@@ -30,7 +30,7 @@ defineProps({
                             {{ apprv.status }}
                         </p>
                         <p class="text-slate-400">
-                            {{ apprv.date_approved }}
+                            {{ apprv.date_approved_human }}
                         </p>
                     </template>
                     <template v-else-if="apprv.status === 'Denied'">
@@ -38,7 +38,7 @@ defineProps({
                             {{ apprv.status }}
                         </p>
                         <p class="text-slate-400">
-                            {{ apprv.date_denied }}
+                            {{ apprv.date_denied_human }}
                         </p>
                         <p class="text-gray-700">
                             {{ apprv.remarks }}
