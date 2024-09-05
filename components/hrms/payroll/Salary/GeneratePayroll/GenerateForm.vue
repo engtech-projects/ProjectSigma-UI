@@ -166,7 +166,7 @@ const submitForm = async () => {
     </LayoutBoards>
     <PsModal v-model:show-modal="showInformationModal" title="Generate Payroll Draft">
         <template #body>
-            <HrmsPayrollSalaryGeneratePayrollDraft v-if="showInformationModal" />
+            <HrmsPayrollSalaryGeneratePayrollDraft v-if="showInformationModal" v-model:show-modal="showInformationModal" />
         </template>
     </PsModal>
 </template>

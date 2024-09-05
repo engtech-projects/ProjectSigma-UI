@@ -148,20 +148,20 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                                 deduction_id: loan.id,
                                 name: "Loan",
                                 amount: loan.max_payroll_payment,
-                                type: "Loan"
+                                type: "Loan",
                             })),
                             ...data.payroll_records.salary_deduction.cash_advance.cash_advance.map((cashAdvance: any) => ({
                                 deduction_id: cashAdvance.id,
                                 name: "Cash Advance",
                                 amount: cashAdvance.max_payroll_payment,
-                                type: "Cash Advance"
+                                type: "Cash Advance",
                             })),
                             ...data.payroll_records.salary_deduction.other_deductions.other_deduction.map((otherDeduction: any) => ({
                                 deduction_id: otherDeduction.id,
                                 name: otherDeduction.otherdeduction_name,
                                 amount: otherDeduction.max_payroll_payment,
-                                type: "Other Deduction"
-                            }))
+                                type: "Other Deduction",
+                            })),
                         ],
                     }
                 }),
@@ -277,8 +277,8 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            return response._data
                             this.reloadResources()
+                            return response._data
                         } else {
                             throw new Error(response._data.message)
                         }
