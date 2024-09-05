@@ -15,26 +15,6 @@ const setShowPayment = (val) => {
 }
 
 const utils = useUtilities()
-// const resetPayment = () => {
-//     const id = newPayment.value.cashadvance_id
-//     newPayment.value = {
-//         id: null,
-//         cashadvance_id: id,
-//         amount_paid: null,
-//         date_paid: utils.value.dateToString(new Date()),
-//         payment_type: "Manual",
-//         posting_status: "Posted",
-//         paymentAmount: null,
-//     }
-// }
-// const updateCA = () => {
-//     cashadvances.list.forEach((el) => {
-//         if (el.id === data.value.id) {
-//             data.value = el
-//         }
-//     })
-// }
-
 const cashadvances = useCashadvanceStore()
 const { data: userData } = useAuth()
 
@@ -104,8 +84,6 @@ async function nowMakePayment (id) {
             type: "error",
             text: cashadvances.errorMessage || "something went wrong."
         })
-    } finally {
-        // accountType.clearMessages()
     }
 }
 </script>

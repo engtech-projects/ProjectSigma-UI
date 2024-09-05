@@ -13,7 +13,6 @@ const headers = [
     { text: "Amount Paid", value: "amount_paid" },
     { text: "Date Paid", value: "date_paid_human" },
     { text: "Mode of Payment", value: "payment_type" },
-    // { text: "Action", value: "actions" },
 ]
 
 const changePaginate = (newParams) => {

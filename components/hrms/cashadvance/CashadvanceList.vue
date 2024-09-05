@@ -3,11 +3,14 @@ import { storeToRefs } from "pinia"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 
 const cashadvances = useCashadvanceStore()
-cashadvances.getCA()
-const { list: cashadvanceList, pagination, getParams, ca } = storeToRefs(cashadvances)
+const { cashAdvanceList, pagination, getParams, ca } = storeToRefs(cashadvances)
 const showInformationModal = ref(false)
 const utils = useUtilities()
-
+onMounted(() => {
+    if (!cashAdvanceList.value.isLoaded) {
+        cashadvances.getCA()
+    }
+})
 const showInformation = (data) => {
     ca.value = data
     newPayment.value.cashadvance_id = data.id
@@ -48,14 +51,14 @@ const changePaginate = (newParams) => {
         <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
         <LayoutPsTable
             :header-columns="headers"
-            :datas="cashadvanceList"
+            :datas="cashAdvanceList.list"
             :actions="actions"
             @show-table="showInformation"
         />
     </div>
     <div class="flex justify-center mx-auto">
         <CustomPagination
-            v-if="cashadvanceList.length"
+            v-if="cashAdvanceList.list.length"
             :links="pagination"
             @change-params="changePaginate"
         />

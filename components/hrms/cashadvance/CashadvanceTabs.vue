@@ -39,6 +39,13 @@
                 title="Paid Cash Advance"
                 target-id="paidsCA"
             />
+            <HrmsCommonTabsTabTitle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.hrms_loans_and_advances_cash_advance_myapprovals,
+                ])"
+                title="Payments Cash Advance"
+                target-id="paymentCA"
+            />
         </template>
         <template #tab-containers>
             <HrmsCommonTabsTabContainer id="allListCA">
@@ -51,10 +58,13 @@
                 <HrmsCashadvanceMyApprovals />
             </HrmsCommonTabsTabContainer>
             <HrmsCommonTabsTabContainer id="ongoingCA">
-                <HrmsCashadvanceMyApprovals />
+                <HrmsCashadvanceOngoingCashAdvance />
             </HrmsCommonTabsTabContainer>
             <HrmsCommonTabsTabContainer id="paidsCA">
-                <HrmsCashadvanceMyApprovals />
+                <HrmsCashadvancePaidCashAdvance />
+            </HrmsCommonTabsTabContainer>
+            <HrmsCommonTabsTabContainer id="paymentCA">
+                <HrmsCashadvancePaymentCashAdvance />
             </HrmsCommonTabsTabContainer>
         </template>
     </HrmsCommonTabsMainContainer>
