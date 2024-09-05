@@ -9,6 +9,7 @@ import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
 
+// HRMS STORES
 const notifStore = useNotificationsStore()
 const manpowerStore = useManpowerStore()
 const faillogStore = useFailToLogStore()
@@ -18,6 +19,9 @@ const travelOrder = useTravelorderStore()
 const cashadvanceStore = useCashadvanceStore()
 const overtimeStore = useOvertimeStore()
 const genAllowanceStore = useGenerateAllowanceStore()
+// INVENTORY STORES
+// ACCOUNTING STORES
+// PROJECTS STORES
 const prop = defineProps({
     notification: {
         type: Object,

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+const showModal = defineModel("showModal", { required: false, type: Boolean })
 const genpayrollstore = useGeneratePayrollStore()
 const snackbar = useSnackbar()
 const { payrollDraft } = storeToRefs(genpayrollstore)
@@ -49,6 +50,7 @@ const savePayroll = async () => {
             type: "success",
             text: "Successfully saved payroll request."
         })
+        showModal.value = false
     } catch (error) {
         snackbar.add({
             type: "error",

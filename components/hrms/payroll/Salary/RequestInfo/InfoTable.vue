@@ -8,9 +8,9 @@ const props = defineProps({
 const totalAdjustments = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        if (Array.isArray(element.payroll_records.gross_pays.adjustments)) {
-            element.payroll_records.gross_pays.adjustments.forEach((adjustment: any) => {
-                total += parseFloat(adjustment.adjustment_amount) || 0
+        if (Array.isArray(element.adjustments)) {
+            element.adjustments.forEach((adjustment: any) => {
+                total += parseFloat(adjustment.amount) || 0
             })
         }
     })
@@ -28,7 +28,7 @@ const totalAdjustments = () => {
 // }
 // const totalCashAdvancePayroll = () => {
 //     let total = 0
-//     props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { cash_advance: string } } }) => {
+//     props.payrollRequest.payroll_details.forEach((element: any) => {
 //         total += parseFloat(element.payroll_records.salary_deduction.cash_advance)
 //     })
 //     return total.toFixed(2)
@@ -46,127 +46,127 @@ const totalAdjustments = () => {
 // }
 const totalNetPayPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { total_net_pay: string } }) => {
-        total += parseFloat(element.payroll_records.total_net_pay)
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.net_pay)
     })
     return total.toFixed(2)
 }
 const totalDeductionPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { total_salary_deduction: string } }) => {
-        total += parseFloat(element.payroll_records.total_salary_deduction)
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.total_deduct)
     })
     return total.toFixed(2)
 }
 const totalEWTCPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { ewtc: string } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.ewtc)
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.withholdingtax_contribution)
     })
     return total.toFixed(2)
 }
 // const totalHDMFEmployerPayroll = () => {
 //     let total = 0
-//     props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { hmdf: { employer_compensation: string } } } }) => {
+//     props.payrollRequest.payroll_details.forEach((element: any) => {
 //         total += parseFloat(element.payroll_records.salary_deduction.hmdf.employer_compensation) ?? 0
 //     })
 //     return total.toFixed(2)
 // }
 const totalHDMFEmployeePayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { hmdf: { employee_compensation: string } } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.hmdf.employee_compensation) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.pagibig_employee_contribution) ?? 0
     })
     return total.toFixed(2)
 }
 // const totalPHICEmployerPayroll = () => {
 //     let total = 0
-//     props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { phic: { employer_compensation: string } } } }) => {
+//     props.payrollRequest.payroll_details.forEach((element: any) => {
 //         total += parseFloat(element.payroll_records.salary_deduction.phic.employer_compensation) ?? 0
 //     })
 //     return total.toFixed(2)
 // }
 const totalPHICEmployeePayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { phic: { employee_compensation: string } } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.phic.employee_compensation) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.philhealth_employee_contribution) ?? 0
     })
     return total.toFixed(2)
 }
 // const totalSSSEmployerPayroll = () => {
 //     let total = 0
-//     props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { sss: { employer_compensation: string } } } }) => {
+//     props.payrollRequest.payroll_details.forEach((element: any) => {
 //         total += parseFloat(element.payroll_records.salary_deduction.sss.employer_compensation) ?? 0
 //     })
 //     return total.toFixed(2)
 // }
 const totalSSSEmployeePayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { sss: { employee_compensation: string } } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.sss.employee_compensation) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.sss_employee_contribution) ?? 0
     })
     return total.toFixed(2)
 }
 const totalGrossPayPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { total_gross_pay: string } }) => {
-        total += parseFloat(element.payroll_records.total_gross_pay)
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.gross_pay)
     })
     return total.toFixed(2)
 }
 const totalSpcHolOTPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { gross_pays: { special_holidays: { overtime: string } } } }) => {
-        total += parseFloat(element.payroll_records.gross_pays.special_holidays.overtime)
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.special_holiday_ot_pay)
     })
     return total.toFixed(2)
 }
 const totalRegHolOTPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { gross_pays: { regular_holidays: { overtime: string } } } }) => {
-        total += parseFloat(element.payroll_records.gross_pays.regular_holidays.overtime)
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.regular_holiday_ot_pay)
     })
     return total.toFixed(2)
 }
 const totalRestDayOTPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { gross_pays: { rest: { overtime: string } } } }) => {
-        total += parseFloat(element.payroll_records.gross_pays.rest.overtime)
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.rest_ot_pay)
     })
     return total.toFixed(2)
 }
 const totalRegOTPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { gross_pays: { regular: { overtime: string } } } }) => {
-        total += parseFloat(element.payroll_records.gross_pays.regular.overtime)
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.regular_ot_pay)
     })
     return total.toFixed(2)
 }
 const totalSpcHolPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { gross_pays: { special_holidays: { regular: string } } } }) => {
-        total += parseFloat(element.payroll_records.gross_pays.special_holidays.regular) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.special_holiday_pay) ?? 0
     })
     return total.toFixed(2)
 }
 const totalRegHolPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { gross_pays: { regular_holidays: { regular: string } } } }) => {
-        total += parseFloat(element.payroll_records.gross_pays.regular_holidays.regular) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.regular_holiday_pay) ?? 0
     })
     return total.toFixed(2)
 }
 const totalRestDayPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { gross_pays: { rest: { regular: string } } } }) => {
-        total += parseFloat(element.payroll_records.gross_pays.rest.regular) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.rest_pay) ?? 0
     })
     return total.toFixed(2)
 }
 const totalRegHrsPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { gross_pays: { regular: { regular: string } } } }) => {
-        total += parseFloat(element.payroll_records.gross_pays.regular.regular) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.regular_pay) ?? 0
     })
     return total.toFixed(2)
 }
@@ -176,12 +176,13 @@ const totalRegHrsPayroll = () => {
     <table class="w-full text-sm text-center text-gray-50 pb-4">
         <HrmsPayrollSalaryPayrollInfoTableHeader />
         <tbody>
-            <HrmsPayrollSalaryPayrollInfoTableRow
+            <HrmsPayrollSalaryRequestInfoTableRow
                 v-for="(data,index) in payrollRequest.payroll_details"
                 :key="'PayrollRow'+index"
                 :employee-payroll-record="data"
                 :index="index+1"
             />
+            <!-- Final Row -->
             <tr class="bg-white text-gray-950">
                 <th
                     scope="col"
