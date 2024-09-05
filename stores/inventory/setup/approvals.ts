@@ -12,7 +12,7 @@ export interface Approval {
     form: string,
     approvals: Array<Approver>,
 }
-export const useApprovalStore = defineStore("approvals", {
+export const useApprovalStore = defineStore("inventoryapprovals", {
     state: () => ({
         isEdit: false,
         formApproval: {} as Approval,
