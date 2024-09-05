@@ -4,9 +4,7 @@ import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
 const mains = useItemProfileStore()
 const { allRequests: List, getParams, pagination, errorMessage, successMessage } = storeToRefs(mains)
-
 const boardLoading = ref(false)
-
 const headers = [
     { name: "Item Summary", id: "items_summary" },
     { name: "Active Status", id: "request_status" },
@@ -20,8 +18,7 @@ const actions = {
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
-    infoModalData.value = data
-    showInfoModal.value = true
+    navigateTo("item-details?key=" + data.id)
 }
 
 const changePaginate = (newParams) => {

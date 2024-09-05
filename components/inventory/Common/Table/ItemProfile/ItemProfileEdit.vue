@@ -14,12 +14,15 @@ const props = defineProps({
     },
 })
 const { itemProfile, uomTypes } = props
-const emit = defineEmits(["doEditItem", "doHideEditItem"])
+const emit = defineEmits(["doEditItem", "doHideEditItem", "itemGroupItem"])
 const doEditItem = () => {
     emit("doEditItem")
 }
 const doHideItem = () => {
     emit("doHideEditItem")
+}
+const doSubItemChange = (index:number) => {
+    emit("itemGroupItem", index)
 }
 </script>
 <template>
@@ -82,6 +85,12 @@ const doHideItem = () => {
     </td>
     <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
         <InventoryCommonFormPsSelect v-model="itemProfile.uom" title="UOM Type" add-class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
+    </td>
+    <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
+        <InventoryCommonFormPsSelect v-model="itemProfile.sub_item_group" title="Sub Item Group" add-class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.subItemGroup" />
+    </td>
+    <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
+        <InventoryCommonFormPsSelectChange v-model="itemProfile.item_group" title="Item Group" add-class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.itemGroup" @item-group-change="doSubItemChange" />
     </td>
     <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
         <InventoryCommonFormPsSelect v-model="itemProfile.inventory_type" add-class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block" title="Inventory Type" :select-list="props.inventoryTypes" />

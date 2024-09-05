@@ -5,6 +5,7 @@ await main.getAllRequests()
 await main.getMyRequests()
 await main.getMyApprovals()
 await main.getUOM()
+await main.getItemGroups()
 
 useHead({
     title: "New Item Profile",

@@ -11,12 +11,7 @@ export const REQ_STATUS = [
     PENDING,
     DENIED,
 ]
-export interface SubItemGroup {
-    name: string | null,
-}
-export interface ItemGroup {
-    name: string,
-}
+
 export interface NewItemProfile {
     id: number,
     sku: string,
@@ -39,7 +34,8 @@ export interface NewItemProfile {
     grade: string,
     color: string,
     uom: number,
-    uom_group_id: string,
+    item_group: number,
+    sub_item_group: number,
     uom_conversion_value: number,
     inventory_type: string,
     active_status: string,
@@ -77,6 +73,8 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             color: "",
             uom: null,
             uom_group_id: "",
+            item_group: null,
+            sub_item_group: null,
             uom_conversion_value: null,
             inventory_type: "",
             active_status: "Inactive",
@@ -86,8 +84,8 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         addItemProfile: [] as Array<any>,
         formItemProfile: {} as ItemProfile,
         newItemProfile: [] as Array<NewItemProfile>,
-        itemgroup: {} as ItemGroup,
-        subitemgroup: {} as SubItemGroup,
+        itemgroup: [] as any,
+        subitemgroup: [] as any,
         uom: {} as any,
         list: [],
         allRequests: {
@@ -120,10 +118,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             successMessage: "",
         },
         page: {
-            list: [],
-            approval: {
-                list: [],
-            }
+            list: {},
         },
         pagination: {},
         getParams: {},
@@ -286,14 +281,12 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.itemgroup = response._data.data.data.map((val: any) => {
+                            this.itemgroup = response._data.data.map((val: any) => {
                                 return {
                                     id: val.id,
                                     name: val.name,
                                 }
                             })
-                        } else {
-                            this.errorMessage = response._data.message
                         }
                     },
                 }
@@ -310,7 +303,15 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
-                        this.subitemgroup = response._data.data.sub_groups
+                        if (response.ok) {
+                            console.log(response._data.data)
+                            this.subitemgroup = response._data.data.sub_groups.map((val: any, index: number) => {
+                                return {
+                                    id: index,
+                                    name: val,
+                                }
+                            })
+                        }
                     },
                 }
             )
@@ -338,6 +339,23 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                             pages: response._data.data.links,
                             last_page: response._data.data.last_page_url,
                         }
+                    },
+                }
+            )
+        },
+        async showItemProfile (id: number) {
+            await useFetch(
+                "/api/item-profile/" + id,
+                {
+                    baseURL: config.public.INVENTORY_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.page.list = response._data.data
                     },
                 }
             )

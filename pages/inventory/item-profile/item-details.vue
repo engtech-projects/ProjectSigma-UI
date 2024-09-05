@@ -5,12 +5,14 @@ const profileStore = useItemProfileStore()
 const { page } = storeToRefs(profileStore)
 const route = useRoute()
 const validKey = ref(false)
-
 if (route.query.key) {
     validKey.value = true
+    await profileStore.showItemProfile(route.query.key)
 } else {
     validKey.value = false
 }
+
+await profileStore.getUOM()
 
 const headers = [
     { name: "SKU", id: "sku" },
@@ -44,7 +46,7 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <InventoryItemProfileDetails title="Item Profile Details" :data="page.list" :data-approval="page.approval.list" :header-columns="headers" />
+            <InventoryItemProfileDetails title="Item Profile Details" :data="page.list.item_profile" :data-approval="page.list.approvals" :header-columns="headers" />
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">

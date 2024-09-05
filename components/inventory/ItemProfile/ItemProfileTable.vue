@@ -3,7 +3,7 @@ import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 import { useApprovalStore, APPROVAL_NEW_ITEM_PROFILE } from "@/stores/inventory/setup/approvals"
 
 const profileStore = useItemProfileStore()
-const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension } = storeToRefs(profileStore)
+const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension, itemgroup, subitemgroup } = storeToRefs(profileStore)
 const approvalsStore = useApprovalStore()
 formItemProfile.value.approvals = await approvalsStore.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
 
@@ -17,13 +17,36 @@ defineProps({
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 const getType = (id:number) => {
-    const symbol = uom.value.map((data: any) => {
-        return data.id === id ? data.symbol : null
-    }).filter((num:any): num is number => num !== null)
-    return symbol ? symbol[0] : null
+    if (uom.value.length >= 1) {
+        const symbol = uom.value.map((data: any) => {
+            return data.id === id ? data.symbol : null
+        }).filter((num:any): num is number => num !== null)
+        return symbol ? symbol[0] : null
+    }
+    return null
 }
 
-const uomTypes = ref({
+const getSubItemGroup = (id:number) => {
+    if (subitemgroup.value.length >= 1) {
+        const symbol = subitemgroup.value.map((data: any, index: any) => {
+            return index === id ? data.name : null
+        }).filter((num:any): num is number => num !== null)
+        return symbol ? symbol[0] : null
+    }
+    return null
+}
+
+const getItemGroup = (id:number) => {
+    if (itemgroup.value.length >= 1) {
+        const symbol = itemgroup.value.map((data: any) => {
+            return data.id === id ? data.name : null
+        }).filter((num:any): num is number => num !== null)
+        return symbol ? symbol[0] : null
+    }
+    return null
+}
+
+const AllTypes = ref({
     allType: uom,
     lengthType: uomLength,
     weightType: uomWeight,
@@ -31,6 +54,8 @@ const uomTypes = ref({
     areaType: uomArea,
     forceType: uomForce,
     dimensionType: uomDimension,
+    itemGroup: itemgroup,
+    subItemGroup: subitemgroup,
 })
 const inventoryTypes = ref(
     [
@@ -101,6 +126,8 @@ const showItemProfile = () => {
             color: "",
             uom: null,
             uom_group_id: "",
+            item_group: null,
+            sub_item_group: null,
             uom_conversion_value: null,
             inventory_type: "",
             active_status: "Inactive",
@@ -124,6 +151,9 @@ const hideEditItem = async (index: number) => {
     getItem.is_edit = false
     profileStore.reset()
 }
+const doGetSubItemGroup = async (id: number) => {
+    await profileStore.getSubItemGroups(id)
+}
 </script>
 <template>
     <InventoryCommonLayoutItemProfileBoards title="New Profile" class="w-full" :loading="boardLoading" @action="showItemProfile">
@@ -131,7 +161,7 @@ const hideEditItem = async (index: number) => {
             <table class="table-auto w-full border-collapse">
                 <thead>
                     <tr>
-                        <InventoryCommonTableItemTh title="SKU" />
+                        <InventoryCommonTableItemTh title="Item Code" />
                         <InventoryCommonTableItemTh title="Item description" />
                         <InventoryCommonTableItemTh title="Thickness" />
                         <InventoryCommonTableItemTh title="Length" />
@@ -144,15 +174,31 @@ const hideEditItem = async (index: number) => {
                         <InventoryCommonTableItemTh title="Grade" />
                         <InventoryCommonTableItemTh title="Color" />
                         <InventoryCommonTableItemTh title="UOM" />
+                        <InventoryCommonTableItemTh title="Sub Item Group" />
+                        <InventoryCommonTableItemTh title="Item Group" />
                         <InventoryCommonTableItemTh title="Inventory Type" />
                         <InventoryCommonTableItemTh title="Actions" />
                     </tr>
                 </thead>
                 <tbody>
-                    <InventoryCommonTableItemProfileAppend :append-item-profile="addItemProfile" :inventory-types="inventoryTypes" :uom-types="uomTypes" @add-item="doAddItemProfile" @remove-item="removeAppendItemProfile" />
+                    <InventoryCommonTableItemProfileAppend
+                        :append-item-profile="addItemProfile"
+                        :inventory-types="inventoryTypes"
+                        :uom-types="AllTypes"
+                        @add-item="doAddItemProfile"
+                        @remove-item="removeAppendItemProfile"
+                        @item-group-item="doGetSubItemGroup"
+                    />
                     <tr v-for="dataValue, index in newItemProfile" :key="index" class="bg-white border-b">
                         <template v-if="dataValue.is_edit">
-                            <InventoryCommonTableItemProfileEdit :item-profile="dataValue" :inventory-types="inventoryTypes" :uom-types="uomTypes" @do-edit-item="doEditItem(dataValue, index)" @do-hide-edit-item="hideEditItem(index)" />
+                            <InventoryCommonTableItemProfileEdit
+                                :item-profile="dataValue"
+                                :inventory-types="inventoryTypes"
+                                :uom-types="AllTypes"
+                                @do-edit-item="doEditItem(dataValue, index)"
+                                @do-hide-edit-item="hideEditItem(index)"
+                                @item-group-item="doGetSubItemGroup"
+                            />
                         </template>
                         <template v-if="!dataValue.is_edit">
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
@@ -200,6 +246,12 @@ const hideEditItem = async (index: number) => {
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.uom }}
+                            </td>
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                {{ getSubItemGroup(dataValue.sub_item_group) }}
+                            </td>
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                {{ getItemGroup(dataValue.item_group) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.inventory_type }}

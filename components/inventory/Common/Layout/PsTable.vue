@@ -63,6 +63,7 @@ const isActiveRow = (index: any) => {
             </thead>
             <tbody>
                 <tr v-for="dataValue, index in datas" :key="index" class="border text-center" :class="{ 'active': isActiveRow(index) }" @click="setActiveRow(index)">
+                    {{ dataValue.sku }}
                     <td
                         v-for="header in headerColumns"
                         :key="header+'headerRow'"

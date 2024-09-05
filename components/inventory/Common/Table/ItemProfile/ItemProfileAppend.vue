@@ -14,12 +14,15 @@ const props = defineProps({
     },
 })
 const { uomTypes } = props
-const emit = defineEmits(["addItem", "removeItem"])
+const emit = defineEmits(["addItem", "removeItem", "itemGroupItem"])
 const doAddItem = (item:any, index:number) => {
     emit("addItem", item[index], index)
 }
 const doRemoveItem = (item:any) => {
     emit("removeItem", item)
+}
+const doSubItemChange = (index:number) => {
+    emit("itemGroupItem", index)
 }
 </script>
 <template>
@@ -34,43 +37,43 @@ const doRemoveItem = (item:any) => {
             <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
                 <div class="flex flex-row">
                     <InventoryCommonFormPsNumberInput v-model="itemProfile.thickness_val" add-class="w-[120px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" title="Thickness" />
-                    <InventoryCommonFormPsSelect v-model="itemProfile.thickness_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
+                    <InventoryCommonFormPsSelect v-model="itemProfile.thickness_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.lengthType" />
                 </div>
             </td>
             <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
                 <div class="flex flex-row">
                     <InventoryCommonFormPsNumberInput v-model="itemProfile.length_val" title="Length" add-class="w-[120px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" />
-                    <InventoryCommonFormPsSelect v-model="itemProfile.length_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
+                    <InventoryCommonFormPsSelect v-model="itemProfile.length_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.lengthType" />
                 </div>
             </td>
             <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
                 <div class="flex flex-row">
                     <InventoryCommonFormPsNumberInput v-model="itemProfile.width_val" title="Width" add-class="w-[120px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" />
-                    <InventoryCommonFormPsSelect v-model="itemProfile.width_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
+                    <InventoryCommonFormPsSelect v-model="itemProfile.width_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.lengthType" />
                 </div>
             </td>
             <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
                 <div class="flex flex-row">
                     <InventoryCommonFormPsNumberInput v-model="itemProfile.height_val" title="Height" add-class="w-[120px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" />
-                    <InventoryCommonFormPsSelect v-model="itemProfile.height_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
+                    <InventoryCommonFormPsSelect v-model="itemProfile.height_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.lengthType" />
                 </div>
             </td>
             <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
                 <div class="flex flex-row">
                     <InventoryCommonFormPsNumberInput v-model="itemProfile.outside_diameter_val" title="Outside Diameter" add-class="w-[120px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" />
-                    <InventoryCommonFormPsSelect v-model="itemProfile.outside_diameter_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
+                    <InventoryCommonFormPsSelect v-model="itemProfile.outside_diameter_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.dimensionType" />
                 </div>
             </td>
             <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
                 <div class="flex flex-row">
                     <InventoryCommonFormPsNumberInput v-model="itemProfile.inside_diameter_val" title="Inside Diameter" add-class="w-[120px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" />
-                    <InventoryCommonFormPsSelect v-model="itemProfile.inside_diameter_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
+                    <InventoryCommonFormPsSelect v-model="itemProfile.inside_diameter_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.dimensionType" />
                 </div>
             </td>
             <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
                 <div class="flex flex-row">
                     <InventoryCommonFormPsTextInput v-model="itemProfile.volume" title="Volume" add-class="w-[120px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" />
-                    <InventoryCommonFormPsSelect v-model="itemProfile.volume_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
+                    <InventoryCommonFormPsSelect v-model="itemProfile.volume_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.volumeType" />
                 </div>
             </td>
             <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
@@ -84,6 +87,12 @@ const doRemoveItem = (item:any) => {
             </td>
             <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
                 <InventoryCommonFormPsSelect v-model="itemProfile.uom" title="UOM Type" add-class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.allType" />
+            </td>
+            <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
+                <InventoryCommonFormPsSelect v-model="itemProfile.sub_item_group" title="Sub Item Group" add-class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.subItemGroup" />
+            </td>
+            <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
+                <InventoryCommonFormPsSelectChange v-model="itemProfile.item_group" title="Item Group" add-class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.itemGroup" @item-group-change="doSubItemChange" />
             </td>
             <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
                 <InventoryCommonFormPsSelect v-model="itemProfile.inventory_type" add-class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" title="Inventory Type" :select-list="props.inventoryTypes" />
