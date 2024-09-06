@@ -11,19 +11,19 @@ const props = defineProps({
 })
 
 const paymentsLoans = () => {
-    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "Loan")
+    return props.employeePayrollRecord.deduction.filter((adj: { name: string; }) => adj.name === "Loan")
 }
 const totalPaymentsLoans = () => {
     return paymentsLoans().reduce((partialSum: any, a: any) => partialSum + a, 0)
 }
 const paymentsCashAdvance = () => {
-    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "Cash Advance")
+    return props.employeePayrollRecord.deduction.filter((adj: { name: string; }) => adj.name === "Cash Advance")
 }
 const totalPaymentsCashAdvance = () => {
     return paymentsCashAdvance().reduce((partialSum: any, a: any) => partialSum + a, 0)
 }
 const paymentsOtherDeduction = () => {
-    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "Other Deduction")
+    return props.employeePayrollRecord.deduction.filter((adj: { name: string; }) => adj.name === "Other Deduction")
 }
 const totalPaymentsOtherDeduction = () => {
     return paymentsOtherDeduction().reduce((partialSum: any, a: any) => partialSum + a, 0)
@@ -110,7 +110,7 @@ const totalPaymentsOtherDeduction = () => {
             {{ employeePayrollRecord.sss_employee_compensation ? useFormatCurrency(employeePayrollRecord.sss_employee_compensation) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
-            {{ employeePayrollRecord.phic_employee_contribution ? useFormatCurrency(employeePayrollRecord.phic_employee_contribution) : "-" }}
+            {{ employeePayrollRecord.philhealth_employee_contribution ? useFormatCurrency(employeePayrollRecord.philhealth_employee_contribution) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ employeePayrollRecord.pagibig_employee_contribution ? useFormatCurrency(employeePayrollRecord.pagibig_employee_contribution) : "-" }}
