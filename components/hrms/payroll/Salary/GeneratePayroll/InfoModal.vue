@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 
+const { data: userData } = useAuth()
 defineProps({
     data: {
         type: Object,
         required: true,
-    },
-    showApprovals: {
-        type: Boolean,
-        required: false,
-        default: false,
     },
 })
 
@@ -96,7 +92,7 @@ const denyRequest = async (id : any) => {
             </div>
         </template>
         <template #footer>
-            <div v-if="showApprovals" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
                 <button
                     class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
                     @click="approvedRequest(data.id)"
