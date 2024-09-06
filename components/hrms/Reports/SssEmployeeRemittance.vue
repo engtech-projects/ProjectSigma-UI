@@ -48,7 +48,7 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
             </div>
             <div class="title flex flex-col justify-left gap-8 mb-10">
                 <span class="text-xl text-black text-center">
-                    Month of <span class="text-Black font-bold underline">{{ useMonthName(sssEmployeeRemitanceList.params.filter_month) }} {{ sssEmployeeRemitanceList.params.filter_year}}</span>
+                    Month of <span class="text-Black font-bold underline">{{ useMonthName(sssEmployeeRemitanceList.params.filter_month) }} {{ sssEmployeeRemitanceList.params.filter_year }}</span>
                 </span>
             </div>
             <table class="printTable border border-gray-500 mb-20">
@@ -143,7 +143,7 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                     </tr>
                 </tbody>
             </table>
-            <div class="flex justify-around hidden">
+            <div class="justify-around hidden">
                 <div class="flex flex-col gap-12">
                     <span>PREPARED BY:</span>
                     <div class="flex flex-col gap-1">
