@@ -11,19 +11,19 @@ const props = defineProps({
 })
 
 const paymentsLoans = () => {
-    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
+    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "Loan")
 }
 const totalPaymentsLoans = () => {
     return paymentsLoans().reduce((partialSum: any, a: any) => partialSum + a, 0)
 }
 const paymentsCashAdvance = () => {
-    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
+    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "Cash Advance")
 }
 const totalPaymentsCashAdvance = () => {
     return paymentsCashAdvance().reduce((partialSum: any, a: any) => partialSum + a, 0)
 }
 const paymentsOtherDeduction = () => {
-    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
+    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "Other Deduction")
 }
 const totalPaymentsOtherDeduction = () => {
     return paymentsOtherDeduction().reduce((partialSum: any, a: any) => partialSum + a, 0)
