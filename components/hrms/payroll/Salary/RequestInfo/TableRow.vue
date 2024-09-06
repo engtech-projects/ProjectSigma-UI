@@ -1,6 +1,5 @@
 <script setup lang="ts">
-// const props =
-defineProps({
+const props = defineProps({
     index: {
         type: Number,
         required: true,
@@ -11,24 +10,24 @@ defineProps({
     },
 })
 
-// const sssEmployer = () => {
-//     return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
-// }
-// const sssEmployee = () => {
-//     return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
-// }
-// const philhealthEmployer = () => {
-//     return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
-// }
-// const philhealthEmployee = () => {
-//     return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
-// }
-// const pagibigEmployer = () => {
-//     return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
-// }
-// const pagibigEmployee = () => {
-//     return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
-// }
+const paymentsLoans = () => {
+    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
+}
+const totalPaymentsLoans = () => {
+    return paymentsLoans().reduce((partialSum: any, a: any) => partialSum + a, 0)
+}
+const paymentsCashAdvance = () => {
+    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
+}
+const totalPaymentsCashAdvance = () => {
+    return paymentsCashAdvance().reduce((partialSum: any, a: any) => partialSum + a, 0)
+}
+const paymentsOtherDeduction = () => {
+    return props.employeePayrollRecord.adjustments.filter((adj: { name: string; }) => adj.name === "")
+}
+const totalPaymentsOtherDeduction = () => {
+    return paymentsOtherDeduction().reduce((partialSum: any, a: any) => partialSum + a, 0)
+}
 </script>
 
 <template>
@@ -117,18 +116,27 @@ defineProps({
             {{ employeePayrollRecord.pagibig_employee_contribution ? useFormatCurrency(employeePayrollRecord.pagibig_employee_contribution) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
-            {{ useFormatCurrency(employeePayrollRecord.withholdingtax_contribution.ewtc) ?? "-" }}
+            {{ useFormatCurrency(employeePayrollRecord.withholdingtax_contribution) ?? "-" }}
         </td>
         <td class="p-2 border-solid border border-slate-400">
             <div class="divide-y">
                 <div>
-                    <strong>Loans:</strong>
+                    <strong>Loans: {{ totalPaymentsLoans() }}</strong>
+                    <div v-for="(loan, index1) in paymentsLoans()" :key="'loanName'+index1">
+                        {{ loan.id }}: {{ useFormatCurrency(loan.max_payroll_payment) ?? "-" }}
+                    </div>
                 </div>
                 <div>
-                    <strong>CA:</strong>
+                    <strong>CA: {{ totalPaymentsCashAdvance() }}</strong>
+                    <div v-for="(cAdv, index1) in paymentsCashAdvance()" :key="'cAdvName'+index1">
+                        {{ cAdv.id }}: {{ useFormatCurrency(cAdv.max_payroll_payment) ?? "-" }}
+                    </div>
                 </div>
                 <div>
-                    <strong>Other Deductions:</strong>
+                    <strong>Other Deductions: {{ totalPaymentsOtherDeduction() }}</strong>
+                    <div v-for="(otherDeduct, index1) in paymentsOtherDeduction()" :key="'oDed'+index1">
+                        {{ otherDeduct.otherdeduction_name }}:{{ useFormatCurrency(otherDeduct.max_payroll_payment) ?? "-" }}
+                    </div>
                 </div>
                 <div>
                     <strong>HMO:</strong>

@@ -102,22 +102,25 @@ defineProps({
         <td class="p-2 border-solid border border-slate-400">
             <div class="divide-y">
                 <div>
-                    <strong>Loans:</strong>
-                    {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.loan.total_paid) ?? "-" }}
+                    <strong>
+                        Loans: {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.loan.total_paid) ?? "-" }}
+                    </strong>
                     <div v-for="(loan, index1) in employeePayrollRecord.payroll_records.salary_deduction.loan.loans" :key="'loanName'+index1">
                         {{ loan.id }}: {{ useFormatCurrency(loan.max_payroll_payment) ?? "-" }}
                     </div>
                 </div>
                 <div>
-                    <strong>CA:</strong>
-                    {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.cash_advance.total_paid) ?? "-" }}
+                    <strong>
+                        CA: {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.cash_advance.total_paid) ?? "-" }}
+                    </strong>
                     <div v-for="(cAdv, index1) in employeePayrollRecord.payroll_records.salary_deduction.cash_advance.cash_advance" :key="'cAdvName'+index1">
                         {{ cAdv.id }}: {{ useFormatCurrency(cAdv.max_payroll_payment) ?? "-" }}
                     </div>
                 </div>
                 <div>
-                    <strong>Other Deductions:</strong>
-                    {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.other_deductions.total_paid) ?? "-" }}
+                    <strong>
+                        Other Deductions: {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.other_deductions.total_paid) ?? "-" }}
+                    </strong>
                     <div v-for="(otherDeduct, index1) in employeePayrollRecord.payroll_records.salary_deduction.other_deductions.other_deduction" :key="'oDed'+index1">
                         {{ otherDeduct.otherdeduction_name }}:{{ useFormatCurrency(otherDeduct.max_payroll_payment) ?? "-" }}
                     </div>
