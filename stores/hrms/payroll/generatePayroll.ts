@@ -288,7 +288,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         },
         async approveApprovalForm (id: number) {
             return await useHRMSApiO(
-                "/api/approvals/approve/Payroll/" + id,
+                "/api/approvals/approve/GeneratePayroll/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -305,12 +305,12 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 }
             )
         },
-        async denyApprovalForm (id: string) {
+        async denyApprovalForm (id: string, remarks: string) {
             const formData = new FormData()
             formData.append("id", id)
-            formData.append("remarks", this.approval.params.remarks)
+            formData.append("remarks", remarks)
             await useHRMSApiO(
-                "/api/approvals/disapprove/Payroll/" + id,
+                "/api/approvals/disapprove/GeneratePayroll/" + id,
                 {
                     method: "POST",
                     body: formData,

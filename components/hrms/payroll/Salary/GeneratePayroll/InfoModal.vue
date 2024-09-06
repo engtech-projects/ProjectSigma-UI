@@ -13,6 +13,7 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const genpayrollstore = useGeneratePayrollStore()
 
+
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
@@ -37,10 +38,14 @@ const approvedRequest = async (id: any) => {
         boardLoading.value = false
     }
 }
+const denyRemarks = ref("")
+const clearRemarks = () => {
+    denyRemarks.value = ""
+}
 const denyRequest = async (id : any) => {
     try {
         boardLoading.value = true
-        await genpayrollstore.denyApprovalForm(id)
+        await genpayrollstore.denyApprovalForm(id, denyRemarks.value)
         snackbar.add({
             type: "success",
             text: "Successfully Denied"
@@ -93,13 +98,13 @@ const denyRequest = async (id : any) => {
         </template>
         <template #footer>
             <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
-                <button
-                    class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                    @click="approvedRequest(data.id)"
-                >
-                    Approve Request
-                </button>
-                <HrmsCommonApprovalDenyButton :deny-id="data.id" @deny="denyRequest" />
+                <HrmsCommonApprovalDenyButton
+                    v-model:deny-remarks="denyRemarks"
+                    :request-id="data.id"
+                    @approve="approvedRequest"
+                    @deny="denyRequest"
+                    @clear="clearRemarks"
+                />
             </div>
         </template>
     </PsModal>
