@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 const jobapplicants = useJobapplicantStore()
 
-const { errorMessage, successMessage } = storeToRefs(jobapplicants)
+const { errorMessage, successMessage, addJobApplicantRequest } = storeToRefs(jobapplicants)
 
 // const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -64,7 +64,7 @@ const addApplicant = () => {
                 {{ successMessage }}
             </p>
         </LayoutEditBoards>
-        <PsModal v-model:show-modal="showAddApplicant" :is-loading="boardLoading" title="APPLICATION FORM">
+        <PsModal v-model:show-modal="showAddApplicant" :is-loading="addJobApplicantRequest.isLoading" title="APPLICATION FORM">
             <template #body>
                 <HrmsEmployeeJobApplicationForm class="pt-2" />
             </template>
