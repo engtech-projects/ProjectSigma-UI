@@ -80,7 +80,6 @@ const headers = [
 ]
 
 </script>
-
 <template>
     <LayoutBoards :loading="loading">
         <div class="flex w-full mb-4">

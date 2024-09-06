@@ -1,7 +1,6 @@
 <script setup>
 const config = useRuntimeConfig()
 </script>
-
 <template>
     <div class="space-y-2">
         <LayoutNavSingle

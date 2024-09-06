@@ -30,7 +30,6 @@ const actions = {
     showTable: true,
 }
 </script>
-
 <template>
     <LayoutLoadingContainer class="w-full" :loading="myRequests.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">

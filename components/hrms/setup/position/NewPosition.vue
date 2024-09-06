@@ -35,7 +35,6 @@ const addPosition = async () => {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="Position Name" :loading="boardLoading">
         <div class="text-gray-500">

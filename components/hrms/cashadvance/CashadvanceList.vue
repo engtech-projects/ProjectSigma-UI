@@ -45,7 +45,6 @@ const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }
 </script>
-
 <template>
     <div class="pb-2 text-gray-500 p-2">
         <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />

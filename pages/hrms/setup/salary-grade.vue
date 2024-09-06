@@ -7,7 +7,6 @@ useHead({
 
 const salaryGradeStore = useSalaryGradeStore()
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

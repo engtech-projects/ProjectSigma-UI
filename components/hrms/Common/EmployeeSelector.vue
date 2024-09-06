@@ -2,9 +2,11 @@
 import { useEnumsStore } from "@/stores/hrms/enum"
 const enums = useEnumsStore()
 const { allEmployeeEnum } = storeToRefs(enums)
-if (allEmployeeEnum.value.list?.length <= 0) {
-    enums.getEmployeeEnum()
-}
+onMounted(() => {
+    if (!allEmployeeEnum.value.isLoaded) {
+        enums.getEmployeeEnum()
+    }
+})
 const model = defineModel({ required: false, type: Number, default: null })
 </script>
 <template>

@@ -21,7 +21,6 @@ defineProps({
     },
 })
 </script>
-
 <template>
     <div class="PsTextInput">
         <input

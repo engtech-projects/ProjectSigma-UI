@@ -25,7 +25,6 @@ const showInformation = (data) => {
     showInfoModal.value = true
 }
 </script>
-
 <template>
     <LayoutBoards title="" class="w-full" :loading="boardLoading">
         <LayoutFormPsTextInput v-model="getParams.employee" title="Search Employee/Applicant Name" />

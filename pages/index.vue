@@ -55,7 +55,6 @@ const login = async () => {
 }
 // For Redeploy
 </script>
-
 <template>
     <div class="h-full">
         <section class="bg-gray-50 dark:bg-gray-900 overflow-auto">

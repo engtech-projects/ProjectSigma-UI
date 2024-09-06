@@ -93,7 +93,6 @@ onMounted(() => {
     details.value = transactionStore.transaction.transaction_details
 })
 </script>
-
 <template>
     <LayoutBoards title="Edit Transaction" :loading="boardLoading" class="w-full h-fit">
         <form @submit.prevent="!transactionTypeStore.isEdit?handleSubmit():updateType()">

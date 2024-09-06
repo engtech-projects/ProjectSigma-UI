@@ -178,12 +178,12 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                     method: "POST",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.fetchLeaveRequestList()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
-                        this.fetchLeaveRequestList()
                     },
                 }
             )

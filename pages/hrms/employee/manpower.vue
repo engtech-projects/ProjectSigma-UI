@@ -1,23 +1,13 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
-import { useEnumsStore } from "@/stores/hrms/enum"
 
-const enums = useEnumsStore()
 const manpowers = useManpowerStore()
 const { isEdit } = storeToRefs(manpowers)
-enums.getPositionEnums()
-enums.getDepartmentEnums()
-enums.getPositionEnums()
-enums.getDepartmentEnums()
-enums.getUserEmployeeEnums()
-
 useHead({
     title: "Manpower Request",
 })
-
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

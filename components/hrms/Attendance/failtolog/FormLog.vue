@@ -39,7 +39,6 @@ const submitAdd = async () => {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Failure to Log Form" class="mt-2 edit-item w-full max-w-full" :loading="boardLoading">
         <form @submit.prevent="submitAdd">

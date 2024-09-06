@@ -65,7 +65,6 @@ const showEdit = () => {
 }
 
 </script>
-
 <template>
     <div ref="payrollTemplateRef" class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
         <div class="details flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">

@@ -34,7 +34,6 @@ const handleInput = (model, field) => {
     model[field] = Math.abs(model[field])
 }
 </script>
-
 <template>
     <LayoutEditBoards title="Edit Contribution" :loading="boardLoading">
         <div class="text-gray-500 mt-2">

@@ -34,7 +34,6 @@ const addRange = async () => {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Pag-IBIG" :loading="boardLoading" class="w-full">
         <div class="text-gray-500 p-2">

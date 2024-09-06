@@ -48,7 +48,6 @@ const actions = {
     delete: true
 }
 </script>
-
 <template>
     <div class="pb-2 text-gray-500 ">
         <LayoutPsTable :header-columns="headers" :datas="list" :actions="actions" @edit-row="setEdit" @delete-row="deleteCont" />

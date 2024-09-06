@@ -32,6 +32,17 @@ export interface Charging {
 export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
     state: () => ({
         isEdit: false,
+        generatePayroll: {
+            isLoading: false,
+            body: {
+
+            },
+            draft: {
+
+            },
+            successMessage: "",
+            errorMessage: "",
+        },
         generateParams: {
             adjustments: [] as Adjustment[],
             charging: [] as Charging[],
@@ -73,17 +84,20 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         editRequest: { // NOT USED
         },
         allRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
             pagination: {},
         },
         myApprovals: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
         },
         myRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
@@ -191,7 +205,11 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 {
                     method: "GET",
                     params: this.allRequests.params,
+                    onRequest: () => {
+                        this.allRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.allRequests.isLoading = false
                         if (response.ok) {
                             this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
@@ -211,7 +229,11 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 {
                     method: "GET",
                     params: this.myRequests.params,
+                    onRequest: () => {
+                        this.myRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myRequests.isLoading = false
                         if (response.ok) {
                             this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data.data
@@ -233,7 +255,11 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 {
                     method: "GET",
                     params: this.myApprovals.params,
+                    onRequest: () => {
+                        this.myApprovals.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data
@@ -251,14 +277,15 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 approvals: JSON.stringify(this.generateParams.approvals),
                 adjustments: JSON.stringify(this.generateParams.adjustments),
             }
-            await useHRMSApiO(
+            return await useHRMSApiO(
                 "/api/payroll/generate-payroll",
                 {
-                    method: "GET",
-                    params: payload,
+                    method: "POST",
+                    body: payload,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.payrollDraft = response._data.data
+                            return response._data.data
                         } else {
                             throw new Error(response._data.message)
                         }

@@ -30,7 +30,6 @@ const actions = {
 }
 
 </script>
-
 <template>
     <LayoutBoards class="w-full" :loading="boardLoading">
         <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />

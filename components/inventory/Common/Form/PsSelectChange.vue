@@ -23,7 +23,6 @@ const testfunct = (event: Event) => {
     emit("itemGroupChange", id)
 }
 </script>
-
 <template>
     <div v-if="props.selectList.length" class="PsSelectInput">
         <select

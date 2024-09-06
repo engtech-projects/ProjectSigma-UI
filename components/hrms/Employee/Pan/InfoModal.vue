@@ -64,7 +64,6 @@ const approvedRequest = async (id) => {
 }
 
 </script>
-
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" :title="'Personal Action Notice for ' + data.type">
         <template #body>

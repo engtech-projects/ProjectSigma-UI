@@ -61,7 +61,6 @@ const denyRequest = async (id : any) => {
 }
 
 </script>
-
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Payroll">
         <template #body>

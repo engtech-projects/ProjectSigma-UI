@@ -61,7 +61,6 @@ onMounted(() => {
     })
 })
 </script>
-
 <template>
     <LayoutBoards title="Edit Account Group" :loading="isLoading" class="w-full">
         <form @submit.prevent="handleSubmit">

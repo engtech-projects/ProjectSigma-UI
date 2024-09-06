@@ -114,7 +114,6 @@ onMounted(async () => {
     await fetchEmployees()
 })
 </script>
-
 <template>
     <div
         class="border-t-8t-5 edit-item w-full max-w-full bg-white rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto"

@@ -45,7 +45,6 @@ const applicantDetails = (applic) => {
     applicantInfo.value = applic
 }
 </script>
-
 <template>
     <div>
         <template v-if="manpower.job_applicants && manpower.job_applicants.length > 0">

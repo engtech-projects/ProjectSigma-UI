@@ -129,7 +129,6 @@ const totalRegHrsPayroll = () => {
     return total.toFixed(2)
 }
 </script>
-
 <template>
     <table class="w-full text-sm text-center text-gray-50 pb-4">
         <HrmsPayrollSalaryPayrollInfoTableHeader />

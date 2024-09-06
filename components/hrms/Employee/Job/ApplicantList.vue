@@ -7,7 +7,6 @@ defineProps({
     },
 })
 </script>
-
 <template>
     <div>
         <h2 class="flex text-xl font-semibold mb-2 bg-slate-100 p-2 rounded-t-lg">

@@ -6,7 +6,6 @@ const genallowstore = useGenerateAllowanceStore()
 const { allowanceRecords } = storeToRefs(genallowstore)
 
 </script>
-
 <template>
     <LayoutBoards class="w-full">
         <HrmsPayrollAllowanceFilterSelector />

@@ -10,7 +10,6 @@ useHead({
     title: "Document Series",
 })
 </script>
-
 <template>
     <div class="flex flex gap-4">
         <!-- <div class="flex-1">

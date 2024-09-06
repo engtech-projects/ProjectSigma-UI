@@ -1,15 +1,8 @@
 <script setup>
-import { useEnumsStore } from "@/stores/hrms/enum"
-const enums = useEnumsStore()
-enums.getUserEmployeeEnums()
-enums.getDepartmentEnums()
-
 useHead({
     title: "Job Applicants",
 })
-
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

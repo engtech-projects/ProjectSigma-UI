@@ -51,7 +51,6 @@ const submitAllowance = async (positionAllowance) => {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="Allowance List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">

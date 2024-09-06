@@ -66,7 +66,6 @@ const headers = [
 ]
 
 </script>
-
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
         <template #body>

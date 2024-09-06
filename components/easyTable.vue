@@ -13,7 +13,6 @@ const searchField = ref()
 const searchValue = ref()
 
 </script>
-
 <template>
     <div class="w-full md:flex mb-2 mt-5 gap-4 justify-center">
         <div class="relative z-0 mb-6 w-full group">

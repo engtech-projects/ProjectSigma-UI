@@ -1,19 +1,8 @@
 <script setup lang="ts">
-import { useEnumsStore } from "@/stores/hrms/enum"
-
-const enums = useEnumsStore()
-enums.getEmployeeEnum()
-enums.getUserEmployeeEnums()
-enums.getDepartmentEnums()
-enums.getProjectEnums()
-enums.getPositionEnums()
-
 useHead({
     title: "Cash Advance",
-
 })
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

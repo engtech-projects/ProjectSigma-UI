@@ -1,17 +1,8 @@
 <script setup>
-import { useEnumsStore } from "@/stores/hrms/enum"
-const enums = useEnumsStore()
-enums.getSalarygradeEnums()
-enums.getDepartmentEnums()
-enums.getPositionEnums()
-enums.getEmployeeEnum()
-enums.getUserEmployeeEnums()
 useHead({
     title: "Personal Action Notice",
 })
-
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

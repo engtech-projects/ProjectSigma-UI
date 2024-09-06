@@ -34,7 +34,6 @@ const addRange = async () => {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="PhilHealth" :loading="boardLoading">
         <div class="text-gray-500 mt-2">

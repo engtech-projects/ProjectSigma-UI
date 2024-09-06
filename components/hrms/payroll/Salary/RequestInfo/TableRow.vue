@@ -11,25 +11,24 @@ const props = defineProps({
 })
 
 const paymentsLoans = () => {
-    return props.employeePayrollRecord.deduction.filter((adj: { name: string; }) => adj.name === "Loan")
+    return props.employeePayrollRecord.deductions.filter((adj: { name: string; }) => adj.name === "Loan")
 }
 const totalPaymentsLoans = () => {
     return paymentsLoans().reduce((partialSum: any, a: any) => partialSum + a, 0)
 }
 const paymentsCashAdvance = () => {
-    return props.employeePayrollRecord.deduction.filter((adj: { name: string; }) => adj.name === "Cash Advance")
+    return props.employeePayrollRecord.deductions.filter((adj: { name: string; }) => adj.name === "Cash Advance")
 }
 const totalPaymentsCashAdvance = () => {
     return paymentsCashAdvance().reduce((partialSum: any, a: any) => partialSum + a, 0)
 }
 const paymentsOtherDeduction = () => {
-    return props.employeePayrollRecord.deduction.filter((adj: { name: string; }) => adj.name === "Other Deduction")
+    return props.employeePayrollRecord.deductions.filter((adj: { name: string; }) => adj.name === "Other Deduction")
 }
 const totalPaymentsOtherDeduction = () => {
     return paymentsOtherDeduction().reduce((partialSum: any, a: any) => partialSum + a, 0)
 }
 </script>
-
 <template>
     <tr class="bg-white border-b text-gray-950">
         <td class="p-4 border-solid border border-slate-400">

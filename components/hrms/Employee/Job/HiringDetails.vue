@@ -24,7 +24,6 @@ const addApplicant = () => {
     showAddApplicant.value = true
 }
 </script>
-
 <template>
     <div>
         <LayoutEditBoards title="Job Opening Details" class="w-full" :loading="boardLoading">

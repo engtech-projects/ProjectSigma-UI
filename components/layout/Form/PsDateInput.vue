@@ -21,7 +21,6 @@ defineProps({
     },
 })
 </script>
-
 <template>
     <div class="PsTextInput w-full p-2">
         <label

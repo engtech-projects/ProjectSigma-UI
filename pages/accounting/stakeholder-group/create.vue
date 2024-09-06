@@ -7,7 +7,6 @@ useHead({
     title: "New Stakeholder Group",
 })
 </script>
-
 <template>
     <div class="flex flex-col gap-2">
         <div class="flex">

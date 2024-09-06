@@ -10,7 +10,6 @@ defineProps({
     },
 })
 </script>
-
 <template>
     <tr class="bg-white border-b text-gray-950">
         <td class="p-4 border-solid border border-slate-400">

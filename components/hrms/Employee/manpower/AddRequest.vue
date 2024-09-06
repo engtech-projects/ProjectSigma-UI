@@ -43,7 +43,6 @@ const addManpwr = async () => {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Manpower Request" :loading="boardLoading" class="w-90">
         <div class="text-gray-500 p-2">

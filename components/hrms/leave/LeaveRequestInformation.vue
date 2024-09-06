@@ -7,7 +7,6 @@ defineProps({
 })
 
 </script>
-
 <template>
     <!-- <pre>{{ leaveData }}</pre> -->
     <div class="bg-white w-full shadow overflow-hidden sm:rounded-lg">

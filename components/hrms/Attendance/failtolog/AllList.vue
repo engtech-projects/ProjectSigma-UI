@@ -46,7 +46,6 @@ const changePaginate = (newParams) => {
     allRequests.value.params.page = newParams.page ?? ""
 }
 </script>
-
 <template>
     <LayoutBoards class="w-full" :loading="boardLoading">
         <HrmsCommonSearchEmployeeSelector v-model="allRequests.params.employee_id" />

@@ -8,7 +8,6 @@ useHead({
 })
 navigateTo("/accounting/books")
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingBookNewBook class="flex-1 max-w-[1000px]" />

@@ -33,7 +33,6 @@ function cancelEdit () {
     return navigateTo("/accounting/document-series")
 }
 </script>
-
 <template>
     <LayoutBoards title="Edit Document Series" :loading="isLoading" class="w-full border-t-8 rounded-lg border-teal-500">
         <form @submit.prevent="handleSubmit">

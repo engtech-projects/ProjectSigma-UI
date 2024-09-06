@@ -35,7 +35,6 @@ const addRange = async () => {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="SSS" :loading="boardLoading">
         <div class="text-gray-500">

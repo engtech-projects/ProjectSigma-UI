@@ -1,7 +1,6 @@
 <script setup>
 
 </script>
-
 <template>
     <div class="flex flex-col">
         <div class="header flex flex-col  mb-8">

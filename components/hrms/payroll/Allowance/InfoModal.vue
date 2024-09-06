@@ -70,7 +70,6 @@ const employeeAllowanceHeaders = [
 ]
 
 </script>
-
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Allowance Request">
         <template #body>

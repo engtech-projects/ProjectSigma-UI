@@ -25,7 +25,6 @@ useHead({
     title: "Show Transaction",
 })
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingJournalentryShow class="flex-1 max-w-[1000px]" />

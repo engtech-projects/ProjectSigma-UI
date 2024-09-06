@@ -40,7 +40,6 @@ const editRequest = async () => {
     }
 }
 </script>
-
 <template>
     <LayoutEditBoards title="Travel Order Form" class="w-full" :loading="boardLoading">
         <div class="text-gray-500">

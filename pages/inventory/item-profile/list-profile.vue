@@ -9,7 +9,6 @@ useHead({
 })
 
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

@@ -9,7 +9,6 @@ useHead({
     title: "New Entry",
 })
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingJournalentryCreate class="flex-1 w-full" />

@@ -2,12 +2,14 @@
 import { storeToRefs } from "pinia"
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 
-const genPayrollRequestsStpre = useGeneratePayrollStore()
-const { myRequests } = storeToRefs(genPayrollRequestsStpre)
-if (!myRequests.value.isLoaded) {
-    myRequests.value.isLoaded = true
-    genPayrollRequestsStpre.getMyRequests()
-}
+const genPayrollRequestsStore = useGeneratePayrollStore()
+const { myRequests } = storeToRefs(genPayrollRequestsStore)
+onMounted(() => {
+    if (!myRequests.value.isLoaded) {
+        myRequests.value.isLoaded = true
+        genPayrollRequestsStore.getMyRequests()
+    }
+})
 
 const headers = [
     { name: "Payroll Date", id: "payroll_date_human" },
@@ -31,15 +33,16 @@ const showInformation = (data) => {
     showInfoModal.value = true
 }
 </script>
-
 <template>
     <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-        <LayoutPsTable
-            :header-columns="headers"
-            :actions="actions"
-            :datas="myRequests.list ?? []"
-            @show-table="showInformation"
-        />
+        <LayoutLoadingContainer :loading="myRequests.isLoading">
+            <LayoutPsTable
+                :header-columns="headers"
+                :actions="actions"
+                :datas="myRequests.list ?? []"
+                @show-table="showInformation"
+            />
+        </LayoutLoadingContainer>
     </div>
     <div class="flex justify-center mx-auto">
         <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />

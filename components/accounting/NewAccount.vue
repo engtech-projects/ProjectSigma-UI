@@ -33,7 +33,6 @@ async function handleSubmit () {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Create New Account" :loading="accountStore.isLoading" class="w-full">
         <form @submit.prevent="handleSubmit">

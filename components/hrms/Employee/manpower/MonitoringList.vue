@@ -35,7 +35,6 @@ const actions = {
 }
 
 </script>
-
 <template>
     <LayoutLoadingContainer class="w-full" :loading="allRequests.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">

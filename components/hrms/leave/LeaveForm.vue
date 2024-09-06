@@ -65,7 +65,6 @@ const submitAdd = async () => {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Leave Application Form" class="edit-item w-full max-w-full" :loading="boardLoading">
         <form @submit.prevent="submitAdd">

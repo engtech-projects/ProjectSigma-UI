@@ -65,7 +65,6 @@ const applyFilter = () => {
 }
 applyFilter()
 </script>
-
 <template>
     <div class="flex flex-col items-end gap-4">
         <div class="flex items-center gap-4 w-full">

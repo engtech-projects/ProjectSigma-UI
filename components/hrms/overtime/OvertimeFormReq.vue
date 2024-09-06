@@ -2,13 +2,7 @@
 import { storeToRefs } from "pinia"
 import { useOvertimeStore } from "@/stores/hrms/overtime"
 import { useApprovalStore, APPROVAL_OVERTIME } from "@/stores/hrms/setup/approvals"
-import { useEnumsStore } from "@/stores/hrms/enum"
 
-const enums = useEnumsStore()
-const { allEmployeeEnum } = storeToRefs(enums)
-if (allEmployeeEnum.value.list.length <= 0) {
-    enums.getEmployeeEnum()
-}
 const approvals = useApprovalStore()
 const overtimes = useOvertimeStore()
 const { overtime, errorMessage, successMessage } = storeToRefs(overtimes)
@@ -45,7 +39,6 @@ const submitForm = async () => {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Overtime Authorization Form" class="w-full" :loading="boardLoading">
         <div class="text-gray-500">

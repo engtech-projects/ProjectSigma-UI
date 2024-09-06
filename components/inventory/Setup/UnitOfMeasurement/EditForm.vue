@@ -38,7 +38,6 @@ const doEditUOM = async () => {
 }
 
 </script>
-
 <template>
     <LayoutEditBoards title="Unit of Measurement" :loading="boardLoading">
         <div class="text-gray-500 mt-2">

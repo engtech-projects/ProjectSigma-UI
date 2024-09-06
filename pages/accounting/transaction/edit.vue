@@ -25,7 +25,6 @@ useHead({
     title: "Edit Transaction",
 })
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingTransactionEdit class="flex-1 max-w-[1000px]" />

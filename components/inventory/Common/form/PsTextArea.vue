@@ -25,7 +25,6 @@ defineProps({
     },
 })
 </script>
-
 <template>
     <div class="PsTextAreaInputTemplate">
         <textarea

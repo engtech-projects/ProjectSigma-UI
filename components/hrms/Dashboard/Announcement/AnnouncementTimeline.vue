@@ -9,7 +9,6 @@ const formatDate = (date) => {
     return new Date(date).toLocaleDateString()
 }
 </script>
-
 <template>
     <LayoutBoards title="Announcement">
         <div v-if="mainList!=''" class="h-full max-h-full overflow-auto">

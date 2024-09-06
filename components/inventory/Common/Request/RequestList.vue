@@ -25,7 +25,6 @@ const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }
 </script>
-
 <template>
     <LayoutBoards class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 p-2">

@@ -26,7 +26,6 @@ async function handleSubmit () {
     }
 }
 </script>
-
 <template>
     <LayoutBoards
         title="Edit Salary Grade"

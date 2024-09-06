@@ -7,7 +7,6 @@ useHead({
     title: "Transaction Type",
 })
 </script>
-
 <template>
     <div class="flex flex gap-4">
         <!-- <div class="flex-1">

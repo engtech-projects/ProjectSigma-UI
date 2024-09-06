@@ -48,7 +48,6 @@ const actions = {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="Contribution Table" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 ">

@@ -84,7 +84,6 @@ const printTable = () => {
     }, 1000)
 }
 </script>
-
 <template>
     <button class="print-button mb-4 px-4 py-2 bg-blue-500 text-white rounded justify-end" @click="printTable">
         Print

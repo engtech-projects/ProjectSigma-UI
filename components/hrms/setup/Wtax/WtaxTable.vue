@@ -48,7 +48,6 @@ const actions = {
     delete: true
 }
 </script>
-
 <template>
     <LayoutBoards title="Withholding Table" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">
