@@ -1,17 +1,10 @@
 <script setup>
 import { useAnnouncements } from "@/stores/hrms/announcements"
 import { useDashboardStatisticsStore } from "@/stores/hrms/dashboardStats"
-const config = useRuntimeConfig()
-const mains = useAnnouncements()
 const stats = useDashboardStatisticsStore()
-stats.getMonthlyBirthday()
-stats.getMonthlyLates()
-stats.getMonthlyAbsences()
-stats.getDeptProjStats()
-stats.getGenderStats()
+const mains = useAnnouncements()
 mains.getactiveAll()
 
-const { deptProjStats, genderStats } = storeToRefs(stats)
 useHead({
     title: "Dashboard",
     meta: [{ name: "description", content: "SIGMA Dashboard" }],
@@ -35,43 +28,32 @@ useHead({
             <div
                 class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
             >
-                <HrmsDashboardBirthdaysCard
-                    :employees="stats.monthlyBirthdays.list"
-                    class="md:mt-0"
-                />
+                <HrmsDashboardBirthdaysCard />
             </div>
             <div
                 class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
             >
-                <HrmsDashboardLatesCard
-                    :employees="stats.monthlyLates.list"
-                    class="md: mt-2 md:mt-0 p-2"
-                />
+                <HrmsDashboardLatesCard />
             </div>
             <div
                 class="border-gray-300 rounded-lg dark:border-gray-600 h-full md:h-full"
             >
-                <HrmsDashboardAbsencesCard
-                    :employees="stats.monthlyAbsences.list"
-                    class="md: mt-2 md:mt-0 p-2"
-                />
-            </div>
-            <template v-if="config.public.APP_ENV == 'local'">
-                <div
-                    class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
-                >
-                    <HrmsDashboardLatesAbsencesChart :labels="Object.keys(stats.latesAbsencesSummary)" :data="Object.values(stats.latesAbsencesSummary)" />
-                </div>
-            </template>
-            <div
-                class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
-            >
-                <HrmsDashboardAssignmentLocationChart :labels="Object.keys(deptProjStats.list)" :data="Object.values(deptProjStats.list)" />
+                <HrmsDashboardAbsencesCard />
             </div>
             <div
                 class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
             >
-                <HrmsDashboardGenderChart :labels="Object.keys(genderStats.list)" :data="Object.values(genderStats.list)" />
+                <HrmsDashboardLatesAbsencesChart :labels="Object.keys(stats.latesAbsencesSummary)" :data="Object.values(stats.latesAbsencesSummary)" />
+            </div>
+            <div
+                class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardAssignmentLocationChart />
+            </div>
+            <div
+                class="rounded-lg border-gray-300 dark:border-gray-600 h-full md:h-full"
+            >
+                <HrmsDashboardGenderChart />
             </div>
         </div>
     </LayoutAcessContainer>
