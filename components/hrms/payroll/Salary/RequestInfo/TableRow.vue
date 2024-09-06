@@ -122,19 +122,19 @@ const totalPaymentsOtherDeduction = () => {
                 <div>
                     <strong>Loans: {{ totalPaymentsLoans() }}</strong>
                     <div v-for="(loan, index1) in paymentsLoans()" :key="'loanName'+index1">
-                        {{ loan.id }}: {{ useFormatCurrency(loan.max_payroll_payment) ?? "-" }}
+                        {{ loan.name }}: {{ useFormatCurrency(loan.amount) ?? "-" }}
                     </div>
                 </div>
                 <div>
                     <strong>CA: {{ totalPaymentsCashAdvance() }}</strong>
                     <div v-for="(cAdv, index1) in paymentsCashAdvance()" :key="'cAdvName'+index1">
-                        {{ cAdv.id }}: {{ useFormatCurrency(cAdv.max_payroll_payment) ?? "-" }}
+                        {{ cAdv.name }}: {{ useFormatCurrency(cAdv.amount) ?? "-" }}
                     </div>
                 </div>
                 <div>
                     <strong>Other Deductions: {{ totalPaymentsOtherDeduction() }}</strong>
                     <div v-for="(otherDeduct, index1) in paymentsOtherDeduction()" :key="'oDed'+index1">
-                        {{ otherDeduct.otherdeduction_name }}:{{ useFormatCurrency(otherDeduct.max_payroll_payment) ?? "-" }}
+                        {{ otherDeduct.name }}:{{ useFormatCurrency(otherDeduct.amount) ?? "-" }}
                     </div>
                 </div>
                 <div>
