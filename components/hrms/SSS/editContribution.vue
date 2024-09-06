@@ -99,8 +99,8 @@ const handleInput = (model, field) => {
                         >Employer Compensation</label>
                         <input
                             id="employerContrib"
-                            v-model="contribution.employer_contribution"
-                            v-oninput="handleInput(contribution, 'employer_contribution')"
+                            v-model="contribution.employer_compensation"
+                            v-oninput="handleInput(contribution, 'employer_compensation')"
                             type="number"
                             class="w-full rounded-lg"
                             step=".01"
@@ -129,8 +129,8 @@ const handleInput = (model, field) => {
                         >Employee Compensation</label>
                         <input
                             id="employeeContrib"
-                            v-model="contribution.employee_contribution"
-                            v-oninput="handleInput(contribution, 'employee_contribution')"
+                            v-model="contribution.employee_compensation"
+                            v-oninput="handleInput(contribution, 'employee_compensation')"
                             type="number"
                             class="w-full rounded-lg"
                             step=".01"
