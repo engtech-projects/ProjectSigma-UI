@@ -8,13 +8,14 @@ const print = () => {
     printWindow.document.write(printContents)
     setTimeout(() => {
         printWindow.print()
+        printWindow.close()
     }, 1000)
 }
 </script>
 <template>
     <div
         :id="compId"
-        class="PrintContainer"
+        class="PrintContainer w-full"
     >
         <slot />
     </div>

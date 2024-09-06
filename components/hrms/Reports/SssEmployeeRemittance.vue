@@ -33,139 +33,141 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                 Generate Report
             </button>
         </div>
-        <div class="flex flex-col">
-            <div class="header flex flex-col gap-1 mb-20">
-                <span class="text-xl font-bold text-black">
-                    80-0191406-1-000
-                </span>
-                <span class="text-2xl font-bold text-black">
-                    EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
-                </span>
-                <span class="text-xl text-black">
-                    P-1 POBLACION 8 BUENAVISTA AGUSAN DEL NORTE
-                </span>
-            </div>
-            <div class="title flex flex-col justify-left gap-8 mb-10">
-                <span class="text-xl text-black text-center">
-                    Month of <span class="text-Black font-bold underline">{{ useMonthName(sssEmployeeRemitanceList.params.filter_month) }} {{ sssEmployeeRemitanceList.params.filter_year }}</span>
-                </span>
-            </div>
-            <table class="printTable border border-gray-500 mb-20">
-                <thead class="text-black text-md">
-                    <tr class="py-4">
-                        <th rowspan="3" class="py-4 border-gray-500">
-                            NO.
-                        </th>
-                        <th rowspan="3" class="border border-gray-500">
-                            NAME OF EMPLOYEE
-                        </th>
-                        <th rowspan="3" class="border border-gray-500">
-                            SSS NO.
-                        </th>
-                        <th colspan="3" class="border border-gray-500">
-                            SS AMOUNT
-                        </th>
+        <LayoutPrint>
+            <div class="flex flex-col">
+                <div class="header flex flex-col gap-1 mb-20">
+                    <span class="text-xl font-bold text-black">
+                        80-0191406-1-000
+                    </span>
+                    <span class="text-2xl font-bold text-black">
+                        EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
+                    </span>
+                    <span class="text-xl text-black">
+                        P-1 POBLACION 8 BUENAVISTA AGUSAN DEL NORTE
+                    </span>
+                </div>
+                <div class="title flex flex-col justify-left gap-8 mb-10">
+                    <span class="text-xl text-black text-center">
+                        Month of <span class="text-Black font-bold underline">{{ useMonthName(sssEmployeeRemitanceList.params.filter_month) }} {{ sssEmployeeRemitanceList.params.filter_year }}</span>
+                    </span>
+                </div>
+                <table class="printTable border border-gray-500 mb-20">
+                    <thead class="text-black text-md">
+                        <tr class="py-4">
+                            <th rowspan="3" class="py-4 border-gray-500">
+                                NO.
+                            </th>
+                            <th rowspan="3" class="border border-gray-500">
+                                NAME OF EMPLOYEE
+                            </th>
+                            <th rowspan="3" class="border border-gray-500">
+                                SSS NO.
+                            </th>
+                            <th colspan="3" class="border border-gray-500">
+                                SS AMOUNT
+                            </th>
 
-                        <th rowspan="3" class="border border-gray-500">
-                            EC AMT (ER)
-                        </th>
-                        <th rowspan="3" class="border border-gray-500">
-                            TOTAL
-                        </th>
-                    </tr>
-                    <tr>
-                        <th rowspan="2" class="py-4 border-gray-500">
-                            ER
-                        </th>
-                        <th rowspan="2" class="border border-gray-500">
-                            EE
-                        </th>
-                        <th rowspan="2" class="border border-gray-500">
-                            TOTAL CONTRIBUTION
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="text-sm">
-                    <tr v-for="reportData, index in sssEmployeeRemitanceList.list" :key="'sssemployeeremitance' + index" class="h-2">
-                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            {{ index + 1 }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 text-sm">
-                            {{ reportData.employee_name }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            {{ reportData.employee_sss_id }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                            {{ useFormatCurrency(reportData.sss_employee_contribution) }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                            {{ useFormatCurrency(reportData.sss_employer_contribution) }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                            {{ useFormatCurrency(reportData.total_contribution) }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                            {{ useFormatCurrency(reportData.sss_employer_compensation) }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                            {{ useFormatCurrency(reportData.total_sss) }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
-                            TOTAL
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            {{ useFormatCurrency(generateReportstore.totalSssEmployeeRemittance) }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            {{ useFormatCurrency(generateReportstore.totalSssEmployerRemittance) }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            {{ useFormatCurrency(generateReportstore.sssTotalContribution) }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            {{ useFormatCurrency(generateReportstore.totalSssEmployerCompensation) }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            {{ useFormatCurrency(generateReportstore.sssTotal) }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="6" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
-                            TOTAL AMOUNT DUE
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            {{ useFormatCurrency(generateReportstore.totalAmountDue) }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="justify-around hidden">
-                <div class="flex flex-col gap-12">
-                    <span>PREPARED BY:</span>
-                    <div class="flex flex-col gap-1">
-                        <span class="font-bold underline">
-                            JOMELYN S. SANTILLAN
-                        </span>
-                        <span>
-                            HR SPECIALIST
-                        </span>
+                            <th rowspan="3" class="border border-gray-500">
+                                EC AMT (ER)
+                            </th>
+                            <th rowspan="3" class="border border-gray-500">
+                                TOTAL
+                            </th>
+                        </tr>
+                        <tr>
+                            <th rowspan="2" class="py-4 border-gray-500">
+                                ER
+                            </th>
+                            <th rowspan="2" class="border border-gray-500">
+                                EE
+                            </th>
+                            <th rowspan="2" class="border border-gray-500">
+                                TOTAL CONTRIBUTION
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr v-for="reportData, index in sssEmployeeRemitanceList.list" :key="'sssemployeeremitance' + index" class="h-2">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                {{ index + 1 }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm">
+                                {{ reportData.employee_name }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                {{ reportData.employee_sss_id }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
+                                {{ useFormatCurrency(reportData.sss_employee_contribution) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
+                                {{ useFormatCurrency(reportData.sss_employer_contribution) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
+                                {{ useFormatCurrency(reportData.total_contribution) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
+                                {{ useFormatCurrency(reportData.sss_employer_compensation) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
+                                {{ useFormatCurrency(reportData.total_sss) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                                TOTAL
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                                {{ useFormatCurrency(generateReportstore.totalSssEmployeeRemittance) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                                {{ useFormatCurrency(generateReportstore.totalSssEmployerRemittance) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                                {{ useFormatCurrency(generateReportstore.sssTotalContribution) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                                {{ useFormatCurrency(generateReportstore.totalSssEmployerCompensation) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                                {{ useFormatCurrency(generateReportstore.sssTotal) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                                TOTAL AMOUNT DUE
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                                {{ useFormatCurrency(generateReportstore.totalAmountDue) }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="justify-around hidden">
+                    <div class="flex flex-col gap-12">
+                        <span>PREPARED BY:</span>
+                        <div class="flex flex-col gap-1">
+                            <span class="font-bold underline">
+                                JOMELYN S. SANTILLAN
+                            </span>
+                            <span>
+                                HR SPECIALIST
+                            </span>
+                        </div>
                     </div>
-                </div>
-                <div class="flex flex-col gap-12">
-                    <span>CERTIFIED CORRECTED BY</span>
-                    <div class="flex flex-col gap-1">
-                        <span class="font-bold underline">
-                            JERMILY C. MOZO
-                        </span>
-                        <span>
-                            HEAD, HUMAN RESOURCE SECTION
-                        </span>
+                    <div class="flex flex-col gap-12">
+                        <span>CERTIFIED CORRECTED BY</span>
+                        <div class="flex flex-col gap-1">
+                            <span class="font-bold underline">
+                                JERMILY C. MOZO
+                            </span>
+                            <span>
+                                HEAD, HUMAN RESOURCE SECTION
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </LayoutPrint>
     </LayoutBoards>
 </template>

@@ -70,7 +70,7 @@ const selectedReport = ref("")
                         v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_philhealthemployeeremittance])"
                         value="Report8"
                     >
-                        PHIC Remittance
+                        PHIC Employee Remittance
                     </option>
                     <option
                         v-if="useCheckAccessibility(['AdminOnly'])"
@@ -88,7 +88,7 @@ const selectedReport = ref("")
                         v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_pagibigemployeeremittance])"
                         value="Report11"
                     >
-                        HDMF Remittance
+                        HDMF Employee Remittance
                     </option>
                     <option
                         v-if="useCheckAccessibility(['AdminOnly'])"

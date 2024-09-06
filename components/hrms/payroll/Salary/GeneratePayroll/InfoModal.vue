@@ -25,7 +25,7 @@ const approvedRequest = async (id: any) => {
         const approveData = await genpayrollstore.approveApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: genpayrollstore.approval.successMessage ?? approveData
+            text: approveData.message ?? genpayrollstore.approval.successMessage
         })
         closeViewModal()
     } catch (error) {
