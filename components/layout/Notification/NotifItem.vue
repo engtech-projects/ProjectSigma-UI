@@ -8,6 +8,7 @@ import { useOvertimeStore } from "@/stores/hrms/overtime"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
+import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 
 // HRMS STORES
 const notifStore = useNotificationsStore()
@@ -19,6 +20,7 @@ const travelOrder = useTravelorderStore()
 const cashadvanceStore = useCashadvanceStore()
 const overtimeStore = useOvertimeStore()
 const genAllowanceStore = useGenerateAllowanceStore()
+const genPayrollStore = useGeneratePayrollStore()
 // INVENTORY STORES
 // ACCOUNTING STORES
 // PROJECTS STORES
@@ -40,7 +42,7 @@ const icons = {
     CashAdvance: "material-symbols:dynamic-form-outline-rounded",
     Overtime: "mingcute:time-line",
     GenerateAllowance: "tabler:pig-money",
-    Payroll: "carbon:money",
+    GeneratePayroll: "carbon:money",
 }
 // const possibleLocations = {
 //     LeaveRequest: "/hrms/leave",
@@ -83,8 +85,8 @@ const openModalNotification = async () => {
         case "GenerateAllowance":
             modalData.value = await genAllowanceStore.getOne(prop.notification.data.metadata.id)
             break
-        case "Payroll":
-            modalData.value = await leavereqStore.getOne(prop.notification.data.metadata.id)
+        case "GeneratePayroll":
+            modalData.value = await genPayrollStore.getOne(prop.notification.data.metadata.id)
             break
         default:
             break
@@ -93,6 +95,16 @@ const openModalNotification = async () => {
     } finally {
         loading.value = false
     }
+}
+const setAsRead = async (id) => {
+    loading.value = true
+    await notifStore.setSingleNotifAsRead(id)
+    loading.value = false
+}
+const setAsUnread = async (id) => {
+    loading.value = true
+    await notifStore.setSingleNotifAsUnread(id)
+    loading.value = false
 }
 watch(showModal, (newValue, oldValue) => {
     if (oldValue && !newValue) {
@@ -123,19 +135,20 @@ watch(showModal, (newValue, oldValue) => {
             <div
                 class="flex text-xs font-medium text-primary-600 dark:text-primary-500"
             >
+                {{ notification.data.module?.toUpperCase() ?? "HRMS" }}:
                 {{ notification.created_at_human }}
                 <div class="flex justify-end ml-auto">
                     <button
                         v-if="!notification.read_at"
                         title="Mark As Read"
-                        @click="notifStore.setSingleNotifAsRead(notification.id)"
+                        @click="setAsRead(notification.id)"
                     >
                         <Icon name="material-symbols:notifications-unread" color="blue" class="w-5 h-5" />
                     </button>
                     <button
                         v-else
                         title="Mark As Unread"
-                        @click="notifStore.setSingleNotifAsUnread(notification.id)"
+                        @click="setAsUnread(notification.id)"
                     >
                         <Icon name="material-symbols:notifications" color="gray" class="w-5 h-5" />
                     </button>
@@ -202,8 +215,8 @@ watch(showModal, (newValue, oldValue) => {
                 :data="modalData.data"
             />
         </template>
-        <template v-if=" prop.notification.data.type === 'Payroll'">
-            <HrmsPayrollInfoModal
+        <template v-if=" prop.notification.data.type === 'GeneratePayroll'">
+            <HrmsPayrollSalaryGeneratePayrollInfoModal
                 v-model:showModal="showModal"
                 :data="modalData.data"
             />
