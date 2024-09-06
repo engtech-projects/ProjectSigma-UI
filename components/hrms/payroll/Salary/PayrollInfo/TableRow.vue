@@ -91,10 +91,10 @@ defineProps({
             {{ employeePayrollRecord.payroll_records.salary_deduction.sss.employee_compensation ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.sss.employee_compensation) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
-            {{ employeePayrollRecord.payroll_records.salary_deduction.phic.employee_compensation ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.phic.employee_compensation) : "-" }}
+            {{ employeePayrollRecord.payroll_records.salary_deduction.phic.employee_contribution ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.phic.employee_contribution) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
-            {{ employeePayrollRecord.payroll_records.salary_deduction.hmdf.employee_compensation ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.hmdf.employee_compensation) : "-" }}
+            {{ employeePayrollRecord.payroll_records.salary_deduction.hmdf.employee_contribution ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.hmdf.employee_contribution) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.ewtc) ?? "-" }}
