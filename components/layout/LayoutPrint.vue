@@ -2,7 +2,7 @@
 const compId = useId()
 const print = () => {
     const headContent = document.getElementsByTagName("head")[0].innerHTML
-    const printContents = document.getElementById(""+compId).innerHTML
+    const printContents = document.getElementById("" + compId).innerHTML
     const printWindow = window.open("", "_blank")
     printWindow.document.write(headContent)
     printWindow.document.write(printContents)
