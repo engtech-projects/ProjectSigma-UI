@@ -26,27 +26,27 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
     getters: {
         // sss
         totalSssEmployeeRemittance (state): any {
-            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current) => {
+            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
                 return accumulator + current.sss_employee_contribution
             }, 0)
         },
         totalSssEmployerRemittance (state): any {
-            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current) => {
+            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
                 return accumulator + current.sss_employer_contribution
             }, 0)
         },
         sssTotalContribution (state): any {
-            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current) => {
+            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
                 return accumulator + current.total_contribution
             }, 0)
         },
         totalSssEmployerCompensation (state): any {
-            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current) => {
+            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
                 return accumulator + current.sss_employer_compensation
             }, 0)
         },
         sssTotal (state): any {
-            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current) => {
+            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
                 return accumulator + current.total_sss
             }, 0)
         },
@@ -59,17 +59,17 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
         },
         // pagibig
         totalPagibigEmployeeRemittance (state): any {
-            return state.pagibigEmployeeRemitanceList.list.reduce((accumulator, current) => {
+            return state.pagibigEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
                 return accumulator + current.pagibig_employee_contribution
             }, 0)
         },
         totalPagibigEmployerRemittance (state): any {
-            return state.pagibigEmployeeRemitanceList.list.reduce((accumulator, current) => {
+            return state.pagibigEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
                 return accumulator + current.pagibig_employer_contribution
             }, 0)
         },
         pagibigTotalContribution (state): any {
-            return state.pagibigEmployeeRemitanceList.list.reduce((accumulator, current) => {
+            return state.pagibigEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
                 return accumulator + current.total_contribution
             }, 0)
         },

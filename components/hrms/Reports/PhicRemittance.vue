@@ -16,7 +16,7 @@ watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) 
 </script>
 
 <template>
-    <LayoutBoards title="PhilHealth Employee Remittance">
+    <LayoutBoards title="PhilHealth Employee Remittance" :loading="philhealthEmployeeRemitanceList.isLoading">
         <div class="md:grid grid-cols-4 gap-4 mt-5 mb-16">
             <VueDatePicker
                 v-model="philhealthEmployeeRemitanceList.params.month_year"

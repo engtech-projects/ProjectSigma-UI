@@ -16,7 +16,7 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
 </script>
 
 <template>
-    <LayoutBoards title="SSS Employee Remittance">
+    <LayoutBoards title="SSS Employee Remittance" :loading="sssEmployeeRemitanceList.isLoading">
         <div class="md:grid grid-cols-4 gap-4 mt-5 mb-16">
             <VueDatePicker
                 v-model="sssEmployeeRemitanceList.params.month_year"
