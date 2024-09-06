@@ -102,20 +102,6 @@ const addRange = async () => {
                             min="0"
                             required
                         >
-
-                        <label
-                            for="emprComp"
-                            class="text-sm italic"
-                        >Employer Compensation</label>
-                        <input
-                            id="emprComp"
-                            v-model="contribution.employer_compensation"
-                            type="number"
-                            class="w-full rounded-lg"
-                            step=".01"
-                            min="0"
-                            required
-                        >
                     </div>
                     <div>
                         <label
@@ -139,20 +125,6 @@ const addRange = async () => {
                         <input
                             id="empMaxCont"
                             v-model="contribution.employee_maximum_contribution"
-                            type="number"
-                            class="w-full rounded-lg"
-                            step=".01"
-                            min="0"
-                            required
-                        >
-
-                        <label
-                            for="empConp"
-                            class="text-sm italic"
-                        >Employee Compensation</label>
-                        <input
-                            id="empConp"
-                            v-model="contribution.employee_compensation"
                             type="number"
                             class="w-full rounded-lg"
                             step=".01"
