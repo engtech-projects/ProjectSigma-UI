@@ -282,7 +282,7 @@ const config = useRuntimeConfig()
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_reports,
+                    AccessibilityTypes.hrms_reports_group,
                 ])"
                 linkarea="/hrms/reports"
                 icon="ic:sharp-add-chart"

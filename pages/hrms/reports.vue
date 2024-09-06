@@ -1,7 +1,7 @@
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_reports,
+            AccessibilityTypes.hrms_reports_group,
         ])"
     >
         <div
