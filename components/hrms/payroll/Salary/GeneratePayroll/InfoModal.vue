@@ -13,7 +13,6 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const genpayrollstore = useGeneratePayrollStore()
 
-
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
