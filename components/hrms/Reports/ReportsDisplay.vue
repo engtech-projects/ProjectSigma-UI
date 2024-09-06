@@ -5,85 +5,160 @@
                 <option value="" disabled selected>
                     Select Report
                 </option>
-                <option value="Report1">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report1"
+                >
                     SSS Summary
                 </option>
-                <option value="Report2">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report2"
+                >
                     SSS Project Remittance
                 </option>
-                <option value="Report3">
-                    SSS Remittance
+                <option
+                    v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_sssemployeeremittance])"
+                    value="Report3"
+                >
+                    SSS Employee Remittance
                 </option>
-                <option value="Report4">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report4"
+                >
                     SSS Loan Payment Summary
                 </option>
-                <option value="Report5">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report5"
+                >
                     SSS Loan Payment
                 </option>
-                <option value="Report6">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report6"
+                >
                     PHIC Summary
                 </option>
-                <option value="Report7">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report7"
+                >
                     PHIC Project Remittance
                 </option>
-                <option value="Report8">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report8"
+                >
                     PHIC Remittance
                 </option>
-                <option value="Report9">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report9"
+                >
                     HDMF Summary
                 </option>
-                <option value="Report10">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report10"
+                >
                     HDMF Project Remittance
                 </option>
-                <option value="Report11">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report11"
+                >
                     HDMF Remittance
                 </option>
-                <option value="Report12">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report12"
+                >
                     HDMF Loan Summary
                 </option>
-                <option value="Report13">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report13"
+                >
                     HDMF Loan Project Remittance
                 </option>
-                <option value="Report14">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report14"
+                >
                     HDMF Loan Remittance
                 </option>
-                <option value="Report15">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report15"
+                >
                     Salary Monitoring
                 </option>
-                <option value="Report16">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report16"
+                >
                     Overtime Monitoring
                 </option>
-                <option value="Report17">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report17"
+                >
                     Project Payroll Summary
                 </option>
-                <option value="Report18">
+                <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    value="Report18"
+                >
                     Employee Logs
                 </option>
             </select>
-
-            <VueDatePicker v-model="month" month-picker class="rounded-lg" placeholder="Select Month" />
-            <VueDatePicker v-model="year" year-picker class="rounded-lg" placeholder="Select Year" />
-
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" @click="generateReport">
-                Generate Report
-            </button>
         </div>
     </div>
     <div id="printContent">
-        <HrmsReportsSssContribution v-if="selectedReport==='Report1'" />
-        <HrmsReportsSssProjectRemittance v-if="selectedReport==='Report2'" />
-        <HrmsReportsSssEmployeeRemittance v-if="selectedReport==='Report3'" />
-        <HrmsReportsSssLoanPaymentSummary v-if="selectedReport==='Report4'" />
-        <HrmsReportsSssLoanPayment v-if="selectedReport==='Report5'" />
-        <HrmsReportsPhicSummaryReport v-if="selectedReport==='Report6'" />
-        <HrmsReportsPhicProjectRemittance v-if="selectedReport==='Report7'" />
-        <HrmsReportsPhicRemittance v-if="selectedReport==='Report8'" />
-        <HrmsReportsHdmfSummary v-if="selectedReport==='Report9'" />
-        <HrmsReportsHdmfProjectRemittance v-if="selectedReport==='Report10'" />
-        <HrmsReportsHdmfEmployeeRemittance v-if="selectedReport==='Report11'" />
-        <HrmsReportsHdmfLoanPaymentSummary v-if="selectedReport==='Report12'" />
-        <HrmsReportsHdmfProjectRemittance v-if="selectedReport==='Report13'" />
-        <HrmsReportsSalaryMonitoring v-if="selectedReport==='Report15'" />
+        <HrmsReportsSssContribution
+            v-show="selectedReport==='Report1'"
+        />
+        <HrmsReportsSssProjectRemittance
+            v-show="selectedReport==='Report2'"
+        />
+        <HrmsReportsSssEmployeeRemittance
+            v-show="selectedReport==='Report3'"
+        />
+        <HrmsReportsSssLoanPaymentSummary
+            v-show="selectedReport==='Report4'"
+        />
+        <HrmsReportsSssLoanPayment
+            v-show="selectedReport==='Report5'"
+        />
+        <HrmsReportsPhicSummaryReport
+            v-show="selectedReport==='Report6'"
+        />
+        <HrmsReportsPhicProjectRemittance
+            v-show="selectedReport==='Report7'"
+        />
+        <HrmsReportsPhicRemittance
+            v-show="selectedReport==='Report8'"
+        />
+        <HrmsReportsHdmfSummary
+            v-show="selectedReport==='Report9'"
+        />
+        <HrmsReportsHdmfProjectRemittance
+            v-show="selectedReport==='Report10'"
+        />
+        <HrmsReportsHdmfEmployeeRemittance
+            v-show="selectedReport==='Report11'"
+        />
+        <HrmsReportsHdmfLoanPaymentSummary
+            v-show="selectedReport==='Report12'"
+        />
+        <HrmsReportsHdmfProjectRemittance
+            v-show="selectedReport==='Report13'"
+        />
+        <HrmsReportsSalaryMonitoring
+            v-show="selectedReport==='Report15'"
+        />
     </div>
     <div class="mt-5 mb-6 border-slate-300 rounded-lg p-2">
         <!-- <div class="text-2xl font-normal mb-4 mt-0 ">
@@ -102,74 +177,7 @@
 </template>
 
 <script setup lang="ts">
-import VueDatePicker from "@vuepic/vue-datepicker"
-import "@vuepic/vue-datepicker/dist/main.css"
-// import { Item } from "vue3-easy-data-table"
 const selectedReport = ref(null)
-
-// const monthNames = [
-//     "January", "February", "March", "April", "May", "June",
-//     "July", "August", "September", "October", "November", "December"
-// ]
-
-// const month = ref({
-//     month: new Date().getMonth(),
-//     year: new Date().getFullYear()
-// })
-
-// const year = ref(new Date().getFullYear())
-
-// const headers: Header[] = [
-//     { text: "Employee Name", value: "employee_name" },
-//     { text: "Date Filed", value: "date_filed" },
-//     { text: "Loan Type", value: "loan_type" },
-//     { text: "Amount Loaned", value: "amt_loaned" },
-//     { text: "Terms", value: "repayment_term" },
-//     { text: "Deduction", value: "deduction" },
-//     { text: "Balance", value: "balance" },
-//     { text: "Status", value: "status" },
-// ]
-
-// const items: Item[any] = ref([
-//     {
-//         employee_name: "Lorem 1",
-//         date_filed: "2017-10-10",
-//         loan_type: "BDO",
-//         amt_loaned: "50,000",
-//         repayment_term: "Semi-monthly",
-//         deduction: "2,000",
-//         balance: "48,000.00",
-//         status: "Approved",
-//     },
-//     {
-//         employee_name: "Lorem 1",
-//         date_filed: "2017-10-10",
-//         loan_type: "BDO",
-//         amt_loaned: "50,000",
-//         repayment_term: "Semi-monthly",
-//         deduction: "2,000",
-//         balance: "48,000.00",
-//         status: "Approved",
-//     },
-//     {
-//         employee_name: "Lorem 1",
-//         date_filed: "2017-10-10",
-//         loan_type: "BDO",
-//         amt_loaned: "50,000",
-//         repayment_term: "Semi-monthly",
-//         deduction: "2,000",
-//         balance: "48,000.00",
-//         status: "Approved",
-//     },
-// ])
-
-const print = () => {
-    const content = document.getElementById("printContent")
-    const printContainer = document.getElementById("printContainer")
-    printContainer.innerHTML = content.innerHTML
-    window.print()
-}
-
 </script>
 
 <style>
