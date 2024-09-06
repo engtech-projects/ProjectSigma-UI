@@ -42,6 +42,7 @@
                     PHIC Summary
                 </option>
                 <option
+                    v-if="useCheckAccessibility(['AdminOnly'])"
                     value="Report7"
                 >
                     PHIC Project Remittance
