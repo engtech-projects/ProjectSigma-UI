@@ -77,10 +77,5 @@ const showEdit = () => {
                 Submit
             </button>
         </div>
-        <PsModal v-model:show-modal="showEditModal">
-            <template #body>
-                <HrmsPayrollEditGeneratepayrollInformation />
-            </template>
-        </PsModal>
     </div>
 </template>
