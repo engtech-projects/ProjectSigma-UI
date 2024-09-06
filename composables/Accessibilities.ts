@@ -10,6 +10,8 @@ export enum AccessibilityTypes {
     hrms_hmo = "hrms:hmo",
     hrms_reports_group = "hrms:reports_",
     hrms_reports_sssemployeeremittance = "hrms:reports_sss employee remittance",
+    hrms_reports_pagibigemployeeremittance = "hrms:reports_pagibig employee remittance",
+    hrms_reports_philhealthemployeeremittance = "hrms:reports_philhealth employee remittance",
     // ATTENDANCE
     hrms_attendance_group = "hrms:attendance_",
     hrms_attendance_attendance_portal = "hrms:attendance_attendance portal",

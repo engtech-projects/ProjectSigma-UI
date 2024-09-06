@@ -42,13 +42,12 @@
                     PHIC Summary
                 </option>
                 <option
-                    v-if="useCheckAccessibility(['AdminOnly'])"
                     value="Report7"
                 >
                     PHIC Project Remittance
                 </option>
                 <option
-                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_philhealthemployeeremittance])"
                     value="Report8"
                 >
                     PHIC Remittance
@@ -66,7 +65,7 @@
                     HDMF Project Remittance
                 </option>
                 <option
-                    v-if="useCheckAccessibility(['AdminOnly'])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_pagibigemployeeremittance])"
                     value="Report11"
                 >
                     HDMF Remittance
