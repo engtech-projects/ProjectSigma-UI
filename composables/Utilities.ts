@@ -126,3 +126,7 @@ export const useFormatDateRange = (start: string, end: string) => {
         return `${startMonth} ${startDay}-${endMonth} ${endDay}, ${endYear}`
     }
 }
+export const useMonthName = (id: any) => {
+    const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
+    return months[id - 1]
+}
