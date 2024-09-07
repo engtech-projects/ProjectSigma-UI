@@ -5,6 +5,7 @@ const { token } = useAuth()
 
 export const useNotificationsStore = defineStore("notificationsStore", {
     state: () => ({
+        allListLoading: false,
         allList: [],
         unreadList: [],
         streamingList: false,
@@ -15,10 +16,14 @@ export const useNotificationsStore = defineStore("notificationsStore", {
         getAllNotifications () {
             useHRMSApi("api/notifications/all", {
                 params: this.getParams,
+                onRequest: () => {
+                    this.allListLoading = true
+                },
                 onResponseError: ({ response } : any) => {
                     throw new Error(response._data.message)
                 },
                 onResponse: ({ response } : any) => {
+                    this.allListLoading = false
                     if (response.ok) {
                         this.allList = response._data.data.data ?? []
                         this.pagination = {
