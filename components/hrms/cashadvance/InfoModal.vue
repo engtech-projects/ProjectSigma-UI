@@ -69,22 +69,22 @@ const denyRequest = async (id) => {
 }
 
 async function nowMakePayment (id) {
-    try {
-        this.newPayment.cashadvance_id = id
-        this.newPayment.paymentAmount = this.newPayment.amount_paid
-        await cashadvances.makePayment(id)
-        boardLoading.value = false
-        snackbar.add({
-            type: "success",
-            text: cashadvances.successMessage
-        })
-    } catch {
-        boardLoading.value = false
-        snackbar.add({
-            type: "error",
-            text: cashadvances.errorMessage || "something went wrong."
-        })
-    }
+// try {
+    this.newPayment.cashadvance_id = id
+    this.newPayment.paymentAmount = this.newPayment.amount_paid
+    await cashadvances.makePayment(id)
+    boardLoading.value = false
+    snackbar.add({
+        type: "success",
+        text: cashadvances.successMessage
+    })
+// } catch {
+//     boardLoading.value = false
+//     snackbar.add({
+//         type: "error",
+//         text: cashadvances.errorMessage || "something went wrong."
+//     })
+// }
 }
 </script>
 <template>

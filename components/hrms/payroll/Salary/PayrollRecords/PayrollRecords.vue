@@ -42,5 +42,5 @@ const showInformation = (data: any) => {
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
         />
-</LayoutLoadingContainer>
+    </LayoutLoadingContainer>
 </template>
