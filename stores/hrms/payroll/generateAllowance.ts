@@ -151,8 +151,8 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                     body: this.generateAllowance,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResources()
+                            this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
                         }

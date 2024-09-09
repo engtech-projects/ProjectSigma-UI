@@ -329,8 +329,8 @@ export const useManpowerStore = defineStore("manpowers", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResources()
+                            this.successMessage = response._data.message
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -357,8 +357,8 @@ export const useManpowerStore = defineStore("manpowers", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResources()
+                            this.successMessage = response._data.message
                             return response._data
                         }
                     },
@@ -377,8 +377,8 @@ export const useManpowerStore = defineStore("manpowers", {
                 }
             )
             if (data.value) {
-                this.successMessage = data.value.message
                 this.reloadResources()
+                this.successMessage = data.value.message
                 return data
             } else if (error.value) {
                 this.errorMessage = error.value.data.message
