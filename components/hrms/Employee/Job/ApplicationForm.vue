@@ -11,7 +11,10 @@ const { jobapplicant, errorMessage, successMessage } = storeToRefs(jobapplicants
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
+const emit = defineEmits(["closeModal"])
+const closeViewModal = () => {
+    emit("closeModal")
+}
 jobapplicant.value.manpowerrequests_id = manpower.value.id
 
 const submitForm = async () => {
@@ -24,6 +27,7 @@ const submitForm = async () => {
             text: jobapplicantstore.successMessage
         })
         manpowers.reloadResources()
+        closeViewModal()
     } catch (error) {
         snackbar.add({
             type: "error",

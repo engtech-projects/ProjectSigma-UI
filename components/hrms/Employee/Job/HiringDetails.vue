@@ -23,6 +23,9 @@ const showAddApplicant = ref(false)
 const addApplicant = () => {
     showAddApplicant.value = true
 }
+const closeModal = () => {
+    showAddApplicant.value = false
+}
 </script>
 <template>
     <div>
@@ -65,7 +68,7 @@ const addApplicant = () => {
         </LayoutEditBoards>
         <PsModal v-model:show-modal="showAddApplicant" :is-loading="addJobApplicantRequest.isLoading" title="APPLICATION FORM">
             <template #body>
-                <HrmsEmployeeJobApplicationForm class="pt-2" />
+                <HrmsEmployeeJobApplicationForm class="pt-2" @close-modal="closeModal" />
             </template>
         </PsModal>
     </div>
