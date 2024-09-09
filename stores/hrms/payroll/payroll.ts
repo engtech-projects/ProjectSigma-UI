@@ -50,12 +50,12 @@ export const usePayrollStore = defineStore("ApprovedPayrolls", {
                         this.allRecords.isLoading = false
                         if (response.ok) {
                             this.allRecords.isLoaded = true
-                            this.allRecords.list = response._data.data.data
-                            this.allRecords.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
-                            }
+                            this.allRecords.list = response._data.data
+                            // this.allRecords.pagination = {
+                            //     first_page: response._data.data.first_page_url,
+                            //     pages: response._data.data.links,
+                            //     last_page: response._data.data.last_page_url,
+                            // }
                         }
                     },
                 }
