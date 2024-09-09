@@ -2,14 +2,29 @@
 import { PAYROLL_TYPE, RELEASE_TYPE } from "@/stores/hrms/payroll/generatePayroll"
 import { usePayrollStore } from "@/stores/hrms/payroll/payroll"
 
+const snackbar = useSnackbar()
 const payrollStore = usePayrollStore()
 const { allRecords } = storeToRefs(payrollStore)
 const grouptype = ref()
+const getDatas = async () => {
+    try {
+        await payrollStore.getAllRecords()
+        snackbar.add({
+            type: "success",
+            text: allRecords.value.successMessage ?? "Sucessfully fetched payroll records."
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    }
+}
 </script>
 <template>
     <form
         class="mt-5 mb-5 grid grid-cols-1 gap-6 sm:grid-cols-5"
-        @submit.prevent="payrollStore.getAllRecords()"
+        @submit.prevent="getDatas()"
     >
         <LayoutFormPsDateInput
             v-model="allRecords.params.payroll_date"

@@ -11,9 +11,9 @@ const headers = [
     { name: "Payroll Type", style: "", id: "payroll_type" },
     { name: "Release Type", style: "", id: "release_type" },
 ]
-const changePaginate = (newParams: any) => {
-    allRecords.value.params.page = newParams.page ?? ""
-}
+// const changePaginate = (newParams: any) => {
+//     allRecords.value.params.page = newParams.page ?? ""
+// }
 const actions = {
     showTable: true,
 }
@@ -25,20 +25,22 @@ const showInformation = (data: any) => {
 }
 </script>
 <template>
-    <HrmsPayrollSalaryPayrollRecordsPayrollFilters />
-    <LayoutLoadingContainer :loading="false">
-        <LayoutPsTable
-            :header-columns="headers"
-            :datas="allRecords.list"
-            :actions="actions"
-            @show-table="showInformation"
+    <LayoutLoadingContainer :loading="allRecords.isLoading">
+        <HrmsPayrollSalaryPayrollRecordsPayrollFilters />
+        <LayoutLoadingContainer :loading="false">
+            <LayoutPsTable
+                :header-columns="headers"
+                :datas="allRecords.list"
+                :actions="actions"
+                @show-table="showInformation"
+            />
+        </LayoutLoadingContainer>
+        <!-- <div class="flex justify-center mx-auto">
+            <CustomPagination :links="allRecords.pagination" @change-params="changePaginate" />
+        </div> -->
+        <HrmsPayrollSalaryGeneratePayrollInfoModal
+            v-model:show-modal="showInfoModal"
+            :data="infoModalData"
         />
-    </LayoutLoadingContainer>
-    <div class="flex justify-center mx-auto">
-        <CustomPagination :links="allRecords.pagination" @change-params="changePaginate" />
-    </div>
-    <HrmsPayrollSalaryGeneratePayrollInfoModal
-        v-model:show-modal="showInfoModal"
-        :data="infoModalData"
-    />
+</LayoutLoadingContainer>
 </template>
