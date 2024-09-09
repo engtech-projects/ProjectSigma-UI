@@ -14,9 +14,9 @@ const salaryGradeStore = useSalaryGradeStore()
         ])"
     >
         <div class="mt-10 md:flex gap-4 overflow-auto">
-            <HrmsSalaryGradeEdit v-if="salaryGradeStore.isEdit" class="flex-1 w-1/3" />
-            <HrmsSalaryGradeNew v-else class="flex-1 w-1/3" />
-            <HrmsSalaryGradeList class="flex-1 w-2/3" />
+            <HrmsSalaryGradeEdit v-if="salaryGradeStore.isEdit" class="md:flex w-full md:w-1/3" />
+            <HrmsSalaryGradeNew v-else class="md:flex w-full md:w-1/3" />
+            <HrmsSalaryGradeList class="md:flex w-full md:w-2/3" />
         </div>
     </LayoutAcessContainer>
 </template>

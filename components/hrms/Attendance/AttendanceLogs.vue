@@ -33,7 +33,7 @@ const grouptype = ref(null)
             <p class="w-full p-4 text-xl text-gray-500">
                 ATTENDANCE LOG INFORMATION
             </p>
-            <div class="w-full md:flex gap-2 md:justify-between p-4">
+            <div class="w-full flex flex-col md:flex-row gap-2 md:justify-between p-2">
                 <SearchBar class="w-full" @search-changed="setEmployee" />
                 <div class="w-full">
                     <input v-model="attendanceLogs.params.date" type="date" class="w-full rounded py-2">
@@ -57,7 +57,7 @@ const grouptype = ref(null)
                     title="Filter Department/Project"
                 />
             </div>
-            <div class="w-full p-4">
+            <div class="w-full px-2">
                 <LayoutPsTable
                     id="listTable"
                     :header-columns="headers"

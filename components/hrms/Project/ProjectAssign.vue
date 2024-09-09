@@ -45,8 +45,8 @@ const attach = async () => {
 }
 </script>
 <template>
-    <LayoutBoards title="Assign Employee to Project" class="w-1/4" :loading="boardLoading">
-        <div class="text-gray-500">
+    <LayoutBoards title="Assign Employee to Project" class="w-full md:w-1/4" :loading="boardLoading">
+        <div class="text-gray-500 px-2">
             <form @submit.prevent="attach">
                 <div class="pt-2">
                     <HrmsCommonProjectSelector v-model="projId" :use-hrms-id="false" />
@@ -60,7 +60,7 @@ const attach = async () => {
             </form>
         </div>
     </LayoutBoards>
-    <LayoutBoards v-if="information" title="Project Information" class="w-3/4" :loading="boardLoading">
+    <LayoutBoards v-if="information" title="Project Information" class="w-full md:w-3/4" :loading="boardLoading">
         <div class="w-full m-2 flex justify-between">
             <p class="text-3xl font-light">
                 {{ information.project_identifier }} <span class="text-sm font-thin">Code : <span class="text-cyan-700">{{ information.project_code }}</span> </span>

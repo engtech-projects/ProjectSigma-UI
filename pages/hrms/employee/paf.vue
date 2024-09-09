@@ -10,13 +10,13 @@ useHead({
         ])"
     >
         <div class="w-full">
-            <div class="md:flex gap-4">
+            <div class="flex flex-col md:flex-row gap-4">
                 <HrmsEmployeePanPersonelActionForm
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_employee_pan_form,
                     ])"
                 />
-                <div class="w-2/3">
+                <div class="w-full md:w-2/3">
                     <HrmsCommonTabsMainContainer>
                         <template #tab-titles>
                             <HrmsCommonTabsTabTitle
