@@ -1,14 +1,6 @@
 <script setup lang="ts">
-import { useEnumsStore } from "@/stores/hrms/enum"
-
-const enums = useEnumsStore()
-enums.getEmployeeEnum()
-enums.getDepartmentEnums()
-enums.getProjectEnums()
-
 useHead({
     title: "Generate Allowance"
-
 })
 </script>
 <template>

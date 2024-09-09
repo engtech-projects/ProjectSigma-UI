@@ -3,7 +3,6 @@ useHead({
     title: "PROJECT SIGMA",
 })
 </script>
-
 <template>
     <div class="h-full mt-10 md:flex items-center justify-center gap-10">
         <div

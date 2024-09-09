@@ -10,7 +10,6 @@ useHead({
     title: "Document Series",
 })
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

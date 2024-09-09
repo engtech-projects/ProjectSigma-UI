@@ -41,7 +41,6 @@ const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 </script>
-
 <template>
     <LayoutBoards title="Project Lists" class="w-full flex flex-col" :loading="projects.isLoading">
         <div class="pb-2 text-gray-500">

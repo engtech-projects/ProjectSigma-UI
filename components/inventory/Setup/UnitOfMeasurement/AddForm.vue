@@ -34,7 +34,6 @@ const addUOM = async () => {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Unit of Measurement" :loading="boardLoading">
         <div class="text-gray-500 mt-2">

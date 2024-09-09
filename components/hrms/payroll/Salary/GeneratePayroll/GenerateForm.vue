@@ -29,7 +29,6 @@ const submitForm = async () => {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="" class="w-full" :loading="boardLoading">
         <div class="mt-5 mb-6 p-2">

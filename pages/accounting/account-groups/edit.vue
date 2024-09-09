@@ -14,7 +14,6 @@ if (!useRoute().query.id) {
     await accountGroupStore.showAccountGroup(useRoute().query.id)
 }
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingAccountGroupEdit class="flex-1" />

@@ -51,7 +51,6 @@ onMounted(() => {
     accounts.value = JSON.parse(JSON.stringify(accountStore.byTypes))
 })
 </script>
-
 <template>
     <LayoutBoards title="Create New Account Group" :loading="isLoading" class="w-full">
         <form @submit.prevent="handleSubmit">

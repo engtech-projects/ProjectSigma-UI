@@ -14,7 +14,6 @@ if (!useRoute().query.id) {
 }
 // const route = useRoute()
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingStakeholdergroupEdit class="flex-1 max-w-[1000px]" />

@@ -5,7 +5,6 @@ useHead({
     meta: [{ name: "description", content: "" }],
 })
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

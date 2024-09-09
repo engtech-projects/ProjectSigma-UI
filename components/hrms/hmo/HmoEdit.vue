@@ -58,7 +58,6 @@ onMounted(async () => {
     await fetchEmployees()
 })
 </script>
-
 <template>
     <ClientOnly>
         <div

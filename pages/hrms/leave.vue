@@ -1,6 +1,5 @@
 <script setup>
 import { useLeaveRequest } from "@/stores/hrms/leaveRequest"
-import { useEnumsStore } from "@/stores/hrms/enum"
 import { useNotificationsStore } from "@/stores/notifications"
 
 const notifStore = useNotificationsStore()
@@ -9,8 +8,6 @@ leaveRequest.allLeaves()
 leaveRequest.allApprovals()
 leaveRequest.myRequest()
 
-const enums = useEnumsStore()
-enums.getDepartmentEnums()
 const showOnloadModal = ref(false)
 if (useRoute().query.id) {
     await leaveRequest.getOne(useRoute().query.id)
@@ -26,7 +23,6 @@ useHead({
     ],
 })
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

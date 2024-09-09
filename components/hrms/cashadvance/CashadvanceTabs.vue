@@ -1,6 +1,5 @@
 <script setup>
 </script>
-
 <template>
     <HrmsCommonTabsMainContainer>
         <template #tab-titles>

@@ -157,6 +157,11 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
     state: () => ({
         isEdit: false,
         isApplicantDetail: false,
+        addJobApplicantRequest: {
+            isLoading: false,
+            successMessage: "",
+            errorMessage: "",
+        },
         jobapplicant: {
             id: null,
             manpowerrequests_id: null,
@@ -409,10 +414,20 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 {
                     method: "POST",
                     body: formData,
+                    onRequest: () => {
+                        this.addJobApplicantRequest.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.addJobApplicantRequest.errorMessage = response._data.message
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
+                        this.addJobApplicantRequest.isLoading = false
                         if (response.ok) {
                             this.$reset()
                             this.getJobApplicant()
+                            this.addJobApplicantRequest.successMessage = response._data.message
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message

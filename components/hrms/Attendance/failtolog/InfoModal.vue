@@ -38,9 +38,6 @@ const approvedRequest = async (id) => {
         boardLoading.value = false
     }
 }
-const clearRemarks = () => {
-    remarks.value = ""
-}
 const denyRequest = async (id) => {
     try {
         boardLoading.value = true
@@ -60,7 +57,6 @@ const denyRequest = async (id) => {
     }
 }
 </script>
-
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="FAILURE TO LOG">
         <template #body>
@@ -97,7 +93,6 @@ const denyRequest = async (id) => {
                     :request-id="data.id"
                     @approve="approvedRequest"
                     @deny="denyRequest"
-                    @clear="clearRemarks"
                 />
             </div>
         </template>

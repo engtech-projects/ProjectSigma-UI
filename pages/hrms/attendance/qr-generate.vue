@@ -5,7 +5,6 @@ useHead({
     meta: [{ name: "QR Generator", content: "" }],
 })
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

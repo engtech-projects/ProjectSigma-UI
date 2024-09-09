@@ -29,36 +29,42 @@ export interface Absent {
 export const useDashboardStatisticsStore = defineStore("dashboardStats", {
     state: () => ({
         monthlyBirthdays: {
+            isLoading: false,
             list: [] as Birthday[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         monthlyLates: {
+            isLoading: false,
             list: [] as Late[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         monthlyAbsences: {
+            isLoading: false,
             list: [] as Absent[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         latesAbsenceStats: {
+            isLoading: false,
             list: {} as any,
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         deptProjStats: {
+            isLoading: false,
             list: {} as any,
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         genderStats: {
+            isLoading: false,
             list: {} as any,
             params: {},
             successMessage: "",
@@ -81,10 +87,14 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
                 {
                     method: "GET",
                     params: this.monthlyBirthdays.params,
+                    onRequest: () => {
+                        this.monthlyBirthdays.isLoading = true
+                    },
                     onResponseError: ({ response } : any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
+                        this.monthlyBirthdays.isLoading = false
                         if (response.ok) {
                             this.monthlyBirthdays.list = response._data.data ?? []
                         }
@@ -98,10 +108,14 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
                 {
                     method: "GET",
                     params: this.monthlyLates.params,
+                    onRequest: () => {
+                        this.monthlyLates.isLoading = true
+                    },
                     onResponseError: ({ response } : any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
+                        this.monthlyLates.isLoading = false
                         if (response.ok) {
                             this.monthlyLates.list = response._data ?? []
                         }
@@ -115,10 +129,14 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
                 {
                     method: "GET",
                     params: this.monthlyAbsences.params,
+                    onRequest: () => {
+                        this.monthlyAbsences.isLoading = true
+                    },
                     onResponseError: ({ response } : any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
+                        this.monthlyAbsences.isLoading = false
                         if (response.ok) {
                             this.monthlyAbsences.list = response._data ?? []
                         }
@@ -132,10 +150,14 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
                 {
                     method: "GET",
                     params: this.latesAbsenceStats.params,
+                    onRequest: () => {
+                        this.latesAbsenceStats.isLoading = true
+                    },
                     onResponseError: ({ response } : any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
+                        this.latesAbsenceStats.isLoading = false
                         if (response.ok) {
                             this.latesAbsenceStats.list = response._data.data ?? {}
                         }
@@ -149,10 +171,14 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
                 {
                     method: "GET",
                     params: this.deptProjStats.params,
+                    onRequest: () => {
+                        this.deptProjStats.isLoading = true
+                    },
                     onResponseError: ({ response } : any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
+                        this.deptProjStats.isLoading = false
                         if (response.ok) {
                             this.deptProjStats.list = response._data.data ?? {}
                         }
@@ -166,10 +192,14 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
                 {
                     method: "GET",
                     params: this.genderStats.params,
+                    onRequest: () => {
+                        this.genderStats.isLoading = true
+                    },
                     onResponseError: ({ response } : any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
+                        this.genderStats.isLoading = false
                         if (response.ok) {
                             this.genderStats.list = response._data.data ?? {}
                         }

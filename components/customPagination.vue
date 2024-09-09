@@ -12,7 +12,6 @@ const setParams = (link) => {
     emit("changeParams", Object.fromEntries([...searchParams]))
 }
 </script>
-
 <template>
     <div id="pagination" class="flex items-center text-xs space-x-1 lg:text-sm">
         <a

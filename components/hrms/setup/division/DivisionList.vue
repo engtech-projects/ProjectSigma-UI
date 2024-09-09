@@ -58,7 +58,6 @@ const items = [
 ]
 
 </script>
-
 <template>
     <div class="container mx-auto mt-2">
         <div class="w-full">

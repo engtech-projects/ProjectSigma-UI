@@ -34,7 +34,6 @@ const submitForm = async () => {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Generate Payslip" class="w-full" :loading="boardLoading">
         <div class="mt-5 mb-6 p-2">

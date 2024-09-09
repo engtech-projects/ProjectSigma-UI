@@ -10,7 +10,6 @@ const changePaginate = (newParams) => {
 const boardLoading = ref(false)
 
 </script>
-
 <template>
     <LayoutBoards title="Item Profile List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">

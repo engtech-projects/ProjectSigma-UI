@@ -1,7 +1,6 @@
 <script setup>
 
 </script>
-
 <template>
     <div class="w-full">
         <details class="group border border-gray-400 shadow-md rounded-lg p-2">

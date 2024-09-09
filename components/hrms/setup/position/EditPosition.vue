@@ -31,7 +31,6 @@ const editPos = async () => {
 }
 
 </script>
-
 <template>
     <LayoutEditBoards title="Edit Position Name" :loading="boardLoading">
         <div class="text-gray-500">

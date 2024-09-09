@@ -171,7 +171,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                         Accept: "application/json"
                     },
                     onResponse: ({ response }) => {
-                        this.uom = response._data.data.data
+                        this.uom = response._data.data
                     },
                 }
             )
@@ -344,7 +344,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async showItemProfile (id: number) {
             await useFetch(
-                "/api/item-profile/" + id,
+                "/api/item-profile/new-request/resource/" + id,
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",

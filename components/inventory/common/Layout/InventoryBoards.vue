@@ -22,7 +22,6 @@ const doAction = () => {
 }
 
 </script>
-
 <template>
     <div class="relative LayoutBoards">
         <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">

@@ -44,7 +44,6 @@ const setEmployee = (emp: any) => {
     cashadvances.cashadvance.employee_id = emp.id
 }
 </script>
-
 <template>
     <LayoutBoards title="Cash Advance Request Form" class="w-full" :loading="boardLoading">
         <div class="text-gray-500">

@@ -34,7 +34,6 @@ async function handleSubmit () {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Create New Category" :loading="boardLoading" class="w-full h-fit">
         <form @submit.prevent="handleSubmit">

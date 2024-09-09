@@ -54,42 +54,56 @@ export interface Employee {
 export const useEnumsStore = defineStore("enums", {
     state: () => ({
         positionEnum: {
+            isLoading: false,
+            isLoaded: false,
             list: [] as Position[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         departmentEnum: {
+            isLoading: false,
+            isLoaded: false,
             list: [] as Department[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         leaveEnum: {
+            isLoading: false,
+            isLoaded: false,
             list: [] as Leave[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         projectEnum: {
+            isLoading: false,
+            isLoaded: false,
             list: [] as Project[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         salarygradeEnum: {
+            isLoading: false,
+            isLoaded: false,
             list: [] as SalaryGrade[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         userEmployeeEnum: {
+            isLoading: false,
+            isLoaded: false,
             list: [] as UserEmployee[],
             params: {},
             successMessage: "",
             errorMessage: "",
         },
         allEmployeeEnum: {
+            isLoading: false,
+            isLoaded: false,
             list: [] as Employee[],
             params: {
                 filterType: "",
@@ -138,6 +152,7 @@ export const useEnumsStore = defineStore("enums", {
     },
     actions: {
         async getPositionEnums () {
+            this.positionEnum.isLoaded = true
             await useHRMSApiO(
                 "/api/position/list",
                 {
@@ -155,15 +170,16 @@ export const useEnumsStore = defineStore("enums", {
             )
         },
         async getDepartmentEnums () {
+            this.departmentEnum.isLoaded = true
             await useHRMSApiO(
                 "/api/department/list",
                 {
                     method: "GET",
                     params: this.departmentEnum.params,
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.departmentEnum.list = response._data.data ?? []
                         }
@@ -172,15 +188,16 @@ export const useEnumsStore = defineStore("enums", {
             )
         },
         async getLeaveEnums () {
+            this.leaveEnum.isLoaded = true
             await useHRMSApiO(
                 "/api/leave/list",
                 {
                     method: "GET",
                     params: this.leaveEnum.params,
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.leaveEnum.list = response._data.data ?? []
                         }
@@ -189,15 +206,16 @@ export const useEnumsStore = defineStore("enums", {
             )
         },
         async getProjectEnums () {
+            this.projectEnum.isLoaded = true
             await useHRMSApiO(
                 "/api/project-monitoring/list",
                 {
                     method: "GET",
                     params: this.projectEnum.params,
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.projectEnum.list = response._data.data ?? []
                         }
@@ -206,15 +224,16 @@ export const useEnumsStore = defineStore("enums", {
             )
         },
         async getSalarygradeEnums () {
+            this.salarygradeEnum.isLoaded = true
             await useHRMSApiO(
                 "/api/salary/list",
                 {
                     method: "GET",
                     params: this.salarygradeEnum.params,
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.salarygradeEnum.list = response._data.data ?? []
                         }
@@ -223,15 +242,16 @@ export const useEnumsStore = defineStore("enums", {
             )
         },
         async getUserEmployeeEnums () {
+            this.userEmployeeEnum.isLoaded = true
             await useHRMSApiO(
                 "/api/employee/users-list",
                 {
                     method: "GET",
                     params: this.userEmployeeEnum.params,
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.userEmployeeEnum.list = response._data.data ?? []
                         }
@@ -240,6 +260,7 @@ export const useEnumsStore = defineStore("enums", {
             )
         },
         async getEmployeeEnum () {
+            this.allEmployeeEnum.isLoaded = true
             await useHRMSApiO(
                 "/api/employee/list",
                 {
@@ -248,7 +269,7 @@ export const useEnumsStore = defineStore("enums", {
                     onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.allEmployeeEnum.list = response._data.data ?? []
                         }

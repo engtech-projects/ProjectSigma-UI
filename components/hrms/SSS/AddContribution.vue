@@ -35,7 +35,6 @@ const addRange = async () => {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="SSS" :loading="boardLoading">
         <div class="text-gray-500">
@@ -92,12 +91,12 @@ const addRange = async () => {
                             required
                         >
                         <label
-                            for="employerContrib"
+                            for="employerCompensation"
                             class="text-sm italic"
                         >Employer Compensation</label>
                         <input
-                            id="employerContrib"
-                            v-model="contribution.employer_contribution"
+                            id="employerCompensation"
+                            v-model="contribution.employer_compensation"
                             type="number"
                             class="w-full rounded-lg"
                             step=".01"
@@ -120,12 +119,12 @@ const addRange = async () => {
                             required
                         >
                         <label
-                            for="employeeContrib"
+                            for="employeeCompensation"
                             class="text-sm italic"
                         >Employee Compensation</label>
                         <input
-                            id="employeeContrib"
-                            v-model="contribution.employee_contribution"
+                            id="employeeCompensation"
+                            v-model="contribution.employee_compensation"
                             type="number"
                             class="w-full rounded-lg"
                             step=".01"

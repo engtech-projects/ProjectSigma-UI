@@ -40,7 +40,6 @@ function clearSearchQuery () {
     searchInput.value = ""
 }
 </script>
-
 <template>
     <div ref="forFocusOut" tabindex="51">
         <div

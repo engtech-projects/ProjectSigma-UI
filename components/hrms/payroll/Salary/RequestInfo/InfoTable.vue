@@ -65,13 +65,6 @@ const totalEWTCPayroll = () => {
     })
     return total.toFixed(2)
 }
-// const totalHDMFEmployerPayroll = () => {
-//     let total = 0
-//     props.payrollRequest.payroll_details.forEach((element: any) => {
-//         total += parseFloat(element.payroll_records.salary_deduction.hmdf.employer_compensation) ?? 0
-//     })
-//     return total.toFixed(2)
-// }
 const totalHDMFEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
@@ -79,13 +72,6 @@ const totalHDMFEmployeePayroll = () => {
     })
     return total.toFixed(2)
 }
-// const totalPHICEmployerPayroll = () => {
-//     let total = 0
-//     props.payrollRequest.payroll_details.forEach((element: any) => {
-//         total += parseFloat(element.payroll_records.salary_deduction.phic.employer_compensation) ?? 0
-//     })
-//     return total.toFixed(2)
-// }
 const totalPHICEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
@@ -93,17 +79,17 @@ const totalPHICEmployeePayroll = () => {
     })
     return total.toFixed(2)
 }
-// const totalSSSEmployerPayroll = () => {
-//     let total = 0
-//     props.payrollRequest.payroll_details.forEach((element: any) => {
-//         total += parseFloat(element.payroll_records.salary_deduction.sss.employer_compensation) ?? 0
-//     })
-//     return total.toFixed(2)
-// }
-const totalSSSEmployeePayroll = () => {
+const totalSSSContributionEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
         total += parseFloat(element.sss_employee_contribution) ?? 0
+    })
+    return total.toFixed(2)
+}
+const totalSSSCompensationEmployeePayroll = () => {
+    let total = 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.sss_employee_compensation) ?? 0
     })
     return total.toFixed(2)
 }
@@ -171,7 +157,6 @@ const totalRegHrsPayroll = () => {
     return total.toFixed(2)
 }
 </script>
-
 <template>
     <table class="w-full text-sm text-center text-gray-50 pb-4">
         <HrmsPayrollSalaryPayrollInfoTableHeader />
@@ -244,10 +229,10 @@ const totalRegHrsPayroll = () => {
                     {{ useFormatCurrency(totalGrossPayPayroll()) }}
                 </td>
                 <td>
-                    {{ " " }}
+                    {{ totalSSSContributionEmployeePayroll() ? useFormatCurrency(totalSSSContributionEmployeePayroll()) : "-" }}
                 </td>
                 <td>
-                    {{ totalSSSEmployeePayroll() ? useFormatCurrency(totalSSSEmployeePayroll()) : "-" }}
+                    {{ totalSSSCompensationEmployeePayroll() ? useFormatCurrency(totalSSSCompensationEmployeePayroll()) : "-" }}
                 </td>
                 <td>
                     {{ useFormatCurrency(totalPHICEmployeePayroll()) ?? "-" }}

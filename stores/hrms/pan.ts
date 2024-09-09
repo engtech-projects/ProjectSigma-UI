@@ -95,8 +95,8 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     body: requestData,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResources()
+                            this.successMessage = response._data.message
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -213,13 +213,12 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     method: "POST",
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResources()
+                            this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
-                        this.reloadResources()
                     },
                 }
             )

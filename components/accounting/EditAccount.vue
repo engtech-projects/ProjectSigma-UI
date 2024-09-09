@@ -30,7 +30,6 @@ function cancelEdit () {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="Edit Account" :loading="accountStore.isLoading" class="w-full border-t-8 rounded-lg border-teal-500">
         <form @submit.prevent="updateType">

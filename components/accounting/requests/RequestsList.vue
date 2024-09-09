@@ -52,7 +52,6 @@ const applyFilter = () => {
     transactionStore.getTransactions(filter.value !== "all" ? filter.value : null)
 }
 </script>
-
 <template>
     <div class="flex flex-col items-end gap-4">
         <div class="flex items-center gap-4 w-full">

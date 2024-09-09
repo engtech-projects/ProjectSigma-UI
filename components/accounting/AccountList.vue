@@ -45,7 +45,6 @@ const headers = [
 // const boardLoading = ref(false)
 
 </script>
-
 <template>
     <LayoutBoards title="List of Accounts" class="w-full" :loading="accountStore.isLoading">
         <div class="pb-2 text-gray-500">

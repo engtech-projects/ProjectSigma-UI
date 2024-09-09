@@ -56,7 +56,6 @@ const setDetail = (jobapp) => {
     }
 }
 </script>
-
 <template>
     <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
         <LayoutBoards title="Open Positions" class="w-full" :loading="forHiringRequests.isLoading">

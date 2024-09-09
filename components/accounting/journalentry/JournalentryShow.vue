@@ -7,7 +7,6 @@ onMounted(() => {
     details.value = transactionStore.transaction.transaction_details
 })
 </script>
-
 <template>
     <LayoutBoards title="Entry Details" class="w-full h-fit">
         <form>

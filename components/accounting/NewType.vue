@@ -57,7 +57,6 @@ function cancelEdit () {
     accountType.reset()
 }
 </script>
-
 <template>
     <LayoutBoards title="Create New Type" :loading="boardLoading" class="w-full h-fit">
         <form @submit.prevent="!accountType.isEdit?handleSubmit():updateType()">

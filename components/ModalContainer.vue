@@ -38,7 +38,6 @@ const hideModal = () => {
 }
 
 </script>
-
 <template>
     <div v-if="showModal" class="fixed left-0 bottom-0 w-screen h-screen bg-black/50 z-[9999] flex items-center justify-center">
         <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center z-50">

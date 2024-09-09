@@ -124,7 +124,6 @@ const accountsList = computed(() => {
 // })
 
 </script>
-
 <template>
     <LayoutBoards title="New Entry" :loading="boardLoading" class="w-full h-fit">
         <form @submit.prevent="handleSubmit">

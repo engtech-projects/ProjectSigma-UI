@@ -122,7 +122,6 @@ const detailsForSubmit = computed(() => {
     return arr
 })
 </script>
-
 <template>
     <LayoutBoards title="New Transaction" :loading="boardLoading" class="w-full h-fit">
         <form @submit.prevent="handleSubmit">

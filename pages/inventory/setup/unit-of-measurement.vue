@@ -13,7 +13,6 @@ const standard = async (type) => {
 }
 standard(false)
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

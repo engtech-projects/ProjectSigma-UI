@@ -58,7 +58,6 @@ const handleDocumentUpload = async (event) => {
     }
 }
 </script>
-
 <template>
     <div
         class="shadow-md p-4 bg-white mb-3 border border-gray-200 rounded-lg w-full md:w-1/2"

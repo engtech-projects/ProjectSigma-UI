@@ -55,7 +55,6 @@ const checkedStakeholderTypes = computed(() => {
 })
 
 </script>
-
 <template>
     <LayoutBoards title="Create New Stakeholder Group" :loading="isLoading" class="w-full">
         <form @submit.prevent="handleSubmit">

@@ -26,7 +26,6 @@ const edit = async () => {
 }
 
 </script>
-
 <template>
     <LayoutEditBoards title="Edit Leaves" :loading="boardLoading">
         <div class="text-gray-500 mt-2">

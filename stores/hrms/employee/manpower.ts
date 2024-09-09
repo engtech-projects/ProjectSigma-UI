@@ -149,6 +149,7 @@ export const useManpowerStore = defineStore("manpowers", {
             )
         },
         async getAllRequests () {
+            this.allRequests.isLoaded = true
             await useHRMSApi(
                 "/api/manpower/resource",
                 {
@@ -160,7 +161,6 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
@@ -173,6 +173,7 @@ export const useManpowerStore = defineStore("manpowers", {
             )
         },
         async getMyRequests () {
+            this.myRequests.isLoaded = true
             await useHRMSApi(
                 "/api/manpower/my-requests",
                 {
@@ -184,7 +185,6 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.myRequests.isLoading = false
                         if (response.ok) {
-                            this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
@@ -200,6 +200,7 @@ export const useManpowerStore = defineStore("manpowers", {
             )
         },
         async getMyApprovals () {
+            this.myApprovals.isLoaded = true
             await useHRMSApi(
                 "/api/manpower/my-approvals",
                 {
@@ -211,8 +212,7 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
-                            this.myApprovals.isLoaded = true
-                            this.myApprovals.list = response._data.data.data
+                            this.myApprovals.list = response._data.data
                             // this.myApprovals.pagination = {
                             //     first_page: response._data.data.first_page_url,
                             //     pages: response._data.data.links,
@@ -227,6 +227,7 @@ export const useManpowerStore = defineStore("manpowers", {
             )
         },
         async getManpowerHiringRequests () {
+            this.forHiringRequests.isLoaded = true
             await useHRMSApi(
                 "/api/manpower/for-hiring",
                 {
@@ -238,7 +239,6 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.forHiringRequests.isLoading = false
                         if (response.ok) {
-                            this.forHiringRequests.isLoaded = true
                             this.forHiringRequests.list = response._data.data.data
                             this.forHiringRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
@@ -329,8 +329,8 @@ export const useManpowerStore = defineStore("manpowers", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResources()
+                            this.successMessage = response._data.message
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -357,8 +357,8 @@ export const useManpowerStore = defineStore("manpowers", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResources()
+                            this.successMessage = response._data.message
                             return response._data
                         }
                     },
@@ -377,8 +377,8 @@ export const useManpowerStore = defineStore("manpowers", {
                 }
             )
             if (data.value) {
-                this.successMessage = data.value.message
                 this.reloadResources()
+                this.successMessage = data.value.message
                 return data
             } else if (error.value) {
                 this.errorMessage = error.value.data.message

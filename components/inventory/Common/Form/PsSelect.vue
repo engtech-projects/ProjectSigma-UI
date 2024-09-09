@@ -18,7 +18,6 @@ function selectOption (option: any) {
     model.value = option
 }
 </script>
-
 <template>
     <div v-if="props.selectList.length" class="PsSelectInput">
         <select

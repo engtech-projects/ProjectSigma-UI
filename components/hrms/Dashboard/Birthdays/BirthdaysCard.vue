@@ -1,19 +1,19 @@
 <script setup>
-defineProps({
-    employees: {
-        type: Array,
-        required: true,
-    },
+import { useDashboardStatisticsStore } from "@/stores/hrms/dashboardStats"
+const stats = useDashboardStatisticsStore()
+const { monthlyBirthdays } = storeToRefs(stats)
+onMounted(() => {
+    stats.getMonthlyBirthday()
 })
 </script>
 <template>
-    <LayoutBoards title="Birthdays This Month">
-        <div class="grid grid-cols-3 md:grid-cols-4 justify-start mt-4 gap-4 p-2 max-h-96 overflow-y-scroll">
-            <div v-if="employees.length <= 0">
+    <LayoutBoards title="Birthdays This Month" :loading="monthlyBirthdays.isLoading">
+        <div class="grid grid-cols-3 md:grid-cols-4 justify-start gap-4 p-2 max-h-96 overflow-y-scroll">
+            <div v-if="monthlyBirthdays.list.length <= 0">
                 No birthdays found this month.
             </div>
             <HrmsDashboardBirthdaysItem
-                v-for="employee, index in employees"
+                v-for="employee, index in monthlyBirthdays.list"
                 :key="index"
                 :name="employee.fullname_last"
                 :avatar="employee.profile_photo && employee.profile_photo.base64 !== 'File doesn\'t exists.' ? employee.profile_photo.base64 : '/avatarexample.png'"

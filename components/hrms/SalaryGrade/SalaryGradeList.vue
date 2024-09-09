@@ -31,7 +31,6 @@ function setDelete (sg: any) {
     modalStore.showModal()
 }
 </script>
-
 <template>
     <div>
         <LayoutBoards title="Salary Grade List" :loading="salaryGradeStore.isLoading" class="w-full h-fit">

@@ -45,7 +45,6 @@ async function handleSubmit () {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Create New Stakeholder" :loading="isLoading" class="w-full">
         <form @submit.prevent="handleSubmit">

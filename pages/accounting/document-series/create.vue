@@ -7,7 +7,6 @@ useHead({
     title: "New Document Series",
 })
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingDocumentNewSeries class="flex-1 max-w-[1000px]" />

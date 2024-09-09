@@ -43,7 +43,6 @@ function cancelEdit () {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="Edit Transaction Type" :loading="boardLoading" class="w-full h-fit border-t-8 rounded-lg border-teal-500">
         <form @submit.prevent="updateTransactionType">

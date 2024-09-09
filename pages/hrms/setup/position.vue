@@ -1,10 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { usePositionStore } from "@/stores/hrms/setup/position"
-import { useEnumsStore } from "@/stores/hrms/enum"
-const enums = useEnumsStore()
-enums.getDepartmentEnums()
-
 const positions = usePositionStore()
 const { isEdit } = storeToRefs(positions)
 positions.getPosition()
@@ -14,7 +10,6 @@ useHead({
 })
 
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

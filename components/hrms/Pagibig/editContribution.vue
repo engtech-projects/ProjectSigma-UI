@@ -34,7 +34,6 @@ const handleInput = (model, field) => {
     model[field] = Math.abs(model[field])
 }
 </script>
-
 <template>
     <LayoutEditBoards title="Edit Contribution" :loading="boardLoading">
         <div class="text-gray-500 mt-2">
@@ -109,21 +108,6 @@ const handleInput = (model, field) => {
                             min="0"
                             required
                         >
-
-                        <label
-                            for="emprComp"
-                            class="text-sm italic"
-                        >Employer Compensation</label>
-                        <input
-                            id="emprComp"
-                            v-model="contribution.employer_compensation"
-                            v-oninput="handleInput(contribution, 'employer_compensation')"
-                            type="number"
-                            class="w-full rounded-lg"
-                            step=".01"
-                            min="0"
-                            required
-                        >
                     </div>
                     <div>
                         <label
@@ -149,21 +133,6 @@ const handleInput = (model, field) => {
                             id="empMaxCont"
                             v-model="contribution.employee_maximum_contribution"
                             v-oninput="handleInput(contribution, 'employee_maximum_contribution')"
-                            type="number"
-                            class="w-full rounded-lg"
-                            step=".01"
-                            min="0"
-                        >
-
-                        <label
-                            for="empConp"
-                            class="text-sm italic"
-                        >Employee Compensation</label>
-                        <input
-                            id="empConp"
-                            v-model="contribution.employee_compensation"
-                            v-oninput="handleInput(contribution, 'employee_compensation')"
-                            employee_maximum_contribution
                             type="number"
                             class="w-full rounded-lg"
                             step=".01"

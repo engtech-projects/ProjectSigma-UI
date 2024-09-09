@@ -60,7 +60,6 @@ const handleResumeFileUpload = (event) => {
 }
 
 </script>
-
 <template>
     <form class="p-2" @submit.prevent="submitForm">
         <div class="grid md:grid-cols-3 md:gap-6">

@@ -36,7 +36,6 @@ const addDepartment = async () => {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="Department Name" :loading="boardLoading">
         <div class="text-gray-500">

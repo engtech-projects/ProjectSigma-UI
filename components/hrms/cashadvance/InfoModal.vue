@@ -228,7 +228,6 @@ async function nowMakePayment (id) {
                     :request-id="data.id"
                     @approve="approvedRequest"
                     @deny="denyRequest"
-                    @clear="clearRemarks"
                 />
             </div>
         </template>

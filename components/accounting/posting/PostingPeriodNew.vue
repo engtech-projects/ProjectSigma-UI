@@ -33,7 +33,6 @@ async function handleSubmit () {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Create New Posting Period" :loading="isLoading" class="w-full">
         <form @submit.prevent="handleSubmit">

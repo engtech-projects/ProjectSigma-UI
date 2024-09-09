@@ -12,9 +12,11 @@ defineProps({
 })
 const enums = useEnumsStore()
 const { allEmployeeEnum } = storeToRefs(enums)
-if (allEmployeeEnum.value.list?.length <= 0) {
-    enums.getEmployeeEnum()
-}
+onMounted(() => {
+    if (!allEmployeeEnum.value.isLoaded) {
+        enums.getEmployeeEnum()
+    }
+})
 const model = defineModel({ required: false, type: Number, default: null })
 const employeeSearch = useEmployeeSearch()
 employeeSearch.searchEmployees()

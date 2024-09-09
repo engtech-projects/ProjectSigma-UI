@@ -17,10 +17,6 @@ const { remarks } = storeToRefs(manpowers)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
-const closeViewModal = () => {
-    showModal.value = false
-}
-
 const approvedRequest = async (id) => {
     try {
         boardLoading.value = true
@@ -64,7 +60,7 @@ const denyRequest = async (id) => {
         <template #body>
             <div class="grid gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-4xl">Application Information</span>
+                    <span class="text-gray-900 text-3xl">Application Information</span>
                 </div>
             </div>
             <div class="grid gap-2 md:justify-between">
@@ -80,46 +76,43 @@ const denyRequest = async (id) => {
                     <span class="text-teal-600 text-light"> Requested Required Date: </span> {{ data.date_required }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> employment_type </span> {{ data.employment_type }}
+                    <span class="text-teal-600 text-light"> Employment Type: </span> {{ data.employment_type }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> brief_description </span> {{ data.brief_description }}
-                </div>
-                <!-- <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> job_description_attachment </span> {{ data.job_description_attachment }}
-                </div> -->
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> nature_of_request </span> {{ data.nature_of_request }}
+                    <span class="text-teal-600 text-light"> Brief Description: </span> {{ data.brief_description }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> age_range </span> {{ data.age_range }}
+                    <span class="text-teal-600 text-light"> Nature of Request: </span> {{ data.nature_of_request }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> status </span> {{ data.status }}
+                    <span class="text-teal-600 text-light"> Age Range: </span> {{ data.age_range }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> gender </span> {{ data.gender }}
+                    <span class="text-teal-600 text-light"> Status: </span> {{ data.status }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> educational_requirement </span> {{ data.educational_requirement }}
+                    <span class="text-teal-600 text-light"> Gender: </span> {{ data.gender }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> preferred_qualifications </span> {{ data.preferred_qualifications }}
+                    <span class="text-teal-600 text-light"> Educational Requirements: </span> {{ data.educational_requirement }}
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light"> Preferred Qualifications: </span> {{ data.preferred_qualifications }}
                 </div>
                 <!-- <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light"> approvals </span> {{ data.approvals }}
                 </div> -->
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> remarks </span> {{ data.remarks }}
+                    <span class="text-teal-600 text-light">Remarks: </span> {{ data.remarks }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> request_status </span> {{ data.request_status }}
+                    <span class="text-teal-600 text-light"> Request Status: </span> {{ data.request_status }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> charged_to </span> {{ data.charged_to }}
+                    <span class="text-teal-600 text-light"> Requesting Department </span> {{ data.requesting_department_name }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> breakdown_details </span> {{ data.breakdown_details }}
+                    <span class="text-teal-600 text-light"> Breakdown Details: </span> {{ data.breakdown_details }}
                 </div>
             </div>
             <div class="w-full">
@@ -127,13 +120,12 @@ const denyRequest = async (id) => {
             </div>
         </template>
         <template #footer>
-            <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
                 <HrmsCommonApprovalDenyButton
                     v-model:deny-remarks="remarks"
                     :request-id="data.id"
                     @approve="approvedRequest"
                     @deny="denyRequest"
-                    @clear="clearRemarks"
                 />
             </div>
         </template>

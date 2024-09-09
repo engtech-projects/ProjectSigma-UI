@@ -18,7 +18,6 @@ const headers = [
 ]
 
 </script>
-
 <template>
     <LayoutBoards title="List of Account Types" class="w-full" :loading="accountTypeStore.isLoading">
         <div class="pb-2 text-gray-500">

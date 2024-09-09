@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 
+const { data: userData } = useAuth()
 defineProps({
     data: {
         type: Object,
         required: true,
-    },
-    showApprovals: {
-        type: Boolean,
-        required: false,
-        default: false,
     },
 })
 
@@ -29,7 +25,7 @@ const approvedRequest = async (id: any) => {
         const approveData = await genpayrollstore.approveApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: genpayrollstore.approval.successMessage ?? approveData
+            text: approveData.message ?? genpayrollstore.approval.successMessage
         })
         closeViewModal()
     } catch (error) {
@@ -41,10 +37,11 @@ const approvedRequest = async (id: any) => {
         boardLoading.value = false
     }
 }
+const denyRemarks = ref("")
 const denyRequest = async (id : any) => {
     try {
         boardLoading.value = true
-        await genpayrollstore.denyApprovalForm(id)
+        await genpayrollstore.denyApprovalForm(id, denyRemarks.value)
         snackbar.add({
             type: "success",
             text: "Successfully Denied"
@@ -61,7 +58,6 @@ const denyRequest = async (id : any) => {
 }
 
 </script>
-
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Payroll">
         <template #body>
@@ -96,14 +92,13 @@ const denyRequest = async (id : any) => {
             </div>
         </template>
         <template #footer>
-            <div v-if="showApprovals" class="flex gap-2 p-2 justify-end relative">
-                <button
-                    class="bg-green-600 p-2 hover:bg-green-900 text-white round-sm"
-                    @click="approvedRequest(data.id)"
-                >
-                    Approve Request
-                </button>
-                <HrmsCommonApprovalDenyButton :deny-id="data.id" @deny="denyRequest" />
+            <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+                <HrmsCommonApprovalDenyButton
+                    v-model:deny-remarks="denyRemarks"
+                    :request-id="data.id"
+                    @approve="approvedRequest"
+                    @deny="denyRequest"
+                />
             </div>
         </template>
     </PsModal>
