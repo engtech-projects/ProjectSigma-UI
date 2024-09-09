@@ -58,7 +58,7 @@ async function handleSubmit () {
         //     debit: transactionStore.transaction.amount,
         //     credit: 0
         // }])
-        transactionStore.transaction.details = JSON.stringify(details.value)
+        transactionStore.transaction.details = JSON.stringify(detailsForSubmit.value)
         transactionStore.transaction.description = "No description."
         await transactionStore.createTransaction()
         if (transactionStore.errorMessage !== "") {
@@ -104,21 +104,23 @@ const accountsList = computed(() => {
     // return []
 })
 
-// const detailsForSubmit = computed(() => {
-//     const arr = ref([])
-//     const item = ref({
-//         stakeholder_id: d.stakeholder_id,
-//         account_id: d.account_id,
-//         debit: d.debit,
-//         credit: d.credit
-//     })
-//     details.value.forEach((d) => {
-//         arr.value.push({
-
-//         })
-//     })
-//     return arr
-// })
+const detailsForSubmit = computed(() => {
+    const arr = []
+    const item = ref({
+        stakeholder_id: null,
+        account_id: null,
+        debit: null,
+        credit: null
+    })
+    details.value.forEach((d:any) => {
+        item.value.stakeholder_id = d.stakeholder_id
+        item.value.account_id = d.account_id
+        item.value.debit = d.debit
+        item.value.credit = d.credit
+        arr.push(item)
+    })
+    return arr
+})
 </script>
 
 <template>

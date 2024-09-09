@@ -2,7 +2,7 @@
 import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
 import { useTransactionStore } from "~/stores/accounting/transaction"
 // import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-// import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
+import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
 import { useAccountStore } from "~/stores/accounting/account"
 
 const accountStore = useAccountStore()
@@ -11,34 +11,34 @@ await accountStore.getAccounts()
 const transactionTypeStore = useTransactionTypeStore()
 const transactionStore = useTransactionStore()
 // const stakeholderStore = useStakeholderStore()
-// const stakeholderGroupStore = useStakeholderGroupStore()
+const stakeholderGroupStore = useStakeholderGroupStore()
 const boardLoading = ref(false)
 const snackbar = useSnackbar()
 const removeDetail = (detail) => {
-    transactionStore.transaction.transaction_details = transactionStore.transaction.transaction_details.filter(d => d !== detail)
+    details.value = details.value.filter(d => d !== detail)
 }
-// const detail = ref({
-//     transaction_detail_id: null,
-//     stakeholder_group_id: null,
-//     stakeholder_group_name: null,
-//     stakeholder_id: null,
-//     debit: 0,
-//     credit: 0
-// })
+const detail = ref({
+    transaction_detail_id: null,
+    stakeholder_group_id: null,
+    stakeholder_group_name: null,
+    stakeholder_id: null,
+    debit: 0,
+    credit: 0
+})
 const details = ref([])
-// const addDetail = () => {
-//     detail.value.stakeholder_group_name = stakeholderGroupStore.list.filter(s => s.stakeholder_group_id === detail.value.stakeholder_group_id)[0].stakeholder_group_name
-//     detail.value.account_name = accountStore.list.filter(s => s.account_id === detail.value.account_id)[0].account_name
-//     details.value.push(JSON.parse(JSON.stringify(detail.value)))
-//     detail.value = {
-//         transaction_detail_id: null,
-//         stakeholder_group_id: null,
-//         stakeholder_group_name: null,
-//         debit: 0,
-//         credit: 0
-//     }
-//     console.log(details.value)
-// }
+const addDetail = () => {
+    detail.value.stakeholder_group_name = stakeholderGroupStore.list.filter(s => s.stakeholder_group_id === detail.value.stakeholder_group_id)[0].stakeholder_group_name
+    detail.value.account_name = accountStore.list.filter(s => s.account_id === detail.value.account_id)[0].account_name
+    details.value.push(JSON.parse(JSON.stringify(detail.value)))
+    detail.value = {
+        transaction_detail_id: null,
+        stakeholder_group_id: null,
+        stakeholder_group_name: null,
+        debit: 0,
+        credit: 0
+    }
+    console.log(details.value)
+}
 
 async function handleSubmit () {
     try {
@@ -81,13 +81,13 @@ function select (val:any) {
 // function selectStakeholder (val:any) {
 //     transactionStore.transaction.stakeholder_id = val.stakeholder_id
 // }
-// const accountsList = computed(() => {
-//     return accountStore.list
-//     if (transactionTypeStore.transactionType.book) {
-//         return transactionTypeStore.transactionType.book.accounts
-//     }
-//     return []
-// })
+const accountsList = computed(() => {
+    return accountStore.list
+    // if (transactionTypeStore.transactionType.book) {
+    //     return transactionTypeStore.transactionType.book.accounts
+    // }
+    // return []
+})
 
 onMounted(() => {
     details.value = transactionStore.transaction.transaction_details
@@ -170,7 +170,7 @@ onMounted(() => {
                 <!-- <span class="font-bold text-gray-700">
                     Transaction Details
                 </span> -->
-                <!-- <form action="" @submit.prevent="addDetail">
+                <form action="" @submit.prevent="addDetail">
                     <div class="flex gap-2">
                         <div class="flex flex-col gap-1 flex-2">
                             <label for="" class="text-xs italic">
@@ -234,8 +234,8 @@ onMounted(() => {
                             Add
                         </button>
                     </div>
-                </form> -->
-                <table class="table-auto boder w-full">
+                </form>
+                <table v-if="details.length > 0" class="table-auto boder w-full">
                     <thead class="bg-slate-100">
                         <th class="text-left px-2 border-y py-2 uppercase">
                             Account
@@ -252,6 +252,11 @@ onMounted(() => {
                         <th class="text-left px-2 border-y py-2 uppercase" />
                     </thead>
                     <tbody>
+                        <tr v-if="details.length === 0" class="bg-gray-100">
+                            <td class="p-2" colspan="5">
+                                No details yet.
+                            </td>
+                        </tr>
                         <tr v-for="d,i in details" :key="i" class="border-y">
                             <td class="p-2">
                                 {{ d.account_name }}
@@ -291,7 +296,7 @@ onMounted(() => {
                 </div> -->
             </div>
 
-            <div class="flex justify-end gap-4">
+            <div class="flex justify-end gap-4 mt-6">
                 <NuxtLink
                     to="/accounting/journal-entry"
                     class="flex-1 text-white p-2 rounded bg-slate-600 content-center mt-5 text-center"
