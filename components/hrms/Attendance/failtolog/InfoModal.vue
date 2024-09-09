@@ -38,9 +38,6 @@ const approvedRequest = async (id) => {
         boardLoading.value = false
     }
 }
-const clearRemarks = () => {
-    remarks.value = ""
-}
 const denyRequest = async (id) => {
     try {
         boardLoading.value = true
@@ -96,7 +93,6 @@ const denyRequest = async (id) => {
                     :request-id="data.id"
                     @approve="approvedRequest"
                     @deny="denyRequest"
-                    @clear="clearRemarks"
                 />
             </div>
         </template>

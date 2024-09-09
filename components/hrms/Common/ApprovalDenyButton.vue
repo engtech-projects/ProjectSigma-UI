@@ -14,7 +14,7 @@ const denyRequest = () => {
     emit("deny", props.requestId)
 }
 const clearRemarks = () => {
-    emit("clear")
+    denyRemarks.value = ""
 }
 </script>
 <template>

@@ -38,9 +38,6 @@ const approvedRequest = async (id: any) => {
     }
 }
 const denyRemarks = ref("")
-const clearRemarks = () => {
-    denyRemarks.value = ""
-}
 const denyRequest = async (id : any) => {
     try {
         boardLoading.value = true
@@ -101,7 +98,6 @@ const denyRequest = async (id : any) => {
                     :request-id="data.id"
                     @approve="approvedRequest"
                     @deny="denyRequest"
-                    @clear="clearRemarks"
                 />
             </div>
         </template>

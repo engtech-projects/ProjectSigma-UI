@@ -35,9 +35,6 @@ const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const { remarks, uom } = storeToRefs(profileStore)
-const clearRemarks = () => {
-    remarks.value = ""
-}
 
 const getType = (id:number) => {
     if (uom.value.length >= 1) {
@@ -193,13 +190,12 @@ const denyRequest = async (id:any) => {
                 <LayoutApprovalsListView :approvals="dataApproval" />
             </div>
             <div id="footer">
-                <div v-if="dataApproval.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end relative">
+                <div v-if="dataApproval.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
                     <HrmsCommonApprovalDenyButton
                         v-model:deny-remarks="remarks"
                         :request-id="dataApproval.id"
                         @approve="approvedRequest"
                         @deny="denyRequest"
-                        @clear="clearRemarks"
                     />
                 </div>
             </div>
