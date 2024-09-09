@@ -79,7 +79,7 @@ useHead({
                     <HrmsCommonTabsTabContainer
                         id="payrollRecord"
                     >
-                        <HrmsPayrollPayrollrecordTable />
+                        <HrmsPayrollSalaryPayrollRecords />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
                         id="generatePayslip"
