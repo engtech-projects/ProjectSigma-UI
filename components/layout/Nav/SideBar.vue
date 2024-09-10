@@ -98,7 +98,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Generate QR Code"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_attendance_qr_login,
                     ])"
