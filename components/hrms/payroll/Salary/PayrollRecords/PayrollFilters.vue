@@ -5,7 +5,6 @@ import { usePayrollStore } from "@/stores/hrms/payroll/payroll"
 const snackbar = useSnackbar()
 const payrollStore = usePayrollStore()
 const { allRecords } = storeToRefs(payrollStore)
-const grouptype = ref()
 const getDatas = async () => {
     try {
         await payrollStore.getAllRecords()
@@ -32,20 +31,20 @@ const getDatas = async () => {
             :required="true"
         />
         <HrmsCommonDepartmentProjectSelector
-            v-model:select-type="grouptype"
+            v-model:select-type="allRecords.params.charging_type"
             v-model:department-id="allRecords.params.departmentId"
             v-model:project-id="allRecords.params.projectId"
             title="Charging"
             class="p-2"
         />
         <LayoutFormPsSelect
-            v-model="allRecords.params.payrollType"
+            v-model="allRecords.params.payroll_type"
             :options-list="['all',...PAYROLL_TYPE]"
             title="Payroll Type"
             class="p-2"
         />
         <LayoutFormPsSelect
-            v-model="allRecords.params.releaseType"
+            v-model="allRecords.params.release_type"
             :options-list="['all',...RELEASE_TYPE]"
             title="Release Type"
             class="p-2"
