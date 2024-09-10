@@ -16,7 +16,9 @@ const { remarks } = storeToRefs(manpowers)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
-
+const closeViewModal = () => {
+    showModal.value = false
+}
 const approvedRequest = async (id) => {
     try {
         boardLoading.value = true

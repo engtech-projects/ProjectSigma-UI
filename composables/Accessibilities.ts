@@ -81,8 +81,7 @@ export enum AccessibilityTypes {
     hrms_payroll_salary_generatepayroll_allrequests = "hrms:payroll_salary_generate payroll_all request",
     hrms_payroll_salary_generatepayroll_myapprovals = "hrms:payroll_salary_generate payroll_my approvals",
     hrms_payroll_salary_disburserequest = "hrms:payroll_salary_disbursement request",
-    hrms_payroll_generate_payroll = "hrms:payroll_generate payroll",
-    hrms_payroll_payroll_record = "hrms:payroll_payroll record",
+    hrms_payroll_salary_payrollrecord = "hrms:payroll_salary_payroll records",
     hrms_payroll_13thmonth = "hrms:payroll_13th month",
     hrms_payroll_allowance = "hrms:payroll_allowance",
     // SCHEDULE

@@ -28,7 +28,9 @@ const newPayment = ref({
 const headers = [
     { name: "Employee Name", id: "employee.fullname_first" },
     { name: "Cash Advance Purpose", id: "cashadvance.purpose" },
-    { name: "Total Paid", id: "cashadvance.total_paid" },
+    { name: "Mode of Payment", id: "payment_type" },
+    { name: "Date Paid", id: "date_paid_human" },
+    { name: "Total Paid", id: "amount_paid" },
 ]
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
