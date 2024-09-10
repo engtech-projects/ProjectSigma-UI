@@ -95,6 +95,14 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             params: {},
             pagination: {},
         },
+        paymentData: {
+            cashadvance_id: null,
+            data: {
+                paymentAmount: 0,
+            },
+            successMessage: "",
+            errorMessage: "",
+        },
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -143,7 +151,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 "/api/cash-advance/resource",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.cashAdvanceList.params,
                     onRequest: () => {
                         this.cashAdvanceList.isLoading = true
                     },
@@ -152,7 +160,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         if (response.ok) {
                             this.cashAdvanceList.list = response._data.data.data
                             this.cashAdvanceList.isLoaded = true
-                            this.pagination = {
+                            this.cashAdvanceList.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
                                 last_page: response._data.data.last_page_url,
@@ -398,6 +406,27 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                             // this.getManpower()
                             // this.getMyRequests()
                             return response._data
+                        }
+                    },
+                }
+            )
+        },
+        async submitPayment (id: any) {
+            return await useHRMSApiO(
+                "/api/cash-advance/manual-payment/" + id,
+                {
+                    method: "POST",
+                    body: this.paymentData.data,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.reloadResources()
+                            this.paymentData.successMessage = response._data.message
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
                         }
                     },
                 }

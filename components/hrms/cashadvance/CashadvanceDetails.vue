@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { useOtherDeductionStore } from "@/stores/hrms/loansAndCash/otherDeduction"
-const otherDeductionStore = useOtherDeductionStore()
-const { paymentData } = storeToRefs(otherDeductionStore)
+import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
+const cashAdvanceStore = useCashadvanceStore()
+const { remarks, paymentData } = storeToRefs(cashAdvanceStore)
+const { data: userData } = useAuth()
 const props = defineProps({
     data: {
         type: Object,
@@ -11,9 +12,10 @@ const props = defineProps({
 const emit = defineEmits(["closeModal"])
 const snackbar = useSnackbar()
 const showPaymentForm = ref(false)
+const boardLoading = ref(false)
 const submitPayment = async () => {
     try {
-        await otherDeductionStore.submitPayment(props.data.id)
+        await cashAdvanceStore.submitPayment(props.data.id)
         snackbar.add({
             type: "success",
             text: paymentData.value.successMessage
@@ -24,6 +26,39 @@ const submitPayment = async () => {
             type: "error",
             text: error
         })
+    }
+}
+const approvedRequest = async (id: String) => {
+    try {
+        await cashAdvanceStore.approveApprovalForm(id)
+        snackbar.add({
+            type: "success",
+            text: cashAdvanceStore.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    } finally {
+        boardLoading.value = false
+    }
+}
+
+const denyRequest = async (id: String) => {
+    try {
+        await cashAdvanceStore.denyApprovalForm(id)
+        snackbar.add({
+            type: "success",
+            text: cashAdvanceStore.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    } finally {
+        boardLoading.value = false
     }
 }
 const cancelPayment = () => {
@@ -38,44 +73,56 @@ const showMakePayment = () => {
     <div v-if="!showPaymentForm" class="flex flex-col gap-2">
         <div class="flex gap-4">
             <div class="flex flex-1 flex-col gap-1">
-                <label for="" class="text-gray-500 text-sm">Employee Name</label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.employee.fullname_first" disabled>
+                <label class="font-semibold text-gray-700">Employee Name: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.employee.fullname_first || ''" disabled>
             </div>
             <div class="flex flex-1 flex-col gap-1">
-                <label for="" class="text-gray-500 text-sm">Date Filed</label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.date_filed" disabled>
+                <label class="font-semibold text-gray-700">Project: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.project ? data.project.project_code : 'N/A' " disabled>
             </div>
             <div class="flex flex-1 flex-col gap-1">
-                <label for="" class="text-gray-500 text-sm">Deduction Name</label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.otherdeduction_name" disabled>
+                <label class="font-semibold text-gray-700">Department: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.department ? data.department.department_name : 'N/A' " disabled>
             </div>
         </div>
         <div class="flex gap-4">
             <div class="flex flex-1 flex-col gap-1">
-                <label for="" class="text-gray-500 text-sm">Total Amount</label>
+                <label class="font-semibold text-gray-700">Cash Advance Amount: </label>
                 <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.amount)" disabled>
             </div>
             <div class="flex flex-1 flex-col gap-1">
-                <label for="" class="text-gray-500 text-sm">Payroll Auto Deduction Start</label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.deduction_date_start" disabled>
+                <label class="font-semibold text-gray-700">Terms: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.terms_of_payment" disabled>
             </div>
             <div class="flex flex-1 flex-col gap-1">
-                <label for="" class="text-gray-500 text-sm">Monthly Deduction</label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.installment_deduction)" disabled>
+                <label class="font-semibold text-gray-700">Purpose/Reason(s): </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.purpose" disabled>
             </div>
         </div>
         <div class="flex gap-4">
             <div class="flex flex-1 flex-col gap-1">
-                <label for="" class="text-gray-500 text-sm">Total Paid</label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.total_paid)" disabled>
+                <label class="font-semibold text-gray-700">Installment Deduction: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.installment_deduction)" disabled>
             </div>
             <div class="flex flex-1 flex-col gap-1">
-                <label for="" class="text-gray-500 text-sm">Remaining Balance</label>
+                <label class="font-semibold text-gray-700">Deduction Date start: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.deduction_date_start" disabled>
+            </div>
+            <div class="flex flex-1 flex-col gap-1">
+                <label class="font-semibold text-gray-700">Balance: </label>
                 <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.remaining_balance)" disabled>
             </div>
         </div>
         <div class="w-full">
             <LayoutApprovalsListView :approvals="data.approvals" />
+        </div>
+        <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end">
+            <HrmsCommonApprovalDenyButton
+                v-model:deny-remarks="remarks"
+                :request-id="data.id"
+                @approve="approvedRequest"
+                @deny="denyRequest"
+            />
         </div>
         <div v-if="data.request_status === 'Approved'" class="flex flex-col mt-6">
             <div class="flex items-center justify-between border-b pb-2">
@@ -99,7 +146,6 @@ const showMakePayment = () => {
                     <th class="py-2">
                         Posting Status
                     </th>
-                    <!-- <th>Actions</th> -->
                 </thead>
                 <tbody>
                     <tr v-for="payment in data.payments" :key="payment.id" class="border">
@@ -115,14 +161,6 @@ const showMakePayment = () => {
                         <td class="px-2 py-1 text-slate-600">
                             {{ payment.posting_status }}
                         </td>
-                        <!-- <td class="py-2">
-                            <div class="flex gap-3 items-center">
-                                <NuxtLink :to="'/hrms/setup/hmo/edit/' + 1">
-                                    <Icon name="iconoir:edit" class="icon bg-green-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-green-500" />
-                                </NuxtLink>
-                                <Icon name="iconoir:trash" class="icon bg-red-400 rounded h-7 w-7 p-1 cursor-pointer hover:bg-red-500" />
-                            </div>
-                        </td> -->
                     </tr>
                 </tbody>
             </table>

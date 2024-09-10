@@ -37,7 +37,6 @@ const addDetail = () => {
         debit: 0,
         credit: 0
     }
-    console.log(details.value)
 }
 
 async function handleSubmit () {
