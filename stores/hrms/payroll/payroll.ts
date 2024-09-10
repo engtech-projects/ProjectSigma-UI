@@ -46,6 +46,9 @@ export const usePayrollStore = defineStore("ApprovedPayrolls", {
                     onRequest: () => {
                         this.allRecords.isLoading = true
                     },
+                    onResponseError: ({ response } : any) => {
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
                         this.allRecords.isLoading = false
                         if (response.ok) {
