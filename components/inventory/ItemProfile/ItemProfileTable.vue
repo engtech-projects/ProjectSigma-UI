@@ -156,7 +156,6 @@ const showEditItemProfile = async (index: number) => {
 const hideEditItem = async (index: number) => {
     const getItem = await newItemProfile.value[index]
     getItem.is_edit = false
-    profileStore.reset()
 }
 const doGetSubItemGroup = async (id: number) => {
     await profileStore.getSubItemGroups(id)

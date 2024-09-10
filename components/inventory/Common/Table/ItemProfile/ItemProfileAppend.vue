@@ -72,7 +72,7 @@ const doSubItemChange = (index:number) => {
             </td>
             <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
                 <div class="flex flex-row">
-                    <InventoryCommonFormPsTextInput v-model="itemProfile.volume" title="Volume" add-class="w-[120px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" />
+                    <InventoryCommonFormPsNumberInput v-model="itemProfile.volume" title="Volume" add-class="w-[120px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" />
                     <InventoryCommonFormPsSelect v-model="itemProfile.volume_uom" title="Type" add-class="w-[80px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block" :select-list="uomTypes.volumeType" />
                 </div>
             </td>
