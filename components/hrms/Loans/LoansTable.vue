@@ -1,34 +1,22 @@
 <script setup>
 import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
-const utils = useUtilities()
 const loansStore = useLoansStore()
-const { getParams, allList } = storeToRefs(loansStore)
+const { allList } = storeToRefs(loansStore)
 onMounted(() => {
     if (!allList.value.isLoaded) {
         loansStore.getAllList()
     }
 })
 const headers = [
-    { text: "Employee Name", value: "fullName" },
+    { text: "Employee Name", value: "employee.fullname_first" },
     { text: "Date Filed", value: "date_filed" },
     { text: "Amount Loaned", value: "amount" },
     { text: "Deduction", value: "installment_deduction" },
     { text: "Action", value: "actions" },
 ]
-const employeeList = computed(() => {
-    const list = []
-    if (loansStore.allList.data) {
-        for (const i in loansStore.allList.data.data) {
-            const item = loansStore.allList.data.data[i]
-            item.fullName = item.employee.family_name + ", " + item.employee.first_name
-            item.date_filed = utils.value.dateToString(new Date(item.created_at))
-            list.push(item)
-        }
-    }
-    return list
-})
+
 const changePaginate = (newParams) => {
-    getParams.value.params.page = newParams.page ?? ""
+    allList.value.params.page = newParams.page ?? ""
 }
 
 const infoModalData = ref({})
@@ -40,24 +28,26 @@ const showInformation = (data) => {
 }
 </script>
 <template>
-    <LayoutLoadingContainer>
+    <LayoutLoadingContainer :loading="allList.isLoading">
         <div class="w-full">
-            <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
+            <HrmsCommonSearchEmployeeSelector v-model="allList.params.employee_id" />
         </div>
         <div class="w-full">
             <div class="mt-5 mb-6 ">
                 <EasyDataTable
-                    buttons-pagination
                     class="mt-5"
-                    table-class-name="customize-table"
                     :headers="headers"
-                    :items="employeeList"
+                    :items="allList.list"
                     :hide-footer="true"
                 >
                     <template #item-actions="item">
                         <div class="flex flex-row gap-1">
                             <button @click="showInformation(item)">
-                                <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
+                                <Icon
+                                    name="material-symbols:visibility-rounded"
+                                    color="white"
+                                    class="bg-teal-700 rounded h-8 w-8 p-1"
+                                />
                             </button>
                         </div>
                     </template>
@@ -65,8 +55,7 @@ const showInformation = (data) => {
             </div>
             <div class="flex justify-center mx-auto">
                 <CustomPagination
-                    v-if="employeeList.length"
-                    :links="loansStore.pagination"
+                    :links="allList.pagination"
                     @change-params="changePaginate"
                 />
             </div>
