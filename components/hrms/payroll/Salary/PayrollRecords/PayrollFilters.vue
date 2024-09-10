@@ -32,8 +32,8 @@ const getDatas = async () => {
         />
         <HrmsCommonDepartmentProjectSelector
             v-model:select-type="allRecords.params.charging_type"
-            v-model:department-id="allRecords.params.departmentId"
-            v-model:project-id="allRecords.params.projectId"
+            v-model:department-id="allRecords.params.department_id"
+            v-model:project-id="allRecords.params.project_id"
             title="Charging"
             class="p-2"
         />
