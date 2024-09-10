@@ -284,7 +284,7 @@ const doGetSubItemGroup = async (id: number) => {
         <div class="flex w-full">
             <div class="pt-5 w-full mb-2 rounded-lg p-4 bg-slate-100 ">
                 <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white"> Approval:</label>
-                <HrmsSetupApprovalsList
+                <InventorySetupApprovalsList
                     v-for="(approv, apr) in formItemProfile.approvals"
                     :key="'hrmsetupapprovallist' + apr"
                     v-model="formItemProfile.approvals[apr]"
