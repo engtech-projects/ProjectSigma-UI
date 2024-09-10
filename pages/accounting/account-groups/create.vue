@@ -8,7 +8,6 @@ useHead({
 })
 navigateTo("/accounting/account-groups")
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingAccountGroupNew class="flex-1" />

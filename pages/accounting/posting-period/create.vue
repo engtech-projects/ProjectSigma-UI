@@ -8,7 +8,6 @@ useHead({
 })
 navigateTo("/accounting/posting-period")
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingPostingPeriodNew class="flex-1 max-w-[1000px]" />

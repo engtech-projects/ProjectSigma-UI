@@ -3,16 +3,11 @@ import { storeToRefs } from "pinia"
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
 const mains = useItemProfileStore()
-const { list: List, getParams, pagination, errorMessage, successMessage } = storeToRefs(mains)
-
+const { allRequests: List, getParams, pagination, errorMessage, successMessage } = storeToRefs(mains)
 const boardLoading = ref(false)
-
 const headers = [
-    { name: "Requesting Office", id: "department.department_name" },
-    { name: "Destination", id: "destination" },
-    { name: "Purpose", id: "purpose_of_travel" },
-    { name: "Duration", id: "duration_of_travel" },
-    { name: "Remarks", id: "remarks" },
+    { name: "Item Summary", id: "profile_summary" },
+    { name: "Active Status", id: "request_status" },
 ]
 const actions = {
     showTable: true,
@@ -23,22 +18,20 @@ const actions = {
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
-    infoModalData.value = data
-    showInfoModal.value = true
+    navigateTo("item-details?key=" + data.id)
 }
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }
 </script>
-
 <template>
     <LayoutBoards class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 p-2">
-            <LayoutPsTable
+            <InventoryCommonLayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="List ?? []"
+                :datas="List.list ?? []"
                 @show-table="showInformation"
             />
         </div>
@@ -55,7 +48,7 @@ const changePaginate = (newParams) => {
         >
             {{ successMessage }}
         </p>
-        <HrmsTravelOrderInfoModal
+        <InventoryItemProfileInfoModal
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
         />

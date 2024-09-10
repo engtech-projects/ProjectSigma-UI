@@ -7,7 +7,6 @@ useHead({
     title: "New Book",
 })
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingStakeholderNew class="flex-1 max-w-[1000px]" />

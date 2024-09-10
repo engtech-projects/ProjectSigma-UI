@@ -11,35 +11,32 @@ export const REQ_STATUS = [
     PENDING,
     DENIED,
 ]
-export interface SubItemGroup {
-    name: string | null,
-}
-export interface ItemGroup {
-    name: string,
-}
+
 export interface NewItemProfile {
-    id?: number,
+    id: number,
     sku: string,
     item_description: string,
-    thickness_val?: number,
-    thickness_uom?: number,
-    length_val?: number,
-    length_uom?: number,
-    width_val?: number,
-    width_uom?: number,
-    height_val?: number,
-    height_uom?: number,
-    outside_diameter_val?: number,
-    outside_diameter_uom?: number,
-    inside_diameter_val?: number,
-    inside_diameter_uom?: number,
+    thickness_val: number,
+    thickness_uom: number,
+    length_val: number,
+    length_uom: number,
+    width_val: number,
+    width_uom: number,
+    height_val: number,
+    height_uom: number,
+    outside_diameter_val: number,
+    outside_diameter_uom: number,
+    inside_diameter_val: number,
+    inside_diameter_uom: number,
     specification: string,
-    volume?: number,
+    volume: number,
+    volume_uom: number,
     grade: string,
     color: string,
-    uom?: number,
-    uom_group_id: string,
-    uom_conversion_value?: number,
+    uom: number,
+    item_group: number,
+    sub_item_group: number,
+    uom_conversion_value: number,
     inventory_type: string,
     active_status: string,
     is_approved: boolean,
@@ -71,35 +68,42 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             inside_diameter_uom: null,
             specification: "",
             volume: null,
+            volume_uom: null,
             grade: "",
             color: "",
             uom: null,
             uom_group_id: "",
+            item_group: null,
+            sub_item_group: null,
             uom_conversion_value: null,
             inventory_type: "",
             active_status: "Inactive",
             is_approved: false,
             is_edit: false,
         },
-        addItemPrfoile: [],
+        addItemProfile: [] as Array<any>,
         formItemProfile: {} as ItemProfile,
-        newItemProfile: [] as NewItemProfile[],
-        itemgroup: {} as ItemGroup,
-        subitemgroup: {} as SubItemGroup,
+        newItemProfile: [] as Array<NewItemProfile>,
+        itemgroup: [] as any,
+        subitemgroup: [] as any,
         uom: {} as any,
         list: [],
         allRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
             pagination: {},
         },
         myApprovals: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
+            pagination: {},
         },
         myRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
@@ -113,10 +117,14 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             errorMessage: "",
             successMessage: "",
         },
+        page: {
+            list: {},
+        },
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
+        remarks: "",
     }),
     getters: {
         uomLength (state) {
@@ -163,7 +171,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                         Accept: "application/json"
                     },
                     onResponse: ({ response }) => {
-                        this.uom = response._data.data.data
+                        this.uom = response._data.data
                     },
                 }
             )
@@ -175,7 +183,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getAllRequests () {
             await useInventoryApi(
-                "/api/item-profile/resource",
+                "/api/item-profile/new-request/all-request",
                 {
                     method: "GET",
                     params: this.allRequests.params,
@@ -195,7 +203,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getMyRequests () {
             await useInventoryApi(
-                "/api/item-profile/my-requests",
+                "/api/item-profile/new-request/my-request",
                 {
                     method: "GET",
                     params: this.myRequests.params,
@@ -217,14 +225,19 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getMyApprovals () {
             await useInventoryApi(
-                "/api/item-profile/my-approvals",
+                "/api/item-profile/new-request/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
-                            this.myApprovals.list = response._data.data
+                            this.myApprovals.list = response._data.data.data
+                            this.myApprovals.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         } else {
                             throw new Error(response._data.message)
                         }
@@ -234,7 +247,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async storeItemProfile () {
             const { data, error } = await useFetch(
-                "/api/item-profile/resource",
+                "/api/item-profile/new-request/resource",
                 {
                     baseURL: config.public.INVENTORY_API_URL,
                     method: "POST",
@@ -249,6 +262,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -267,14 +281,12 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.itemgroup = response._data.data.data.map((val: any) => {
+                            this.itemgroup = response._data.data.map((val: any) => {
                                 return {
                                     id: val.id,
                                     name: val.name,
                                 }
                             })
-                        } else {
-                            this.errorMessage = response._data.message
                         }
                     },
                 }
@@ -291,7 +303,14 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
-                        this.subitemgroup = response._data.data.sub_groups
+                        if (response.ok) {
+                            this.subitemgroup = response._data.data.sub_groups.map((val: any, index: number) => {
+                                return {
+                                    id: index,
+                                    name: val,
+                                }
+                            })
+                        }
                     },
                 }
             )
@@ -303,9 +322,9 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getItemProfile () {
             await useFetch(
-                "/api/item-profile/resource",
+                "/api/item-profile/list",
                 {
-                    baseURL: config.public.HRMS_API_URL,
+                    baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
                     headers: {
                         Authorization: token.value + "",
@@ -323,9 +342,26 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 }
             )
         },
+        async showItemProfile (id: number) {
+            await useFetch(
+                "/api/item-profile/new-request/resource/" + id,
+                {
+                    baseURL: config.public.INVENTORY_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.page.list = response._data.data
+                    },
+                }
+            )
+        },
         async getMyApprovalRequests () {
-            await useHRMSApi(
-                "/api/item-profile/my-approvals",
+            await useInventoryApi(
+                "/api/item-profile/new-request/my-approvals",
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
@@ -339,41 +375,64 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 }
             )
         },
+        async approveApprovalForm (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useInventoryApi(
+                "/api/approvals/approve/RequestItemProfiling/" + id,
+                {
+                    method: "POST",
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async denyApprovalForm (id: string) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const formData = new FormData()
+            formData.append("id", id)
+            formData.append("remarks", this.remarks)
+            await useInventoryApi(
+                "/api/approvals/disapprove/RequestItemProfiling/" + id,
+                {
+                    method: "POST",
+                    body: formData,
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        }
+                    },
+                }
+            )
+        },
+        approvalReset () {
+            this.getAllRequests()
+            this.getMyRequests()
+            this.getMyApprovals()
+        },
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
         },
         reset () {
             this.formItemProfile = {} as ItemProfile
-            this.newItemProfile = [] as NewItemProfile[]
-            this.itemProfile = {
-                id: null,
-                sku: "",
-                item_description: "",
-                thickness_val: null,
-                thickness_uom: null,
-                length_val: null,
-                length_uom: null,
-                width_val: null,
-                width_uom: null,
-                height_val: null,
-                height_uom: null,
-                outside_diameter_val: null,
-                outside_diameter_uom: null,
-                inside_diameter_val: null,
-                inside_diameter_uom: null,
-                specification: "",
-                volume: null,
-                grade: "",
-                color: "",
-                uom: null,
-                uom_group_id: "",
-                uom_conversion_value: null,
-                inventory_type: "",
-                active_status: "Inactive",
-                is_approved: false,
-                is_edit: false,
-            }
             this.successMessage = ""
             this.errorMessage = ""
         },

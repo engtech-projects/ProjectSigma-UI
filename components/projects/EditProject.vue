@@ -31,7 +31,6 @@ const editProject = async () => {
 }
 
 </script>
-
 <template>
     <LayoutEditBoards title="Edit project" :loading="boardLoading">
         <div class="text-gray-500 mt-2">

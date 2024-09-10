@@ -87,7 +87,6 @@ onMounted(() => {
     })
 })
 </script>
-
 <template>
     <LayoutBoards title="Edit Book" :loading="isLoading" class="w-full border-t-8 rounded-lg border-teal-500">
         <form @submit.prevent="handleSubmit">

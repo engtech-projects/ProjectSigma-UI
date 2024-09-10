@@ -2,9 +2,11 @@
 import { useEnumsStore } from "@/stores/hrms/enum"
 const enums = useEnumsStore()
 const { departmentEnum } = storeToRefs(enums)
-if (departmentEnum.value.list.length <= 0) {
-    enums.getDepartmentEnums()
-}
+onMounted(() => {
+    if (!departmentEnum.value.isLoaded) {
+        enums.getDepartmentEnums()
+    }
+})
 const model = defineModel({ required: false, type: Number, default: null })
 defineProps({
     showAll: { type: Boolean, default: false }

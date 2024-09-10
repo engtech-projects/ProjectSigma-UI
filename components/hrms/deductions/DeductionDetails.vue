@@ -74,7 +74,10 @@ const showMakePayment = () => {
                 <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.remaining_balance)" disabled>
             </div>
         </div>
-        <div class="flex flex-col mt-6">
+        <div class="w-full">
+            <LayoutApprovalsListView :approvals="data.approvals" />
+        </div>
+        <div v-if="data.request_status === 'Approved'" class="flex flex-col mt-6">
             <div class="flex items-center justify-between border-b pb-2">
                 <label for="" class="text-md text-slate-700 font-bold">Payment History</label>
                 <button v-if="!data.is_fully_paid" class="bg-green-500 rounded-md px-4 py-1 text-white hover:bg-green-600 active:bg-green-700" @click="showMakePayment()">

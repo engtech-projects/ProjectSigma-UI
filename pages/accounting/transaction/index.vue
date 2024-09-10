@@ -9,7 +9,6 @@ useHead({
     title: "Transaction",
 })
 </script>
-
 <template>
     <div class="flex flex gap-4">
         <!-- <div class="flex-1">

@@ -18,7 +18,6 @@ const doUpdateItemGroup = (id: number, name: string, subgroup: array) => {
     emit("updateItemgroup", id, name, subgroup)
 }
 </script>
-
 <template>
     <InventoryCommonTableEditItemAppend v-model:name="name" :subgroup="subgroup" />
     <td class="flex flex-row justify-center items-center px-2 font-medium text-gray-900 whitespace-nowrap text-center">

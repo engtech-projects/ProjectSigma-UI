@@ -35,7 +35,6 @@ const editManpwr = async () => {
 }
 
 </script>
-
 <template>
     <LayoutEditBoards title="Edit Manpower Request" :loading="boardLoading">
         <div class="text-gray-500 p-2">

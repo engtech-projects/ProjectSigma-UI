@@ -1,7 +1,6 @@
 <script setup>
 const model = defineModel({ required: true, type: Object })
 </script>
-
 <template>
     <div class="grid grid-cols-2 border border-slate-400 p-2">
         <div class="flex flex-col">

@@ -1,8 +1,7 @@
 <template>
     <div>
-        <div id="printContainer" />
         <NuxtLoadingIndicator />
-        <NuxtLayout class="no-print">
+        <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>
         <NuxtSnackbar />

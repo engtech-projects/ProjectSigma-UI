@@ -1,17 +1,30 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
+
 const cashadvances = useCashadvanceStore()
-const { myApprovalRequestList: cashadvanceList } = storeToRefs(cashadvances)
-
-const infoModalData = ref({})
-const showInfoModal = ref(false)
-
+const { myApprovalRequestList, pagination, getParams, ca } = storeToRefs(cashadvances)
+const showInformationModal = ref(false)
+const utils = useUtilities()
+onMounted(() => {
+    if (!myApprovalRequestList.value.isLoaded) {
+        cashadvances.getMyApprovalRequests()
+    }
+})
 const showInformation = (data) => {
-    infoModalData.value = data
-    showInfoModal.value = true
+    ca.value = data
+    newPayment.value.cashadvance_id = data.id
+    showInformationModal.value = true
 }
-
+const newPayment = ref({
+    id: null,
+    cashadvance_id: null,
+    amount_paid: null,
+    date_paid: utils.value.dateToString(new Date()),
+    payment_type: "Manual",
+    posting_status: "Posted",
+    paymentAmount: null,
+})
 const headers = [
     { name: "Employee Name", id: "employee.fullname_first" },
     { name: "Cash Advance Amount", id: "amount" },
@@ -29,29 +42,26 @@ const actions = {
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }
-
 </script>
-
 <template>
-    <LayoutBoards class="w-full">
-        <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <LayoutPsTable
-                :header-columns="headers"
-                :actions="actions"
-                :datas="cashadvanceList ?? []"
-                @show-table="showInformation"
-            />
-        </div>
-        <div class="flex justify-center mx-auto">
-            <CustomPagination
-                v-if="cashadvanceList?.length"
-                :links="cashadvances.pagination"
-                @change-params="changePaginate"
-            />
-        </div>
-    </LayoutBoards>
+    <div class="pb-2 text-gray-500 p-2">
+        <!-- <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" /> -->
+        <LayoutPsTable
+            :header-columns="headers"
+            :datas="myApprovalRequestList.list"
+            :actions="actions"
+            @show-table="showInformation"
+        />
+    </div>
+    <div class="flex justify-center mx-auto">
+        <CustomPagination
+            v-if="myApprovalRequestList.list.length"
+            :links="pagination"
+            @change-params="changePaginate"
+        />
+    </div>
     <HrmsCashadvanceInfoModal
-        v-model:show-modal="showInfoModal"
-        :data="infoModalData"
+        v-model:show-modal="showInformationModal"
+        :data="ca"
     />
 </template>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { storeToRefs } from "pinia"
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
@@ -13,7 +13,14 @@ const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const profileStore = useItemProfileStore()
-const { remarks } = storeToRefs(profileStore)
+const { remarks, uom } = storeToRefs(profileStore)
+
+const getType = (id:number) => {
+    const symbol = uom.value.map((data: any) => {
+        return data.id === id ? data.symbol : null
+    }).filter((num:any): num is number => num !== null)
+    return symbol ? symbol[0] : null
+}
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -21,7 +28,7 @@ const boardLoading = ref(false)
 const closeViewModal = () => {
     showModal.value = false
 }
-const approvedRequest = async (id) => {
+const approvedRequest = async (id: number) => {
     try {
         boardLoading.value = true
         await profileStore.approveApprovalForm(id)
@@ -29,7 +36,14 @@ const approvedRequest = async (id) => {
             type: "success",
             text: profileStore.successMessage
         })
+        profileStore.approvalReset()
         closeViewModal()
+        if (profileStore.errorMessage) {
+            snackbar.add({
+                type: "error",
+                text: profileStore.errorMessage
+            })
+        }
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -39,10 +53,7 @@ const approvedRequest = async (id) => {
         boardLoading.value = false
     }
 }
-const clearRemarks = () => {
-    remarks.value = ""
-}
-const denyRequest = async (id) => {
+const denyRequest = async (id: any) => {
     try {
         boardLoading.value = true
         await profileStore.denyApprovalForm(id)
@@ -50,6 +61,7 @@ const denyRequest = async (id) => {
             type: "success",
             text: profileStore.successMessage
         })
+        profileStore.approvalReset()
         closeViewModal()
     } catch (error) {
         snackbar.add({
@@ -61,37 +73,84 @@ const denyRequest = async (id) => {
     }
 }
 </script>
-
 <template>
-    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="TRAVEL ORDER">
+    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Item Profile">
         <template #body>
             <div class="grid gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-4xl">TRAVEL REQUEST TO: {{ data.destination }}</span>
-                </div>
-            </div>
-            <div class="grid gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-xl">Requesting Office: <span class="text-teal-600 font-medium">{{ data.department.name }}</span></span>
-                </div>
-            </div>
-            <div class="grid md:grid-cols-3 divide-x gap-2 md:justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm">
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 font-medium ">Employee(s): </span> <span class="text-gray-900">{{ data.employees.map(employee => employee.name).join(', ') }}</span>
-                </div>
-                <div class="p-2 flex flex-col gap-2">
-                    <span class="text-teal-600 font-medium">Destination: </span> {{ data.destination }}
-                    <span class="text-teal-600 font-medium">Purpose of Travel: </span> {{ data.purpose_of_travel }}
-                    <span class="text-teal-600 font-medium">Date of Travel: </span> {{ data.date_of_travel_human }}
-                    <span class="text-teal-600 font-medium">Time of Travel: </span> {{ data.time_of_travel_human }}
-                    <span class="text-teal-600 font-medium">Duration of Travel (days): </span> {{ data.duration_of_travel }}
-                    <span class="text-teal-600 font-medium">Means of Transportation
-                        : </span> {{ data.means_of_transportation }}
-                </div>
-                <div class="p-2 flex flex-col gap-2">
-                    <span class="text-teal-600 font-medium">Remarks
-                        : </span> {{ data.remarks }}
-                    <span class="text-teal-600 font-medium">Request Status: </span> {{ data.request_status }}
+                <div class="pb-2 text-gray-500 overflow-x-auto mb-4">
+                    <table class="table-auto w-full border-collapse">
+                        <thead>
+                            <tr>
+                                <InventoryCommonTableItemTh title="SKU" />
+                                <InventoryCommonTableItemTh title="Item description" />
+                                <InventoryCommonTableItemTh title="Thickness" />
+                                <InventoryCommonTableItemTh title="Length" />
+                                <InventoryCommonTableItemTh title="Width" />
+                                <InventoryCommonTableItemTh title="Height" />
+                                <InventoryCommonTableItemTh title="Outside diameter" />
+                                <InventoryCommonTableItemTh title="Inside diameter" />
+                                <InventoryCommonTableItemTh title="Volume" />
+                                <InventoryCommonTableItemTh title="Specification" />
+                                <InventoryCommonTableItemTh title="Grade" />
+                                <InventoryCommonTableItemTh title="Color" />
+                                <InventoryCommonTableItemTh title="UOM" />
+                                <InventoryCommonTableItemTh title="Inventory Type" />
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="dataValue, index in data.item_profiles" :key="index" class="bg-white border-b">
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.sku }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.item_description }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.thickness_val }}
+                                    {{ getType(dataValue.thickness_uom) }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.length_val }}
+                                    {{ getType(dataValue.length_uom) }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.width_val }}
+                                    {{ getType(dataValue.width_uom) }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.height_val }}
+                                    {{ getType(dataValue.height_uom) }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.outside_diameter_val }}
+                                    {{ getType(dataValue.outside_diameter_uom) }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.inside_diameter_val }}
+                                    {{ getType(dataValue.inside_diameter_uom) }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.volume }}
+                                    {{ getType(dataValue.volume_uom) }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.specification }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.grade }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.color }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.uom }}
+                                </td>
+                                <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    {{ dataValue.inventory_type }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="w-full">
@@ -99,13 +158,12 @@ const denyRequest = async (id) => {
             </div>
         </template>
         <template #footer>
-            <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
                 <HrmsCommonApprovalDenyButton
                     v-model:deny-remarks="remarks"
                     :request-id="data.id"
                     @approve="approvedRequest"
                     @deny="denyRequest"
-                    @clear="clearRemarks"
                 />
             </div>
         </template>

@@ -26,9 +26,8 @@ const showInformation = (data) => {
     showInfoModal.value = true
 }
 </script>
-
 <template>
-    <LayoutBoards title="" class="w-full" :loading="boardLoading">
+    <LayoutBoards class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"

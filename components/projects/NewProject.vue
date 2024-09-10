@@ -36,7 +36,6 @@ const addProject = async () => {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="Project Name" :loading="boardLoading">
         <div class="text-gray-500">

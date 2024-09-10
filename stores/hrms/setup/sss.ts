@@ -10,9 +10,9 @@ export const useContributionStore = defineStore("sssContrib", {
             range_from: null,
             range_to: null,
             employee_share: null,
-            employee_contribution: null,
             employer_share: null,
-            employer_contribution: null,
+            employee_compensation: null,
+            employer_compensation: null,
         },
         list: [],
         pagination: {},
@@ -141,9 +141,9 @@ export const useContributionStore = defineStore("sssContrib", {
                 range_from: null,
                 range_to: null,
                 employee_share: null,
-                employee_contribution: null,
+                employee_compensation: null,
                 employer_share: null,
-                employer_contribution: null,
+                employer_compensation: null,
             }
             this.isEdit = false
             this.successMessage = ""

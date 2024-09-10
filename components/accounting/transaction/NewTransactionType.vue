@@ -66,7 +66,6 @@ async function updateType () {
 //     transactionTypeStore.reset()
 // }
 </script>
-
 <template>
     <LayoutBoards title="Create New Transaction Type" :loading="boardLoading" class="w-full h-fit">
         <form @submit.prevent="!transactionTypeStore.isEdit?handleSubmit():updateType()">

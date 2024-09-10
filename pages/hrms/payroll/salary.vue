@@ -42,7 +42,7 @@ useHead({
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            'AdminOnly',
+                            AccessibilityTypes.hrms_payroll_salary_payrollrecord,
                         ])"
                         target-id="payrollRecord"
                         title="Payroll Record"
@@ -52,7 +52,7 @@ useHead({
                             'AdminOnly',
                         ])"
                         target-id="generatePayslip"
-                        title="Generate Payslip"
+                        title="Generate Payroll Disbursement"
                     />
                 </template>
                 <template #tab-containers>
@@ -79,7 +79,7 @@ useHead({
                     <HrmsCommonTabsTabContainer
                         id="payrollRecord"
                     >
-                        <HrmsPayrollPayrollrecordTable />
+                        <HrmsPayrollSalaryPayrollRecords />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
                         id="generatePayslip"

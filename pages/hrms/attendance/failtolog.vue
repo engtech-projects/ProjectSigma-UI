@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import { useFailToLogStore } from "@/stores/hrms/attendance/failtolog"
-import { useEnumsStore } from "@/stores/hrms/enum"
 
 const failtologstore = useFailToLogStore()
 failtologstore.getAllList()
 failtologstore.getMyApprovalRequests()
 failtologstore.getMyRequests()
-
-const enums = useEnumsStore()
-enums.getEmployeeEnum()
 
 useHead({
     title: "Failure To Log",
@@ -18,7 +14,6 @@ useHead({
 })
 
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

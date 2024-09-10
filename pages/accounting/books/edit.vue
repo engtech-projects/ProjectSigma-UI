@@ -15,7 +15,6 @@ if (!useRoute().query.id) {
 }
 navigateTo("/accounting/books")
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingBookEditBook class="flex-1 max-w-[1000px]" />

@@ -51,12 +51,14 @@ async function handleSubmit () {
         boardLoading.value = true
         transactionStore.transaction.status = "open"
         transactionStore.transaction.amount = 100
-        transactionStore.transaction.details = JSON.stringify([{
-            stakeholder_id: 1,
-            account_id: 1,
-            debit: transactionStore.transaction.amount,
-            credit: 0
-        }])
+        transactionStore.transaction.note = "No comment"
+        // transactionStore.transaction.details = JSON.stringify([{
+        //     stakeholder_id: 1,
+        //     account_id: 1,
+        //     debit: transactionStore.transaction.amount,
+        //     credit: 0
+        // }])
+        transactionStore.transaction.details = JSON.stringify(detailsForSubmit.value)
         transactionStore.transaction.description = "No description."
         await transactionStore.createTransaction()
         if (transactionStore.errorMessage !== "") {
@@ -95,13 +97,31 @@ function selectStakeholder (val:any) {
     transactionStore.transaction.stakeholder_id = val.stakeholder_id
 }
 const accountsList = computed(() => {
-    if (transactionTypeStore.transactionType.book) {
-        return transactionTypeStore.transactionType.book.accounts
-    }
-    return []
+    return accountStore.list
+    // if (transactionTypeStore.transactionType.book) {
+    //     return transactionTypeStore.transactionType.book.accounts
+    // }
+    // return []
+})
+
+const detailsForSubmit = computed(() => {
+    const arr = []
+    const item = ref({
+        stakeholder_id: null,
+        account_id: null,
+        debit: null,
+        credit: null
+    })
+    details.value.forEach((d:any) => {
+        item.value.stakeholder_id = d.stakeholder_id
+        item.value.account_id = d.account_id
+        item.value.debit = d.debit
+        item.value.credit = d.credit
+        arr.push(item)
+    })
+    return arr
 })
 </script>
-
 <template>
     <LayoutBoards title="New Transaction" :loading="boardLoading" class="w-full h-fit">
         <form @submit.prevent="handleSubmit">

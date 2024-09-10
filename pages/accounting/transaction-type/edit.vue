@@ -14,7 +14,6 @@ if (!useRoute().query.id) {
     await transactionTypeStore.getTransactionType(useRoute().query.id)
 }
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingTransactionEditTransactionType class="flex-1 max-w-[1000px]" />

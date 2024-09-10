@@ -15,7 +15,7 @@ export const useTransactionStore = defineStore("transactionStore", {
             details: null,
             period_id: null,
             status: "posted",
-            note: "None",
+            note: "",
             description: "No comment"
         },
         list: [],

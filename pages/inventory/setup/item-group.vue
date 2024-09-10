@@ -12,7 +12,6 @@ useHead({
     title: "Item Group",
 })
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

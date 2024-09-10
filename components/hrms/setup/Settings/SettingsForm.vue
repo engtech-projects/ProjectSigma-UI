@@ -37,7 +37,6 @@ const addMain = async () => {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="Setting Form" class="mb-5">
         <form class="space-y-3 mt-5" @submit.prevent="addMain">

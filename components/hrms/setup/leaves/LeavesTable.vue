@@ -45,7 +45,6 @@ const actions = {
     delete: true
 }
 </script>
-
 <template>
     <LayoutBoards title="Leave List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">

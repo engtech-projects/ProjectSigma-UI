@@ -7,7 +7,6 @@ useHead({
     title: "New Stakeholder Type",
 })
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingBookNewBook class="flex-1 max-w-[1000px]" />

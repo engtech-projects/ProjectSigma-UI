@@ -1,7 +1,6 @@
 <script setup>
 const config = useRuntimeConfig()
 </script>
-
 <template>
     <div class="space-y-2">
         <LayoutNavSingle
@@ -99,7 +98,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Generate QR Code"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_attendance_qr_login,
                     ])"
@@ -282,7 +280,7 @@ const config = useRuntimeConfig()
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_reports,
+                    AccessibilityTypes.hrms_reports_group,
                 ])"
                 linkarea="/hrms/reports"
                 icon="ic:sharp-add-chart"
@@ -470,7 +468,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.inventory_item_profile_group
+                    AccessibilityTypes.inventory_item_profile
                 ])"
                 icon="ion:ios-people"
                 title="Item Profile"
@@ -485,7 +483,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.inventory_new_item_profile,
+                        AccessibilityTypes.inventory_item_profile,
                     ])"
                     linkarea="/inventory/item-profile/list-profile"
                     icon="material-symbols:dynamic-form-outline-rounded"
@@ -530,14 +528,14 @@ const config = useRuntimeConfig()
         <LayoutNavModuleGroup
             v-show="config.public.APP_ENV == 'local'"
             v-if="useCheckAccessibility([
-                'AdminOnly',
+                AccessibilityTypes.accounting_group,
             ])"
             title="Accounting"
         >
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_chart_of_accounts,
+                    AccessibilityTypes.accounting_journal_group,
                 ])"
                 linkarea="/accounting/journal-entry"
                 icon="iconoir:plug-type-l"

@@ -10,7 +10,7 @@ const compId = useId()
                         AccessibilityTypes.inventory_new_item_profile_all_request,
                     ])"
                     :target-id="'all-list' + compId"
-                    title="All List"
+                    title="All Request"
                 />
                 <HrmsCommonTabsTabTitle
                     :if-access="useCheckAccessibility([
@@ -29,13 +29,13 @@ const compId = useId()
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer :id="'all-list' + compId">
-                    <InventoryItemProfileRequestList />
+                    <InventoryCommonRequestList />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer :id="'my-requests' + compId">
-                    <InventoryItemProfileMyRequests />
+                    <InventoryCommonRequestMyRequests />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer :id="'my-approvals' + compId">
-                    <InventoryItemProfileMyApprovals />
+                    <InventoryCommonRequestMyApprovals />
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>

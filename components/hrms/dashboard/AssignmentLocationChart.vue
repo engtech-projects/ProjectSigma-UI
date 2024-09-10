@@ -1,21 +1,17 @@
 <script setup>
-defineProps({
-    labels: {
-        type: Array,
-        required: true,
-    },
-    data: {
-        type: Array,
-        required: true,
-    },
+import { useDashboardStatisticsStore } from "@/stores/hrms/dashboardStats"
+const stats = useDashboardStatisticsStore()
+const { deptProjStats } = storeToRefs(stats)
+onMounted(() => {
+    stats.getDeptProjStats()
 })
 </script>
 <template>
-    <LayoutBoards title="Employees Chart">
+    <LayoutBoards title="Employees Chart" :loading="deptProjStats.isLoading">
         <LayoutChartDoughnut
-            v-if="data.length > 0"
-            :labels="labels"
-            :datas="data"
+            v-if="deptProjStats.list.length > 0"
+            :labels="Object.keys(deptProjStats.list)"
+            :datas="Object.values(deptProjStats.list)"
         />
     </LayoutBoards>
 </template>

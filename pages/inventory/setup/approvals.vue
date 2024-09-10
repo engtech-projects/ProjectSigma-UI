@@ -15,7 +15,6 @@ useHead({
     title: "Approvals",
 })
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([

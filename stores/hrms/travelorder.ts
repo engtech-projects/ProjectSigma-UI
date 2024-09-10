@@ -146,7 +146,6 @@ export const useTravelorderStore = defineStore("travels", {
                     body: this.travel,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.$reset()
                             this.getMyApprovalRequests()
                             this.getTravelorders()
                             this.getMyRequests()

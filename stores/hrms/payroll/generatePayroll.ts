@@ -32,6 +32,17 @@ export interface Charging {
 export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
     state: () => ({
         isEdit: false,
+        generatePayroll: {
+            isLoading: false,
+            body: {
+
+            },
+            draft: {
+
+            },
+            successMessage: "",
+            errorMessage: "",
+        },
         generateParams: {
             adjustments: [] as Adjustment[],
             charging: [] as Charging[],
@@ -73,17 +84,20 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         editRequest: { // NOT USED
         },
         allRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
             pagination: {},
         },
         myApprovals: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
         },
         myRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
@@ -126,14 +140,14 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         special_holiday_ot_pay: data.payroll_records.gross_pays.special_holidays.overtime,
                         gross_pay: data.payroll_records.total_gross_pay,
                         // Deductions
-                        sss_employee_contribution: data.payroll_records.salary_deduction.sss.employee_contribution,
-                        sss_employer_contribution: data.payroll_records.salary_deduction.sss.employer_contribution,
                         sss_employee_compensation: data.payroll_records.salary_deduction.sss.employee_compensation,
                         sss_employer_compensation: data.payroll_records.salary_deduction.sss.employer_compensation,
-                        philhealth_employee_compensation: data.payroll_records.salary_deduction.phic.employee_compensation,
-                        philhealth_employer_compensation: data.payroll_records.salary_deduction.phic.employer_compensation,
-                        pagibig_employee_compensation: data.payroll_records.salary_deduction.hmdf.employee_compensation,
-                        pagibig_employer_compensation: data.payroll_records.salary_deduction.hmdf.employer_compensation,
+                        sss_employee_contribution: data.payroll_records.salary_deduction.sss.employee_contribution,
+                        sss_employer_contribution: data.payroll_records.salary_deduction.sss.employer_contribution,
+                        philhealth_employee_contribution: data.payroll_records.salary_deduction.phic.employee_contribution,
+                        philhealth_employer_contribution: data.payroll_records.salary_deduction.phic.employer_contribution,
+                        pagibig_employee_contribution: data.payroll_records.salary_deduction.hmdf.employee_contribution,
+                        pagibig_employer_contribution: data.payroll_records.salary_deduction.hmdf.employer_contribution,
                         withholdingtax_contribution: data.payroll_records.salary_deduction.ewtc,
                         total_deduct: data.payroll_records.total_salary_deduction,
                         net_pay: data.payroll_records.total_net_pay,
@@ -148,20 +162,20 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                                 deduction_id: loan.id,
                                 name: "Loan",
                                 amount: loan.max_payroll_payment,
-                                type: "Loan"
+                                type: "Loan",
                             })),
                             ...data.payroll_records.salary_deduction.cash_advance.cash_advance.map((cashAdvance: any) => ({
                                 deduction_id: cashAdvance.id,
                                 name: "Cash Advance",
                                 amount: cashAdvance.max_payroll_payment,
-                                type: "Cash Advance"
+                                type: "Cash Advance",
                             })),
                             ...data.payroll_records.salary_deduction.other_deductions.other_deduction.map((otherDeduction: any) => ({
                                 deduction_id: otherDeduction.id,
                                 name: otherDeduction.otherdeduction_name,
                                 amount: otherDeduction.max_payroll_payment,
-                                type: "Other Deduction"
-                            }))
+                                type: "Other Deduction",
+                            })),
                         ],
                     }
                 }),
@@ -191,7 +205,11 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 {
                     method: "GET",
                     params: this.allRequests.params,
+                    onRequest: () => {
+                        this.allRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.allRequests.isLoading = false
                         if (response.ok) {
                             this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
@@ -211,7 +229,11 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 {
                     method: "GET",
                     params: this.myRequests.params,
+                    onRequest: () => {
+                        this.myRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myRequests.isLoading = false
                         if (response.ok) {
                             this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data.data
@@ -233,7 +255,11 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 {
                     method: "GET",
                     params: this.myApprovals.params,
+                    onRequest: () => {
+                        this.myApprovals.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data
@@ -251,14 +277,15 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 approvals: JSON.stringify(this.generateParams.approvals),
                 adjustments: JSON.stringify(this.generateParams.adjustments),
             }
-            await useHRMSApiO(
+            return await useHRMSApiO(
                 "/api/payroll/generate-payroll",
                 {
-                    method: "GET",
-                    params: payload,
+                    method: "POST",
+                    body: payload,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.payrollDraft = response._data.data
+                            return response._data.data
                         } else {
                             throw new Error(response._data.message)
                         }
@@ -277,8 +304,8 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            return response._data
                             this.reloadResources()
+                            return response._data
                         } else {
                             throw new Error(response._data.message)
                         }
@@ -288,7 +315,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
         },
         async approveApprovalForm (id: number) {
             return await useHRMSApiO(
-                "/api/approvals/approve/Payroll/" + id,
+                "/api/approvals/approve/GeneratePayroll/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -305,12 +332,12 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 }
             )
         },
-        async denyApprovalForm (id: string) {
+        async denyApprovalForm (id: string, remarks: string) {
             const formData = new FormData()
             formData.append("id", id)
-            formData.append("remarks", this.approval.params.remarks)
+            formData.append("remarks", remarks)
             await useHRMSApiO(
-                "/api/approvals/disapprove/Payroll/" + id,
+                "/api/approvals/disapprove/GeneratePayroll/" + id,
                 {
                     method: "POST",
                     body: formData,

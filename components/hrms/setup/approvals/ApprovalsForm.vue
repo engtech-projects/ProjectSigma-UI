@@ -47,7 +47,6 @@ const submitApprov = async (approval) => {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="Approvals" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">

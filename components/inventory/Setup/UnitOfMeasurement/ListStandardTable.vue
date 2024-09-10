@@ -40,7 +40,6 @@ const headers = [
 ]
 
 </script>
-
 <template>
     <div class="pb-2 text-gray-500 ">
         <LayoutPsTable :header-columns="headers" :datas="list" @delete-row="deleteCont" />

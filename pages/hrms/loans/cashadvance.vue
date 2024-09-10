@@ -1,33 +1,15 @@
 <script setup lang="ts">
-import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
-import { useEnumsStore } from "@/stores/hrms/enum"
-
-const cashadvances = useCashadvanceStore()
-// const { isEdit } = storeToRefs(cashadvances)
-cashadvances.getMyRequests()
-cashadvances.getMyApprovalRequests()
-cashadvances.getCA()
-
-const enums = useEnumsStore()
-enums.getEmployeeEnum()
-enums.getUserEmployeeEnums()
-enums.getDepartmentEnums()
-enums.getProjectEnums()
-enums.getPositionEnums()
-
 useHead({
     title: "Cash Advance",
-
 })
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
             AccessibilityTypes.hrms_loans_and_advances_cash_advance_group,
         ])"
     >
-        <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-col gap-4">
             <div>
                 <HrmsCashadvanceForm
                     v-if="useCheckAccessibility([

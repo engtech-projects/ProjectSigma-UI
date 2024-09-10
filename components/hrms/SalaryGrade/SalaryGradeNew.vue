@@ -31,7 +31,6 @@ async function handleSubmit () {
     }
 }
 </script>
-
 <template>
     <LayoutBoards title="Create Salary Grade" :loading="boardLoading" class="w-full h-fit">
         <form @submit.prevent="handleSubmit">

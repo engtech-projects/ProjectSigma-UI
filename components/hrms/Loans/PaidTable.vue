@@ -1,0 +1,69 @@
+<script setup>
+import { useLoansStore } from "@/stores/hrms/loansAndCash/loans"
+const loansStore = useLoansStore()
+const { paidList } = storeToRefs(loansStore)
+onMounted(() => {
+    if (!paidList.value.isLoaded) {
+        loansStore.getPaidList()
+    }
+})
+const headers = [
+    { text: "Employee Name", value: "employee.fullname_first" },
+    { text: "Date Filed", value: "date_filed" },
+    { text: "Amount Loaned", value: "amount" },
+    { text: "Deduction", value: "installment_deduction" },
+    { text: "Action", value: "actions" },
+]
+
+const changePaginate = (newParams) => {
+    loansStore.paidList.params.page = newParams.page ?? ""
+}
+
+const infoModalData = ref({})
+const showInfoModal = ref(false)
+
+const showInformation = (data) => {
+    infoModalData.value = data
+    showInfoModal.value = true
+}
+</script>
+<template>
+    <LayoutLoadingContainer>
+        <div class="w-full">
+            <HrmsCommonSearchEmployeeSelector v-model="loansStore.paidList.params.employee_id" />
+        </div>
+        <div class="w-full">
+            <div class="mt-5 mb-6 ">
+                <EasyDataTable
+                    buttons-pagination
+                    class="mt-5"
+                    table-class-name="customize-table"
+                    :headers="headers"
+                    :items="paidList.list"
+                    :hide-footer="true"
+                >
+                    <template #item-actions="item">
+                        <div class="flex flex-row gap-1">
+                            <button @click="showInformation(item)">
+                                <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
+                            </button>
+                        </div>
+                    </template>
+                </EasyDataTable>
+            </div>
+            <div class="flex justify-center mx-auto">
+                <CustomPagination
+                    v-if="paidList.list.length"
+                    :links="loansStore.pagination"
+                    @change-params="changePaginate"
+                />
+            </div>
+        </div>
+        <HrmsLoansInfoModal v-model:show-modal="showInfoModal" :data="infoModalData" />
+    </LayoutLoadingContainer>
+</template>
+<style scoped>
+.customize-table {
+    --easy-table-header-item-padding: 10px 15px;
+}
+</style>

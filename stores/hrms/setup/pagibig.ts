@@ -13,8 +13,6 @@ export const usePagibigStore = defineStore("pagibigContrib", {
             employer_share_percent: null,
             employer_maximum_contribution: null,
             employee_maximum_contribution: null,
-            employee_compensation: null,
-            employer_compensation: null,
         },
         list: [],
         pagination: {},
@@ -142,8 +140,6 @@ export const usePagibigStore = defineStore("pagibigContrib", {
                 employer_share_percent: null,
                 employer_maximum_contribution: null,
                 employee_maximum_contribution: null,
-                employee_compensation: null,
-                employer_compensation: null,
             }
             this.isEdit = false
             this.successMessage = ""

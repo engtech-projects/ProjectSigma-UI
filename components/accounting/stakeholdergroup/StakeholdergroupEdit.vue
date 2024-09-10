@@ -62,7 +62,6 @@ onMounted(() => {
 
 })
 </script>
-
 <template>
     <LayoutBoards title="Edit Stakeholder Group" :loading="isLoading" class="w-full">
         <form @submit.prevent="handleSubmit">

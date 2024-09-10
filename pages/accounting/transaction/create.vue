@@ -7,7 +7,6 @@ useHead({
     title: "New Transaction",
 })
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingTransactionCreate class="flex-1 w-full" />

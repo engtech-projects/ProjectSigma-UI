@@ -30,7 +30,6 @@ function cancelEdit () {
     return navigateTo("/accounting/posting-period")
 }
 </script>
-
 <template>
     <LayoutBoards title="Edit Posting Period" :loading="isLoading" class="w-full">
         <form @submit.prevent="handleSubmit">

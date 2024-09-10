@@ -42,7 +42,6 @@ const isActiveRow = (index: any) => {
     return activeIndex.value === index
 }
 </script>
-
 <template>
     <div v-if="datas && datas.length > 0" class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
         <table class="table-auto w-full border-collapse">
@@ -63,6 +62,7 @@ const isActiveRow = (index: any) => {
             </thead>
             <tbody>
                 <tr v-for="dataValue, index in datas" :key="index" class="border text-center" :class="{ 'active': isActiveRow(index) }" @click="setActiveRow(index)">
+                    {{ dataValue.sku }}
                     <td
                         v-for="header in headerColumns"
                         :key="header+'headerRow'"
@@ -72,7 +72,22 @@ const isActiveRow = (index: any) => {
                     >
                         <template v-if="(header.id).includes('.')">
                             <span v-for="headerid in (header.id).split('.')" :key="'templateheaderrow'+headerid" :set="val = val[headerid]" />
-                            {{ val }}
+                            <div class="flex flex-row gap-2">
+                                <div class="icon">
+                                    <Icon name="material-symbols:info-outline" class="text-blue-700 h-5 w-5 lg:h-5 lg:w-5" data-tooltip-target="tooltip-top" />
+                                    <div id="tooltip-top" data-popover role="tooltip" class="absolute z-10 duration-300 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
+                                        <div class="list flex flex-col gap-2">
+                                            <button class="bg-transparent cursor-pointer">
+                                                Lorem Ipsum
+                                            </button>
+                                        </div>
+                                        <div class="tooltip-arrow" data-popper-arrow />
+                                    </div>
+                                </div>
+                                <div class="context">
+                                    {{ val }}
+                                </div>
+                            </div>
                         </template>
                         <template v-else>
                             {{ dataValue[header.id] }}

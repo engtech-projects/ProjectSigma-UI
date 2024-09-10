@@ -6,7 +6,6 @@ defineProps({
     },
 })
 </script>
-
 <template>
     <div class="mt-4 details flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
         <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900 uppercase">

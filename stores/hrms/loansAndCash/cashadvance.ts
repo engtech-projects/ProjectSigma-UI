@@ -53,9 +53,56 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             paymentAmount: null,
         },
         ca: [],
-        list: [],
-        myApprovalRequestList: [],
-        myRequestList: [],
+        cashAdvanceList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        myApprovalRequestList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        myRequestList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        paidCashAdvanceList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        ongoingCashAdvanceList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        paymentCashAdvanceList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        paymentData: {
+            cashadvance_id: null,
+            data: {
+                paymentAmount: 0,
+            },
+            successMessage: "",
+            errorMessage: "",
+        },
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -92,12 +139,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data.data
-                            this.getCA()
-                            this.list.forEach((el) => {
-                                if (el.id === this.ca.value.id) {
-                                    this.ca.value = el
-                                }
-                            })
                         } else {
                             throw new Error(response._data.message)
                         }
@@ -110,11 +151,16 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 "/api/cash-advance/resource",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.cashAdvanceList.params,
+                    onRequest: () => {
+                        this.cashAdvanceList.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.cashAdvanceList.isLoading = false
                         if (response.ok) {
-                            this.list = response._data.data.data
-                            this.pagination = {
+                            this.cashAdvanceList.list = response._data.data.data
+                            this.cashAdvanceList.isLoaded = true
+                            this.cashAdvanceList.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
                                 last_page: response._data.data.last_page_url,
@@ -129,12 +175,68 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 "/api/cash-advance/my-request",
                 {
                     method: "GET",
+                    params: this.getParams,
+                    onRequest: () => {
+                        this.myRequestList.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myRequestList.isLoading = false
                         if (response.ok) {
-                            this.myRequestList = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.myRequestList.list = response._data.data.data
+                            this.myRequestList.isLoaded = true
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getOngoingCashAdvance () {
+            await useHRMSApi(
+                "/api/cash-advance/ongoing",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onRequest: () => {
+                        this.ongoingCashAdvanceList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.ongoingCashAdvanceList.isLoading = false
+                        if (response.ok) {
+                            this.ongoingCashAdvanceList.list = response._data.data.data
+                            this.ongoingCashAdvanceList.isLoaded = true
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getPaidCashAdvance () {
+            await useHRMSApi(
+                "/api/cash-advance/paid",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onRequest: () => {
+                        this.paidCashAdvanceList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.paidCashAdvanceList.isLoading = false
+                        if (response.ok) {
+                            this.paidCashAdvanceList.list = response._data.data.data
+                            this.paidCashAdvanceList.isLoaded = true
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         }
                     },
                 }
@@ -145,12 +247,44 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 "/api/cash-advance/my-approvals",
                 {
                     method: "GET",
+                    params: this.getParams,
+                    onRequest: () => {
+                        this.myApprovalRequestList.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myApprovalRequestList.isLoading = false
                         if (response.ok) {
-                            this.myApprovalRequestList = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.myApprovalRequestList.list = response._data.data.data
+                            this.myApprovalRequestList.isLoaded = true
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getPaymentsCashAdvance () {
+            await useHRMSApi(
+                "/api/cash-advance/payments",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onRequest: () => {
+                        this.paymentCashAdvanceList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.paymentCashAdvanceList.isLoading = false
+                        if (response.ok) {
+                            this.paymentCashAdvanceList.list = response._data.data.data
+                            this.paymentCashAdvanceList.isLoaded = true
+                            this.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         }
                     },
                 }
@@ -241,8 +375,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.getMyApprovalRequests()
-                            // this.getManpower()
-                            // this.getMyRequests()
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -278,6 +410,46 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     },
                 }
             )
+        },
+        async submitPayment (id: any) {
+            return await useHRMSApiO(
+                "/api/cash-advance/manual-payment/" + id,
+                {
+                    method: "POST",
+                    body: this.paymentData.data,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.reloadResources()
+                            this.paymentData.successMessage = response._data.message
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        reloadResources () {
+            const callFunctions = []
+            if (this.cashAdvanceList.isLoaded) {
+                callFunctions.push(this.getCA)
+            }
+            if (this.ongoingCashAdvanceList.isLoaded) {
+                callFunctions.push(this.getOngoingCashAdvance)
+            }
+            if (this.paidCashAdvanceList.isLoaded) {
+                callFunctions.push(this.getPaidCashAdvance)
+            }
+            if (this.paymentCashAdvanceList.isLoaded) {
+                callFunctions.push(this.getPaymentsCashAdvance)
+            }
+            this.$reset()
+            callFunctions.forEach((element) => {
+                element()
+            })
         },
     },
 })

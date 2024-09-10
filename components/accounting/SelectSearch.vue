@@ -57,7 +57,6 @@ const searchedOptions = computed(() => {
     return op
 })
 </script>
-
 <template>
     <div class="border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer">
         <div class="flex flex-1 items-center overflow-hidden py-[9px]" @click="toggleDD">

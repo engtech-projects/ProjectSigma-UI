@@ -37,11 +37,6 @@ const denyRequest = async (id) => {
     } finally {
         boardLoading.value = false
     }
-    clearRemarks()
-}
-
-const clearRemarks = () => {
-    remarks.value = ""
 }
 
 const approvedRequest = async (id) => {
@@ -64,7 +59,6 @@ const approvedRequest = async (id) => {
 }
 
 </script>
-
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" :title="'Personal Action Notice for ' + data.type">
         <template #body>
@@ -73,13 +67,12 @@ const approvedRequest = async (id) => {
             </div>
         </template>
         <template #footer>
-            <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end">
+            <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end">
                 <HrmsCommonApprovalDenyButton
                     v-model:deny-remarks="remarks"
                     :request-id="data.id"
                     @approve="approvedRequest"
                     @deny="denyRequest"
-                    @clear="clearRemarks"
                 />
             </div>
         </template>

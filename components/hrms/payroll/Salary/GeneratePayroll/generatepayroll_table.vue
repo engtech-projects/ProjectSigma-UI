@@ -50,7 +50,6 @@ const headers = [
 ]
 
 </script>
-
 <template>
     <LayoutBoards title="Generate Allowance List" class="w-full" :loading="boardLoading">
         <!-- <HrmsPayrollAllowanceFilterSelector /> -->

@@ -121,7 +121,7 @@ const checkElement = async (e: any) => {
                 </thead>
                 <tbody>
                     <tr v-show="showAppend" class="border-b-2 border-gray-300">
-                        <InventoryCommonTableItemAppend :subitemholder="subitemgroup" @add-item="addItemGroup" @hide-item="hideItemGroup" />
+                        <InventoryCommonTableItemAppendItemTable :subitemholder="subitemgroup" @add-item="addItemGroup" @hide-item="hideItemGroup" />
                     </tr>
                     <tr v-for="dataValue, index in itemLis" :key="index" class="bg-white border-b">
                         <template v-if="dataValue.edit">

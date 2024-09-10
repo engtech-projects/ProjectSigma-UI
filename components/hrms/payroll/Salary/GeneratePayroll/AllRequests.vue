@@ -2,12 +2,14 @@
 import { storeToRefs } from "pinia"
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 
-const genPayrollRequestsStpre = useGeneratePayrollStore()
-const { allRequests } = storeToRefs(genPayrollRequestsStpre)
-if (!allRequests.value.isLoaded) {
-    allRequests.value.isLoaded = true
-    genPayrollRequestsStpre.getAllRequests()
-}
+const genPayrollRequestsStore = useGeneratePayrollStore()
+const { allRequests } = storeToRefs(genPayrollRequestsStore)
+onMounted(() => {
+    if (!allRequests.value.isLoaded) {
+        allRequests.value.isLoaded = true
+        genPayrollRequestsStore.getAllRequests()
+    }
+})
 
 const changePaginate = (newParams) => {
     allRequests.value.params.page = newParams.page ?? ""
@@ -34,15 +36,16 @@ const showInformation = (data) => {
 }
 
 </script>
-
 <template>
     <div class="pb-2 text-gray-500 p-2">
-        <LayoutPsTable
-            :header-columns="headers"
-            :datas="allRequests.list"
-            :actions="actions"
-            @show-table="showInformation"
-        />
+        <LayoutLoadingContainer :loading="allRequests.isLoading">
+            <LayoutPsTable
+                :header-columns="headers"
+                :datas="allRequests.list"
+                :actions="actions"
+                @show-table="showInformation"
+            />
+        </LayoutLoadingContainer>
     </div>
     <div class="flex justify-center mx-auto">
         <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />

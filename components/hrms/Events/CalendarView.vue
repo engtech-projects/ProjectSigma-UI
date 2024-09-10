@@ -264,7 +264,6 @@ export default {
     },
 }
 </script>
-
 <template>
     <div class="mt-10 md:mt-0 md:flex gap-2 ">
         <LayoutBoards title="Add New Event" :loading="isLoading" class="w-full md:w-1/3">

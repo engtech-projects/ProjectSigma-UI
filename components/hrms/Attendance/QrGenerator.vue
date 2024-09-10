@@ -30,7 +30,6 @@ const downloadQR = () => {
         })
 }
 </script>
-
 <template>
     <div class="md:flex gap-2 mt-0 w-full">
         <div class="shadow-md p-4 bg-white mb-3 border border-gray-300 rounded-lg w-full md:w-1/3 flex flex-col">

@@ -27,7 +27,6 @@ const undo = () => {
     signature.value.undoSignature()
 }
 </script>
-
 <template>
     <div>
         <div class="w-full mt-5">

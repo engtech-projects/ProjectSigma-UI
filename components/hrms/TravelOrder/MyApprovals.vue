@@ -26,7 +26,6 @@ const actions = {
 }
 
 </script>
-
 <template>
     <LayoutBoards title="My Approval List" class="w-full">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">

@@ -43,7 +43,6 @@ const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 </script>
-
 <template>
     <LayoutBoards title="Department List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">

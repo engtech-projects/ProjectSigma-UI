@@ -3,64 +3,76 @@ import { storeToRefs } from "pinia"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 
 const cashadvances = useCashadvanceStore()
-const { list: cashadvanceList, pagination, getParams, ca } = storeToRefs(cashadvances)
-const showInformationModal = ref(false)
-const utils = useUtilities()
+const { cashAdvanceList } = storeToRefs(cashadvances)
 
-const showInformation = (data) => {
-    ca.value = data
-    newPayment.value.cashadvance_id = data.id
-    showInformationModal.value = true
-}
-const newPayment = ref({
-    id: null,
-    cashadvance_id: null,
-    amount_paid: null,
-    date_paid: utils.value.dateToString(new Date()),
-    payment_type: "Manual",
-    posting_status: "Posted",
-    paymentAmount: null,
+onMounted(() => {
+    if (!cashAdvanceList.value.isLoaded) {
+        cashadvances.getCA()
+    }
 })
 const headers = [
-    { name: "Employee Name", id: "employee.fullname_first" },
-    { name: "Cash Advance Amount", id: "amount" },
-    { name: "Terms", id: "terms_of_payment" },
-    { name: "Installment Deduction", id: "installment_deduction" },
-    { name: "Deduction Date start", id: "deduction_date_start" },
-    { name: "Purpose", id: "purpose" },
-    { name: "Balance", id: "balance" },
-    { name: "Total Paid", id: "total_paid" },
-    { name: "Status", id: "request_status" },
+    { text: "Employee Name", value: "employee.fullname_first" },
+    { text: "Cash Advance Amount", value: "amount" },
+    { text: "Terms", value: "terms_of_payment" },
+    { text: "Installment Deduction", value: "installment_deduction" },
+    { text: "Deduction Date start", value: "deduction_date_start" },
+    { text: "Purpose", value: "purpose" },
+    { text: "Balance", value: "balance" },
+    { text: "Total Paid", value: "total_paid" },
+    { text: "Status", value: "request_status" },
+    { text: "Action", value: "actions" },
 ]
-const actions = {
-    // edit: true,
-    // delete: true,
-    showTable: true,
-}
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    cashAdvanceList.value.params.page = newParams.page ?? ""
+}
+
+const infoModalData = ref({})
+const showInfoModal = ref(false)
+
+const showInformation = (data) => {
+    infoModalData.value = data
+    showInfoModal.value = true
 }
 </script>
-
 <template>
-    <div class="pb-2 text-gray-500 p-2">
-        <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
-        <LayoutPsTable
-            :header-columns="headers"
-            :datas="cashadvanceList"
-            :actions="actions"
-            @show-table="showInformation"
-        />
-    </div>
-    <div class="flex justify-center mx-auto">
-        <CustomPagination
-            v-if="cashadvanceList.length"
-            :links="pagination"
-            @change-params="changePaginate"
-        />
-    </div>
-    <HrmsCashadvanceInfoModal
-        v-model:show-modal="showInformationModal"
-        :data="ca"
-    />
+    <LayoutLoadingContainer :loading="cashAdvanceList.isLoading">
+        <div class="w-full">
+            <HrmsCommonSearchEmployeeSelector v-model="cashAdvanceList.params.employee_id" />
+        </div>
+        <div class="w-full">
+            <div class="mt-5 mb-6 ">
+                <EasyDataTable
+                    class="mt-5"
+                    :headers="headers"
+                    :items="cashAdvanceList.list"
+                    :hide-footer="true"
+                >
+                    <template #item-actions="item">
+                        <div class="flex flex-row gap-1">
+                            <button @click="showInformation(item)">
+                                <Icon
+                                    name="material-symbols:visibility-rounded"
+                                    color="white"
+                                    class="bg-teal-700 rounded h-8 w-8 p-1"
+                                />
+                            </button>
+                        </div>
+                    </template>
+                </EasyDataTable>
+            </div>
+            <div class="flex justify-center mx-auto">
+                <CustomPagination
+                    :links="cashAdvanceList.pagination"
+                    @change-params="changePaginate"
+                />
+            </div>
+        </div>
+        <HrmsCashadvanceInfoModal v-model:show-modal="showInfoModal" :data="infoModalData" />
+    </LayoutLoadingContainer>
 </template>
+
+<style scoped>
+.customize-table {
+    --easy-table-header-item-padding: 10px 15px;
+}
+</style>

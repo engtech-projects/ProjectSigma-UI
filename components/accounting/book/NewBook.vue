@@ -70,7 +70,6 @@ const checkedAccounts = computed(() => {
     return ids
 })
 </script>
-
 <template>
     <LayoutBoards title="Create New Book" :loading="isLoading" class="w-full">
         <form @submit.prevent="handleSubmit">

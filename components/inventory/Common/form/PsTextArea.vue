@@ -25,9 +25,8 @@ defineProps({
     },
 })
 </script>
-
 <template>
-    <div class="PsTextInputTemplate1 relative z-0 w-full mb-5 group">
+    <div class="PsTextAreaInputTemplate">
         <textarea
             :id="compId"
             v-model="model"

@@ -3,7 +3,6 @@ import { useChartOfAccountsStore } from "~/stores/accounting/chartofaccounts"
 
 const accounts = useChartOfAccountsStore()
 </script>
-
 <template>
     <div class="flex flex-col">
         <LayoutBoards title="Chart of Accounts" :loading="accounts.isLoading" class="w-full flex-2">

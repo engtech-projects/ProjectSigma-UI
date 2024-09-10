@@ -1,14 +1,14 @@
 <script setup>
-import { storeToRefs } from "pinia"
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 
-const genPayrollRequestsStpre = useGeneratePayrollStore()
-const { myApprovals } = storeToRefs(genPayrollRequestsStpre)
-if (!myApprovals.value.isLoaded) {
-    myApprovals.value.isLoaded = true
-    genPayrollRequestsStpre.getMyApprovals()
-}
-
+const genPayrollRequestsStore = useGeneratePayrollStore()
+const { myApprovals } = storeToRefs(genPayrollRequestsStore)
+onMounted(() => {
+    if (!myApprovals.value.isLoaded) {
+        myApprovals.value.isLoaded = true
+        genPayrollRequestsStore.getMyApprovals()
+    }
+})
 const headers = [
     { name: "Payroll Date", id: "payroll_date_human" },
     { name: "Charged to", id: "charging_name" },
@@ -30,15 +30,16 @@ const showInformation = (data) => {
 }
 
 </script>
-
 <template>
     <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-        <LayoutPsTable
-            :header-columns="headers"
-            :actions="actions"
-            :datas="myApprovals.list ?? []"
-            @show-table="showInformation"
-        />
+        <LayoutLoadingContainer :loading="myApprovals.isLoading">
+            <LayoutPsTable
+                :header-columns="headers"
+                :actions="actions"
+                :datas="myApprovals.list ?? []"
+                @show-table="showInformation"
+            />
+        </LayoutLoadingContainer>
     </div>
     <HrmsPayrollSalaryGeneratePayrollInfoModal
         v-model:show-modal="showInfoModal"

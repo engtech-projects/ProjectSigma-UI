@@ -39,9 +39,6 @@ const approvedRequest = async (id) => {
         boardLoading.value = false
     }
 }
-const clearRemarks = () => {
-    remarks.value = ""
-}
 const denyRequest = async (id) => {
     try {
         boardLoading.value = true
@@ -61,7 +58,6 @@ const denyRequest = async (id) => {
     }
 }
 </script>
-
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="TRAVEL ORDER">
         <template #body>
@@ -99,13 +95,12 @@ const denyRequest = async (id) => {
             </div>
         </template>
         <template #footer>
-            <div v-if="data.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
                 <HrmsCommonApprovalDenyButton
                     v-model:deny-remarks="remarks"
                     :request-id="data.id"
                     @approve="approvedRequest"
                     @deny="denyRequest"
-                    @clear="clearRemarks"
                 />
             </div>
         </template>

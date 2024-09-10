@@ -8,7 +8,6 @@ useHead({
 })
 // const route = useRoute()
 </script>
-
 <template>
     <div class="flex justify-center min-h-full">
         <AccountingAccountGroupEdit class="flex-1 max-w-[1000px]" />

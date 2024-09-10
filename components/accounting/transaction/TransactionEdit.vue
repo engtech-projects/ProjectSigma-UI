@@ -76,7 +76,6 @@ function selectStakeholder (val:any) {
     transactionStore.transaction.stakeholder_id = val.stakeholder_id
 }
 </script>
-
 <template>
     <LayoutBoards title="Edit Transaction" :loading="boardLoading" class="w-full h-fit">
         <form @submit.prevent="!transactionTypeStore.isEdit?handleSubmit():updateType()">

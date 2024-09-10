@@ -40,7 +40,6 @@ const headers = [
 
 // const snackbar = useSnackbar()
 </script>
-
 <template>
     <div class="flex flex-col items-end gap-4">
         <!-- <NuxtLink

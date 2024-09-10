@@ -1,35 +1,24 @@
 <script setup>
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 const main = useItemProfileStore()
-const { myApprovals } = storeToRefs(main)
-// import { useTravelorderStore } from "@/stores/hrms/travelorder"
-// const travels = useTravelorderStore()
-// travels.getMyRequests()
-// travels.getMyApprovalRequests()
-// travels.getTravelorders()
-
+await main.getAllRequests()
+await main.getMyRequests()
+await main.getMyApprovals()
 await main.getUOM()
-
-if (!myApprovals.value.isLoaded) {
-    myApprovals.value.isLoaded = true
-    main.getMyApprovals()
-}
+await main.getItemGroups()
 
 useHead({
     title: "New Item Profile",
 })
 
 </script>
-
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.inventory_item_profile_group,
+            AccessibilityTypes.inventory_new_item_profile,
         ])"
     >
-        <div
-            class="grid grid-cols-1 gap-4"
-        >
+        <div class="grid grid-cols-1 gap-4">
             <div class="col-span-1">
                 <InventoryItemProfileTable />
             </div>

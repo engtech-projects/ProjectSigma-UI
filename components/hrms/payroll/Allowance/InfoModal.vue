@@ -39,9 +39,6 @@ const approvedRequest = async (id) => {
         boardLoading.value = false
     }
 }
-const clearRemarks = () => {
-    remarks.value = ""
-}
 const denyRequest = async (id) => {
     try {
         boardLoading.value = true
@@ -70,7 +67,6 @@ const employeeAllowanceHeaders = [
 ]
 
 </script>
-
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Allowance Request">
         <template #body>
@@ -134,7 +130,6 @@ const employeeAllowanceHeaders = [
                     :request-id="data.id"
                     @approve="approvedRequest"
                     @deny="denyRequest"
-                    @clear="clearRemarks"
                 />
             </div>
         </template>

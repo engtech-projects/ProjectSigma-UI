@@ -10,7 +10,6 @@ defineProps({
     },
 })
 </script>
-
 <template>
     <tr class="bg-white border-b text-gray-950">
         <td class="p-4 border-solid border border-slate-400">
@@ -91,40 +90,54 @@ defineProps({
             {{ employeePayrollRecord.payroll_records.salary_deduction.sss.employee_compensation ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.sss.employee_compensation) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
-            {{ employeePayrollRecord.payroll_records.salary_deduction.phic.employee_compensation ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.phic.employee_compensation) : "-" }}
+            {{ employeePayrollRecord.payroll_records.salary_deduction.phic.employee_contribution ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.phic.employee_contribution) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
-            {{ employeePayrollRecord.payroll_records.salary_deduction.hmdf.employee_compensation ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.hmdf.employee_compensation) : "-" }}
+            {{ employeePayrollRecord.payroll_records.salary_deduction.hmdf.employee_contribution ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.hmdf.employee_contribution) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.ewtc) ?? "-" }}
         </td>
-        <td class="p-2 border-solid border border-slate-400">
-            <div class="divide-y">
+        <td class="p-1 border-solid border border-slate-400 min-w-min">
+            <div class="divide-y min-w-min">
                 <div>
-                    <strong>Loans:</strong>
-                    {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.loan.total_paid) ?? "-" }}
+                    <strong>
+                        Loans:
+                    </strong>
                     <div v-for="(loan, index1) in employeePayrollRecord.payroll_records.salary_deduction.loan.loans" :key="'loanName'+index1">
                         {{ loan.id }}: {{ useFormatCurrency(loan.max_payroll_payment) ?? "-" }}
                     </div>
+                    <strong>
+                        Total:{{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.loan.total_paid) ?? "-" }}
+                    </strong>
                 </div>
                 <div>
-                    <strong>CA:</strong>
-                    {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.cash_advance.total_paid) ?? "-" }}
+                    <strong>
+                        C.A.:
+                    </strong>
                     <div v-for="(cAdv, index1) in employeePayrollRecord.payroll_records.salary_deduction.cash_advance.cash_advance" :key="'cAdvName'+index1">
                         {{ cAdv.id }}: {{ useFormatCurrency(cAdv.max_payroll_payment) ?? "-" }}
                     </div>
+                    <strong>
+                        Total:{{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.cash_advance.total_paid) ?? "-" }}
+                    </strong>
                 </div>
                 <div>
-                    <strong>Other Deductions:</strong>
-                    {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.other_deductions.total_paid) ?? "-" }}
+                    <strong>
+                        Other Ded.:
+                    </strong>
                     <div v-for="(otherDeduct, index1) in employeePayrollRecord.payroll_records.salary_deduction.other_deductions.other_deduction" :key="'oDed'+index1">
                         {{ otherDeduct.otherdeduction_name }}:{{ useFormatCurrency(otherDeduct.max_payroll_payment) ?? "-" }}
                     </div>
+                    <strong>
+                        Total:{{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.other_deductions.total_paid) ?? "-" }}
+                    </strong>
                 </div>
-                <div>
-                    <strong>HMO:</strong>
-                </div>
+                <!-- <div>
+                    <strong>
+                        HMO:
+                    </strong>
+                </div> -->
             </div>
         </td>
         <td class="p-4 border-solid border border-slate-400">

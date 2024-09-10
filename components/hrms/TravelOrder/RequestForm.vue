@@ -17,8 +17,6 @@ const submitForm = async () => {
                 type: "error",
                 text: travels.errorMessage
             })
-            travels.$reset()
-            travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
         } else {
             snackbar.add({
                 type: "success",
@@ -32,8 +30,9 @@ const submitForm = async () => {
         })
     } finally {
         travels.clearMessages()
+        travels.$reset()
+        travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
         boardLoading.value = false
-        travel.value.approvals = formApproval
     }
 }
 </script>

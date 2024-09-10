@@ -21,14 +21,13 @@ defineProps({
     },
 })
 </script>
-
 <template>
-    <div class="PsTextInput w-full p-2">
+    <div class="PsDateInput w-full p-2">
         <label
             :for="compId"
             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
         >
-            {{ title }}
+            {{ title }}<span class="text-red-600">{{ required ? "*" : "" }}</span>
         </label>
         <input
             :id="compId"
