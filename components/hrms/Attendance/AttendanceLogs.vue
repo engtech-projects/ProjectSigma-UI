@@ -7,6 +7,7 @@ attendancePortal.getSearchAttedanceLog()
 const { attendanceLogs } = storeToRefs(attendancePortal)
 const headers = [
     { name: "Employee Name", id: "employee.fullname_first" },
+    { name: "Assigment Designation", id: "assignment" },
     { name: "Date", id: "date" },
     { name: "Time", id: "time_human" },
     { name: "Description", id: "log_type" },
