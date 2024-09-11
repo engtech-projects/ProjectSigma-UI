@@ -69,6 +69,12 @@ const submitAdd = async () => {
                             required
                         >
                     </div>
+                    <HrmsCommonDepartmentProjectSelector
+                        v-model:select-type="failtolog.charging_type"
+                        v-model:department-id="failtolog.charging_id"
+                        v-model:project-id="failtolog.charging_id"
+                        title="Filter Department/Project"
+                    />
                     <div class="w-full">
                         <LayoutFormPsTextInput v-model="failtolog.reason" title="Reason" />
                     </div>

@@ -17,6 +17,8 @@ export const useFailToLogStore = defineStore("Failtologs", {
             time: "",
             log_type: null,
             reason: null,
+            charging_type: null,
+            charging_id: null,
             approvals: [],
         },
         errorMessage: "",
