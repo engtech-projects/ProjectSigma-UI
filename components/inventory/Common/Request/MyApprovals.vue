@@ -8,8 +8,7 @@ const { myApprovals: List } = storeToRefs(mains)
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
-    infoModalData.value = data
-    showInfoModal.value = true
+    navigateTo("item-details?key=" + data.id)
 }
 
 const headers = [
