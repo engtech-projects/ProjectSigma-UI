@@ -189,6 +189,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                             this.generateDraftRequest.successMessage = response._data.message
                         } else {
                             this.generateDraftRequest.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -210,6 +211,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                             this.createAllowanceRequest.successMessage = response._data.message
                         } else {
                             this.createAllowanceRequest.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
