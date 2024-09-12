@@ -131,22 +131,7 @@ const denyRequest = async (id:any) => {
                                     <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                         <div class="flex flex-row justify-center gap-2">
                                             <template v-if="dataValue.similar_items.length >= 1">
-                                                <div class="icon">
-                                                    <Icon name="material-symbols:info-outline" class="text-blue-700 h-5 w-5 lg:h-5 lg:w-5" data-tooltip-target="tooltip-top" />
-                                                    <div id="tooltip-top" data-popover role="tooltip" class="absolute z-[9999] duration-300 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
-                                                        <div class="list flex flex-col gap-2">
-                                                            <div class="text-md">
-                                                                Similar Items:
-                                                            </div>
-                                                            <template v-for="item in dataValue.similar_items" :key="item + '-summary'">
-                                                                <div class="flex flex-col gap-1 text-xs">
-                                                                    {{ item.item_description }}
-                                                                </div>
-                                                            </template>
-                                                        </div>
-                                                        <div class="tooltip-arrow" data-popper-arrow />
-                                                    </div>
-                                                </div>
+                                                <InventoryCommonItemProfileSimilarItems :datas="dataValue.similar_items" />
                                             </template>
                                             <div class="context">
                                                 {{ dataValue.sku }}
