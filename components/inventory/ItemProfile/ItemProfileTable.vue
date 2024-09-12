@@ -105,7 +105,6 @@ const doEditItem = (data:any, index: number) => {
     if (newItemProfile.value.length >= 1) {
         newItemProfile.value[index] = data
         newItemProfile.value[index].is_edit = false
-        profileStore.reset()
     }
 }
 const showItemProfile = () => {

@@ -283,7 +283,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                         if (response.ok) {
                             this.itemgroup = response._data.data.map((val: any) => {
                                 return {
-                                    id: val.name,
+                                    id: val.id,
                                     name: val.name,
                                 }
                             })
@@ -304,9 +304,9 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                     method: "GET",
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.subitemgroup = response._data.data.sub_groups.map((val: any) => {
+                            this.subitemgroup = response._data.data.sub_groups.map((val: any, index: any) => {
                                 return {
-                                    id: val,
+                                    id: index,
                                     name: val,
                                 }
                             })
