@@ -76,6 +76,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                         this.allowanceRecords.isLoading = true
                     },
                     onResponse: ({ response }) => {
+                        this.allowanceRecords.isLoading = false
                         if (response.ok) {
                             this.allowanceRecords.data = response._data.data
                         }
@@ -108,6 +109,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                         this.allRequests.isLoading = true
                     },
                     onResponse: ({ response }) => {
+                        this.allRequests.isLoading = false
                         if (response.ok) {
                             this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
@@ -131,6 +133,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                         this.myRequests.isLoading = true
                     },
                     onResponse: ({ response }) => {
+                        this.myRequests.isLoading = false
                         if (response.ok) {
                             this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data.data
@@ -157,6 +160,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                         this.myApprovals.isLoading = true
                     },
                     onResponse: ({ response }) => {
+                        this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data
@@ -179,6 +183,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                         this.generateDraftRequest.isLoading = true
                     },
                     onResponse: ({ response }: any) => {
+                        this.generateDraftRequest.isLoading = false
                         if (response.ok) {
                             this.createAllowanceRequest.data = response._data.data
                             this.generateDraftRequest.successMessage = response._data.message
@@ -199,6 +204,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                         this.createAllowanceRequest.isLoading = true
                     },
                     onResponse: ({ response }: any) => {
+                        this.createAllowanceRequest.isLoading = false
                         if (response.ok) {
                             this.reloadResources()
                             this.createAllowanceRequest.successMessage = response._data.message
