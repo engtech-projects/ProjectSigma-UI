@@ -26,7 +26,7 @@ const getType = (id:number) => {
     return null
 }
 
-const getSubItemGroup = (id:number) => {
+const getSubItemGroup = (id:any) => {
     if (subitemgroup.value.length >= 1) {
         const symbol = subitemgroup.value.map((data: any, index: any) => {
             return index === id ? data.name : null
@@ -36,7 +36,7 @@ const getSubItemGroup = (id:number) => {
     return null
 }
 
-const getItemGroup = (id:number) => {
+const getItemGroup = (id:any) => {
     if (itemgroup.value.length >= 1) {
         const symbol = itemgroup.value.map((data: any) => {
             return data.id === id ? data.name : null
@@ -76,6 +76,11 @@ const doAddItemProfile = (item: any, id: number) => {
 const doStoreItemProfile = async () => {
     try {
         if (newItemProfile.value.length >= 1) {
+            newItemProfile.value.map((data) => {
+                data.item_group = getItemGroup(data.item_group)
+                data.sub_item_group = getSubItemGroup(data.sub_item_group)
+                return data
+            })
             formItemProfile.value.item_profiles = newItemProfile.value
             await profileStore.storeItemProfile()
             if (profileStore.errorMessage !== "") {
