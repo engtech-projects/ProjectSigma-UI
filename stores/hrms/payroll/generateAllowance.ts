@@ -3,39 +3,56 @@ import { defineStore } from "pinia"
 export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
     state: () => ({
         isEdit: false,
-        generateAllowance: {
-            id: null,
-            employees: [] as any[],
-            project_id: null,
-            department_id: null,
-            cutoff_start: "",
-            cutoff_end: "",
-            allowance_date: "",
-            total_days: null,
-            group_type: null,
-            approvals: []
+        generateDraftRequest: {
+            isLoading: false,
+            data: {
+                employees: [] as any[],
+                project_id: null,
+                department_id: null,
+                cutoff_start: "",
+                cutoff_end: "",
+                allowance_date: "",
+                total_days: null as Number|null,
+                charging_type: null,
+                approvals: [],
+            },
+            errorMessage: "",
+            successMessage: "",
+        },
+        createAllowanceRequest: {
+            isLoading: false,
+            data: {}, // Will be set By Generate Draft
+            errorMessage: "",
+            successMessage: "",
         },
         allRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
             pagination: {},
+            errorMessage: "",
+            successMessage: "",
         },
         myApprovals: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
+            errorMessage: "",
+            successMessage: "",
         },
         myRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
             pagination: {},
-        },
-        pagination: {},
-        getParams: {
+            errorMessage: "",
+            successMessage: "",
         },
         allowanceRecords: {
+            isLoading: false,
             data: {},
             params: {
                 group_type: null,
@@ -44,10 +61,9 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 charge_assignment: "",
                 allowance_date: "",
             },
+            errorMessage: "",
+            successMessage: "",
         },
-        errorMessage: "",
-        successMessage: "",
-        remarks: "",
     }),
     actions: {
         async getAllowanceRecords () {
@@ -56,6 +72,9 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 {
                     method: "GET",
                     params: this.allowanceRecords.params,
+                    onRequest: () => {
+                        this.allowanceRecords.isLoading = true
+                    },
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.allowanceRecords.data = response._data.data
@@ -64,12 +83,11 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 }
             )
         },
-        async getOne (id: any) {
+        async getOne (id: any): Promise<any> {
             return await useHRMSApiO(
-                "/api/employee-allowance/resource/" + id,
+                "/api/allowance-request/resource/" + id,
                 {
                     method: "GET",
-                    params: this.getParams,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             return response._data.data
@@ -82,10 +100,13 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
         },
         async getAllRequests () {
             await useHRMSApi(
-                "/api/employee-allowance/resource",
+                "/api/allowance-request/resource",
                 {
                     method: "GET",
                     params: this.allRequests.params,
+                    onRequest: () => {
+                        this.allRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.allRequests.isLoaded = true
@@ -102,10 +123,13 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
         },
         async getMyRequests () {
             await useHRMSApi(
-                "/api/employee-allowance/my-requests",
+                "/api/allowance-request/my-requests",
                 {
                     method: "GET",
                     params: this.myRequests.params,
+                    onRequest: () => {
+                        this.myRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.myRequests.isLoaded = true
@@ -116,7 +140,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                                 last_page: response._data.data.last_page_url,
                             }
                         } else {
-                            this.errorMessage = response._data.message
+                            this.myRequests.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
@@ -125,132 +149,120 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
         },
         async getMyApprovals () {
             await useHRMSApi(
-                "/api/employee-allowance/my-approvals",
+                "/api/allowance-request/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
+                    onRequest: () => {
+                        this.myApprovals.isLoading = true
+                    },
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data
+                            this.myApprovals.successMessage = response._data.message
                         } else {
-                            this.errorMessage = response._data.message
+                            this.myApprovals.errorMessage = response._data.message
                             throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async generateDraft () {
+            await useHRMSApiO(
+                "/api/allowance-request/draft",
+                {
+                    method: "POST",
+                    body: this.generateDraftRequest.data,
+                    onRequest: () => {
+                        this.generateDraftRequest.isLoading = true
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.createAllowanceRequest.data = response._data.data
+                            this.generateDraftRequest.successMessage = response._data.message
+                        } else {
+                            this.generateDraftRequest.errorMessage = response._data.message
                         }
                     },
                 }
             )
         },
         async createRequest () {
-            this.successMessage = ""
-            this.errorMessage = ""
             await useHRMSApiO(
-                "/api/employee-allowance/resource",
+                "/api/allowance-request/resource",
                 {
                     method: "POST",
-                    body: this.generateAllowance,
+                    body: this.createAllowanceRequest.data,
+                    onRequest: () => {
+                        this.createAllowanceRequest.isLoading = true
+                    },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.reloadResources()
-                            this.successMessage = response._data.message
+                            this.createAllowanceRequest.successMessage = response._data.message
                         } else {
-                            this.errorMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        clearMessages () {
-            this.errorMessage = ""
-            this.successMessage = ""
-        },
-        async editRequest () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApiO(
-                "/api/employee-allowance/resource/" + this.generateAllowance.id,
-                {
-                    method: "PATCH",
-                    body: this.generateAllowance,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.getGA()
-                            this.$reset()
-                            this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
+                            this.createAllowanceRequest.errorMessage = response._data.message
                         }
                     },
                 }
             )
         },
         async deleteRequest (id: number) {
-            const { data, error } = await useHRMSApi(
-                "/api/employee-allowance/resource/" + id,
+            return await useHRMSApiO(
+                "/api/allowance-request/resource/" + id,
                 {
                     method: "DELETE",
                     watch: false,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.reloadResources()
-                            this.successMessage = response._data.message
+                            return response._data.message
                         }
                     },
                 }
             )
-            if (error.value) {
-                this.errorMessage = error.value.data.message
-                throw new Error(this.errorMessage)
-                return error
-            }
-            if (data.value) {
-                this.reloadResources()
-                return data
-            }
         },
         async approveApprovalForm (id: number) {
-            this.successMessage = ""
-            this.errorMessage = ""
             await useHRMSApiO(
                 "/api/approvals/approve/GenerateAllowance/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
+                        // this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.reloadResources()
-                            this.successMessage = response._data.message
+                            // this.successMessage = response._data.message
                             return response._data
                         } else {
-                            this.errorMessage = response._data.message
+                            // this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
                 }
             )
         },
-        async denyApprovalForm (id: string) {
-            this.successMessage = ""
-            this.errorMessage = ""
+        async denyApprovalForm (id: string, remarks: string) {
             const formData = new FormData()
             formData.append("id", id)
-            formData.append("remarks", this.remarks)
+            formData.append("remarks", remarks)
             await useHRMSApiO(
                 "/api/approvals/disapprove/GenerateAllowance/" + id,
                 {
                     method: "POST",
                     body: formData,
                     onResponseError: ({ response }: any) => {
-                        this.errorMessage = response._data.message
+                        // this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.reloadResources()
-                            this.successMessage = response._data.message
+                            // this.successMessage = response._data.message
                             return response._data
                         }
                     },
@@ -258,7 +270,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
             )
         },
         reloadResources () {
-            const backup = this.generateAllowance.approvals
+            const backup = this.generateDraftRequest.data.approvals
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
@@ -270,7 +282,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 callFunctions.push(this.getMyApprovals)
             }
             this.$reset()
-            this.generateAllowance.approvals = backup
+            this.generateDraftRequest.data.approvals = backup
             callFunctions.forEach((element) => {
                 element()
             })
