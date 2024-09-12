@@ -278,7 +278,6 @@ const config = useRuntimeConfig()
                 /> -->
             </LayoutNavGroup>
             <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_reports_group,
                 ])"
