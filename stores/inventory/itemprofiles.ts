@@ -34,8 +34,8 @@ export interface NewItemProfile {
     grade: string,
     color: string,
     uom: number,
-    item_group: number,
-    sub_item_group: number,
+    item_group: string,
+    sub_item_group: string,
     uom_conversion_value: number,
     inventory_type: string,
     active_status: string,
@@ -73,8 +73,8 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             color: "",
             uom: null,
             uom_group_id: "",
-            item_group: null,
-            sub_item_group: null,
+            item_group: "",
+            sub_item_group: "",
             uom_conversion_value: null,
             inventory_type: "",
             active_status: "Inactive",
@@ -283,7 +283,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                         if (response.ok) {
                             this.itemgroup = response._data.data.map((val: any) => {
                                 return {
-                                    id: val.id,
+                                    id: val.name,
                                     name: val.name,
                                 }
                             })
@@ -304,9 +304,9 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                     method: "GET",
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.subitemgroup = response._data.data.sub_groups.map((val: any, index: number) => {
+                            this.subitemgroup = response._data.data.sub_groups.map((val: any) => {
                                 return {
-                                    id: index,
+                                    id: val,
                                     name: val,
                                 }
                             })
