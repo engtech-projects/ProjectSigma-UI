@@ -33,7 +33,7 @@ const boardLoading = ref(false)
 
 </script>
 <template>
-    <LayoutBoards class="w-full" :loading="boardLoading">
+    <LayoutLoadingContainer class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
@@ -45,7 +45,7 @@ const boardLoading = ref(false)
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
         </div>
-    </LayoutBoards>
+    </LayoutLoadingContainer>
     <HrmsPayrollAllowanceInfoModal
         v-model:show-modal="showInfoModal"
         :data="infoModalData"

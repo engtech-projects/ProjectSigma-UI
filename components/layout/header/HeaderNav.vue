@@ -41,16 +41,17 @@
                 <LayoutHeaderNotifButton />
                 <!-- Profile-btn -->
                 <LayoutHeaderUserButton />
+                <Teleport to="body">
+                    <!-- Notification dropdown-menu -->
+                    <div id="notification-dropdown" class="hidden">
+                        <LayoutHeaderNotificationDropdown />
+                    </div>
 
-                <!-- Notification dropdown-menu -->
-                <div id="notification-dropdown" class="hidden">
-                    <LayoutHeaderNotificationDropdown />
-                </div>
-
-                <!-- Profile dropdown-menu -->
-                <div id="user-menu-button" class="hidden">
-                    <LayoutHeaderUserDropdown />
-                </div>
+                    <!-- Profile dropdown-menu -->
+                    <div id="user-menu-button" class="hidden">
+                        <LayoutHeaderUserDropdown />
+                    </div>
+                </Teleport>
             </div>
         </div>
     </nav>

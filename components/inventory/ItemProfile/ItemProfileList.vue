@@ -16,31 +16,31 @@ const boardLoading = ref(false)
             <table class="table-auto w-full border-collapse">
                 <thead>
                     <tr>
-                        <th class="p-2 border-0 border-b text-sm" rowspan="2">
+                        <th class="p-2 border text-sm" rowspan="2">
                             Item Profile
                         </th>
-                        <th class="p-2 border-0 border-b text-sm" colspan="2">
+                        <th class="p-2 border text-sm" colspan="2">
                             Stock Info
                         </th>
                     </tr>
                     <tr>
-                        <th class="p-2 border-0 border-b text-sm">
+                        <th class="p-2 border text-sm">
                             Ware House
                         </th>
-                        <th class="p-2 border-0 border-b text-sm">
+                        <th class="p-2 border text-sm">
                             Quantity
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="dataValue, index in List" :key="index" class="bg-white border-b">
-                        <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                    <tr v-for="dataValue, index in List" :key="index" class="bg-white border">
+                        <td class="border px-2 font-medium text-gray-900 whitespace-nowrap text-center py-1">
                             {{ dataValue.profile_summary }}
                         </td>
-                        <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                        <td class="border px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                             Lorem Ipsum
                         </td>
-                        <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                        <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                             Lorem Ipsum
                         </td>
                     </tr>

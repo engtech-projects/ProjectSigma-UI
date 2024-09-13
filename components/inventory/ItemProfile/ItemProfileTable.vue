@@ -26,7 +26,7 @@ const getType = (id:number) => {
     return null
 }
 
-const getSubItemGroup = (id:number) => {
+const getSubItemGroup = (id:any) => {
     if (subitemgroup.value.length >= 1) {
         const symbol = subitemgroup.value.map((data: any, index: any) => {
             return index === id ? data.name : null
@@ -36,7 +36,7 @@ const getSubItemGroup = (id:number) => {
     return null
 }
 
-const getItemGroup = (id:number) => {
+const getItemGroup = (id:any) => {
     if (itemgroup.value.length >= 1) {
         const symbol = itemgroup.value.map((data: any) => {
             return data.id === id ? data.name : null
@@ -76,6 +76,11 @@ const doAddItemProfile = (item: any, id: number) => {
 const doStoreItemProfile = async () => {
     try {
         if (newItemProfile.value.length >= 1) {
+            newItemProfile.value.map((data: any) => {
+                data.item_group = getItemGroup(data.item_group)
+                data.sub_item_group = getSubItemGroup(data.sub_item_group)
+                return data
+            })
             formItemProfile.value.item_profiles = newItemProfile.value
             await profileStore.storeItemProfile()
             if (profileStore.errorMessage !== "") {
@@ -105,7 +110,6 @@ const doEditItem = (data:any, index: number) => {
     if (newItemProfile.value.length >= 1) {
         newItemProfile.value[index] = data
         newItemProfile.value[index].is_edit = false
-        profileStore.reset()
     }
 }
 const showItemProfile = () => {
@@ -254,10 +258,10 @@ const doGetSubItemGroup = async (id: number) => {
                                 {{ dataValue.uom }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ getSubItemGroup(dataValue.sub_item_group) }}
+                                {{ getSubItemGroup(dataValue.sub_item_group) ? getSubItemGroup(dataValue.sub_item_group) : dataValue.sub_item_group }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ getItemGroup(dataValue.item_group) }}
+                                {{ getItemGroup(dataValue.item_group) ? getItemGroup(dataValue.item_group) : dataValue.item_group }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.inventory_type }}
@@ -284,7 +288,7 @@ const doGetSubItemGroup = async (id: number) => {
         <div class="flex w-full">
             <div class="pt-5 w-full mb-2 rounded-lg p-4 bg-slate-100 ">
                 <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white"> Approval:</label>
-                <HrmsSetupApprovalsList
+                <InventorySetupApprovalsList
                     v-for="(approv, apr) in formItemProfile.approvals"
                     :key="'hrmsetupapprovallist' + apr"
                     v-model="formItemProfile.approvals[apr]"

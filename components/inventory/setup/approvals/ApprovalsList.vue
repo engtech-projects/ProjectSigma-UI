@@ -11,7 +11,7 @@ const model = defineModel({ required: true, type: Object })
 
         <div class="flex flex-col">
             <div v-if="model.userselector">
-                <HrmsCommonUserEmployeeSelector v-model="model.user_id" />
+                <InventoryCommonItemProfileSelector v-model="model.user_id" />
             </div>
             <div v-else>
                 <span class="font-semibold">{{ model.employee.fullname_first }}</span>

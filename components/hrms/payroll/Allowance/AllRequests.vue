@@ -35,7 +35,7 @@ const showInformation = (data) => {
 
 </script>
 <template>
-    <LayoutBoards class="w-full" :loading="boardLoading">
+    <LayoutLoadingContainer class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable
                 :header-columns="headers"
@@ -57,7 +57,7 @@ const showInformation = (data) => {
         >
             {{ successMessage }}
         </p>
-    </LayoutBoards>
+    </LayoutLoadingContainer>
     <HrmsPayrollAllowanceInfoModal
         v-model:show-modal="showInfoModal"
         :data="infoModalData"
