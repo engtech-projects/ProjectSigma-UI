@@ -8,7 +8,12 @@ const { myRequests: List } = storeToRefs(mains)
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
-    navigateTo("item-details?key=" + data.id)
+    navigateTo({
+        path: "item-details",
+        query: {
+            key: data.id
+        }
+    })
 }
 
 const headers = [
