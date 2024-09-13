@@ -39,6 +39,17 @@ const { remarks, uom } = storeToRefs(profileStore)
 const getType = (id:number) => {
     if (uom.value.length >= 1) {
         const symbol = uom.value.map((data: any) => {
+            return data.id === id ? data.symbol : null
+        }).filter((num:any): num is number => num !== null)
+
+        return symbol ? symbol[0] : null
+    }
+    return null
+}
+
+const getTypeUOM = (id:number) => {
+    if (uom.value.length >= 1) {
+        const symbol = uom.value.map((data: any) => {
             return data.id === id ? data.name : null
         }).filter((num:any): num is number => num !== null)
 
@@ -104,7 +115,7 @@ const denyRequest = async (id:any) => {
             </div>
             <LayoutPrint>
                 <div id="itemDetails">
-                    <div id="content">
+                    <div id="content" class="overflow-auto">
                         <table class="table-auto w-full border-collapse">
                             <thead>
                                 <tr>
@@ -138,56 +149,56 @@ const denyRequest = async (id:any) => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.item_description }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.thickness_val }}
                                         {{ getType(dataValue.thickness_uom) }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.length_val }}
                                         {{ getType(dataValue.length_uom) }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.width_val }}
                                         {{ getType(dataValue.width_uom) }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.height_val }}
                                         {{ getType(dataValue.height_uom) }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.outside_diameter_val }}
                                         {{ getType(dataValue.outside_diameter_uom) }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.inside_diameter_val }}
                                         {{ getType(dataValue.inside_diameter_uom) }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.volume }}
                                         {{ getType(dataValue.volume_uom) }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.specification }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.grade }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.color }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                        {{ dataValue.uom }}
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
+                                        {{ getTypeUOM(dataValue.uom) }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.sub_item_group }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.item_group }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.inventory_type }}
                                     </td>
                                 </tr>

@@ -76,7 +76,7 @@ const doAddItemProfile = (item: any, id: number) => {
 const doStoreItemProfile = async () => {
     try {
         if (newItemProfile.value.length >= 1) {
-            newItemProfile.value.map((data) => {
+            newItemProfile.value.map((data: any) => {
                 data.item_group = getItemGroup(data.item_group)
                 data.sub_item_group = getSubItemGroup(data.sub_item_group)
                 return data
@@ -258,10 +258,10 @@ const doGetSubItemGroup = async (id: number) => {
                                 {{ dataValue.uom }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ getSubItemGroup(dataValue.sub_item_group) }}
+                                {{ getSubItemGroup(dataValue.sub_item_group) ? getSubItemGroup(dataValue.sub_item_group) : dataValue.sub_item_group }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ getItemGroup(dataValue.item_group) }}
+                                {{ getItemGroup(dataValue.item_group) ? getItemGroup(dataValue.item_group) : dataValue.item_group }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.inventory_type }}
