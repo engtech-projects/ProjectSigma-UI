@@ -13,13 +13,15 @@ const boardLoading = ref(false)
 
 const submitAdd = async () => {
     try {
+        const backupEmployeeSelected = failtolog.value.employee_id
         boardLoading.value = true
         await failtologs.createLog()
-        failtolog.value.employee_id = null
+        // failtolog.value.employee_id = null // Removed keep old employee because hard to reset lol
         snackbar.add({
             type: "success",
             text: failtologs.successMessage
         })
+        failtolog.value.employee_id = backupEmployeeSelected
     } catch {
         snackbar.add({
             type: "error",
