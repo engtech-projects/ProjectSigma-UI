@@ -181,23 +181,24 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
             })
         },
         async createResource () {
-            await useHRMSApi("/api/other-deduction/resource", {
+            await useHRMSApiO("/api/other-deduction/resource", {
                 method: "POST",
-                watch: false,
                 body: this.createData.data,
                 onRequest: () => {
                     this.createData.isLoading = true
                 },
-                onResponseError: ({ response }) => {
+                onResponseError: ({ response }: any) => {
                     this.createData.errorMessage = response._data.message
                     throw new Error(response._data.message)
                 },
-                onResponse: ({ response }) => {
+                onResponse: ({ response }: any) => {
                     this.createData.isLoading = false
                     if (response.ok) {
                         this.reloadResources()
                         this.createData.data = response._data.data
                         this.createData.successMessage = response._data.message
+                    } else {
+                        throw new Error(response._data.message)
                     }
                 },
             })
