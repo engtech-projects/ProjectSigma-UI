@@ -188,6 +188,7 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
                     this.createData.isLoading = true
                 },
                 onResponseError: ({ response }: any) => {
+                    this.createData.isLoading = false
                     this.createData.errorMessage = response._data.message
                     throw new Error(response._data.message)
                 },
@@ -195,7 +196,6 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
                     this.createData.isLoading = false
                     if (response.ok) {
                         this.reloadResources()
-                        this.createData.data = response._data.data
                         this.createData.successMessage = response._data.message
                     } else {
                         throw new Error(response._data.message)
