@@ -9,6 +9,12 @@ export const LOG_TYPE = [
 export const useFailToLogStore = defineStore("Failtologs", {
     state: () => ({
         isEdit: false,
+        createRequestData: {
+            isLoading: false,
+            data: {},
+            successMessage: "",
+            errorMessage: "",
+        },
         failtolog:
         {
             id: null,
@@ -25,18 +31,21 @@ export const useFailToLogStore = defineStore("Failtologs", {
         successMessage: "",
         remarks: "",
         allRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
             pagination: {},
         },
         myApprovals: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
             pagination: {},
         },
         myRequests: {
+            isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
@@ -49,7 +58,6 @@ export const useFailToLogStore = defineStore("Failtologs", {
                 "/api/attendance/failed-log/" + id,
                 {
                     method: "GET",
-                    params: this.allRequests.params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             return response._data.data
@@ -61,12 +69,17 @@ export const useFailToLogStore = defineStore("Failtologs", {
             )
         },
         async getAllList () {
+            this.allRequests.isLoaded = true
             await useHRMSApi(
                 "/api/attendance/failed-log",
                 {
                     method: "GET",
                     params: this.allRequests.params,
+                    onRequest: () => {
+                        this.allRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.allRequests.isLoading = false
                         if (response.ok) {
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
@@ -80,12 +93,17 @@ export const useFailToLogStore = defineStore("Failtologs", {
             )
         },
         async getMyRequests () {
+            this.myRequests.isLoaded = true
             await useHRMSApi(
                 "/api/attendance/failure-to-log/my-requests",
                 {
                     method: "GET",
                     params: this.myRequests.params,
+                    onRequest: () => {
+                        this.myApprovals.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myRequests.isLoading = false
                         if (response.ok) {
                             this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
@@ -102,12 +120,17 @@ export const useFailToLogStore = defineStore("Failtologs", {
             )
         },
         async getMyApprovalRequests () {
+            this.myApprovals.isLoaded = true
             await useHRMSApi(
                 "/api/attendance/failure-to-log/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
+                    onRequest: () => {
+                        this.myApprovals.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.list = response._data.data.data
                             this.myApprovals.pagination = {
@@ -127,21 +150,19 @@ export const useFailToLogStore = defineStore("Failtologs", {
         async createLog () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApi(
+            await useHRMSApiO(
                 "/api/attendance/failed-log",
                 {
                     method: "POST",
                     body: this.failtolog,
                     watch: false,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.$reset()
-                            this.getAllList()
-                            this.getMyApprovalRequests()
-                            this.getMyRequests()
+                            this.reloadResources()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -159,12 +180,9 @@ export const useFailToLogStore = defineStore("Failtologs", {
                 {
                     method: "PATCH",
                     body: this.failtolog,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.$reset()
-                            this.getAllList()
-                            this.getMyApprovalRequests()
-                            this.getMyRequests()
+                            this.reloadResources()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -251,5 +269,23 @@ export const useFailToLogStore = defineStore("Failtologs", {
                 }
             )
         },
+        reloadResources () {
+            const backup = this.failtolog.approvals
+            const callFunctions = []
+            if (this.allRequests.isLoaded) {
+                callFunctions.push(this.getAllList)
+            }
+            if (this.myRequests.isLoaded) {
+                callFunctions.push(this.getMyRequests)
+            }
+            if (this.myApprovals.isLoaded) {
+                callFunctions.push(this.getMyApprovalRequests)
+            }
+            this.$reset()
+            this.failtolog.approvals = backup
+            callFunctions.forEach((element) => {
+                element()
+            })
+        }
     },
 })

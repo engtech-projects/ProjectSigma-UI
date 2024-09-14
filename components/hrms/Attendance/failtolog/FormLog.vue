@@ -15,19 +15,11 @@ const submitAdd = async () => {
     try {
         boardLoading.value = true
         await failtologs.createLog()
-        if (failtologs.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: failtologs.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: failtologs.successMessage
-            })
-        }
         failtolog.value.employee_id = null
-        failtolog.value.approvals = await approvals.getApprovalByName(APPROVAL_FAILTOLOG)
+        snackbar.add({
+            type: "success",
+            text: failtologs.successMessage
+        })
     } catch {
         snackbar.add({
             type: "error",
@@ -43,7 +35,7 @@ const submitAdd = async () => {
     <LayoutBoards title="Failure to Log Form" class="mt-2 edit-item w-full max-w-full" :loading="boardLoading">
         <form @submit.prevent="submitAdd">
             <div class="w-full p-2">
-                <div class="mt-2 grid gap-6 mb-2 md:grid-cols-2">
+                <div class="mt-2 grid gap-2 mb-2 md:grid-cols-2">
                     <HrmsCommonSearchEmployeeSelector v-model="failtolog.employee_id" />
                     <div class="w-full">
                         <label for="department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Log Type</label>
@@ -73,7 +65,8 @@ const submitAdd = async () => {
                         v-model:select-type="failtolog.charging_type"
                         v-model:department-id="failtolog.charging_id"
                         v-model:project-id="failtolog.charging_id"
-                        title="Filter Department/Project"
+                        title="Charging"
+                        class="p-2"
                     />
                     <div class="w-full">
                         <LayoutFormPsTextInput v-model="failtolog.reason" title="Reason" />
