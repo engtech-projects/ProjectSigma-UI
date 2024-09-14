@@ -60,7 +60,7 @@ export const useAttendancePortal = defineStore("attendancePortal", {
         faceNames (state) {
             const faceNames = [] as any
             state.facialPatterList.forEach((face) => {
-                faceNames[face.employee_id] = face.employee.fullname_last
+                faceNames[face.employee_id] = face.employee?.fullname_last
             })
             return faceNames
         },
