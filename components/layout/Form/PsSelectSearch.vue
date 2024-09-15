@@ -11,6 +11,10 @@ const props = defineProps({
     searchList: {
         type: Array<any>,
         default: [],
+    },
+    loading: {
+        type: Boolean,
+        default: false,
     }
 })
 const forFocusOut = ref()
@@ -72,9 +76,12 @@ function clearSearchQuery () {
             <div class="relative">
                 <div
                     v-if="showDD"
-                    class="absolute max-h-72 left-0 min-w-full py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2 z-10"
+                    class="absolute max-h-72 left-0 min-w-full overflow-auto py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2 z-10"
                 >
-                    <div v-if="props.searchList.length" class="flex flex-col overflow-auto">
+                    <div v-show="loading" class="mx-auto">
+                        <Icon name="svg-spinners:6-dots-rotate" />
+                    </div>
+                    <div v-if="props.searchList.length" class="flex flex-col">
                         <span
                             v-for="option, i in props.searchList"
                             :key="i"
