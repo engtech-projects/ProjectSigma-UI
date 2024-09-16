@@ -488,6 +488,14 @@ const config = useRuntimeConfig()
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Item Profile List"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.inventory_item_profile,
+                    ])"
+                    linkarea="/inventory/item-profile/bulk-upload"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Item Profile Bulk Upload"
+                />
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
