@@ -181,7 +181,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 {
                     method: "GET",
                     params: this.allRequests.params,
+                    onRequest: () => {
+                        this.allRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.allRequests.isLoading = false
                         if (response.ok) {
                             this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
@@ -201,7 +205,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 {
                     method: "GET",
                     params: this.myRequests.params,
+                    onRequest: () => {
+                        this.myRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myRequests.isLoading = false
                         if (response.ok) {
                             this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data.data
@@ -223,7 +231,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 {
                     method: "GET",
                     params: this.myApprovals.params,
+                    onRequest: () => {
+                        this.myApprovals.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data.data

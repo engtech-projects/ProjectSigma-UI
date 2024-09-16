@@ -9,7 +9,7 @@ const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/item-profile/item-details",
+        path: "/inventory/item-profile/new-profile/request-details",
         query: {
             key: data.id
         },
