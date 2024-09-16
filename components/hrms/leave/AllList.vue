@@ -37,7 +37,7 @@ const actions = {
     <LayoutBoards class="w-full" :loading="allList.isLoading">
         <div class="flex gap-2">
             <HrmsCommonSearchEmployeeSelector v-model="allList.params.employee_id" class="w-full" />
-            <LayoutFormPsDateInput v-model="allList.params.date_filter" class="w-full" title="Date Filter" />>
+            <LayoutFormPsDateInput v-model="allList.params.date_filter" class="w-full" title="Date Filter" />
         </div>
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable

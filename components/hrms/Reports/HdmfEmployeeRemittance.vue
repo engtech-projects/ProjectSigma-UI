@@ -16,22 +16,17 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
 </script>
 <template>
     <LayoutBoards title="HDMF Employee Remittance" :loading="pagibigEmployeeRemitanceList.isLoading">
-        <div class="md:grid grid-cols-4 gap-4 mt-5 mb-16">
-            <VueDatePicker
-                v-model="pagibigEmployeeRemitanceList.params.month_year"
-                month-picker
-                class="rounded-lg"
-                placeholder="Select Month & Year"
-                :auto-apply="true"
-            />
+        <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
+            <LayoutFormPsMonthYearInput v-model="pagibigEmployeeRemitanceList.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="pagibigEmployeeRemitanceList.params.cutoff_start" class="w-full" title="Cutoff Start" required />
+            <LayoutFormPsDateInput v-model="pagibigEmployeeRemitanceList.params.cutoff_end" class="w-full" title="Cutoff End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                @click="generateReport"
             >
                 Generate Report
             </button>
-        </div>
+        </form>
         <LayoutPrint>
             <div class="flex flex-col">
                 <div class="header flex flex-col  mb-8">
