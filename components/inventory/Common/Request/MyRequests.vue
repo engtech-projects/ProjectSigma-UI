@@ -9,16 +9,17 @@ const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
     navigateTo({
-        path: "item-details",
+        path: "/inventory/item-profile/item-details",
         query: {
             key: data.id
-        }
+        },
+        replace: true
     })
 }
 
 const headers = [
     { name: "Item Summary", id: "profile_summary" },
-    { name: "Active Status", id: "request_status" },
+    { name: "Request Status", id: "request_status" },
 ]
 const actions = {
     showTable: true,
@@ -28,7 +29,7 @@ const boardLoading = ref(false)
 
 </script>
 <template>
-    <LayoutBoards title="My Requests" class="w-full" :loading="boardLoading">
+    <div class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <InventoryCommonLayoutPsTable
                 :header-columns="headers"
@@ -41,5 +42,5 @@ const boardLoading = ref(false)
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
         />
-    </LayoutBoards>
+    </div>
 </template>

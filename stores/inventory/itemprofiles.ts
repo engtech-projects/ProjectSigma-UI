@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
 const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
@@ -160,16 +159,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
     },
     actions: {
         async getUOM () {
-            const { data, error } = await useFetch(
+            const { data, error } = await useInventoryApi(
                 "/api/uom/resource",
                 {
-                    baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
                     watch: false,
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     onResponse: ({ response }) => {
                         this.uom = response._data.data
                     },
@@ -246,17 +240,12 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             )
         },
         async storeItemProfile () {
-            const { data, error } = await useFetch(
+            const { data, error } = await useInventoryApi(
                 "/api/item-profile/new-request/resource",
                 {
-                    baseURL: config.public.INVENTORY_API_URL,
                     method: "POST",
                     body: this.formItemProfile,
                     watch: false,
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     onResponse: ({ response }) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
@@ -321,15 +310,10 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             }
         },
         async getItemProfile () {
-            await useFetch(
+            await useInventoryApi(
                 "/api/item-profile/list",
                 {
-                    baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.list = response._data.data.data
@@ -343,10 +327,9 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             )
         },
         async showItemProfile (id: number) {
-            await useFetch(
+            await useInventoryApi(
                 "/api/item-profile/new-request/resource/" + id,
                 {
-                    baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
                     headers: {
                         Authorization: token.value + "",

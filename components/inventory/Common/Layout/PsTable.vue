@@ -50,12 +50,12 @@ const isActiveRow = (index: any) => {
                     <th
                         v-for="header in headerColumns"
                         :key="header.name+'headerRow'"
-                        class="p-2"
+                        class="p-2 border"
                         :class="header.style ?? ''"
                     >
                         {{ header.name }}
                     </th>
-                    <th v-if="actions" class="p-2">
+                    <th v-if="actions" class="p-2 border">
                         Actions
                     </th>
                 </tr>
@@ -66,9 +66,7 @@ const isActiveRow = (index: any) => {
                         {{ dataValue.profile_summary }}
                     </td>
                     <td>
-                        <div v-for="approval in dataValue.approvals" :key="approval+'headerRow'">
-                            {{ approval.status }}
-                        </div>
+                        {{ dataValue.request_status }}
                     </td>
                     <td v-if="actions" class=" p-2 flex gap-2 justify-center">
                         <button v-if="actions.edit" @click="doEdit(dataValue) ">
