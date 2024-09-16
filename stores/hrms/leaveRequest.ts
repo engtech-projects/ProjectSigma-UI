@@ -38,9 +38,27 @@ export interface LeaveRequest {
 
 export const useLeaveRequest = defineStore("LeaveRequest", {
     state: () => ({
-        allList: [],
-        approvalList: [],
-        myRequestList: [],
+        allList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        approvalList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        myRequestList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
         isEdit: false,
         payload: {
             id: "",
@@ -110,42 +128,54 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
             )
         },
         async allLeaves () {
-            this.successMessage = ""
-            this.errorMessage = ""
             await useHRMSApi(
                 "/api/leave-request/resource",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.allList.params,
+                    onRequest: () => {
+                        this.allList.isLoading = true
+                    },
+                    onResponseError: ({ response }) => {
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }) => {
+                        this.allList.isLoading = false
                         if (response.ok) {
-                            this.allList = response._data.data
-                            this.pagination = {
-                                first_page: response._data.links.first,
-                                pages: response._data.meta.links,
-                                last_page: response._data.links.last,
+                            this.allList.isLoaded = true
+                            this.allList.list = response._data.data.data
+                            this.allList.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
                             }
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }
             )
         },
         async myRequest () {
-            this.successMessage = ""
-            this.errorMessage = ""
             await useHRMSApi(
                 "/api/leave-request/my-request",
                 {
                     method: "GET",
+                    params: this.myRequestList.params,
+                    onRequest: () => {
+                        this.myRequestList.isLoading = true
+                    },
+                    onResponseError: ({ response }) => {
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }) => {
+                        this.myRequestList.isLoading = false
                         if (response.ok) {
-                            this.myRequestList = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.myRequestList.isLoaded = true
+                            this.myRequestList.list = response._data.data.data
+                            this.myRequestList.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         }
                     },
                 }
@@ -158,12 +188,23 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 "/api/leave-request/my-approvals",
                 {
                     method: "GET",
+                    params: this.approvalList.params,
+                    onRequest: () => {
+                        this.approvalList.isLoading = true
+                    },
+                    onResponseError: ({ response }) => {
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }) => {
+                        this.approvalList.isLoading = false
                         if (response.ok) {
-                            this.approvalList = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.approvalList.isLoaded = true
+                            this.approvalList.list = response._data.data.data
+                            this.approvalList.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         }
                     },
                 }
