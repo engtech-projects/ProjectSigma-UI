@@ -22,6 +22,9 @@ const changePaginate = (newParams) => {
                             <th class="p-2 border text-sm" colspan="2">
                                 Stock Info
                             </th>
+                            <th class="p-2 border text-sm" rowspan="2" colspan="1">
+                                Action
+                            </th>
                         </tr>
                         <tr>
                             <th class="p-2 border text-sm">
@@ -38,6 +41,9 @@ const changePaginate = (newParams) => {
                                 {{ dataValue.profile_summary }}
                             </td>
                             <td class="border px-2 font-medium text-gray-900 whitespace-nowrap text-center">
+                                Lorem Ipsum
+                            </td>
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                 Lorem Ipsum
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">

@@ -26,22 +26,40 @@ const getType = (id:number) => {
     return null
 }
 
+const isNumeric = (value: string) => {
+    return /^\d+$/.test(value)
+}
+
 const getSubItemGroup = (id:any) => {
     if (subitemgroup.value.length >= 1) {
-        const symbol = subitemgroup.value.map((data: any, index: any) => {
-            return index === id ? data.name : null
-        }).filter((num:any): num is number => num !== null)
-        return symbol ? symbol[0] : null
+        if (isNumeric(id) === true) {
+            const symbol = subitemgroup.value.map((data: any, index: any) => {
+                return index === id ? data.name : null
+            }).filter((num:any): num is number => num !== null)
+            return symbol ? symbol[0] : null
+        } else {
+            const symbol = subitemgroup.value.map((data: any) => {
+                return data.name === id ? data.id : null
+            }).filter((num:any): num is number => num !== null)
+            return symbol ? symbol[0] : null
+        }
     }
     return null
 }
 
 const getItemGroup = (id:any) => {
     if (itemgroup.value.length >= 1) {
-        const symbol = itemgroup.value.map((data: any) => {
-            return data.id === id ? data.name : null
-        }).filter((num:any): num is number => num !== null)
-        return symbol ? symbol[0] : null
+        if (isNumeric(id) === true) {
+            const symbol = itemgroup.value.map((data: any, index: any) => {
+                return index === id ? data.name : null
+            }).filter((num:any): num is number => num !== null)
+            return symbol ? symbol[0] : null
+        } else {
+            const symbol = itemgroup.value.map((data: any) => {
+                return data.name === id ? data.id : null
+            }).filter((num:any): num is number => num !== null)
+            return symbol ? symbol[0] : null
+        }
     }
     return null
 }
@@ -88,6 +106,11 @@ const doStoreItemProfile = async () => {
                     type: "error",
                     text: profileStore.errorMessage
                 })
+                newItemProfile.value.map((data: any) => {
+                    data.item_group = getItemGroup(data.item_group)
+                    data.sub_item_group = getSubItemGroup(data.sub_item_group)
+                    return data
+                })
             } else {
                 snackbar.add({
                     type: "success",
@@ -101,6 +124,11 @@ const doStoreItemProfile = async () => {
         snackbar.add({
             type: "error",
             text: error || "something went wrong."
+        })
+        newItemProfile.value.map((data: any) => {
+            data.item_group = getItemGroup(data.item_group)
+            data.sub_item_group = getSubItemGroup(data.sub_item_group)
+            return data
         })
     } finally {
         boardLoading.value = false
@@ -163,6 +191,16 @@ const hideEditItem = async (index: number) => {
 }
 const doGetSubItemGroup = async (id: number) => {
     await profileStore.getSubItemGroups(id)
+}
+const getTypeUOM = (id:number) => {
+    if (uom.value.length >= 1) {
+        const symbol = uom.value.map((data: any) => {
+            return data.id === id ? data.name : null
+        }).filter((num:any): num is number => num !== null)
+
+        return symbol ? symbol[0] : null
+    }
+    return null
 }
 </script>
 <template>
@@ -255,7 +293,7 @@ const doGetSubItemGroup = async (id: number) => {
                                 {{ dataValue.color }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.uom }}
+                                {{ getTypeUOM(dataValue.uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ getSubItemGroup(dataValue.sub_item_group) ? getSubItemGroup(dataValue.sub_item_group) : dataValue.sub_item_group }}
