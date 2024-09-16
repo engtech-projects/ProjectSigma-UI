@@ -48,7 +48,8 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             date: null,
             employee_id: null,
         },
-        currentDate: null,
+        currentDate: new Date(),
+        currentTime: new Date(),
         attendanceSession: null,
         lastSuccessLogEmployee: null,
         portal_token: null,
@@ -100,12 +101,13 @@ export const useAttendancePortal = defineStore("attendancePortal", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAttendancePortalApi(
-                "/api/attendance/current-date",
+                "/api/attendance/current-date-time",
                 {
                     method: "GET",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.currentDate = new Date(response._data.data)
+                            this.currentDate = new Date(response._data.date)
+                            this.currentTime = new Date(response._data.time)
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

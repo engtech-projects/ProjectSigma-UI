@@ -2,15 +2,15 @@
 import { useAttendancePortal } from "~/stores/hrms/attendancePortal"
 
 const attendancePortal = useAttendancePortal()
-const { attendanceSession, currentDate } = storeToRefs(attendancePortal)
+const { attendanceSession, currentDate, currentTime } = storeToRefs(attendancePortal)
 const headerTimer = ref(null)
 
 const myTimer = async () => {
     await attendancePortal.getCurrentDate()
     currentDate.value = currentDate.value.toDateString()
     setInterval(() => {
-        const date = new Date()
-        headerTimer.value = date.toLocaleTimeString()
+        currentTime.value.setSeconds(currentTime.value.getSeconds() + 1)
+        headerTimer.value = currentTime.value.toLocaleTimeString()
     }, 1000)
 }
 myTimer()
