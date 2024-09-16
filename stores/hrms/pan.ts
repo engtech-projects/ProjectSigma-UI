@@ -27,7 +27,7 @@ export interface PersonelActionNotice {
     hire_source: String,
     work_location: String,
     employment_status: String,
-    comment: String,
+    comments: String,
     department: Array<Department>
     type_of_termination: String,
     reasons_for_termination: String,
