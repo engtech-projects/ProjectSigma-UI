@@ -86,7 +86,10 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         itemgroup: [] as any,
         subitemgroup: [] as any,
         uom: {} as any,
-        list: [],
+        itemDetails: {
+            list: [],
+            isLoading: false,
+        },
         allRequests: {
             isLoading: false,
             isLoaded: false,
@@ -327,8 +330,12 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 {
                     method: "GET",
                     params: this.getParams,
+                    onRequest: () => {
+                        this.itemDetails.isLoading = true
+                    },
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data
+                        this.itemDetails.isLoading = false
+                        this.itemDetails.list = response._data.data.data
                         this.pagination = {
                             first_page: response._data.data.first_page_url,
                             pages: response._data.data.links,
