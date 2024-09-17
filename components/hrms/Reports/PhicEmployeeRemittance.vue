@@ -73,22 +73,22 @@ watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) 
                     </thead>
                     <tbody class="text-sm">
                         <tr v-for="reportData, index in philhealthEmployeeRemitanceList.list" :key="'philhealthemployeeremitance' + index" class="h-2">
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ index + 1 }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
+                            <td class="border border-gray-500 h-8 px-2 text-sm">
                                 {{ reportData.employee_name }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.employee_philhealth_id }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.philhealth_employee_contribution) }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.philhealth_employer_contribution) }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.total_contribution) }}
                             </td>
                         </tr>

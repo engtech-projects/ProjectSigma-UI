@@ -58,7 +58,7 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                                 SSS NO.
                             </th>
                             <th colspan="3" class="border border-gray-500">
-                                SS AMOUNT
+                                SSS AMOUNT
                             </th>
 
                             <th rowspan="3" class="border border-gray-500">
