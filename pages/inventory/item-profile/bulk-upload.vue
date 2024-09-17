@@ -55,9 +55,9 @@ const saveBulkUpload = () => {
                     >
                 </div>
             </div>
-            <InventoryItemProfileBulkUploadTable title="UNPROCESS" :header-columns="headers" :data="main.itemDetails.listUnprocess" />
-            <InventoryItemProfileBulkUploadTable title="DUPLICATES" :header-columns="headers" :data="main.itemDetails.listUnprocess" />
-            <InventoryItemProfileBulkUploadTable :is-checkbox="true" title="PROCESS" :header-columns="headers" :data="main.itemDetails.listUnprocess" @change-params="saveBulkUpload" />
+            <InventoryItemProfileBulkUploadTable title="UNPROCESS" :header-columns="headers" :data="main.listUnprocess.data" />
+            <InventoryItemProfileBulkUploadTable title="DUPLICATES" :header-columns="headers" :data="main.listDuplicates.data" />
+            <InventoryItemProfileBulkUploadTable :is-checkbox="true" title="PROCESS" :header-columns="headers" :data="main.listProcess.data" @change-params="saveBulkUpload" />
         </div>
     </LayoutAcessContainer>
 </template>
