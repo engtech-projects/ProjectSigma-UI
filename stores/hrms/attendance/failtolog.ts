@@ -11,7 +11,7 @@ export const useFailToLogStore = defineStore("Failtologs", {
         isEdit: false,
         createRequestData: {
             isLoading: false,
-            data: {},
+            data: {} as any,
             successMessage: "",
             errorMessage: "",
         },
@@ -24,7 +24,8 @@ export const useFailToLogStore = defineStore("Failtologs", {
             log_type: null,
             reason: null,
             charging_type: null,
-            charging_id: null,
+            project_id: null,
+            department_id: null,
             approvals: [],
         },
         errorMessage: "",
@@ -154,14 +155,17 @@ export const useFailToLogStore = defineStore("Failtologs", {
                 "/api/attendance/failed-log",
                 {
                     method: "POST",
-                    body: this.failtolog,
-                    watch: false,
+                    body: this.createRequestData.data,
+                    onRequest: () => {
+                        this.createRequestData.isLoading = true
+                    },
                     onResponse: ({ response }: any) => {
+                        this.createRequestData.isLoading = false
                         if (response.ok) {
                             this.reloadResources()
-                            this.successMessage = response._data.message
+                            this.createRequestData.successMessage = response._data.message
                         } else {
-                            this.errorMessage = response._data.message
+                            this.createRequestData.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
