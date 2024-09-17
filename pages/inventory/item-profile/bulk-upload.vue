@@ -1,4 +1,12 @@
 <script setup>
+import { useItemBulkProfileStore } from "@/stores/inventory/bulkupload"
+
+useHead({
+    title: "Bulk Upload",
+})
+
+const main = useItemBulkProfileStore()
+
 const headers = [
     { name: "Item description", id: "item_description" },
     { name: "Thickness", id: "thickness_val" },
@@ -14,30 +22,6 @@ const headers = [
     { name: "Sub Item Group", id: "sub_item_group" },
     { name: "Item Group", id: "item_group" },
     { name: "Inventory Type", id: "inventory_type" },
-]
-
-useHead({
-    title: "Bulk Upload",
-})
-
-const dataUnprocess = [
-    {
-        isCheck: false,
-        item_description: "Lorem Ipsum",
-        thickness_val: "Lorem Ipsum",
-        length_val: "Lorem Ipsum",
-        width_val: "Lorem Ipsum",
-        height_val: "Lorem Ipsum",
-        outside_diameter_val: "Lorem Ipsum",
-        inside_diameter_val: "Lorem Ipsum",
-        volume_val: "Lorem Ipsum",
-        grade: "Lorem Ipsum",
-        color: "Lorem Ipsum",
-        uom: "Lorem Ipsum",
-        sub_item_group: "Lorem Ipsum",
-        item_group: "Lorem Ipsum",
-        inventory_type: "Lorem Ipsum",
-    }
 ]
 
 const data = ref([])
@@ -71,9 +55,9 @@ const saveBulkUpload = () => {
                     >
                 </div>
             </div>
-            <InventoryItemProfileBulkUploadTable title="UNPROCESS" :header-columns="headers" :data="dataUnprocess" />
-            <InventoryItemProfileBulkUploadTable title="DUPLICATES" :header-columns="headers" :data="dataUnprocess" />
-            <InventoryItemProfileBulkUploadTable :is-checkbox="true" title="PROCESS" :header-columns="headers" :data="dataUnprocess" @change-params="saveBulkUpload" />
+            <InventoryItemProfileBulkUploadTable title="UNPROCESS" :header-columns="headers" :data="main.itemDetails.listUnprocess" />
+            <InventoryItemProfileBulkUploadTable title="DUPLICATES" :header-columns="headers" :data="main.itemDetails.listUnprocess" />
+            <InventoryItemProfileBulkUploadTable :is-checkbox="true" title="PROCESS" :header-columns="headers" :data="main.itemDetails.listUnprocess" @change-params="saveBulkUpload" />
         </div>
     </LayoutAcessContainer>
 </template>

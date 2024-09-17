@@ -1,9 +1,27 @@
 import { defineStore } from "pinia"
-export const useItemProfileStore = defineStore("itemprofiles", {
+export const useItemBulkProfileStore = defineStore("itemBulkProfiles", {
     state: () => ({
         isEdit: false,
         itemDetails: {
-            listUnprocess: [],
+            listUnprocess: [
+                {
+                    isCheck: false,
+                    item_description: "Lorem Ipsum",
+                    thickness_val: "Lorem Ipsum",
+                    length_val: "Lorem Ipsum",
+                    width_val: "Lorem Ipsum",
+                    height_val: "Lorem Ipsum",
+                    outside_diameter_val: "Lorem Ipsum",
+                    inside_diameter_val: "Lorem Ipsum",
+                    volume_val: "Lorem Ipsum",
+                    grade: "Lorem Ipsum",
+                    color: "Lorem Ipsum",
+                    uom: "Lorem Ipsum",
+                    sub_item_group: "Lorem Ipsum",
+                    item_group: "Lorem Ipsum",
+                    inventory_type: "Lorem Ipsum",
+                }
+            ],
             listDuplicates: [],
             listProcess: [],
             isLoading: false,
