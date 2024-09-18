@@ -11,7 +11,18 @@ export const useFailToLogStore = defineStore("Failtologs", {
         isEdit: false,
         createRequestData: {
             isLoading: false,
-            data: {} as any,
+            data: {
+                id: null,
+                employee_id: null,
+                date: "",
+                time: "",
+                log_type: null,
+                reason: null,
+                charging_type: null,
+                project_id: null,
+                department_id: null,
+                approvals: [],
+            } as any,
             successMessage: "",
             errorMessage: "",
         },
@@ -203,8 +214,7 @@ export const useFailToLogStore = defineStore("Failtologs", {
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.$reset()
-                            this.getAllList()
+                            this.reloadResources()
                             this.successMessage = response._data.message
                         }
                     },
@@ -233,10 +243,8 @@ export const useFailToLogStore = defineStore("Failtologs", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.reloadResources()
                             this.successMessage = response._data.message
-                            this.getMyApprovalRequests()
-                            this.getAllList()
-                            this.getMyRequests()
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -263,10 +271,8 @@ export const useFailToLogStore = defineStore("Failtologs", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.reloadResources()
                             this.successMessage = response._data.message
-                            this.getMyApprovalRequests()
-                            this.getAllList()
-                            this.getMyRequests()
                             return response._data
                         }
                     },
@@ -274,7 +280,7 @@ export const useFailToLogStore = defineStore("Failtologs", {
             )
         },
         reloadResources () {
-            const backup = this.failtolog.approvals
+            const backup = this.createRequestData.data.approvals
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllList)
@@ -286,7 +292,7 @@ export const useFailToLogStore = defineStore("Failtologs", {
                 callFunctions.push(this.getMyApprovalRequests)
             }
             this.$reset()
-            this.failtolog.approvals = backup
+            this.createRequestData.data.approvals = backup
             callFunctions.forEach((element) => {
                 element()
             })
