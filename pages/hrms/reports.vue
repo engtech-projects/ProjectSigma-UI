@@ -31,7 +31,7 @@ const selectedReport = ref("")
                         SSS Summary
                     </option>
                     <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
+                        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_sssgroupremittance])"
                         value="Report2"
                     >
                         SSS Project Remittance
@@ -61,7 +61,7 @@ const selectedReport = ref("")
                         PHIC Summary
                     </option>
                     <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
+                        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_philhealthgroupremittance])"
                         value="Report7"
                     >
                         PHIC Project Remittance
@@ -79,7 +79,7 @@ const selectedReport = ref("")
                         HDMF Summary
                     </option>
                     <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
+                        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_pagibiggroupremittance])"
                         value="Report10"
                     >
                         HDMF Project Remittance
