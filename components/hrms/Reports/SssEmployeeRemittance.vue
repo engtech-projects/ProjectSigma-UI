@@ -2,9 +2,21 @@
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { sssEmployeeRemitanceList } = storeToRefs(generateReportstore)
+const snackbar = useSnackbar()
 
-const generateReport = () => {
-    generateReportstore.getSssEmployeeRemitance()
+const generateReport = async () => {
+    try {
+        await generateReportstore.getSssEmployeeRemitance()
+        snackbar.add({
+            type: "success",
+            text: sssEmployeeRemitanceList.value.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: sssEmployeeRemitanceList.value.errorMessage || "something went wrong."
+        })
+    }
 }
 const totalSssEmployeeRemittance = () => {
     return sssEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
