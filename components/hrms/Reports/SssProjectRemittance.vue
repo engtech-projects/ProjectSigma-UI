@@ -18,7 +18,38 @@ const generateReport = async () => {
         })
     }
 }
-
+const totalSssProjectRemittance = () => {
+    return sssGroupRemittance.value.list.reduce((accumulator, current) => {
+        return accumulator + current.sss_employee_contribution
+    }, 0)
+}
+const totalSssEmployerGroupRemittance = () => {
+    return sssGroupRemittance.value.list.reduce((accumulator, current) => {
+        return accumulator + current.sss_employer_contribution
+    }, 0)
+}
+const sssTotalGroupContribution = () => {
+    return sssGroupRemittance.value.list.reduce((accumulator, current) => {
+        return accumulator + current.total_contribution
+    }, 0)
+}
+const totalSssEmployerGroupCompensation = () => {
+    return sssGroupRemittance.value.list.reduce((accumulator, current) => {
+        return accumulator + current.sss_employer_compensation
+    }, 0)
+}
+const sssGroupTotal = () => {
+    return sssGroupRemittance.value.list.reduce((accumulator, current) => {
+        return accumulator + current.total_sss
+    }, 0)
+}
+const totalGroupAmountDue = () => {
+    return (totalSssProjectRemittance() +
+        totalSssEmployerGroupRemittance() +
+        sssTotalGroupContribution() +
+        totalSssEmployerGroupCompensation() +
+        sssGroupTotal())
+}
 watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
     if (newValue) {
         sssGroupRemittance.value.params.filter_month = newValue.month + 1
@@ -135,19 +166,19 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                                 TOTAL
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalSssProjectRemittance) }}
+                                {{ useFormatCurrency(totalSssProjectRemittance()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalSssEmployerGroupRemittance) }}
+                                {{ useFormatCurrency(totalSssEmployerGroupRemittance()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.sssTotalGroupContribution) }}
+                                {{ useFormatCurrency(sssTotalGroupContribution()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalSssEmployerGroupCompensation) }}
+                                {{ useFormatCurrency(totalSssEmployerGroupCompensation()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.sssGroupTotal) }}
+                                {{ useFormatCurrency(sssGroupTotal()) }}
                             </td>
                         </tr>
                         <tr>
@@ -155,7 +186,7 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalGroupAmountDue) }}
+                                {{ useFormatCurrency(totalGroupAmountDue()) }}
                             </td>
                         </tr>
                     </tbody>

@@ -27,7 +27,7 @@ watch(() => philhealthGroupRemittance.value.params.month_year, (newValue) => {
 })
 </script>
 <template>
-    <LayoutBoards title="PhilHealth Employee Remittance" :loading="philhealthGroupRemittance.isLoading">
+    <LayoutBoards title="PhilHealth Group Remittance" :loading="philhealthGroupRemittance.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
             <HrmsCommonDepartmentProjectSelector
                 v-model:select-type="philhealthGroupRemittance.params.charging_type"

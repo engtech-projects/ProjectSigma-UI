@@ -18,7 +18,21 @@ const generateReport = async () => {
         })
     }
 }
-
+const totalPagibigEmployeeRemittance = () => {
+    return pagibigEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.pagibig_employee_contribution
+    }, 0)
+}
+const totalPagibigEmployerRemittance = () => {
+    return pagibigEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.pagibig_employer_contribution
+    }, 0)
+}
+const pagibigTotalContribution = () => {
+    return pagibigEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.total_contribution
+    }, 0)
+}
 watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => {
     if (newValue) {
         pagibigEmployeeRemitanceList.value.params.filter_month = newValue.month + 1
@@ -137,13 +151,13 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
                                 TOTAL
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalPagibigEmployeeRemittance) }}
+                                {{ useFormatCurrency(totalPagibigEmployeeRemittance()) }}
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalPagibigEmployerRemittance) }}
+                                {{ useFormatCurrency(totalPagibigEmployerRemittance()) }}
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.pagibigTotalContribution) }}
+                                {{ useFormatCurrency(pagibigTotalContribution()) }}
                             </td>
                         </tr>
                     </tbody>

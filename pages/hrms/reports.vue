@@ -25,10 +25,10 @@ const selectedReport = ref("")
                         Select Report
                     </option>
                     <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
+                        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_sssremittancesummary])"
                         value="Report1"
                     >
-                        SSS Summary
+                        SSS Remittance Summary
                     </option>
                     <option
                         v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_sssgroupremittance])"
