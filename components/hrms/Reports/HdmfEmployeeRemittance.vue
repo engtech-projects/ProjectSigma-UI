@@ -2,9 +2,21 @@
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { pagibigEmployeeRemitanceList } = storeToRefs(generateReportstore)
+const snackbar = useSnackbar()
 
-const generateReport = () => {
-    generateReportstore.getPagibigEmployeeRemitance()
+const generateReport = async () => {
+    try {
+        await generateReportstore.getPagibigEmployeeRemitance()
+        snackbar.add({
+            type: "success",
+            text: pagibigEmployeeRemitanceList.value.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: pagibigEmployeeRemitanceList.value.errorMessage || "something went wrong."
+        })
+    }
 }
 
 watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => {

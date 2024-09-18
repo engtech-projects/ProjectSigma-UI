@@ -2,9 +2,21 @@
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { sssGroupRemittance } = storeToRefs(generateReportstore)
+const snackbar = useSnackbar()
 
-const generateReport = () => {
-    generateReportstore.getSssGroupRemitance()
+const generateReport = async () => {
+    try {
+        await generateReportstore.getSssGroupRemitance()
+        snackbar.add({
+            type: "success",
+            text: sssGroupRemittance.value.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: sssGroupRemittance.value.errorMessage || "something went wrong."
+        })
+    }
 }
 
 watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
@@ -15,7 +27,7 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
 })
 </script>
 <template>
-    <LayoutBoards title="SSS Project Remittance" :loading="sssGroupRemittance.isLoading">
+    <LayoutBoards title="SSS Group Remittance" :loading="sssGroupRemittance.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
             <HrmsCommonDepartmentProjectSelector
                 v-model:select-type="sssGroupRemittance.params.charging_type"
