@@ -69,28 +69,20 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             pagination: {},
             errorMessage: null,
             successMessage: null,
+        },
+        sssRemittanceSummaryList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
         }
     }),
-    getters: {
-        // pagibig
-        totalPagibigGroupRemittance (state): any {
-            return state.pagibigGroupRemittance.list.reduce((accumulator, current: any) => {
-                return accumulator + current.pagibig_employee_contribution
-            }, 0)
-        },
-        totalPagibigEmployerGroupRemittance (state): any {
-            return state.pagibigGroupRemittance.list.reduce((accumulator, current: any) => {
-                return accumulator + current.pagibig_employer_contribution
-            }, 0)
-        },
-        pagibigTotalGroupContribution (state): any {
-            return state.pagibigGroupRemittance.list.reduce((accumulator, current: any) => {
-                return accumulator + current.total_contribution
-            }, 0)
-        },
-    },
+    getters: {},
     actions: {
-        async getSssEmployeeRemitance () {
+        async getSssEmployeeRemittance () {
             await useHRMSApiO(
                 "/api/reports/sss-employee-remittance",
                 {
@@ -238,6 +230,30 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.philhealthGroupRemittance.list = response._data.data.remittances
                             this.philhealthGroupRemittance.chargingName = response._data.data.charging
                             this.philhealthGroupRemittance.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getSssRemittanceSummary () {
+            await useHRMSApiO(
+                "/api/reports/sss-remittance-summary",
+                {
+                    method: "GET",
+                    params: this.sssRemittanceSummaryList.params,
+                    onRequest: () => {
+                        this.sssRemittanceSummaryList.isLoading = true
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.sssRemittanceSummaryList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.sssRemittanceSummaryList.isLoading = false
+                        if (response.ok) {
+                            this.sssRemittanceSummaryList.isLoaded = true
+                            this.sssRemittanceSummaryList.list = response._data.data
+                            this.sssRemittanceSummaryList.successMessage = response._data.message
                         }
                     },
                 }

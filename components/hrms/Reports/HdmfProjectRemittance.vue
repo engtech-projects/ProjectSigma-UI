@@ -18,7 +18,21 @@ const generateReport = async () => {
         })
     }
 }
-
+const totalPagibigGroupRemittance = () => {
+    return pagibigGroupRemittance.value.list.reduce((accumulator, current) => {
+        return accumulator + current.pagibig_employee_contribution
+    }, 0)
+}
+const totalPagibigEmployerGroupRemittance = () => {
+    return pagibigGroupRemittance.value.list.reduce((accumulator, current) => {
+        return accumulator + current.pagibig_employer_contribution
+    }, 0)
+}
+const pagibigTotalGroupContribution = () => {
+    return pagibigGroupRemittance.value.list.reduce((accumulator, current) => {
+        return accumulator + current.total_contribution
+    }, 0)
+}
 watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
     if (newValue) {
         pagibigGroupRemittance.value.params.filter_month = newValue.month + 1
@@ -27,7 +41,7 @@ watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
 })
 </script>
 <template>
-    <LayoutBoards title="HDMF Employee Remittance" :loading="pagibigGroupRemittance.isLoading">
+    <LayoutBoards title="HDMF Group Remittance" :loading="pagibigGroupRemittance.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
             <HrmsCommonDepartmentProjectSelector
                 v-model:select-type="pagibigGroupRemittance.params.charging_type"
@@ -117,13 +131,13 @@ watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
                                 TOTAL
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalPagibigEmployeeRemittance) }}
+                                {{ useFormatCurrency(totalPagibigGroupRemittance()) }}
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalPagibigEmployerRemittance) }}
+                                {{ useFormatCurrency(totalPagibigEmployerGroupRemittance()) }}
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.pagibigTotalContribution) }}
+                                {{ useFormatCurrency(pagibigTotalGroupContribution()) }}
                             </td>
                         </tr>
                     </tbody>

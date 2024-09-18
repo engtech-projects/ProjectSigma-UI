@@ -135,10 +135,10 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                                 {{ reportData.employee_sss_id }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.sss_employee_contribution) }}
+                                {{ useFormatCurrency(reportData.sss_employer_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.sss_employer_contribution) }}
+                                {{ useFormatCurrency(reportData.sss_employee_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.total_contribution) }}
@@ -155,10 +155,10 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                                 TOTAL
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(totalSssEmployeeRemittance()) }}
+                                {{ useFormatCurrency(totalSssEmployerRemittance()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(totalSssEmployerRemittance()) }}
+                                {{ useFormatCurrency(totalSssEmployeeRemittance()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
                                 {{ useFormatCurrency(sssTotalContribution()) }}
@@ -171,7 +171,7 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="6" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                            <td colspan="7" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
