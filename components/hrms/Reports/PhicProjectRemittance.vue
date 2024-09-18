@@ -2,9 +2,21 @@
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { philhealthGroupRemittance } = storeToRefs(generateReportstore)
+const snackbar = useSnackbar()
 
-const generateReport = () => {
-    generateReportstore.getPhilhealthGroupRemitance()
+const generateReport = async () => {
+    try {
+        await generateReportstore.getPhilhealthGroupRemitance()
+        snackbar.add({
+            type: "success",
+            text: philhealthGroupRemittance.value.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: philhealthGroupRemittance.value.errorMessage || "something went wrong."
+        })
+    }
 }
 
 watch(() => philhealthGroupRemittance.value.params.month_year, (newValue) => {
