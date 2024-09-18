@@ -101,7 +101,7 @@ export const useEmployeeSearch = defineStore("employeeSearchStore", {
                         this.employeesWithAccount.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.employeesWithoutAccount.isLoading = false
+                        this.employeesWithAccount.isLoading = false
                         if (response.ok) {
                             this.employeesWithAccount.list = response._data?.data
                         } else {
