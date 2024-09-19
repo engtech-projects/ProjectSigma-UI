@@ -451,7 +451,6 @@ const config = useRuntimeConfig()
 
         <!-- Inventory / Warehouse -->
         <LayoutNavModuleGroup
-            v-show="config.public.APP_ENV == 'local'"
             v-if="useCheckAccessibility([
                 AccessibilityTypes.inventory_group,
             ])"
@@ -467,7 +466,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.inventory_item_profile
+                    AccessibilityTypes.inventory_item_profile_group
                 ])"
                 icon="ion:ios-people"
                 title="Item Profile"
@@ -533,7 +532,6 @@ const config = useRuntimeConfig()
 
         <!-- Accounting -->
         <LayoutNavModuleGroup
-            v-show="config.public.APP_ENV == 'local'"
             v-if="useCheckAccessibility([
                 AccessibilityTypes.accounting_group,
             ])"
