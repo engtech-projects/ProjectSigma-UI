@@ -14,7 +14,7 @@ navigateTo("/accounting/posting-period")
     </div>
 </template>
 
-<style scoped
+<style scoped>
     .flex-2 {
         flex: 2;
     }
