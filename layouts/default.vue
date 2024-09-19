@@ -17,7 +17,7 @@
 <script setup>
 </script>
 
-<style scoped>
+<style>
 /* width */
 ::-webkit-scrollbar {
   width: 4px;
@@ -38,7 +38,7 @@
   background: #555;
 }
 </style>
-<style>
+<style scoped>
 .modgroupParent:has(.router-link-exact-active) {
     position: relative;
 }
