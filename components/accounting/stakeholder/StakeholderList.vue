@@ -86,7 +86,7 @@ const headers = [
     </div>
 </template>
 
-<style>
+<style scoped>
     #listTable tbody tr td, #listTable thead th {
         text-align: left!important;
     }
