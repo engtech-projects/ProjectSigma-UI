@@ -3,8 +3,8 @@ import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 import { useApprovalStore, APPROVAL_NEW_ITEM_PROFILE } from "@/stores/inventory/setup/approvals"
 
 const profileStore = useItemProfileStore()
-const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension, itemgroup, subitemgroup } = storeToRefs(profileStore)
 const approvalsStore = useApprovalStore()
+const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension, itemgroup, subitemgroup } = storeToRefs(profileStore)
 formItemProfile.value.approvals = await approvalsStore.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
 
 defineProps({
@@ -82,7 +82,7 @@ const inventoryTypes = ref(
             name: "Inventoriable",
         },
         {
-            id: "Inventoriable",
+            id: "Non-Inventoriable",
             name: "Non-Inventoriable",
         },
     ]
@@ -117,7 +117,7 @@ const doStoreItemProfile = async () => {
                     text: profileStore.successMessage
                 })
                 profileStore.reset()
-                newItemProfile.value = []
+                formItemProfile.value.approvals = await approvalsStore.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
             }
         }
     } catch (error) {
@@ -229,18 +229,22 @@ const getTypeUOM = (id:number) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <InventoryCommonTableItemProfileAppend
-                        :append-item-profile="addItemProfile"
-                        :inventory-types="inventoryTypes"
-                        :uom-types="AllTypes"
-                        @add-item="doAddItemProfile"
-                        @remove-item="removeAppendItemProfile"
-                        @item-group-item="doGetSubItemGroup"
-                    />
+                    <template v-for="(itemProfile, index) in addItemProfile" :key="itemProfile">
+                        <InventoryCommonTableItemProfileAppend
+                            v-model:itemProfile="addItemProfile[index]"
+                            :index="index"
+                            :inventory-types="inventoryTypes"
+                            :uom-types="AllTypes"
+                            @add-item="doAddItemProfile"
+                            @remove-item="removeAppendItemProfile"
+                            @item-group-item="doGetSubItemGroup"
+                        />
+                    </template>
                     <tr v-for="dataValue, index in newItemProfile" :key="index" class="bg-white border-b">
                         <template v-if="dataValue.is_edit">
                             <InventoryCommonTableItemProfileEdit
-                                :item-profile="dataValue"
+                                v-model:itemProfile="newItemProfile[index]"
+                                :index="index"
                                 :inventory-types="inventoryTypes"
                                 :uom-types="AllTypes"
                                 @do-edit-item="doEditItem(dataValue, index)"
