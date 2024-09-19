@@ -476,3 +476,19 @@ watch(errorMessage, (msg) => {
         </div>
     </div>
 </template>
+
+<style scoped>
+/* FULL CALENDAR STYLES */
+#fCalendar {
+    :deep(.fc-button-active) {
+        z-index: 0 !important;
+    }
+    :deep(.event-container) {
+        height: 23px!important;
+        transition: all .3s;
+    }
+    :deep(.event-container:hover) {
+        height: 39px!important
+    }
+}
+</style>
