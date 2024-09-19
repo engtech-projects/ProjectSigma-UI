@@ -248,9 +248,5 @@ const bodyRowClassNameFunction = (item) => {
     </LayoutBoards>
 </template>
 
-<style>
-.duplicate-row {
-    /* --easy-table-body-row-background-color: rgb(20, 123, 58);
-    --easy-table-body-row-font-color: #fff; */
-}
+<style scoped>
 </style>

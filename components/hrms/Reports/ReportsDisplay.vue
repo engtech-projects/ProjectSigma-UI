@@ -52,7 +52,7 @@ defineProps({
         />
     </div>
 </template>
-<style>
+<style scoped>
     #printContainer {
         display: none;
     }

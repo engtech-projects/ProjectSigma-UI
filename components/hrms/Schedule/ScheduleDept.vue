@@ -478,13 +478,3 @@ watch(errorMessage, (msg) => {
         </div>
     </div>
 </template>
-
-<style>
-.event-container {
-    height: 23px!important;
-    transition: all .3s;
-}
-.event-container:hover {
-    height: 39px!important
-}
-</style>

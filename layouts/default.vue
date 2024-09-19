@@ -70,4 +70,15 @@
     content: "";
     border-radius:0 var(4px, 4px) var(4px, 4px) 0 ;
 }
+/* FULL CALENDAR STYLES */
+.fc-button-active {
+    z-index: 0 !important;
+}
+.event-container {
+    height: 23px!important;
+    transition: all .3s;
+}
+.event-container:hover {
+    height: 39px!important
+}
 </style>

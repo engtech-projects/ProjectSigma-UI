@@ -21,7 +21,7 @@ const salaryGradeStore = useSalaryGradeStore()
     </LayoutAcessContainer>
 </template>
 
-<style>
+<style scoped>
     .flex-2 {
         flex: 2;
     }
