@@ -3,8 +3,19 @@ import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { sssRemittanceSummaryList } = storeToRefs(generateReportstore)
 
-const generateReport = () => {
-    generateReportstore.getSssRemittanceSummary()
+const generateReport = async () => {
+    try {
+        await generateReportstore.getSssRemittanceSummary()
+        snackbar.add({
+            type: "success",
+            text: sssEmployeeRemitanceList.value.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: sssEmployeeRemitanceList.value.errorMessage || "something went wrong."
+        })
+    }
 }
 
 const totalSssEmployeeRemittance = () => {
@@ -155,6 +166,7 @@ watch(() => sssRemittanceSummaryList.value.params.month_year, (newValue) => {
                         </tr>
                     </tbody>
                 </table>
+                <HrmsCommonPreparedByCheckBy />
             </div>
         </LayoutPrint>
     </LayoutBoards>

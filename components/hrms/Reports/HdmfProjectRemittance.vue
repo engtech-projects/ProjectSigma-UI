@@ -142,30 +142,7 @@ watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
                         </tr>
                     </tbody>
                 </table>
-                <div class="justify-around hidden">
-                    <div class="flex flex-col gap-12">
-                        <span>PREPARED BY:</span>
-                        <div class="flex flex-col gap-1">
-                            <span class="font-bold underline">
-                                JOMELYN S. SANTILLAN
-                            </span>
-                            <span>
-                                HR SPECIALIST
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-12">
-                        <span>CHECKED BY</span>
-                        <div class="flex flex-col gap-1">
-                            <span class="font-bold underline">
-                                JERMILY C. MOZO
-                            </span>
-                            <span>
-                                HEAD, HUMAN RESOURCE
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <HrmsCommonPreparedByCheckBy />
             </div>
         </LayoutPrint>
     </LayoutBoards>
