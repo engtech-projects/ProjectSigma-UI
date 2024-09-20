@@ -90,6 +90,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             list: [],
             isLoading: false,
         },
+        itemCode: [],
         allRequests: {
             isLoading: false,
             isLoaded: false,
@@ -434,9 +435,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             this.successMessage = ""
         },
         reset () {
-            this.formItemProfile = {} as ItemProfile
             this.successMessage = ""
             this.errorMessage = ""
+            this.addItemProfile = [] as Array<any>
+            this.formItemProfile.item_profiles = [] as Array<any>
+            this.newItemProfile = [] as Array<NewItemProfile>
         },
     },
 })

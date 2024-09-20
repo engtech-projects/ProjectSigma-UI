@@ -2,6 +2,7 @@
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { pagibigEmployeeRemitanceList } = storeToRefs(generateReportstore)
+
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
@@ -92,7 +93,7 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
                         <span class="text-md flex-1">
                             Email Address:
                         </span>
-                        <span class="text-md font-bold flex-5">
+                        <span class="text-md font-bold flex-5 underline">
                             evenparcorporation@gmail.com
                         </span>
                     </div>
@@ -162,30 +163,7 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
                         </tr>
                     </tbody>
                 </table>
-                <div class="justify-around hidden">
-                    <div class="flex flex-col gap-12">
-                        <span>PREPARED BY:</span>
-                        <div class="flex flex-col gap-1">
-                            <span class="font-bold underline">
-                                JOMELYN S. SANTILLAN
-                            </span>
-                            <span>
-                                HR SPECIALIST
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-12">
-                        <span>CHECKED BY</span>
-                        <div class="flex flex-col gap-1">
-                            <span class="font-bold underline">
-                                JERMILY C. MOZO
-                            </span>
-                            <span>
-                                HEAD, HUMAN RESOURCE
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <HrmsReportsPreparedByCheckBy />
             </div>
         </LayoutPrint>
     </LayoutBoards>

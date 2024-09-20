@@ -8,19 +8,27 @@ useHead({
 const main = useItemBulkProfileStore()
 
 const headers = [
-    { name: "Item description", id: "item_description" },
+    { name: "Item Description", id: "item_description" },
     { name: "Thickness", id: "thickness_val" },
+    { name: "Thickness UOM", id: "thickness_uom" },
     { name: "Length", id: "length_val" },
+    { name: "Length UOM", id: "length_uom" },
     { name: "Width", id: "width_val" },
+    { name: "Width UOM", id: "width_uom" },
     { name: "Height", id: "height_val" },
-    { name: "Outside diameter", id: "outside_diameter_val" },
-    { name: "Inside diameter", id: "inside_diameter_val" },
+    { name: "Height UOM", id: "height_uom" },
+    { name: "Outside Diameter", id: "outside_diameter_val" },
+    { name: "Outside Diameter UOM", id: "outside_diameter_uom" },
+    { name: "Inside Diameter", id: "inside_diameter_val" },
+    { name: "Inside Diameter UOM", id: "inside_diameter_uom" },
     { name: "Volume", id: "volume_val" },
+    { name: "Volume UOM", id: "volume_uom" },
+    { name: "Specification", id: "specification" },
     { name: "Grade", id: "grade" },
     { name: "Color", id: "color" },
     { name: "UOM", id: "uom" },
-    { name: "Sub Item Group", id: "sub_item_group" },
     { name: "Item Group", id: "item_group" },
+    { name: "Sub Item Group", id: "sub_item_group" },
     { name: "Inventory Type", id: "inventory_type" },
 ]
 
@@ -46,7 +54,7 @@ const saveBulkUpload = () => {
                     </h1>
                 </div>
                 <div class="w-full max-w-sm">
-                    <label class="w-full block mb-2 text-sm font-medium text-gray-100 text-center bg-green-600 p-2 border rounded border-green-950" for="bulk_upload_file">Upload CSV or Excel file</label>
+                    <label class="hover:text-green-600 hover:bg-gray-100 hover:border-green-600 w-full block mb-2 text-sm font-medium text-gray-100 text-center bg-green-600 px-2 py-3 cursor-pointer border rounded" for="bulk_upload_file">Upload CSV or Excel file</label>
                     <input
                         id="bulk_upload_file"
                         class="hidden text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none "
@@ -55,9 +63,29 @@ const saveBulkUpload = () => {
                     >
                 </div>
             </div>
-            <InventoryItemProfileBulkUploadTable title="UNPROCESS" :header-columns="headers" :data="main.listUnprocess.data" />
-            <InventoryItemProfileBulkUploadTable title="DUPLICATES" :header-columns="headers" :data="main.listDuplicates.data" />
-            <InventoryItemProfileBulkUploadTable :is-checkbox="true" title="PROCESS" :header-columns="headers" :data="main.listProcess.data" @change-params="saveBulkUpload" />
+            <InventoryItemProfileBulkUploadTable
+                title="Unprocessed"
+                :header-columns="headers"
+                :data="main.listUnprocess.data"
+                title-color="text-red-500"
+                icon="material-symbols:dangerous"
+            />
+            <InventoryItemProfileBulkUploadTable
+                title="Duplicates"
+                :header-columns="headers"
+                :data="main.listDuplicates.data"
+                title-color="text-yellow-500"
+                icon="material-symbols:warning"
+            />
+            <InventoryItemProfileBulkUploadTable
+                :is-checkbox="true"
+                title="Processed"
+                :header-columns="headers"
+                :data="main.listProcess.data"
+                title-color="text-green-500"
+                icon="material-symbols:check-circle"
+                @change-params="saveBulkUpload"
+            />
         </div>
     </LayoutAcessContainer>
 </template>
