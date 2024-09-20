@@ -226,7 +226,7 @@
                 </tr>
             </tbody>
         </table>
-        <HrmsCommonPreparedByCheckBy />
+        <HrmsReportsPreparedByCheckBy />
     </div>
 </template>
 

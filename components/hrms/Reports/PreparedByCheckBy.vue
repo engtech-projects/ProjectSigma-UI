@@ -10,7 +10,7 @@ const { data: userData } = useAuth()
                     {{ userData.type === "Administrator" ? userData.name : userData.employee.fullname_first }}
                 </span>
                 <span>
-                    {{ userData.employee.current_position }}
+                    {{ userData.type === "Administrator" ? "ADMINISTRATOR" : userData.employee.current_position }}
                 </span>
             </div>
         </div>

@@ -47,7 +47,8 @@ watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
                 v-model:select-type="pagibigGroupRemittance.params.charging_type"
                 v-model:department-id="pagibigGroupRemittance.params.department_id"
                 v-model:project-id="pagibigGroupRemittance.params.project_id"
-                title="Filter Department/Project"
+                class="p-2"
+                title="Charging"
             />
             <LayoutFormPsMonthYearInput v-model="pagibigGroupRemittance.params.month_year" class="w-full" title="Month Year" required />
             <LayoutFormPsDateInput v-model="pagibigGroupRemittance.params.cutoff_start" class="w-full" title="Cutoff Start" required />
@@ -142,7 +143,7 @@ watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
                         </tr>
                     </tbody>
                 </table>
-                <HrmsCommonPreparedByCheckBy />
+                <HrmsReportsPreparedByCheckBy />
             </div>
         </LayoutPrint>
     </LayoutBoards>
