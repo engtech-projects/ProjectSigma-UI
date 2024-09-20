@@ -1,708 +1,189 @@
 <script setup>
+import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
+const generateReportstore = useGenerateReportStore()
+const { pagibigRemittanceSummaryList } = storeToRefs(generateReportstore)
+const generateReport = async () => {
+    try {
+        await generateReportstore.getPagibigRemittanceSummary()
+        snackbar.add({
+            type: "success",
+            text: sssEmployeeRemitanceList.value.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: sssEmployeeRemitanceList.value.errorMessage || "something went wrong."
+        })
+    }
+}
 
+const totalPagibigEmployeeRemittance = () => {
+    return Object.values(pagibigRemittanceSummaryList.value.list).reduce((accumulator, current) => {
+        return accumulator + current.summary.total_employee_contribution
+    }, 0)
+}
+const totalPagibigEmployerRemittance = () => {
+    return Object.values(pagibigRemittanceSummaryList.value.list).reduce((accumulator, current) => {
+        return accumulator + current.summary.total_employer_contribution
+    }, 0)
+}
+const pagibigTotalContribution = () => {
+    return Object.values(pagibigRemittanceSummaryList.value.list).reduce((accumulator, current) => {
+        return accumulator + current.summary.total_contribution
+    }, 0)
+}
+watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => {
+    if (newValue) {
+        pagibigRemittanceSummaryList.value.params.filter_month = newValue.month + 1
+        pagibigRemittanceSummaryList.value.params.filter_year = newValue.year
+    }
+})
 </script>
 <template>
-    <div class="flex flex-col">
-        <div class="header flex flex-col  mb-8">
-            <div class="flex gap-4">
-                <span class="text-md flex-1">
-                    Employer ID:
-                </span>
-                <span class="text-md font-bold flex-5">
-                    80-0191406-1-000
-                </span>
-            </div>
-            <div class="flex gap-4">
-                <span class="text-md flex-1">
-                    Employer Name:
-                </span>
-                <span class="text-md font-bold flex-5">
-                    EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
-                </span>
-            </div>
-            <div class="flex gap-4">
-                <span class="text-md flex-1">
-                    Address:
-                </span>
-                <span class="text-md font-bold flex-5">
-                    P-1 POBLACION 1 BUENAVISTA AGUSAN DEL NORTE
-                </span>
-            </div>
-            <div class="flex gap-4">
-                <span class="text-md flex-1">
-                    Contact No:
-                </span>
-                <span class="text-md font-bold flex-5">
-                    09395096694
-                </span>
-            </div>
-            <div class="flex gap-4">
-                <span class="text-md flex-1">
-                    Email Address:
-                </span>
-                <span class="text-md font-bold flex-5">
-                    evenparcorporation@gmail.com
-                </span>
-            </div>
-        </div>
-        <div class="title flex flex-col justify-left gap-8 mb-2">
-            <span class="text-xl text-black text-center">
-                Month of <span class="text-Black font-bold underline">APRIL 2024</span>
-            </span>
-            <span>SUMMARY</span>
-        </div>
-        <table class="printTable border border-gray-500 border-2 mb-20">
-            <thead class="text-blue-600 text-md">
-                <tr class="py-4">
-                    <th class="py-4 border-gray-500 border-2">
-                        NO.
-                    </th>
-                    <th class="border border-gray-500 border-2">
-                        PROJECT ID
-                    </th>
-                    <th class="border border-gray-500 border-2">
-                        NUMBER OF EMPLOYEES
-                    </th>
-                    <th class="border border-gray-500 border-2">
-                        EE SHARE
-                    </th>
-                    <th class="border border-gray-500 border-2">
-                        ER SHARE
-                    </th>
-                    <th class="border border-gray-500 border-2">
-                        TOTAL CONTRIBUTION
-                    </th>
-                    <th class="border border-gray-500 border-2">
-                        PENALTY
-                    </th>
-                    <th class="border border-gray-500 border-2">
-                        TOTAL PAYABLE
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="text-sm">
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        OFFICE - ADMIN
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        9
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        4,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        14,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        680.00
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="border border-gray-500 border-2 h-8 px-2 font-bold text-sm text-left">
-                        SUB-TOTAL
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 font-bold text-sm text-center">
-                        723
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 font-bold text-sm text-right">
-                        101,100.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 font-bold text-sm text-right">
-                        42,200.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 font-bold text-sm text-right">
-                        140,300.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 font-bold text-sm text-right">
-                        100,000.00
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 font-bold text-sm text-right">
-                        683,000.00
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="flex justify-around">
-            <div class="flex flex-col gap-12">
-                <span>PREPARED BY:</span>
-                <div class="flex flex-col gap-1">
-                    <span class="font-bold underline">
-                        JOMELYN S. SANTILLAN
-                    </span>
-                    <span>
-                        HR SPECIALIST
-                    </span>
+    <LayoutBoards title="HDMF Remittance Summary" :loading="pagibigRemittanceSummaryList.isLoading">
+        <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
+            <LayoutFormPsMonthYearInput v-model="pagibigRemittanceSummaryList.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="pagibigRemittanceSummaryList.params.cutoff_start" class="w-full" title="Cutoff Start" required />
+            <LayoutFormPsDateInput v-model="pagibigRemittanceSummaryList.params.cutoff_end" class="w-full" title="Cutoff End" required />
+            <button
+                type="submit"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+                Generate Report
+            </button>
+        </form>
+        <LayoutPrint>
+            <div class="flex flex-col">
+                <div class="header flex flex-col  mb-8">
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Employer ID:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            80-0191406-1-000
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Employer Name:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Address:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            P-1 POBLACION 1 BUENAVISTA AGUSAN DEL NORTE
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Contact No:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            09395096694
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Email Address:
+                        </span>
+                        <span class="text-md font-bold flex-5 underline">
+                            evenparcorporation@gmail.com
+                        </span>
+                    </div>
                 </div>
-            </div>
-            <div class="flex flex-col gap-12">
-                <span>CHECKED BY</span>
-                <div class="flex flex-col gap-1">
-                    <span class="font-bold underline">
-                        JERMILY C. MOZO
+                <div class="title flex flex-col justify-left gap-8 mb-2">
+                    <span class="text-xl text-black text-center">
+                        Month of <span class="text-Black font-bold underline">APRIL 2024</span>
                     </span>
-                    <span>
-                        HEAD, HUMAN RESOURCE
-                    </span>
+                    <span>SUMMARY</span>
                 </div>
+                <table class="printTable border border-gray-500 mb-20">
+                    <thead class="text-blue-600 text-md">
+                        <tr class="py-4">
+                            <th class="py-4 border-gray-500">
+                                NO.
+                            </th>
+                            <th class="border border-gray-500">
+                                PROJECT ID
+                            </th>
+                            <th class="border border-gray-500">
+                                NUMBER OF EMPLOYEES
+                            </th>
+                            <th class="border border-gray-500">
+                                EE SHARE
+                            </th>
+                            <th class="border border-gray-500">
+                                ER SHARE
+                            </th>
+                            <th class="border border-gray-500">
+                                TOTAL CONTRIBUTION
+                            </th>
+                            <th class="border border-gray-500">
+                                PENALTY
+                            </th>
+                            <th class="border border-gray-500">
+                                TOTAL PAYABLE
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr v-for="reportData, key, index in pagibigRemittanceSummaryList.list" :key="'sssremittancesummary' + index">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-left">
+                                {{ index + 1 }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-left">
+                                {{ key }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                {{ reportData.summary.no_of_employee }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
+                                {{ useFormatCurrency(reportData.summary.total_employer_contribution) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
+                                {{ useFormatCurrency(reportData.summary.total_employee_contribution) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
+                                {{ useFormatCurrency(reportData.summary.total_contribution) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
+                                0
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
+                                {{ useFormatCurrency(reportData.summary.total_contribution) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="border border-gray-500 h-8 px-2 text-sm text-center font-bold">
+                                TOTAL
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(totalPagibigEmployerRemittance()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(totalPagibigEmployeeRemittance()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(pagibigTotalContribution()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(pagibigTotalContribution()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(pagibigTotalContribution()) }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <HrmsReportsPreparedByCheckBy />
             </div>
-        </div>
-    </div>
+        </LayoutPrint>
+    </LayoutBoards>
 </template>
 <style scoped>
     .flex-5 {
