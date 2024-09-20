@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const compId = useId()
-const model = defineModel("item", { required: true, type: String, default: null })
+const model = defineModel({ required: true, type: String, default: null })
 defineProps({
     title: {
         type: String,
