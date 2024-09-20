@@ -87,6 +87,15 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             pagination: {},
             errorMessage: null,
             successMessage: null,
+        },
+        philhealthRemittanceSummaryList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
         }
     }),
     getters: {},
@@ -289,6 +298,31 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.pagibigRemittanceSummaryList.isLoaded = true
                             this.pagibigRemittanceSummaryList.list = response._data.data
                             this.pagibigRemittanceSummaryList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getPhilhealthRemittanceSummary () {
+            await useHRMSApiO(
+                "/api/reports/philhealth-remittance-summary",
+                {
+                    method: "GET",
+                    params: this.philhealthRemittanceSummaryList.params,
+                    onRequest: () => {
+                        this.philhealthRemittanceSummaryList.isLoading = true
+                        this.philhealthRemittanceSummaryList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.philhealthRemittanceSummaryList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.philhealthRemittanceSummaryList.isLoading = false
+                        if (response.ok) {
+                            this.philhealthRemittanceSummaryList.isLoaded = true
+                            this.philhealthRemittanceSummaryList.list = response._data.data
+                            this.philhealthRemittanceSummaryList.successMessage = response._data.message
                         }
                     },
                 }
