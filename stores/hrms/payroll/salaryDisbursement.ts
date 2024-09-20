@@ -7,11 +7,14 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
             isLoading: false,
             data: {
                 payroll_date: "",
+                payroll_type: "",
+                release_type: "",
+                approvals: [],
             },
             errorMessage: "",
             successMessage: "",
         },
-        createAllowanceRequest: {
+        createRequestData: {
             isLoading: false,
             data: {}, // Will be set By Generate Draft
             errorMessage: "",
@@ -155,7 +158,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                     onResponse: ({ response }: any) => {
                         this.generateDraftRequest.isLoading = false
                         if (response.ok) {
-                            this.createAllowanceRequest.data = response._data.data
+                            this.createRequestData.data = response._data.data
                             this.generateDraftRequest.successMessage = response._data.message
                         } else {
                             this.generateDraftRequest.errorMessage = response._data.message
@@ -170,17 +173,17 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                 "/api/salary-disbursement/resource",
                 {
                     method: "POST",
-                    body: this.createAllowanceRequest.data,
+                    body: this.createRequestData.data,
                     onRequest: () => {
-                        this.createAllowanceRequest.isLoading = true
+                        this.createRequestData.isLoading = true
                     },
                     onResponse: ({ response }: any) => {
-                        this.createAllowanceRequest.isLoading = false
+                        this.createRequestData.isLoading = false
                         if (response.ok) {
                             this.reloadResources()
-                            this.createAllowanceRequest.successMessage = response._data.message
+                            this.createRequestData.successMessage = response._data.message
                         } else {
-                            this.createAllowanceRequest.errorMessage = response._data.message
+                            this.createRequestData.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },

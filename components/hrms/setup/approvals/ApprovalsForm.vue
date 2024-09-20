@@ -4,7 +4,7 @@ import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 
 const approvals = useApprovalStore()
 
-const { list: approvalsList, errorMessage, successMessage, formApproval } = storeToRefs(approvals)
+const { list: approvalsList, errorMessage, successMessage, formApproval, pagination, getParams } = storeToRefs(approvals)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -46,6 +46,9 @@ const submitApprov = async (approval) => {
     }
 }
 
+const changePaginate = (newParams) => {
+    getParams.value.page = newParams.page ?? ""
+}
 </script>
 <template>
     <LayoutBoards title="Approvals" class="w-full" :loading="boardLoading">
@@ -166,6 +169,9 @@ const submitApprov = async (approval) => {
         <p v-show="successMessage" hidden class="success-message text-green-600 text-center font-semibold italic">
             {{ successMessage }}
         </p>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination :links="pagination" @change-params="changePaginate" />
+        </div>
     </LayoutBoards>
 </template>
 

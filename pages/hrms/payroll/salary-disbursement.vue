@@ -53,7 +53,7 @@ const compId = useId()
                     <HrmsCommonTabsTabContainer
                         :id="compId + '1'"
                     >
-                        PLACEHOLDER
+                        <HrmsPayrollSalaryDisbursementRequestForm />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
                         :id="compId + '2'"
