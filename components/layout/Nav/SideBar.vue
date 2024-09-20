@@ -653,6 +653,41 @@ const config = useRuntimeConfig()
                 icon="mdi:cash"
                 single-nav-title="Transaction"
             />
+            <LayoutNavGroup
+                v-if="useCheckAccessibility([
+                    'Admin only'
+                ])"
+                icon="ion:ios-paper-outline"
+                title="Forms"
+            >
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_account_groups,
+                    ])"
+                    linkarea="/accounting/forms/payment_request_form"
+                    icon="ion:ios-list-outline"
+                    single-nav-title="Payment Request Form"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_account_groups,
+                    ])"
+                    linkarea="/accounting/forms/adjusting_journal_entries"
+                    icon="iconoir:calculator"
+                    single-nav-title="Adjusting Journal Entries"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_account_groups,
+                    ])"
+                    linkarea="/accounting/forms/disbursement_voucher"
+                    icon="iconoir:hand-contactless"
+                    single-nav-title="Disbursement Voucher"
+                />
+            </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->
