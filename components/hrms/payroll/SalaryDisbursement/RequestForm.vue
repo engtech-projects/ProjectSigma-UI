@@ -8,6 +8,7 @@ const approvals = useApprovalStore()
 generateDraftRequest.value.data.approvals = await approvals.getApprovalByName(APPROVAL_SALARYDISBURSEMENT)
 const showDraftModal = ref(false)
 const submitForm = async () => {
+    showDraftModal.value = true
     await salaryDisbursementStore.generateDraft()
 }
 </script>
@@ -53,7 +54,7 @@ const submitForm = async () => {
             </form>
         </div>
     </LayoutLoadingContainer>
-    <HrmsPayrollAllowanceDraftModal v-model:show-modal="showDraftModal" />
+    <HrmsPayrollSalaryDisbursementDraftModal v-model:show-modal="showDraftModal" />
 </template>
 <style scoped>
 

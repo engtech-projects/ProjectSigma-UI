@@ -27,79 +27,9 @@ const submitRequest = async () => {
 }
 </script>
 <template>
-    <PsModal v-model:show-modal="showModal" :is-loading="createRequestData.isLoading" title="Allowance Request">
+    <PsModal v-model:show-modal="showModal" :is-loading="createRequestData.isLoading" title="Salary Disbursement Request Draft">
         <template #body>
-            <div class="grid md:grid-cols-3 gap-2 md:justify-between">
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Charging:
-                    </span>
-                    <span class="text-gray-900">
-                        {{ createRequestData.data.charge_name }}
-                    </span>
-                </div>
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Cutoff Start:
-                    </span>
-                    <span class="text-gray-900 text-sm font-bold">
-                        {{ createRequestData.data.cutoff_start_human }}
-                    </span>
-                </div>
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Cutoff End:
-                    </span>
-                    <span class="text-gray-900 text-sm font-bold">
-                        {{ createRequestData.data.cutoff_end_human }}
-                    </span>
-                </div>
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Allowance Date:
-                    </span>
-                    <span class="text-gray-900 text-sm font-bold">
-                        {{ createRequestData.data.allowance_date_human }}
-                    </span>
-                </div>
-                <div class="p-2 flex flex-col gap-1">
-                    <span class="text-teal-600 text-light">
-                        Total # of Day(s):
-                    </span>
-                    <span class="text-gray-900 text-sm font-bold">
-                        {{ createRequestData.data.total_days }}
-                    </span>
-                </div>
-            </div>
-            <table class="table-auto w-full border-collapse">
-                <thead>
-                    <tr class="border">
-                        <th class="p-2">
-                            Employee
-                        </th>
-                        <th class="p-2">
-                            Employee Position
-                        </th>
-                        <th class="p-2">
-                            Allowance Rate
-                        </th>
-                        <th class="p-2">
-                            Allowance Day(s)
-                        </th>
-                        <th class="p-2">
-                            Allowance Amount
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <DraftModalRow
-                        v-for="employee_allowance, ind in createRequestData.data.employee_allowances"
-                        :key="ind+'draftallowanceitem'"
-                        v-model="createRequestData.data.employee_allowances[ind]"
-                        class="border"
-                    />
-                </tbody>
-            </table>
+            <HrmsPayrollSalaryDisbursementDetailsTable title="Monthly Payroll Summary" />
         </template>
         <template #footer>
             <button
