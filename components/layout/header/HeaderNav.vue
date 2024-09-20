@@ -43,12 +43,12 @@
                 <LayoutHeaderUserButton />
                 <Teleport to="body">
                     <!-- Notification dropdown-menu -->
-                    <div id="notification-dropdown" class="hidden">
+                    <div id="notification-dropdown" class="hidden z-10">
                         <LayoutHeaderNotificationDropdown />
                     </div>
 
                     <!-- Profile dropdown-menu -->
-                    <div id="user-menu-button" class="hidden">
+                    <div id="user-menu-button" class="hidden z-10">
                         <LayoutHeaderUserDropdown />
                     </div>
                 </Teleport>
