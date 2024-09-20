@@ -7,9 +7,15 @@ const { generateDraftRequest } = storeToRefs(salaryDisbursementStore)
 const approvals = useApprovalStore()
 generateDraftRequest.value.data.approvals = await approvals.getApprovalByName(APPROVAL_SALARYDISBURSEMENT)
 const showDraftModal = ref(false)
+const snackbar = useSnackbar()
 const submitForm = async () => {
-    showDraftModal.value = true
-    await salaryDisbursementStore.generateDraft()
+    try {
+        await salaryDisbursementStore.generateDraft()
+        snackbar.add({ type: "success", text: "Payroll Draft Successfully Generated." })
+        showDraftModal.value = true
+    } catch (error) {
+        snackbar.add({ type: "error", text: error })
+    }
 }
 </script>
 <template>

@@ -29,7 +29,7 @@ const submitRequest = async () => {
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="createRequestData.isLoading" title="Salary Disbursement Request Draft">
         <template #body>
-            <HrmsPayrollSalaryDisbursementDetailsTable title="Monthly Payroll Summary" />
+            <HrmsPayrollSalaryDisbursementDetailsTable title="Monthly Payroll Summary" :data="createRequestData.data" />
         </template>
         <template #footer>
             <button
