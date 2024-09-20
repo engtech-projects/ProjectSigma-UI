@@ -64,7 +64,8 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                 v-model:select-type="sssGroupRemittance.params.charging_type"
                 v-model:department-id="sssGroupRemittance.params.department_id"
                 v-model:project-id="sssGroupRemittance.params.project_id"
-                title="Filter Department/Project"
+                class="p-2"
+                title="Charging"
             />
             <LayoutFormPsMonthYearInput v-model="sssGroupRemittance.params.month_year" class="w-full" title="Month Year" required />
             <LayoutFormPsDateInput v-model="sssGroupRemittance.params.cutoff_start" class="w-full" title="Cutoff Start" required />
@@ -182,7 +183,7 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="6" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                            <td colspan="7" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
@@ -191,30 +192,7 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                         </tr>
                     </tbody>
                 </table>
-                <div class="justify-around hidden">
-                    <div class="flex flex-col gap-12">
-                        <span>PREPARED BY:</span>
-                        <div class="flex flex-col gap-1">
-                            <span class="font-bold underline">
-                                JOMELYN S. SANTILLAN
-                            </span>
-                            <span>
-                                HR SPECIALIST
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-12">
-                        <span>CERTIFIED CORRECTED BY</span>
-                        <div class="flex flex-col gap-1">
-                            <span class="font-bold underline">
-                                JERMILY C. MOZO
-                            </span>
-                            <span>
-                                HEAD, HUMAN RESOURCE SECTION
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <HrmsReportsPreparedByCheckBy />
             </div>
         </LayoutPrint>
     </LayoutBoards>

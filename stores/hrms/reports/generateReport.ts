@@ -78,6 +78,15 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             pagination: {},
             errorMessage: null,
             successMessage: null,
+        },
+        pagibigRemittanceSummaryList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
         }
     }),
     getters: {},
@@ -243,6 +252,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                     params: this.sssRemittanceSummaryList.params,
                     onRequest: () => {
                         this.sssRemittanceSummaryList.isLoading = true
+                        this.sssRemittanceSummaryList.list = []
                     },
                     onResponseError: ({ response } : any) => {
                         this.sssRemittanceSummaryList.errorMessage = response._data.message
@@ -254,6 +264,31 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.sssRemittanceSummaryList.isLoaded = true
                             this.sssRemittanceSummaryList.list = response._data.data
                             this.sssRemittanceSummaryList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getPagibigRemittanceSummary () {
+            await useHRMSApiO(
+                "/api/reports/pagibig-remittance-summary",
+                {
+                    method: "GET",
+                    params: this.pagibigRemittanceSummaryList.params,
+                    onRequest: () => {
+                        this.pagibigRemittanceSummaryList.isLoading = true
+                        this.pagibigRemittanceSummaryList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.pagibigRemittanceSummaryList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.pagibigRemittanceSummaryList.isLoading = false
+                        if (response.ok) {
+                            this.pagibigRemittanceSummaryList.isLoaded = true
+                            this.pagibigRemittanceSummaryList.list = response._data.data
+                            this.pagibigRemittanceSummaryList.successMessage = response._data.message
                         }
                     },
                 }
