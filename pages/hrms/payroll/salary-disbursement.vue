@@ -58,17 +58,17 @@ const compId = useId()
                     <HrmsCommonTabsTabContainer
                         :id="compId + '2'"
                     >
-                        PLACEHOLDER
+                        <HrmsPayrollSalaryDisbursementAllRequests />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
                         :id="compId + '3'"
                     >
-                        PLACEHOLDER
+                        <HrmsPayrollSalaryDisbursementMyRequests />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
                         :id="compId + '4'"
                     >
-                        PLACEHOLDER
+                        <HrmsPayrollSalaryDisbursementMyApprovals />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
                         :id="compId + '5'"

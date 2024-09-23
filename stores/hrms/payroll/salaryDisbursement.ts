@@ -73,6 +73,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
             )
         },
         async getAllRequests () {
+            this.allRequests.isLoaded = true
             await useHRMSApi(
                 "/api/salary-disbursement/resource",
                 {
@@ -84,7 +85,6 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
@@ -97,6 +97,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
             )
         },
         async getMyRequests () {
+            this.myRequests.isLoaded = true
             await useHRMSApi(
                 "/api/salary-disbursement/my-requests",
                 {
@@ -108,7 +109,6 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                     onResponse: ({ response }) => {
                         this.myRequests.isLoading = false
                         if (response.ok) {
-                            this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
                                 first_page: response._data.data.first_page_url,
@@ -124,6 +124,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
             )
         },
         async getMyApprovals () {
+            this.myApprovals.isLoaded = true
             await useHRMSApi(
                 "/api/salary-disbursement/my-approvals",
                 {
@@ -135,7 +136,6 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                     onResponse: ({ response }) => {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
-                            this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data
                             this.myApprovals.successMessage = response._data.message
                         } else {
