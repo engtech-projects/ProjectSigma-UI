@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
 const mains = useItemProfileStore()
-const { allRequests: List, getParams, pagination } = storeToRefs(mains)
+const { allRequests: List, getParams } = storeToRefs(mains)
 
 const headers = [
     { name: "Item Summary", id: "profile_summary" },
@@ -41,7 +41,7 @@ const changePaginate = (newParams) => {
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <CustomPagination :links="List.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <InventoryItemProfileInfoModal

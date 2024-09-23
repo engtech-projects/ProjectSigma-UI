@@ -38,6 +38,9 @@ const boardLoading = ref(false)
                 @show-table="showInformation"
             />
         </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination :links="List.pagination" @change-params="changePaginate" />
+        </div>
         <InventoryItemProfileInfoModal
             v-model:show-modal="showInfoModal"
             :data="infoModalData"
