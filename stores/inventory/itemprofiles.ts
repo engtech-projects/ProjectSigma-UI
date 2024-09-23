@@ -87,10 +87,12 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         subitemgroup: [] as any,
         uom: {} as any,
         itemDetails: {
-            list: [],
             isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
         },
-        itemCode: [],
         allRequests: {
             isLoading: false,
             isLoaded: false,
@@ -178,6 +180,46 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             } else if (error) {
                 return error
             }
+        },
+        async activeItemProfile (id: number) {
+            await useInventoryApi(
+                "/api/item-profile/" + id + "/activate",
+                {
+                    method: "PATCH",
+                    onRequest: () => {
+                        this.allRequests.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.getItemProfile()
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async inActiveItemProfile (id: number) {
+            await useInventoryApi(
+                "/api/item-profile/" + id + "/deactivate",
+                {
+                    method: "PATCH",
+                    onRequest: () => {
+                        this.allRequests.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.getItemProfile()
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
         },
         async getAllRequests () {
             await useInventoryApi(
@@ -331,17 +373,22 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 "/api/item-profile/list",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.itemDetails.params,
                     onRequest: () => {
                         this.itemDetails.isLoading = true
                     },
                     onResponse: ({ response }) => {
                         this.itemDetails.isLoading = false
-                        this.itemDetails.list = response._data.data.data
-                        this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                        if (response.ok) {
+                            this.itemDetails.isLoaded = true
+                            this.itemDetails.list = response._data.data.data
+                            this.itemDetails.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        } else {
+                            throw new Error(response._data.message)
                         }
                     },
                 }

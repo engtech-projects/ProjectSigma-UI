@@ -21,14 +21,16 @@ const headers = [
     { name: "Request Status", id: "request_status" },
 ]
 
-const boardLoading = ref(false)
 const actions = {
     showTable: true,
 }
 
+const changePaginate = (newParams) => {
+    List.value.params.page = newParams.page ?? ""
+}
 </script>
 <template>
-    <div class="w-full" :loading="boardLoading">
+    <LayoutLoadingContainer class="w-full" :loading="List.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <InventoryCommonLayoutPsTable
                 :header-columns="headers"
@@ -40,9 +42,9 @@ const actions = {
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="List.pagination" @change-params="changePaginate" />
         </div>
-        <InventoryItemProfileInfoModal
-            v-model:show-modal="showInfoModal"
-            :data="infoModalData"
-        />
-    </div>
+    </LayoutLoadingContainer>
+    <InventoryItemProfileInfoModal
+        v-model:show-modal="showInfoModal"
+        :data="infoModalData"
+    />
 </template>
