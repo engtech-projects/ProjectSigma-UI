@@ -23,7 +23,7 @@ defineProps({
         type: Boolean,
         default: false,
     },
-    itemCode: {
+    itemProfile: {
         type: Object,
         required: false,
         default () {
@@ -36,41 +36,51 @@ defineProps({
         default: null,
     },
 })
-const emit = defineEmits(["inputKey", "selectKey"])
-const doInputKey = (itemCode:any) => {
-    const itemBox = document.getElementById(compId + "item") as HTMLElement
-    itemBox.classList.remove("hidden")
-    itemBox.classList.add("flex")
-    emit("inputKey", itemCode)
+const emit = defineEmits(["showSuggest", "selectSuggest"])
+const isFocus = ref(false)
+const doShowSuggest = (character:any, elementId:any) => {
+    const selectItem = document.getElementById(elementId + "item") as HTMLElement
+    selectItem.classList.remove("hidden")
+    selectItem.classList.add("flex")
+    emit("showSuggest", character)
 }
-const doSelectKey = (item:any, itemCode:any) => {
-    emit("selectKey", item, itemCode)
-    const itemBox = document.getElementById(compId + "item") as HTMLElement
-    itemBox.classList.remove("flex")
-    itemBox.classList.add("hidden")
+const hideShowSuggest = () => {
+    if (!isFocus.value) {
+        const selectItem = document.getElementById(compId + "item") as HTMLElement
+        selectItem.classList.remove("flex")
+        selectItem.classList.add("hidden")
+    }
+}
+const doSelectKey = (item:any, itemProfile:any) => {
+    isFocus.value = true
+    emit("selectSuggest", item, itemProfile)
+    const selectItem = document.getElementById(compId + "item") as HTMLElement
+    selectItem.classList.remove("flex")
+    selectItem.classList.add("hidden")
+    isFocus.value = false
 }
 </script>
 <template>
-    <div class="PsTextInput">
-        <div class="flex flex-col">
-            <input
-                :id="compId"
-                v-model="model"
-                type="text"
-                :name="name"
-                class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
-                :placeholder="placeholder"
-                :required="required"
-                @click="doInputKey(itemCode)"
-            >
-            <div :id="compId+'item'" class="hidden relative">
-                <div
-                    class="max-h-72 left-0 min-w-full overflow-auto py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2 z-10"
+    <div tabindex="0" @focusin="doShowSuggest(itemProfile, compId)" @focusout="hideShowSuggest">
+        <div class="PsTextInput">
+            <div class="flex flex-col">
+                <input
+                    :id="compId"
+                    v-model="model"
+                    type="text"
+                    class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
+                    :placeholder="placeholder"
+                    :required="required"
                 >
-                    <span v-for="(item, index) in itemSuggest" :key="index" class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b" @click="doSelectKey(item, itemCode)">
-                        {{ item }}
-                    </span>
-                </div>
+            </div>
+        </div>
+        <div :id="compId+'item'" class="hidden absolute">
+            <div
+                class="max-h-72 left-0 min-w-full overflow-auto py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2 z-10"
+            >
+                <span v-for="(item, index) in itemSuggest" :key="index" class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b" @click="doSelectKey(item, itemProfile)">
+                    {{ item }}
+                </span>
             </div>
         </div>
     </div>

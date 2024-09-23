@@ -264,6 +264,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
+                            this.reloadResources()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -429,6 +430,24 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             this.getAllRequests()
             this.getMyRequests()
             this.getMyApprovals()
+        },
+        reloadResources () {
+            const backup = this.formItemProfile.approvals
+            const callFunctions = []
+            if (this.allRequests.isLoaded) {
+                callFunctions.push(this.getAllRequests)
+            }
+            if (this.myRequests.isLoaded) {
+                callFunctions.push(this.getMyRequests)
+            }
+            if (this.myApprovals.isLoaded) {
+                callFunctions.push(this.getMyApprovals)
+            }
+            this.$reset()
+            this.formItemProfile.approvals = backup
+            callFunctions.forEach((element) => {
+                element()
+            })
         },
         clearMessages () {
             this.errorMessage = ""
