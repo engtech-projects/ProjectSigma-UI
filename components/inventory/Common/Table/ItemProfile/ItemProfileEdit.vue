@@ -22,11 +22,47 @@ const doSubItemChange = (index:number) => {
     emit("itemGroupItem", index)
 }
 const itemProfile = defineModel("itemProfile", { required: true, type: String, default: null })
+function shuffleString (str:String) {
+    const chars = str.split("")
+    for (let i = chars.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        chars[i] = chars[j]
+        chars[j] = chars[i]
+    }
+    return chars.join("")
+}
 
+const showSuggest = (itemProfile:any) => {
+    let code = ""
+    const suggestItemCode = []
+    const mapVal = Object.values(itemProfile).map((val:any) => {
+        if (val !== null && val !== "") {
+            return val
+        }
+        return ""
+    }).join("")
+    code = mapVal.slice(0, 10)
+    suggestItemCode.push(code.toUpperCase())
+    let newCode = shuffleString(code)
+    suggestItemCode.push(newCode.toUpperCase())
+    newCode = shuffleString(code)
+    suggestItemCode.push(newCode.toUpperCase())
+    return suggestItemCode
+}
+const selectSuggest = (item:any, itemProfile:any) => {
+    itemProfile.sku = item
+}
 </script>
 <template>
     <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-        <InventoryCommonFormPsTextInput v-model="itemProfile.sku" title="Item Code" />
+        <InventoryCommonFormPsTextInputSelect
+            v-model="itemProfile.sku"
+            :item-suggest="showSuggest(itemProfile)"
+            :item-profile="itemProfile"
+            title="Item Code"
+            @show-suggest="showSuggest"
+            @select-suggest="selectSuggest"
+        />
     </td>
     <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
         <InventoryCommonFormPsTextArea v-model="itemProfile.item_description" title="Item Description" />
