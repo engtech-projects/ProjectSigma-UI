@@ -73,7 +73,7 @@ const selectedReport = ref("")
                         PHIC Employee Remittance
                     </option>
                     <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
+                        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_pagibigremittancesummary])"
                         value="Report9"
                     >
                         HDMF Remittance Summary
