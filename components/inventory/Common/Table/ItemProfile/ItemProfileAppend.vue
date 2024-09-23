@@ -25,7 +25,6 @@ const doSubItemChange = (index:number) => {
     emit("itemGroupItem", index)
 }
 const itemProfile = defineModel("itemProfile", { required: true, type: String, default: null })
-let suggestItemCode:any = []
 
 function shuffleString (str:String) {
     const chars = str.split("")
@@ -37,13 +36,12 @@ function shuffleString (str:String) {
     return chars.join("")
 }
 
-const inputKey = (itemProfile:any) => {
+const showSuggest = (itemProfile:any) => {
     let code = ""
-    suggestItemCode = []
-    const mapVal = Object.values(itemProfile).map((value) => {
-        if (value !== null && value !== "") {
-            code += String(value).slice(0, 2)
-            return code
+    const suggestItemCode = []
+    const mapVal = Object.values(itemProfile).map((val:any) => {
+        if (val !== null && val !== "") {
+            return val
         }
         return ""
     }).join("")
@@ -53,10 +51,10 @@ const inputKey = (itemProfile:any) => {
     suggestItemCode.push(newCode.toUpperCase())
     newCode = shuffleString(code)
     suggestItemCode.push(newCode.toUpperCase())
+    return suggestItemCode
 }
-const selectKey = (itemCode:any, itemProfile:any) => {
-    itemProfile.sku = itemCode
-    return itemCode
+const selectSuggest = (item:any, itemProfile:any) => {
+    itemProfile.sku = item
 }
 </script>
 <template>
@@ -64,11 +62,11 @@ const selectKey = (itemCode:any, itemProfile:any) => {
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsTextInputSelect
                 v-model="itemProfile.sku"
-                :item-suggest="suggestItemCode"
-                :item-code="itemProfile"
+                :item-suggest="showSuggest(itemProfile)"
+                :item-profile="itemProfile"
                 title="Item Code"
-                @input-key="inputKey"
-                @select-key="selectKey"
+                @show-suggest="showSuggest"
+                @select-suggest="selectSuggest"
             />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
