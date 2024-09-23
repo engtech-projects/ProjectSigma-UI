@@ -7,12 +7,12 @@ const generateReport = async () => {
         await generateReportstore.getPagibigRemittanceSummary()
         snackbar.add({
             type: "success",
-            text: sssEmployeeRemitanceList.value.successMessage
+            text: pagibigRemittanceSummaryList.value.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: sssEmployeeRemitanceList.value.errorMessage || "something went wrong."
+            text: pagibigRemittanceSummaryList.value.errorMessage || "something went wrong."
         })
     }
 }
