@@ -5,6 +5,11 @@ import { useOvertimeStore } from "@/stores/hrms/overtime"
 const overtimes = useOvertimeStore()
 const { myRequestList } = storeToRefs(overtimes)
 
+onMounted(() => {
+    if (!myRequestList.value.isLoaded) {
+        overtimes.getMyRequests()
+    }
+})
 const headers = [
     { name: "Charged to", id: "charging_name" },
     { name: "Date of Overtime", id: "overtime_date" },
@@ -21,19 +26,28 @@ const showInformation = (data) => {
     infoModalData.value = data
     showInfoModal.value = true
 }
-
-const boardLoading = ref(false)
-
+const changePaginate = (newParams) => {
+    myRequestList.value.params.page = newParams.page ?? ""
+}
 </script>
 <template>
-    <LayoutBoards title="" class="w-full" :loading="boardLoading">
-        <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+    <LayoutBoards class="w-full" :loading="myRequestList.isLoading">
+        <div class="w-full flex gap-2">
+            <HrmsCommonSearchEmployeeSelector v-model="myRequestList.params.employee_id" class="w-full" />
+            <LayoutFormPsDateInput v-model="myRequestList.params.date_filter" class="w-full" title="Date Filter" />
+        </div>
+        <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable
                 :header-columns="headers"
+                :datas="myRequestList.list"
                 :actions="actions"
-                :datas="myRequestList ?? []"
+                @edit-row="setEdit"
+                @delete-row="deleteReq"
                 @show-table="showInformation"
             />
+        </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination :links="myRequestList.pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
     <HrmsOvertimeInfoModal

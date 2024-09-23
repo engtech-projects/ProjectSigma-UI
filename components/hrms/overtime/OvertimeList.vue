@@ -3,8 +3,12 @@ import { storeToRefs } from "pinia"
 import { useOvertimeStore } from "@/stores/hrms/overtime"
 
 const overtimes = useOvertimeStore()
-const { overtime, list: overtimeList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(overtimes)
-
+const { allList } = storeToRefs(overtimes)
+onMounted(() => {
+    if (!allList.value.isLoaded) {
+        overtimes.getOvertime()
+    }
+})
 const headers = [
     { name: "Charged to", id: "charging_name" },
     { name: "Date of Overtime", id: "overtime_date" },
@@ -41,19 +45,20 @@ const deleteReq = async (req) => {
         boardLoading.value = false
     }
 }
-
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    allList.value.params.page = newParams.page ?? ""
 }
-
 </script>
 <template>
-    <LayoutBoards class="w-full" :loading="boardLoading">
-        <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
+    <LayoutBoards class="w-full" :loading="allList.isLoading">
+        <div class="w-full flex gap-2">
+            <HrmsCommonSearchEmployeeSelector v-model="allList.params.employee_id" class="w-full" />
+            <LayoutFormPsDateInput v-model="allList.params.date_filter" class="w-full" title="Date Filter" />
+        </div>
         <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable
                 :header-columns="headers"
-                :datas="overtimeList"
+                :datas="allList.list"
                 :actions="actions"
                 @edit-row="setEdit"
                 @delete-row="deleteReq"
@@ -61,7 +66,7 @@ const changePaginate = (newParams) => {
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <CustomPagination :links="allList.pagination" @change-params="changePaginate" />
         </div>
         <HrmsOvertimeInfoModal
             v-model:show-modal="showInfoModal"

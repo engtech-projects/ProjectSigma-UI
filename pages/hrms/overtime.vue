@@ -3,9 +3,6 @@ import { useOvertimeStore } from "@/stores/hrms/overtime"
 
 const overtimes = useOvertimeStore()
 const { isEdit } = storeToRefs(overtimes)
-overtimes.getMyRequests()
-overtimes.getMyApprovalRequests()
-overtimes.getOvertime()
 
 useHead({
     title: "Overtime"
