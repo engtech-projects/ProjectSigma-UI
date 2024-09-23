@@ -1,26 +1,14 @@
 <script lang="ts" setup>
-const model = defineModel({ required: true, type: String })
 const compId = useId()
+const model = defineModel({ required: true, type: String, default: null })
 defineProps({
     title: {
         type: String,
-        default: "",
-    },
-    name: {
-        type: String,
-        required: false,
-        default: "",
-    },
-    placeholder: {
-        type: String,
-        default: "",
-    },
-    addClass: {
-        type: String,
-        default: "",
+        required: true,
     },
     required: {
         type: Boolean,
+        required: false,
         default: false,
     },
 })
@@ -30,10 +18,9 @@ defineProps({
         <textarea
             :id="compId"
             v-model="model"
-            :name="name"
-            :placeholder="placeholder"
+            :placeholder="title"
             :required="required"
-            :class="addClass"
+            class="bg-gray-80 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block"
         />
     </div>
 </template>

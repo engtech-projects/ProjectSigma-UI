@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-const model = defineModel({ required: false, type: String, default: "" })
 const compId = useId()
+const model = defineModel({ required: true, type: String, default: null })
 defineProps({
     title: {
         type: String,
@@ -12,10 +12,6 @@ defineProps({
         default: "",
     },
     placeholder: {
-        type: String,
-        default: "",
-    },
-    addClass: {
         type: String,
         default: "",
     },
@@ -32,7 +28,7 @@ defineProps({
             v-model="model"
             type="text"
             :name="name"
-            :class="addClass"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block"
             :placeholder="placeholder"
             :required="required"
         >
