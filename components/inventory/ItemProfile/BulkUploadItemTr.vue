@@ -28,22 +28,46 @@ defineProps({
             {{ data.thickness_val }}
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
+            {{ data.thickness_uom }}
+        </td>
+        <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
             {{ data.length_val }}
+        </td>
+        <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
+            {{ data.length_uom }}
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
             {{ data.width_val }}
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
+            {{ data.width_uom }}
+        </td>
+        <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
             {{ data.height_val }}
+        </td>
+        <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
+            {{ data.height_uom }}
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
             {{ data.outside_diameter_val }}
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
+            {{ data.outside_diameter_uom }}
+        </td>
+        <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
             {{ data.inside_diameter_val }}
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
+            {{ data.inside_diameter_uom }}
+        </td>
+        <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
             {{ data.volume_val }}
+        </td>
+        <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
+            {{ data.volume_uom }}
+        </td>
+        <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
+            {{ data.specification }}
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
             {{ data.grade }}
@@ -55,10 +79,10 @@ defineProps({
             {{ data.uom }}
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-            {{ data.sub_item_group }}
+            {{ data.item_group }}
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-            {{ data.item_group }}
+            {{ data.sub_item_group }}
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
             {{ data.inventory_type }}
