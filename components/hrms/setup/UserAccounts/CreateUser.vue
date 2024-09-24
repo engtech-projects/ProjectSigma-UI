@@ -7,7 +7,7 @@ import type { EmployeeInformation } from "@/stores/hrms/employee"
 const employeeSearch = useEmployeeSearch()
 const userAccountStore = useUserStore()
 const { createData } = storeToRefs(userAccountStore)
-const { searchEmployeeParamsNoAccount, searchResultList } = storeToRefs(employeeSearch)
+const { employeesWithoutAccount } = storeToRefs(employeeSearch)
 const employeeId = ref<EmployeeInformation>({} as EmployeeInformation)
 const snackbar = useSnackbar()
 const register = async () => {
@@ -52,7 +52,13 @@ const register = async () => {
                         action="#"
                         @submit.prevent="register"
                     >
-                        <PsSelectSearch v-model:result="employeeId" v-model:search-input="searchEmployeeParamsNoAccount.key" :search-list="searchResultList" title="fullname_last" />
+                        <PsSelectSearch
+                            v-model:result="employeeId"
+                            v-model:search-input="employeesWithoutAccount.params.key"
+                            :search-list="employeesWithoutAccount.list"
+                            :loading="employeesWithoutAccount.isLoading"
+                            title="fullname_last"
+                        />
                         <LayoutFormPsEmailInput v-model="createData.params.email" title="Email" name="email" placeholder="JohnDoe@gmail.com" />
                         <LayoutFormPsTextInput v-model="createData.params.name" title="Username" name="username" placeholder="JohnDoe" />
                         <LayoutFormPsPasswordInput v-model="createData.params.password" title="Password" name="password" placeholder="••••••••" />

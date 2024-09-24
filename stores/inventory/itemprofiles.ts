@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
 const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
@@ -87,7 +86,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         itemgroup: [] as any,
         subitemgroup: [] as any,
         uom: {} as any,
-        list: [],
+        itemDetails: {
+            list: [],
+            isLoading: false,
+        },
+        itemCode: [],
         allRequests: {
             isLoading: false,
             isLoaded: false,
@@ -160,16 +163,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
     },
     actions: {
         async getUOM () {
-            const { data, error } = await useFetch(
+            const { data, error } = await useInventoryApi(
                 "/api/uom/resource",
                 {
-                    baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
                     watch: false,
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     onResponse: ({ response }) => {
                         this.uom = response._data.data
                     },
@@ -187,7 +185,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 {
                     method: "GET",
                     params: this.allRequests.params,
+                    onRequest: () => {
+                        this.allRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.allRequests.isLoading = false
                         if (response.ok) {
                             this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
@@ -207,7 +209,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 {
                     method: "GET",
                     params: this.myRequests.params,
+                    onRequest: () => {
+                        this.myRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myRequests.isLoading = false
                         if (response.ok) {
                             this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data.data
@@ -229,7 +235,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 {
                     method: "GET",
                     params: this.myApprovals.params,
+                    onRequest: () => {
+                        this.myApprovals.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data.data
@@ -246,19 +256,15 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             )
         },
         async storeItemProfile () {
-            const { data, error } = await useFetch(
+            const { data, error } = await useInventoryApi(
                 "/api/item-profile/new-request/resource",
                 {
-                    baseURL: config.public.INVENTORY_API_URL,
                     method: "POST",
                     body: this.formItemProfile,
                     watch: false,
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     onResponse: ({ response }) => {
                         if (response.ok) {
+                            this.reloadResources()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -321,18 +327,17 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             }
         },
         async getItemProfile () {
-            await useFetch(
+            await useInventoryApi(
                 "/api/item-profile/list",
                 {
-                    baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
+                    onRequest: () => {
+                        this.itemDetails.isLoading = true
+                    },
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data
+                        this.itemDetails.isLoading = false
+                        this.itemDetails.list = response._data.data.data
                         this.pagination = {
                             first_page: response._data.data.first_page_url,
                             pages: response._data.data.links,
@@ -343,10 +348,9 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             )
         },
         async showItemProfile (id: number) {
-            await useFetch(
+            await useInventoryApi(
                 "/api/item-profile/new-request/resource/" + id,
                 {
-                    baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
                     headers: {
                         Authorization: token.value + "",
@@ -427,14 +431,34 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             this.getMyRequests()
             this.getMyApprovals()
         },
+        reloadResources () {
+            const backup = this.formItemProfile.approvals
+            const callFunctions = []
+            if (this.allRequests.isLoaded) {
+                callFunctions.push(this.getAllRequests)
+            }
+            if (this.myRequests.isLoaded) {
+                callFunctions.push(this.getMyRequests)
+            }
+            if (this.myApprovals.isLoaded) {
+                callFunctions.push(this.getMyApprovals)
+            }
+            this.$reset()
+            this.formItemProfile.approvals = backup
+            callFunctions.forEach((element) => {
+                element()
+            })
+        },
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
         },
         reset () {
-            this.formItemProfile = {} as ItemProfile
             this.successMessage = ""
             this.errorMessage = ""
+            this.addItemProfile = [] as Array<any>
+            this.formItemProfile.item_profiles = [] as Array<any>
+            this.newItemProfile = [] as Array<NewItemProfile>
         },
     },
 })

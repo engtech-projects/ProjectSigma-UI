@@ -6,7 +6,7 @@ import type { EmployeeInformation } from "@/stores/hrms/employee"
 const employee = useEmployeeInfo()
 const employeeSearch = useEmployeeSearch()
 employeeSearch.searchEmployees()
-const { searchEmployeeParams, searchResultList } = storeToRefs(employeeSearch)
+const { employeesAll } = storeToRefs(employeeSearch)
 const employeeInfo = ref<EmployeeInformation>({} as EmployeeInformation)
 const emit = defineEmits(["searchChanged"])
 watch(employeeInfo, async (newValue) => {
@@ -19,5 +19,12 @@ watch(employeeInfo, async (newValue) => {
 })
 </script>
 <template>
-    <LayoutFormPsSelectSearch v-model:result="employeeInfo" v-model:search-input="searchEmployeeParams.key" :search-list="searchResultList" title="fullname_last" placeholder="Search Employee" />
+    <LayoutFormPsSelectSearch
+        v-model:result="employeeInfo"
+        v-model:search-input="employeesAll.params.key"
+        :loading="employeesAll.isLoading"
+        :search-list="employeesAll.list"
+        title="fullname_last"
+        placeholder="Search Employee"
+    />
 </template>

@@ -70,7 +70,7 @@ const initQRCode = () => {
                 v-model:project-id="qrAttendanceParams.project_id"
                 title="Filter Department/Project"
             />
-            <div v-if="qrAttendanceParams.department_id || qrAttendanceParams.project_id" class="py-4">
+            <div class="py-4">
                 <p>
                     LOG-TYPE
                 </p>
@@ -87,34 +87,34 @@ const initQRCode = () => {
                     >OUT</label>
                 </div>
             </div>
-            <div v-if="qrAttendanceParams.log_type" class="py-4">
+            <div class="py-4">
                 <p>
                     Time Offset
                 </p>
                 <div class="md:flex gap-2 space-x-2 p-2">
-                    <input id="newhire" v-model="qrAttendanceParams.offset" class="" type="radio" value="0">
+                    <input id="delay0" v-model="qrAttendanceParams.offset" class="" type="radio" value="0">
                     <label
-                        for="newhire"
+                        for="delay0"
                         class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                     >None</label>
-                    <input id="newhire" v-model="qrAttendanceParams.offset" class="" type="radio" value="5">
+                    <input id="delay5min" v-model="qrAttendanceParams.offset" class="" type="radio" value="5">
                     <label
-                        for="newhire"
+                        for="delay5min"
                         class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                     >5 Minutes</label>
-                    <input id="transfer" v-model="qrAttendanceParams.offset" class="" type="radio" value="10">
+                    <input id="delay10min" v-model="qrAttendanceParams.offset" class="" type="radio" value="10">
                     <label
-                        for="transfer"
+                        for="delay10min"
                         class="text-xs text-gray-900 dark:text-gray-300"
                     >10 Minutes</label>
-                    <input id="promotion" v-model="qrAttendanceParams.offset" type="radio" value="15">
+                    <input id="delay15min" v-model="qrAttendanceParams.offset" type="radio" value="15">
                     <label
-                        for="promotion"
+                        for="delay15min"
                         class="text-xs text-gray-900 dark:text-gray-300"
                     >15 Minutes</label>
-                    <input id="termination" v-model="qrAttendanceParams.offset" class="" type="radio" value="30">
+                    <input id="delay30min" v-model="qrAttendanceParams.offset" class="" type="radio" value="30">
                     <label
-                        for="termination"
+                        for="delay30min"
                         class="mr-4 text-xs text-gray-900 dark:text-gray-300"
                     >30 Minutes</label>
                 </div>

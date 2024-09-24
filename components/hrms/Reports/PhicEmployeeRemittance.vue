@@ -2,9 +2,21 @@
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { philhealthEmployeeRemitanceList } = storeToRefs(generateReportstore)
+const snackbar = useSnackbar()
 
-const generateReport = () => {
-    generateReportstore.getPhilhealthEmployeeRemitance()
+const generateReport = async () => {
+    try {
+        await generateReportstore.getPhilhealthEmployeeRemitance()
+        snackbar.add({
+            type: "success",
+            text: philhealthEmployeeRemitanceList.value.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: philhealthEmployeeRemitanceList.value.errorMessage || "something went wrong."
+        })
+    }
 }
 
 watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) => {
@@ -16,23 +28,17 @@ watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) 
 </script>
 <template>
     <LayoutBoards title="PhilHealth Employee Remittance" :loading="philhealthEmployeeRemitanceList.isLoading">
-        <div class="md:grid grid-cols-4 gap-4 mt-5 mb-16">
-            <VueDatePicker
-                v-model="philhealthEmployeeRemitanceList.params.month_year"
-                month-picker
-                class="rounded-lg"
-                placeholder="Select Month & Year"
-                :auto-apply="true"
-            />
-
+        <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
+            <LayoutFormPsMonthYearInput v-model="philhealthEmployeeRemitanceList.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="philhealthEmployeeRemitanceList.params.cutoff_start" class="w-full" title="Cutoff Start" required />
+            <LayoutFormPsDateInput v-model="philhealthEmployeeRemitanceList.params.cutoff_end" class="w-full" title="Cutoff End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                @click="generateReport"
             >
                 Generate Report
             </button>
-        </div>
+        </form>
         <LayoutPrint>
             <div class="flex flex-col">
                 <div class="header flex flex-col gap-1 mb-20">
@@ -79,27 +85,28 @@ watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) 
                     </thead>
                     <tbody class="text-sm">
                         <tr v-for="reportData, index in philhealthEmployeeRemitanceList.list" :key="'philhealthemployeeremitance' + index" class="h-2">
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ index + 1 }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
+                            <td class="border border-gray-500 h-8 px-2 text-sm">
                                 {{ reportData.employee_name }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.employee_philhealth_id }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.philhealth_employee_contribution) }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.philhealth_employer_contribution) }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.total_contribution) }}
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <HrmsReportsPreparedByCheckBy />
             </div>
         </LayoutPrint>
     </LayoutBoards>

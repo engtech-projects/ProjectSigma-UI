@@ -1,8 +1,5 @@
 import { defineStore } from "pinia"
 
-const { token } = useAuth()
-const config = useRuntimeConfig()
-
 export interface EmployeeSearch {
     employee_id: number,
     first_name: String,
@@ -24,27 +21,49 @@ export const useEmployeeSearch = defineStore("employeeSearchStore", {
             type: "WithAccounts"
         },
         searchResultList: [] as EmployeeSearch[],
+        employeesWithoutAccount: {
+            isLoading: false,
+            list: [] as EmployeeSearch[],
+            params: {
+                key: "",
+                type: "NoAccounts",
+            }
+        },
+        employeesWithAccount: {
+            isLoading: false,
+            list: [] as EmployeeSearch[],
+            params: {
+                key: "",
+                type: "WithAccounts",
+            }
+        },
+        employeesAll: {
+            isLoading: false,
+            list: [] as EmployeeSearch[],
+            params: {
+                key: "",
+                type: "AllEmployees",
+            }
+        },
     }),
     getters: {
     },
     actions: {
         async searchEmployees () {
-            this.searchResultList = [] as EmployeeSearch[]
             await useHRMSApi(
                 "/api/employee/search",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
+                    body: this.employeesAll.params,
+                    onRequest: () => {
+                        this.employeesAll.isLoading = true
                     },
-                    body: this.searchEmployeeParams,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
+                        this.employeesAll.isLoading = false
                         if (response.ok) {
-                            this.searchResultList = response._data?.data
+                            this.employeesAll.list = response._data?.data
                         } else {
-                            this.searchResultList = [] as EmployeeSearch[]
+                            this.employeesAll.list = [] as EmployeeSearch[]
                             throw new Error(response._data.message)
                         }
                     },
@@ -52,22 +71,20 @@ export const useEmployeeSearch = defineStore("employeeSearchStore", {
             )
         },
         async searchEmployeesNoAccount () {
-            this.searchResultList = [] as EmployeeSearch[]
             await useHRMSApi(
                 "/api/employee/search",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
+                    body: this.employeesWithoutAccount.params,
+                    onRequest: () => {
+                        this.employeesWithoutAccount.isLoading = true
                     },
-                    body: this.searchEmployeeParamsNoAccount,
                     onResponse: ({ response }) => {
+                        this.employeesWithoutAccount.isLoading = false
                         if (response.ok) {
-                            this.searchResultList = response._data?.data
+                            this.employeesWithoutAccount.list = response._data?.data
                         } else {
-                            this.searchResultList = [] as EmployeeSearch[]
+                            this.employeesWithoutAccount.list = [] as EmployeeSearch[]
                             throw new Error(response._data.message)
                         }
                     },
@@ -75,22 +92,20 @@ export const useEmployeeSearch = defineStore("employeeSearchStore", {
             )
         },
         async searchEmployeesWithAccount () {
-            this.searchResultList = [] as EmployeeSearch[]
             await useHRMSApi(
                 "/api/employee/search",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
+                    body: this.employeesWithAccount.params,
+                    onRequest: () => {
+                        this.employeesWithAccount.isLoading = true
                     },
-                    body: this.searchEmployeeParamsWithAccount,
                     onResponse: ({ response }) => {
+                        this.employeesWithAccount.isLoading = false
                         if (response.ok) {
-                            this.searchResultList = response._data?.data
+                            this.employeesWithAccount.list = response._data?.data
                         } else {
-                            this.searchResultList = [] as EmployeeSearch[]
+                            this.employeesWithAccount.list = [] as EmployeeSearch[]
                             throw new Error(response._data.message)
                         }
                     },

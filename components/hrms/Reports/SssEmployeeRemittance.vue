@@ -2,11 +2,54 @@
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { sssEmployeeRemitanceList } = storeToRefs(generateReportstore)
+const snackbar = useSnackbar()
 
-const generateReport = () => {
-    generateReportstore.getSssEmployeeRemitance()
+const generateReport = async () => {
+    try {
+        await generateReportstore.getSssEmployeeRemitance()
+        snackbar.add({
+            type: "success",
+            text: sssEmployeeRemitanceList.value.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: sssEmployeeRemitanceList.value.errorMessage || "something went wrong."
+        })
+    }
 }
-
+const totalSssEmployeeRemittance = () => {
+    return sssEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.sss_employee_contribution
+    }, 0)
+}
+const totalSssEmployerRemittance = () => {
+    return sssEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.sss_employer_contribution
+    }, 0)
+}
+const sssTotalContribution = () => {
+    return sssEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.total_contribution
+    }, 0)
+}
+const totalSssEmployerCompensation = () => {
+    return sssEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.sss_employer_compensation
+    }, 0)
+}
+const sssTotal = () => {
+    return sssEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.total_sss
+    }, 0)
+}
+const totalAmountDue = () => {
+    return (totalSssEmployeeRemittance() +
+        totalSssEmployerRemittance() +
+        sssTotalContribution() +
+        totalSssEmployerCompensation() +
+        sssTotal())
+}
 watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
     if (newValue) {
         sssEmployeeRemitanceList.value.params.filter_month = newValue.month + 1
@@ -16,23 +59,17 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
 </script>
 <template>
     <LayoutBoards title="SSS Employee Remittance" :loading="sssEmployeeRemitanceList.isLoading">
-        <div class="md:grid grid-cols-4 gap-4 mt-5 mb-16">
-            <VueDatePicker
-                v-model="sssEmployeeRemitanceList.params.month_year"
-                month-picker
-                class="rounded-lg"
-                placeholder="Select Month & Year"
-                :auto-apply="true"
-            />
-
+        <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
+            <LayoutFormPsMonthYearInput v-model="sssEmployeeRemitanceList.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="sssEmployeeRemitanceList.params.cutoff_start" class="w-full" title="Cutoff Start" required />
+            <LayoutFormPsDateInput v-model="sssEmployeeRemitanceList.params.cutoff_end" class="w-full" title="Cutoff End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                @click="generateReport"
             >
                 Generate Report
             </button>
-        </div>
+        </form>
         <LayoutPrint>
             <div class="flex flex-col">
                 <div class="header flex flex-col gap-1 mb-20">
@@ -64,7 +101,7 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                                 SSS NO.
                             </th>
                             <th colspan="3" class="border border-gray-500">
-                                SS AMOUNT
+                                SSS AMOUNT
                             </th>
 
                             <th rowspan="3" class="border border-gray-500">
@@ -98,10 +135,10 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                                 {{ reportData.employee_sss_id }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.sss_employee_contribution) }}
+                                {{ useFormatCurrency(reportData.sss_employer_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.sss_employer_contribution) }}
+                                {{ useFormatCurrency(reportData.sss_employee_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.total_contribution) }}
@@ -118,55 +155,32 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                                 TOTAL
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalSssEmployeeRemittance) }}
+                                {{ useFormatCurrency(totalSssEmployerRemittance()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalSssEmployerRemittance) }}
+                                {{ useFormatCurrency(totalSssEmployeeRemittance()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.sssTotalContribution) }}
+                                {{ useFormatCurrency(sssTotalContribution()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalSssEmployerCompensation) }}
+                                {{ useFormatCurrency(totalSssEmployerCompensation()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.sssTotal) }}
+                                {{ useFormatCurrency(sssTotal()) }}
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="6" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                            <td colspan="7" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalAmountDue) }}
+                                {{ useFormatCurrency(totalAmountDue()) }}
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="justify-around hidden">
-                    <div class="flex flex-col gap-12">
-                        <span>PREPARED BY:</span>
-                        <div class="flex flex-col gap-1">
-                            <span class="font-bold underline">
-                                JOMELYN S. SANTILLAN
-                            </span>
-                            <span>
-                                HR SPECIALIST
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-12">
-                        <span>CERTIFIED CORRECTED BY</span>
-                        <div class="flex flex-col gap-1">
-                            <span class="font-bold underline">
-                                JERMILY C. MOZO
-                            </span>
-                            <span>
-                                HEAD, HUMAN RESOURCE SECTION
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <HrmsReportsPreparedByCheckBy />
             </div>
         </LayoutPrint>
     </LayoutBoards>

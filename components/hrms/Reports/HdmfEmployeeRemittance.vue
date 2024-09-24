@@ -3,10 +3,37 @@ import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { pagibigEmployeeRemitanceList } = storeToRefs(generateReportstore)
 
-const generateReport = () => {
-    generateReportstore.getPagibigEmployeeRemitance()
-}
+const snackbar = useSnackbar()
 
+const generateReport = async () => {
+    try {
+        await generateReportstore.getPagibigEmployeeRemitance()
+        snackbar.add({
+            type: "success",
+            text: pagibigEmployeeRemitanceList.value.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: pagibigEmployeeRemitanceList.value.errorMessage || "something went wrong."
+        })
+    }
+}
+const totalPagibigEmployeeRemittance = () => {
+    return pagibigEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.pagibig_employee_contribution
+    }, 0)
+}
+const totalPagibigEmployerRemittance = () => {
+    return pagibigEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.pagibig_employer_contribution
+    }, 0)
+}
+const pagibigTotalContribution = () => {
+    return pagibigEmployeeRemitanceList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.total_contribution
+    }, 0)
+}
 watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => {
     if (newValue) {
         pagibigEmployeeRemitanceList.value.params.filter_month = newValue.month + 1
@@ -16,22 +43,17 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
 </script>
 <template>
     <LayoutBoards title="HDMF Employee Remittance" :loading="pagibigEmployeeRemitanceList.isLoading">
-        <div class="md:grid grid-cols-4 gap-4 mt-5 mb-16">
-            <VueDatePicker
-                v-model="pagibigEmployeeRemitanceList.params.month_year"
-                month-picker
-                class="rounded-lg"
-                placeholder="Select Month & Year"
-                :auto-apply="true"
-            />
+        <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
+            <LayoutFormPsMonthYearInput v-model="pagibigEmployeeRemitanceList.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="pagibigEmployeeRemitanceList.params.cutoff_start" class="w-full" title="Cutoff Start" required />
+            <LayoutFormPsDateInput v-model="pagibigEmployeeRemitanceList.params.cutoff_end" class="w-full" title="Cutoff End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                @click="generateReport"
             >
                 Generate Report
             </button>
-        </div>
+        </form>
         <LayoutPrint>
             <div class="flex flex-col">
                 <div class="header flex flex-col  mb-8">
@@ -71,7 +93,7 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
                         <span class="text-md flex-1">
                             Email Address:
                         </span>
-                        <span class="text-md font-bold flex-5">
+                        <span class="text-md font-bold flex-5 underline">
                             evenparcorporation@gmail.com
                         </span>
                     </div>
@@ -130,41 +152,18 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
                                 TOTAL
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalPagibigEmployeeRemittance) }}
+                                {{ useFormatCurrency(totalPagibigEmployeeRemittance()) }}
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.totalPagibigEmployerRemittance) }}
+                                {{ useFormatCurrency(totalPagibigEmployerRemittance()) }}
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(generateReportstore.pagibigTotalContribution) }}
+                                {{ useFormatCurrency(pagibigTotalContribution()) }}
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="justify-around hidden">
-                    <div class="flex flex-col gap-12">
-                        <span>PREPARED BY:</span>
-                        <div class="flex flex-col gap-1">
-                            <span class="font-bold underline">
-                                JOMELYN S. SANTILLAN
-                            </span>
-                            <span>
-                                HR SPECIALIST
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-12">
-                        <span>CHECKED BY</span>
-                        <div class="flex flex-col gap-1">
-                            <span class="font-bold underline">
-                                JERMILY C. MOZO
-                            </span>
-                            <span>
-                                HEAD, HUMAN RESOURCE
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <HrmsReportsPreparedByCheckBy />
             </div>
         </LayoutPrint>
     </LayoutBoards>

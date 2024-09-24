@@ -20,7 +20,7 @@ onMounted(() => {
 const model = defineModel({ required: false, type: Number, default: null })
 const employeeSearch = useEmployeeSearch()
 employeeSearch.searchEmployees()
-const { searchEmployeeParams, searchResultList } = storeToRefs(employeeSearch)
+const { employeesAll } = storeToRefs(employeeSearch)
 const employeeId = ref<EmployeeInformation>({} as EmployeeInformation)
 watch(employeeId, (newValue) => {
     if (newValue) {
@@ -38,6 +38,13 @@ watch(employeeId, (newValue) => {
         >
             {{ title }}
         </label>
-        <LayoutFormPsSelectSearch v-model:result="employeeId" v-model:search-input="searchEmployeeParams.key" :search-list="searchResultList" title="fullname_last" placeholder="Search Employee" />
+        <LayoutFormPsSelectSearch
+            v-model:result="employeeId"
+            v-model:search-input="employeesAll.params.key"
+            :search-list="employeesAll.list"
+            :loading="employeesAll.isLoading"
+            title="fullname_last"
+            placeholder="Search Employee"
+        />
     </div>
 </template>

@@ -1,7 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
-
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
 export const DENIED = "Denied"
@@ -29,8 +26,33 @@ export const useOvertimeStore = defineStore("overtimes", {
             request_status: ""
         },
         list: [],
-        myApprovalRequestList: [],
-        myRequestList: [],
+        allList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        approvalList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        myRequestList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -55,22 +77,28 @@ export const useOvertimeStore = defineStore("overtimes", {
             )
         },
         async getOvertime () {
-            await useFetch(
+            await useHRMSApi(
                 "/api/overtime/resource",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
+                    params: this.allList.params,
+                    onRequest: () => {
+                        this.allList.isLoading = true
+                        this.allList.list = []
                     },
-                    params: this.getParams,
+                    onResponseError: ({ response }) => {
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data
-                        this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                        this.allList.isLoading = false
+                        if (response.ok) {
+                            this.allList.isLoaded = true
+                            this.allList.list = response._data.data.data
+                            this.allList.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         }
                     },
                 }
@@ -81,12 +109,24 @@ export const useOvertimeStore = defineStore("overtimes", {
                 "/api/overtime/my-request",
                 {
                     method: "GET",
+                    params: this.myRequestList.params,
+                    onRequest: () => {
+                        this.myRequestList.isLoading = true
+                        this.myRequestList.list = []
+                    },
+                    onResponseError: ({ response }) => {
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }) => {
+                        this.myRequestList.isLoading = false
                         if (response.ok) {
-                            this.myRequestList = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.myRequestList.isLoaded = true
+                            this.myRequestList.list = response._data.data.data
+                            this.myRequestList.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         }
                     },
                 }
@@ -97,12 +137,24 @@ export const useOvertimeStore = defineStore("overtimes", {
                 "/api/overtime/my-approvals",
                 {
                     method: "GET",
+                    params: this.approvalList.params,
+                    onRequest: () => {
+                        this.approvalList.isLoading = true
+                        this.approvalList.list = []
+                    },
+                    onResponseError: ({ response }) => {
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }) => {
+                        this.approvalList.isLoading = false
                         if (response.ok) {
-                            this.myApprovalRequestList = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.approvalList.isLoaded = true
+                            this.approvalList.list = response._data.data.data
+                            this.approvalList.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         }
                     },
                 }
@@ -117,7 +169,7 @@ export const useOvertimeStore = defineStore("overtimes", {
                 {
                     method: "POST",
                     body: this.overtime,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response } : any) => {
                         if (response.ok) {
                             this.$reset()
                             this.getMyApprovalRequests()
@@ -143,7 +195,7 @@ export const useOvertimeStore = defineStore("overtimes", {
                 {
                     method: "PATCH",
                     body: this.overtime,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response } : any) => {
                         if (response.ok) {
                             this.$reset()
                             this.getMyApprovalRequests()

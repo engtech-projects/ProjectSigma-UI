@@ -1,11 +1,11 @@
 <script setup>
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 const main = useItemProfileStore()
-await main.getAllRequests()
-await main.getMyRequests()
-await main.getMyApprovals()
-await main.getUOM()
 await main.getItemGroups()
+main.getAllRequests()
+main.getMyRequests()
+main.getMyApprovals()
+main.getUOM()
 
 useHead({
     title: "New Item Profile",

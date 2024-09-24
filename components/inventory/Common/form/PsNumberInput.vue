@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const model = defineModel({ required: false, type: Number, default: null })
+const model = defineModel({ required: true, type: String, default: null })
 const compId = useId()
 defineProps({
     title: {
@@ -12,10 +12,6 @@ defineProps({
         default: "",
     },
     placeholder: {
-        type: String,
-        default: "",
-    },
-    addClass: {
         type: String,
         default: "",
     },
@@ -34,7 +30,7 @@ defineProps({
             step=".01"
             min="0"
             :name="name"
-            :class="addClass"
+            class="w-[120px] bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block"
             :placeholder="placeholder"
             :required="required"
         >

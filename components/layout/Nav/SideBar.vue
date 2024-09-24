@@ -451,7 +451,6 @@ const config = useRuntimeConfig()
 
         <!-- Inventory / Warehouse -->
         <LayoutNavModuleGroup
-            v-show="config.public.APP_ENV == 'local'"
             v-if="useCheckAccessibility([
                 AccessibilityTypes.inventory_group,
             ])"
@@ -467,7 +466,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.inventory_item_profile
+                    AccessibilityTypes.inventory_item_profile_group
                 ])"
                 icon="ion:ios-people"
                 title="Item Profile"
@@ -487,6 +486,14 @@ const config = useRuntimeConfig()
                     linkarea="/inventory/item-profile/list-profile"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Item Profile List"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.admin,
+                    ])"
+                    linkarea="/inventory/item-profile/bulk-upload"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Item Profile Bulk Upload"
                 />
             </LayoutNavGroup>
             <LayoutNavGroup
@@ -525,7 +532,6 @@ const config = useRuntimeConfig()
 
         <!-- Accounting -->
         <LayoutNavModuleGroup
-            v-show="config.public.APP_ENV == 'local'"
             v-if="useCheckAccessibility([
                 AccessibilityTypes.accounting_group,
             ])"
@@ -647,6 +653,41 @@ const config = useRuntimeConfig()
                 icon="mdi:cash"
                 single-nav-title="Transaction"
             />
+            <LayoutNavGroup
+                v-if="useCheckAccessibility([
+                    'Admin only'
+                ])"
+                icon="ion:ios-paper-outline"
+                title="Forms"
+            >
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_account_groups,
+                    ])"
+                    linkarea="/accounting/forms/payment_request_form"
+                    icon="ion:ios-list-outline"
+                    single-nav-title="Payment Request Form"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_account_groups,
+                    ])"
+                    linkarea="/accounting/forms/adjusting_journal_entries"
+                    icon="iconoir:calculator"
+                    single-nav-title="Adjusting Journal Entries"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_account_groups,
+                    ])"
+                    linkarea="/accounting/forms/disbursement_voucher"
+                    icon="iconoir:hand-contactless"
+                    single-nav-title="Disbursement Voucher"
+                />
+            </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->

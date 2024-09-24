@@ -4,8 +4,7 @@ import { useLeaveRequest } from "~/stores/hrms/leaveRequest"
 
 const leaveRequest = useLeaveRequest()
 
-const { allList, pagination, getParams } = storeToRefs(leaveRequest)
-const boardLoading = ref(false)
+const { allList } = storeToRefs(leaveRequest)
 
 const leaveRequestData = ref(null)
 const showInformationModal = ref(false)
@@ -35,17 +34,20 @@ const actions = {
 
 </script>
 <template>
-    <LayoutBoards class="w-full" :loading="boardLoading">
-        <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
+    <LayoutBoards class="w-full" :loading="allList.isLoading">
+        <div class="flex gap-2">
+            <HrmsCommonSearchEmployeeSelector v-model="allList.params.employee_id" class="w-full" />
+            <LayoutFormPsDateInput v-model="allList.params.date_filter" class="w-full" title="Date Filter" />
+        </div>
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="allList ?? []"
+                :datas="allList.list"
                 @show-table="showInformation"
             />
             <div class="flex justify-center mx-auto">
-                <CustomPagination :links="pagination" @change-params="changePaginate" />
+                <CustomPagination :links="allList.pagination" @change-params="changePaginate" />
             </div>
         </div>
     </LayoutBoards>

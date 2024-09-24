@@ -5,77 +5,102 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                charging_type: null,
+            },
             pagination: {},
+            errorMessage: null,
+            successMessage: null,
         },
         pagibigEmployeeRemitanceList: {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                charging_type: null,
+            },
             pagination: {},
+            errorMessage: null,
+            successMessage: null,
         },
         philhealthEmployeeRemitanceList: {
             isLoading: false,
             isLoaded: false,
             list: [],
+            params: {
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        sssGroupRemittance: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            chargingName: null,
+            params: {
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        pagibigGroupRemittance: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            chargingName: null,
+            params: {
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        philhealthGroupRemittance: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            chargingName: null,
+            params: {
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        sssRemittanceSummaryList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
             params: {},
             pagination: {},
+            errorMessage: null,
+            successMessage: null,
         },
+        pagibigRemittanceSummaryList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        philhealthRemittanceSummaryList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        }
     }),
-    getters: {
-        // sss
-        totalSssEmployeeRemittance (state): any {
-            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
-                return accumulator + current.sss_employee_contribution
-            }, 0)
-        },
-        totalSssEmployerRemittance (state): any {
-            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
-                return accumulator + current.sss_employer_contribution
-            }, 0)
-        },
-        sssTotalContribution (state): any {
-            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
-                return accumulator + current.total_contribution
-            }, 0)
-        },
-        totalSssEmployerCompensation (state): any {
-            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
-                return accumulator + current.sss_employer_compensation
-            }, 0)
-        },
-        sssTotal (state): any {
-            return state.sssEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
-                return accumulator + current.total_sss
-            }, 0)
-        },
-        totalAmountDue (): any {
-            return (this.totalSssEmployeeRemittance +
-                this.totalSssEmployerRemittance +
-                this.sssTotalContribution +
-                this.totalSssEmployerCompensation +
-                this.sssTotal)
-        },
-        // pagibig
-        totalPagibigEmployeeRemittance (state): any {
-            return state.pagibigEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
-                return accumulator + current.pagibig_employee_contribution
-            }, 0)
-        },
-        totalPagibigEmployerRemittance (state): any {
-            return state.pagibigEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
-                return accumulator + current.pagibig_employer_contribution
-            }, 0)
-        },
-        pagibigTotalContribution (state): any {
-            return state.pagibigEmployeeRemitanceList.list.reduce((accumulator, current: any) => {
-                return accumulator + current.total_contribution
-            }, 0)
-        },
-    },
+    getters: {},
     actions: {
-        async getSssEmployeeRemitance () {
+        async getSssEmployeeRemittance () {
             await useHRMSApiO(
                 "/api/reports/sss-employee-remittance",
                 {
@@ -83,8 +108,10 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                     params: this.sssEmployeeRemitanceList.params,
                     onRequest: () => {
                         this.sssEmployeeRemitanceList.isLoading = true
+                        this.sssEmployeeRemitanceList.list = []
                     },
                     onResponseError: ({ response } : any) => {
+                        this.sssEmployeeRemitanceList.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
@@ -92,6 +119,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                         if (response.ok) {
                             this.sssEmployeeRemitanceList.isLoaded = true
                             this.sssEmployeeRemitanceList.list = response._data.data
+                            this.sssEmployeeRemitanceList.successMessage = response._data.message
                         }
                     },
                 }
@@ -105,8 +133,10 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                     params: this.pagibigEmployeeRemitanceList.params,
                     onRequest: () => {
                         this.pagibigEmployeeRemitanceList.isLoading = true
+                        this.pagibigEmployeeRemitanceList.list = []
                     },
                     onResponseError: ({ response } : any) => {
+                        this.pagibigEmployeeRemitanceList.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
@@ -114,6 +144,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                         if (response.ok) {
                             this.pagibigEmployeeRemitanceList.isLoaded = true
                             this.pagibigEmployeeRemitanceList.list = response._data.data
+                            this.pagibigEmployeeRemitanceList.successMessage = response._data.message
                         }
                     },
                 }
@@ -127,8 +158,10 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                     params: this.philhealthEmployeeRemitanceList.params,
                     onRequest: () => {
                         this.philhealthEmployeeRemitanceList.isLoading = true
+                        this.philhealthEmployeeRemitanceList.list = []
                     },
                     onResponseError: ({ response } : any) => {
+                        this.philhealthEmployeeRemitanceList.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
@@ -136,6 +169,160 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                         if (response.ok) {
                             this.philhealthEmployeeRemitanceList.isLoaded = true
                             this.philhealthEmployeeRemitanceList.list = response._data.data
+                            this.philhealthEmployeeRemitanceList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getSssGroupRemitance () {
+            await useHRMSApiO(
+                "/api/reports/sss-group-remittance",
+                {
+                    method: "GET",
+                    params: this.sssGroupRemittance.params,
+                    onRequest: () => {
+                        this.sssGroupRemittance.isLoading = true
+                        this.sssGroupRemittance.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.sssGroupRemittance.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.sssGroupRemittance.isLoading = false
+                        if (response.ok) {
+                            this.sssGroupRemittance.isLoaded = true
+                            this.sssGroupRemittance.list = response._data.data.remittances
+                            this.sssGroupRemittance.chargingName = response._data.data.charging
+                            this.sssGroupRemittance.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getPagibigGroupRemitance () {
+            await useHRMSApiO(
+                "/api/reports/pagibig-group-remittance",
+                {
+                    method: "GET",
+                    params: this.pagibigGroupRemittance.params,
+                    onRequest: () => {
+                        this.pagibigGroupRemittance.isLoading = true
+                        this.pagibigGroupRemittance.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.pagibigGroupRemittance.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.pagibigGroupRemittance.isLoading = false
+                        if (response.ok) {
+                            this.pagibigGroupRemittance.isLoaded = true
+                            this.pagibigGroupRemittance.list = response._data.data.remittances
+                            this.pagibigGroupRemittance.chargingName = response._data.data.charging
+                            this.pagibigGroupRemittance.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getPhilhealthGroupRemitance () {
+            await useHRMSApiO(
+                "/api/reports/philhealth-group-remittance",
+                {
+                    method: "GET",
+                    params: this.philhealthGroupRemittance.params,
+                    onRequest: () => {
+                        this.philhealthGroupRemittance.isLoading = true
+                        this.philhealthGroupRemittance.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.philhealthGroupRemittance.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.philhealthGroupRemittance.isLoading = false
+                        if (response.ok) {
+                            this.philhealthGroupRemittance.isLoaded = true
+                            this.philhealthGroupRemittance.list = response._data.data.remittances
+                            this.philhealthGroupRemittance.chargingName = response._data.data.charging
+                            this.philhealthGroupRemittance.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getSssRemittanceSummary () {
+            await useHRMSApiO(
+                "/api/reports/sss-remittance-summary",
+                {
+                    method: "GET",
+                    params: this.sssRemittanceSummaryList.params,
+                    onRequest: () => {
+                        this.sssRemittanceSummaryList.isLoading = true
+                        this.sssRemittanceSummaryList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.sssRemittanceSummaryList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.sssRemittanceSummaryList.isLoading = false
+                        if (response.ok) {
+                            this.sssRemittanceSummaryList.isLoaded = true
+                            this.sssRemittanceSummaryList.list = response._data.data
+                            this.sssRemittanceSummaryList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getPagibigRemittanceSummary () {
+            await useHRMSApiO(
+                "/api/reports/pagibig-remittance-summary",
+                {
+                    method: "GET",
+                    params: this.pagibigRemittanceSummaryList.params,
+                    onRequest: () => {
+                        this.pagibigRemittanceSummaryList.isLoading = true
+                        this.pagibigRemittanceSummaryList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.pagibigRemittanceSummaryList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.pagibigRemittanceSummaryList.isLoading = false
+                        if (response.ok) {
+                            this.pagibigRemittanceSummaryList.isLoaded = true
+                            this.pagibigRemittanceSummaryList.list = response._data.data
+                            this.pagibigRemittanceSummaryList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getPhilhealthRemittanceSummary () {
+            await useHRMSApiO(
+                "/api/reports/philhealth-remittance-summary",
+                {
+                    method: "GET",
+                    params: this.philhealthRemittanceSummaryList.params,
+                    onRequest: () => {
+                        this.philhealthRemittanceSummaryList.isLoading = true
+                        this.philhealthRemittanceSummaryList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.philhealthRemittanceSummaryList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.philhealthRemittanceSummaryList.isLoading = false
+                        if (response.ok) {
+                            this.philhealthRemittanceSummaryList.isLoaded = true
+                            this.philhealthRemittanceSummaryList.list = response._data.data
+                            this.philhealthRemittanceSummaryList.successMessage = response._data.message
                         }
                     },
                 }

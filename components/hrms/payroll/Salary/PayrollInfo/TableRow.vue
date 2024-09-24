@@ -22,7 +22,7 @@ defineProps({
             {{ employeePayrollRecord.first_name }}
         </td>
         <td class="p-4 border-solid border border-slate-400 text-sm">
-            {{ employeePayrollRecord.current_employment.position.name ?? "-" }}
+            {{ employeePayrollRecord.current_employment?.position?.name ?? "-" }}
         </td>
         <td class="p-2 border-solid border border-slate-400">
             SG{{ employeePayrollRecord.current_employment.employee_salarygrade.salary_grade_level.salary_grade_level ?? "-" }}-{{ employeePayrollRecord.current_employment.employee_salarygrade.step_name }}

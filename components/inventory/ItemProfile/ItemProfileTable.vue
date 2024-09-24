@@ -3,8 +3,8 @@ import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 import { useApprovalStore, APPROVAL_NEW_ITEM_PROFILE } from "@/stores/inventory/setup/approvals"
 
 const profileStore = useItemProfileStore()
-const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension, itemgroup, subitemgroup } = storeToRefs(profileStore)
 const approvalsStore = useApprovalStore()
+const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension, itemgroup, subitemgroup } = storeToRefs(profileStore)
 formItemProfile.value.approvals = await approvalsStore.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
 
 defineProps({
@@ -26,22 +26,40 @@ const getType = (id:number) => {
     return null
 }
 
+const isNumeric = (value: string) => {
+    return /^\d+$/.test(value)
+}
+
 const getSubItemGroup = (id:any) => {
     if (subitemgroup.value.length >= 1) {
-        const symbol = subitemgroup.value.map((data: any, index: any) => {
-            return index === id ? data.name : null
-        }).filter((num:any): num is number => num !== null)
-        return symbol ? symbol[0] : null
+        if (isNumeric(id) === true) {
+            const symbol = subitemgroup.value.map((data: any, index: any) => {
+                return index === id ? data.name : null
+            }).filter((num:any): num is number => num !== null)
+            return symbol ? symbol[0] : null
+        } else {
+            const symbol = subitemgroup.value.map((data: any) => {
+                return data.name === id ? data.id : null
+            }).filter((num:any): num is number => num !== null)
+            return symbol ? symbol[0] : null
+        }
     }
     return null
 }
 
 const getItemGroup = (id:any) => {
     if (itemgroup.value.length >= 1) {
-        const symbol = itemgroup.value.map((data: any) => {
-            return data.id === id ? data.name : null
-        }).filter((num:any): num is number => num !== null)
-        return symbol ? symbol[0] : null
+        if (isNumeric(id) === true) {
+            const symbol = itemgroup.value.map((data: any, index: any) => {
+                return index === id ? data.name : null
+            }).filter((num:any): num is number => num !== null)
+            return symbol ? symbol[0] : null
+        } else {
+            const symbol = itemgroup.value.map((data: any) => {
+                return data.name === id ? data.id : null
+            }).filter((num:any): num is number => num !== null)
+            return symbol ? symbol[0] : null
+        }
     }
     return null
 }
@@ -64,7 +82,7 @@ const inventoryTypes = ref(
             name: "Inventoriable",
         },
         {
-            id: "Inventoriable",
+            id: "Non-Inventoriable",
             name: "Non-Inventoriable",
         },
     ]
@@ -88,19 +106,29 @@ const doStoreItemProfile = async () => {
                     type: "error",
                     text: profileStore.errorMessage
                 })
+                newItemProfile.value.map((data: any) => {
+                    data.item_group = getItemGroup(data.item_group)
+                    data.sub_item_group = getSubItemGroup(data.sub_item_group)
+                    return data
+                })
             } else {
                 snackbar.add({
                     type: "success",
                     text: profileStore.successMessage
                 })
                 profileStore.reset()
-                newItemProfile.value = []
+                formItemProfile.value.approvals = await approvalsStore.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
             }
         }
     } catch (error) {
         snackbar.add({
             type: "error",
             text: error || "something went wrong."
+        })
+        newItemProfile.value.map((data: any) => {
+            data.item_group = getItemGroup(data.item_group)
+            data.sub_item_group = getSubItemGroup(data.sub_item_group)
+            return data
         })
     } finally {
         boardLoading.value = false
@@ -164,6 +192,16 @@ const hideEditItem = async (index: number) => {
 const doGetSubItemGroup = async (id: number) => {
     await profileStore.getSubItemGroups(id)
 }
+const getTypeUOM = (id:number) => {
+    if (uom.value.length >= 1) {
+        const symbol = uom.value.map((data: any) => {
+            return data.id === id ? data.name : null
+        }).filter((num:any): num is number => num !== null)
+
+        return symbol ? symbol[0] : null
+    }
+    return null
+}
 </script>
 <template>
     <InventoryCommonLayoutItemProfileBoards title="New Profile" class="w-full" :loading="boardLoading" @action="showItemProfile">
@@ -191,18 +229,22 @@ const doGetSubItemGroup = async (id: number) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <InventoryCommonTableItemProfileAppend
-                        :append-item-profile="addItemProfile"
-                        :inventory-types="inventoryTypes"
-                        :uom-types="AllTypes"
-                        @add-item="doAddItemProfile"
-                        @remove-item="removeAppendItemProfile"
-                        @item-group-item="doGetSubItemGroup"
-                    />
+                    <template v-for="(itemProfile, index) in addItemProfile" :key="itemProfile">
+                        <InventoryCommonTableItemProfileAppend
+                            v-model:itemProfile="addItemProfile[index]"
+                            :index="index"
+                            :inventory-types="inventoryTypes"
+                            :uom-types="AllTypes"
+                            @add-item="doAddItemProfile"
+                            @remove-item="removeAppendItemProfile"
+                            @item-group-item="doGetSubItemGroup"
+                        />
+                    </template>
                     <tr v-for="dataValue, index in newItemProfile" :key="index" class="bg-white border-b">
                         <template v-if="dataValue.is_edit">
                             <InventoryCommonTableItemProfileEdit
-                                :item-profile="dataValue"
+                                v-model:itemProfile="newItemProfile[index]"
+                                :index="index"
                                 :inventory-types="inventoryTypes"
                                 :uom-types="AllTypes"
                                 @do-edit-item="doEditItem(dataValue, index)"
@@ -255,7 +297,7 @@ const doGetSubItemGroup = async (id: number) => {
                                 {{ dataValue.color }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.uom }}
+                                {{ getTypeUOM(dataValue.uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ getSubItemGroup(dataValue.sub_item_group) ? getSubItemGroup(dataValue.sub_item_group) : dataValue.sub_item_group }}

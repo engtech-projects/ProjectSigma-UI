@@ -40,7 +40,7 @@
                 <span class="text-md flex-1">
                     Email Address:
                 </span>
-                <span class="text-md font-bold flex-5">
+                <span class="text-md font-bold flex-5 underline">
                     evenparcorporation@gmail.com
                 </span>
             </div>
@@ -418,30 +418,7 @@
                 </tr>
             </tbody>
         </table>
-        <div class="flex justify-around">
-            <div class="flex flex-col gap-12">
-                <span>PREPARED BY:</span>
-                <div class="flex flex-col gap-1">
-                    <span class="font-bold underline">
-                        JOMELYN S. SANTILLAN
-                    </span>
-                    <span>
-                        HR SPECIALIST
-                    </span>
-                </div>
-            </div>
-            <div class="flex flex-col gap-12">
-                <span>CHECKED BY</span>
-                <div class="flex flex-col gap-1">
-                    <span class="font-bold underline">
-                        JERMILY C. MOZO
-                    </span>
-                    <span>
-                        HEAD, HUMAN RESOURCE
-                    </span>
-                </div>
-            </div>
-        </div>
+        <HrmsReportsPreparedByCheckBy />
     </div>
 </template>
 <style scoped>
