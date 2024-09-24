@@ -55,7 +55,7 @@ const selectedReport = ref("")
                         SSS Loan Payment
                     </option>
                     <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
+                        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_philhealthremittancesummary])"
                         value="Report6"
                     >
                         PHIC Remittance Summary
