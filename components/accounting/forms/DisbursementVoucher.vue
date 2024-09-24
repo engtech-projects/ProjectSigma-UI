@@ -96,6 +96,62 @@
             <h2 class="text-xl font-bold text-center">
                 ACCOUNTING ENTRIES
             </h2>
+            <form @submit.prevent="">
+                <div class="flex gap-2">
+                    <div class="flex-1">
+                        <label
+                            for="amountInWords"
+                            class="text-xs italic"
+                        >Accounts</label>
+                        <select class="w-full rounded-lg">
+                            <option value="sample">
+                                Sample Account
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex-1">
+                        <label
+                            for="amountInWords"
+                            class="text-xs italic"
+                        >Project/Section Code</label>
+                        <select class="w-full rounded-lg">
+                            <option value="sample">
+                                Sample Code
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex-1">
+                        <label
+                            for="amountInWords"
+                            class="text-xs italic"
+                        >Debit</label>
+                        <input
+                            id="amountInWords"
+                            type="number"
+                            class="w-full rounded-lg"
+                            required
+                        >
+                    </div>
+                    <div class="flex-1">
+                        <label
+                            for="amountInWords"
+                            class="text-xs italic"
+                        >Credit</label>
+                        <input
+                            id="amountInWords"
+                            type="number"
+                            class="w-full rounded-lg"
+                            required
+                        >
+                    </div>
+                    <button
+                        type="submit"
+                        class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
+                    >
+                        Add line
+                    </button>
+                </div>
+            </form>
             <table class="w-full">
                 <thead>
                     <tr>

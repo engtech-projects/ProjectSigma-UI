@@ -686,6 +686,15 @@ const config = useRuntimeConfig()
                     icon="iconoir:hand-contactless"
                     single-nav-title="Disbursement Voucher"
                 />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_account_groups,
+                    ])"
+                    linkarea="/accounting/forms/request_for_adjustment"
+                    icon="iconoir:git-compare"
+                    single-nav-title="Request for Adjustment"
+                />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
