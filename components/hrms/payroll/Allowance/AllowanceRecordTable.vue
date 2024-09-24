@@ -10,7 +10,7 @@ const totalAllowanceAmount = () => {
 }
 </script>
 <template>
-    <div class="w-full">
+    <LayoutPrint class="w-full">
         <div class="text-center mb-4">
             <h1 class="text-xl font-bold">
                 EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
@@ -23,7 +23,7 @@ const totalAllowanceAmount = () => {
             <div class="w-full flex gap-4">
                 <span class="font-semibold text-sm">Office/Project: </span> <span class="font-light text-sm">{{ data.charge_name }}</span>
                 <!-- <span class="font-semibold text-sm ml-4">Period Covered: </span> <span class="font-light text-sm">{{ data.cutoff_start_human }} - {{ data.cutoff_end_human }}</span> -->
-                <span class="font-semibold text-sm ml-4">Allowance Date: </span> <span class="font-light text-sm">{{ data.allowance_date_human }}</span>
+                <span class="font-semibold text-sm ml-4">Allowance Date: </span> <span class="font-light text-sm">{{ data.allowance_date }}</span>
             </div>
         </div>
         <table class="min-w-full border border-zinc-300">
@@ -78,5 +78,5 @@ const totalAllowanceAmount = () => {
                 </tr>
             </tbody>
         </table>
-    </div>
+    </LayoutPrint>
 </template>
