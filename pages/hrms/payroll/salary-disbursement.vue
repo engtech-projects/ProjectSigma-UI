@@ -1,12 +1,13 @@
 <script setup lang="ts">
 useHead({
-    title: "Salary",
+    title: "Salary Disbursement",
 })
+const compId = useId()
 </script>
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_payroll_salary_group,
+            AccessibilityTypes.hrms_payroll_salarydisbursement_group,
         ])"
     >
         <div class="grid grid-cols-1 md:flex-row gap-4">
@@ -14,65 +15,65 @@ useHead({
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_form,
+                            AccessibilityTypes.hrms_payroll_salarydisbursement_form,
                         ])"
-                        target-id="payrollForm"
-                        title="Generate Payroll"
+                        :target-id="compId + '1'"
+                        title="Generate Salary Disbursement Request"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_allrequests,
+                            AccessibilityTypes.hrms_payroll_salarydisbursement_allrequests,
                         ])"
-                        target-id="allRequest"
+                        :target-id="compId + '2'"
                         title="All Request"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_form,
+                            AccessibilityTypes.hrms_payroll_salarydisbursement_form,
                         ])"
-                        target-id="myRequestList"
+                        :target-id="compId + '3'"
                         title="My Request"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_payroll_salary_generatepayroll_myapprovals,
+                            AccessibilityTypes.hrms_payroll_salarydisbursement_myapprovals,
                         ])"
-                        target-id="myApprovalsList"
+                        :target-id="compId + '4'"
                         title="My Approvals"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_payroll_salary_payrollrecord,
+                            AccessibilityTypes.hrms_payroll_salarydisbursement_viewpayslips,
                         ])"
-                        target-id="payrollRecord"
-                        title="Payroll Record"
+                        :target-id="compId + '5'"
+                        title="Release Payslips"
                     />
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer
-                        id="payrollForm"
+                        :id="compId + '1'"
                     >
-                        <HrmsPayrollSalaryGeneratePayrollGenerateForm />
+                        <HrmsPayrollSalaryDisbursementRequestForm />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        id="allRequest"
+                        :id="compId + '2'"
                     >
-                        <HrmsPayrollSalaryGeneratePayrollAllRequests />
+                        <HrmsPayrollSalaryDisbursementAllRequests />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        id="myRequestList"
+                        :id="compId + '3'"
                     >
-                        <HrmsPayrollSalaryGeneratePayrollMyRequests />
+                        <HrmsPayrollSalaryDisbursementMyRequests />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        id="myApprovalsList"
+                        :id="compId + '4'"
                     >
-                        <HrmsPayrollSalaryGeneratePayrollMyApprovals />
+                        <HrmsPayrollSalaryDisbursementMyApprovals />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer
-                        id="payrollRecord"
+                        :id="compId + '5'"
                     >
-                        <HrmsPayrollSalaryPayrollRecords />
+                        PLACEHOLDER
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>
