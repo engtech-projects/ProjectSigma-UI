@@ -213,7 +213,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
         },
         async approveApprovalForm (id: number) {
             await useHRMSApiO(
-                "/api/approvals/approve/GenerateAllowance/" + id,
+                "/api/approvals/approve/RequestSalaryDisbursement/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -238,7 +238,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
             formData.append("id", id)
             formData.append("remarks", remarks)
             await useHRMSApiO(
-                "/api/approvals/disapprove/GenerateAllowance/" + id,
+                "/api/approvals/disapprove/RequestSalaryDisbursement/" + id,
                 {
                     method: "POST",
                     body: formData,
