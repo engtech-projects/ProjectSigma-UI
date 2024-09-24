@@ -1,9 +1,5 @@
 <script setup>
 defineProps({
-    title: {
-        type: String,
-        required: true,
-    },
     data: {
         type: Object,
         required: true,
@@ -104,7 +100,7 @@ defineProps({
                 <tbody class="text-sm">
                     <tr v-for="rowData, key, index in data.summary" :key="'SalaryDisbursementDataRow' + index" class="h-2">
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
-                            {{ index }}. {{ key }}
+                            {{ index + 1 }}. {{ key }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
                             {{ rowData.summary.pay_basic }}
