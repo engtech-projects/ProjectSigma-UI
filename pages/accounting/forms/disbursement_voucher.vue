@@ -6,8 +6,8 @@
 
 <script lang="ts" setup>
 
+import { useAccountStore } from "~/stores/accounting/account"
+const accountStore = useAccountStore()
+accountStore.getAccounts()
+
 </script>
-
-<style>
-
-</style>
