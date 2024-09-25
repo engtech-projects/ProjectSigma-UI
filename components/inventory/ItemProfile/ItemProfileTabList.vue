@@ -29,13 +29,13 @@ const compId = useId()
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer :id="'all-list' + compId">
-                    <InventoryCommonRequestList />
+                    <InventoryItemProfileRequestAllRequests />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer :id="'my-requests' + compId">
-                    <InventoryCommonRequestMyRequests />
+                    <InventoryItemProfileRequestMyRequests />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer :id="'my-approvals' + compId">
-                    <InventoryCommonRequestMyApprovals />
+                    <InventoryItemProfileRequestMyApprovals />
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>
