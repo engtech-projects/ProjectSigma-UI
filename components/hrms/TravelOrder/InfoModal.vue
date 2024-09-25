@@ -85,6 +85,7 @@ const denyRequest = async (id) => {
                         : </span> {{ data.means_of_transportation }}
                 </div>
                 <div class="p-2 flex flex-col gap-2">
+                    <span class="text-teal-600 font-medium">Charging Destination: </span> {{ data.charging_designation }}
                     <span class="text-teal-600 font-medium">Remarks
                         : </span> {{ data.remarks }}
                     <span class="text-teal-600 font-medium">Request Status: </span> {{ data.request_status }}
