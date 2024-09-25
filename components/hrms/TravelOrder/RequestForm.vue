@@ -1,9 +1,12 @@
-<script setup lang="ts">
+<script setup>
 import { storeToRefs } from "pinia"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
+import { useEnumsStore } from "@/stores/hrms/enum"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
 const approvals = useApprovalStore()
 const travels = useTravelorderStore()
+const enums = useEnumsStore()
+const { allEmployeeEnum } = storeToRefs(enums)
 const { travel, errorMessage, successMessage } = storeToRefs(travels)
 travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
 const snackbar = useSnackbar()
@@ -11,6 +14,12 @@ const boardLoading = ref(false)
 const submitForm = async () => {
     try {
         boardLoading.value = true
+        travel.value.charge_type = allEmployeeEnum.value.params.filterType
+        if (allEmployeeEnum.value.params.filterType === "Department") {
+            travel.value.department_id = allEmployeeEnum.value.params.filterData
+        } else if (allEmployeeEnum.value.params.filterType === "Project") {
+            travel.value.project_id = allEmployeeEnum.value.params.filterData
+        }
         await travels.createRequest()
         if (travels.errorMessage !== "") {
             snackbar.add({
@@ -29,12 +38,11 @@ const submitForm = async () => {
             text: error
         })
     } finally {
-        travels.clearMessages()
-        travels.$reset()
         travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
         boardLoading.value = false
     }
 }
+
 </script>
 <template>
     <LayoutBoards title="Travel Order Form" class="w-full" :loading="boardLoading">
@@ -42,8 +50,10 @@ const submitForm = async () => {
             <form @submit.prevent="submitForm">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2 p-2">
                     <div class="flex-1 pt-8">
-                        <div>
-                            <HrmsCommonMultipleEmployeeSelector v-model="travel.employee_ids" />
+                        <div class="flex flex-col gap-2">
+                            <HrmsCommonMultipleEmployeeSelector
+                                v-model="travel.employee_ids"
+                            />
                         </div>
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">

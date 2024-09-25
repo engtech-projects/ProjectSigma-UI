@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useEnumsStore } from "@/stores/hrms/enum"
-// const compId = useId()
+
 const enums = useEnumsStore()
 const { allEmployeeEnum } = storeToRefs(enums)
 onMounted(() => {

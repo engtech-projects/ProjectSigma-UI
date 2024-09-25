@@ -26,6 +26,9 @@ export const useTravelorderStore = defineStore("travels", {
             duration_of_travel: null,
             means_of_transportation: null,
             remarks: "",
+            charge_type: null,
+            project_id: null,
+            department_id: null,
             approvals: [],
             request_status: ""
         },
@@ -118,7 +121,7 @@ export const useTravelorderStore = defineStore("travels", {
                 {
                     method: "POST",
                     body: this.travel,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.$reset()
                             this.getMyApprovalRequests()
@@ -144,7 +147,7 @@ export const useTravelorderStore = defineStore("travels", {
                 {
                     method: "PATCH",
                     body: this.travel,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.getMyApprovalRequests()
                             this.getTravelorders()
@@ -191,11 +194,11 @@ export const useTravelorderStore = defineStore("travels", {
                 "/api/approvals/approve/TravelOrder/" + id,
                 {
                     method: "POST",
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.getMyApprovalRequests()
@@ -221,11 +224,11 @@ export const useTravelorderStore = defineStore("travels", {
                 {
                     method: "POST",
                     body: formData,
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.getMyApprovalRequests()
