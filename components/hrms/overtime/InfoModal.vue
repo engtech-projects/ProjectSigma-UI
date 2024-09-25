@@ -104,7 +104,7 @@ const headers = [
             </div>
             <div class="w-full">
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> Prepared by: </span> {{ data.prepared_by.name }}
+                    <span class="text-teal-600 text-light"> Prepared by: </span> {{ data.created_by }}
                 </div>
                 <LayoutApprovalsListView :approvals="data.approvals" />
             </div>
