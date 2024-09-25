@@ -1,12 +1,9 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
-import { useEnumsStore } from "@/stores/hrms/enum"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
 const approvals = useApprovalStore()
 const travels = useTravelorderStore()
-const enums = useEnumsStore()
-const { allEmployeeEnum } = storeToRefs(enums)
 const { travel, errorMessage, successMessage } = storeToRefs(travels)
 travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
 const snackbar = useSnackbar()
@@ -14,12 +11,6 @@ const boardLoading = ref(false)
 const submitForm = async () => {
     try {
         boardLoading.value = true
-        travel.value.charge_type = allEmployeeEnum.value.params.filterType
-        if (allEmployeeEnum.value.params.filterType === "Department") {
-            travel.value.department_id = allEmployeeEnum.value.params.filterData
-        } else if (allEmployeeEnum.value.params.filterType === "Project") {
-            travel.value.project_id = allEmployeeEnum.value.params.filterData
-        }
         await travels.createRequest()
         if (travels.errorMessage !== "") {
             snackbar.add({
@@ -35,7 +26,7 @@ const submitForm = async () => {
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: error
+            text: travels.errorMessage
         })
     } finally {
         travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
@@ -53,6 +44,12 @@ const submitForm = async () => {
                         <div class="flex flex-col gap-2">
                             <HrmsCommonMultipleEmployeeSelector
                                 v-model="travel.employee_ids"
+                            />
+                            <HrmsCommonDepartmentProjectSelector
+                                v-model:select-type="travel.charge_type"
+                                v-model:department-id="travel.department_id"
+                                v-model:project-id="travel.project_id"
+                                title="Charging"
                             />
                         </div>
                     </div>
