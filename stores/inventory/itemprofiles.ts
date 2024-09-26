@@ -4,6 +4,7 @@ const { token } = useAuth()
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
 export const DENIED = "Denied"
+export const APPROVAL_NEW_ITEM_PROFILE = "New Item Profile"
 
 export const REQ_STATUS = [
     APPROVED,
@@ -40,6 +41,7 @@ export interface NewItemProfile {
     active_status: string,
     is_approved: boolean,
     is_edit: boolean,
+    item_group_list: Array<any>,
 }
 export interface ItemProfile {
     item_profiles: Array<any>,
@@ -80,11 +82,9 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             is_approved: false,
             is_edit: false,
         },
-        addItemProfile: [] as Array<any>,
+        addItemProfile: [] as Array<NewItemProfile>,
         formItemProfile: {} as ItemProfile,
         newItemProfile: [] as Array<NewItemProfile>,
-        itemgroup: [] as any,
-        subitemgroup: [] as any,
         uom: {} as any,
         itemDetails: {
             isLoading: false,
@@ -164,6 +164,45 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
     },
     actions: {
+        async getApprovalByName (approvalName: String) {
+            const { data } = await useHRMSApi<any>(
+                "/api/get-form-requests/" + approvalName,
+                {
+                    method: "GET",
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.formItemProfile.approvals = response._data.data.approvals.map((approv: any) => {
+                                return {
+                                    type: approv.type,
+                                    status: "Pending",
+                                    user_id: approv.user_id,
+                                    userselector: approv.userselector,
+                                    date_approved: "",
+                                    remarks: "",
+                                    employee: approv.employee,
+                                }
+                            })
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
+            if (data.value) {
+                return data.value.data.approvals.map((approv: any) => {
+                    return {
+                        type: approv.type,
+                        status: "Pending",
+                        user_id: approv.user_id,
+                        userselector: approv.userselector,
+                        date_approved: "",
+                        remarks: "",
+                        employee: approv.employee,
+                    }
+                })
+            }
+        },
         async getUOM () {
             const { data, error } = await useInventoryApi(
                 "/api/uom/resource",
@@ -186,6 +225,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 "/api/item-profile/" + id + "/activate",
                 {
                     method: "PATCH",
+                    watch: false,
                     onRequest: () => {
                         this.allRequests.isLoading = true
                     },
@@ -206,6 +246,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 "/api/item-profile/" + id + "/deactivate",
                 {
                     method: "PATCH",
+                    watch: false,
                     onRequest: () => {
                         this.allRequests.isLoading = true
                     },
@@ -321,53 +362,6 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 return error
             }
         },
-        async getItemGroups () {
-            const { data, error } = await useInventoryApi(
-                "/api/item-group/list",
-                {
-                    method: "GET",
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.itemgroup = response._data.data.map((val: any) => {
-                                return {
-                                    id: val.id,
-                                    name: val.name,
-                                }
-                            })
-                        }
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
-        async getSubItemGroups (id: number) {
-            const { data, error } = await useInventoryApi(
-                "/api/item-group/resource/" + id,
-                {
-                    method: "GET",
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.subitemgroup = response._data.data.sub_groups.map((val: any, index: any) => {
-                                return {
-                                    id: index,
-                                    name: val,
-                                }
-                            })
-                        }
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
         async getItemProfile () {
             await useInventoryApi(
                 "/api/item-profile/list",
@@ -404,6 +398,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                         Accept: "application/json"
                     },
                     params: this.getParams,
+                    watch: false,
                     onResponse: ({ response }) => {
                         this.page.list = response._data.data
                     },
@@ -473,13 +468,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 }
             )
         },
-        approvalReset () {
-            this.getAllRequests()
-            this.getMyRequests()
-            this.getMyApprovals()
+        itemProfileReset () {
+            this.addItemProfile = [] as Array<NewItemProfile>
+            this.newItemProfile = [] as Array<NewItemProfile>
         },
         reloadResources () {
-            const backup = this.formItemProfile.approvals
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
@@ -491,21 +484,12 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 callFunctions.push(this.getMyApprovals)
             }
             this.$reset()
-            this.formItemProfile.approvals = backup
+            this.itemProfileReset()
+            this.getUOM()
+            this.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
             callFunctions.forEach((element) => {
                 element()
             })
-        },
-        clearMessages () {
-            this.errorMessage = ""
-            this.successMessage = ""
-        },
-        reset () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            this.addItemProfile = [] as Array<any>
-            this.formItemProfile.item_profiles = [] as Array<any>
-            this.newItemProfile = [] as Array<NewItemProfile>
         },
     },
 })
