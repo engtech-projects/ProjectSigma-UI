@@ -6,6 +6,7 @@ useHead({
 })
 
 const main = useItemBulkProfileStore()
+const { isLoading } = storeToRefs(main)
 
 const headers = [
     { name: "Item Description", id: "item_description" },
@@ -32,13 +33,50 @@ const headers = [
     { name: "Inventory Type", id: "inventory_type" },
 ]
 
-const data = ref([])
-
-const saveBulkUpload = () => {
+const BulkUpload = async (event) => {
+    main.isLoading = true
+    const file = event.target.files[0]
     const formData = new FormData()
-    formData.append("data", JSON.stringify(data.value))
+    formData.append("file", file)
+    await main.doBulkUpload(formData)
 }
-
+// const saveBulkUpload = async () => {
+//     boardLoading.value = true
+//     const formData = new FormData()
+//     formData.append("employees_data", JSON.stringify(unsaveEmployee.value))
+//     await useFetch(
+//         "/api/employee/bulk-save",
+//         {
+//             baseURL: config.public.HRMS_API_URL,
+//             method: "POST",
+//             headers: {
+//                 Authorization: token.value + "",
+//                 Accept: "application/json"
+//             },
+//             body: formData,
+//             watch: false,
+//             onResponse: ({ response }) => {
+//                 if (response.ok) {
+//                     employees.value = response._data?.data.extract
+//                     saveEmployee.value = response._data?.data.save
+//                     unsaveEmployee.value = response._data?.data.unsave
+//                     snackbar.add({
+//                         type: "success",
+//                         text: response._data.message
+//                     })
+//                 } else {
+//                     snackbar.add({
+//                         type: "danger",
+//                         text: response?._data.message
+//                     })
+//                     throw new Error(response._data.message)
+//                 }
+//             },
+//         }
+//     )
+//     selectedEmployeeDetails.value = true
+//     boardLoading.value = false
+// }
 </script>
 <template>
     <LayoutAcessContainer
@@ -60,32 +98,42 @@ const saveBulkUpload = () => {
                         class="hidden text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none "
                         type="file"
                         accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        @change="BulkUpload"
                     >
                 </div>
             </div>
-            <InventoryItemProfileBulkUploadTable
-                title="Unprocessed"
-                :header-columns="headers"
-                :data="main.listUnprocess.data"
-                title-color="text-red-500"
-                icon="material-symbols:dangerous"
-            />
-            <InventoryItemProfileBulkUploadTable
-                title="Duplicates"
-                :header-columns="headers"
-                :data="main.listDuplicates.data"
-                title-color="text-yellow-500"
-                icon="material-symbols:warning"
-            />
-            <InventoryItemProfileBulkUploadTable
-                :is-checkbox="true"
-                title="Processed"
-                :header-columns="headers"
-                :data="main.listProcess.data"
-                title-color="text-green-500"
-                icon="material-symbols:check-circle"
-                @change-params="saveBulkUpload"
-            />
+            <LayoutLoadingContainer class="w-full" :loading="isLoading">
+                <InventoryItemProfileBulkUploadTable
+                    title="Unprocessed"
+                    :header-columns="headers"
+                    :data="main.listUnprocess.data"
+                    :is-loading="isLoading"
+                    title-color="text-red-500"
+                    icon="material-symbols:dangerous"
+                />
+            </LayoutLoadingContainer>
+            <LayoutLoadingContainer class="w-full" :loading="isLoading">
+                <InventoryItemProfileBulkUploadTable
+                    title="Duplicates"
+                    :header-columns="headers"
+                    :data="main.listDuplicates.data"
+                    :is-loading="isLoading"
+                    title-color="text-yellow-500"
+                    icon="material-symbols:warning"
+                />
+            </LayoutLoadingContainer>
+            <LayoutLoadingContainer class="w-full" :loading="isLoading">
+                <InventoryItemProfileBulkUploadTable
+                    :is-checkbox="true"
+                    title="Processed"
+                    :header-columns="headers"
+                    :data="main.listProcess.data"
+                    :is-loading="isLoading"
+                    title-color="text-green-500"
+                    icon="material-symbols:check-circle"
+                    @change-params="saveBulkUpload"
+                />
+            </LayoutLoadingContainer>
         </div>
     </LayoutAcessContainer>
 </template>
