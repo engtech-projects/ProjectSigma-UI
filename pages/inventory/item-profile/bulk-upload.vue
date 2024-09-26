@@ -34,7 +34,6 @@ const headers = [
 ]
 
 const BulkUpload = async (event) => {
-    main.isLoading = true
     const file = event.target.files[0]
     const formData = new FormData()
     formData.append("file", file)
@@ -70,7 +69,6 @@ const BulkUpload = async (event) => {
                     title="Unprocessed"
                     :header-columns="headers"
                     :data="main.listUnprocess.data"
-                    :is-loading="isLoading"
                     title-color="text-red-500"
                     icon="material-symbols:dangerous"
                 />
@@ -80,7 +78,6 @@ const BulkUpload = async (event) => {
                     title="Duplicates"
                     :header-columns="headers"
                     :data="main.listDuplicates.data"
-                    :is-loading="isLoading"
                     title-color="text-yellow-500"
                     icon="material-symbols:warning"
                 />
@@ -91,7 +88,6 @@ const BulkUpload = async (event) => {
                     title="Processed"
                     :header-columns="headers"
                     :data="main.listProcess.data"
-                    :is-loading="isLoading"
                     title-color="text-green-500"
                     icon="material-symbols:check-circle"
                     @change-params="saveBulkUpload"
