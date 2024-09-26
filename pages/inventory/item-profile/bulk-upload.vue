@@ -40,43 +40,6 @@ const BulkUpload = async (event) => {
     formData.append("file", file)
     await main.doBulkUpload(formData)
 }
-// const saveBulkUpload = async () => {
-//     boardLoading.value = true
-//     const formData = new FormData()
-//     formData.append("employees_data", JSON.stringify(unsaveEmployee.value))
-//     await useFetch(
-//         "/api/employee/bulk-save",
-//         {
-//             baseURL: config.public.HRMS_API_URL,
-//             method: "POST",
-//             headers: {
-//                 Authorization: token.value + "",
-//                 Accept: "application/json"
-//             },
-//             body: formData,
-//             watch: false,
-//             onResponse: ({ response }) => {
-//                 if (response.ok) {
-//                     employees.value = response._data?.data.extract
-//                     saveEmployee.value = response._data?.data.save
-//                     unsaveEmployee.value = response._data?.data.unsave
-//                     snackbar.add({
-//                         type: "success",
-//                         text: response._data.message
-//                     })
-//                 } else {
-//                     snackbar.add({
-//                         type: "danger",
-//                         text: response?._data.message
-//                     })
-//                     throw new Error(response._data.message)
-//                 }
-//             },
-//         }
-//     )
-//     selectedEmployeeDetails.value = true
-//     boardLoading.value = false
-// }
 </script>
 <template>
     <LayoutAcessContainer
