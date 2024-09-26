@@ -31,6 +31,9 @@ const addLine = () => {
         credit: 0
     }
 }
+const removeLine = (line: object) => {
+    accountEntries.value = accountEntries.value.filter(acc => acc !== line)
+}
 </script>
 <template>
     <div class="flex flex-col gap-16 pb-24 pt-8">
@@ -196,7 +199,7 @@ const addLine = () => {
                     </button>
                 </div>
             </form>
-            <table class="w-full">
+            <table v-if="accountEntries.length > 0" class="w-full">
                 <thead>
                     <tr>
                         <th class="border-2 border-gray-800 text-sm">
@@ -214,11 +217,12 @@ const addLine = () => {
                         <th class="border-2 border-gray-800 text-sm w-24">
                             CREDIT
                         </th>
+                        <th class="border-2 border-gray-800 text-sm w-2" />
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="ae,i in accountEntries" :key="i">
-                        <td class="border px-4 py-1 border-gray-800">
+                    <tr v-for="ae,i in accountEntries" :key="i" class="hover:bg-gray-100 cursor-pointer">
+                        <td class="border px-4 py-1 border-gray-800 relative">
                             {{ ae.account_code }}
                         </td>
                         <td class="border px-4 py-1 border-gray-800">
@@ -233,8 +237,11 @@ const addLine = () => {
                         <td class="border px-4 py-1 border-gray-800">
                             {{ ae.credit }}
                         </td>
+                        <td class="border px-4 py-1 border-gray-800">
+                            <Icon name="ion:trash" class="text-xl text-gray-500 hover:text-red-600" @click="removeLine(ae)" />
+                        </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td class="border px-4 py-1 border-gray-800" />
                         <td class="border px-4 py-1 border-gray-800" />
                         <td class="border px-4 py-1 border-gray-800" />
@@ -333,9 +340,12 @@ const addLine = () => {
                         </td>
                         <td class="border-b-2 border-gray-800" />
                         <td class="border-b-2 border-gray-800" />
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
+            <span v-else class="block text-center text-gray-600">
+                No entries yet.
+            </span>
         </div>
         <div class="flex gap-24">
             <span class="border-b-2 border-black pb-16 font-bold flex-1">
