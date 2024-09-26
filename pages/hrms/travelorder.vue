@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import { useTravelorderStore } from "@/stores/hrms/travelorder"
 
-const travels = useTravelorderStore()
-// const { isEdit } = storeToRefs(travels)
-travels.getMyRequests()
-travels.getMyApprovalRequests()
-travels.getTravelorders()
 useHead({
     title: "Travel Order",
 })
@@ -21,7 +15,6 @@ useHead({
         >
             <div>
                 <HrmsTravelOrderRequestForm />
-                <!-- <HrmsTravelOrderEditRequest v-show="isEdit" /> -->
             </div>
             <div>
                 <HrmsTravelOrderTabList />
