@@ -5,6 +5,18 @@ export interface Itemgroup {
     name: any,
     sub_groups: any,
 }
+export interface UserEmployee {
+    id: Number | null,
+    name: String,
+    email: String,
+    type: String,
+    password: String,
+    accessibilities: Array<number>,
+    accessibilities_name: Array<String>,
+    employee_id: Number | null,
+    employee_details: Object,
+    employee: any,
+}
 export const useInventoryEnumsStore = defineStore("inventoryEnums", {
     state: () => ({
         test: true,
@@ -13,6 +25,12 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
             isLoaded: false,
             list: [] as Itemgroup[],
             nameFilter: "",
+            successMessage: "",
+            errorMessage: "",
+        },
+        userEmployeeEnum: {
+            list: [] as UserEmployee[],
+            params: {},
             successMessage: "",
             errorMessage: "",
         },
@@ -36,6 +54,23 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
                                     sub_groups: val.sub_groups,
                                 }
                             })
+                        }
+                    },
+                }
+            )
+        },
+        async getUserEmployeeEnums () {
+            await useHRMSApiO(
+                "/api/employee/users-list",
+                {
+                    method: "GET",
+                    params: this.userEmployeeEnum.params,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.userEmployeeEnum.list = response._data.data ?? []
                         }
                     },
                 }

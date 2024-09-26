@@ -2,13 +2,13 @@
 
 import { storeToRefs } from "pinia"
 import { useApprovalStore } from "@/stores/inventory/setup/approvals"
-import { useEnumsStore } from "@/stores/inventory/enum"
+import { useInventoryEnumsStore } from "@/stores/inventory/enum"
 
 const approvals = useApprovalStore()
 const { isEdit } = storeToRefs(approvals)
 approvals.getApproval()
 
-const enums = useEnumsStore()
+const enums = useInventoryEnumsStore()
 await enums.getUserEmployeeEnums()
 
 useHead({

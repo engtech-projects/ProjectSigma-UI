@@ -1,11 +1,11 @@
 <script setup>
 import { useItemStore } from "@/stores/inventory/setup/itemgroup"
-import { useEnumsStore } from "@/stores/inventory/enum"
+import { useInventoryEnumsStore } from "@/stores/inventory/enum"
 
 const itemStore = useItemStore()
 await itemStore.getItemGroups()
 
-const enums = useEnumsStore()
+const enums = useInventoryEnumsStore()
 enums.getUserEmployeeEnums()
 
 useHead({
