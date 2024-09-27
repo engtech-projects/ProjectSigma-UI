@@ -73,7 +73,7 @@ const denyRequest = async (id) => {
             </div>
             <div class="grid md:grid-cols-3 divide-x gap-2 md:justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-sm">
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 font-medium ">Employee(s): </span> <span class="text-gray-900">{{ data.employees.map(employee => employee.name).join(', ') }}</span>
+                    <span class="text-teal-600 font-medium ">Employee(s): </span> <span class="text-gray-900">{{ data.employees.map(employee => employee.fullname_first ).join(', ') }}</span>
                 </div>
                 <div class="p-2 flex flex-col gap-2">
                     <span class="text-teal-600 font-medium">Destination: </span> {{ data.destination }}
@@ -85,6 +85,7 @@ const denyRequest = async (id) => {
                         : </span> {{ data.means_of_transportation }}
                 </div>
                 <div class="p-2 flex flex-col gap-2">
+                    <span class="text-teal-600 font-medium">Charging Destination: </span> {{ data.charging_designation }}
                     <span class="text-teal-600 font-medium">Remarks
                         : </span> {{ data.remarks }}
                     <span class="text-teal-600 font-medium">Request Status: </span> {{ data.request_status }}

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { storeToRefs } from "pinia"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
 import { useApprovalStore, APPROVAL_TRAVELORDER } from "@/stores/hrms/setup/approvals"
@@ -26,15 +26,14 @@ const submitForm = async () => {
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: error
+            text: travels.errorMessage
         })
     } finally {
-        travels.clearMessages()
-        travels.$reset()
         travel.value.approvals = await approvals.getApprovalByName(APPROVAL_TRAVELORDER)
         boardLoading.value = false
     }
 }
+
 </script>
 <template>
     <LayoutBoards title="Travel Order Form" class="w-full" :loading="boardLoading">
@@ -42,8 +41,16 @@ const submitForm = async () => {
             <form @submit.prevent="submitForm">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2 p-2">
                     <div class="flex-1 pt-8">
-                        <div>
-                            <HrmsCommonMultipleEmployeeSelector v-model="travel.employee_ids" />
+                        <div class="flex flex-col gap-2">
+                            <HrmsCommonMultipleEmployeeSelector
+                                v-model="travel.employee_ids"
+                            />
+                            <HrmsCommonDepartmentProjectSelector
+                                v-model:select-type="travel.charge_type"
+                                v-model:department-id="travel.department_id"
+                                v-model:project-id="travel.project_id"
+                                title="Charging"
+                            />
                         </div>
                     </div>
                     <div class="flex-1 flex-col gap-4 p-2">

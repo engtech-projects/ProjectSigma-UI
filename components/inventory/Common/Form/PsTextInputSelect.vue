@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const compId = useId()
-const model = defineModel({ required: true, type: String, default: null })
+const model = defineModel({ required: true, type: String, default: "" })
 defineProps({
     title: {
         type: String,
@@ -76,6 +76,7 @@ const doSelectKey = (item:any, itemProfile:any) => {
         </div>
         <div :id="compId+'item'" class="hidden absolute">
             <div
+                v-if="itemSuggest"
                 class="max-h-72 left-0 min-w-full overflow-auto py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2 z-10"
             >
                 <span v-for="(item, index) in itemSuggest" :key="index" class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b" @click="doSelectKey(item, itemProfile)">

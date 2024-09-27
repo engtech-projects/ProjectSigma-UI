@@ -61,9 +61,9 @@ const checkAll = (data:any) => {
                 </div>
             </div>
             <div id="itemDetails">
-                <div id="content" class="overflow-auto max-h-96">
+                <div v-if="data && data.length > 0" id="content" class="overflow-auto max-h-96">
                     <table class="table-auto w-full border-collapse">
-                        <thead>
+                        <thead class="sticky top-0 bg-white">
                             <tr>
                                 <template v-if="isCheckbox">
                                     <th scope="col" class="border-0 border-b text-sm">
@@ -86,6 +86,11 @@ const checkAll = (data:any) => {
                             <InventoryItemProfileBulkUploadItemTr :is-checkbox="isCheckbox" :data-item="data" />
                         </tbody>
                     </table>
+                </div>
+                <div v-else class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+                    <p class="text-center text-lg p-2">
+                        NO DATA
+                    </p>
                 </div>
             </div>
         </div>

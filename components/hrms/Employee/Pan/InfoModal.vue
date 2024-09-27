@@ -36,6 +36,7 @@ const denyRequest = async (id) => {
         })
     } finally {
         boardLoading.value = false
+        closeViewModal()
     }
 }
 
@@ -47,7 +48,6 @@ const approvedRequest = async (id) => {
             type: "success",
             text: "Successfully Approved."
         })
-        closeViewModal()
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -55,12 +55,13 @@ const approvedRequest = async (id) => {
         })
     } finally {
         boardLoading.value = false
+        closeViewModal()
     }
 }
 
 </script>
 <template>
-    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" :title="'Personal Action Notice for ' + data.type">
+    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" :title="'Personnel Action Notice for ' + data.type">
         <template #body>
             <div class="p-2">
                 <HrmsEmployeePanPersonalActionFormInfo :pan-data="data" />

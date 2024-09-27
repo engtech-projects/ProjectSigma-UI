@@ -21,10 +21,7 @@ const doAddItem = (item:any, index:number) => {
 const doRemoveItem = (item:any) => {
     emit("removeItem", item)
 }
-const doSubItemChange = (index:number) => {
-    emit("itemGroupItem", index)
-}
-const itemProfile = defineModel("itemProfile", { required: true, type: String, default: null })
+const itemProfile = defineModel("itemProfile", { required: true, type: Object, default: null })
 
 function shuffleString (str:String) {
     const chars = str.split("")
@@ -39,19 +36,42 @@ function shuffleString (str:String) {
 const showSuggest = (itemProfile:any) => {
     let code = ""
     const suggestItemCode = []
-    const mapVal = Object.values(itemProfile).map((val:any) => {
+    const listObj = {
+        sku: itemProfile.sku,
+        item_description: itemProfile.item_description,
+        thickness_val: itemProfile.thickness_val,
+        thickness_uom: itemProfile.thickness_uom,
+        length_val: itemProfile.length_val,
+        length_uom: itemProfile.length_uom,
+        width_val: itemProfile.width_val,
+        width_uom: itemProfile.width_uom,
+        height_val: itemProfile.height_val,
+        height_uom: itemProfile.height_uom,
+        outside_diameter_val: itemProfile.outside_diameter_val,
+        outside_diameter_uom: itemProfile.outside_diameter_uom,
+        inside_diameter_val: itemProfile.inside_diameter_val,
+        inside_diameter_uom: itemProfile.inside_diameter_uom,
+        specification: itemProfile.specification,
+        volume_val: itemProfile.volume_val,
+        volume_uom: itemProfile.volume_uom,
+        grade: itemProfile.grade,
+        color: itemProfile.color,
+    }
+    const mapVal = Object.values(listObj).map((val:any) => {
         if (val !== null && val !== "") {
             return val
         }
         return ""
     }).join("")
     code = mapVal.slice(0, 10)
-    suggestItemCode.push(code.toUpperCase())
-    let newCode = shuffleString(code)
-    suggestItemCode.push(newCode.toUpperCase())
-    newCode = shuffleString(code)
-    suggestItemCode.push(newCode.toUpperCase())
-    return suggestItemCode
+    if (code !== "") {
+        suggestItemCode.push(code.toUpperCase().replace(/\s+/g, ""))
+        let newCode = shuffleString(code)
+        suggestItemCode.push(newCode.toUpperCase().replace(/\s+/g, ""))
+        newCode = shuffleString(code)
+        suggestItemCode.push(newCode.toUpperCase().replace(/\s+/g, ""))
+        return suggestItemCode
+    }
 }
 const selectSuggest = (item:any, itemProfile:any) => {
     itemProfile.sku = item
@@ -127,22 +147,23 @@ const selectSuggest = (item:any, itemProfile:any) => {
             <InventoryCommonFormPsSelect v-model="itemProfile.uom" title="UOM Type" :select-list="uomTypes.allType" />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-            <InventoryCommonFormPsSelect v-model="itemProfile.sub_item_group" title="Sub Item Group" :select-list="uomTypes.subItemGroup" />
+            <InventoryCommonFormPsSelectItemGroup v-model="itemProfile.item_group" title="Item Group" />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-            <InventoryCommonFormPsSelectChange v-model="itemProfile.item_group" title="Item Group" :select-list="uomTypes.itemGroup" @item-group-change="doSubItemChange" />
+            <InventoryCommonFormPsSelectSubItemGroup v-model="itemProfile.sub_item_group" :item-group="itemProfile.item_group" title="Item Group" />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsSelect v-model="itemProfile.inventory_type" title="Inventory Type" :select-list="props.inventoryTypes" />
         </td>
         <td class="flex flex-row justify-center items-center px-2 font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="save-control">
-                <button class="text-emerald-700 font-medium text-lg hover:text-white hover:bg-emerald-700 px-2 py-2" @click="doAddItem(itemProfile, index)">
+                <button type="button" class="text-emerald-700 font-medium text-lg hover:text-white hover:bg-emerald-700 px-2 py-2" @click="doAddItem(itemProfile, index)">
                     <Icon name="mdi:plus" class="h-5 w-5 lg:h-5 lg:w-5" />
                 </button>
             </div>
             <div class="cancel-control">
                 <button
+                    type="button"
                     class="text-red-700 font-medium text-lg hover:text-white hover:bg-red-700 px-2 py-2"
                     @click="doRemoveItem(index)"
                 >

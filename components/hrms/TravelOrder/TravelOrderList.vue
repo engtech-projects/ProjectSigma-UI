@@ -1,9 +1,15 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useTravelorderStore } from "@/stores/hrms/travelorder"
+
 const travels = useTravelorderStore()
-const { list: travelList, getParams, pagination, errorMessage, successMessage } = storeToRefs(travels)
-const boardLoading = ref(false)
+const { allList } = storeToRefs(travels)
+onMounted(() => {
+    if (!allList.value.isLoaded) {
+        travels.getTravelorders()
+    }
+})
+
 const headers = [
     { name: "Requesting Office", id: "department.department_name" },
     { name: "Destination", id: "destination" },
@@ -17,29 +23,31 @@ const actions = {
     delete: false,
 }
 const infoModalData = ref({})
-// const tempFilteredData = ref([])
 const showInfoModal = ref(false)
 const showInformation = (data) => {
     infoModalData.value = data
     showInfoModal.value = true
 }
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    allList.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>
-    <LayoutBoards class="w-full" :loading="boardLoading">
-        <HrmsCommonSearchEmployeeSelector v-model="getParams.employee_id" />
+    <LayoutBoards class="w-full" :loading="allList.isLoading">
+        <div class="w-full flex gap-2">
+            <HrmsCommonSearchEmployeeSelector v-model="allList.params.employee_id" class="w-full" />
+            <LayoutFormPsDateInput v-model="allList.params.date_filter" class="w-full" title="Date Filter" />
+        </div>
         <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="travelList ?? []"
+                :datas="allList.list ?? []"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <CustomPagination :links="allList.pagination" @change-params="changePaginate" />
         </div>
         <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
             {{ errorMessage }}

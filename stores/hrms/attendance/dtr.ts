@@ -63,5 +63,29 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
                 }
             )
         },
+        async getEmployeeDTRV2 (employeeId: number, start:string, end:string) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useHRMSApiO(
+                "/api/v2/attendance/dtr",
+                {
+                    params: {
+                        employee_id: employeeId,
+                        cutoff_start: start,
+                        cutoff_end: end,
+                    },
+                    method: "GET",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.employee_dtr = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
     }
 })
