@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
 const mains = useItemProfileStore()
-const { allRequests: List, getParams } = storeToRefs(mains)
+const { allRequests: List } = storeToRefs(mains)
 
 const headers = [
     { name: "Item Summary", id: "profile_summary" },
@@ -27,7 +27,7 @@ const showInformation = (data) => {
     })
 }
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    List.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>

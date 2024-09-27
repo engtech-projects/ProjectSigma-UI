@@ -8,6 +8,7 @@ export const APPROVAL_GA = "Generate Allowance"
 export const APPROVAL_GP = "Payroll"
 export const APPROVAL_LEAVE = "Leave"
 export const APPROVAL_FAILTOLOG = "Failure To Log"
+export const APPROVAL_SALARYDISBURSEMENT = "Salary Disbursement"
 
 export interface Approver {
     type: string,

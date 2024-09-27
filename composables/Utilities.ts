@@ -94,6 +94,13 @@ export const useUtilities = () => {
     return ref({ upperFirst, upperWords, formatCurrency, formatTime, addOneDay, dateToString, addDaysToDate })
 }
 
+export const dateToString = (date) => {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, "0") // Pad month with zero
+    const day = String(date.getDate()).padStart(2, "0") // Pad day with zero
+    return `${year}-${month}-${day}`
+}
+
 export const useFormatCurrency = (number: number | string, locale = "en-US") => {
     const formatter = new Intl.NumberFormat(locale, {
         style: "decimal",

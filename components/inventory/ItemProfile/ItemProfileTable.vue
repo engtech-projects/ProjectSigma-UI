@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
-import { useApprovalStore, APPROVAL_NEW_ITEM_PROFILE } from "@/stores/inventory/setup/approvals"
-
 const profileStore = useItemProfileStore()
-const approvalsStore = useApprovalStore()
-const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension, itemgroup, subitemgroup } = storeToRefs(profileStore)
-formItemProfile.value.approvals = await approvalsStore.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
-
+const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension } = storeToRefs(profileStore)
 defineProps({
     actions: {
         type: Object,
@@ -15,7 +10,6 @@ defineProps({
     },
 })
 const snackbar = useSnackbar()
-const boardLoading = ref(false)
 const getType = (id:number) => {
     if (uom.value.length >= 1) {
         const symbol = uom.value.map((data: any) => {
@@ -25,45 +19,6 @@ const getType = (id:number) => {
     }
     return null
 }
-
-const isNumeric = (value: string) => {
-    return /^\d+$/.test(value)
-}
-
-const getSubItemGroup = (id:any) => {
-    if (subitemgroup.value.length >= 1) {
-        if (isNumeric(id) === true) {
-            const symbol = subitemgroup.value.map((data: any, index: any) => {
-                return index === id ? data.name : null
-            }).filter((num:any): num is number => num !== null)
-            return symbol ? symbol[0] : null
-        } else {
-            const symbol = subitemgroup.value.map((data: any) => {
-                return data.name === id ? data.id : null
-            }).filter((num:any): num is number => num !== null)
-            return symbol ? symbol[0] : null
-        }
-    }
-    return null
-}
-
-const getItemGroup = (id:any) => {
-    if (itemgroup.value.length >= 1) {
-        if (isNumeric(id) === true) {
-            const symbol = itemgroup.value.map((data: any, index: any) => {
-                return index === id ? data.name : null
-            }).filter((num:any): num is number => num !== null)
-            return symbol ? symbol[0] : null
-        } else {
-            const symbol = itemgroup.value.map((data: any) => {
-                return data.name === id ? data.id : null
-            }).filter((num:any): num is number => num !== null)
-            return symbol ? symbol[0] : null
-        }
-    }
-    return null
-}
-
 const AllTypes = ref({
     allType: uom,
     lengthType: uomLength,
@@ -72,8 +27,6 @@ const AllTypes = ref({
     areaType: uomArea,
     forceType: uomForce,
     dimensionType: uomDimension,
-    itemGroup: itemgroup,
-    subItemGroup: subitemgroup,
 })
 const inventoryTypes = ref(
     [
@@ -90,55 +43,6 @@ const inventoryTypes = ref(
 const doAddItemProfile = (item: any, id: number) => {
     newItemProfile.value.push(item)
     addItemProfile.value.splice(id, 1)
-}
-const doStoreItemProfile = async () => {
-    try {
-        if (newItemProfile.value.length >= 1) {
-            newItemProfile.value.map((data: any) => {
-                data.item_group = getItemGroup(data.item_group)
-                data.sub_item_group = getSubItemGroup(data.sub_item_group)
-                return data
-            })
-            formItemProfile.value.item_profiles = newItemProfile.value
-            await profileStore.storeItemProfile()
-            if (profileStore.errorMessage !== "") {
-                snackbar.add({
-                    type: "error",
-                    text: profileStore.errorMessage
-                })
-                newItemProfile.value.map((data: any) => {
-                    data.item_group = getItemGroup(data.item_group)
-                    data.sub_item_group = getSubItemGroup(data.sub_item_group)
-                    return data
-                })
-            } else {
-                snackbar.add({
-                    type: "success",
-                    text: profileStore.successMessage
-                })
-                profileStore.reset()
-                formItemProfile.value.approvals = await approvalsStore.getApprovalByName(APPROVAL_NEW_ITEM_PROFILE)
-            }
-        }
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-        newItemProfile.value.map((data: any) => {
-            data.item_group = getItemGroup(data.item_group)
-            data.sub_item_group = getSubItemGroup(data.sub_item_group)
-            return data
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
-const doEditItem = (data:any, index: number) => {
-    if (newItemProfile.value.length >= 1) {
-        newItemProfile.value[index] = data
-        newItemProfile.value[index].is_edit = false
-    }
 }
 const showItemProfile = () => {
     addItemProfile.value.push(
@@ -165,13 +69,15 @@ const showItemProfile = () => {
             color: "",
             uom: null,
             uom_group_id: "",
-            item_group: null,
-            sub_item_group: null,
+            item_group: "",
+            sub_item_group: "",
             uom_conversion_value: null,
             inventory_type: "",
             active_status: "Inactive",
             is_approved: false,
             is_edit: false,
+            item_group_list: [],
+            subitem_group_list: [],
         }
     )
 }
@@ -185,12 +91,15 @@ const showEditItemProfile = async (index: number) => {
     const getItem = await newItemProfile.value[index]
     getItem.is_edit = true
 }
+const doEditItem = (data:any, index: number) => {
+    if (newItemProfile.value.length >= 1) {
+        newItemProfile.value[index] = data
+        newItemProfile.value[index].is_edit = false
+    }
+}
 const hideEditItem = async (index: number) => {
     const getItem = await newItemProfile.value[index]
     getItem.is_edit = false
-}
-const doGetSubItemGroup = async (id: number) => {
-    await profileStore.getSubItemGroups(id)
 }
 const getTypeUOM = (id:number) => {
     if (uom.value.length >= 1) {
@@ -202,9 +111,39 @@ const getTypeUOM = (id:number) => {
     }
     return null
 }
+const doStoreItemProfile = async () => {
+    try {
+        if (newItemProfile.value.length >= 1) {
+            formItemProfile.value.item_profiles = newItemProfile.value
+            await profileStore.storeItemProfile()
+            if (profileStore.errorMessage !== "") {
+                snackbar.add({
+                    type: "error",
+                    text: profileStore.errorMessage
+                })
+            } else {
+                snackbar.add({
+                    type: "success",
+                    text: profileStore.successMessage
+                })
+                profileStore.$reset()
+            }
+        } else {
+            snackbar.add({
+                type: "error",
+                text: "No Item Request."
+            })
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    }
+}
 </script>
 <template>
-    <InventoryCommonLayoutItemProfileBoards title="New Profile" class="w-full" :loading="boardLoading" @action="showItemProfile">
+    <InventoryCommonLayoutItemProfileBoards title="New Profile" class="w-full" @action="showItemProfile">
         <div class="pb-2 text-gray-500 overflow-x-auto mb-4">
             <table class="table-auto w-full border-collapse">
                 <thead>
@@ -222,8 +161,8 @@ const getTypeUOM = (id:number) => {
                         <InventoryCommonTableItemTh title="Grade" />
                         <InventoryCommonTableItemTh title="Color" />
                         <InventoryCommonTableItemTh title="UOM" />
-                        <InventoryCommonTableItemTh title="Sub Item Group" />
                         <InventoryCommonTableItemTh title="Item Group" />
+                        <InventoryCommonTableItemTh title="Sub Item Group" />
                         <InventoryCommonTableItemTh title="Inventory Type" />
                         <InventoryCommonTableItemTh title="Actions" />
                     </tr>
@@ -237,7 +176,6 @@ const getTypeUOM = (id:number) => {
                             :uom-types="AllTypes"
                             @add-item="doAddItemProfile"
                             @remove-item="removeAppendItemProfile"
-                            @item-group-item="doGetSubItemGroup"
                         />
                     </template>
                     <tr v-for="dataValue, index in newItemProfile" :key="index" class="bg-white border-b">
@@ -249,7 +187,6 @@ const getTypeUOM = (id:number) => {
                                 :uom-types="AllTypes"
                                 @do-edit-item="doEditItem(dataValue, index)"
                                 @do-hide-edit-item="hideEditItem(index)"
-                                @item-group-item="doGetSubItemGroup"
                             />
                         </template>
                         <template v-if="!dataValue.is_edit">
@@ -300,10 +237,10 @@ const getTypeUOM = (id:number) => {
                                 {{ getTypeUOM(dataValue.uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ getSubItemGroup(dataValue.sub_item_group) ? getSubItemGroup(dataValue.sub_item_group) : dataValue.sub_item_group }}
+                                {{ dataValue.item_group }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ getItemGroup(dataValue.item_group) ? getItemGroup(dataValue.item_group) : dataValue.item_group }}
+                                {{ dataValue.sub_item_group }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.inventory_type }}

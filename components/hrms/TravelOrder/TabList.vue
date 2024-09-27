@@ -20,7 +20,7 @@ const compId = useId()
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer :id="'all-list' + compId">
-                    <HrmsTravelOrderRequestList />
+                    <HrmsTravelOrderList />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer :id="'my-requests' + compId">
                     <HrmsTravelOrderMyRequests />

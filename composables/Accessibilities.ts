@@ -18,6 +18,7 @@ export enum AccessibilityTypes {
     hrms_reports_philhealthgroupremittance = "hrms:reports_philhealth group remittance",
     hrms_reports_sssremittancesummary = "hrms:reports_sss remittance summary",
     hrms_reports_pagibigremittancesummary = "hrms:reports_pagibig remittance summary",
+    hrms_reports_philhealthremittancesummary = "hrms:reports_philhealth remittance summary",
     // ATTENDANCE
     hrms_attendance_group = "hrms:attendance_",
     hrms_attendance_attendance_portal = "hrms:attendance_attendance portal",
@@ -86,8 +87,12 @@ export enum AccessibilityTypes {
     hrms_payroll_salary_generatepayroll_form = "hrms:payroll_salary_generate payroll_form and my requests",
     hrms_payroll_salary_generatepayroll_allrequests = "hrms:payroll_salary_generate payroll_all request",
     hrms_payroll_salary_generatepayroll_myapprovals = "hrms:payroll_salary_generate payroll_my approvals",
-    hrms_payroll_salary_disburserequest = "hrms:payroll_salary_disbursement request",
     hrms_payroll_salary_payrollrecord = "hrms:payroll_salary_payroll records",
+    hrms_payroll_salarydisbursement_group = "hrms:payroll_salary disbursement_",
+    hrms_payroll_salarydisbursement_form = "hrms:payroll_salary disbursement_form and my requests",
+    hrms_payroll_salarydisbursement_allrequests = "hrms:payroll_salary disbursement_all requests",
+    hrms_payroll_salarydisbursement_myapprovals = "hrms:payroll_salary disbursement_my approvals",
+    hrms_payroll_salarydisbursement_viewpayslips = "hrms:payroll_salary disbursement_view payslips",
     hrms_payroll_13thmonth = "hrms:payroll_13th month",
     hrms_payroll_allowance = "hrms:payroll_allowance",
     // SCHEDULE

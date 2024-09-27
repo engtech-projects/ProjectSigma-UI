@@ -1,3 +1,40 @@
+<script lang="ts" setup>
+import { useAccountStore } from "~/stores/accounting/account"
+const { list: accountsList } = storeToRefs(useAccountStore())
+const data = ref({
+    entry_date: dateToString(new Date())
+})
+const accountEntry = ref({
+    account_id: null,
+    account_code: null,
+    account_name: null,
+    project_id: null,
+    project_code: null,
+    debit: 0,
+    credit: 0
+})
+const selectedAccount = computed(() => {
+    return accountsList.value.filter(a => a.account_id === accountEntry.value.account_id)[0]
+})
+const accountEntries = ref([])
+const addLine = () => {
+    accountEntry.value.account_code = selectedAccount.value.account_number
+    accountEntry.value.account_name = selectedAccount.value.account_name
+    accountEntries.value.push(JSON.parse(JSON.stringify(accountEntry.value)))
+    accountEntry.value = {
+        account_id: null,
+        account_code: null,
+        account_name: null,
+        project_id: null,
+        project_code: null,
+        debit: 0,
+        credit: 0
+    }
+}
+const removeLine = (line: object) => {
+    accountEntries.value = accountEntries.value.filter(acc => acc !== line)
+}
+</script>
 <template>
     <div class="flex flex-col gap-16 pb-24 pt-8">
         <AccountingCommonEvenparHeader />
@@ -29,6 +66,23 @@
                     </div>
                     <div class="flex-1">
                         <label
+                            for="paymentTerms"
+                            class="text-xs italic"
+                        >Payment Terms</label>
+                        <select id="paymentTerms" class="w-full rounded-lg">
+                            <option value="monthly">
+                                Monthly
+                            </option>
+                            <option value="quarterly">
+                                Quarterly
+                            </option>
+                            <option value="annually">
+                                Annually
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex-1">
+                        <label
                             for="particulars"
                             class="text-xs italic"
                         >Particulars</label>
@@ -39,32 +93,8 @@
                             required
                         >
                     </div>
-                    <div class="flex-1">
-                        <label
-                            for="amountInWords"
-                            class="text-xs italic"
-                        >Amount in words</label>
-                        <input
-                            id="amountInWords"
-                            type="text"
-                            class="w-full rounded-lg"
-                            required
-                        >
-                    </div>
                 </div>
                 <div class="flex flex-col flex-1">
-                    <div class="flex-1">
-                        <label
-                            for="encodedDate"
-                            class="text-xs italic"
-                        >Encoded Date</label>
-                        <input
-                            id="date"
-                            type="date"
-                            class="w-full rounded-lg"
-                            required
-                        >
-                    </div>
                     <div class="flex-1">
                         <label
                             for="entryDate"
@@ -72,10 +102,25 @@
                         >Entry Date</label>
                         <input
                             id="entryDate"
+                            v-model="data.entry_date"
                             type="date"
                             class="w-full rounded-lg"
                             required
                         >
+                    </div>
+                    <div class="flex-1">
+                        <label
+                            for="paymentMethod"
+                            class="text-xs italic"
+                        >Payment Method</label>
+                        <select id="paymentMethod" class="w-full rounded-lg">
+                            <option value="cash">
+                                Cash
+                            </option>
+                            <option value="check">
+                                Check
+                            </option>
+                        </select>
                     </div>
                     <div class="flex-1">
                         <label
@@ -96,7 +141,65 @@
             <h2 class="text-xl font-bold text-center">
                 ACCOUNTING ENTRIES
             </h2>
-            <table class="w-full">
+            <form @submit.prevent="addLine">
+                <div class="flex gap-2">
+                    <div class="flex-1">
+                        <label
+                            for="amountInWords"
+                            class="text-xs italic"
+                        >Accounts</label>
+                        <select v-model="accountEntry.account_id" class="w-full rounded-lg">
+                            <option v-for="account in accountsList" :key="account.account_id" :value="account.account_id">
+                                {{ account.account_name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex-1">
+                        <label
+                            for="amountInWords"
+                            class="text-xs italic"
+                        >Project/Section Code</label>
+                        <select v-model="accountEntry.project_id" class="w-full rounded-lg">
+                            <option value="sample">
+                                Sample Code
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex-1">
+                        <label
+                            for="debit"
+                            class="text-xs italic"
+                        >Debit</label>
+                        <input
+                            id="debit"
+                            v-model="accountEntry.debit"
+                            type="number"
+                            class="w-full rounded-lg"
+                            required
+                        >
+                    </div>
+                    <div class="flex-1">
+                        <label
+                            for="credit"
+                            class="text-xs italic"
+                        >Credit</label>
+                        <input
+                            id="credit"
+                            v-model="accountEntry.credit"
+                            type="number"
+                            class="w-full rounded-lg"
+                            required
+                        >
+                    </div>
+                    <button
+                        type="submit"
+                        class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
+                    >
+                        Add line
+                    </button>
+                </div>
+            </form>
+            <table v-if="accountEntries.length > 0" class="w-full">
                 <thead>
                     <tr>
                         <th class="border-2 border-gray-800 text-sm">
@@ -114,19 +217,31 @@
                         <th class="border-2 border-gray-800 text-sm w-24">
                             CREDIT
                         </th>
+                        <th class="border-2 border-gray-800 text-sm w-2" />
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="border px-4 py-1 border-gray-800" />
-                        <td class="border px-4 py-1 border-gray-800" />
-                        <td class="border px-4 py-1 border-gray-800" />
-                        <td class="border px-4 py-1 border-gray-800" />
+                    <tr v-for="ae,i in accountEntries" :key="i" class="hover:bg-gray-100 cursor-pointer">
+                        <td class="border px-4 py-1 border-gray-800 relative">
+                            {{ ae.account_code }}
+                        </td>
                         <td class="border px-4 py-1 border-gray-800">
-                            0
+                            {{ ae.account_name }}
+                        </td>
+                        <td class="border px-4 py-1 border-gray-800">
+                            {{ ae.project_id }}
+                        </td>
+                        <td class="border px-4 py-1 border-gray-800">
+                            {{ ae.debit }}
+                        </td>
+                        <td class="border px-4 py-1 border-gray-800">
+                            {{ ae.credit }}
+                        </td>
+                        <td class="border px-4 py-1 border-gray-800">
+                            <Icon name="ion:trash" class="text-xl text-gray-500 hover:text-red-600" @click="removeLine(ae)" />
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td class="border px-4 py-1 border-gray-800" />
                         <td class="border px-4 py-1 border-gray-800" />
                         <td class="border px-4 py-1 border-gray-800" />
@@ -225,9 +340,12 @@
                         </td>
                         <td class="border-b-2 border-gray-800" />
                         <td class="border-b-2 border-gray-800" />
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
+            <span v-else class="block text-center text-gray-600">
+                No entries yet.
+            </span>
         </div>
         <div class="flex gap-24">
             <span class="border-b-2 border-black pb-16 font-bold flex-1">
@@ -242,11 +360,6 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-
-</script>
-
 <style>
 
 </style>

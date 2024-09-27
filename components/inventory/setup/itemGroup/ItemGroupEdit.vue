@@ -19,7 +19,7 @@ const doUpdateItemGroup = (id: number, name: string, subgroup: array) => {
 }
 </script>
 <template>
-    <InventoryCommonTableEditItemAppend v-model:name="name" :subgroup="subgroup" />
+    <InventoryCommonTableItemEditItemTable v-model:name="name" :subgroup="subgroup" />
     <td class="flex flex-row justify-center items-center px-2 font-medium text-gray-900 whitespace-nowrap text-center">
         <div class="save-control">
             <button class="text-emerald-700 font-medium rounded-lg text-lg hover:text-white hover:bg-emerald-700 px-2 py-1" @click="doUpdateItemGroup(data.id, name, subgroup)">

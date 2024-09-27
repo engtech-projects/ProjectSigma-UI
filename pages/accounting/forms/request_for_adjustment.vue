@@ -1,6 +1,6 @@
 <template>
     <div class="px-16 bg-white shadow">
-        <AccountingFormsPaymentRequest />
+        <AccountingFormsRequestForAdjustment />
     </div>
 </template>
 
