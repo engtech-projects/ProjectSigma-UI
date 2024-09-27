@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import { useAccountStore } from "~/stores/accounting/account"
+import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+import { useVoucherStore } from "~/stores/accounting/voucher"
+
 const { list: accountsList } = storeToRefs(useAccountStore())
+const { list: payeeList } = storeToRefs(useStakeholderStore())
+const voucherStore = useVoucherStore()
 const data = ref({
     entry_date: dateToString(new Date())
 })
@@ -34,6 +39,9 @@ const addLine = () => {
 const removeLine = (line: object) => {
     accountEntries.value = accountEntries.value.filter(acc => acc !== line)
 }
+onMounted(() => {
+    console.log(amountToWords(1123.00))
+})
 </script>
 <template>
     <div class="flex flex-col gap-16 pb-24 pt-8">
@@ -57,12 +65,11 @@ const removeLine = (line: object) => {
                             for="payee"
                             class="text-xs italic"
                         >Payee</label>
-                        <input
-                            id="payee"
-                            type="text"
-                            class="w-full rounded-lg"
-                            required
-                        >
+                        <select v-model="voucherStore.voucher.payee" class="w-full rounded-lg">
+                            <option v-for="st in payeeList" :key="st.stakeholder_id" :value="st.stakeholder_id">
+                                {{ st.display_name }}
+                            </option>
+                        </select>
                     </div>
                     <div class="flex-1">
                         <label
