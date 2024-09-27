@@ -37,8 +37,8 @@ watch(() => philhealthGroupRemittance.value.params.month_year, (newValue) => {
                 title="Charging"
             />
             <LayoutFormPsMonthYearInput v-model="philhealthGroupRemittance.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="philhealthGroupRemittance.params.cutoff_start" class="w-full" title="Cutoff Start" required />
-            <LayoutFormPsDateInput v-model="philhealthGroupRemittance.params.cutoff_end" class="w-full" title="Cutoff End" required />
+            <LayoutFormPsDateInput v-model="philhealthGroupRemittance.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="philhealthGroupRemittance.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
