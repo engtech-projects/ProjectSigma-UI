@@ -4,14 +4,19 @@ import { useAttendancePortal } from "~/stores/hrms/attendancePortal"
 const attendancePortal = useAttendancePortal()
 const { attendanceSession, currentDate, currentTime } = storeToRefs(attendancePortal)
 const headerTimer = ref(null)
-
 const myTimer = async () => {
     await attendancePortal.getCurrentDate()
     currentDate.value = currentDate.value.toDateString()
-    setInterval(() => {
-        currentTime.value.setSeconds(currentTime.value.getSeconds() + 1)
-        headerTimer.value = currentTime.value.toLocaleTimeString()
-    }, 1000)
+    let lastTime = 0
+    const updateTimer = (timestamp) => {
+        if (timestamp - lastTime >= 1000) {
+            currentTime.value.setSeconds(currentTime.value.getSeconds() + 1)
+            headerTimer.value = currentTime.value.toLocaleTimeString()
+            lastTime = timestamp
+        }
+        requestAnimationFrame(updateTimer)
+    }
+    requestAnimationFrame(updateTimer) // Start the loop
 }
 myTimer()
 </script>
