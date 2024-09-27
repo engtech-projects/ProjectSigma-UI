@@ -81,7 +81,7 @@ const headers = [
 
 </script>
 <template>
-    <LayoutBoards :loading="loading">
+    <LayoutBoards>
         <div class="flex w-full mb-4">
             <div class="div">
                 <form class="w-full grid grid-cols-2 gap-4 md:grid-cols-3 p-2" @submit.prevent="getAttendance">
