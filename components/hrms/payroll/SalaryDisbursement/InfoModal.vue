@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+import { useSalaryDisbursementStore } from "@/stores/hrms/payroll/salaryDisbursement"
 
 const { data: userData } = useAuth()
 defineProps({
@@ -11,7 +11,7 @@ defineProps({
 
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
-const genpayrollstore = useGeneratePayrollStore()
+const resourceStore = useSalaryDisbursementStore()
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -22,10 +22,10 @@ const closeViewModal = () => {
 const approvedRequest = async (id: any) => {
     try {
         boardLoading.value = true
-        const approveData = await genpayrollstore.approveApprovalForm(id)
+        await resourceStore.approveApprovalForm(id)
         snackbar.add({
             type: "success",
-            text: approveData.message ?? genpayrollstore.approval.successMessage
+            text: "Successfully Approved."
         })
         closeViewModal()
     } catch (error) {
@@ -41,7 +41,7 @@ const denyRemarks = ref("")
 const denyRequest = async (id : any) => {
     try {
         boardLoading.value = true
-        await genpayrollstore.denyApprovalForm(id, denyRemarks.value)
+        await resourceStore.denyApprovalForm(id, denyRemarks.value)
         snackbar.add({
             type: "success",
             text: "Successfully Denied"
@@ -59,20 +59,11 @@ const denyRequest = async (id : any) => {
 
 </script>
 <template>
-    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Payroll">
+    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Salary Disbursement Request">
         <template #body>
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Payroll Date: </span> <span class="text-gray-900">{{ data.payroll_date }}</span>
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Charged To: </span> {{ data.charging_name }}
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Cutoff Start: </span> {{ data.cutoff_start }}
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Cutoff End: </span> {{ data.cutoff_end }}
+                    <span class="text-teal-600 text-light font-medium">Payroll Date: </span> <span class="text-gray-900">{{ data.payroll_date_human }}</span>
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light font-medium">Payroll Type: </span> {{ data.payroll_type }}
@@ -81,17 +72,14 @@ const denyRequest = async (id : any) => {
                     <span class="text-teal-600 text-light font-medium">Release Type: </span> {{ data.release_type }}
                 </div>
                 <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium">Requested By: </span> {{ data.created_by_user_name }}
+                </div>
+                <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light font-medium">Request Status: </span> {{ data.request_status }}
                 </div>
             </div>
             <div class="w-full">
-                <LazyHrmsPayrollSalaryRequestInfoTable :payroll-request="data" />
-            </div>
-            <div class="w-full">
-                <HrmsPayrollSalaryChargingTable :payroll-request="data" />
-            </div>
-            <div class="w-full">
-                <LayoutApprovalsListView :approvals="data.approvals" />
+                <HrmsPayrollSalaryDisbursementDetailsTable :data="data" />
             </div>
         </template>
         <template #footer>

@@ -27,7 +27,7 @@ defineProps({
             :for="compId"
             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
         >
-            {{ title }}
+            {{ title }}<span class="text-red-600">{{ required ? "*" : "" }}</span>
         </label>
 
         <select
