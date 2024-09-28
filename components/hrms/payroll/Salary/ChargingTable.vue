@@ -48,9 +48,16 @@ defineProps({
                             {{ data.fullname_last }}
                         </td>
                         <td class="p-4 border-solid border border-slate-400">
-                            <p v-for="(charge, chargeIndex) in data.payroll_records.chargings" :key="index+'_charge_'+chargeIndex">
-                                {{ charge.name }} ({{ charge.charging_name ?? "No Name Found" }}): {{ charge.amount }}
-                            </p>
+                            <template v-if="data.payroll_records?.chargings">
+                                <p v-for="(charge, chargeIndex) in data.payroll_records.chargings" :key="index+'_charge_'+chargeIndex">
+                                    {{ charge.name }} ({{ charge.charging_name ?? "No Name Found" }}): {{ charge.amount }}
+                                </p>
+                            </template>
+                            <template v-else>
+                                <p v-for="(charge, chargeIndex) in data.charges" :key="index+'_charge_'+chargeIndex">
+                                    {{ charge.name }} ({{ charge.charging_name ?? "No Name Found" }}): {{ charge.amount }}
+                                </p>
+                            </template>
                         </td>
                     </tr>
                 </tbody>

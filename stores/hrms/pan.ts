@@ -93,7 +93,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 {
                     method: "POST",
                     body: requestData,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.reloadResources()
                             this.successMessage = response._data.message
@@ -211,7 +211,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 "/api/approvals/approve/EmployeePanRequest/" + id,
                 {
                     method: "POST",
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.reloadResources()
                             this.successMessage = response._data.message
@@ -234,7 +234,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 {
                     method: "POST",
                     body: formData,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.reloadResources()
                             this.successMessage = response._data.message
