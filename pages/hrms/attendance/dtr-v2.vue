@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-    title: "Daily Time Record",
+    title: "Daily Time Record V2",
     meta: [
         { name: "description", content: "" }
     ],
