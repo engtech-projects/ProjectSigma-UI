@@ -48,30 +48,6 @@ const showItem = (item:any, reset:any) => {
         return null
     }
 }
-
-const formatDateRange = (start: string, end: string) => {
-    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
-
-    const startDate = new Date(start)
-    const endDate = new Date(end)
-
-    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-        return "-"
-    }
-
-    const startDay = startDate.getDate()
-    const startMonth = months[startDate.getMonth()]
-
-    const endDay = endDate.getDate()
-    const endMonth = months[endDate.getMonth()]
-    const endYear = endDate.getFullYear()
-
-    if (startMonth === endMonth) {
-        return `${startMonth} ${startDay}-${endDay}, ${endYear}`
-    } else {
-        return `${startMonth} ${startDay}-${endMonth} ${endDay}, ${endYear}`
-    }
-}
 </script>
 <template>
     <LayoutPrint>
@@ -103,7 +79,7 @@ const formatDateRange = (start: string, end: string) => {
                     <div>
                         <p class="text-sm">
                             <span class="font-bold">PERIOD COVERED:</span>
-                            <span class="font-bold">{{ formatDateRange(period.from, period.to) }}</span>
+                            <span class="font-bold">{{ useFormatDateRange(period.from, period.to) }}</span>
                         </p>
                     </div>
                 </div>
@@ -149,7 +125,7 @@ const formatDateRange = (start: string, end: string) => {
                                 colspan="2"
                                 class="text-white p-2 border-solid border border-zinc-700"
                             >
-                                {{ index.start_time_human.split(" ")[1] }}
+                                {{ index.start_time_sched.split(" ")[1] }}
                             </th>
                         </template>
                         <th
@@ -168,14 +144,14 @@ const formatDateRange = (start: string, end: string) => {
                                 colspan="1"
                                 class="text-white p-2 border-solid border border-zinc-700"
                             >
-                                IN {{ sched.start_time_human }}
+                                IN {{ sched.start_time_sched }}
                             </th>
                             <th
                                 scope="col"
                                 colspan="1"
                                 class="text-white p-2 border-solid border border-zinc-700"
                             >
-                                OUT {{ sched.end_time_human }}
+                                OUT {{ sched.end_time_sched }}
                             </th>
                         </template>
                         <template v-for="sched, index in overtime" :key="'overtime' + index">
@@ -184,14 +160,14 @@ const formatDateRange = (start: string, end: string) => {
                                 colspan="1"
                                 class="text-white p-2 border-solid border border-zinc-700"
                             >
-                                IN {{ sched.start_time_human }}
+                                IN {{ sched.start_time_sched }}
                             </th>
                             <th
                                 scope="col"
                                 colspan="1"
                                 class="text-white p-2 border-solid border border-zinc-700"
                             >
-                                OUT {{ sched.end_time_human }}
+                                OUT {{ sched.end_time_sched }}
                             </th>
                         </template>
                         <th
@@ -212,81 +188,15 @@ const formatDateRange = (start: string, end: string) => {
                                     {{ dtrDate }}
                                 </td>
                                 <td class="p-2">
-                                    <template v-for="schedule_index in dataValue.schedules_attendances" :key="'sched-data-' + schedule_index">
-                                        <div v-if="schedule_index.applied_ins!=null">
-                                            <div v-if="schedule_index.applied_ins.project!=null">
-                                                {{ showItem(schedule_index.applied_ins.project.project_code, false) }}
-                                            </div>
-                                            <div v-else-if="schedule_index.applied_ins.department!=null">
-                                                {{ showItem(schedule_index.applied_ins.department.department_name, false ) }}
-                                            </div>
-                                        </div>
-                                        <div v-if="schedule_index.applied_outs!=null">
-                                            <div v-if="schedule_index.applied_outs.project!=null">
-                                                {{ showItem(schedule_index.applied_outs.project.project_code, false) }}
-                                            </div>
-                                            <div v-else-if="schedule_index.applied_outs.department!=null">
-                                                {{ showItem(schedule_index.applied_outs.department.department_name, false) }}
-                                            </div>
-                                        </div>
-                                    </template>
+                                    {{ dataValue.metadata.summary.charging_names }}
                                 </td>
                                 <template v-for="schedule_index in schedule" :key="'sched-data-' + schedule_index">
-                                    <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)">
+                                    <template v-if="dataValue.metadata.summary.schedules.find((element:any) => element.id === schedule_index.id)">
                                         <td class="TimeIn p-2">
-                                            <template v-if="dataValue.events.length > 0">
-                                                {{ dataValue.events[0].event_type }}
-                                                <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins != null">
-                                                    ({{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins.time_human }})
-                                                </template>
-                                            </template>
-                                            <template v-else>
-                                                <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins != null">
-                                                    {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_ins.time_human }}
-                                                </template>
-                                                <template v-else-if="dataValue.metadata.total.reg_hrs > 0">
-                                                    <template v-if="dataValue.travel_order.length > 0">
-                                                        ON TRAVEL ORDER
-                                                    </template>
-                                                    <template v-else-if="dataValue.leave.length > 0">
-                                                        ON LEAVE
-                                                    </template>
-                                                    <template v-else>
-                                                        NO LOG
-                                                    </template>
-                                                </template>
-                                                <template v-else-if="dataValue.events.length > 0" />
-                                                <template v-else>
-                                                    ABSENT
-                                                </template>
-                                            </template>
+                                            {{ dataValue.metadata.summary.schedules.find((element:any) => element.id === schedule_index.id)?.start_time_log }}
                                         </td>
                                         <td class="TimeOut p-2">
-                                            <template v-if="dataValue.events.length > 0">
-                                                {{ dataValue.events[0].event_type }}
-                                                <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs != null">
-                                                    ({{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs.time_human }})
-                                                </template>
-                                            </template>
-                                            <template v-else>
-                                                <template v-if="dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs != null">
-                                                    {{ dataValue.schedules_attendances.find((element:any) => element.id === schedule_index.id)?.applied_outs.time_human }}
-                                                </template>
-                                                <template v-else-if="dataValue.metadata.total.reg_hrs > 0">
-                                                    <template v-if="dataValue.travel_order.length > 0">
-                                                        ON TRAVEL ORDER
-                                                    </template>
-                                                    <template v-else-if="dataValue.leave.length > 0">
-                                                        ON LEAVE
-                                                    </template>
-                                                    <template v-else>
-                                                        NO LOG
-                                                    </template>
-                                                </template>
-                                                <template v-else>
-                                                    ABSENT
-                                                </template>
-                                            </template>
+                                            {{ dataValue.metadata.summary.schedules.find((element:any) => element.id === schedule_index.id)?.end_time_log }}
                                         </td>
                                     </template>
                                     <template v-else>
@@ -302,28 +212,12 @@ const formatDateRange = (start: string, end: string) => {
                                     {{ dataValue.metadata.total.reg_hrs }}
                                 </td>
                                 <template v-for="schedule_index in overtime" :key="'overtime-data-' + schedule_index">
-                                    <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)">
+                                    <template v-if="dataValue.metadata.summary.overtimes.find((element:any) => element.start_time_sched === schedule_index.start_time_sched && element.end_time_sched === schedule_index.end_time_sched)">
                                         <td class="p-2">
-                                            <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.applied_in != null">
-                                                {{ dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.applied_in?.time_human ?? "NO LOG" }}
-                                            </template>
-                                            <template v-else-if="dataValue.travel_order.length > 0">
-                                                ON TRAVEL ORDER
-                                            </template>
-                                            <template v-else>
-                                                NO LOG
-                                            </template>
+                                            {{ dataValue.metadata.summary.overtimes.find((element:any) => element.start_time_sched === schedule_index.start_time_sched && element.end_time_sched === schedule_index.end_time_sched)?.start_time_log }}
                                         </td>
                                         <td class="p-2">
-                                            <template v-if="dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.applied_out != null">
-                                                {{ dataValue.overtime.find((element:any) => element.overtime_start_time === schedule_index.overtime_start_time && element.overtime_end_time === schedule_index.overtime_end_time)?.applied_out?.time_human ?? "NO LOG" }}
-                                            </template>
-                                            <template v-else-if="dataValue.travel_order.length > 0">
-                                                ON TRAVEL ORDER
-                                            </template>
-                                            <template v-else>
-                                                NO LOG
-                                            </template>
+                                            {{ dataValue.metadata.summary.overtimes.find((element:any) => element.start_time_sched === schedule_index.start_time_sched && element.end_time_sched === schedule_index.end_time_sched)?.end_time_log }}
                                         </td>
                                     </template>
                                     <template v-else>

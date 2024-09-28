@@ -16,7 +16,7 @@ useHead({
             <div class="w-full md:w-1/3">
                 <HrmsEmployee201SearchProfile />
             </div>
-            <HrmsAttendanceInOutV2 />
+            <HrmsAttendanceDtrV2InOut />
         </div>
     </LayoutAcessContainer>
 </template>

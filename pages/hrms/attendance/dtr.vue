@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-    title: "Daily Time Record",
+    title: "Daily Time Record Version 2",
     meta: [
         { name: "description", content: "" }
     ],
@@ -16,7 +16,7 @@ useHead({
             <div class="w-full md:w-1/3">
                 <HrmsEmployee201SearchProfile />
             </div>
-            <HrmsAttendanceInOut />
+            <HrmsAttendanceDtrV1InOut />
         </div>
     </LayoutAcessContainer>
 </template>

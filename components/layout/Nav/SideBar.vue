@@ -59,7 +59,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_attendance_dtr,
                     ])"
-                    linkarea="/hrms/attendance/dtr"
+                    linkarea="/hrms/attendance/dtr-v2"
                     icon="material-symbols:alarm-on-outline-rounded"
                     single-nav-title="Daily Time Record"
                 />

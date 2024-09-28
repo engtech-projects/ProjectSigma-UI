@@ -7,7 +7,7 @@ const employee = useEmployeeInfo()
 const dtrStore = useMyDtrStore()
 
 const { employeeIsSearched, information } = storeToRefs(employee)
-const { employee_dtr: employeeDtr } = storeToRefs(dtrStore)
+const { employee_dtr_v2: employeeDtr, v2IsLoading } = storeToRefs(dtrStore)
 
 const snackbar = useSnackbar()
 const utils = useUtilities()
@@ -81,7 +81,7 @@ const headers = [
 
 </script>
 <template>
-    <LayoutBoards>
+    <LayoutBoards :loading="v2IsLoading">
         <div class="flex w-full mb-4">
             <div class="div">
                 <form class="w-full grid grid-cols-2 gap-4 md:grid-cols-3 p-2" @submit.prevent="getAttendance">
@@ -105,15 +105,21 @@ const headers = [
             </div>
         </div>
         <div>
-            <LayoutPsTableDTRV2
+            <HrmsAttendanceDtrV2AttendanceTable
                 :header-columns="headers"
                 :actions="actions"
-                :schedule="dtrStore.dtrUniqueSchedules"
-                :overtime="dtrStore.dtrUniqueOvertime"
+                :schedule="dtrStore.dtrUniqueSchedulesV2"
+                :overtime="dtrStore.dtrUniqueOvertimeV2"
                 :datas="employeeDtr"
                 :period="filterDate"
                 @show-table="showInformation"
             />
         </div>
+        <p>
+            Having Problems?
+            <NuxtLink to="/hrms/attendance/dtr" class="text-blue-500 mouse-pointer">
+                Try Version 1
+            </NuxtLink>
+        </p>
     </LayoutBoards>
 </template>
