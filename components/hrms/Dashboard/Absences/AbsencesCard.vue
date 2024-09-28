@@ -3,7 +3,7 @@ import { useDashboardStatisticsStore } from "@/stores/hrms/dashboardStats"
 const stats = useDashboardStatisticsStore()
 const { monthlyAbsences } = storeToRefs(stats)
 onMounted(() => {
-    stats.getMonthlyLates()
+    stats.getMonthlyAbsences()
 })
 </script>
 <template>
