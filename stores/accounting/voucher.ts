@@ -4,12 +4,13 @@ export const useVoucherStore = defineStore("voucherStore", {
     state: () => ({
         voucher: {
             payee: null,
-            voucher_no: null,
+            voucher_no: "AJE-202402-0566",
             particulars: null,
             net_amount: null,
             amount_in_words: null,
             date_encoded: null,
             voucher_date: null,
+            line_items: [],
             status: "pending",
         },
         list: [],
@@ -20,40 +21,11 @@ export const useVoucherStore = defineStore("voucherStore", {
         isLoading: false,
         isEdit: false
     }),
-    getters: {
-        types () {
-            return this.list.reduce((uniqueTypes, account) => {
-                if (!uniqueTypes.some(item => item.id === account.account_type.type_id)) {
-                    uniqueTypes.push(
-                        {
-                            id: account.account_type.type_id,
-                            type: account.account_type.account_type_name,
-                            collapse: false
-                        }
-                    )
-                }
-                return uniqueTypes
-            }, [])
-        },
-        byTypes () {
-            const btypes = JSON.parse(JSON.stringify(this.types))
-            btypes.forEach((type) => {
-                type.types = []
-                this.list.forEach((account) => {
-                    if (account.account_type.type_id === type.id) {
-                        account.checked = false
-                        type.types.push(account)
-                    }
-                })
-            })
-            return btypes
-        }
-    },
     actions: {
-        async getAccounts () {
+        async getVouchers () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/accounts",
+                "/api/v1/voucher",
                 {
                     method: "GET",
                     params: this.getParams,
@@ -76,20 +48,20 @@ export const useVoucherStore = defineStore("voucherStore", {
             }
         },
 
-        async createAccount () {
+        async createVoucher () {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/v1/accounts",
+                "/api/v1/voucher",
                 {
                     method: "POST",
-                    body: this.account,
+                    body: this.voucher,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getAccounts()
+                            this.getVouchers()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -120,17 +92,6 @@ export const useVoucherStore = defineStore("voucherStore", {
         },
 
         reset () {
-            this.account = {
-                account_id: null,
-                account_number: null,
-                account_name: null,
-                account_description: null,
-                parent_account: null,
-                bank_reconciliation: "no",
-                statement: null,
-                type_id: null,
-                opening_balance: 0
-            }
             this.successMessage = ""
             this.errorMessage = ""
         },
