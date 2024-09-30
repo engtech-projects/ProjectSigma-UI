@@ -105,7 +105,7 @@ const headers = [
             </div>
         </div>
         <div>
-            <LayoutPsTableDTR
+            <HrmsAttendanceDtrV1AttendanceTable
                 :header-columns="headers"
                 :actions="actions"
                 :schedule="dtrStore.dtrUniqueSchedules"
@@ -115,5 +115,11 @@ const headers = [
                 @show-table="showInformation"
             />
         </div>
+        <p>
+            This is an old Version.
+            <NuxtLink to="/hrms/attendance/dtr-v2" class="text-blue-500 mouse-pointer">
+                Use Version 2
+            </NuxtLink>
+        </p>
     </LayoutBoards>
 </template>
