@@ -7,7 +7,7 @@ const { list: accountsList } = storeToRefs(useAccountStore())
 const { list: payeeList } = storeToRefs(useStakeholderStore())
 const voucherStore = useVoucherStore()
 
-const loading = ref(true)
+const loading = ref(false)
 const accountEntry = ref({
     account_id: null,
     account_code: null,
@@ -19,6 +19,7 @@ const accountEntry = ref({
 })
 async function handleSubmit () {
     try {
+        loading.value = true
         voucherStore.voucher.line_items = lineItems.value
         voucherStore.voucher.payee = "Test Payee"
         console.log(voucherStore.voucher)
@@ -42,7 +43,7 @@ async function handleSubmit () {
         //     text: voucherStore.errorMessage
         // })
     } finally {
-        // transactionStore.reset()
+        loading.value = false
     }
 }
 const selectedAccount = computed(() => {
@@ -86,7 +87,6 @@ const lineItems = computed(() => {
 onMounted(() => {
     voucherStore.voucher.voucher_date = dateToString(new Date())
     voucherStore.voucher.date_encoded = dateToString(new Date())
-    console.log(amountToWords(1123.00))
 })
 </script>
 <template>
