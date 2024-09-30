@@ -7,6 +7,7 @@ const { list: accountsList } = storeToRefs(useAccountStore())
 const { list: payeeList } = storeToRefs(useStakeholderStore())
 const voucherStore = useVoucherStore()
 
+const loading = ref(true)
 const accountEntry = ref({
     account_id: null,
     account_code: null,
@@ -90,7 +91,14 @@ onMounted(() => {
 </script>
 <template>
     <form @submit.prevent="handleSubmit">
-        <div class="flex flex-col gap-16 pb-24 pt-8">
+        <div class="flex flex-col gap-16 pb-24 pt-8 relative">
+            <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+                <img
+                    class="flex justify-center w-28 rounded-md"
+                    src="/loader.gif"
+                    alt="logo"
+                >
+            </div>
             <AccountingCommonEvenparHeader />
             <h1 class="text-2xl text-center font-bold">
                 DISBURSEMENT VOUCHER
