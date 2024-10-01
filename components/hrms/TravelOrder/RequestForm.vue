@@ -33,7 +33,18 @@ const submitForm = async () => {
         boardLoading.value = false
     }
 }
-
+const startDateTime = computed(() => {
+    return `${travel.value.date_of_travel}T${travel.value.time_of_travel}:00`
+})
+const endDateTime = computed(() => {
+    if (!travel.value.date_of_travel || !travel.value.time_of_travel || !travel.value.duration_of_travel) {
+        return ""
+    }
+    const newDate = new Date(startDateTime.value)
+    const millisecondsInADay = 24 * 60 * 60 * 1000
+    newDate.setTime(newDate.getTime() + travel.value.duration_of_travel * millisecondsInADay)
+    return useFormatDateTimeString(newDate)
+})
 </script>
 <template>
     <LayoutBoards title="Travel Order Form" class="w-full" :loading="boardLoading">
@@ -92,6 +103,18 @@ const submitForm = async () => {
                                 class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                                 step="0.1"
                                 min="0"
+                            >
+                        </div>
+                        <div>
+                            <label for="endoftravel" class="text-sm italic font-semibold text-gray-700">End of Travel</label>
+                            <input
+                                id="endoftravel"
+                                :value="endDateTime"
+                                type="text"
+                                class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                                step="0.1"
+                                min="0"
+                                disabled
                             >
                         </div>
                         <div>

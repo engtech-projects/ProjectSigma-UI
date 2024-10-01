@@ -75,9 +75,11 @@
             </th>
             <th
                 scope="col"
-                rowspan="1"
-                class="bg-white"
-            />
+                rowspan="3"
+                class="px-6 py-3 border-solid border border-slate-400 bg-sky-200"
+            >
+                Signature
+            </th>
         </tr>
         <tr>
             <th

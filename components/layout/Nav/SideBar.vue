@@ -527,6 +527,14 @@ const config = useRuntimeConfig()
                     single-nav-title="Unit Of Measurement"
                 />
             </LayoutNavGroup>
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.admin,
+                ])"
+                linkarea="/inventory/warehouse"
+                icon="ic:baseline-space-dashboard"
+                single-nav-title="Warehouse"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Accounting -->
