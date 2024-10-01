@@ -80,6 +80,7 @@ const denyRequest = async (id) => {
                     <span class="text-teal-600 font-medium">Purpose of Travel: </span> {{ data.purpose_of_travel }}
                     <span class="text-teal-600 font-medium">Date of Travel: </span> {{ data.date_of_travel_human }}
                     <span class="text-teal-600 font-medium">Time of Travel: </span> {{ data.time_of_travel_human }}
+                    <span class="text-teal-600 font-medium">End of Travel: </span> {{ data.date_time_end_human }}
                     <span class="text-teal-600 font-medium">Duration of Travel (days): </span> {{ data.duration_of_travel }}
                     <span class="text-teal-600 font-medium">Means of Transportation
                         : </span> {{ data.means_of_transportation }}
