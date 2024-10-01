@@ -137,3 +137,59 @@ export const useMonthName = (id: any) => {
     const months = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
     return months[id - 1]
 }
+export const useAmountInWords = (s: any) => {
+    const thVal = ["", "Thousand", "Million", "Billion", "Trillion"]
+    const dgVal = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"]
+    const tnVal = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
+    const twVal = ["Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
+    s = s.toString()
+    s = s.replace(/[, ]/g, "")
+    // eslint-disable-next-line eqeqeq
+    if (s == 0) { return "Zero Only" }
+    const numFloatVal = parseFloat(s)
+    // eslint-disable-next-line eqeqeq
+    if (s != parseFloat(s)) { return "not a number " }
+    let xVal = s.indexOf(".")
+    if (xVal === -1) { xVal = s.length }
+    if (xVal > 15) { return "too big" }
+    const nVal = s.split("")
+    let strVal = numFloatVal < 0 ? "Negative" : ""
+    let skVal = 0
+    for (let i = 0; i < xVal; i++) {
+        if ((xVal - i) % 3 === 2) {
+            if (nVal[i] === "1") {
+                strVal += (tnVal[Number(nVal[i + 1])] ?? "") + " "
+                i++
+                skVal = 1
+            } else if (nVal[i] !== 0) {
+                strVal += (twVal[nVal[i] - 2] ?? "") + " "
+                skVal = 1
+            }
+        } else if (nVal[i] !== 0) {
+            strVal += (dgVal[nVal[i]] ?? "") + " "
+            if ((xVal - i) % 3 === 0) { strVal += "hundred " }
+            skVal = 1
+        }
+        if ((xVal - i) % 3 === 1) {
+            if (skVal) { strVal += (thVal[(xVal - i - 1) / 3] ?? "") + " " }
+            skVal = 0
+        }
+    }
+    if (xVal !== s.length) {
+        if (nVal[xVal + 1] !== 0 || nVal[xVal + 2] !== 0) {
+            strVal += "Pesos and "
+            if (nVal[xVal + 1] === "1") {
+                strVal += (tnVal[Number(nVal[xVal + 2])] ?? "") + " "
+            } else {
+                if (nVal[xVal + 1] >= 2) {
+                    strVal += (twVal[nVal[xVal + 1] - 2] ?? "") + " "
+                }
+                strVal += (dgVal[nVal[xVal + 2]] ?? "")
+            }
+            strVal += " Centavos"
+        } else {
+            strVal += "Pesos"
+        }
+    }
+    return strVal.replace(/\s+/g, " ") + " Only"
+}
