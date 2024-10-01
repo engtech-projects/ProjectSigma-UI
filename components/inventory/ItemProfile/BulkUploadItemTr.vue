@@ -22,70 +22,268 @@ defineProps({
             </td>
         </template>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.item_description }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.item_description.value }}
+                </div>
+                <template v-if="data.item_description.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.item_description.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.thickness_val }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.thickness_val.value }}
+                </div>
+                <template v-if="data.thickness_val.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.thickness_val.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.thickness_uom }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.thickness_uom.value }}
+                </div>
+                <template v-if="data.thickness_uom.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.thickness_uom.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.length_val }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.length_val.value }}
+                </div>
+                <template v-if="data.length_val.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.length_val.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.length_uom }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.length_uom.value }}
+                </div>
+                <template v-if="data.length_uom.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.length_uom.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.width_val }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.width_val.value }}
+                </div>
+                <template v-if="data.width_val.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.width_val.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.width_uom }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.width_uom.value }}
+                </div>
+                <template v-if="data.width_uom.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.width_uom.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.height_val }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.height_val.value }}
+                </div>
+                <template v-if="data.height_val.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.height_val.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.height_uom }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.height_uom.value }}
+                </div>
+                <template v-if="data.height_uom.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.height_uom.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.outside_diameter_val }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.outside_diameter_val.value }}
+                </div>
+                <template v-if="data.outside_diameter_val.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.outside_diameter_val.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.outside_diameter_uom }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.outside_diameter_uom.value }}
+                </div>
+                <template v-if="data.outside_diameter_uom.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.outside_diameter_uom.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.inside_diameter_val }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.inside_diameter_val.value }}
+                </div>
+                <template v-if="data.inside_diameter_val.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.inside_diameter_val.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.inside_diameter_uom }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.inside_diameter_uom.value }}
+                </div>
+                <template v-if="data.inside_diameter_uom.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.inside_diameter_uom.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.volume_val }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.volume_val.value }}
+                </div>
+                <template v-if="data.volume_val.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.volume_val.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.volume_uom }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.volume_uom.value }}
+                </div>
+                <template v-if="data.volume_uom.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.volume_uom.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.specification }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.specification.value }}
+                </div>
+                <template v-if="data.specification.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.specification.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.grade }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.grade.value }}
+                </div>
+                <template v-if="data.grade.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.grade.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.color }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.color.value }}
+                </div>
+                <template v-if="data.color.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.color.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.uom }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.uom.value }}
+                </div>
+                <template v-if="data.uom.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.uom.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.item_group }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.item_group.value }}
+                </div>
+                <template v-if="data.item_group.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.item_group.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.sub_item_group }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.sub_item_group.value }}
+                </div>
+                <template v-if="data.sub_item_group.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.sub_item_group.error }}
+                    </div>
+                </template>
+            </div>
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-            {{ data.inventory_type }}
+            <div class="flex flex-col gap-2">
+                <div>
+                    {{ data.inventory_type.value }}
+                </div>
+                <template v-if="data.inventory_type.error">
+                    <div class="text-xs font-bold text-red-700">
+                        {{ data.inventory_type.error }}
+                    </div>
+                </template>
+            </div>
         </td>
     </tr>
 </template>
