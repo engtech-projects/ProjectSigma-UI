@@ -247,9 +247,10 @@ const totalRegHrsPayroll = () => {
                 <td>
                     <strong>{{ useFormatCurrency(totalDeductionPayroll()) }}</strong>
                 </td>
-                <td colspan="2">
+                <td>
                     <strong>{{ useFormatCurrency(totalNetPayPayroll()) }}</strong>
                 </td>
+                <td />
             </tr>
         </tbody>
     </table>
