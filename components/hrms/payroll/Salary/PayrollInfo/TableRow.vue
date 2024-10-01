@@ -146,5 +146,6 @@ defineProps({
         <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.payroll_records.total_net_pay) ?? "-" }}
         </td>
+        <td class="p-4 border-solid border border-slate-400" />
     </tr>
 </template>
