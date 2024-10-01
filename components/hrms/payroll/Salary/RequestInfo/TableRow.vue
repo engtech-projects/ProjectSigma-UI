@@ -151,5 +151,6 @@ const totalPaymentsOtherDeduction = () => {
         <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.net_pay) ?? "-" }}
         </td>
+        <td class="p-4 border-solid border border-slate-400" />
     </tr>
 </template>
