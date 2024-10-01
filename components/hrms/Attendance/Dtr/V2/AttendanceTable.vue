@@ -191,12 +191,12 @@ const showItem = (item:any, reset:any) => {
                                     {{ dataValue.metadata.summary.charging_names }}
                                 </td>
                                 <template v-for="schedule_index in schedule" :key="'sched-data-' + schedule_index">
-                                    <template v-if="dataValue.metadata.summary.schedules.find((element:any) => element.id === schedule_index.id)">
+                                    <template v-if="dataValue.metadata.summary.schedules.find((element:any) => element.start_time_sched === schedule_index.start_time_sched && element.end_time_sched === schedule_index.end_time_sched)">
                                         <td class="TimeIn p-2">
-                                            {{ dataValue.metadata.summary.schedules.find((element:any) => element.id === schedule_index.id)?.start_time_log }}
+                                            {{ dataValue.metadata.summary.schedules.find((element:any) => element.start_time_sched === schedule_index.start_time_sched && element.end_time_sched === schedule_index.end_time_sched)?.start_time_log }}
                                         </td>
                                         <td class="TimeOut p-2">
-                                            {{ dataValue.metadata.summary.schedules.find((element:any) => element.id === schedule_index.id)?.end_time_log }}
+                                            {{ dataValue.metadata.summary.schedules.find((element:any) => element.start_time_sched === schedule_index.start_time_sched && element.end_time_sched === schedule_index.end_time_sched)?.end_time_log }}
                                         </td>
                                     </template>
                                     <template v-else>
