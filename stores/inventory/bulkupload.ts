@@ -40,6 +40,29 @@ export const useItemBulkProfileStore = defineStore("itemBulkProfiles", {
                 }
             )
         },
+        async storeBulkUpload () {
+            await useInventoryApi(
+                "/api/item-profile/bulk-save",
+                {
+                    method: "POST",
+                    body: {
+                        processed: this.listProcess.data
+                    },
+                    onRequest: () => {
+                        this.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
