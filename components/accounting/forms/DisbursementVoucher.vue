@@ -6,6 +6,7 @@ import { useVoucherStore } from "~/stores/accounting/voucher"
 const { list: accountsList } = storeToRefs(useAccountStore())
 const { list: payeeList } = storeToRefs(useStakeholderStore())
 const voucherStore = useVoucherStore()
+const snackbar = useSnackbar()
 
 const loading = ref(false)
 const accountEntry = ref({
@@ -21,8 +22,8 @@ async function handleSubmit () {
     try {
         loading.value = true
         voucherStore.voucher.line_items = lineItems.value
-        voucherStore.voucher.payee = "Test Payee"
-        console.log(voucherStore.voucher)
+        voucherStore.voucher.payee = payeeName.value
+        voucherStore.voucher.voucher_no = "AJE-202402-0569" + Math.floor(Math.random() * 20000) + 1
         await voucherStore.createVoucher()
         if (voucherStore.errorMessage !== "") {
             snackbar.add({
@@ -46,6 +47,9 @@ async function handleSubmit () {
         loading.value = false
     }
 }
+const payeeName = computed(() => {
+    return payeeList.value.filter(p => voucherStore.voucher.payee === p.stakeholder_id)[0].display_name
+})
 const selectedAccount = computed(() => {
     return accountsList.value.filter(a => a.account_id === accountEntry.value.account_id)[0]
 })
@@ -78,6 +82,7 @@ const lineItems = computed(() => {
     accountEntries.value.forEach((entry) => {
         arr.push({
             account_id: entry.account_id,
+            contact: "Sample",
             debit: entry.debit,
             credit: entry.credit
         })
@@ -226,12 +231,12 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-            <div class="mb-16 flex flex-col gap-12">
-                <h2 class="text-xl font-bold text-center">
+            <div class="flex flex-col gap-4">
+                <h2 class="text-xl font-bold text-center mb-10">
                     ACCOUNTING ENTRIES
                 </h2>
                 <form @submit.prevent="addLine">
-                    <div class="flex gap-2">
+                    <div class="flex gap-2 bg-yellow-100 rounded-lg px-6 py-4">
                         <div class="flex-1">
                             <label
                                 for="amountInWords"
@@ -288,7 +293,65 @@ onMounted(() => {
                         </button>
                     </div>
                 </form>
-                <table v-if="accountEntries.length > 0" class="w-full">
+                <div class="flex flex-col bg-gray-100 rounded-lg px-8 py-4 gap-2">
+                    <div v-for="ae,i in accountEntries" :key="i" class="flex gap-2">
+                        <div class="flex-1">
+                            <label
+                                for="amountInWords"
+                                class="text-xs italic"
+                            >Accounts</label>
+                            <select v-model="ae.account_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
+                                <option v-for="account in accountsList" :key="account.account_id" :value="account.account_id">
+                                    {{ account.account_name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="flex-1">
+                            <label
+                                for="amountInWords"
+                                class="text-xs italic"
+                            >Project/Section Code</label>
+                            <select v-model="ae.project_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
+                                <option value="sample">
+                                    Sample Code
+                                </option>
+                            </select>
+                        </div>
+                        <div class="flex-1">
+                            <label
+                                for="debit"
+                                class="text-xs italic"
+                            >Debit</label>
+                            <input
+                                id="debit"
+                                v-model="ae.debit"
+                                type="number"
+                                class="w-full rounded-lg h-9 text-sm bg-gray-100"
+                                required
+                            >
+                        </div>
+                        <div class="flex-1">
+                            <label
+                                for="credit"
+                                class="text-xs italic"
+                            >Credit</label>
+                            <input
+                                id="credit"
+                                v-model="ae.credit"
+                                type="number"
+                                class="w-full rounded-lg h-9 text-sm bg-gray-100"
+                                required
+                            >
+                        </div>
+                        <button
+                            class="text-white p-2 px-4 rounded bg-red-500 content-center mt-5 rounded-md w-fit"
+                            @click.prevent="removeLine(ae)"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                </div>
+                <!-- <table v-if="accountEntries.length > 0" class="w-full">
                     <thead>
                         <tr>
                             <th class="border-2 border-gray-800 text-sm">
@@ -330,109 +393,9 @@ onMounted(() => {
                                 <Icon name="ion:trash" class="text-xl text-gray-500 hover:text-red-600" @click="removeLine(ae)" />
                             </td>
                         </tr>
-                        <!-- <tr>
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800">
-                                0
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800">
-                                0
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800">
-                                0
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800">
-                                0
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800">
-                                0
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800">
-                                0
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800">
-                                0
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800">
-                                0
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800">
-                                0
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800" />
-                            <td class="border px-4 py-1 border-gray-800">
-                                0
-                            </td>
-                        </tr>
-
-                        <tr class="border-0">
-                            <td class="" />
-                            <td class="" />
-                            <td class="font-bold text-center pt-3">
-                                TOTAL
-                            </td>
-                            <td class="border-b-2 border-gray-800" />
-                            <td class="border-b-2 border-gray-800" />
-                        </tr> -->
                     </tbody>
-                </table>
-                <span v-else class="block text-center text-gray-600">
+                </table> -->
+                <span v-if="accountEntries.length === 0" class="block text-center text-gray-600">
                     No entries yet.
                 </span>
             </div>
