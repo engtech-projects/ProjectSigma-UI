@@ -21,11 +21,7 @@ defineProps({
         type: Array<any>,
         required: true,
     },
-    dataApproval: {
-        type: Object,
-        required: true,
-    },
-    nextApproval: {
+    request: {
         type: Object,
         required: true,
     },
@@ -226,17 +222,17 @@ const denyRequest = async (id:any) => {
                         </table>
                     </div>
                     <div id="approvals" class="w-full">
-                        <LayoutApprovalsListView :approvals="dataApproval" />
+                        <LayoutApprovalsListView :approvals="request.approvals" />
                     </div>
                 </div>
             </LayoutPrint>
             <div id="footer">
-                <div v-if="nextApproval.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+                <div v-if="request.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
                     <HrmsCommonApprovalDenyButton
                         v-model:deny-remarks="remarks"
-                        :request-id="dataApproval.id"
-                        @approve="approvedRequest(nextApproval.id)"
-                        @deny="denyRequest(nextApproval.id)"
+                        :request-id="request.id"
+                        @approve="approvedRequest"
+                        @deny="denyRequest"
                     />
                 </div>
             </div>
