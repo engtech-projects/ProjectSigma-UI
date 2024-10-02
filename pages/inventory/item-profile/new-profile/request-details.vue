@@ -45,7 +45,7 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <InventoryItemProfileDetails title="Item Profile Details" :data="page.list.item_profile" :data-approval="page.list.approvals" :header-columns="headers" />
+            <InventoryItemProfileDetails title="Item Profile Details" :data="page.list.item_profile" :request="page.list" :header-columns="headers" />
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">
