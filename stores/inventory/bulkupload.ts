@@ -32,6 +32,10 @@ export const useItemBulkProfileStore = defineStore("itemBulkProfiles", {
                             this.listUnprocess.data = response._data.unprocessed
                             this.listDuplicates.data = response._data.duplicates
                             this.listProcess.data = response._data.processed
+                            this.listProcess.data.map((data) => {
+                                data.isCheck = false
+                                return data
+                            })
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
