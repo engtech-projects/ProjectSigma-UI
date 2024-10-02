@@ -25,6 +25,10 @@ defineProps({
         type: Object,
         required: true,
     },
+    nextApproval: {
+        type: Object,
+        required: true,
+    },
 })
 
 const { data: userData } = useAuth()
@@ -62,15 +66,20 @@ const approvedRequest = async (id:number) => {
     try {
         boardLoading.value = true
         await profileStore.approveApprovalForm(id)
-        snackbar.add({
-            type: "success",
-            text: profileStore.successMessage
-        })
-        profileStore.approvalReset()
-        if (profileStore.errorMessage) {
+        if (profileStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
                 text: profileStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: profileStore.successMessage
+            })
+            profileStore.$reset()
+            navigateTo({
+                path: "/inventory/item-profile/new-profile",
+                replace: true
             })
         }
     } catch (error) {
@@ -86,11 +95,22 @@ const denyRequest = async (id:any) => {
     try {
         boardLoading.value = true
         await profileStore.denyApprovalForm(id)
-        snackbar.add({
-            type: "success",
-            text: profileStore.successMessage
-        })
-        profileStore.approvalReset()
+        if (profileStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: profileStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: profileStore.successMessage
+            })
+            profileStore.$reset()
+            navigateTo({
+                path: "/inventory/item-profile/new-profile",
+                replace: true
+            })
+        }
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -211,12 +231,12 @@ const denyRequest = async (id:any) => {
                 </div>
             </LayoutPrint>
             <div id="footer">
-                <div v-if="dataApproval.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+                <div v-if="nextApproval.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
                     <HrmsCommonApprovalDenyButton
                         v-model:deny-remarks="remarks"
                         :request-id="dataApproval.id"
-                        @approve="approvedRequest"
-                        @deny="denyRequest"
+                        @approve="approvedRequest(nextApproval.id)"
+                        @deny="denyRequest(nextApproval.id)"
                     />
                 </div>
             </div>
