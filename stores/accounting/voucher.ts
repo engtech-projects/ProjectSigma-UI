@@ -33,7 +33,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.account
+                        this.list = response._data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -64,7 +64,6 @@ export const useVoucherStore = defineStore("voucherStore", {
                         } else {
                             this.successMessage = "New voucher successfully created."
                             this.getVouchers()
-                            this.reset()
                         }
                     },
                 }
