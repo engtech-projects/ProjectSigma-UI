@@ -1,10 +1,73 @@
 <script setup>
-defineProps({
+const props = defineProps({
     data: {
         type: Object,
         required: true,
     },
 })
+const currentMonth = () => {
+    return new Date(props.data.payroll_date).getMonth()
+}
+const totalBasicPay = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.pay_basic
+    }, 0)
+}
+const totalOvertimePay = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.pay_overtime
+    }, 0)
+}
+const totalGrossPay = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.pay_gross
+    }, 0)
+}
+const totalDeductSSS = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.deduct_sss_employee_contribution + current.summary.deduct_sss_employee_compensation
+    }, 0)
+}
+const totalDeductPhilhealth = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.deduct_phihealth_employee_cotribution
+    }, 0)
+}
+const totalDeductPagibig = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.deduct_pagibig_employee_cotribution
+    }, 0)
+}
+const totalDeductWithholdingtax = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.deduct_withholdingtax
+    }, 0)
+}
+const totalDeductCashadvance = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.deduct_cashadvance
+    }, 0)
+}
+const totalDeductLoan = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.deduct_loan
+    }, 0)
+}
+const totalDeductOtherdeduction = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.deduct_otherdeduction
+    }, 0)
+}
+const totalDeduct = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.deduct_total
+    }, 0)
+}
+const totalNetpay = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.net_pay
+    }, 0)
+}
 </script>
 <template>
     <LayoutPrint>
@@ -16,7 +79,7 @@ defineProps({
             </div>
             <div class="title flex flex-col justify-center gap-1 mb-12">
                 <span class="text-md text-black text-center">
-                    FOR THE MONTH OF <span class="text-red-600 font-bold underline">APRIL 2024</span>
+                    FOR THE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(currentMonth()) }} 2024</span>
                 </span>
             </div>
             <table class="printTable border border-gray-500">
@@ -103,37 +166,37 @@ defineProps({
                             {{ index + 1 }}. {{ key }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
-                            {{ rowData.summary.pay_basic }}
+                            {{ useFormatCurrency(rowData.summary.pay_basic) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
-                            {{ rowData.summary.pay_overtime }}
+                            {{ useFormatCurrency(rowData.summary.pay_overtime) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            {{ rowData.summary.pay_gross }}
+                            {{ useFormatCurrency(rowData.summary.pay_gross) }}
                         </td>
                         <!-- <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
                             aa
                         </td> -->
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
-                            {{ rowData.summary.deduct_sss_employee_contribution + rowData.summary.deduct_sss_employee_compensation }}
+                            {{ useFormatCurrency(rowData.summary.deduct_sss_employee_contribution + rowData.summary.deduct_sss_employee_compensation) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
-                            {{ rowData.summary.deduct_phihealth_employee_cotribution }}
+                            {{ useFormatCurrency(rowData.summary.deduct_phihealth_employee_cotribution) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
-                            {{ rowData.summary.deduct_pagibig_employee_cotribution }}
+                            {{ useFormatCurrency(rowData.summary.deduct_pagibig_employee_cotribution) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            {{ rowData.summary.deduct_withholdingtax }}
+                            {{ useFormatCurrency(rowData.summary.deduct_withholdingtax) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            {{ rowData.summary.deduct_cashadvance }}
+                            {{ useFormatCurrency(rowData.summary.deduct_cashadvance) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
-                            {{ rowData.summary.deduct_loan }}
+                            {{ useFormatCurrency(rowData.summary.deduct_loan) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
-                            {{ rowData.summary.deduct_otherdeduction }}
+                            {{ useFormatCurrency(rowData.summary.deduct_otherdeduction) }}
                         </td>
                         <!-- <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
                             -
@@ -157,15 +220,15 @@ defineProps({
                             -
                         </td> -->
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            {{ rowData.summary.deduct_total }}
+                            {{ useFormatCurrency(rowData.summary.deduct_total) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            {{ rowData.summary.net_pay }}
+                            {{ useFormatCurrency(rowData.summary.net_pay) }}
                         </td>
                         <td
                             v-if="index === 0"
                             class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
-                            :rowspan="Object.keys(data.summary).length"
+                            :rowspan="Object.values(data.summary).length"
                         >
                             MAYBANK
                         </td>
@@ -178,37 +241,37 @@ defineProps({
                             Grand Total
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
-                            -
+                            {{ useFormatCurrency(totalBasicPay()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
-                            -
+                            {{ useFormatCurrency(totalOvertimePay()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            -
+                            {{ useFormatCurrency(totalGrossPay()) }}
                         </td>
                         <!-- <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
                             -
                         </td> -->
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
-                            -
+                            {{ useFormatCurrency(totalDeductSSS()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
-                            -
+                            {{ useFormatCurrency(totalDeductPhilhealth()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
-                            -
+                            {{ useFormatCurrency(totalDeductPagibig()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            -
+                            {{ useFormatCurrency(totalDeductWithholdingtax()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            -
+                            {{ useFormatCurrency(totalDeductCashadvance()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
-                            -
+                            {{ useFormatCurrency(totalDeductLoan()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
-                            -
+                            {{ useFormatCurrency(totalDeductOtherdeduction()) }}
                         </td>
                         <!-- <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
                             -
@@ -232,12 +295,12 @@ defineProps({
                             -
                         </td> -->
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            -
+                            {{ useFormatCurrency(totalDeduct()) }}
                         </td>
                         <td class="bg-yellow-200 border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                            -
+                            {{ useFormatCurrency(totalNetpay()) }}
                         </td>
-                        <td />
+                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right" />
                     </tr>
                 </tbody>
             </table>
