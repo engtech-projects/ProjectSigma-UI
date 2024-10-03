@@ -115,7 +115,7 @@ const headers = [
                 @show-table="showInformation"
             />
         </div>
-        <p>
+        <p v-if="useCheckAccessibility([AccessibilityTypes.admin])">
             Having Problems?
             <NuxtLink to="/hrms/attendance/dtr" class="text-blue-500 mouse-pointer">
                 Try Version 1
