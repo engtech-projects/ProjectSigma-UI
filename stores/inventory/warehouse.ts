@@ -3,8 +3,8 @@ import { defineStore } from "pinia"
 export interface WarehouseDetails {
     name: String,
     location: String,
-    pss: String,
     project_code: String,
+    pss: Array<any>,
 }
 
 export const useWarehouseStore = defineStore("warehouseStore", {
@@ -19,6 +19,7 @@ export const useWarehouseStore = defineStore("warehouseStore", {
         },
         warehouse: {} as WarehouseDetails,
         params: {},
+        addPSS: [] as any,
         isLoading: false,
         errorMessage: "",
         successMessage: "",

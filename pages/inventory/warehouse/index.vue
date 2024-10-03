@@ -4,7 +4,7 @@ useHead({
     title: "Warehouse",
 })
 const warehouseStore = useWarehouseStore()
-const { warehouse, stocks } = storeToRefs(warehouseStore)
+const { warehouse, stocks, addPSS } = storeToRefs(warehouseStore)
 
 const headers = [
     { name: "Item Code", id: "item_code" },
@@ -13,7 +13,7 @@ const headers = [
 </script>
 <template>
     <div class="grid grid-cols-1 gap-4 w-full max-w-4xl">
-        <InventoryWarehouseFilter :data="warehouse" />
+        <InventoryWarehouseFilter :data="warehouse" :list-pss="addPSS" />
         <InventoryWarehouseTable :header-columns="headers" title="Stocks Details" :data="stocks.data" />
     </div>
 </template>

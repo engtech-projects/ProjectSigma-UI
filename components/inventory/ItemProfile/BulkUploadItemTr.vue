@@ -18,7 +18,7 @@ defineProps({
     <tr v-for="data, index in dataItem" :id="compId" :key="index + '-item'" class="bg-white border-b">
         <template v-if="isCheckbox">
             <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
-                <input id="checkItem" type="checkbox" name="checkItem" :checked="data.isCheck" v-model="data.isCheck">
+                <input id="checkItem" v-model="data.isCheck" type="checkbox" name="checkItem" :checked="data.isCheck">
             </td>
         </template>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
