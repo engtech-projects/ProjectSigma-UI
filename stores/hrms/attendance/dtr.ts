@@ -11,6 +11,17 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
         v2IsLoading: false,
         successMessage: "",
         errorMessage: "",
+        getEmployeeDTRv2Data: {
+            isLoading: false,
+            params: {
+                employee_id: null,
+                cutoff_start: dateToString(useFirstDateOfMonth()),
+                cutoff_end: dateToString(useLastDateOfMonth()),
+            },
+            data: {},
+            successMessage: "",
+            errorMessage: "",
+        }
     }),
     getters: {
         dtrUniqueSchedules (state) {
@@ -42,10 +53,10 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
             })
         },
         dtrUniqueSchedulesV2 (state) {
-            if (!state.employee_dtr_v2) {
+            if (!state.getEmployeeDTRv2Data.data?.dtr ?? null) {
                 return []
             }
-            const allScheds = Object.values(state.employee_dtr_v2.dtr).map((sched:any) => {
+            const allScheds = Object.values(state.getEmployeeDTRv2Data.data?.dtr ?? []).map((sched:any) => {
                 return [...sched.metadata.summary.schedules]
             }).flat(1)
             return allScheds.filter((sched: any, index: any) => {
@@ -56,10 +67,10 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
             })
         },
         dtrUniqueOvertimeV2 (state) {
-            if (!state.employee_dtr_v2) {
+            if (!state.getEmployeeDTRv2Data.data?.dtr ?? null) {
                 return []
             }
-            const allScheds = Object.values(state.employee_dtr_v2.dtr).map((sched:any) => {
+            const allScheds = Object.values(state.getEmployeeDTRv2Data.data?.dtr ?? []).map((sched:any) => {
                 return [...sched.metadata.summary.overtimes]
             }).flat(1)
             return allScheds.filter((sched: any, index: any) => {
@@ -68,6 +79,21 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
                         sched.end_time_sched === find.end_time_sched
                 })
             })
+        },
+        dtrUniqueScheduleNamesV2 (state) {
+            if (!state.getEmployeeDTRv2Data.data?.dtr ?? null) {
+                return ""
+            }
+            const allScheds = Object.values(state.getEmployeeDTRv2Data.data?.dtr ?? []).map((sched:any) => {
+                return [...sched.metadata.summary.schedules]
+            }).flat(1)
+            return allScheds.filter((sched: any, index: any) => {
+                return index === allScheds.findIndex((find: any) => {
+                    return sched.sched_from === find.sched_from
+                })
+            }).map((sched) => {
+                return sched.sched_from
+            }).join(", ")
         },
     },
     actions: {
@@ -95,28 +121,24 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
                 }
             )
         },
-        async getEmployeeDTRV2 (employeeId: number, start:string, end:string) {
+        async getEmployeeDTRV2 () {
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
                 "/api/v2/attendance/dtr",
                 {
-                    params: {
-                        employee_id: employeeId,
-                        cutoff_start: start,
-                        cutoff_end: end,
-                    },
+                    params: this.getEmployeeDTRv2Data.params,
                     method: "GET",
                     onRequest: () => {
-                        this.v2IsLoading = true
+                        this.getEmployeeDTRv2Data.isLoading = true
                     },
                     onResponse: ({ response }: any) => {
-                        this.v2IsLoading = false
+                        this.getEmployeeDTRv2Data.isLoading = false
                         if (response.ok) {
-                            this.successMessage = response._data.message
-                            this.employee_dtr_v2 = response._data.data
+                            this.getEmployeeDTRv2Data.successMessage = response._data.message
+                            this.getEmployeeDTRv2Data.data = response._data.data
                         } else {
-                            this.errorMessage = response._data.message
+                            this.getEmployeeDTRv2Data.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
