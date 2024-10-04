@@ -81,7 +81,7 @@ const denyRequest = async (id: any) => {
                     <table class="table-auto w-full border-collapse">
                         <thead>
                             <tr>
-                                <InventoryCommonTableItemTh title="SKU" />
+                                <InventoryCommonTableItemTh title="Item Code" />
                                 <InventoryCommonTableItemTh title="Item description" />
                                 <InventoryCommonTableItemTh title="Thickness" />
                                 <InventoryCommonTableItemTh title="Length" />
@@ -100,7 +100,7 @@ const denyRequest = async (id: any) => {
                         <tbody>
                             <tr v-for="dataValue, index in data.item_profiles" :key="index" class="bg-white border-b">
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ dataValue.sku }}
+                                    {{ dataValue.item_code }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.item_description }}

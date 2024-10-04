@@ -34,7 +34,7 @@ const showSuggest = (itemProfile:any) => {
     let code = ""
     const suggestItemCode = []
     const listObj = {
-        sku: itemProfile.sku,
+        item_code: itemProfile.item_code,
         item_description: itemProfile.item_description,
         thickness_val: itemProfile.thickness_val,
         thickness_uom: itemProfile.thickness_uom,
@@ -71,13 +71,13 @@ const showSuggest = (itemProfile:any) => {
     }
 }
 const selectSuggest = (item:any, itemProfile:any) => {
-    itemProfile.sku = item
+    itemProfile.item_code = item
 }
 </script>
 <template>
     <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
         <InventoryCommonFormPsTextInputSelect
-            v-model="itemProfile.sku"
+            v-model="itemProfile.item_code"
             :item-suggest="showSuggest(itemProfile)"
             :item-profile="itemProfile"
             title="Item Code"

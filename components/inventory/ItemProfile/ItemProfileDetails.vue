@@ -161,7 +161,7 @@ const denyRequest = async (id:any) => {
                                                 <InventoryCommonItemProfileSimilarItems :datas="dataValue.similar_items" />
                                             </template>
                                             <div class="context">
-                                                {{ dataValue.sku }}
+                                                {{ dataValue.item_code }}
                                             </div>
                                         </div>
                                     </td>
