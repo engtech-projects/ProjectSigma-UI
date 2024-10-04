@@ -467,7 +467,7 @@ const config = useRuntimeConfig()
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.inventory_item_profile_group
                 ])"
-                icon="ion:ios-people"
+                icon="material-symbols:inventory-2-outline"
                 title="Item Profile"
             >
                 <LayoutNavSingle
@@ -475,7 +475,7 @@ const config = useRuntimeConfig()
                         AccessibilityTypes.inventory_new_item_profile,
                     ])"
                     linkarea="/inventory/item-profile/new-profile"
-                    icon="material-symbols:dynamic-form-outline-rounded"
+                    icon="material-symbols:add-ad"
                     single-nav-title="New Item Profile"
                 />
                 <LayoutNavSingle
@@ -483,7 +483,7 @@ const config = useRuntimeConfig()
                         AccessibilityTypes.inventory_item_profile,
                     ])"
                     linkarea="/inventory/item-profile/list-profile"
-                    icon="material-symbols:dynamic-form-outline-rounded"
+                    icon="material-symbols:view-list"
                     single-nav-title="Item Profile List"
                 />
                 <LayoutNavSingle
@@ -491,7 +491,7 @@ const config = useRuntimeConfig()
                         AccessibilityTypes.admin,
                     ])"
                     linkarea="/inventory/item-profile/bulk-upload"
-                    icon="material-symbols:dynamic-form-outline-rounded"
+                    icon="material-symbols:upload-file-outline"
                     single-nav-title="Item Profile Bulk Upload"
                 />
             </LayoutNavGroup>
@@ -529,10 +529,10 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.admin,
+                    AccessibilityTypes.inventory_warehouse_viewonly,
                 ])"
                 linkarea="/inventory/warehouse"
-                icon="ic:baseline-space-dashboard"
+                icon="material-symbols:warehouse-outline-rounded"
                 single-nav-title="Warehouse"
             />
         </LayoutNavModuleGroup>

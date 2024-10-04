@@ -44,7 +44,7 @@ const doAddItemProfile = (item: any, id: number) => {
     newItemProfile.value.push(item)
     addItemProfile.value.splice(id, 1)
 }
-const showItemProfile = () => {
+const getOne = () => {
     addItemProfile.value.push(
         {
             id: null,
@@ -143,7 +143,7 @@ const doStoreItemProfile = async () => {
 }
 </script>
 <template>
-    <InventoryCommonLayoutItemProfileBoards title="New Profile" class="w-full" @action="showItemProfile">
+    <InventoryCommonLayoutItemProfileBoards title="New Profile" class="w-full" @action="getOne">
         <div class="pb-2 text-gray-500 overflow-x-auto mb-4">
             <table class="table-auto w-full border-collapse">
                 <thead>

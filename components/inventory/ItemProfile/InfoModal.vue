@@ -13,8 +13,8 @@ const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const profileStore = useItemProfileStore()
+await profileStore.getUOM()
 const { remarks, uom } = storeToRefs(profileStore)
-
 const getType = (id:number) => {
     const symbol = uom.value.map((data: any) => {
         return data.id === id ? data.symbol : null
@@ -98,7 +98,7 @@ const denyRequest = async (id: any) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="dataValue, index in data.item_profiles" :key="index" class="bg-white border-b">
+                            <tr v-for="dataValue, index in data.item_profile" :key="index" class="bg-white border-b">
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.item_code }}
                                 </td>
@@ -143,7 +143,7 @@ const denyRequest = async (id: any) => {
                                     {{ dataValue.color }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ dataValue.uom }}
+                                    {{ getType(dataValue.uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ dataValue.inventory_type }}

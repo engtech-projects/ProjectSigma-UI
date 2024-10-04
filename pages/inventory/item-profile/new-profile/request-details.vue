@@ -7,7 +7,7 @@ const route = useRoute()
 const validKey = ref(false)
 if (route.query.key) {
     validKey.value = true
-    await profileStore.showItemProfile(route.query.key)
+    await profileStore.getOne(route.query.key)
 } else {
     validKey.value = false
 }
