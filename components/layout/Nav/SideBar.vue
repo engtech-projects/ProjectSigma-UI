@@ -467,7 +467,7 @@ const config = useRuntimeConfig()
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.inventory_item_profile_group
                 ])"
-                icon="ion:ios-people"
+                icon="material-symbols:inventory-2-outline"
                 title="Item Profile"
             >
                 <LayoutNavSingle
@@ -532,7 +532,7 @@ const config = useRuntimeConfig()
                     AccessibilityTypes.admin,
                 ])"
                 linkarea="/inventory/warehouse"
-                icon="ic:baseline-space-dashboard"
+                icon="material-symbols:warehouse-outline-rounded"
                 single-nav-title="Warehouse"
             />
         </LayoutNavModuleGroup>
