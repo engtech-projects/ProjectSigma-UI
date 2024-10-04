@@ -15,7 +15,7 @@ if (route.query.key) {
 await profileStore.getUOM()
 
 const headers = [
-    { name: "SKU", id: "sku" },
+    { name: "Item Code", id: "item_code" },
     { name: "Item description", id: "item_description" },
     { name: "Thickness", id: "thickness_val" },
     { name: "Length", id: "length_val" },

@@ -14,7 +14,7 @@ export const REQ_STATUS = [
 
 export interface NewItemProfile {
     id: number,
-    sku: string,
+    item_code: string,
     item_description: string,
     thickness_val: number,
     thickness_uom: number,
@@ -53,7 +53,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         isEdit: false,
         itemProfile: {
             id: null,
-            sku: "",
+            item_code: "",
             item_description: "",
             thickness_val: null,
             thickness_uom: null,

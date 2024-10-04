@@ -48,7 +48,7 @@ const showItemProfile = () => {
     addItemProfile.value.push(
         {
             id: null,
-            sku: "",
+            item_code: "",
             item_description: "",
             thickness_val: null,
             thickness_uom: null,
@@ -191,7 +191,7 @@ const doStoreItemProfile = async () => {
                         </template>
                         <template v-if="!dataValue.is_edit">
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.sku }}
+                                {{ dataValue.item_code }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.item_description }}
