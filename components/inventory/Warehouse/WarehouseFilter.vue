@@ -1,27 +1,24 @@
 <script setup lang="ts">
-defineProps({
-    data: {
-        type: Object,
-        required: true,
-    },
-    listPss: {
-        type: Array,
-        required: true,
-    }
-})
+import { useWarehouseStore } from "@/stores/inventory/warehouse"
+const warehouseStore = useWarehouseStore()
+const { warehouse, addPSS, params, warehouseList } = storeToRefs(warehouseStore)
 const isSet = ref(true)
 const doSet = () => {
     isSet.value = false
 }
-const addPSS = () => {
-    listPss.value.push(
+const hideSet = () => {
+    isSet.value = true
+    addPSS.value = []
+}
+const doAddPss = () => {
+    addPSS.value.push(
         {
-            id: null
+            id: null,
         }
     )
 }
-const hideSet = () => {
-    isSet.value = true
+const removePss = (index: number) => {
+    addPSS.value.splice(index, 1)
 }
 </script>
 <template>
@@ -39,21 +36,34 @@ const hideSet = () => {
             <div id="warehouse-overview" class="p-4">
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="flex flex-row">
-                        <label for="">Warehouse Name: {{ data.name }} </label>
+                        <select
+                            v-model="params.name"
+                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-cyan-500 focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
+                        >
+                            <option v-for="item in warehouseList" :key="item.value">
+                                {{ item.value }}
+                            </option>
+                        </select>
                     </div>
                     <div class="flex flex-row">
-                        <label for="">Location: {{ data.location }} </label>
+                        <label for="">Warehouse Name: {{ warehouse.name }} </label>
+                    </div>
+                    <div class="flex flex-row">
+                        <label for="">Location: {{ warehouse.location }} </label>
                     </div>
                     <div class="flex flex-col gap-2">
                         <div class="flex flex-col gap-4">
                             <div class="flex flex-row gap-2 justify-start items-center">
-                                <label for="">PSS: Lorem Manager {{ data.pss }} </label>
+                                <label for="">PSS: {{ warehouse.pss }} </label>
                                 <div v-if="isSet" class="flex flex-row">
                                     <button class="px-3 py-1 bg-purple-600 text-white text-xs font-bold" @click="doSet">
                                         SET
                                     </button>
                                 </div>
                                 <div v-else class="flex flex-row gap-2 justify-start items-center">
+                                    <button class="px-3 py-1 bg-green-600 text-white text-xs font-bold" @click="doAddPss">
+                                        +
+                                    </button>
                                     <button class="px-3 py-1 bg-green-600 text-white text-xs font-bold">
                                         SAVE
                                     </button>
@@ -62,31 +72,24 @@ const hideSet = () => {
                                     </button>
                                 </div>
                             </div>
-                            <div v-show="!isSet" class="flex flex-row gap-1 justify-start items-center">
-                                <label for="">PSS:</label>
-                                <div>
-                                    <button class="px-3 py-1 bg-green-600 text-white text-xs font-bold" @click="addPSS">
-                                        +
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <template v-for="item in listPss" :key="item.value">
-                                    <div class="flex flex-row justify-between gap-4">
-                                        {{ item }}
-                                        <!-- <HrmsCommonUserEmployeeSelector v-model="listPss[index].id" class="w-full" /> -->
-                                        <div class="flex flex-row gap-2">
-                                            <button class="px-3 py-1 bg-red-600 text-white text-xs font-bold">
-                                                -
-                                            </button>
+                            <div v-show="!isSet" class="flex flex-col gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <template v-for="item, itemIndex in addPSS" :key="item.value">
+                                        <div class="flex flex-row justify-between gap-4">
+                                            <HrmsCommonUserEmployeeSelector v-model="item.id" class="w-full" />
+                                            <div class="flex flex-row gap-2">
+                                                <button class="px-3 py-1 bg-red-600 text-white text-xs font-bold" @click="removePss(itemIndex)">
+                                                    -
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </template>
+                                    </template>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="flex flex-row">
-                        <label for="">Project Code / Department : {{ data.project_code }} </label>
+                        <label for="">Project Code / Department : {{ warehouse.project_code }} </label>
                     </div>
                 </div>
             </div>
