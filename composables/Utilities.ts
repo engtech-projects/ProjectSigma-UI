@@ -163,6 +163,20 @@ export const dateToString = (date) => {
     return `${year}-${month}-${day}`
 }
 
+export const useFirstDateOfMonth = () => {
+    const date = new Date()
+    const y = date.getFullYear()
+    const m = date.getMonth()
+    return new Date(y, m, 1)
+}
+
+export const useLastDateOfMonth = () => {
+    const date = new Date()
+    const y = date.getFullYear()
+    const m = date.getMonth()
+    return new Date(y, m + 1, 0)
+}
+
 export const useFormatDateTimeString = (date: Date) => {
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, "0")

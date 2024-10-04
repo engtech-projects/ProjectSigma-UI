@@ -3,8 +3,8 @@ import { defineStore } from "pinia"
 export interface WarehouseDetails {
     name: String,
     location: String,
-    pss: String,
     project_code: String,
+    pss: Array<any>,
 }
 
 export const useWarehouseStore = defineStore("warehouseStore", {
@@ -19,6 +19,8 @@ export const useWarehouseStore = defineStore("warehouseStore", {
         },
         warehouse: {} as WarehouseDetails,
         params: {},
+        warehouseList: [] as any,
+        addPSS: [] as any,
         isLoading: false,
         errorMessage: "",
         successMessage: "",
@@ -27,7 +29,28 @@ export const useWarehouseStore = defineStore("warehouseStore", {
     actions: {
         async fetchWarehouse () {
             await useInventoryApi(
-                "/api/item-profile/warehouse",
+                "/api/warehouse",
+                {
+                    method: "GET",
+                    params: this.params,
+                    onRequest: () => {
+                        this.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        if (response.ok) {
+                            this.warehouseList = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async fetchWarehouseDetails () {
+            await useInventoryApi(
+                "/api/warehouse",
                 {
                     method: "GET",
                     params: this.params,

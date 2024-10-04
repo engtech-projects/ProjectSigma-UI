@@ -1,10 +1,25 @@
 <script setup lang="ts">
-defineProps({
-    data: {
-        type: Object,
-        required: true,
-    }
-})
+import { useWarehouseStore } from "@/stores/inventory/warehouse"
+const warehouseStore = useWarehouseStore()
+const { warehouse, addPSS, params, warehouseList } = storeToRefs(warehouseStore)
+const isSet = ref(true)
+const doSet = () => {
+    isSet.value = false
+}
+const hideSet = () => {
+    isSet.value = true
+    addPSS.value = []
+}
+const doAddPss = () => {
+    addPSS.value.push(
+        {
+            id: null,
+        }
+    )
+}
+const removePss = (index: number) => {
+    addPSS.value.splice(index, 1)
+}
 </script>
 <template>
     <div class="h-full w-full">
@@ -20,17 +35,62 @@ defineProps({
             </div>
             <div id="warehouse-overview" class="p-4">
                 <div class="flex flex-col gap-4 mb-5">
-                    <div class="flex flex-row">
-                        <label for="">Warehouse Name: {{ data.name }} </label>
+                    <div class="flex flex-row gap-4 justify-start items-center">
+                        <label>Choose a Warehouse :</label>
+                        <select
+                            v-model="params.name"
+                            class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                        >
+                            <option v-for="item in warehouseList" :key="item.value">
+                                {{ item.value }}
+                            </option>
+                        </select>
                     </div>
                     <div class="flex flex-row">
-                        <label for="">Location: {{ data.location }} </label>
+                        <label for="">Warehouse Name : {{ warehouse.name }} </label>
                     </div>
                     <div class="flex flex-row">
-                        <label for="">PSS: {{ data.pss }} </label>
+                        <label for="">Location : {{ warehouse.location }} </label>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex flex-col gap-4">
+                            <div class="flex flex-row gap-2 justify-start items-center">
+                                <label for="">PSS: {{ warehouse.pss }} </label>
+                                <div v-if="isSet" class="flex flex-row">
+                                    <button class="px-3 py-1 bg-purple-600 text-white text-xs font-bold" @click="doSet">
+                                        SET
+                                    </button>
+                                </div>
+                                <div v-else class="flex flex-row gap-2 justify-start items-center">
+                                    <button class="px-3 py-1 bg-green-600 text-white text-xs font-bold" @click="doAddPss">
+                                        +
+                                    </button>
+                                    <button class="px-3 py-1 bg-green-600 text-white text-xs font-bold">
+                                        SAVE
+                                    </button>
+                                    <button class="px-3 py-1 bg-red-600 text-white text-xs font-bold" @click="hideSet">
+                                        CANCEL
+                                    </button>
+                                </div>
+                            </div>
+                            <div v-show="!isSet" class="flex flex-col gap-4">
+                                <div class="flex flex-col gap-2">
+                                    <template v-for="item, itemIndex in addPSS" :key="item.value">
+                                        <div class="flex flex-row justify-between gap-4">
+                                            <HrmsCommonUserEmployeeSelector v-model="item.id" class="w-full" />
+                                            <div class="flex flex-row gap-2">
+                                                <button class="px-3 py-1 bg-red-600 text-white text-xs font-bold" @click="removePss(itemIndex)">
+                                                    -
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="flex flex-row">
-                        <label for="">Project Code / Department : {{ data.project_code }} </label>
+                        <label for="">Project Code / Department : {{ warehouse.project_code }} </label>
                     </div>
                 </div>
             </div>
