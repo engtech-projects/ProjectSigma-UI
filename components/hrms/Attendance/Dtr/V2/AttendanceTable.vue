@@ -1,40 +1,7 @@
 <script lang="ts" setup>
-import { useEmployeeInfo } from "@/stores/hrms/employee"
-
-const employee = useEmployeeInfo()
-
-interface HeaderColumn {
-    name: string,
-    id: string,
-    style: string
-}
-
-defineProps({
-    headerColumns: {
-        type: Array<HeaderColumn>,
-        required: true,
-    },
-    datas: {
-        type: Array<any>,
-        required: true,
-    },
-    schedule: {
-        type: Array<any>,
-        required: true,
-    },
-    overtime: {
-        type: Array<any>,
-        required: true,
-    },
-    actions: {
-        type: Object,
-        required: true,
-    },
-    period: {
-        type: Object,
-        required: true,
-    }
-})
+import { useMyDtrStore } from "@/stores/hrms/attendance/dtr"
+const dtrStore = useMyDtrStore()
+const { getEmployeeDTRv2Data } = storeToRefs(dtrStore)
 
 const displayItem: any[] = []
 const showItem = (item:any, reset:any) => {
@@ -52,7 +19,7 @@ const showItem = (item:any, reset:any) => {
 <template>
     <LayoutPrint>
         <div id="table-to-print" class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <div v-if="employee.fullname && employee.information?.current_employment?.position?.name && period" class="text-black pb-2">
+            <div class="text-black pb-2">
                 <div class="text-center block overflow-hidden">
                     <div class="flex items-center justify-center">
                         <div class="text-lg font-bold mx-auto ">
@@ -71,15 +38,19 @@ const showItem = (item:any, reset:any) => {
                     <div>
                         <p class="text-sm">
                             <span class="font-bold">NAME:</span>
-                            <span class="font-bold">{{ employee.fullname }}</span><br>
+                            <span class="font-bold">{{ getEmployeeDTRv2Data.data?.fullname_last }}</span><br>
                             <span class="font-bold">DESIGNATION:</span>
-                            <span class="font-bold">{{ employee.information.current_employment.position.name }}</span>
+                            <span class="font-bold">{{ getEmployeeDTRv2Data.data?.current_position ?? "" }}</span>
                         </p>
                     </div>
                     <div>
                         <p class="text-sm">
                             <span class="font-bold">PERIOD COVERED:</span>
-                            <span class="font-bold">{{ useFormatDateRange(period.from, period.to) }}</span>
+                            <span class="font-bold">{{ useFormatDateRange(getEmployeeDTRv2Data.data?.date_from, getEmployeeDTRv2Data.data?.date_to) }}</span>
+                        </p>
+                        <p class="text-sm">
+                            <span class="font-bold">SCHEDULES APPLIED:</span>
+                            <span class="font-bold">{{ dtrStore.dtrUniqueScheduleNamesV2 ?? "NO SCHEDULE FOUND" }}</span>
                         </p>
                     </div>
                 </div>
@@ -103,14 +74,14 @@ const showItem = (item:any, reset:any) => {
                         </th>
                         <th
                             scope="col"
-                            :colspan="(schedule.length * 2) + 1"
+                            :colspan="(dtrStore.dtrUniqueSchedulesV2.length * 2) + 1"
                             class="text-white p-2 border-solid border border-zinc-700"
                         >
                             Regular Time
                         </th>
                         <th
                             scope="col"
-                            :colspan="(overtime.length * 2) + 1"
+                            :colspan="(dtrStore.dtrUniqueOvertimeV2.length * 2) + 1"
                             rowspan="2"
                             class="text-white p-2 border-solid border border-zinc-700"
                         >
@@ -118,7 +89,7 @@ const showItem = (item:any, reset:any) => {
                         </th>
                     </tr>
                     <tr>
-                        <template v-for="index in schedule" :key="'schedampm' + index">
+                        <template v-for="index in dtrStore.dtrUniqueSchedulesV2" :key="'schedampm' + index">
                             <th
                                 id="schedampmAM"
                                 scope="col"
@@ -138,7 +109,7 @@ const showItem = (item:any, reset:any) => {
                         </th>
                     </tr>
                     <tr>
-                        <template v-for="sched, index in schedule" :key="'sched' + index">
+                        <template v-for="sched, index in dtrStore.dtrUniqueSchedulesV2" :key="'sched' + index">
                             <th
                                 scope="col"
                                 colspan="1"
@@ -154,7 +125,7 @@ const showItem = (item:any, reset:any) => {
                                 OUT {{ sched.end_time_sched }}
                             </th>
                         </template>
-                        <template v-for="sched, index in overtime" :key="'overtime' + index">
+                        <template v-for="sched, index in dtrStore.dtrUniqueOvertimeV2" :key="'overtime' + index">
                             <th
                                 scope="col"
                                 colspan="1"
@@ -181,8 +152,8 @@ const showItem = (item:any, reset:any) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-if="datas.dtr">
-                        <template v-for="dataValue, dtrDate in datas.dtr" :key="dtrDate">
+                    <template v-if="getEmployeeDTRv2Data.data?.dtr">
+                        <template v-for="dataValue, dtrDate in getEmployeeDTRv2Data.data?.dtr" :key="dtrDate">
                             <tr class="border text-center border-b">
                                 <td class="p-2">
                                     {{ dtrDate }}
@@ -190,8 +161,8 @@ const showItem = (item:any, reset:any) => {
                                 <td class="p-2">
                                     {{ dataValue.metadata.summary.charging_names }}
                                 </td>
-                                <template v-for="schedule_index in schedule" :key="'sched-data-' + schedule_index">
-                                    <template v-if="dataValue.metadata.summary.schedules.find((element:any) => element.id === schedule_index.id)">
+                                <template v-for="schedule_index in dtrStore.dtrUniqueSchedulesV2" :key="'sched-data-' + schedule_index">
+                                    <template v-if="dataValue.metadata.summary.schedules.find((element:any) => element.start_time_sched === schedule_index.start_time_sched && element.end_time_sched === schedule_index.end_time_sched)">
                                         <td class="TimeIn p-2">
                                             {{ dataValue.metadata.summary.schedules.find((element:any) => element.id === schedule_index.id)?.start_time_log }}
                                         </td>
@@ -211,7 +182,7 @@ const showItem = (item:any, reset:any) => {
                                 <td class="p-2">
                                     {{ dataValue.metadata.total.reg_hrs }}
                                 </td>
-                                <template v-for="schedule_index in overtime" :key="'overtime-data-' + schedule_index">
+                                <template v-for="schedule_index in dtrStore.dtrUniqueOvertimeV2" :key="'overtime-data-' + schedule_index">
                                     <template v-if="dataValue.metadata.summary.overtimes.find((element:any) => element.start_time_sched === schedule_index.start_time_sched && element.end_time_sched === schedule_index.end_time_sched)">
                                         <td class="p-2">
                                             {{ dataValue.metadata.summary.overtimes.find((element:any) => element.start_time_sched === schedule_index.start_time_sched && element.end_time_sched === schedule_index.end_time_sched)?.start_time_log }}
