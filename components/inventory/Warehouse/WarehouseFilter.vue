@@ -35,10 +35,11 @@ const removePss = (index: number) => {
             </div>
             <div id="warehouse-overview" class="p-4">
                 <div class="flex flex-col gap-4 mb-5">
-                    <div class="flex flex-row">
+                    <div class="flex flex-row gap-4 justify-start items-center">
+                        <label>Choose a Warehouse :</label>
                         <select
                             v-model="params.name"
-                            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-cyan-500 focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
+                            class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                         >
                             <option v-for="item in warehouseList" :key="item.value">
                                 {{ item.value }}
@@ -46,10 +47,10 @@ const removePss = (index: number) => {
                         </select>
                     </div>
                     <div class="flex flex-row">
-                        <label for="">Warehouse Name: {{ warehouse.name }} </label>
+                        <label for="">Warehouse Name : {{ warehouse.name }} </label>
                     </div>
                     <div class="flex flex-row">
-                        <label for="">Location: {{ warehouse.location }} </label>
+                        <label for="">Location : {{ warehouse.location }} </label>
                     </div>
                     <div class="flex flex-col gap-2">
                         <div class="flex flex-col gap-4">
