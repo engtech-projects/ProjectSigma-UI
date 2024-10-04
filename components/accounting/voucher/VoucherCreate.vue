@@ -9,6 +9,8 @@ const voucherStore = useVoucherStore()
 const snackbar = useSnackbar()
 
 const loading = ref(false)
+const showNetAmount = ref(true)
+const amountElement = ref()
 const accountEntry = ref({
     account_id: null,
     account_code: null,
@@ -72,7 +74,7 @@ const amount = computed(() => {
     return voucherStore.voucher.net_amount
 })
 watch(amount, (newAmount) => {
-    voucherStore.voucher.amount_in_words = amountToWords(newAmount)
+    voucherStore.voucher.amount_in_words = useAmountInWords(newAmount)
 })
 const removeLine = (line: object) => {
     accountEntries.value = accountEntries.value.filter(acc => acc !== line)
@@ -88,6 +90,16 @@ const lineItems = computed(() => {
         })
     })
     return arr
+})
+const focusNetAmount = () => {
+    showNetAmount.value = false
+}
+watch(showNetAmount, (newValue) => {
+    if (!newValue) {
+        nextTick(() => {
+            amountElement.value.focus()
+        })
+    }
 })
 onMounted(() => {
     voucherStore.voucher.voucher_date = dateToString(new Date())
@@ -117,7 +129,7 @@ onMounted(() => {
                         AJE-202402-0566
                     </span>
                 </div>
-                <div class="flex gap-12">
+                <div class="flex flex-col gap-12 sm:flex-row">
                     <div class="flex flex-col flex-1 gap-2">
                         <div class="flex-1">
                             <label
@@ -221,11 +233,23 @@ onMounted(() => {
                                 class="text-xs italic"
                             >Net Amount</label>
                             <input
+                                v-show="!showNetAmount"
                                 id="netAmount"
+                                ref="amountElement"
                                 v-model="voucherStore.voucher.net_amount"
                                 type="number"
                                 class="w-full rounded-lg"
                                 required
+                                @blur="showNetAmount=true"
+                            >
+                            <input
+                                v-show="showNetAmount"
+                                id="netAmount2"
+                                type="text"
+                                class="w-full rounded-lg"
+                                :value="useUtilities().value.formatCurrency(voucherStore.voucher.net_amount)"
+                                required
+                                @focus="focusNetAmount()"
                             >
                         </div>
                     </div>
@@ -236,7 +260,7 @@ onMounted(() => {
                     ACCOUNTING ENTRIES
                 </h2>
                 <form @submit.prevent="addLine">
-                    <div class="flex gap-2 bg-yellow-100 rounded-lg px-6 py-4">
+                    <div class="flex flex-col lg:flex-row gap-2 bg-yellow-100 rounded-lg px-6 py-4">
                         <div class="flex-1">
                             <label
                                 for="amountInWords"
