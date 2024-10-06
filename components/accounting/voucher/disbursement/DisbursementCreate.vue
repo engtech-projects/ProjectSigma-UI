@@ -441,7 +441,7 @@ onMounted(() => {
             <div class="flex justify-end">
                 <div class="flex gap-2 jus">
                     <NuxtLink
-                        to="/accounting/voucher"
+                        to="/accounting/voucher/disbursement"
                         class="text-white p-2 px-6 rounded bg-gray-600 content-center mt-5 rounded-md w-fit"
                     >
                         <span>Back</span>

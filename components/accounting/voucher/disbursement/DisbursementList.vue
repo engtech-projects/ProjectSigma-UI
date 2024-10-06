@@ -9,12 +9,17 @@ const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }
 
+const setEdit = (voucher) => {
+    voucherStore.voucher = voucher
+    return navigateTo("/accounting/voucher/disbursement/edit?id=" + voucher.voucher_no)
+}
+
 </script>
 <template>
     <div class="flex flex-col items-end gap-4">
         <div class="flex items-center justify-end gap-4 w-full">
             <NuxtLink
-                to="/accounting/voucher/create"
+                to="/accounting/voucher/disbursement/create"
                 class="w-48 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
             >
                 <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
@@ -38,6 +43,7 @@ const changePaginate = (newParams) => {
                             <th class="p-2">
                                 Amount
                             </th>
+                            <th />
                         </tr>
                     </thead>
                     <tbody>
@@ -53,6 +59,11 @@ const changePaginate = (newParams) => {
                             </td>
                             <td class="p-2">
                                 {{ useUtilities().value.formatCurrency(voucher.net_amount) }}
+                            </td>
+                            <td class="text-right">
+                                <button @click="setEdit(voucher)">
+                                    <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
+                                </button>
                             </td>
                         </tr>
                     </tbody>
