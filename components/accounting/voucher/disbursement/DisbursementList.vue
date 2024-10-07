@@ -9,10 +9,10 @@ const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }
 
-const setEdit = (voucher) => {
-    voucherStore.voucher = voucher
-    return navigateTo("/accounting/voucher/disbursement/edit?id=" + voucher.voucher_no)
-}
+// const setEdit = (voucher) => {
+//     voucherStore.voucher = voucher
+//     return navigateTo("/accounting/voucher/disbursement/edit?id=" + voucher.voucher_no)
+// }
 
 </script>
 <template>
@@ -43,7 +43,7 @@ const setEdit = (voucher) => {
                             <th class="p-2">
                                 Amount
                             </th>
-                            <th />
+                            <!-- <th /> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -60,11 +60,11 @@ const setEdit = (voucher) => {
                             <td class="p-2">
                                 {{ useUtilities().value.formatCurrency(voucher.net_amount) }}
                             </td>
-                            <td class="text-right">
+                            <!-- <td class="text-right">
                                 <button @click="setEdit(voucher)">
                                     <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
                                 </button>
-                            </td>
+                            </td> -->
                         </tr>
                     </tbody>
                 </table>

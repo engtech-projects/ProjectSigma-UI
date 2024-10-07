@@ -185,9 +185,22 @@ onMounted(() => {
                                 required
                             >
                         </div>
-                    </div>
-                    <div class="flex flex-col flex-1">
                         <div class="flex-1">
+                            <label
+                                for="checkNo"
+                                class="text-xs italic"
+                            >Check No.</label>
+                            <input
+                                id="checkNo"
+                                v-model="voucherStore.voucher.amount_in_words"
+                                type="text"
+                                class="w-full rounded-lg"
+                                required
+                            >
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-1 gap-2">
+                        <div class="">
                             <label
                                 for="encodedDate"
                                 class="text-xs italic"
@@ -200,7 +213,7 @@ onMounted(() => {
                                 required
                             >
                         </div>
-                        <div class="flex-1">
+                        <div class="">
                             <label
                                 for="entryDate"
                                 class="text-xs italic"
@@ -227,7 +240,7 @@ onMounted(() => {
                                 </option>
                             </select>
                         </div> -->
-                        <div class="flex-1">
+                        <div class="">
                             <label
                                 for="netAmount"
                                 class="text-xs italic"
