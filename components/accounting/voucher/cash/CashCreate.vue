@@ -11,6 +11,7 @@ const snackbar = useSnackbar()
 const loading = ref(false)
 const showNetAmount = ref(true)
 const amountElement = ref()
+const checkNo = ref(null)
 const accountEntry = ref({
     account_id: null,
     account_code: null,
@@ -25,6 +26,7 @@ async function handleSubmit () {
         loading.value = true
         voucherStore.voucher.line_items = lineItems.value
         voucherStore.voucher.payee = payeeName.value
+        voucherStore.voucher.check_no = checkNo.value
         voucherStore.voucher.voucher_no = "AJE-202402-0569" + Math.floor(Math.random() * 20000) + 1
         await voucherStore.createVoucher()
         if (voucherStore.errorMessage !== "") {
@@ -37,7 +39,7 @@ async function handleSubmit () {
                 type: "success",
                 text: voucherStore.successMessage
             })
-            navigateTo("/accounting/voucher")
+            navigateTo("/accounting/voucher/cash")
         }
     } catch (error) {
         // voucherStore.errorMessage = error.Message
@@ -192,7 +194,7 @@ onMounted(() => {
                             >Check No.</label>
                             <input
                                 id="checkNo"
-                                v-model="voucherStore.voucher.amount_in_words"
+                                v-model="checkNo"
                                 type="text"
                                 class="w-full rounded-lg"
                                 required

@@ -37,7 +37,7 @@ async function handleSubmit () {
                 type: "success",
                 text: voucherStore.successMessage
             })
-            navigateTo("/accounting/voucher")
+            navigateTo("/accounting/voucher/disbursement")
         }
     } catch (error) {
         // voucherStore.errorMessage = error.Message
