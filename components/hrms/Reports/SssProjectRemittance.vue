@@ -18,12 +18,12 @@ const generateReport = async () => {
         })
     }
 }
-const totalSssProjectRemittance = () => {
+const totalSssEmployeeContribution = () => {
     return sssGroupRemittance.value.list.reduce((accumulator, current) => {
         return accumulator + current.sss_employee_contribution
     }, 0)
 }
-const totalSssEmployerGroupRemittance = () => {
+const totalSssEmployerContribution = () => {
     return sssGroupRemittance.value.list.reduce((accumulator, current) => {
         return accumulator + current.sss_employer_contribution
     }, 0)
@@ -44,8 +44,8 @@ const sssGroupTotal = () => {
     }, 0)
 }
 const totalGroupAmountDue = () => {
-    return (totalSssProjectRemittance() +
-        totalSssEmployerGroupRemittance() +
+    return (totalSssEmployeeContribution() +
+        totalSssEmployerContribution() +
         sssTotalGroupContribution() +
         totalSssEmployerGroupCompensation() +
         sssGroupTotal())
@@ -147,10 +147,10 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                                 {{ reportData.employee_sss_id }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.sss_employee_contribution) }}
+                                {{ useFormatCurrency(reportData.sss_employer_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.sss_employer_contribution) }}
+                                {{ useFormatCurrency(reportData.sss_employee_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.total_contribution) }}
@@ -167,10 +167,10 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                                 TOTAL
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(totalSssProjectRemittance()) }}
+                                {{ useFormatCurrency(totalSssEmployerContribution()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(totalSssEmployerGroupRemittance()) }}
+                                {{ useFormatCurrency(totalSssEmployeeContribution()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
                                 {{ useFormatCurrency(sssTotalGroupContribution()) }}
