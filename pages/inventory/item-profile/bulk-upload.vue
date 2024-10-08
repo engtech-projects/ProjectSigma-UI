@@ -103,6 +103,7 @@ const storeBulkUpload = async () => {
             <LayoutLoadingContainer class="w-full" :loading="isLoading">
                 <InventoryItemProfileBulkUploadTable
                     :is-checkbox="true"
+                    :is-item-code="true"
                     title="Processed"
                     :header-columns="headers"
                     :data="main.listProcess.data"

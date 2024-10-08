@@ -34,6 +34,7 @@ export const useItemBulkProfileStore = defineStore("itemBulkProfiles", {
                             this.listProcess.data = response._data.processed
                             this.listProcess.data.map((data) => {
                                 data.isCheck = false
+                                data.item_code = ""
                                 return data
                             })
                         } else {
