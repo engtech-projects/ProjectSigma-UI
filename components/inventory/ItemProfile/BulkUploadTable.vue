@@ -19,6 +19,11 @@ defineProps({
         required: true,
         default: false,
     },
+    isItemCode: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
     headerColumns: {
         type: Array<HeaderColumn>,
         required: true,
@@ -86,13 +91,18 @@ const doBulkUpload = () => {
                                         >
                                     </th>
                                 </template>
+                                <template v-if="isItemCode">
+                                    <th scope="col" class="border-0 border-b text-sm">
+                                        Item Code
+                                    </th>
+                                </template>
                                 <template v-for="dataHeader, index in headerColumns" :key="index+'-header'">
                                     <InventoryItemProfileBulkUploadItemTh :title="dataHeader" />
                                 </template>
                             </tr>
                         </thead>
                         <tbody>
-                            <InventoryItemProfileBulkUploadItemTr :is-checkbox="isCheckbox" :data-item="data" />
+                            <InventoryItemProfileBulkUploadItemTr :is-checkbox="isCheckbox" :is-item-code="isItemCode" :data-item="data" />
                         </tbody>
                     </table>
                 </div>
