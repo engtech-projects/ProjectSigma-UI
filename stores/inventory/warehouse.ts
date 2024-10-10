@@ -25,6 +25,7 @@ export const useWarehouseStore = defineStore("warehouseStore", {
         warehouse: [] as Array<WarehouseDetails>,
         warehouseDetails: {} as WarehouseDetails,
         warehousePss: [] as Array<WarehousePss>,
+        warehousePssForm: {},
         params: {},
         isLoading: false,
         errorMessage: "",
@@ -37,7 +38,7 @@ export const useWarehouseStore = defineStore("warehouseStore", {
                 "/api/warehouse/set-pss/" + id,
                 {
                     method: "PATCH",
-                    body: this.warehousePss,
+                    body: this.warehousePssForm,
                     onRequest: () => {
                         this.isLoading = true
                     },
