@@ -43,13 +43,6 @@ const sssGroupTotal = () => {
         return accumulator + current.total_sss
     }, 0)
 }
-const totalGroupAmountDue = () => {
-    return (totalSssEmployeeContribution() +
-        totalSssEmployerContribution() +
-        sssTotalGroupContribution() +
-        totalSssEmployerGroupCompensation() +
-        sssGroupTotal())
-}
 watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
     if (newValue) {
         sssGroupRemittance.value.params.filter_month = newValue.month + 1
@@ -187,7 +180,7 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(totalGroupAmountDue()) }}
+                                {{ useFormatCurrency(sssGroupTotal()) }}
                             </td>
                         </tr>
                     </tbody>

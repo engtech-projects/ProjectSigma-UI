@@ -43,13 +43,6 @@ const sssTotal = () => {
         return accumulator + current.total_sss
     }, 0)
 }
-const totalAmountDue = () => {
-    return (totalSssEmployeeRemittance() +
-        totalSssEmployerRemittance() +
-        sssTotalContribution() +
-        totalSssEmployerCompensation() +
-        sssTotal())
-}
 watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
     if (newValue) {
         sssEmployeeRemitanceList.value.params.filter_month = newValue.month + 1
@@ -175,7 +168,7 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(totalAmountDue()) }}
+                                {{ useFormatCurrency(sssTotal()) }}
                             </td>
                         </tr>
                     </tbody>
