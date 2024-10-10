@@ -1,24 +1,41 @@
 <script setup lang="ts">
 import { useWarehouseStore } from "@/stores/inventory/warehouse"
 const warehouseStore = useWarehouseStore()
-const { warehouse, addPSS, params, warehouseList } = storeToRefs(warehouseStore)
+warehouseStore.fetchWarehouse()
+const { warehouse, warehousePss, warehouseDetails } = storeToRefs(warehouseStore)
 const isSet = ref(true)
+const wareHouseId = ref(null)
 const doSet = () => {
     isSet.value = false
 }
 const hideSet = () => {
     isSet.value = true
-    addPSS.value = []
+    warehousePss.value = []
 }
-const doAddPss = () => {
-    addPSS.value.push(
+const saveNewPss = () => {
+}
+const doPssList = () => {
+    warehousePss.value.push(
         {
             id: null,
+            user_id: null,
+            warehouse_id: wareHouseId.value,
         }
     )
 }
 const removePss = (index: number) => {
-    addPSS.value.splice(index, 1)
+    warehousePss.value.splice(index, 1)
+}
+const snackbar = useSnackbar()
+const filterWarehouse = async () => {
+    await warehouseStore.fetchWarehouseDetails(wareHouseId.value)
+    if (warehouseStore.errorMessage !== "") {
+        snackbar.add({
+            type: "error",
+            text: warehouseStore.errorMessage
+        })
+    }
+    warehouseStore.errorMessage = ""
 }
 </script>
 <template>
@@ -38,46 +55,56 @@ const removePss = (index: number) => {
                     <div class="flex flex-row gap-4 justify-start items-center">
                         <label>Choose a Warehouse :</label>
                         <select
-                            v-model="params.name"
+                            v-model="wareHouseId"
                             class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                            @change="filterWarehouse"
                         >
-                            <option v-for="item in warehouseList" :key="item.value">
-                                {{ item.value }}
+                            <option v-for="item in warehouse" :key="item.id" :value="item.id">
+                                {{ item.name }}
                             </option>
                         </select>
                     </div>
                     <div class="flex flex-row">
-                        <label for="">Warehouse Name : {{ warehouse.name }} </label>
+                        <label for="">Warehouse Name : {{ warehouseDetails.name }} </label>
                     </div>
                     <div class="flex flex-row">
-                        <label for="">Location : {{ warehouse.location }} </label>
+                        <label for="">Location : {{ warehouseDetails.location }} </label>
                     </div>
                     <div class="flex flex-col gap-2">
                         <div class="flex flex-col gap-4">
-                            <div class="flex flex-row gap-2 justify-start items-center">
-                                <label for="">PSS: {{ warehouse.pss }} </label>
-                                <div v-if="isSet" class="flex flex-row">
-                                    <button class="px-3 py-1 bg-purple-600 text-white text-xs font-bold" @click="doSet">
-                                        SET
-                                    </button>
+                            <div class="flex flex-col gap-2 justify-start items-start">
+                                <label for="">PSS: </label>
+                                <div class="flex flex-row gap-2">
+                                    <template v-for="data in warehousePss" :key="data">
+                                        <span>
+                                            {{ data.user_id }}
+                                        </span>
+                                    </template>
                                 </div>
-                                <div v-else class="flex flex-row gap-2 justify-start items-center">
-                                    <button class="px-3 py-1 bg-green-600 text-white text-xs font-bold" @click="doAddPss">
-                                        +
-                                    </button>
-                                    <button class="px-3 py-1 bg-green-600 text-white text-xs font-bold">
-                                        SAVE
-                                    </button>
-                                    <button class="px-3 py-1 bg-red-600 text-white text-xs font-bold" @click="hideSet">
-                                        CANCEL
-                                    </button>
-                                </div>
+                                <data v-show="AccessibilityTypes.inventory_warehouse_pssmanager">
+                                    <div v-if="isSet" class="flex flex-row">
+                                        <button class="px-3 py-1 bg-purple-600 text-white text-xs font-bold" @click="doSet">
+                                            SET
+                                        </button>
+                                    </div>
+                                    <div v-else class="flex flex-row gap-2 justify-start items-center">
+                                        <button class="px-3 py-1 bg-green-600 text-white text-xs font-bold" @click="doPssList">
+                                            +
+                                        </button>
+                                        <button class="px-3 py-1 bg-green-600 text-white text-xs font-bold" @click="saveNewPss">
+                                            SAVE
+                                        </button>
+                                        <button class="px-3 py-1 bg-red-600 text-white text-xs font-bold" @click="hideSet">
+                                            CANCEL
+                                        </button>
+                                    </div>
+                                </data>
                             </div>
                             <div v-show="!isSet" class="flex flex-col gap-4">
                                 <div class="flex flex-col gap-2">
-                                    <template v-for="item, itemIndex in addPSS" :key="item.value">
+                                    <template v-for="item, itemIndex in warehousePss" :key="item.value">
                                         <div class="flex flex-row justify-between gap-4">
-                                            <HrmsCommonUserEmployeeSelector v-model="item.id" class="w-full" />
+                                            <HrmsCommonUserEmployeeSelector v-model="item.user_id" class="w-full" />
                                             <div class="flex flex-row gap-2">
                                                 <button class="px-3 py-1 bg-red-600 text-white text-xs font-bold" @click="removePss(itemIndex)">
                                                     -
@@ -90,7 +117,7 @@ const removePss = (index: number) => {
                         </div>
                     </div>
                     <div class="flex flex-row">
-                        <label for="">Project Code / Department : {{ warehouse.project_code }} </label>
+                        <label for="">Project Code / Department : {{ warehouseDetails.owner_type }} </label>
                     </div>
                 </div>
             </div>

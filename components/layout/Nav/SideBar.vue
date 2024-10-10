@@ -529,7 +529,7 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.inventory_warehouse_viewonly,
+                    AccessibilityTypes.inventory_warehouse_group,
                 ])"
                 linkarea="/inventory/warehouse"
                 icon="material-symbols:warehouse-outline-rounded"

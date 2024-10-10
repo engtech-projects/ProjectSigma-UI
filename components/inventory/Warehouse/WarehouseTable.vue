@@ -2,7 +2,6 @@
 interface HeaderColumn {
     name: string,
     id: string,
-    style: string
 }
 defineProps({
     title: {

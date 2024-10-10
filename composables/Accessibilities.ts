@@ -129,6 +129,7 @@ export enum AccessibilityTypes {
     inventory_new_item_profile_all_request = "inventory:item profile_new profile all request",
     inventory_new_item_profile_my_approvals = "inventory:item profile_new profile my approvals",
     inventory_new_item_profile_forms_and_my_requests = "inventory:item profile_new profile forms and my requests",
+    inventory_warehouse_group = "inventory:warehouse_overview_",
     inventory_warehouse_viewonly = "inventory:warehouse_overview_view only",
     inventory_warehouse_pssmanager = "inventory:warehouse_oveview_pss manager",
 
