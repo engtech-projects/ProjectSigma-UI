@@ -6,7 +6,7 @@ const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        await generateReportstore.getSssEmployeeRemitance()
+        await generateReportstore.getSssEmployeeRemittance()
         snackbar.add({
             type: "success",
             text: sssEmployeeRemitanceList.value.successMessage
