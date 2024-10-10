@@ -77,6 +77,9 @@ const denyRequest = async (id : any) => {
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light font-medium">Request Status: </span> {{ data.request_status }}
                 </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium">Disbursement Status: </span> {{ data.disbursement_status }}
+                </div>
             </div>
             <div class="w-full">
                 <HrmsPayrollSalaryDisbursementDetailsTable :data="data" />
