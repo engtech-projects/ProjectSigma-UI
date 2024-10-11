@@ -117,7 +117,7 @@ watch(() => philhealthRemittanceSummaryList.value.params.month_year, (newValue) 
                                 {{ useFormatCurrency(reportData.summary.total_employee_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.summary.total_philhealth) }}
+                                {{ useFormatCurrency(reportData.summary.total_contribution) }}
                             </td>
                         </tr>
                         <tr>

@@ -73,7 +73,7 @@ const compId = useId()
                     <HrmsCommonTabsTabContainer
                         :id="compId + '5'"
                     >
-                        PLACEHOLDER
+                        <HrmsPayrollSalaryDisbursementPayslipsListPayslips />
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>
