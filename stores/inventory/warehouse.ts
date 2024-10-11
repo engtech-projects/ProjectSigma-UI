@@ -24,7 +24,11 @@ export const useWarehouseStore = defineStore("warehouseStore", {
         },
         warehouse: [] as Array<WarehouseDetails>,
         warehouseDetails: {} as WarehouseDetails,
-        warehousePss: [] as Array<WarehousePss>,
+        warehousePss: {
+            list: [] as Array<WarehousePss>,
+            isLoading: false,
+            inWarehouse: false
+        },
         warehousePssForm: {},
         params: {},
         isLoading: false,
@@ -45,7 +49,8 @@ export const useWarehouseStore = defineStore("warehouseStore", {
                     onResponse: ({ response }) => {
                         this.isLoading = false
                         if (response.ok) {
-                            this.warehouse = response._data.data
+                            this.reloadResources()
+                            this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -61,10 +66,10 @@ export const useWarehouseStore = defineStore("warehouseStore", {
                     method: "GET",
                     params: this.params,
                     onRequest: () => {
-                        this.isLoading = true
+                        this.warehousePss.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.isLoading = false
+                        this.warehousePss.isLoading = false
                         if (response.ok) {
                             this.warehouse = response._data.data
                         } else {
@@ -82,12 +87,14 @@ export const useWarehouseStore = defineStore("warehouseStore", {
                     method: "GET",
                     watch: false,
                     onRequest: () => {
-                        this.isLoading = true
+                        this.warehousePss.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.isLoading = false
+                        this.warehousePss.isLoading = false
                         if (response.ok) {
-                            this.warehouseDetails = response._data.data
+                            this.warehouseDetails = response._data.warehouse
+                            this.warehousePss.list = response._data.warehouse.warehouse_pss
+                            this.warehousePss.inWarehouse = true
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -99,6 +106,10 @@ export const useWarehouseStore = defineStore("warehouseStore", {
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
+        },
+        reloadResources () {
+            this.$reset()
+            this.fetchWarehouse()
         },
     },
 })
