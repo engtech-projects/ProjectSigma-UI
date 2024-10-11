@@ -7,7 +7,7 @@ const route = useRoute()
 const validKey = ref(false)
 if (route.query.key) {
     validKey.value = true
-    await profileStore.showItemProfile(route.query.key)
+    await profileStore.getOne(route.query.key)
 } else {
     validKey.value = false
 }
@@ -15,7 +15,7 @@ if (route.query.key) {
 await profileStore.getUOM()
 
 const headers = [
-    { name: "SKU", id: "sku" },
+    { name: "Item Code", id: "item_code" },
     { name: "Item description", id: "item_description" },
     { name: "Thickness", id: "thickness_val" },
     { name: "Length", id: "length_val" },
@@ -45,7 +45,7 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <InventoryItemProfileDetails title="Item Profile Details" :data="page.list.item_profile" :data-approval="page.list.approvals" :header-columns="headers" />
+            <InventoryItemProfileDetails title="Item Profile Details" :data="page.list.item_profile" :request="page.list" :header-columns="headers" />
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">

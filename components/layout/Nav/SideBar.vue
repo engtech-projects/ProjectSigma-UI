@@ -467,7 +467,7 @@ const config = useRuntimeConfig()
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.inventory_item_profile_group
                 ])"
-                icon="ion:ios-people"
+                icon="material-symbols:inventory-2-outline"
                 title="Item Profile"
             >
                 <LayoutNavSingle
@@ -475,7 +475,7 @@ const config = useRuntimeConfig()
                         AccessibilityTypes.inventory_new_item_profile,
                     ])"
                     linkarea="/inventory/item-profile/new-profile"
-                    icon="material-symbols:dynamic-form-outline-rounded"
+                    icon="material-symbols:add-ad"
                     single-nav-title="New Item Profile"
                 />
                 <LayoutNavSingle
@@ -483,7 +483,7 @@ const config = useRuntimeConfig()
                         AccessibilityTypes.inventory_item_profile,
                     ])"
                     linkarea="/inventory/item-profile/list-profile"
-                    icon="material-symbols:dynamic-form-outline-rounded"
+                    icon="material-symbols:view-list"
                     single-nav-title="Item Profile List"
                 />
                 <LayoutNavSingle
@@ -491,7 +491,7 @@ const config = useRuntimeConfig()
                         AccessibilityTypes.admin,
                     ])"
                     linkarea="/inventory/item-profile/bulk-upload"
-                    icon="material-symbols:dynamic-form-outline-rounded"
+                    icon="material-symbols:upload-file-outline"
                     single-nav-title="Item Profile Bulk Upload"
                 />
             </LayoutNavGroup>
@@ -527,6 +527,14 @@ const config = useRuntimeConfig()
                     single-nav-title="Unit Of Measurement"
                 />
             </LayoutNavGroup>
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.inventory_warehouse_viewonly,
+                ])"
+                linkarea="/inventory/warehouse"
+                icon="material-symbols:warehouse-outline-rounded"
+                single-nav-title="Warehouse"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Accounting -->
@@ -682,7 +690,24 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.accounting_account_groups,
                     ])"
-                    linkarea="/accounting/forms/disbursement_voucher"
+                    linkarea="/accounting/forms/request_for_adjustment"
+                    icon="iconoir:git-compare"
+                    single-nav-title="Request for Adjustment"
+                />
+            </LayoutNavGroup>
+            <LayoutNavGroup
+                v-if="useCheckAccessibility([
+                    'Admin only'
+                ])"
+                icon="iconoir:credit-cards"
+                title="Vouchers"
+            >
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_account_groups,
+                    ])"
+                    linkarea="/accounting/voucher/disbursement"
                     icon="iconoir:hand-contactless"
                     single-nav-title="Disbursement Voucher"
                 />
@@ -691,9 +716,9 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.accounting_account_groups,
                     ])"
-                    linkarea="/accounting/forms/request_for_adjustment"
-                    icon="iconoir:git-compare"
-                    single-nav-title="Request for Adjustment"
+                    linkarea="/accounting/voucher/cash"
+                    icon="iconoir:iconoir:cash"
+                    single-nav-title="Cash Voucher"
                 />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>

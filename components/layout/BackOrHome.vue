@@ -1,4 +1,10 @@
 <script lang="ts" setup>
+defineProps({
+    message: {
+        type: String,
+        default: "Page unavailable."
+    }
+})
 const router = useRouter()
 const goBackOrHome = () => {
     if (router.options.history.state.back) {
@@ -11,7 +17,10 @@ const goBackOrHome = () => {
 <template>
     <div class="flex flex-col">
         <p class="text-2xl m-auto">
-            You are not authorized to access this page. Click
+            <span>
+                {{ message }}
+            </span>
+            Click
             <span class="text-blue-600 underline cursor-pointer" @click="goBackOrHome">
                 Here
             </span>

@@ -4,12 +4,13 @@ export const useVoucherStore = defineStore("voucherStore", {
     state: () => ({
         voucher: {
             payee: null,
-            voucher_no: "AJE-202402-0566",
+            voucher_no: "AJE-202402-0567",
             particulars: null,
             net_amount: null,
             amount_in_words: null,
             date_encoded: null,
             voucher_date: null,
+            created_by: 1,
             line_items: [],
             status: "pending",
         },
@@ -32,7 +33,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.account
+                        this.list = response._data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -61,9 +62,8 @@ export const useVoucherStore = defineStore("voucherStore", {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
+                            this.successMessage = "New voucher successfully created."
                             this.getVouchers()
-                            this.reset()
-                            this.successMessage = response._data.message
                         }
                     },
                 }

@@ -9,6 +9,7 @@ import { usePersonelActionNotice } from "@/stores/hrms/pan"
 import { useCashadvanceStore } from "@/stores/hrms/loansAndCash/cashadvance"
 import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 
 // HRMS STORES
 const notifStore = useNotificationsStore()
@@ -21,6 +22,7 @@ const cashadvanceStore = useCashadvanceStore()
 const overtimeStore = useOvertimeStore()
 const genAllowanceStore = useGenerateAllowanceStore()
 const genPayrollStore = useGeneratePayrollStore()
+const itemProfileStore = useItemProfileStore()
 // INVENTORY STORES
 // ACCOUNTING STORES
 // PROJECTS STORES
@@ -43,6 +45,7 @@ const icons = {
     Overtime: "mingcute:time-line",
     GenerateAllowance: "tabler:pig-money",
     GeneratePayroll: "carbon:money",
+    RequestItemProfiling: "material-symbols:inventory-2-outline",
 }
 // const possibleLocations = {
 //     LeaveRequest: "/hrms/leave",
@@ -87,6 +90,9 @@ const openModalNotification = async () => {
             break
         case "GeneratePayroll":
             modalData.value = await genPayrollStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "RequestItemProfiling":
+            modalData.value = await itemProfileStore.getOne(prop.notification.data.metadata.id)
             break
         default:
             break
@@ -217,6 +223,12 @@ watch(showModal, (newValue, oldValue) => {
         </template>
         <template v-if=" prop.notification.data.type === 'GeneratePayroll'">
             <HrmsPayrollSalaryGeneratePayrollInfoModal
+                v-model:showModal="showModal"
+                :data="modalData.data"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'RequestItemProfiling'">
+            <InventoryItemProfileInfoModal
                 v-model:showModal="showModal"
                 :data="modalData.data"
             />
