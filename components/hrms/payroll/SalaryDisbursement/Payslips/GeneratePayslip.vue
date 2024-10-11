@@ -14,7 +14,7 @@ const selectAllEmployees = () => {
     generatePayslips.value = selectAll.value ? props.data.map((employeePayslip: any) => employeePayslip.id) : []
 }
 const generatePayslip = () => {
-    const url = new URL(config.public.HRMS_API_URL + "/api/payslip")
+    const url = new URL(config.public.HRMS_API_URL + "/payslip")
     url.searchParams.set("ids", generatePayslips.value.join(","))
     window.open(url.toString(), "_blank")
 }
