@@ -20,7 +20,7 @@ onMounted(async () => {
         ])"
         :comp-id="compId"
     >
-        <LayoutBackOrHome v-if="!route.query.id" />
+        <LayoutBackOrHome v-if="!route.query.id" message="Please select a Payroll Disbursement" />
         <LayoutBackOrHome v-else-if="salaryDisbursement?.status === 'pending'" message="Payslip is still being processed" />
         <HrmsPayrollSalaryDisbursementPayslipsGeneratePayslip v-else :data="salaryDisbursement?.data ?? {}" />
     </LayoutAcessContainer>

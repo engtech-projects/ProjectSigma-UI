@@ -13,14 +13,10 @@ const selectAll = ref(false)
 const selectAllEmployees = () => {
     generatePayslips.value = selectAll.value ? props.data.map((employeePayslip: any) => employeePayslip.id) : []
 }
-const router = useRouter()
 const generatePayslip = () => {
-    console.log(router.resolve({
-        path: config.public.HRMS_API_URL + "/api/payslip",
-        query: {
-            ids: generatePayslips.value
-        }
-    }).href)
+    const url = new URL(config.public.HRMS_API_URL + "/api/payslip")
+    url.searchParams.set("ids", generatePayslips.value.join(","))
+    window.open(url.toString(), "_blank")
 }
 </script>
 <template>
