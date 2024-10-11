@@ -15,7 +15,7 @@ const selectAllEmployees = () => {
 }
 const generatePayslip = () => {
     const url = new URL(config.public.HRMS_API_URL + "/payslip")
-    url.searchParams.set("ids", generatePayslips.value.join(","))
+    url.searchParams.set("ids", "[" + generatePayslips.value.join(",") + "]")
     window.open(url.toString(), "_blank")
 }
 </script>
