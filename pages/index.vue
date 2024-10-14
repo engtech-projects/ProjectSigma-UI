@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const { signIn } = useAuth()
+const route = useRoute()
+const redirectBackTo = route.redirectedFrom?.fullPath || "/dashboard"
 definePageMeta({
     layout: "guest",
     auth: {
@@ -36,7 +38,7 @@ const login = async () => {
                 username: userCredentials.username,
                 password: userCredentials.password,
             },
-            { callbackUrl: "/dashboard" }
+            { callbackUrl: redirectBackTo }
         )
         snackbar.add({
             type: "success",
@@ -53,7 +55,6 @@ const login = async () => {
         boardLoading.value = false
     }
 }
-// For Redeploy
 </script>
 <template>
     <div class="h-full">

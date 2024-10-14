@@ -1,42 +1,45 @@
 import { defineStore } from "pinia"
-export const useItemBulkProfileStore = defineStore("itemBulkProfiles", {
+
+export interface WarehouseDetails {
+    name: String,
+    location: String,
+    project_code: String,
+    pss: Array<any>,
+}
+
+export const useWarehouseStore = defineStore("warehouseStore", {
     state: () => ({
-        isEdit: false,
-        listUnprocess: {
-            data: [],
+        stocks: {
+            data: [
+                {
+                    item_code: "Lorem",
+                    stocks: "Lorem",
+                }
+            ],
         },
-        listDuplicates: {
-            data: [],
-        },
-        listProcess: {
-            data: [],
-        },
+        warehouse: {} as WarehouseDetails,
+        params: {},
+        warehouseList: [] as any,
+        addPSS: [] as any,
         isLoading: false,
         errorMessage: "",
         successMessage: "",
         remarks: "",
     }),
     actions: {
-        async doBulkUpload (formData: any) {
+        async fetchWarehouse () {
             await useInventoryApi(
-                "/api/item-profile/bulk-upload",
+                "/api/warehouse",
                 {
-                    method: "POST",
-                    body: formData,
+                    method: "GET",
+                    params: this.params,
                     onRequest: () => {
                         this.isLoading = true
                     },
                     onResponse: ({ response }) => {
                         this.isLoading = false
                         if (response.ok) {
-                            this.listUnprocess.data = response._data.unprocessed
-                            this.listDuplicates.data = response._data.duplicates
-                            this.listProcess.data = response._data.processed
-                            this.listProcess.data.map((data) => {
-                                data.isCheck = false
-                                data.item_code = ""
-                                return data
-                            })
+                            this.warehouseList = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -45,21 +48,23 @@ export const useItemBulkProfileStore = defineStore("itemBulkProfiles", {
                 }
             )
         },
-        async storeBulkUpload () {
+        async fetchWarehouseDetails () {
             await useInventoryApi(
-                "/api/item-profile/bulk-save",
+                "/api/warehouse",
                 {
-                    method: "POST",
-                    body: {
-                        processed: this.listProcess.data
-                    },
+                    method: "GET",
+                    params: this.params,
                     onRequest: () => {
                         this.isLoading = true
                     },
                     onResponse: ({ response }) => {
                         this.isLoading = false
                         if (response.ok) {
-                            this.successMessage = response._data.message
+                            this.stocks.data = response._data.data
+                            this.warehouse.name = response._data.data.name
+                            this.warehouse.location = response._data.data.location
+                            this.warehouse.pss = response._data.data.pss
+                            this.warehouse.project_code = response._data.data.project_code
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

@@ -98,58 +98,62 @@ export const upperFirst = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-export const amountToWords = (s: any) => {
-    s = s + ""
-    const th = ["", "thousand", "million", "billion", "trillion"]
-    const dg = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-    const tn = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
-    const tw = ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
-    s = s.toString()
-    s = s.replace(/[, ]/g, "")
+export const amountToWords = (num: any) => {
+    const lessThanTwenty = [
+        "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+        "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"
+    ]
+    const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"]
+    const thousands = ["", "Thousand", "Million", "Billion", "Trillion"]
 
-    let x = s.indexOf(".")
-    if (x === -1) {
-        x = s.length
-    }
-    if (x > 15) {
-        return "too big"
-    }
-    const n = s.split("")
-    let str = ""
-    let sk = 0
-    for (let i = 0; i < x; i++) {
-        if ((x - i) % 3 === 2) {
-            if (n[i] === "1") {
-                str += tn[Number(n[i + 1])] + " "
-                i++
-                sk = 1
-            } else if (n[i] !== 0) {
-                str += tw[n[i] - 2] + " "
-                sk = 1
-            }
-        } else if (n[i] !== 0) { // 0235
-            str += dg[n[i]] + " "
-            if ((x - i) % 3 === 0) {
-                str += "hundred "
-            }
-            sk = 1
-        }
-        if ((x - i) % 3 === 1) {
-            if (sk) {
-                str += th[(x - i - 1) / 3] + " "
-            }
-            sk = 0
+    function helper (n) {
+        if (n === 0) {
+            return ""
+        } else if (n < 20) {
+            return lessThanTwenty[n] + " "
+        } else if (n < 100) {
+            return tens[Math.floor(n / 10)] + " " + helper(n % 10)
+        } else {
+            return lessThanTwenty[Math.floor(n / 100)] + " Hundred " + helper(n % 100)
         }
     }
 
-    if (x !== s.length) {
-        const y = s.length
-        str += "point "
-        for (let i = x + 1; i < y; i++) {
-            str += dg[n[i]] + " "
+    function convertWholePart (n) {
+        if (n === 0) {
+            return "Zero"
         }
+
+        let word = ""
+        let i = 0
+
+        while (n > 0) {
+            if (n % 1000 !== 0) {
+                word = helper(n % 1000) + thousands[i] + " " + word
+            }
+            n = Math.floor(n / 1000)
+            i++
+        }
+
+        return word.trim()
     }
-    return upperFirst(str.replace(/\s+/g, " "))
+
+    function convertCents (decimalPart) {
+        const cents = Math.round(decimalPart * 100)
+        if (cents === 0) {
+            return ""
+        }
+        return "and " + helper(cents) + "Centavos"
+    }
+
+    const [wholePart, decimalPart] = num.toString().split(".")
+    const wholePartWords = convertWholePart(parseInt(wholePart))
+    const centavosWords = decimalPart ? convertCents(parseFloat("0." + decimalPart)) : ""
+
+    if (centavosWords) {
+        return wholePartWords + " Pesos " + centavosWords
+    } else {
+        return wholePartWords + " Pesos"
+    }
 }
 
 export const dateToString = (date) => {

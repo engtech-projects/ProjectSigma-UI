@@ -44,11 +44,11 @@ const doAddItemProfile = (item: any, id: number) => {
     newItemProfile.value.push(item)
     addItemProfile.value.splice(id, 1)
 }
-const showItemProfile = () => {
+const getOne = () => {
     addItemProfile.value.push(
         {
             id: null,
-            sku: "",
+            item_code: "",
             item_description: "",
             thickness_val: null,
             thickness_uom: null,
@@ -143,7 +143,7 @@ const doStoreItemProfile = async () => {
 }
 </script>
 <template>
-    <InventoryCommonLayoutItemProfileBoards title="New Profile" class="w-full" @action="showItemProfile">
+    <InventoryCommonLayoutItemProfileBoards title="New Profile" class="w-full" @action="getOne">
         <div class="pb-2 text-gray-500 overflow-x-auto mb-4">
             <table class="table-auto w-full border-collapse">
                 <thead>
@@ -191,7 +191,7 @@ const doStoreItemProfile = async () => {
                         </template>
                         <template v-if="!dataValue.is_edit">
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.sku }}
+                                {{ dataValue.item_code }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.item_description }}

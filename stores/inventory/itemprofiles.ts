@@ -1,5 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
 
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
@@ -14,7 +13,7 @@ export const REQ_STATUS = [
 
 export interface NewItemProfile {
     id: number,
-    sku: string,
+    item_code: string,
     item_description: string,
     thickness_val: number,
     thickness_uom: number,
@@ -53,7 +52,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         isEdit: false,
         itemProfile: {
             id: null,
-            sku: "",
+            item_code: "",
             item_description: "",
             thickness_val: null,
             thickness_uom: null,
@@ -388,19 +387,19 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 }
             )
         },
-        async showItemProfile (id: number) {
-            await useInventoryApi(
+        async getOne (id: number) {
+            return await useInventoryApiO(
                 "/api/item-profile/new-request/resource/" + id,
                 {
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.page.list = response._data.data
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.page.list = response._data.data
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
                     },
                 }
             )

@@ -33,11 +33,29 @@ const headers = [
     { name: "Inventory Type", id: "inventory_type" },
 ]
 
+const snackbar = useSnackbar()
+
 const BulkUpload = async (event) => {
     const file = event.target.files[0]
     const formData = new FormData()
     formData.append("file", file)
     await main.doBulkUpload(formData)
+}
+const storeBulkUpload = async () => {
+    main.listProcess.data = main.listProcess.data.filter(data => data.isCheck === true)
+    await main.storeBulkUpload()
+    if (main.errorMessage !== "") {
+        snackbar.add({
+            type: "error",
+            text: main.errorMessage
+        })
+    } else {
+        snackbar.add({
+            type: "success",
+            text: main.successMessage
+        })
+        main.$reset()
+    }
 }
 </script>
 <template>
@@ -85,12 +103,13 @@ const BulkUpload = async (event) => {
             <LayoutLoadingContainer class="w-full" :loading="isLoading">
                 <InventoryItemProfileBulkUploadTable
                     :is-checkbox="true"
+                    :is-item-code="true"
                     title="Processed"
                     :header-columns="headers"
                     :data="main.listProcess.data"
                     title-color="text-green-500"
                     icon="material-symbols:check-circle"
-                    @change-params="saveBulkUpload"
+                    @do-store-bulk-upload="storeBulkUpload"
                 />
             </LayoutLoadingContainer>
         </div>

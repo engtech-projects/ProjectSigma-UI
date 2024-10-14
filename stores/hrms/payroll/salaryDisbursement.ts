@@ -49,10 +49,12 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
         },
         payslipReadyRecords: {
             isLoading: false,
-            data: {},
+            isLoaded: false,
+            list: [],
             params: {
                 payroll_date: null,
             },
+            pagination: {},
             errorMessage: "",
             successMessage: "",
         },
@@ -146,6 +148,49 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                             }
                         } else {
                             this.myApprovals.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getPayslipReadyRecords () {
+            this.payslipReadyRecords.isLoaded = true
+            await useHRMSApi(
+                "/api/salary-disbursement/payslip-ready",
+                {
+                    method: "GET",
+                    params: this.payslipReadyRecords.params,
+                    onRequest: () => {
+                        this.payslipReadyRecords.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.payslipReadyRecords.isLoading = false
+                        if (response.ok) {
+                            this.payslipReadyRecords.list = response._data.data.data
+                            this.payslipReadyRecords.successMessage = response._data.message
+                            this.payslipReadyRecords.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        } else {
+                            this.payslipReadyRecords.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getOnePayslipReady (id: any): Promise<any> {
+            return await useHRMSApiO(
+                "/api/salary-disbursement/payslip-ready/" + id,
+                {
+                    method: "GET",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
                             throw new Error(response._data.message)
                         }
                     },
@@ -267,6 +312,9 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
             }
             if (this.myApprovals.isLoaded) {
                 callFunctions.push(this.getMyApprovals)
+            }
+            if (this.payslipReadyRecords.isLoaded) {
+                callFunctions.push(this.getPayslipReadyRecords)
             }
             this.$reset()
             this.generateDraftRequest.data.approvals = backup
