@@ -61,7 +61,7 @@ const storeBulkUpload = async () => {
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.inventory_item_profile,
+            AccessibilityTypes.inventory_itemprofile_bulkupload,
         ])"
     >
         <div class="flex flex-col gap-8 bg-white border border-gray-200 rounded-lg shadow-md p-4">
