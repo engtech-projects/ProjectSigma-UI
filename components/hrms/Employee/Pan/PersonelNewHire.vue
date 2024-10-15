@@ -13,8 +13,10 @@ pan.personelActionNotice.work_location = "Office"
         <td colspan="4">
             <label
                 for="small-input"
-                class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-            >EMPLOYEE/NEW HIRE DATA</label>
+                class="flex justify-center text-md font-medium text-blue-700 dark:text-white"
+            >
+                NEW HIRE DATA
+            </label>
         </td>
     </tr>
     <tr>
