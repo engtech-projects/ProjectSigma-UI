@@ -19,8 +19,12 @@ onMounted(() => {
 })
 const model = defineModel({ required: false, type: Number, default: null })
 const employeeSearch = useEmployeeSearch()
-employeeSearch.searchEmployees()
 const { employeesAll } = storeToRefs(employeeSearch)
+onMounted(() => {
+    if (!employeesAll.value.isLoaded) {
+        employeeSearch.searchEmployees()
+    }
+})
 const employeeId = ref<EmployeeInformation>({} as EmployeeInformation)
 watch(employeeId, (newValue) => {
     if (newValue) {

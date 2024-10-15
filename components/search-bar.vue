@@ -5,8 +5,12 @@ import { useEmployeeSearch } from "@/stores/hrms/employeeSearch"
 import type { EmployeeInformation } from "@/stores/hrms/employee"
 const employee = useEmployeeInfo()
 const employeeSearch = useEmployeeSearch()
-employeeSearch.searchEmployees()
 const { employeesAll } = storeToRefs(employeeSearch)
+onMounted(() => {
+    if (!employeesAll.value.isLoaded) {
+        employeeSearch.searchEmployees()
+    }
+})
 const employeeInfo = ref<EmployeeInformation>({} as EmployeeInformation)
 const emit = defineEmits(["searchChanged"])
 watch(employeeInfo, async (newValue) => {
