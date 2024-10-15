@@ -49,7 +49,6 @@ const showSuggest = (itemProfile:any) => {
             value: itemProfile.volume_val.value,
         },
     }
-    console.log(listObj)
     if (itemDescription.length >= 3) {
         Object.values(listObj).map((val:any) => {
             if (suggestItemCode.length < 3) {
