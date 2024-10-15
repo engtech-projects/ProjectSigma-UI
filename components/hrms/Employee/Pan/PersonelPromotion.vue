@@ -12,7 +12,9 @@ const pan = usePersonelActionNotice()
             <label
                 for="small-input"
                 class="flex justify-center text-md font-medium text-blue-700 dark:text-white"
-            >PROMOTION</label>
+            >
+                PROMOTION
+            </label>
         </td>
     </tr>
     <tr class="border border-slate-300 p-2">

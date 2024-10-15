@@ -6,12 +6,14 @@ const employee = useEmployeeInfo()
 const pan = usePersonelActionNotice()
 </script>
 <template>
-    <tr>
+    <tr class="border border-slate-300 p-2">
         <td colspan="4">
             <label
                 for="small-input"
                 class="flex justify-center text-md font-medium text-blue-700 dark:text-white"
-            >TRANSFER DATA</label>
+            >
+                TRANSFER DATA
+            </label>
         </td>
     </tr>
     <tr>

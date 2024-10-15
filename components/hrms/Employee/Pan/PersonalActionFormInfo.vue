@@ -96,7 +96,7 @@ defineProps({
                             Department
                         </dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {{ panData.department?.name }}
+                            {{ panData.department?.department_name }}
                         </dd>
                     </div>
                 </template>
@@ -140,6 +140,14 @@ defineProps({
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         {{ panData.comments }}
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Requested By
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ panData.created_by_user_name }}
                     </dd>
                 </div>
                 <LayoutApprovalsListView :approvals="panData.approvals" />
