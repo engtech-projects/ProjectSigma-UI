@@ -188,7 +188,9 @@ const setCompanyId = () => {
                                 <label
                                     for="small-input"
                                     class="flex justify-center text-md font-medium text-blue-700 dark:text-white"
-                                >APPROVAL</label>
+                                >
+                                    APPROVAL
+                                </label>
                             </td>
                         </tr>
                         <tr>

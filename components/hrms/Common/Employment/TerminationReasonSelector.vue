@@ -1,0 +1,35 @@
+<script lang="ts" setup>
+const model = defineModel({ required: false, type: String, default: null })
+const options = [
+    {
+        name: "END OF CONTRACT",
+        value: "End of Contract",
+    },
+    {
+        name: "VIOLATION",
+        value: "Violation",
+    },
+    {
+        name: "SANCTIONS",
+        value: "Sanctions",
+    },
+    {
+        name: "FORCED RESIGN",
+        value: "Force Resign",
+    },
+    {
+        name: "OTHERS",
+        value: "Others",
+    },
+]
+</script>
+<template>
+    <select v-model="model" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <option :value="null" disabled selected>
+            Choose Reason for Termination
+        </option>
+        <option v-for="data, index in options" :key="index" :value="data.value">
+            {{ data.name }}
+        </option>
+    </select>
+</template>

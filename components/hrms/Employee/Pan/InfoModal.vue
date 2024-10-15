@@ -64,7 +64,9 @@ const approvedRequest = async (id) => {
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" :title="'Personnel Action Notice for ' + data.type">
         <template #body>
             <div class="p-2">
-                <HrmsEmployeePanPersonalActionFormInfo :pan-data="data" />
+                <LayoutPrint>
+                    <HrmsEmployeePanPersonalActionFormInfo :pan-data="data" />
+                </LayoutPrint>
             </div>
         </template>
         <template #footer>

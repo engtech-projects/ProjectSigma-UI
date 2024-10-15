@@ -7,14 +7,14 @@ pan.personelActionNotice.reasons_for_termination = "Violation"
 pan.personelActionNotice.eligible_for_rehire = "No"
 </script>
 <template>
-    <tr>
+    <tr class="border border-slate-300 p-2">
         <td colspan="4">
-            <div class="w-full flex justify-center">
-                <label
-                    for="small-input"
-                    class="flex text-md font-medium text-blue-700 dark:text-white p-2"
-                >TERMINATION DATA </label>
-            </div>
+            <label
+                for="small-input"
+                class="flex justify-center text-md font-medium text-blue-700 dark:text-white"
+            >
+                TERMINATION DATA
+            </label>
         </td>
     </tr>
     <tr>
@@ -24,18 +24,7 @@ pan.personelActionNotice.eligible_for_rehire = "No"
                     for="transferDepartment"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                 >Termination Type</label>
-                <div class="md:flex gap-2 space-x-2 p-2">
-                    <input id="terminationVoluntary" v-model="pan.personelActionNotice.type_of_termination" class="" type="radio" value="Voluntary">
-                    <label
-                        for="terminationVoluntary"
-                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                    >VOLUNTARY</label>
-                    <input id="terminationInvoluntary" v-model="pan.personelActionNotice.type_of_termination" class="" type="radio" value="Involuntary">
-                    <label
-                        for="terminationInvoluntary"
-                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                    >INVOLUNTARY</label>
-                </div>
+                <HrmsCommonEmploymentTerminationTypeSelector v-model="pan.personelActionNotice.type_of_termination" />
             </div>
         </td>
         <td colspan="2" class="border border-slate-300 p-2">
@@ -44,23 +33,7 @@ pan.personelActionNotice.eligible_for_rehire = "No"
                     for="transferDepartment"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
                 >Termination Reason</label>
-                <div class="md:flex gap-2 space-x-2 p-2">
-                    <input id="noticeForReasonViolation" v-model="pan.personelActionNotice.reasons_for_termination" class="" type="radio" value="Violation">
-                    <label
-                        for="noticeForReasonViolation"
-                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                    >VIOLATION</label>
-                    <input id="noticeForReasonSanctions" v-model="pan.personelActionNotice.reasons_for_termination" class="" type="radio" value="Sanctions">
-                    <label
-                        for="noticeForReasonSanctions"
-                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                    >SANCTIONS</label>
-                    <input id="noticeForReasonForceResign" v-model="pan.personelActionNotice.reasons_for_termination" class="" type="radio" value="Force Resign">
-                    <label
-                        for="noticeForReasonForceResign"
-                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                    >FORCED RESIGN</label>
-                </div>
+                <HrmsCommonEmploymentTerminationReasonSelector v-model="pan.personelActionNotice.reasons_for_termination" />
             </div>
         </td>
     </tr>
