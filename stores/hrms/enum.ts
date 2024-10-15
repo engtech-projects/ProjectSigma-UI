@@ -101,6 +101,14 @@ export const useEnumsStore = defineStore("enums", {
             successMessage: "",
             errorMessage: "",
         },
+        userEmployeeHeadsEnum: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as UserEmployee[],
+            params: {},
+            successMessage: "",
+            errorMessage: "",
+        },
         allEmployeeEnum: {
             isLoading: false,
             isLoaded: false,
@@ -254,6 +262,24 @@ export const useEnumsStore = defineStore("enums", {
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.userEmployeeEnum.list = response._data.data ?? []
+                        }
+                    },
+                }
+            )
+        },
+        async getUserEmployeeHeadsEnums () {
+            this.userEmployeeHeadsEnum.isLoaded = true
+            await useHRMSApiO(
+                "/api/enums/employee-heads",
+                {
+                    method: "GET",
+                    params: this.userEmployeeHeadsEnum.params,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.userEmployeeHeadsEnum.list = response._data.data ?? []
                         }
                     },
                 }

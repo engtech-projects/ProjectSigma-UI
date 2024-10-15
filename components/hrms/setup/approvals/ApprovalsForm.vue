@@ -98,28 +98,47 @@ const changePaginate = (newParams) => {
                                             type="text"
                                         >
                                     </div>
-
                                     <div>
-                                        <input
-                                            :id="index2 + 'user_selector' + index"
-                                            v-model="approvers.userselector"
-                                            type="radio"
-                                            :value="true"
-                                            :name="index2 + 'radio1' + index"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                            @change="setSelector(approvers)"
-                                        >
-                                        <label
-                                            :for="index2 + 'user_selector' + index"
-                                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                                        >Employee
-                                            Selector</label>
+                                        <div class="flex items-center">
+                                            <input
+                                                :id="index2 + 'user_selector' + index"
+                                                v-model="approvers.selector_type"
+                                                type="radio"
+                                                value="employee"
+                                                :name="index2 + 'radio1' + index"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                @change="setSelector(approvers)"
+                                            >
+                                            <label
+                                                :for="index2 + 'user_selector' + index"
+                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            >
+                                                Employee Selector
+                                            </label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input
+                                                :id="index2 + 'head_selector' + index"
+                                                v-model="approvers.selector_type"
+                                                type="radio"
+                                                value="head"
+                                                :name="index2 + 'radio1' + index"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                @change="setSelector(approvers)"
+                                            >
+                                            <label
+                                                :for="index2 + 'head_selector' + index"
+                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            >
+                                                Head Selector
+                                            </label>
+                                        </div>
                                         <div class="flex items-center">
                                             <input
                                                 :id="index2 + 'employee_selector' + index"
-                                                v-model="approvers.userselector"
+                                                v-model="approvers.selector_type"
                                                 type="radio"
-                                                :value="false"
+                                                value="specific"
                                                 :name="index2 + 'radio2' + index"
                                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                                 @change="setSelector(approvers)"
@@ -127,8 +146,9 @@ const changePaginate = (newParams) => {
                                             <label
                                                 :for="index2 + 'employee_selector' + index"
                                                 class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                                            >Specific
-                                                Employee</label>
+                                            >
+                                                Specific Employee
+                                            </label>
                                             <HrmsCommonUserEmployeeSelector
                                                 id="users_list"
                                                 v-model="approvers.user_id"

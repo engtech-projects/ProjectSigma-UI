@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 
+// HRMS APPROVALS
 export const APPROVAL_MANPOWERREQ = "Manpower Request"
 export const APPROVAL_TRAVELORDER = "Travel Order"
 export const APPROVAL_OVERTIME = "Overtime"
@@ -9,6 +10,9 @@ export const APPROVAL_GP = "Payroll"
 export const APPROVAL_LEAVE = "Leave"
 export const APPROVAL_FAILTOLOG = "Failure To Log"
 export const APPROVAL_SALARYDISBURSEMENT = "Salary Disbursement"
+// ACCOUNTING APPROVALS
+// INVENTORY APPROVALS
+export const APPROVAL_NEW_ITEM_PROFILE = "New Item Profile"
 
 export interface Approver {
     type: string,
@@ -31,6 +35,30 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
         },
         errorMessage: "",
         successMessage: "",
+        hrmsApprovals: {
+            isLoaded: false,
+            isLoading: false,
+            list: [],
+            params: {},
+            successMessage: "",
+            errorMessage: "",
+        },
+        accountingApprovals: {
+            isLoaded: false,
+            isLoading: false,
+            list: [],
+            params: {},
+            successMessage: "",
+            errorMessage: "",
+        },
+        inventoryApprovals: {
+            isLoaded: false,
+            isLoading: false,
+            list: [],
+            params: {},
+            successMessage: "",
+            errorMessage: "",
+        },
     }),
     actions: {
         async getApproval () {
@@ -75,7 +103,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                                     type: approv.type,
                                     status: "Pending",
                                     user_id: approv.user_id,
-                                    userselector: approv.userselector,
+                                    selector_type: approv.selector_type,
                                     date_approved: "",
                                     remarks: "",
                                     employee: approv.employee,
@@ -93,7 +121,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                         type: approv.type,
                         status: "Pending",
                         user_id: approv.user_id,
-                        userselector: approv.userselector,
+                        selector_type: approv.selector_type,
                         date_approved: "",
                         remarks: "",
                         employee: approv.employee,
