@@ -23,12 +23,12 @@ export interface PersonelActionNotice {
     employee_id: Number,
     company_id_num: null | String,
     section_department_id: null | Number,
+    projects: Array<Number>
     designation_position: Number,
     hire_source: String,
     work_location: String,
     employment_status: String,
     comments: String,
-    department: Array<Department>
     type_of_termination: String,
     reasons_for_termination: String,
     eligible_for_rehire: String,
@@ -54,7 +54,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             employee_id: null as null | Number,
             company_id_num: null as null | String,
             section_department_id: null as null | Number,
-            department: [] as Array<Department>,
+            projects: [] as Array<Number>,
             designation_position: null as Number | null,
             hire_source: null as String | null,
             work_location: null as String | null,
