@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
+const profileStore = useItemProfileStore()
+const { uom } = storeToRefs(profileStore)
+
 const props = defineProps({
     index: {
         type: Number,
@@ -23,54 +27,65 @@ const doRemoveItem = (item:any) => {
 }
 const itemProfile = defineModel("itemProfile", { required: true, type: Object, default: null })
 
-function shuffleString (str:String) {
-    const chars = str.split("")
-    for (let i = chars.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        chars[i] = chars[j]
-        chars[j] = chars[i]
-    }
-    return chars.join("")
-}
+const getTypeUOM = (id:number) => {
+    if (uom.value.length >= 1) {
+        const symbol = uom.value.map((data: any) => {
+            return data.id === id ? data.symbol : null
+        }).filter((num:any): num is number => num !== null)
 
-const showSuggest = (itemProfile:any) => {
-    let code = ""
-    const suggestItemCode = []
-    const listObj = {
-        item_code: itemProfile.item_code,
-        item_description: itemProfile.item_description,
-        thickness_val: itemProfile.thickness_val,
-        thickness_uom: itemProfile.thickness_uom,
-        length_val: itemProfile.length_val,
-        length_uom: itemProfile.length_uom,
-        width_val: itemProfile.width_val,
-        width_uom: itemProfile.width_uom,
-        height_val: itemProfile.height_val,
-        height_uom: itemProfile.height_uom,
-        outside_diameter_val: itemProfile.outside_diameter_val,
-        outside_diameter_uom: itemProfile.outside_diameter_uom,
-        inside_diameter_val: itemProfile.inside_diameter_val,
-        inside_diameter_uom: itemProfile.inside_diameter_uom,
-        specification: itemProfile.specification,
-        volume_val: itemProfile.volume_val,
-        volume_uom: itemProfile.volume_uom,
-        grade: itemProfile.grade,
-        color: itemProfile.color,
+        return symbol ? symbol[0] : null
     }
-    const mapVal = Object.values(listObj).map((val:any) => {
-        if (val !== null && val !== "") {
+    return null
+}
+const showSuggest = (itemProfile:any) => {
+    const suggestItemCode:any = []
+    const itemDescription = String(itemProfile.item_description).slice(0, 3)
+    const listObj = {
+        thickness: {
+            uom: getTypeUOM(itemProfile.thickness_uom),
+            value: itemProfile.thickness_val,
+        },
+        length: {
+            uom: getTypeUOM(itemProfile.length_uom),
+            value: itemProfile.length_val,
+        },
+        width: {
+            uom: getTypeUOM(itemProfile.width_uom),
+            value: itemProfile.width_val,
+        },
+        height: {
+            uom: getTypeUOM(itemProfile.height_uom),
+            value: itemProfile.height_val,
+        },
+        outside: {
+            uom: getTypeUOM(itemProfile.outside_diameter_uom),
+            value: itemProfile.outside_diameter_val,
+        },
+        inside: {
+            uom: getTypeUOM(itemProfile.inside_diameter_uom),
+            value: itemProfile.inside_diameter_val,
+        },
+        volume: {
+            uom: getTypeUOM(itemProfile.volume_uom),
+            value: itemProfile.volume_val,
+        },
+    }
+    if (itemDescription.length >= 3) {
+        Object.values(listObj).map((val:any) => {
+            if (suggestItemCode.length < 3) {
+                if (val.uom !== "" && val.uom !== null && val.uom !== undefined) {
+                    if (val.value === "" || val.value === null || val.value === undefined) {
+                        val.value = 0
+                    }
+                    const code = `${itemDescription}${val.value}${val.uom}`
+                    suggestItemCode.push(code.toUpperCase().replace(/\s+/g, ""))
+                }
+            }
             return val
+        })
+        if (suggestItemCode.length >= 1) {
+            return suggestItemCode
         }
-        return ""
-    }).join("")
-    code = mapVal.slice(0, 10)
-    if (code !== "") {
-        suggestItemCode.push(code.toUpperCase().replace(/\s+/g, ""))
-        let newCode = shuffleString(code)
-        suggestItemCode.push(newCode.toUpperCase().replace(/\s+/g, ""))
-        newCode = shuffleString(code)
-        suggestItemCode.push(newCode.toUpperCase().replace(/\s+/g, ""))
-        return suggestItemCode
     }
 }
 const selectSuggest = (item:any, itemProfile:any) => {

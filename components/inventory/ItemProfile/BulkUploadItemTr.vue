@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const compId = useId()
-
 defineProps({
     isCheckbox: {
         type: Boolean,
@@ -19,56 +17,59 @@ defineProps({
     }
 })
 const showSuggest = (itemProfile:any) => {
-    let code = ""
-    const suggestItemCode = []
+    const suggestItemCode:any = []
+    const itemDescription = String(itemProfile.item_description.value).slice(0, 3)
     const listObj = {
-        item_code: itemProfile.item_code,
-        item_description: itemProfile.item_description.value,
-        thickness_val: itemProfile.thickness_val.value,
-        thickness_uom: itemProfile.thickness_uom.value,
-        length_val: itemProfile.length_val.value,
-        length_uom: itemProfile.length_uom.value,
-        width_val: itemProfile.width_val.value,
-        width_uom: itemProfile.width_uom.value,
-        height_val: itemProfile.height_val.value,
-        height_uom: itemProfile.height_uom.value,
-        outside_diameter_val: itemProfile.outside_diameter_val.value,
-        outside_diameter_uom: itemProfile.outside_diameter_uom.value,
-        inside_diameter_val: itemProfile.inside_diameter_val.value,
-        inside_diameter_uom: itemProfile.inside_diameter_uom.value,
-        specification: itemProfile.specification.value,
-        volume_val: itemProfile.volume_val.value,
-        volume_uom: itemProfile.volume_uom.value,
-        grade: itemProfile.grade.value,
-        color: itemProfile.color.value,
+        thickness: {
+            uom: itemProfile.thickness_uom.value,
+            value: itemProfile.thickness_val.value,
+        },
+        length: {
+            uom: itemProfile.length_uom.value,
+            value: itemProfile.length_val.value,
+        },
+        width: {
+            uom: itemProfile.width_uom.value,
+            value: itemProfile.width_val.value,
+        },
+        height: {
+            uom: itemProfile.height_uom.value,
+            value: itemProfile.height_val.value,
+        },
+        outside: {
+            uom: itemProfile.outside_diameter_uom.value,
+            value: itemProfile.outside_diameter_val.value,
+        },
+        inside: {
+            uom: itemProfile.inside_diameter_uom.value,
+            value: itemProfile.inside_diameter_val.value,
+        },
+        volume: {
+            uom: itemProfile.volume_uom.value,
+            value: itemProfile.volume_val.value,
+        },
     }
-    const mapVal = Object.values(listObj).map((val:any) => {
-        if (val !== null && val !== "") {
+    console.log(listObj)
+    if (itemDescription.length >= 3) {
+        Object.values(listObj).map((val:any) => {
+            if (suggestItemCode.length < 3) {
+                if (val.uom !== "" && val.uom !== null && val.uom !== undefined) {
+                    if (val.value === "" || val.value === null || val.value === undefined) {
+                        val.value = 0
+                    }
+                    const code = `${itemDescription}${val.value}${val.uom}`
+                    suggestItemCode.push(code.toUpperCase().replace(/\s+/g, ""))
+                }
+            }
             return val
+        })
+        if (suggestItemCode.length >= 1) {
+            return suggestItemCode
         }
-        return ""
-    }).join("")
-    code = mapVal.slice(0, 10)
-    if (code !== "") {
-        suggestItemCode.push(code.toUpperCase().replace(/\s+/g, ""))
-        let newCode = shuffleString(code)
-        suggestItemCode.push(newCode.toUpperCase().replace(/\s+/g, ""))
-        newCode = shuffleString(code)
-        suggestItemCode.push(newCode.toUpperCase().replace(/\s+/g, ""))
-        return suggestItemCode
     }
 }
 const selectSuggest = (item:any, itemProfile:any) => {
     itemProfile.item_code = item
-}
-function shuffleString (str:String) {
-    const chars = str.split("")
-    for (let i = chars.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        chars[i] = chars[j]
-        chars[j] = chars[i]
-    }
-    return chars.join("")
 }
 </script>
 <template>
