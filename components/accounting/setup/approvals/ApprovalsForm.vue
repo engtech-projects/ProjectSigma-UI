@@ -1,16 +1,18 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { useApprovalStore } from "@/stores/accounting/approvals"
+import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 
 const approvals = useApprovalStore()
 
-const { list: approvalsList, errorMessage, successMessage, formApproval, pagination, getParams } = storeToRefs(approvals)
-
+const { accountingApprovals, editApproval } = storeToRefs(approvals)
+onMounted(() => {
+    if (!accountingApprovals.value.isLoaded) {
+        approvals.getAccountingApprovals()
+    }
+})
 const snackbar = useSnackbar()
-const boardLoading = ref(false)
 
 const setSelector = (appr) => {
-    if (appr.userselector === true) {
+    if (appr.selector_type !== "specific") {
         appr.user_id = null
     }
 }
@@ -18,40 +20,32 @@ const addApprover = (appr) => {
     appr.push({
         type: "",
         user_id: null,
-        userselector: true
+        selector_type: "specific",
     })
 }
-
 const delApprover = (approvals, ind) => {
     approvals.splice(ind, 1)
 }
-
 const submitApprov = async (approval) => {
     try {
-        boardLoading.value = true
-        formApproval.value = approval
-        await approvals.editApprovals()
+        await approvals.editApprovals(approval)
         snackbar.add({
             type: "success",
-            text: approvals.successMessage,
+            text: editApproval.value.successMessage,
         })
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: error.message,
+            text: editApproval.value.errorMessage,
         })
-    } finally {
-        approvals.clearMessages()
-        boardLoading.value = false
     }
 }
-
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    accountingApprovals.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>
-    <LayoutBoards title="Approvals" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="Approvals" class="w-full" :loading="accountingApprovals.isLoading">
         <div class="pb-2 text-gray-500">
             <table class="table-auto w-full border-collapse">
                 <thead>
@@ -68,7 +62,7 @@ const changePaginate = (newParams) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(approv, index) in approvalsList" :key="index" class="border-2 border-slate-300 ">
+                    <tr v-for="(approv, index) in accountingApprovals.list" :key="index" class="border-2 border-slate-300 ">
                         <td class="p-2">
                             {{ approv.form }}
                         </td>
@@ -98,28 +92,47 @@ const changePaginate = (newParams) => {
                                             type="text"
                                         >
                                     </div>
-
                                     <div>
-                                        <input
-                                            :id="index2 + 'user_selector' + index"
-                                            v-model="approvers.userselector"
-                                            type="radio"
-                                            :value="true"
-                                            :name="index2 + 'radio1' + index"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                            @change="setSelector(approvers)"
-                                        >
-                                        <label
-                                            :for="index2 + 'user_selector' + index"
-                                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                                        >Employee
-                                            Selector</label>
+                                        <div class="flex items-center">
+                                            <input
+                                                :id="index2 + 'user_selector' + index"
+                                                v-model="approvers.selector_type"
+                                                type="radio"
+                                                value="employee"
+                                                :name="index2 + 'radio1' + index"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                @change="setSelector(approvers)"
+                                            >
+                                            <label
+                                                :for="index2 + 'user_selector' + index"
+                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            >
+                                                Employee Selector
+                                            </label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input
+                                                :id="index2 + 'head_selector' + index"
+                                                v-model="approvers.selector_type"
+                                                type="radio"
+                                                value="head"
+                                                :name="index2 + 'radio1' + index"
+                                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                @change="setSelector(approvers)"
+                                            >
+                                            <label
+                                                :for="index2 + 'head_selector' + index"
+                                                class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            >
+                                                Head Selector
+                                            </label>
+                                        </div>
                                         <div class="flex items-center">
                                             <input
                                                 :id="index2 + 'employee_selector' + index"
-                                                v-model="approvers.userselector"
+                                                v-model="approvers.selector_type"
                                                 type="radio"
-                                                :value="false"
+                                                value="specific"
                                                 :name="index2 + 'radio2' + index"
                                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                                 @change="setSelector(approvers)"
@@ -127,12 +140,13 @@ const changePaginate = (newParams) => {
                                             <label
                                                 :for="index2 + 'employee_selector' + index"
                                                 class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                                            >Specific
-                                                Employee</label>
+                                            >
+                                                Specific Employee
+                                            </label>
                                             <HrmsCommonUserEmployeeSelector
                                                 id="users_list"
                                                 v-model="approvers.user_id"
-                                                :disabled="approvers.userselector === true"
+                                                :disabled="approvers.selector_type !== 'specific'"
                                             />
                                         </div>
                                     </div>
@@ -159,18 +173,8 @@ const changePaginate = (newParams) => {
                 </tbody>
             </table>
         </div>
-        <p
-            hidden
-            class="error-message text-red-600 text-center font-semibold mt-2 italic"
-            :class="{ 'fade-out': !errorMessage }"
-        >
-            {{ errorMessage }}
-        </p>
-        <p v-show="successMessage" hidden class="success-message text-green-600 text-center font-semibold italic">
-            {{ successMessage }}
-        </p>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="pagination" @change-params="changePaginate" />
+            <CustomPagination :links="accountingApprovals.pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
 </template>
