@@ -10,11 +10,17 @@ const model = defineModel({ required: true, type: Object })
         </div>
 
         <div class="flex flex-col">
-            <div v-if="model.userselector">
+            <div v-if="model.selector_type === 'employee'">
                 <HrmsCommonUserEmployeeSelector v-model="model.user_id" />
             </div>
+            <div v-else-if="model.selector_type === 'head'">
+                <HrmsCommonUserHeadsSelector v-model="model.user_id" />
+            </div>
+            <div v-else-if="model.employee">
+                <span class="font-semibold">{{ model.employee?.fullname_first }}</span>
+            </div>
             <div v-else>
-                <span class="font-semibold">{{ model.employee.fullname_first }}</span>
+                <span class="font-semibold">Please Fix Approval</span>
             </div>
         </div>
     </div>
