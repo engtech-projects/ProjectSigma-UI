@@ -103,6 +103,19 @@ const addRange = async () => {
                             min="0"
                             required
                         >
+                        <label
+                            for="employerWisp"
+                            class="text-sm italic"
+                        >Employer WISP</label>
+                        <input
+                            id="employerWisp"
+                            v-model="contribution.employer_wisp"
+                            type="number"
+                            class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
+                            required
+                        >
                     </div>
                     <div>
                         <label
@@ -125,6 +138,19 @@ const addRange = async () => {
                         <input
                             id="employeeCompensation"
                             v-model="contribution.employee_compensation"
+                            type="number"
+                            class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
+                            required
+                        >
+                        <label
+                            for="employeeWistp"
+                            class="text-sm italic"
+                        >Employee WISP</label>
+                        <input
+                            id="employeeWistp"
+                            v-model="contribution.employee_wisp"
                             type="number"
                             class="w-full rounded-lg"
                             step=".01"
