@@ -106,6 +106,20 @@ const handleInput = (model, field) => {
                             min="0"
                             required
                         >
+                        <label
+                            for="employerWisp"
+                            class="text-sm italic"
+                        >Employer WISP</label>
+                        <input
+                            id="employerWisp"
+                            v-model="contribution.employer_wisp"
+                            v-oninput="handleInput(contribution, 'employer_wisp')"
+                            type="number"
+                            class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
+                            required
+                        >
                     </div>
                     <div>
                         <label
@@ -130,6 +144,20 @@ const handleInput = (model, field) => {
                             id="employeeContrib"
                             v-model="contribution.employee_compensation"
                             v-oninput="handleInput(contribution, 'employee_compensation')"
+                            type="number"
+                            class="w-full rounded-lg"
+                            step=".01"
+                            min="0"
+                            required
+                        >
+                        <label
+                            for="employeeWisp"
+                            class="text-sm italic"
+                        >Employee WISP</label>
+                        <input
+                            id="employeeWisp"
+                            v-model="contribution.employee_wisp"
+                            v-oninput="handleInput(contribution, 'employee_wisp')"
                             type="number"
                             class="w-full rounded-lg"
                             step=".01"
