@@ -23,70 +23,14 @@ const doRemoveItem = (item:any) => {
 }
 const itemProfile = defineModel("itemProfile", { required: true, type: Object, default: null })
 
-function shuffleString (str:String) {
-    const chars = str.split("")
-    for (let i = chars.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        chars[i] = chars[j]
-        chars[j] = chars[i]
-    }
-    return chars.join("")
-}
-
-const showSuggest = (itemProfile:any) => {
-    let code = ""
-    const suggestItemCode = []
-    const listObj = {
-        item_code: itemProfile.item_code,
-        item_description: itemProfile.item_description,
-        thickness_val: itemProfile.thickness_val,
-        thickness_uom: itemProfile.thickness_uom,
-        length_val: itemProfile.length_val,
-        length_uom: itemProfile.length_uom,
-        width_val: itemProfile.width_val,
-        width_uom: itemProfile.width_uom,
-        height_val: itemProfile.height_val,
-        height_uom: itemProfile.height_uom,
-        outside_diameter_val: itemProfile.outside_diameter_val,
-        outside_diameter_uom: itemProfile.outside_diameter_uom,
-        inside_diameter_val: itemProfile.inside_diameter_val,
-        inside_diameter_uom: itemProfile.inside_diameter_uom,
-        specification: itemProfile.specification,
-        volume_val: itemProfile.volume_val,
-        volume_uom: itemProfile.volume_uom,
-        grade: itemProfile.grade,
-        color: itemProfile.color,
-    }
-    const mapVal = Object.values(listObj).map((val:any) => {
-        if (val !== null && val !== "") {
-            return val
-        }
-        return ""
-    }).join("")
-    code = mapVal.slice(0, 10)
-    if (code !== "") {
-        suggestItemCode.push(code.toUpperCase().replace(/\s+/g, ""))
-        let newCode = shuffleString(code)
-        suggestItemCode.push(newCode.toUpperCase().replace(/\s+/g, ""))
-        newCode = shuffleString(code)
-        suggestItemCode.push(newCode.toUpperCase().replace(/\s+/g, ""))
-        return suggestItemCode
-    }
-}
-const selectSuggest = (item:any, itemProfile:any) => {
-    itemProfile.item_code = item
-}
 </script>
 <template>
     <tr class="border-b-2 border-gray-300">
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsTextInputSelect
                 v-model="itemProfile.item_code"
-                :item-suggest="showSuggest(itemProfile)"
                 :item-profile="itemProfile"
                 title="Item Code"
-                @show-suggest="showSuggest"
-                @select-suggest="selectSuggest"
             />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">

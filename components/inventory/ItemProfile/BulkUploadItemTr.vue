@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const compId = useId()
-
 defineProps({
     isCheckbox: {
         type: Boolean,
@@ -18,58 +16,6 @@ defineProps({
         default: null,
     }
 })
-const showSuggest = (itemProfile:any) => {
-    let code = ""
-    const suggestItemCode = []
-    const listObj = {
-        item_code: itemProfile.item_code,
-        item_description: itemProfile.item_description.value,
-        thickness_val: itemProfile.thickness_val.value,
-        thickness_uom: itemProfile.thickness_uom.value,
-        length_val: itemProfile.length_val.value,
-        length_uom: itemProfile.length_uom.value,
-        width_val: itemProfile.width_val.value,
-        width_uom: itemProfile.width_uom.value,
-        height_val: itemProfile.height_val.value,
-        height_uom: itemProfile.height_uom.value,
-        outside_diameter_val: itemProfile.outside_diameter_val.value,
-        outside_diameter_uom: itemProfile.outside_diameter_uom.value,
-        inside_diameter_val: itemProfile.inside_diameter_val.value,
-        inside_diameter_uom: itemProfile.inside_diameter_uom.value,
-        specification: itemProfile.specification.value,
-        volume_val: itemProfile.volume_val.value,
-        volume_uom: itemProfile.volume_uom.value,
-        grade: itemProfile.grade.value,
-        color: itemProfile.color.value,
-    }
-    const mapVal = Object.values(listObj).map((val:any) => {
-        if (val !== null && val !== "") {
-            return val
-        }
-        return ""
-    }).join("")
-    code = mapVal.slice(0, 10)
-    if (code !== "") {
-        suggestItemCode.push(code.toUpperCase().replace(/\s+/g, ""))
-        let newCode = shuffleString(code)
-        suggestItemCode.push(newCode.toUpperCase().replace(/\s+/g, ""))
-        newCode = shuffleString(code)
-        suggestItemCode.push(newCode.toUpperCase().replace(/\s+/g, ""))
-        return suggestItemCode
-    }
-}
-const selectSuggest = (item:any, itemProfile:any) => {
-    itemProfile.item_code = item
-}
-function shuffleString (str:String) {
-    const chars = str.split("")
-    for (let i = chars.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        chars[i] = chars[j]
-        chars[j] = chars[i]
-    }
-    return chars.join("")
-}
 </script>
 <template>
     <tr v-for="data, index in dataItem" :id="compId" :key="index + '-item'" class="bg-white border-b">
@@ -82,11 +28,9 @@ function shuffleString (str:String) {
             <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
                 <InventoryCommonFormPsTextInputSelect
                     v-model="data.item_code"
-                    :item-suggest="showSuggest(data)"
                     :item-profile="data"
                     title="Item Code"
-                    @show-suggest="showSuggest(data)"
-                    @select-suggest="selectSuggest"
+                    :isStandard=false
                 />
             </td>
         </template>
