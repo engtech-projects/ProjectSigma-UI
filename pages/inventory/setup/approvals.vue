@@ -1,16 +1,7 @@
 <script setup>
-
-import { storeToRefs } from "pinia"
-import { useApprovalStore } from "@/stores/inventory/setup/approvals"
 import { useInventoryEnumsStore } from "@/stores/inventory/enum"
-
-const approvals = useApprovalStore()
-const { isEdit } = storeToRefs(approvals)
-approvals.getApproval()
-
 const enums = useInventoryEnumsStore()
 await enums.getUserEmployeeEnums()
-
 useHead({
     title: "Approvals",
 })
@@ -22,7 +13,7 @@ useHead({
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">
-            <InventorySetupApprovalsForm v-show="!isEdit" />
+            <InventorySetupApprovalsForm />
         </div>
     </LayoutAcessContainer>
 </template>
