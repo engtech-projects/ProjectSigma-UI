@@ -435,9 +435,6 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }
