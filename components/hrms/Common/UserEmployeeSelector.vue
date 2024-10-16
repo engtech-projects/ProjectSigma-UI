@@ -35,7 +35,6 @@ const model = defineModel({ required: false, type: Number, default: null })
                 v-for="userSelect, userSelector in userEmployeeEnum.list"
                 :key="userSelector"
                 :value="userSelect.id"
-
             >
                 {{ userSelect.employee.fullname_first }}
             </option>
