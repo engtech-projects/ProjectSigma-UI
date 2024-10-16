@@ -147,6 +147,7 @@ const changePaginate = (newParams) => {
                                                 id="users_list"
                                                 v-model="approvers.user_id"
                                                 :disabled="approvers.selector_type !== 'specific'"
+                                                :required="approvers.selector_type === 'specific'"
                                             />
                                         </div>
                                     </div>
