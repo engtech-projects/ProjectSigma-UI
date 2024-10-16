@@ -16,60 +16,6 @@ defineProps({
         default: null,
     }
 })
-const showSuggest = (itemProfile:any) => {
-    const suggestItemCode:any = []
-    const itemDescription = String(itemProfile.item_description.value).slice(0, 3)
-    const listObj = {
-        thickness: {
-            uom: itemProfile.thickness_uom.value,
-            value: itemProfile.thickness_val.value,
-        },
-        length: {
-            uom: itemProfile.length_uom.value,
-            value: itemProfile.length_val.value,
-        },
-        width: {
-            uom: itemProfile.width_uom.value,
-            value: itemProfile.width_val.value,
-        },
-        height: {
-            uom: itemProfile.height_uom.value,
-            value: itemProfile.height_val.value,
-        },
-        outside: {
-            uom: itemProfile.outside_diameter_uom.value,
-            value: itemProfile.outside_diameter_val.value,
-        },
-        inside: {
-            uom: itemProfile.inside_diameter_uom.value,
-            value: itemProfile.inside_diameter_val.value,
-        },
-        volume: {
-            uom: itemProfile.volume_uom.value,
-            value: itemProfile.volume_val.value,
-        },
-    }
-    if (itemDescription.length >= 3) {
-        Object.values(listObj).map((val:any) => {
-            if (suggestItemCode.length < 3) {
-                if (val.uom !== "" && val.uom !== null && val.uom !== undefined) {
-                    if (val.value === "" || val.value === null || val.value === undefined) {
-                        val.value = 0
-                    }
-                    const code = `${itemDescription}${val.value}${val.uom}`
-                    suggestItemCode.push(code.toUpperCase().replace(/\s+/g, ""))
-                }
-            }
-            return val
-        })
-        if (suggestItemCode.length >= 1) {
-            return suggestItemCode
-        }
-    }
-}
-const selectSuggest = (item:any, itemProfile:any) => {
-    itemProfile.item_code = item
-}
 </script>
 <template>
     <tr v-for="data, index in dataItem" :id="compId" :key="index + '-item'" class="bg-white border-b">
@@ -82,11 +28,9 @@ const selectSuggest = (item:any, itemProfile:any) => {
             <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
                 <InventoryCommonFormPsTextInputSelect
                     v-model="data.item_code"
-                    :item-suggest="showSuggest(data)"
                     :item-profile="data"
                     title="Item Code"
-                    @show-suggest="showSuggest(data)"
-                    @select-suggest="selectSuggest"
+                    :isStandard=false
                 />
             </td>
         </template>
