@@ -44,8 +44,8 @@ const model = defineModel({ required: true, type: String, default: "" })
 const itemSuggest = ref([])
 
 const getTypeUOM = (id:number) => {
-    if (uom.value.length >= 1) {
-        const symbol = uom.value.map((data: any) => {
+    if (uom.value.data.length >= 1) {
+        const symbol = uom.value.data.map((data: any) => {
             return data.id === id ? data.symbol : null
         }).filter((num:any): num is number => num !== null)
 

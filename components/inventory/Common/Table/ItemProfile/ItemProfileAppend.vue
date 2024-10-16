@@ -31,6 +31,7 @@ const itemProfile = defineModel("itemProfile", { required: true, type: Object, d
                 v-model="itemProfile.item_code"
                 :item-profile="itemProfile"
                 title="Item Code"
+                :is-standard=true
             />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
@@ -88,7 +89,7 @@ const itemProfile = defineModel("itemProfile", { required: true, type: Object, d
             <InventoryCommonFormPsTextInput v-model="itemProfile.color" title="Color" />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-            <InventoryCommonFormPsSelect v-model="itemProfile.uom" title="UOM Type" :select-list="uomTypes.allType" />
+            <InventoryCommonFormPsSelect v-model="itemProfile.uom" title="UOM Type" :select-list="uomTypes.allType.data" />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryCommonFormPsSelectItemGroup v-model="itemProfile.item_group" title="Item Group" />

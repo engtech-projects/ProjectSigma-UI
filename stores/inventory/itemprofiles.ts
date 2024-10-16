@@ -132,32 +132,32 @@ export const useItemProfileStore = defineStore("itemprofiles", {
     }),
     getters: {
         uomLength (state) {
-            return state.uom.filter(function (data: any) {
+            return state.uom.data.filter(function (data: any) {
                 return data.group_id === 1 ? data : null
             })
         },
         uomWeight (state) {
-            return state.uom.filter(function (data: any) {
+            return state.uom.data.filter(function (data: any) {
                 return data.group_id === 2 ? data : null
             })
         },
         uomVolume (state) {
-            return state.uom.filter(function (data: any) {
+            return state.uom.data.filter(function (data: any) {
                 return data.group_id === 3 ? data : null
             })
         },
         uomArea (state) {
-            return state.uom.filter(function (data: any) {
+            return state.uom.data.filter(function (data: any) {
                 return data.group_id === 4 ? data : null
             })
         },
         uomForce (state) {
-            return state.uom.filter(function (data: any) {
+            return state.uom.data.filter(function (data: any) {
                 return data.group_id === 5 ? data : null
             })
         },
         uomDimension (state) {
-            return state.uom.filter(function (data: any) {
+            return state.uom.data.filter(function (data: any) {
                 return data.group_id === 6 ? data : null
             })
         },
