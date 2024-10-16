@@ -64,6 +64,7 @@ const changePaginate = (newParams) => {
                 <tbody>
                     <tr v-for="(approv, index) in hrmsApprovals.list" :key="index" class="border-2 border-slate-300 ">
                         <td class="p-2">
+                            <form :id="index + 'approvform'" @submit.prevent="submitApprov(approv)" />
                             {{ approv.form }}
                         </td>
                         <div class="p-2 space-y-2">
@@ -146,8 +147,8 @@ const changePaginate = (newParams) => {
                                             <HrmsCommonUserEmployeeSelector
                                                 id="users_list"
                                                 v-model="approvers.user_id"
+                                                :form="index + 'approvform'"
                                                 :disabled="approvers.selector_type !== 'specific'"
-                                                :required="approvers.selector_type === 'specific'"
                                             />
                                         </div>
                                     </div>
@@ -162,9 +163,9 @@ const changePaginate = (newParams) => {
                         <td class="p-2 rounded-md">
                             <div class="grid md:grid-rows-1 justify-center gap-4 p-2">
                                 <button
+                                    :form="index + 'approvform'"
                                     type="submit"
                                     class="rounded-md bg-green-400 p-2 text-white hover:bg-green-500 justify-end"
-                                    @click.prevent="submitApprov(approv)"
                                 >
                                     Save Changes
                                 </button>
