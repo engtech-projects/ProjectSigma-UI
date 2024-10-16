@@ -30,7 +30,7 @@ defineProps({
                     v-model="data.item_code"
                     :item-profile="data"
                     title="Item Code"
-                    :isStandard=false
+                    :is-standard=false
                 />
             </td>
         </template>
