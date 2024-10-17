@@ -68,35 +68,35 @@ const totalEWTCPayroll = () => {
 const totalHDMFEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.pagibig_employee_contribution) ?? 0
+        total += parseFloat(element.pagibig_employee_contribution) || 0
     })
     return total.toFixed(2)
 }
 const totalPHICEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.philhealth_employee_contribution) ?? 0
+        total += parseFloat(element.philhealth_employee_contribution) || 0
     })
     return total.toFixed(2)
 }
 const totalSSSContributionEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.sss_employee_contribution) ?? 0
+        total += parseFloat(element.sss_employee_contribution) || 0
     })
     return total.toFixed(2)
 }
 const totalSSSCompensationEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.sss_employee_compensation) ?? 0
+        total += parseFloat(element.sss_employee_compensation) || 0
     })
     return total.toFixed(2)
 }
 const totalSSSWispEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.sss_employee_wisp) ?? 0
+        total += parseFloat(element.sss_employee_wisp) || 0
     })
     return total.toFixed(2)
 }
@@ -138,28 +138,28 @@ const totalRegOTPayroll = () => {
 const totalSpcHolPayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.special_holiday_pay) ?? 0
+        total += parseFloat(element.special_holiday_pay) || 0
     })
     return total.toFixed(2)
 }
 const totalRegHolPayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.regular_holiday_pay) ?? 0
+        total += parseFloat(element.regular_holiday_pay) || 0
     })
     return total.toFixed(2)
 }
 const totalRestDayPayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.rest_pay) ?? 0
+        total += parseFloat(element.rest_pay) || 0
     })
     return total.toFixed(2)
 }
 const totalRegHrsPayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.regular_pay) ?? 0
+        total += parseFloat(element.regular_pay) || 0
     })
     return total.toFixed(2)
 }
