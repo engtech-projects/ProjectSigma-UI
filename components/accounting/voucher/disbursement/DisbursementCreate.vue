@@ -86,7 +86,7 @@ const lineItems = computed(() => {
     accountEntries.value.forEach((entry) => {
         arr.push({
             account_id: entry.account_id,
-            stakeholder_id: 1,
+            stakeholder_id: entry.project_id,
             debit: entry.debit,
             credit: entry.credit
         })
@@ -292,8 +292,8 @@ onMounted(() => {
                                 class="text-xs italic"
                             >Project/Section Code</label>
                             <select v-model="accountEntry.project_id" class="w-full rounded-lg">
-                                <option value="sample">
-                                    Sample Code
+                                <option v-for="st in payeeList" :key="st.id" :value="st.id">
+                                    {{ st.name }}
                                 </option>
                             </select>
                         </div>
@@ -354,8 +354,8 @@ onMounted(() => {
                                 class="text-xs italic"
                             >Project/Section Code</label>
                             <select v-model="ae.project_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
-                                <option value="sample">
-                                    Sample Code
+                                <option v-for="st in payeeList" :key="st.id" :value="st.id">
+                                    {{ st.name }}
                                 </option>
                             </select>
                         </div>

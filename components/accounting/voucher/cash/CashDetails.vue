@@ -1,101 +1,25 @@
 <script lang="ts" setup>
-import { useAccountStore } from "~/stores/accounting/account"
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { useVoucherStore } from "~/stores/accounting/voucher"
-import { useBookStore } from "~/stores/accounting/book"
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 
-const { list: accountsList } = storeToRefs(useAccountStore())
 const { list: payeeList } = storeToRefs(useStakeholderStore())
 const voucherStore = useVoucherStore()
-const bookStore = useBookStore()
-const snackbar = useSnackbar()
 const accountGroup = useAccountGroupStore()
 
 const loading = ref(false)
 const showNetAmount = ref(true)
 const amountElement = ref()
-const accountEntry = ref({
-    account_id: null,
-    account_code: null,
-    account_name: null,
-    project_id: null,
-    project_code: null,
-    debit: 0,
-    credit: 0
-})
-async function handleSubmit () {
-    try {
-        loading.value = true
-        voucherStore.voucher.book_id = bookStore.cash.id
-        voucherStore.voucher.details = lineItems.value
-        voucherStore.voucher.book_id = 2
-        await voucherStore.createVoucher()
-        if (voucherStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: voucherStore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: voucherStore.successMessage
-            })
-            navigateTo("/accounting/voucher/cash")
-        }
-    } catch (error) {
-        // voucherStore.errorMessage = error.Message
-        // snackbar.add({
-        //     type: "error",
-        //     text: voucherStore.errorMessage
-        // })
-    } finally {
-        loading.value = false
-    }
-}
-const selectedAccount = computed(() => {
-    return accountsList.value.filter(a => a.id === accountEntry.value.account_id)[0]
-})
-const accountEntries = ref([])
-const addLine = () => {
-    accountEntry.value.account_code = selectedAccount.value.account_number
-    accountEntry.value.account_name = selectedAccount.value.account_name
-    accountEntries.value.push(JSON.parse(JSON.stringify(accountEntry.value)))
-    accountEntry.value = {
-        account_id: null,
-        account_code: null,
-        account_name: null,
-        project_id: null,
-        project_code: null,
-        debit: 0,
-        credit: 0
-    }
-}
 const amount = computed(() => {
     return voucherStore.voucher.net_amount
 })
 watch(amount, (newAmount) => {
     voucherStore.voucher.amount_in_words = useAmountInWords(newAmount)
 })
-const removeLine = (line: object) => {
-    accountEntries.value = accountEntries.value.filter(acc => acc !== line)
-}
-const lineItems = computed(() => {
-    const arr = []
-    accountEntries.value.forEach((entry) => {
-        arr.push({
-            account_id: entry.account_id,
-            stakeholder_id: entry.project_id,
-            debit: entry.debit,
-            credit: entry.credit
-        })
-    })
-    return arr
-})
+
 const focusNetAmount = () => {
     showNetAmount.value = false
 }
-
 watch(showNetAmount, (newValue) => {
     if (!newValue) {
         nextTick(() => {
@@ -103,9 +27,13 @@ watch(showNetAmount, (newValue) => {
         })
     }
 })
+const accountEntries = ref([])
+const accountId = computed(() => {
+    return voucherStore.voucher.account ? voucherStore.voucher.account.id : null
+})
 onMounted(() => {
-    voucherStore.voucher.voucher_date = dateToString(new Date())
-    voucherStore.voucher.date_encoded = dateToString(new Date())
+    // console.log(accountId.value)
+    accountEntries.value = voucherStore.voucher.details
 })
 </script>
 <template>
@@ -120,7 +48,7 @@ onMounted(() => {
             </div>
             <AccountingCommonEvenparHeader />
             <h1 class="text-2xl text-center font-bold">
-                CASH VOUCHER
+                CASH VOUCHER DETAILS
             </h1>
             <div class="flex flex-col gap-2">
                 <div class="flex justify-end gap-4">
@@ -138,7 +66,7 @@ onMounted(() => {
                                 for="payee"
                                 class="text-xs italic"
                             >Payee</label>
-                            <select v-model="voucherStore.voucher.stakeholder_id" class="w-full rounded-lg">
+                            <select :value="voucherStore.voucher.stakeholder ? voucherStore.voucher.stakeholder.id : null" class="w-full rounded-lg" disabled>
                                 <option v-for="st in payeeList" :key="st.id" :value="st.id">
                                     {{ st.name }}
                                 </option>
@@ -172,6 +100,7 @@ onMounted(() => {
                                 type="text"
                                 class="w-full rounded-lg"
                                 required
+                                disabled
                             >
                         </div>
                         <div class="flex-1">
@@ -185,6 +114,7 @@ onMounted(() => {
                                 type="text"
                                 class="w-full rounded-lg"
                                 required
+                                disabled
                             >
                         </div>
                         <div class="flex-1">
@@ -192,7 +122,7 @@ onMounted(() => {
                                 for="payee"
                                 class="text-xs italic"
                             >Expense Accounts</label>
-                            <select v-model="voucherStore.voucher.account_id" class="w-full rounded-lg">
+                            <select v-model="accountId" class="w-full rounded-lg" disabled>
                                 <option v-for="ac in accountGroup.accountGroup.accounts" :key="ac.id" :value="ac.id">
                                     {{ ac.account_name }}
                                 </option>
@@ -200,47 +130,49 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="flex flex-col flex-1 justify-start gap-2">
-                        <div class="">
+                        <div>
                             <label
                                 for="encodedDate"
                                 class="text-xs italic"
                             >Encoded Date</label>
                             <input
                                 id="encodedDate"
-                                v-model="voucherStore.voucher.date_encoded"
+                                :value="dateToString(new Date(voucherStore.voucher.date_encoded))"
                                 type="date"
                                 class="w-full rounded-lg"
                                 required
+                                disabled
                             >
                         </div>
-                        <div class="">
+                        <div>
                             <label
                                 for="entryDate"
                                 class="text-xs italic"
                             >Entry Date</label>
                             <input
                                 id="entryDate"
-                                v-model="voucherStore.voucher.voucher_date"
+                                :value="dateToString(new Date(voucherStore.voucher.voucher_date))"
                                 type="date"
                                 class="w-full rounded-lg"
                                 required
+                                disabled
                             >
                         </div>
-                        <!-- <div class="">
+                        <!-- <div>
                             <label
                                 for="paymentMethod"
                                 class="text-xs italic"
                             >Payment Method</label>
                             <select id="paymentMethod" class="w-full rounded-lg">
                                 <option value="cash">
-                                    acc
+                                    Cash
                                 </option>
                                 <option value="check">
                                     Check
                                 </option>
                             </select>
                         </div> -->
-                        <div class="">
+                        <div>
                             <label
                                 for="netAmount"
                                 class="text-xs italic"
@@ -253,6 +185,7 @@ onMounted(() => {
                                 type="number"
                                 class="w-full rounded-lg"
                                 required
+                                disabled
                                 @blur="showNetAmount=true"
                             >
                             <input
@@ -262,20 +195,8 @@ onMounted(() => {
                                 class="w-full rounded-lg"
                                 :value="useUtilities().value.formatCurrency(voucherStore.voucher.net_amount)"
                                 required
+                                disabled
                                 @focus="focusNetAmount()"
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="checkNo"
-                                class="text-xs italic"
-                            >Check No.</label>
-                            <input
-                                id="checkNo"
-                                v-model="voucherStore.voucher.check_no"
-                                type="text"
-                                class="w-full rounded-lg"
-                                required
                             >
                         </div>
                     </div>
@@ -285,68 +206,6 @@ onMounted(() => {
                 <h2 class="text-xl font-bold text-center mb-10">
                     ACCOUNTING ENTRIES
                 </h2>
-                <form @submit.prevent="addLine">
-                    <div class="flex flex-col lg:flex-row gap-2 bg-yellow-100 rounded-lg px-6 py-4">
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Accounts</label>
-                            <select v-model="accountEntry.account_id" class="w-full rounded-lg">
-                                <option v-for="account in accountsList" :key="account.id" :value="account.id">
-                                    {{ account.account_name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Project/Section Code</label>
-                            <select v-model="accountEntry.project_id" class="w-full rounded-lg">
-                                <option v-for="st in payeeList" :key="st.id" :value="st.id">
-                                    {{ st.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="debit"
-                                class="text-xs italic"
-                            >Debit</label>
-                            <input
-                                id="debit"
-                                v-model="accountEntry.debit"
-                                type="number"
-                                class="w-full rounded-lg"
-                                :disabled="accountEntry.credit > 0"
-                                required
-                                @blur="accountEntry.debit = accountEntry.debit === '' ? 0 : accountEntry.debit"
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="credit"
-                                class="text-xs italic"
-                            >Credit</label>
-                            <input
-                                id="credit"
-                                v-model="accountEntry.credit"
-                                type="number"
-                                class="w-full rounded-lg"
-                                :disabled="accountEntry.debit > 0"
-                                required
-                                @blur="accountEntry.credit = accountEntry.credit === '' ? 0 : accountEntry.credit"
-                            >
-                        </div>
-                        <button
-                            type="submit"
-                            class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
-                        >
-                            Add line
-                        </button>
-                    </div>
-                </form>
                 <div class="flex flex-col bg-gray-100 rounded-lg px-8 py-4 gap-2">
                     <div v-for="ae,i in accountEntries" :key="i" class="flex gap-2">
                         <div class="flex-1">
@@ -355,8 +214,8 @@ onMounted(() => {
                                 class="text-xs italic"
                             >Accounts</label>
                             <select v-model="ae.account_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
-                                <option v-for="account in accountsList" :key="account.id" :value="account.id">
-                                    {{ account.account_name }}
+                                <option v-for="ac in accountGroup.accountGroup.accounts" :key="ac.id" :value="ac.id">
+                                    {{ ac.account_name }}
                                 </option>
                             </select>
                         </div>
@@ -365,7 +224,7 @@ onMounted(() => {
                                 for="amountInWords"
                                 class="text-xs italic"
                             >Project/Section Code</label>
-                            <select v-model="ae.project_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
+                            <select v-model="ae.stakeholder_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
                                 <option v-for="st in payeeList" :key="st.id" :value="st.id">
                                     {{ st.name }}
                                 </option>
@@ -397,12 +256,6 @@ onMounted(() => {
                                 required
                             >
                         </div>
-                        <button
-                            class="text-white p-2 px-4 rounded bg-red-500 content-center mt-5 rounded-md w-fit"
-                            @click.prevent="removeLine(ae)"
-                        >
-                            Remove
-                        </button>
                     </div>
                 </div>
                 <!-- <table v-if="accountEntries.length > 0" class="w-full">
@@ -465,18 +318,18 @@ onMounted(() => {
                 </span>
             </div> -->
             <div class="flex justify-end">
-                <div class="flex gap-2 jus">
+                <div class="flex gap-2">
                     <NuxtLink
                         to="/accounting/voucher/cash"
-                        class="text-white p-2 px-6 rounded bg-gray-600 content-center mt-5 rounded-md w-fit"
+                        class="flex items-center text-white p-2 px-6 rounded bg-gray-600 content-center mt-5 rounded-md w-fit"
                     >
-                        <span>Back</span>
+                        <span>Decline</span>
                     </NuxtLink>
                     <button
                         type="submit"
                         class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
                     >
-                        Submit
+                        Approve
                     </button>
                 </div>
             </div>
