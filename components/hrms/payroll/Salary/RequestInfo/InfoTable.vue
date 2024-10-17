@@ -93,6 +93,13 @@ const totalSSSCompensationEmployeePayroll = () => {
     })
     return total.toFixed(2)
 }
+const totalSSSWispEmployeePayroll = () => {
+    let total = 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.sss_employee_compensation) ?? 0
+    })
+    return total.toFixed(2)
+}
 const totalGrossPayPayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
@@ -233,6 +240,9 @@ const totalRegHrsPayroll = () => {
                 </td>
                 <td>
                     {{ totalSSSCompensationEmployeePayroll() ? useFormatCurrency(totalSSSCompensationEmployeePayroll()) : "-" }}
+                </td>
+                <td>
+                    {{ totalSSSWispEmployeePayroll() ? useFormatCurrency(totalSSSWispEmployeePayroll()) : "-" }}
                 </td>
                 <td>
                     {{ useFormatCurrency(totalPHICEmployeePayroll()) ?? "-" }}
