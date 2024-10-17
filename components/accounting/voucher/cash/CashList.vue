@@ -55,7 +55,7 @@ const changePaginate = (newParams) => {
                                 {{ useUtilities().value.formatCurrency(voucher.net_amount) }}
                             </td>
                             <td>
-                                <NuxtLink :to="'/accounting/voucher/cash/details?id=' + voucher.voucher_no" @click="voucherStore.voucher = voucher">
+                                <NuxtLink :to="'/accounting/voucher/cash/details?id=' + voucher.id">
                                     <Icon name="material-symbols:visibility-rounded" color="white" class="bg-green-500 rounded h-8 w-8 p-1 " />
                                 </NuxtLink>
                             </td>

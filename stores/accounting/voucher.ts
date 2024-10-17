@@ -118,23 +118,28 @@ export const useVoucherStore = defineStore("voucherStore", {
             )
         },
 
-        async editAccount () {
-            this.successMessage = ""
-            this.errorMessage = ""
+        async showVoucher (id: any) {
+            this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/account/" + this.account.account_id,
+                "/api/voucher/" + id,
                 {
-                    method: "PATCH",
-                    body: this.account,
+                    method: "GET",
+                    params: this.getParams,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        this.voucher = response._data
+                        this.pagination = {
+                            first_page: response._data.first_page_url,
+                            pages: response._data.links,
+                            last_page: response._data.last_page_url,
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.getAccounts()
-                this.successMessage = data.value.message
+            if (data) {
                 return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
+            } else if (error) {
                 return error
             }
         },
