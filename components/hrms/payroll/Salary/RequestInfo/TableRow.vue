@@ -109,10 +109,16 @@ const totalPaymentsOtherDeduction = () => {
             {{ employeePayrollRecord.sss_employee_compensation ? useFormatCurrency(employeePayrollRecord.sss_employee_compensation) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
+            {{ employeePayrollRecord.sss_employee_wisp ? useFormatCurrency(employeePayrollRecord.sss_employee_wisp) : "-" }}
+        </td>
+        <td class="p-4 border-solid border border-slate-400">
             {{ employeePayrollRecord.philhealth_employee_contribution ? useFormatCurrency(employeePayrollRecord.philhealth_employee_contribution) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ employeePayrollRecord.pagibig_employee_contribution ? useFormatCurrency(employeePayrollRecord.pagibig_employee_contribution) : "-" }}
+        </td>
+        <td class="p-4 border-solid border border-slate-400">
+            {{ employeePayrollRecord.pagibig_employee_wisp ? useFormatCurrency(employeePayrollRecord.pagibig_employee_wisp) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.withholdingtax_contribution) ?? "-" }}

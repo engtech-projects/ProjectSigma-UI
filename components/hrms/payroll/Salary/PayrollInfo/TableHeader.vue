@@ -238,6 +238,11 @@
             >
                 Employee Compensation
             </th>
+            <th
+                class="px-4 border-solid border border-slate-400"
+            >
+                Employee WISP
+            </th>
         </tr>
     </thead>
 </template>
