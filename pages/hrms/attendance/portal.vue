@@ -82,13 +82,19 @@ const changePaginate = (pageInfo) => {
                             <input v-model="attendancePortalParams.name_location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
                         </div>
                     </div>
-                    <div class="p-2">
-                        <HrmsCommonDepartmentProjectSelector
-                            v-model:select-type="attendancePortalParams.group_type"
-                            v-model:department-id="attendancePortalParams.department_id"
-                            v-model:project-id="attendancePortalParams.project_id"
-                            class="py-2"
-                        />
+                    <template v-for="(assignment, index) in attendancePortalParams.assignments" :key="index">
+                        <div class="flex items-center gap-2">
+                            <HrmsCommonDepartmentProjectSelector
+                                v-model:select-type="attendancePortalParams.assignments[index].assignment_type"
+                                v-model:department-id="attendancePortalParams.assignments[index].department_id"
+                                v-model:project-id="attendancePortalParams.assignments[index].project_id"
+                                class="py-2 w-full"
+                            />
+                            <Icon name="iconoir:trash" class="text-2xl text-slate-800 hover:text-blue-500 cursor-pointer" @click="attendancePortalParams.assignments.splice(index, 1)" />
+                        </div>
+                    </template>
+                    <div class="p-2 flex gap-2">
+                        <Icon name="iconoir:plus" class="text-2xl text-slate-800 hover:text-blue-500 cursor-pointer" @click="attendancePortalParams.assignments.push({})" />
                     </div>
                     <div class="flex mt-6 justify-end py-2">
                         <button type="button" class="md:w-1/3 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:bg-green-700" @click="setupAttendancePortal">
