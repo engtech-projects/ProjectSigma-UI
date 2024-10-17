@@ -49,7 +49,7 @@ const changePaginate = (newParams) => {
                                 {{ useUtilities().value.dateToString(new Date(voucher.date_encoded)) }}
                             </td>
                             <td class="p-2">
-                                {{ voucher.payee }}
+                                {{ voucher.stakeholder.name }}
                             </td>
                             <td class="p-2">
                                 {{ useUtilities().value.formatCurrency(voucher.net_amount) }}

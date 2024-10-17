@@ -40,7 +40,7 @@ export const useJournalStore = defineStore("journalStore", {
         async baseData () {
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/v1/journal",
+                "/api/journal",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
@@ -66,7 +66,7 @@ export const useJournalStore = defineStore("journalStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/v1/journal",
+                "/api/journal",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",

@@ -13,13 +13,13 @@ const { list: groupList, accountGroup, getParams, pagination, errorMessage, succ
 // const setEdit = (ag) => {
 //     isEdit.value = true
 //     accountGroup.value = ag
-//     return navigateTo("/accounting/account-groups/edit?id=" + ag.account_group_id)
+//     return navigateTo("/accounting/account-groups/edit?id=" + ag.id)
 // }
 
 // const deleteGroup = async (ag) => {
 //     try {
 //         accountGroupStore.isLoading = true
-//         await accountGroupStore.deleteBook(ag.account_group_id)
+//         await accountGroupStore.deleteBook(ag.id)
 //         snackbar.add({
 //             type: "success",
 //             text: accountGroupStore.successMessage
@@ -61,9 +61,9 @@ const headers = [
                         </th> -->
                     </thead>
                     <tbody>
-                        <tr v-for="grp in groupList" :key="grp.account_group_id" :class="grp.account_group_id===accountGroup.account_group_id?'bg-slate-200':''" class="border cursor-pointer hover:bg-slate-100">
+                        <tr v-for="grp in groupList" :key="grp.id" :class="grp.id===accountGroup.id?'bg-slate-200':''" class="border cursor-pointer hover:bg-slate-100">
                             <td class="p-2">
-                                {{ grp.account_group_name }}
+                                {{ grp.name }}
                             </td>
                             <!-- <td class="p-2">
                                 <div class="flex gap-1">

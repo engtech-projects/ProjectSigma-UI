@@ -20,7 +20,7 @@ export const useStakeHolderTypeStore = defineStore("stakeHolderTypeStore", {
         async getStakeHolderTypes () {
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/v1/stakeholder-type",
+                "/api/stakeholder-type",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
@@ -51,7 +51,7 @@ export const useStakeHolderTypeStore = defineStore("stakeHolderTypeStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/v1/stakeholder-type",
+                "/api/stakeholder-type",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
@@ -78,7 +78,7 @@ export const useStakeHolderTypeStore = defineStore("stakeHolderTypeStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/v1/stakeholder-type/" + this.stakeHolderType.stakehodler_type_id,
+                "/api/stakeholder-type/" + this.stakeHolderType.stakehodler_type_id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
@@ -101,7 +101,7 @@ export const useStakeHolderTypeStore = defineStore("stakeHolderTypeStore", {
 
         async deleteStakeHolderType (id: number) {
             const { data, error } = await useFetch(
-                "/api/v1/stakeholder-type/" + id,
+                "/api/stakeholder-type/" + id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",

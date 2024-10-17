@@ -20,7 +20,7 @@ export const useAccountCategory = defineStore("accountCategory", {
         async getAccountCategories () {
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/v1/account/category",
+                "/api/account/category",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
@@ -51,7 +51,7 @@ export const useAccountCategory = defineStore("accountCategory", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/v1/account/category",
+                "/api/account/category",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",

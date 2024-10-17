@@ -108,9 +108,9 @@ onMounted(() => {
                                 for="payee"
                                 class="text-xs italic"
                             >Payee</label>
-                            <select v-model="voucherStore.voucher.payee" class="w-full rounded-lg">
-                                <option v-for="st in payeeList" :key="st.stakeholder_id" :value="st.display_name">
-                                    {{ st.display_name }}
+                            <select v-model="voucherStore.voucher.stakeholder_id" class="w-full rounded-lg">
+                                <option v-for="st in payeeList" :key="st.id" :value="st.id">
+                                    {{ st.name }}
                                 </option>
                             </select>
                         </div>

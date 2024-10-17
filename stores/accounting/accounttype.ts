@@ -23,7 +23,7 @@ export const useAccountType = defineStore("accountType", {
         async getAccountTypes () {
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/v1/account/type",
+                "/api/account/type",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
@@ -54,7 +54,7 @@ export const useAccountType = defineStore("accountType", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/v1/account/type",
+                "/api/account/type",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
@@ -81,7 +81,7 @@ export const useAccountType = defineStore("accountType", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/v1/account/type/" + this.accountType.type_id,
+                "/api/account/type/" + this.accountType.type_id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
@@ -104,7 +104,7 @@ export const useAccountType = defineStore("accountType", {
 
         async deleteAccountType (id: number) {
             const { data, error } = await useFetch(
-                "/api/v1/account/type/" + id,
+                "/api/account/type/" + id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",

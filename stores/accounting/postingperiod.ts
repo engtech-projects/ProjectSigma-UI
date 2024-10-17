@@ -20,7 +20,7 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
         async getPostingPeriods () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/posting-period",
+                "/api/posting-period",
                 {
                     method: "GET",
                     params: this.getParams,
@@ -46,7 +46,7 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/v1/posting-period",
+                "/api/posting-period",
                 {
                     method: "POST",
                     body: this.postingPeriod,
@@ -68,7 +68,7 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/v1/posting-period/" + this.postingPeriod.period_id,
+                "/api/posting-period/" + this.postingPeriod.period_id,
                 {
                     method: "PATCH",
                     body: this.postingPeriod,
@@ -87,7 +87,7 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
 
         async deletePostingPeriod (id: number) {
             const { data, error } = await useAccountingApi(
-                "/api/v1/posting-period/" + id,
+                "/api/posting-period/" + id,
                 {
                     method: "DELETE",
                     body: this.postingPeriod,

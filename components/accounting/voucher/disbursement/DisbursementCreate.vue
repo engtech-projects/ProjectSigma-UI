@@ -2,11 +2,15 @@
 import { useAccountStore } from "~/stores/accounting/account"
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { useVoucherStore } from "~/stores/accounting/voucher"
+import { useBookStore } from "~/stores/accounting/book"
+import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 
 const { list: accountsList } = storeToRefs(useAccountStore())
 const { list: payeeList } = storeToRefs(useStakeholderStore())
 const voucherStore = useVoucherStore()
+const bookStore = useBookStore()
 const snackbar = useSnackbar()
+const accountGroup = useAccountGroupStore()
 
 const loading = ref(false)
 const showNetAmount = ref(true)
@@ -23,9 +27,10 @@ const accountEntry = ref({
 async function handleSubmit () {
     try {
         loading.value = true
-        voucherStore.voucher.line_items = lineItems.value
-        voucherStore.voucher.payee = payeeName.value
-        voucherStore.voucher.voucher_no = "AJE-202402-0569" + Math.floor(Math.random() * 20000) + 1
+        voucherStore.voucher.book_id = bookStore.disbursement.id
+        voucherStore.voucher.account_id = 1
+        voucherStore.voucher.details = lineItems.value
+        voucherStore.voucher.book_id = 1
         await voucherStore.createVoucher()
         if (voucherStore.errorMessage !== "") {
             snackbar.add({
@@ -49,11 +54,8 @@ async function handleSubmit () {
         loading.value = false
     }
 }
-const payeeName = computed(() => {
-    return payeeList.value.filter(p => voucherStore.voucher.payee === p.stakeholder_id)[0].display_name
-})
 const selectedAccount = computed(() => {
-    return accountsList.value.filter(a => a.account_id === accountEntry.value.account_id)[0]
+    return accountsList.value.filter(a => a.id === accountEntry.value.account_id)[0]
 })
 const accountEntries = ref([])
 const addLine = () => {
@@ -84,7 +86,7 @@ const lineItems = computed(() => {
     accountEntries.value.forEach((entry) => {
         arr.push({
             account_id: entry.account_id,
-            contact: "Sample",
+            stakeholder_id: 1,
             debit: entry.debit,
             credit: entry.credit
         })
@@ -94,6 +96,7 @@ const lineItems = computed(() => {
 const focusNetAmount = () => {
     showNetAmount.value = false
 }
+
 watch(showNetAmount, (newValue) => {
     if (!newValue) {
         nextTick(() => {
@@ -126,7 +129,7 @@ onMounted(() => {
                         REFERENCE NO.
                     </h3>
                     <span class="border-b border-gray-800">
-                        AJE-202402-0566
+                        {{ voucherStore.voucher.voucher_no }}
                     </span>
                 </div>
                 <div class="flex flex-col gap-12 sm:flex-row">
@@ -136,9 +139,9 @@ onMounted(() => {
                                 for="payee"
                                 class="text-xs italic"
                             >Payee</label>
-                            <select v-model="voucherStore.voucher.payee" class="w-full rounded-lg">
-                                <option v-for="st in payeeList" :key="st.stakeholder_id" :value="st.stakeholder_id">
-                                    {{ st.display_name }}
+                            <select v-model="voucherStore.voucher.stakeholder_id" class="w-full rounded-lg">
+                                <option v-for="st in payeeList" :key="st.id" :value="st.id">
+                                    {{ st.name }}
                                 </option>
                             </select>
                         </div>
@@ -185,9 +188,20 @@ onMounted(() => {
                                 required
                             >
                         </div>
-                    </div>
-                    <div class="flex flex-col flex-1">
                         <div class="flex-1">
+                            <label
+                                for="payee"
+                                class="text-xs italic"
+                            >Expense Accounts</label>
+                            <select v-model="voucherStore.voucher.account_id" class="w-full rounded-lg">
+                                <option v-for="ac in accountGroup.accountGroup.accounts" :key="ac.id" :value="ac.id">
+                                    {{ ac.account_name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-1 justify-start gap-2">
+                        <div class="">
                             <label
                                 for="encodedDate"
                                 class="text-xs italic"
@@ -200,7 +214,7 @@ onMounted(() => {
                                 required
                             >
                         </div>
-                        <div class="flex-1">
+                        <div class="">
                             <label
                                 for="entryDate"
                                 class="text-xs italic"
@@ -213,21 +227,21 @@ onMounted(() => {
                                 required
                             >
                         </div>
-                        <!-- <div class="flex-1">
+                        <!-- <div class="">
                             <label
                                 for="paymentMethod"
                                 class="text-xs italic"
                             >Payment Method</label>
                             <select id="paymentMethod" class="w-full rounded-lg">
                                 <option value="cash">
-                                    Cash
+                                    acc
                                 </option>
                                 <option value="check">
                                     Check
                                 </option>
                             </select>
                         </div> -->
-                        <div class="flex-1">
+                        <div class="">
                             <label
                                 for="netAmount"
                                 class="text-xs italic"
@@ -267,7 +281,7 @@ onMounted(() => {
                                 class="text-xs italic"
                             >Accounts</label>
                             <select v-model="accountEntry.account_id" class="w-full rounded-lg">
-                                <option v-for="account in accountsList" :key="account.account_id" :value="account.account_id">
+                                <option v-for="account in accountsList" :key="account.id" :value="account.id">
                                     {{ account.account_name }}
                                 </option>
                             </select>
@@ -329,7 +343,7 @@ onMounted(() => {
                                 class="text-xs italic"
                             >Accounts</label>
                             <select v-model="ae.account_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
-                                <option v-for="account in accountsList" :key="account.account_id" :value="account.account_id">
+                                <option v-for="account in accountsList" :key="account.id" :value="account.id">
                                     {{ account.account_name }}
                                 </option>
                             </select>

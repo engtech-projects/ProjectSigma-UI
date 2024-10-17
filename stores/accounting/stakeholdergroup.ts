@@ -20,7 +20,7 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
         async getStakeholderGroups () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/stakeholder-group",
+                "/api/stakeholder-group",
                 {
                     method: "GET",
                     params: this.getParams,
@@ -45,7 +45,7 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
         async getStakeholderGroup (id:any) {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/stakeholder-group/" + id,
+                "/api/stakeholder-group/" + id,
                 {
                     method: "GET",
                     params: this.getParams,
@@ -66,7 +66,7 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/v1/stakeholder-group",
+                "/api/stakeholder-group",
                 {
                     method: "POST",
                     body: this.stakeholderGroup,
@@ -88,7 +88,7 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/v1/stakeholder-group/" + this.stakeholderGroup.stakeholder_group_id,
+                "/api/stakeholder-group/" + this.stakeholderGroup.stakeholder_group_id,
                 {
                     method: "PATCH",
                     body: this.stakeholderGroup,
@@ -107,7 +107,7 @@ export const useStakeholderGroupStore = defineStore("stakeholderGroupStore", {
 
         async deleteStakeholderGroup (id: number) {
             const { data, error } = await useAccountingApi(
-                "/api/v1/stakeholder-group/" + id,
+                "/api/stakeholder-group/" + id,
                 {
                     method: "DELETE",
                     body: this.stakeholderGroup,
