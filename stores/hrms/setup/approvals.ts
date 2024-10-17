@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 
+// HRMS APPROVALS
 export const APPROVAL_MANPOWERREQ = "Manpower Request"
 export const APPROVAL_TRAVELORDER = "Travel Order"
 export const APPROVAL_OVERTIME = "Overtime"
@@ -9,6 +10,10 @@ export const APPROVAL_GP = "Payroll"
 export const APPROVAL_LEAVE = "Leave"
 export const APPROVAL_FAILTOLOG = "Failure To Log"
 export const APPROVAL_SALARYDISBURSEMENT = "Salary Disbursement"
+// ACCOUNTING APPROVALS
+// INVENTORY APPROVALS
+export const APPROVAL_NEW_ITEM_PROFILE = "New Item Profile"
+// PROJECTS APPROVALS
 
 export interface Approver {
     type: string,
@@ -22,44 +27,195 @@ export interface Approval {
 }
 export const useApprovalStore = defineStore("hrmsapprovals", {
     state: () => ({
-        isEdit: false,
-        formApproval: {} as Approval,
-        list: [],
-        pagination: {},
-        getParams: {
-            module: "HRMS"
+        editApproval: {
+            errorMessage: "",
+            successMessage: "",
         },
-        errorMessage: "",
-        successMessage: "",
+        hrmsApprovals: {
+            isLoaded: false,
+            isLoading: false,
+            list: [],
+            params: {
+                module: "HRMS",
+            },
+            pagination: {},
+            successMessage: "",
+            errorMessage: "",
+        },
+        accountingApprovals: {
+            isLoaded: false,
+            isLoading: false,
+            list: [],
+            params: {
+                module: "Accounting"
+            },
+            pagination: {},
+            successMessage: "",
+            errorMessage: "",
+        },
+        inventoryApprovals: {
+            isLoaded: false,
+            isLoading: false,
+            list: [],
+            params: {
+                module: "Inventory"
+            },
+            pagination: {},
+            successMessage: "",
+            errorMessage: "",
+        },
+        projectsApprovals: {
+            isLoaded: false,
+            isLoading: false,
+            list: [],
+            params: {
+                module: "Projects"
+            },
+            pagination: {},
+            successMessage: "",
+            errorMessage: "",
+        },
     }),
     actions: {
-        async getApproval () {
-            const { data, error } = await useHRMSApi(
+        async getHrmsApprovals () {
+            this.hrmsApprovals.isLoaded = true
+            await useHRMSApi(
                 "/api/approvals",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.hrmsApprovals.params,
+                    onRequest: () => {
+                        this.hrmsApprovals.isLoading = true
+                    },
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data.map((val: any) => {
-                            return {
-                                id: val.id,
-                                form: val.form,
-                                approvals: val.approvals,
+                        this.hrmsApprovals.isLoading = false
+                        if (response.ok) {
+                            this.hrmsApprovals.list = response._data.data.data.map((val: any) => {
+                                return {
+                                    id: val.id,
+                                    form: val.form,
+                                    approvals: val.approvals,
+                                }
+                            })
+                            this.hrmsApprovals.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
                             }
-                        })
-                        this.pagination = {
-                            first_page: response._data.data.first_page_url,
-                            pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            this.hrmsApprovals.successMessage = response._data.message
                         }
                     },
+                    onResponseError: ({ response }) => {
+                        this.hrmsApprovals.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    }
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
+        },
+        async getAccountingApprovals () {
+            this.accountingApprovals.isLoaded = true
+            await useHRMSApi(
+                "/api/approvals",
+                {
+                    method: "GET",
+                    params: this.accountingApprovals.params,
+                    onRequest: () => {
+                        this.accountingApprovals.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.accountingApprovals.isLoading = false
+                        if (response.ok) {
+                            this.accountingApprovals.list = response._data.data.data.map((val: any) => {
+                                return {
+                                    id: val.id,
+                                    form: val.form,
+                                    approvals: val.approvals,
+                                }
+                            })
+                            this.accountingApprovals.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                            this.accountingApprovals.successMessage = response._data.message
+                        }
+                    },
+                    onResponseError: ({ response }) => {
+                        this.accountingApprovals.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    }
+                }
+            )
+        },
+        async getInventoryApprovals () {
+            this.inventoryApprovals.isLoaded = true
+            await useHRMSApi(
+                "/api/approvals",
+                {
+                    method: "GET",
+                    params: this.inventoryApprovals.params,
+                    onRequest: () => {
+                        this.inventoryApprovals.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.inventoryApprovals.isLoading = false
+                        if (response.ok) {
+                            this.inventoryApprovals.list = response._data.data.data.map((val: any) => {
+                                return {
+                                    id: val.id,
+                                    form: val.form,
+                                    approvals: val.approvals,
+                                }
+                            })
+                            this.inventoryApprovals.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                            this.inventoryApprovals.successMessage = response._data.message
+                        }
+                    },
+                    onResponseError: ({ response }) => {
+                        this.inventoryApprovals.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    }
+                }
+            )
+        },
+        async getProjectsApprovals () {
+            this.projectsApprovals.isLoaded = true
+            await useHRMSApi(
+                "/api/approvals",
+                {
+                    method: "GET",
+                    params: this.projectsApprovals.params,
+                    onRequest: () => {
+                        this.projectsApprovals.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.projectsApprovals.isLoading = false
+                        if (response.ok) {
+                            this.projectsApprovals.list = response._data.data.data.map((val: any) => {
+                                return {
+                                    id: val.id,
+                                    form: val.form,
+                                    approvals: val.approvals,
+                                }
+                            })
+                            this.projectsApprovals.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                            this.projectsApprovals.successMessage = response._data.message
+                        }
+                    },
+                    onResponseError: ({ response }) => {
+                        this.projectsApprovals.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    }
+                }
+            )
         },
 
         async getApprovalByName (approvalName: String) {
@@ -75,7 +231,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                                     type: approv.type,
                                     status: "Pending",
                                     user_id: approv.user_id,
-                                    userselector: approv.userselector,
+                                    selector_type: approv.selector_type,
                                     date_approved: "",
                                     remarks: "",
                                     employee: approv.employee,
@@ -93,7 +249,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                         type: approv.type,
                         status: "Pending",
                         user_id: approv.user_id,
-                        userselector: approv.userselector,
+                        selector_type: approv.selector_type,
                         date_approved: "",
                         remarks: "",
                         employee: approv.employee,
@@ -101,70 +257,42 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                 })
             }
         },
-
-        async createApproval () {
-            this.successMessage = ""
-            this.errorMessage = ""
+        async editApprovals (approval: Approval) {
             await useHRMSApiO(
-                "/api/approvals",
-                {
-                    method: "POST",
-                    body: this.formApproval,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.getApproval()
-                            this.$reset()
-                            this.successMessage = response._data.message
-                        } else {
-                            this.errorMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        clearMessages () {
-            this.errorMessage = ""
-            this.successMessage = ""
-        },
-        async editApprovals () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApiO(
-                "/api/approvals/" + this.formApproval.id,
+                "/api/approvals/" + approval.id,
                 {
                     method: "PATCH",
-                    body: this.formApproval,
-                    onResponse: ({ response }) => {
+                    body: approval,
+                    onResponse: ({ response }: any) => {
+                        this.reloadResources()
                         if (response.ok) {
-                            this.getApproval()
-                            this.$reset()
-                            this.successMessage = response._data.message
+                            this.editApproval.successMessage = response._data.message
                         } else {
-                            this.errorMessage = response._data.message
+                            this.editApproval.errorMessage = response._data.message
                         }
                     },
                 }
             )
         },
-        async deleteApproval (id: number) {
-            await useHRMSApiO(
-                "/api/approvals/" + id,
-                {
-                    method: "DELETE",
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                            this.getApproval()
-                        } else {
-                            this.errorMessage = response._data.message
-                        }
-                    },
-                    onResponseError: ({ response }) => {
-                        this.errorMessage = response._data.message
-                    },
-                }
-            )
-        },
+        reloadResources () {
+            const callFunctions = []
+            if (this.hrmsApprovals.isLoaded) {
+                callFunctions.push(this.getHrmsApprovals)
+            }
+            if (this.accountingApprovals.isLoaded) {
+                callFunctions.push(this.getAccountingApprovals)
+            }
+            if (this.inventoryApprovals.isLoaded) {
+                callFunctions.push(this.getInventoryApprovals)
+            }
+            if (this.projectsApprovals.isLoaded) {
+                callFunctions.push(this.getProjectsApprovals)
+            }
+            this.$reset()
+            callFunctions.forEach((element) => {
+                element()
+            })
+        }
 
     },
 })

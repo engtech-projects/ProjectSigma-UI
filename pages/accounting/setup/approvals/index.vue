@@ -1,10 +1,4 @@
 <script setup>
-import { useApprovalStore } from "@/stores/accounting/approvals"
-
-const approvals = useApprovalStore()
-const { isEdit } = storeToRefs(approvals)
-approvals.getApproval()
-
 useHead({
     title: "Approvals",
 })
@@ -16,7 +10,7 @@ useHead({
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">
-            <AccountingSetupApprovalsForm v-show="!isEdit" />
+            <AccountingSetupApprovalsForm />
         </div>
     </LayoutAcessContainer>
 </template>
