@@ -118,9 +118,6 @@ const totalPaymentsOtherDeduction = () => {
             {{ employeePayrollRecord.pagibig_employee_contribution ? useFormatCurrency(employeePayrollRecord.pagibig_employee_contribution) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
-            {{ employeePayrollRecord.pagibig_employee_wisp ? useFormatCurrency(employeePayrollRecord.pagibig_employee_wisp) : "-" }}
-        </td>
-        <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.withholdingtax_contribution) ?? "-" }}
         </td>
         <td class="p-2 border-solid border border-slate-400">

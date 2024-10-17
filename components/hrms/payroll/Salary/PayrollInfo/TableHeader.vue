@@ -54,7 +54,7 @@
             </th>
             <th
                 scope="col"
-                colspan="6"
+                colspan="7"
                 class="p-2 border-solid border border-slate-400 bg-sky-200"
             >
                 Salary Deduction
@@ -198,7 +198,7 @@
             </th>
             <th
                 class="px-4 border-solid border border-slate-400"
-                colspan="2"
+                colspan="3"
             >
                 SSS
             </th>
