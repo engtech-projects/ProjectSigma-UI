@@ -25,7 +25,7 @@ const totalGrossPay = () => {
 }
 const totalDeductSSS = () => {
     return Object.values(props.data.summary).reduce((accumulator, current) => {
-        return accumulator + current.summary.deduct_sss_employee_contribution + current.summary.deduct_sss_employee_compensation
+        return accumulator + current.summary.deduct_sss_employee_contribution + current.summary.deduct_sss_employee_compensation + current.summary.deduct_sss_employee_wisp
     }, 0)
 }
 const totalDeductPhilhealth = () => {
@@ -51,6 +51,11 @@ const totalDeductCashadvance = () => {
 const totalDeductLoan = () => {
     return Object.values(props.data.summary).reduce((accumulator, current) => {
         return accumulator + current.summary.deduct_loan
+    }, 0)
+}
+const totalDeductSSSWisp = () => {
+    return Object.values(props.data.summary).reduce((accumulator, current) => {
+        return accumulator + current.summary.deduct_sss_employee_wisp
     }, 0)
 }
 const totalDeductOtherdeduction = () => {
@@ -91,11 +96,11 @@ const totalNetpay = () => {
                         <th colspan="3" class="border border-gray-500">
                             GROSS AMOUNT
                         </th>
-                        <th colspan="7" class="border border-gray-500">
+                        <th colspan="8" class="border border-gray-500">
                             DEDUCTIONS
                         </th>
                         <th rowspan="3" colspan="1" class="border border-gray-500">
-                            DEDUCTIONS
+                            TOTAL DEDUCTIONS
                         </th>
                         <th rowspan="3" colspan="1" class="border border-gray-500">
                             NET PAY
@@ -131,6 +136,9 @@ const totalNetpay = () => {
                         </th>
                         <th rowspan="2" class="border border-gray-500">
                             LOAN
+                        </th>
+                        <th rowspan="2" class="border border-gray-500">
+                            WISP
                         </th>
                         <th rowspan="2" class="border border-gray-500">
                             OTHER DEDUCTION
@@ -194,6 +202,9 @@ const totalNetpay = () => {
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
                             {{ useFormatCurrency(rowData.summary.deduct_loan) }}
+                        </td>
+                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
+                            {{ useFormatCurrency(rowData.summary.deduct_sss_employee_wisp) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
                             {{ useFormatCurrency(rowData.summary.deduct_otherdeduction) }}
@@ -269,6 +280,9 @@ const totalNetpay = () => {
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
                             {{ useFormatCurrency(totalDeductLoan()) }}
+                        </td>
+                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
+                            {{ useFormatCurrency(totalDeductSSSWisp()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
                             {{ useFormatCurrency(totalDeductOtherdeduction()) }}

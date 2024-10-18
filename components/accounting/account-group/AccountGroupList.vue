@@ -34,8 +34,7 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Account Group Name", id: "account_group_name" },
-    { name: "Type", id: "type_id" },
+    { name: "Account Group Name", id: "name" },
 ]
 
 // const snackbar = useSnackbar()

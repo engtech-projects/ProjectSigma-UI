@@ -5,9 +5,8 @@ const loanStore = useLoansStore()
 const employeeStore = useEmployeeInfo()
 const { createData } = storeToRefs(loanStore)
 const snackbar = useSnackbar()
-const isLoading = ref(false)
 const employeeSearched = () => {
-    loanStore.createData.data.employee_id = employeeStore.information.id
+    createData.value.data.employee_id = employeeStore.information.id
 }
 const deptProj = computed(() => {
     if (employeeStore.information.employee_internal.length > 0) {
@@ -24,27 +23,23 @@ const position = computed(() => {
 })
 const submitAdd = async () => {
     try {
-        isLoading.value = true
         await loanStore.createResource()
         snackbar.add({
             type: "success",
-            text: loanStore.createData.successMessage
+            text: createData.value.successMessage
         })
         loanStore.reloadResources()
-    } finally {
-        isLoading.value = false
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "Something went wrong."
+        })
     }
 }
 </script>
 <template>
-    <form class="relative" @submit.prevent="submitAdd">
-        <AccountingLoadScreen :is-loading="isLoading" />
-        <div
-            class="relative md:mt-0 edit-item w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto"
-        >
-            <label for="" class="text-xl font-semibold text-gray-900">
-                {{ "Loan Form" }}
-            </label>
+    <LayoutLoadingContainer :loading="createData.isLoading">
+        <form class="relative" @submit.prevent="submitAdd">
             <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                     <label
@@ -54,22 +49,6 @@ const submitAdd = async () => {
                         Employee Name
                     </label>
                     <SearchBar @search-changed="employeeSearched" />
-                </div>
-
-                <div class="mt-5">
-                    <label
-                        for="amt"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
-                        Amount Loaned
-                    </label>
-                    <input
-                        id="amt_loaned"
-                        v-model="createData.data.amount"
-                        type="number"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        required
-                    >
                 </div>
             </div>
             <div class="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -82,7 +61,7 @@ const submitAdd = async () => {
                         id="departmentproj"
                         class="cursor-not-allowed bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
-                        {{ deptProj }}
+                        {{ deptProj || '-' }}
                     </label>
                 </div>
                 <div>
@@ -97,6 +76,21 @@ const submitAdd = async () => {
                         {{ position }}
                     </label>
                 </div>
+            </div>
+            <div class="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <LayoutFormPsTextInput
+                    v-model="createData.data.name"
+                    title="Loan Name"
+                    placeholder="Loan Name"
+                    name="loanName"
+                    required
+                />
+                <LayoutFormPsNumberInput
+                    v-model="createData.data.amount"
+                    title="Amount Loaned"
+                    name="loanAmt"
+                    required
+                />
             </div>
             <div class="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
@@ -143,7 +137,7 @@ const submitAdd = async () => {
             </div>
 
             <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <div class="mt-5">
+                <div>
                     <label
                         for="amt"
                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -192,6 +186,6 @@ const submitAdd = async () => {
                     Add
                 </button>
             </div>
-        </div>
-    </form>
+        </form>
+    </LayoutLoadingContainer>
 </template>

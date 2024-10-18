@@ -16,7 +16,7 @@ const headers = [
 ]
 
 const changePaginate = (newParams) => {
-    loansStore.paidList.params.page = newParams.page ?? ""
+    paidList.value.params.page = newParams.page ?? ""
 }
 
 const infoModalData = ref({})
@@ -30,7 +30,7 @@ const showInformation = (data) => {
 <template>
     <LayoutLoadingContainer>
         <div class="w-full">
-            <HrmsCommonSearchEmployeeSelector v-model="loansStore.paidList.params.employee_id" />
+            <HrmsCommonSearchEmployeeSelector v-model="paidList.params.employee_id" />
         </div>
         <div class="w-full">
             <div class="mt-5 mb-6 ">

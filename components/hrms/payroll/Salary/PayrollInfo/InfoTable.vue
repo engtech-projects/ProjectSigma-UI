@@ -32,36 +32,43 @@ const totalDeductionPayroll = () => {
 }
 const totalEWTCPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { ewtc: string } } }) => {
+    props.payrollRequest.payroll_details.forEach((element: any) => {
         total += parseFloat(element.payroll_records.salary_deduction.ewtc)
     })
     return total.toFixed(2)
 }
 const totalHDMFEmployeePayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { hmdf: { employee_contribution: string } } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.hmdf.employee_contribution) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.payroll_records.salary_deduction.hmdf.employee_contribution) || 0
     })
     return total.toFixed(2)
 }
 const totalPHICEmployeePayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { phic: { employee_contribution: string } } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.phic.employee_contribution) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.payroll_records.salary_deduction.phic.employee_contribution) || 0
     })
     return total.toFixed(2)
 }
 const totalSSSCompensationEmployeePayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { sss: { employee_compensation: string } } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.sss.employee_compensation) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.payroll_records.salary_deduction.sss.employee_compensation) || 0
     })
     return total.toFixed(2)
 }
 const totalSSSContributionEmployeePayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { sss: { employee_contribution: string } } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.sss.employee_contribution) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.payroll_records.salary_deduction.sss.employee_contribution) || 0
+    })
+    return total.toFixed(2)
+}
+const totalSSSWispEmployeePayroll = () => {
+    let total = 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.payroll_records.salary_deduction.sss.employee_wisp) || 0
     })
     return total.toFixed(2)
 }
@@ -204,6 +211,9 @@ const totalRegHrsPayroll = () => {
                 </td>
                 <td>
                     {{ totalSSSCompensationEmployeePayroll() ? useFormatCurrency(totalSSSCompensationEmployeePayroll()) : "-" }}
+                </td>
+                <td>
+                    {{ totalSSSWispEmployeePayroll() ? useFormatCurrency(totalSSSWispEmployeePayroll()) : "-" }}
                 </td>
                 <td>
                     {{ useFormatCurrency(totalPHICEmployeePayroll()) ?? "-" }}

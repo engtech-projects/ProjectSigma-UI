@@ -20,17 +20,17 @@ const generateReport = async () => {
 
 const totalSssEmployeeRemittance = () => {
     return Object.values(sssRemittanceSummaryList.value.list).reduce((accumulator, current) => {
-        return accumulator + current.summary.total_employee_contribution
+        return accumulator + current.summary.total_employee_contribution + current.summary.total_employee_wisp
     }, 0)
 }
 const totalSssEmployerRemittance = () => {
     return Object.values(sssRemittanceSummaryList.value.list).reduce((accumulator, current) => {
-        return accumulator + current.summary.total_employer_contribution
+        return accumulator + current.summary.total_employer_contribution + current.summary.total_employer_wisp
     }, 0)
 }
 const sssTotalContribution = () => {
     return Object.values(sssRemittanceSummaryList.value.list).reduce((accumulator, current) => {
-        return accumulator + current.summary.total_contribution
+        return accumulator + current.summary.total_contribution + current.summary.total_wisp
     }, 0)
 }
 const totalSssEmployerCompensation = () => {
@@ -127,13 +127,13 @@ watch(() => sssRemittanceSummaryList.value.params.month_year, (newValue) => {
                                 {{ reportData.summary.no_of_employee }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.summary.total_employer_contribution) }}
+                                {{ useFormatCurrency(reportData.summary.total_employer_contribution + reportData.summary.total_employer_wisp) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.summary.total_employee_contribution) }}
+                                {{ useFormatCurrency(reportData.summary.total_employee_contribution + reportData.summary.total_employee_wisp) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.summary.total_contribution) }}
+                                {{ useFormatCurrency(reportData.summary.total_contribution + reportData.summary.total_wisp) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.summary.total_employer_compensation) }}

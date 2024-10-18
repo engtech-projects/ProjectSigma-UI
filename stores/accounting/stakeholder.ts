@@ -32,13 +32,13 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
         async getStakeholders () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/stakeholder",
+                "/api/stakeholders",
                 {
                     method: "GET",
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data
+                        this.list = response._data.data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -58,7 +58,7 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/stakeholder",
+                "/api/stakeholders",
                 {
                     method: "POST",
                     body: this.stakeholder,
@@ -80,7 +80,7 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/stakeholder/" + this.stakeholder.stakeholder_id,
+                "/api/stakeholders/" + this.stakeholder.stakeholder_id,
                 {
                     method: "PATCH",
                     body: this.stakeholder,
@@ -99,7 +99,7 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
 
         async deleteStakeholder (id: number) {
             const { data, error } = await useAccountingApi(
-                "/api/stakeholder/" + id,
+                "/api/stakeholders/" + id,
                 {
                     method: "DELETE",
                     body: this.stakeholder,

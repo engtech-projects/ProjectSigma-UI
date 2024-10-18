@@ -1,6 +1,6 @@
 <template>
     <div class="px-16 bg-white shadow">
-        <AccountingVoucherDisbursementDetails />
+        <AccountingVoucherCashDetails />
     </div>
 </template>
 
@@ -14,7 +14,7 @@ import { useVoucherStore } from "~/stores/accounting/voucher"
 
 const voucherStore = useVoucherStore()
 if (!useRoute().query.id) {
-    navigateTo("/accounting/voucher/disbursement")
+    navigateTo("/accounting/voucher/cash")
 } else {
     await voucherStore.showVoucher(useRoute().query.id)
 }

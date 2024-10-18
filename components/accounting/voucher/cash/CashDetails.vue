@@ -48,7 +48,7 @@ onMounted(() => {
             </div>
             <AccountingCommonEvenparHeader />
             <h1 class="text-2xl text-center font-bold">
-                DISBURSEMENT VOUCHER DETAILS
+                CASH VOUCHER DETAILS
             </h1>
             <div class="flex flex-col gap-2">
                 <div class="flex justify-end gap-4">
@@ -320,7 +320,7 @@ onMounted(() => {
             <div class="flex justify-end">
                 <div class="flex gap-2">
                     <NuxtLink
-                        to="/accounting/voucher/disbursement"
+                        to="/accounting/voucher/cash"
                         class="flex items-center text-white p-2 px-6 rounded bg-gray-600 content-center mt-5 rounded-md w-fit"
                     >
                         <span>Decline</span>
