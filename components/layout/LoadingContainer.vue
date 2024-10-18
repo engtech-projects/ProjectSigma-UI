@@ -1,6 +1,6 @@
 <template>
     <div class="relative LoadingContainer">
-        <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+        <div v-show="loading" class="absolute z-10 bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
             <img
                 class="flex justify-center w-28 rounded-md"
                 src="/loader.gif"
