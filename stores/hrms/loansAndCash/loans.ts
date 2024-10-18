@@ -20,9 +20,11 @@ export interface Loan {
 export const useLoansStore = defineStore("LoansStore", {
     state: () => ({
         createData: {
+            isLoading: false,
             data: {
                 id: null,
                 employee_id: null,
+                name: "",
                 amount: null,
                 installment_deduction: null,
                 deduction_date_start: "",
@@ -35,6 +37,7 @@ export const useLoansStore = defineStore("LoansStore", {
             data: {
                 id: null,
                 employee_id: null,
+                name: "'",
                 amount: null,
                 installment_deduction: null,
                 deduction_date_start: "",
@@ -179,18 +182,16 @@ export const useLoansStore = defineStore("LoansStore", {
             })
         },
         async createResource () {
-            await useHRMSApi("/api/loans/resource", {
+            await useHRMSApiO("/api/loans/resource", {
                 method: "POST",
-                watch: false,
                 body: this.createData.data,
-                onResponseError: ({ response }) => {
+                onResponseError: ({ response }: any) => {
                     this.createData.errorMessage = response._data.message
                     throw new Error(response._data.message)
                 },
-                onResponse: ({ response }) => {
+                onResponse: ({ response }: any) => {
                     if (response.ok) {
-                        this.resetCreateData()
-                        this.getAllList()
+                        this.reloadResources()
                         this.createData.data = response._data.data
                         this.createData.successMessage = response._data.message
                     }

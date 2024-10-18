@@ -22,7 +22,7 @@ const submitPayment = async () => {
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: error
+            text: error || "Something went wrong."
         })
     }
 }
@@ -52,26 +52,26 @@ const showMakePayment = () => {
         </div>
         <div class="flex gap-4">
             <div class="flex flex-1 flex-col gap-1">
-                <label class="font-semibold text-gray-700">Cash Advance Amount: </label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.amount)" disabled>
+                <label class="font-semibold text-gray-700">Loan Name: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.name" disabled>
             </div>
             <div class="flex flex-1 flex-col gap-1">
                 <label class="font-semibold text-gray-700">Terms: </label>
                 <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.terms_of_payment" disabled>
             </div>
             <div class="flex flex-1 flex-col gap-1">
-                <label class="font-semibold text-gray-700">Purpose/Reason(s): </label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.purpose" disabled>
+                <label class="font-semibold text-gray-700">Deduction Date start: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.deduction_date_start" disabled>
             </div>
         </div>
         <div class="flex gap-4">
             <div class="flex flex-1 flex-col gap-1">
-                <label class="font-semibold text-gray-700">Installment Deduction: </label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.installment_deduction)" disabled>
+                <label class="font-semibold text-gray-700">Loan Amount: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.amount)" disabled>
             </div>
             <div class="flex flex-1 flex-col gap-1">
-                <label class="font-semibold text-gray-700">Deduction Date start: </label>
-                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.deduction_date_start" disabled>
+                <label class="font-semibold text-gray-700">Installment Deduction: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.installment_deduction)" disabled>
             </div>
             <div class="flex flex-1 flex-col gap-1">
                 <label class="font-semibold text-gray-700">Balance: </label>
