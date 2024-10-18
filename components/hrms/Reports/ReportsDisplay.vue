@@ -8,13 +8,13 @@ defineProps({
 </script>
 <template>
     <div id="printContent">
-        <HrmsReportsSssContribution
+        <HrmsReportsSssRemittanceSummary
             v-show="selectedReport==='Report1'"
         />
-        <HrmsReportsSssProjectRemittance
+        <HrmsReportsSssRemittanceGroup
             v-show="selectedReport==='Report2'"
         />
-        <HrmsReportsSssEmployeeRemittance
+        <HrmsReportsSssRemittanceEmployee
             v-show="selectedReport==='Report3'"
         />
         <HrmsReportsSssLoanPaymentSummary

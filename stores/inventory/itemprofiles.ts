@@ -84,7 +84,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         addItemProfile: [] as Array<NewItemProfile>,
         formItemProfile: {} as ItemProfile,
         newItemProfile: [] as Array<NewItemProfile>,
-        uom: {} as any,
+        uom: [] as any,
         itemDetails: {
             isLoading: false,
             isLoaded: false,
@@ -132,33 +132,38 @@ export const useItemProfileStore = defineStore("itemprofiles", {
     }),
     getters: {
         uomLength (state) {
-            return state.uom.data.filter(function (data: any) {
+            return state.uom.filter(function (data: any) {
                 return data.group_id === 1 ? data : null
             })
         },
         uomWeight (state) {
-            return state.uom.data.filter(function (data: any) {
+            return state.uom.filter(function (data: any) {
                 return data.group_id === 2 ? data : null
             })
         },
         uomVolume (state) {
-            return state.uom.data.filter(function (data: any) {
+            return state.uom.filter(function (data: any) {
                 return data.group_id === 3 ? data : null
             })
         },
         uomArea (state) {
-            return state.uom.data.filter(function (data: any) {
+            return state.uom.filter(function (data: any) {
                 return data.group_id === 4 ? data : null
             })
         },
         uomForce (state) {
-            return state.uom.data.filter(function (data: any) {
+            return state.uom.filter(function (data: any) {
                 return data.group_id === 5 ? data : null
             })
         },
         uomDimension (state) {
-            return state.uom.data.filter(function (data: any) {
+            return state.uom.filter(function (data: any) {
                 return data.group_id === 6 ? data : null
+            })
+        },
+        uomCustom (state) {
+            return state.uom.filter(function (data: any) {
+                return data.is_standard === 0 ? data : null
             })
         },
     },
@@ -203,8 +208,8 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             }
         },
         async getUOM () {
-            const { data, error } = await useInventoryApi(
-                "/api/uom/resource",
+            await useInventoryApi(
+                "/api/uom/all",
                 {
                     method: "GET",
                     watch: false,
@@ -213,11 +218,6 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
         async activeItemProfile (id: number) {
             await useInventoryApi(
