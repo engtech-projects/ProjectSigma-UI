@@ -27,7 +27,7 @@ export const useJournalStore = defineStore("journalStore", {
         async getJournals () {
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/journal",
+                "/api/journal-entry",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",

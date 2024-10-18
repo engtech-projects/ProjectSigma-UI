@@ -7,6 +7,15 @@ await journalStore.getJournals()
 </script>
 <template>
     <div class="flex flex-col items-end gap-4">
+        <div class="flex">
+            <!-- <NuxtLink
+                to="/accounting/journal-entry/create"
+                class="flex-1 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
+            >
+                <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
+                <span>New Entry</span>
+            </NuxtLink> -->
+        </div>
         <LayoutBoards
             v-if="useCheckAccessibility([
                 AccessibilityTypes.accounting_journal_viewall
