@@ -25,7 +25,7 @@ const totalGrossPay = () => {
 }
 const totalDeductSSS = () => {
     return Object.values(props.data.summary).reduce((accumulator, current) => {
-        return accumulator + current.summary.deduct_sss_employee_contribution + current.summary.deduct_sss_employee_compensation
+        return accumulator + current.summary.deduct_sss_employee_contribution + current.summary.deduct_sss_employee_compensation + current.summary.deduct_sss_employee_wisp
     }, 0)
 }
 const totalDeductPhilhealth = () => {
@@ -178,7 +178,7 @@ const totalNetpay = () => {
                             aa
                         </td> -->
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
-                            {{ useFormatCurrency(rowData.summary.deduct_sss_employee_contribution + rowData.summary.deduct_sss_employee_compensation) }}
+                            {{ useFormatCurrency(rowData.summary.deduct_sss_employee_contribution + rowData.summary.deduct_sss_employee_compensation + rowData.summary.deduct_sss_employee_wisp) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
                             {{ useFormatCurrency(rowData.summary.deduct_phihealth_employee_cotribution) }}
