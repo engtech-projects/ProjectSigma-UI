@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 const profileStore = useItemProfileStore()
-const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension } = storeToRefs(profileStore)
+const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension, uomCustom } = storeToRefs(profileStore)
 defineProps({
     actions: {
         type: Object,
@@ -27,6 +27,7 @@ const AllTypes = ref({
     areaType: uomArea,
     forceType: uomForce,
     dimensionType: uomDimension,
+    customType: uomCustom,
 })
 const inventoryTypes = ref(
     [
