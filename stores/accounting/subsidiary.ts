@@ -20,7 +20,7 @@ export const useSubsidiaryStore = defineStore("subsidiaryStore", {
         async getSubsidiaries () {
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/v1/subsidiary",
+                "/api/subsidiary",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
@@ -51,7 +51,7 @@ export const useSubsidiaryStore = defineStore("subsidiaryStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/v1/subsidiary",
+                "/api/subsidiary",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
@@ -78,7 +78,7 @@ export const useSubsidiaryStore = defineStore("subsidiaryStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/v1/subsidiary/" + this.subsidiary.subsidiary_id,
+                "/api/subsidiary/" + this.subsidiary.subsidiary_id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
@@ -101,7 +101,7 @@ export const useSubsidiaryStore = defineStore("subsidiaryStore", {
 
         async deleteAccount (id: number) {
             const { data, error } = await useFetch(
-                "/api/v1/subsidiary/" + id,
+                "/api/subsidiary/" + id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",

@@ -149,6 +149,7 @@ const changePaginate = (newParams) => {
                                                 v-model="approvers.user_id"
                                                 :form="index + 'approvform'"
                                                 :disabled="approvers.selector_type !== 'specific'"
+                                                :required="approvers.selector_type === 'specific'"
                                             />
                                         </div>
                                     </div>

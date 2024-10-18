@@ -28,7 +28,7 @@ export const useTransactionStore = defineStore("transactionStore", {
     }),
     actions: {
         async getTransactions (params:any = null) {
-            const url = !params ? "/api/v1/transactions" : "/api/v1/transactions?transaction_type=" + params
+            const url = !params ? "/api/transactions" : "/api/transactions?transaction_type=" + params
             this.isLoading = true
             const { data, error } = await useFetch(
                 url,
@@ -59,7 +59,7 @@ export const useTransactionStore = defineStore("transactionStore", {
         },
 
         async showTransaction (id:any) {
-            const url = "/api/v1/transactions/" + id
+            const url = "/api/transactions/" + id
             this.isLoading = true
             const { data, error } = await useFetch(
                 url,
@@ -88,7 +88,7 @@ export const useTransactionStore = defineStore("transactionStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/v1/transactions",
+                "/api/transactions",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
@@ -115,7 +115,7 @@ export const useTransactionStore = defineStore("transactionStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useFetch(
-                "/api/v1/transactions/" + this.transaction.transaction_id,
+                "/api/transactions/" + this.transaction.transaction_id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
@@ -138,7 +138,7 @@ export const useTransactionStore = defineStore("transactionStore", {
 
         async deleteTransaction (id: number) {
             const { data, error } = await useFetch(
-                "/api/v1/transaction/" + id,
+                "/api/transaction/" + id,
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",

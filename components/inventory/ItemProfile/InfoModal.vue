@@ -32,18 +32,18 @@ const approvedRequest = async (id: number) => {
     try {
         boardLoading.value = true
         await profileStore.approveApprovalForm(id)
-        snackbar.add({
-            type: "success",
-            text: profileStore.successMessage
-        })
-        profileStore.approvalReset()
-        closeViewModal()
-        if (profileStore.errorMessage) {
+        if (profileStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
                 text: profileStore.errorMessage
             })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: profileStore.successMessage
+            })
         }
+        closeViewModal()
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -57,11 +57,17 @@ const denyRequest = async (id: any) => {
     try {
         boardLoading.value = true
         await profileStore.denyApprovalForm(id)
-        snackbar.add({
-            type: "success",
-            text: profileStore.successMessage
-        })
-        profileStore.approvalReset()
+        if (profileStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: profileStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: profileStore.successMessage
+            })
+        }
         closeViewModal()
     } catch (error) {
         snackbar.add({

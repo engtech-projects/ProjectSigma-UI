@@ -3,11 +3,9 @@ import { defineStore } from "pinia"
 export const useAccountGroupStore = defineStore("accountGroupStore", {
     state: () => ({
         accountGroup: {
-            account_group_id: null,
-            account_group_name: null,
-            account_ids: {},
+            id: null,
+            name: null,
             accounts: [],
-            account_id: []
         },
         list: [],
         pagination: {},
@@ -21,13 +19,13 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
         async getAccountGroups () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/account-group",
+                "/api/account-group",
                 {
                     method: "GET",
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.account_group
+                        this.list = response._data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -45,7 +43,7 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
 
         async showAccountGroup (id:any) {
             const { data, error } = await useAccountingApi(
-                "/api/v1/account-group/" + id,
+                "/api/account-group/" + id,
                 {
                     method: "GET",
                     params: this.getParams,
@@ -65,7 +63,7 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/v1/account-group",
+                "/api/account-group",
                 {
                     method: "POST",
                     body: this.accountGroup,
@@ -91,7 +89,7 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
                 this.accountGroup.account_id.push(element.account_id)
             })
             const { data, error } = await useAccountingApi(
-                "/api/v1/account-group/" + this.accountGroup.account_group_id,
+                "/api/account-group/" + this.accountGroup.account_group_id,
                 {
                     method: "PATCH",
                     body: this.accountGroup,
@@ -110,7 +108,7 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
 
         async deleteAccountType (id: number) {
             const { data, error } = await useAccountingApi(
-                "/api/v1/account-group/" + id,
+                "/api/account-group/" + id,
                 {
                     method: "DELETE",
                     body: this.accountGroup,
@@ -132,11 +130,9 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
 
         reset () {
             this.accountGroup = {
-                account_group_id: null,
-                account_group_name: null,
-                accounts: [],
-                account_ids: {},
-                account_id: []
+                id: null,
+                name: null,
+                accounts: []
             }
             this.successMessage = ""
             this.errorMessage = ""

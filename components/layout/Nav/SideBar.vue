@@ -527,14 +527,30 @@ const config = useRuntimeConfig()
                     single-nav-title="Unit Of Measurement"
                 />
             </LayoutNavGroup>
-            <LayoutNavSingle
+            <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.inventory_warehouse_viewonly,
+                    AccessibilityTypes.inventory_warehouse_group
                 ])"
-                linkarea="/inventory/warehouse"
                 icon="material-symbols:warehouse-outline-rounded"
-                single-nav-title="Warehouse"
-            />
+                title="Warehouse"
+            >
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.inventory_warehouse_group,
+                    ])"
+                    linkarea="/inventory/warehouse"
+                    icon="grommet-icons:overview"
+                    single-nav-title="Overview"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        'Admin only',
+                    ])"
+                    linkarea="/inventory/warehouse"
+                    icon="lsicon:management-stockout-filled"
+                    single-nav-title="Stocks"
+                />
+            </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
         <!-- Accounting -->

@@ -5,27 +5,14 @@ const config = useRuntimeConfig()
 export const useJournalStore = defineStore("journalStore", {
     state: () => ({
         journal: {
-            entry: {
-                transaction_date: "",
-                transaction_no: "",
-                note: "",
-                period_id: "9",
-                reference_no: "JE",
-                transaction_type_id: 1,
-                stakeholder_id: 1,
-                description: "Journal Entry",
-                amount: 100,
-                status: "open"
-            },
-            details: [
-                {
-                    transaction_id: "1",
-                    stakeholder_id: "1",
-                    account_id: 10,
-                    debit: 100,
-                    credit: 0
-                },
-            ]
+            id: null,
+            journal_no: null,
+            journal_date: null,
+            voucher_id: null,
+            status: null,
+            period_id: null,
+            remarks: "",
+            reference_no: null
         },
         base: {},
         list: [],
@@ -37,10 +24,10 @@ export const useJournalStore = defineStore("journalStore", {
         isEdit: false
     }),
     actions: {
-        async baseData () {
+        async getJournals () {
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/v1/journal",
+                "/api/journal-entry",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
@@ -51,7 +38,7 @@ export const useJournalStore = defineStore("journalStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.base = response._data.data
+                        this.list = response._data
                     },
                 }
             )
@@ -66,7 +53,7 @@ export const useJournalStore = defineStore("journalStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/v1/journal",
+                "/api/journal",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",

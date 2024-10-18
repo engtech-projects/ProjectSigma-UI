@@ -2,7 +2,6 @@
 interface HeaderColumn {
     name: string,
     id: string,
-    style: string
 }
 defineProps({
     title: {
@@ -21,16 +20,7 @@ defineProps({
 </script>
 <template>
     <div class="h-full w-full">
-        <div class="flex flex-col gap-2 w-full border-2 border-solid border-gray-800 rounded-t">
-            <div id="headline mb-4">
-                <div class="w-full bg-gray-900 basis-[10%] grow-1 shrink-0 flex flex-row justify-between items-center border-b py-2 px-4">
-                    <div class="flex flex-row gap-2 items-center justify-center">
-                        <h3 class="text-lg font-bold text-white">
-                            {{ title }}
-                        </h3>
-                    </div>
-                </div>
-            </div>
+        <LayoutBoards :title="title" class="w-full">
             <div id="itemDetails">
                 <div v-if="data && data.length > 0" id="content" class="overflow-auto max-h-96">
                     <table class="table-auto w-full border-collapse">
@@ -52,6 +42,6 @@ defineProps({
                     </p>
                 </div>
             </div>
-        </div>
+        </LayoutBoards>
     </div>
 </template>

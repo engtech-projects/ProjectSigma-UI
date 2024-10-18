@@ -2,25 +2,45 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export const useAccountCategory = defineStore("accountCategory", {
+export const useJournalStore = defineStore("journalStore", {
     state: () => ({
-        accountCategory: {
-            id: null,
-            account_category: null,
-            to_increase: null,
+        journal: {
+            entry: {
+                transaction_date: "",
+                transaction_no: "",
+                note: "",
+                period_id: "9",
+                reference_no: "JE",
+                transaction_type_id: 1,
+                stakeholder_id: 1,
+                description: "Journal Entry",
+                amount: 100,
+                status: "open"
+            },
+            details: [
+                {
+                    transaction_id: "1",
+                    stakeholder_id: "1",
+                    account_id: 10,
+                    debit: 100,
+                    credit: 0
+                },
+            ]
         },
+        base: {},
         list: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
         isLoading: false,
+        isEdit: false
     }),
     actions: {
-        async getAccountCategories () {
+        async baseData () {
             this.isLoading = true
             const { data, error } = await useFetch(
-                "/api/account/category",
+                "/api/journal",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
@@ -31,12 +51,7 @@ export const useAccountCategory = defineStore("accountCategory", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data
-                        this.pagination = {
-                            first_page: response._data.first_page_url,
-                            pages: response._data.links,
-                            last_page: response._data.last_page_url,
-                        }
+                        this.base = response._data.data
                     },
                 }
             )
@@ -47,11 +62,11 @@ export const useAccountCategory = defineStore("accountCategory", {
             }
         },
 
-        async createAccountCategory () {
+        async createJournal () {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/account/category",
+                "/api/journal",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
@@ -59,13 +74,12 @@ export const useAccountCategory = defineStore("accountCategory", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.accountCategory,
+                    body: this.journal,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getAccountCategories()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -75,11 +89,7 @@ export const useAccountCategory = defineStore("accountCategory", {
         },
 
         reset () {
-            this.accountCategory = {
-                id: null,
-                account_category: null,
-                to_increase: null,
-            }
+            this.base = {}
             this.successMessage = ""
             this.errorMessage = ""
         },

@@ -54,14 +54,14 @@ export const useAccountStore = defineStore("accountStore", {
         async getAccounts () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/accounts",
+                "/api/accounts",
                 {
                     method: "GET",
                     params: this.getParams,
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.account
+                        this.list = response._data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -81,7 +81,7 @@ export const useAccountStore = defineStore("accountStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/v1/accounts",
+                "/api/accounts",
                 {
                     method: "POST",
                     body: this.account,
@@ -103,7 +103,7 @@ export const useAccountStore = defineStore("accountStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/v1/account/" + this.account.account_id,
+                "/api/account/" + this.account.account_id,
                 {
                     method: "PATCH",
                     body: this.account,

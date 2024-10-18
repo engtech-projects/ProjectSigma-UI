@@ -49,10 +49,15 @@ const changePaginate = (newParams) => {
                                 {{ useUtilities().value.dateToString(new Date(voucher.date_encoded)) }}
                             </td>
                             <td class="p-2">
-                                {{ voucher.payee }}
+                                {{ voucher.stakeholder.name }}
                             </td>
                             <td class="p-2">
                                 {{ useUtilities().value.formatCurrency(voucher.net_amount) }}
+                            </td>
+                            <td>
+                                <NuxtLink :to="'/accounting/voucher/cash/details?id=' + voucher.id">
+                                    <Icon name="material-symbols:visibility-rounded" color="white" class="bg-green-500 rounded h-8 w-8 p-1 " />
+                                </NuxtLink>
                             </td>
                         </tr>
                     </tbody>
