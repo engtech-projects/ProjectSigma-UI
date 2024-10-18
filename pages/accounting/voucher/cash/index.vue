@@ -1,5 +1,5 @@
 <template>
-    <div class="px-16 bg-white shadow">
+    <div class="bg-gray-50">
         <AccountingVoucherCashList />
     </div>
 </template>
