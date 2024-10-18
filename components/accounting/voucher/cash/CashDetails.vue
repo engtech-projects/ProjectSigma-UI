@@ -29,7 +29,7 @@ watch(showNetAmount, (newValue) => {
 })
 const accountEntries = ref([])
 const accountId = computed(() => {
-    return voucherStore.voucher.account ? voucherStore.voucher.account.id : null
+    return voucherStore.voucher ? voucherStore.voucher.account_id : null
 })
 onMounted(() => {
     // console.log(accountId.value)
