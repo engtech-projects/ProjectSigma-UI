@@ -1,7 +1,12 @@
 <script lang="ts" setup>
 import { usePostingPeriodStore } from "~/stores/accounting/postingperiod"
+import { useJournalStore } from "~/stores/accounting/journal"
+
 const postingPeriodStore = usePostingPeriodStore()
 await postingPeriodStore.getPostingPeriods()
+
+const journalStore = useJournalStore()
+await journalStore.getJournals()
 
 definePageMeta({
     layout: "default",

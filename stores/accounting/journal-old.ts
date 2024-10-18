@@ -5,14 +5,27 @@ const config = useRuntimeConfig()
 export const useJournalStore = defineStore("journalStore", {
     state: () => ({
         journal: {
-            id: null,
-            journal_no: null,
-            journal_date: null,
-            voucher_id: null,
-            status: null,
-            period_id: null,
-            remarks: "",
-            reference_no: null
+            entry: {
+                transaction_date: "",
+                transaction_no: "",
+                note: "",
+                period_id: "9",
+                reference_no: "JE",
+                transaction_type_id: 1,
+                stakeholder_id: 1,
+                description: "Journal Entry",
+                amount: 100,
+                status: "open"
+            },
+            details: [
+                {
+                    transaction_id: "1",
+                    stakeholder_id: "1",
+                    account_id: 10,
+                    debit: 100,
+                    credit: 0
+                },
+            ]
         },
         base: {},
         list: [],
@@ -24,7 +37,7 @@ export const useJournalStore = defineStore("journalStore", {
         isEdit: false
     }),
     actions: {
-        async getJournals () {
+        async baseData () {
             this.isLoading = true
             const { data, error } = await useFetch(
                 "/api/journal",
@@ -38,7 +51,7 @@ export const useJournalStore = defineStore("journalStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data
+                        this.base = response._data.data
                     },
                 }
             )
