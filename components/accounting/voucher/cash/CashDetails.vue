@@ -66,7 +66,7 @@ onMounted(() => {
                                 for="payee"
                                 class="text-xs italic"
                             >Payee</label>
-                            <select :value="voucherStore.voucher.stakeholder ? voucherStore.voucher.stakeholder.id : null" class="w-full rounded-lg" disabled>
+                            <select :value="voucherStore.voucher ? voucherStore.voucher.stakeholder_id : null" class="w-full rounded-lg" disabled>
                                 <option v-for="st in payeeList" :key="st.id" :value="st.id">
                                     {{ st.name }}
                                 </option>
@@ -213,7 +213,7 @@ onMounted(() => {
                                 for="amountInWords"
                                 class="text-xs italic"
                             >Accounts</label>
-                            <select v-model="ae.account_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
+                            <select v-model="ae.account" class="w-full rounded-lg h-9 text-sm bg-gray-100">
                                 <option v-for="ac in accountGroup.accountGroup.accounts" :key="ac.id" :value="ac.id">
                                     {{ ac.account_name }}
                                 </option>

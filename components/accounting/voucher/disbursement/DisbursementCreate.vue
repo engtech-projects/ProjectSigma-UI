@@ -281,7 +281,7 @@ onMounted(() => {
                                 class="text-xs italic"
                             >Accounts</label>
                             <select v-model="accountEntry.account_id" class="w-full rounded-lg">
-                                <option v-for="account in accountsList" :key="account.id" :value="account.id">
+                                <option v-for="account in accountGroup.accountGroup.accounts" :key="account.id" :value="account.id">
                                     {{ account.account_name }}
                                 </option>
                             </select>
