@@ -123,6 +123,9 @@ const totalNetpay = () => {
                             SSS EE
                         </th>
                         <th rowspan="2" class="border border-gray-500">
+                            WISP EE
+                        </th>
+                        <th rowspan="2" class="border border-gray-500">
                             PHIC EE
                         </th>
                         <th rowspan="2" class="border border-gray-500">
@@ -136,9 +139,6 @@ const totalNetpay = () => {
                         </th>
                         <th rowspan="2" class="border border-gray-500">
                             LOAN
-                        </th>
-                        <th rowspan="2" class="border border-gray-500">
-                            WISP
                         </th>
                         <th rowspan="2" class="border border-gray-500">
                             OTHER DEDUCTION
@@ -189,6 +189,9 @@ const totalNetpay = () => {
                             {{ useFormatCurrency(rowData.summary.deduct_sss_employee_contribution + rowData.summary.deduct_sss_employee_compensation) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
+                            {{ useFormatCurrency(rowData.summary.deduct_sss_employee_wisp) }}
+                        </td>
+                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
                             {{ useFormatCurrency(rowData.summary.deduct_phihealth_employee_cotribution) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
@@ -202,9 +205,6 @@ const totalNetpay = () => {
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
                             {{ useFormatCurrency(rowData.summary.deduct_loan) }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
-                            {{ useFormatCurrency(rowData.summary.deduct_sss_employee_wisp) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
                             {{ useFormatCurrency(rowData.summary.deduct_otherdeduction) }}
@@ -267,6 +267,9 @@ const totalNetpay = () => {
                             {{ useFormatCurrency(totalDeductSSS()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
+                            {{ useFormatCurrency(totalDeductSSSWisp()) }}
+                        </td>
+                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
                             {{ useFormatCurrency(totalDeductPhilhealth()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
@@ -280,9 +283,6 @@ const totalNetpay = () => {
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
                             {{ useFormatCurrency(totalDeductLoan()) }}
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 font-bold text-sm">
-                            {{ useFormatCurrency(totalDeductSSSWisp()) }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-center">
                             {{ useFormatCurrency(totalDeductOtherdeduction()) }}
