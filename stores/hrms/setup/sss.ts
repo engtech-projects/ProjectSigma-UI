@@ -13,6 +13,8 @@ export const useContributionStore = defineStore("sssContrib", {
             employer_share: null,
             employee_compensation: null,
             employer_compensation: null,
+            employee_wisp: null,
+            employer_wisp: null,
         },
         list: [],
         pagination: {},

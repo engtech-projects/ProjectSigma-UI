@@ -68,28 +68,35 @@ const totalEWTCPayroll = () => {
 const totalHDMFEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.pagibig_employee_contribution) ?? 0
+        total += parseFloat(element.pagibig_employee_contribution) || 0
     })
     return total.toFixed(2)
 }
 const totalPHICEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.philhealth_employee_contribution) ?? 0
+        total += parseFloat(element.philhealth_employee_contribution) || 0
     })
     return total.toFixed(2)
 }
 const totalSSSContributionEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.sss_employee_contribution) ?? 0
+        total += parseFloat(element.sss_employee_contribution) || 0
     })
     return total.toFixed(2)
 }
 const totalSSSCompensationEmployeePayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.sss_employee_compensation) ?? 0
+        total += parseFloat(element.sss_employee_compensation) || 0
+    })
+    return total.toFixed(2)
+}
+const totalSSSWispEmployeePayroll = () => {
+    let total = 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.sss_employee_wisp) || 0
     })
     return total.toFixed(2)
 }
@@ -131,33 +138,51 @@ const totalRegOTPayroll = () => {
 const totalSpcHolPayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.special_holiday_pay) ?? 0
+        total += parseFloat(element.special_holiday_pay) || 0
     })
     return total.toFixed(2)
 }
 const totalRegHolPayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.regular_holiday_pay) ?? 0
+        total += parseFloat(element.regular_holiday_pay) || 0
     })
     return total.toFixed(2)
 }
 const totalRestDayPayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.rest_pay) ?? 0
+        total += parseFloat(element.rest_pay) || 0
     })
     return total.toFixed(2)
 }
 const totalRegHrsPayroll = () => {
     let total = 0
     props.payrollRequest.payroll_details.forEach((element: any) => {
-        total += parseFloat(element.regular_pay) ?? 0
+        total += parseFloat(element.regular_pay) || 0
     })
     return total.toFixed(2)
 }
 </script>
 <template>
+    <div class="details flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
+        <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900 uppercase">
+            {{ payrollRequest.release_type.toUpperCase() }}
+        </div>
+        <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900">
+            Payroll
+        </div>
+    </div>
+    <div class="border-t border-gray-200">
+        <div class="flex justify-between p-2">
+            <div class="text-md leading-6 font-medium text-gray-900">
+                {{ payrollRequest.charging_type }}: <strong>{{ payrollRequest.charging_name }}</strong>
+            </div>
+            <div class="text-md leading-6 font-medium text-gray-900">
+                Period Covered: <strong>{{ useFormatDateRange(payrollRequest.cutoff_start, payrollRequest.cutoff_end) }}</strong>
+            </div>
+        </div>
+    </div>
     <table class="w-full text-sm text-center text-gray-50 pb-4">
         <HrmsPayrollSalaryPayrollInfoTableHeader />
         <tbody>
@@ -233,6 +258,9 @@ const totalRegHrsPayroll = () => {
                 </td>
                 <td>
                     {{ totalSSSCompensationEmployeePayroll() ? useFormatCurrency(totalSSSCompensationEmployeePayroll()) : "-" }}
+                </td>
+                <td>
+                    {{ totalSSSWispEmployeePayroll() ? useFormatCurrency(totalSSSWispEmployeePayroll()) : "-" }}
                 </td>
                 <td>
                     {{ useFormatCurrency(totalPHICEmployeePayroll()) ?? "-" }}
