@@ -5,9 +5,8 @@ const loanStore = useLoansStore()
 const employeeStore = useEmployeeInfo()
 const { createData } = storeToRefs(loanStore)
 const snackbar = useSnackbar()
-const isLoading = ref(false)
 const employeeSearched = () => {
-    loanStore.createData.data.employee_id = employeeStore.information.id
+    createData.value.data.employee_id = employeeStore.information.id
 }
 const deptProj = computed(() => {
     if (employeeStore.information.employee_internal.length > 0) {
@@ -27,7 +26,7 @@ const submitAdd = async () => {
         await loanStore.createResource()
         snackbar.add({
             type: "success",
-            text: loanStore.createData.successMessage
+            text: createData.value.successMessage
         })
         loanStore.reloadResources()
     } catch (error) {
@@ -39,7 +38,7 @@ const submitAdd = async () => {
 }
 </script>
 <template>
-    <LayoutLoadingContainer :loading="isLoading">
+    <LayoutLoadingContainer :loading="createData.isLoading">
         <form class="relative" @submit.prevent="submitAdd">
             <div class="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
