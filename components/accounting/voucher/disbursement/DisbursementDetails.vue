@@ -31,13 +31,17 @@ const accountEntries = ref([])
 const accountId = computed(() => {
     return voucherStore.voucher ? voucherStore.voucher.account_id : null
 })
+// const print = () => {
+//     toPrint.value = true
+//     setTimeout(window.print, 500)
+// }
 onMounted(() => {
     // console.log(accountId.value)
     accountEntries.value = voucherStore.voucher.details
 })
 </script>
 <template>
-    <form @submit.prevent="handleSubmit">
+    <div>
         <div class="flex flex-col gap-16 pb-24 pt-8 relative">
             <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
                 <img
@@ -158,20 +162,6 @@ onMounted(() => {
                                 disabled
                             >
                         </div>
-                        <!-- <div>
-                            <label
-                                for="paymentMethod"
-                                class="text-xs italic"
-                            >Payment Method</label>
-                            <select id="paymentMethod" class="w-full rounded-lg">
-                                <option value="cash">
-                                    Cash
-                                </option>
-                                <option value="check">
-                                    Check
-                                </option>
-                            </select>
-                        </div> -->
                         <div>
                             <label
                                 for="netAmount"
@@ -213,7 +203,7 @@ onMounted(() => {
                                 for="amountInWords"
                                 class="text-xs italic"
                             >Accounts</label>
-                            <select v-model="ae.account" class="w-full rounded-lg h-9 text-sm bg-gray-100">
+                            <select v-model="ae.account_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
                                 <option v-for="ac in accountGroup.accountGroup.accounts" :key="ac.id" :value="ac.id">
                                     {{ ac.account_name }}
                                 </option>
@@ -258,66 +248,17 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-                <!-- <table v-if="accountEntries.length > 0" class="w-full">
-                    <thead>
-                        <tr>
-                            <th class="border-2 border-gray-800 text-sm">
-                                ACCOUNT CODE
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-1/3">
-                                ACCOUNT NAME
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm">
-                                PROJECT/SECTION CODE
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-24">
-                                DEBIT
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-24">
-                                CREDIT
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-2" />
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="ae,i in accountEntries" :key="i" class="hover:bg-gray-100 cursor-pointer">
-                            <td class="border px-4 py-1 border-gray-800 relative">
-                                {{ ae.account_code }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.account_name }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.project_id }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.debit }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.credit }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                <Icon name="ion:trash" class="text-xl text-gray-500 hover:text-red-600" @click="removeLine(ae)" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> -->
                 <span v-if="accountEntries.length === 0" class="block text-center text-gray-600">
                     No entries yet.
                 </span>
             </div>
-            <!-- <div class="flex gap-24">
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    REQUESTED BY:
-                </span>
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    APPROVED BY:
-                </span>
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    RECEIVED BY:
-                </span>
-            </div> -->
-            <div class="flex justify-end">
+            <div class="flex justify-between">
+                <NuxtLink
+                    class="text-white p-2 px-4 rounded bg-orange-600 content-center mt-5 rounded-md w-fit"
+                    :to="'/accounting/voucher/disbursement/print?id=' + voucherStore.voucher.id"
+                >
+                    <Icon name="ion:printer" /> Print
+                </NuxtLink>
                 <div class="flex gap-2">
                     <NuxtLink
                         to="/accounting/voucher/disbursement"
@@ -334,7 +275,8 @@ onMounted(() => {
                 </div>
             </div>
         </div>
-    </form>
+        <!-- <AccountingVoucherDisbursementPrint v-show="toPrint" @close="toPrint=false" /> -->
+    </div>
 </template>
 <style>
 

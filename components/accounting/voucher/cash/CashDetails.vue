@@ -213,7 +213,7 @@ onMounted(() => {
                                 for="amountInWords"
                                 class="text-xs italic"
                             >Accounts</label>
-                            <select v-model="ae.account" class="w-full rounded-lg h-9 text-sm bg-gray-100">
+                            <select v-model="ae.account_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
                                 <option v-for="ac in accountGroup.accountGroup.accounts" :key="ac.id" :value="ac.id">
                                     {{ ac.account_name }}
                                 </option>
@@ -317,7 +317,13 @@ onMounted(() => {
                     RECEIVED BY:
                 </span>
             </div> -->
-            <div class="flex justify-end">
+            <div class="flex justify-between">
+                <NuxtLink
+                    class="text-white p-2 px-4 rounded bg-orange-600 content-center mt-5 rounded-md w-fit"
+                    :to="'/accounting/voucher/cash/print?id=' + voucherStore.voucher.id"
+                >
+                    <Icon name="ion:printer" /> Print
+                </NuxtLink>
                 <div class="flex gap-2">
                     <NuxtLink
                         to="/accounting/voucher/cash"

@@ -94,6 +94,15 @@ export const useUtilities = () => {
     return ref({ upperFirst, upperWords, formatCurrency, formatTime, addOneDay, dateToString, addDaysToDate })
 }
 
+export const formatToCurrency = (number: Number, locale = "en-US") => {
+    const formatter = new Intl.NumberFormat(locale, {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })
+    return formatter.format(number)
+}
+
 export const upperFirst = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1)
 }

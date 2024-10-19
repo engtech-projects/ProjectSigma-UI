@@ -26,9 +26,9 @@ const stakeholderStore = useStakeholderStore()
 stakeholderStore.getStakeholders()
 
 const bookStore = useBookStore()
-await bookStore.getBooks()
+bookStore.getBooks()
 
 const accountGroup = useAccountGroupStore()
-await accountGroup.showAccountGroup(bookStore.disbursement.id)
+accountGroup.showAccountGroup(bookStore.disbursement.id)
 
 </script>
