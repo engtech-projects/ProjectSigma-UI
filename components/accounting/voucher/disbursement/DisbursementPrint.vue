@@ -3,7 +3,7 @@
         <div class="flex justify-end gap-4 no-print">
             <Icon name="ion:printer" class="text-2xl text-gray-500 cursor-pointer hover:text-red-500" @click="print" />
             <NuxtLink
-                :to="'/accounting/voucher/disbursement/details?id=' + voucherStore.voucher.id"
+                :to="'/accounting/voucher/disbursement/details?id=' + props.id"
             >
                 <Icon name="ion:close-round" class="text-2xl text-gray-500 cursor-pointer hover:text-red-500" @click="closeWindow" />
             </NuxtLink>
@@ -158,6 +158,12 @@ import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 const voucherStore = useVoucherStore()
 const stakeholderStore = useStakeholderStore()
 const accountGroupStore = useAccountGroupStore()
+const props = defineProps({
+    id: {
+        type: String,
+        default: null
+    }
+})
 
 const emit = defineEmits(["close"])
 
