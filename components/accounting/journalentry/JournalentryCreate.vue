@@ -1,26 +1,16 @@
 <script lang="ts" setup>
-import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
-import { useTransactionStore } from "~/stores/accounting/transaction"
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
 import { useAccountStore } from "~/stores/accounting/account"
 // import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 import { useJournalStore } from "~/stores/accounting/journal"
 
+const snackbar = useSnackbar()
 const journalStore = useJournalStore()
 // const accountGroupStore = useAccountGroupStore()
 const accountStore = useAccountStore()
-
-const transactionTypeStore = useTransactionTypeStore()
-await transactionTypeStore.getTransactionTypes()
-const transactionStore = useTransactionStore()
 const stakeholderStore = useStakeholderStore()
-await stakeholderStore.getStakeholders()
-const stakeholderGroupStore = useStakeholderGroupStore()
-await stakeholderGroupStore.getStakeholderGroups()
 const boardLoading = ref(false)
 // const snackbar = useSnackbar()
-transactionStore.transaction.transaction_date = useUtilities().value.dateToString(new Date())
 const removeDetail = (detail) => {
     details.value = details.value.filter(d => d !== detail)
 }
@@ -36,8 +26,8 @@ const detail = ref({
 })
 const details = ref([])
 const addDetail = () => {
-    detail.value.stakeholder_name = stakeholderStore.list.filter(s => s.stakeholder_id === detail.value.stakeholder_id)[0].display_name
-    detail.value.account_name = accountStore.list.filter(s => s.account_id === detail.value.account_id)[0].account_name
+    detail.value.stakeholder_name = stakeholderStore.list.filter(s => s.id === detail.value.stakeholder_id)[0].name
+    detail.value.account_name = accountStore.list.filter(s => s.id === detail.value.account_id)[0].account_name
     detail.value.description = "No description"
     details.value.push(JSON.parse(JSON.stringify(detail.value)))
     detail.value = {
@@ -51,38 +41,39 @@ const addDetail = () => {
     }
 }
 
-// async function handleSubmit () {
-//     try {
-//         boardLoading.value = true
-//         journalStore.journal.entry.status = "open"
-//         journalStore.journal.entry.amount = 100
-//         journalStore.journal.entry.stakeholder_id = 2
-//         journalStore.journal.details = tdetails.value
-//         journalStore.journal.entry.description = "No description."
-//         await journalStore.createJournal()
-//         if (journalStore.errorMessage !== "") {
-//             snackbar.add({
-//                 type: "error",
-//                 text: journalStore.errorMessage
-//             })
-//         } else {
-//             snackbar.add({
-//                 type: "success",
-//                 text: journalStore.successMessage
-//             })
-//             navigateTo("/accounting/journal-entry")
-//         }
-//     } catch (error) {
-//         journalStore.errorMessage = errorMessage
-//         snackbar.add({
-//             type: "error",
-//             text: journalStore.errorMessage
-//         })
-//     } finally {
-//         // transactionStore.reset()
-//         boardLoading.value = false
-//     }
-// }
+const generateJournalNo = () => {
+    return "JE-" + randomInt(100001, 999999) + "-" + randomInt(1000, 9999)
+}
+
+async function handleSubmit () {
+    try {
+        boardLoading.value = true
+        journalStore.journal.details = tdetails.value
+        journalStore.journal.remarks = "Journal Entry"
+        await journalStore.createJournal()
+        if (journalStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: journalStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: journalStore.successMessage
+            })
+            navigateTo("/accounting/journal-entry")
+        }
+    } catch (error) {
+        journalStore.errorMessage = errorMessage
+        snackbar.add({
+            type: "error",
+            text: journalStore.errorMessage
+        })
+    } finally {
+        // transactionStore.reset()
+        boardLoading.value = false
+    }
+}
 
 // function cancelEdit () {
 //     transactionTypeStore.isEdit = false
@@ -93,36 +84,36 @@ const addDetail = () => {
 //     transactionStore.transaction.transaction_type_id = val.transaction_type_id
 // }
 
-// const tdetails = computed(() => {
-//     const dds = ref([])
-//     details.value.forEach((detail) => {
-//         const dd = ref({
-//             stakeholder_id: null,
-//             account_id: null,
-//             description: "",
-//             debit: 0,
-//             credit: 0
-//         })
-//         dd.value.stakeholder_id = detail.stakeholder_id
-//         dd.value.account_id = detail.account_id
-//         dd.value.description = detail.description
-//         dd.value.debit = detail.debit
-//         dd.value.credit = detail.credit
-//         dds.value.push(dd.value)
-//     })
-//     return dds.value
-// })
+const tdetails = computed(() => {
+    const dds = ref([])
+    details.value.forEach((detail) => {
+        const dd = ref({
+            stakeholder_id: null,
+            account_id: null,
+            description: "",
+            debit: 0,
+            credit: 0
+        })
+        dd.value.stakeholder_id = detail.stakeholder_id
+        dd.value.account_id = detail.account_id
+        dd.value.description = detail.description
+        dd.value.debit = detail.debit
+        dd.value.credit = detail.credit
+        dds.value.push(dd.value)
+    })
+    return dds.value
+})
 
 // await accountGroupStore.showAccountGroup(journalBase.book.account_group_id)
 
-// onMounted(() => {
-//     console.log(accountsList.value)
-// })
+onMounted(() => {
+    journalStore.journal.journal_no = generateJournalNo()
+})
 
 </script>
 <template>
     <LayoutBoards title="New Entry" :loading="boardLoading" class="w-full h-fit">
-        <form @submit.prevent="">
+        <form @submit.prevent="handleSubmit">
             <div class="flex flex-col gap-2 px-4 md:px-1">
                 <div class="flex flex-col md:flex-row gap-4">
                     <div class="flex-1">
@@ -143,13 +134,21 @@ const addDetail = () => {
                             for="status"
                             class="text-xs italic"
                         >Status</label>
-                        <input
+                        <select v-model="journalStore.journal.status" class="w-full rounded-lg">
+                            <option value="draft">
+                                Draft
+                            </option>
+                            <option value="open">
+                                Open
+                            </option>
+                        </select>
+                        <!-- <input
                             id="particulars"
                             v-model="journalStore.journal.status"
                             type="text"
                             class="w-full rounded-lg"
                             required
-                        >
+                        > -->
                     </div>
                     <div class="flex-1">
                         <label
@@ -162,6 +161,7 @@ const addDetail = () => {
                             type="text"
                             class="w-full rounded-lg"
                             required
+                            disabled
                         >
                     </div>
                 </div>
@@ -180,7 +180,7 @@ const addDetail = () => {
                                 class="w-full rounded-lg"
                                 required
                             >
-                                <option v-for="p in stakeholderStore.list" :key="p.stakeholder_id" :value="p.stakeholder_id">
+                                <option v-for="p in stakeholderStore.list" :key="p.id" :value="p.id">
                                     {{ p.name }}
                                 </option>
                             </select>
@@ -195,7 +195,7 @@ const addDetail = () => {
                                 class="w-full rounded-lg"
                                 required
                             >
-                                <option v-for="p in accountStore.list" :key="p.account_id" :value="p.account_id">
+                                <option v-for="p in accountStore.list" :key="p.id" :value="p.id">
                                     {{ p.account_name }}
                                 </option>
                             </select>

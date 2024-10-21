@@ -1,5 +1,12 @@
 <script lang="ts" setup>
+import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+import { useAccountStore } from "~/stores/accounting/account"
 
+const stakeholderStore = useStakeholderStore()
+await stakeholderStore.getStakeholders()
+
+const accountStore = useAccountStore()
+accountStore.getAccounts()
 useHead({
     title: "New Entry",
 })

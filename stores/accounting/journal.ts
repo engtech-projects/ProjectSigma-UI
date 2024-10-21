@@ -12,7 +12,7 @@ export const useJournalStore = defineStore("journalStore", {
             status: null,
             period_id: null,
             remarks: "",
-            reference_no: null,
+            reference_no: "",
             details: []
         },
         base: {},
@@ -54,7 +54,7 @@ export const useJournalStore = defineStore("journalStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useFetch(
-                "/api/journal",
+                "/api/journal-entry",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
@@ -69,7 +69,7 @@ export const useJournalStore = defineStore("journalStore", {
                             this.errorMessage = response._data.message
                         } else {
                             this.reset()
-                            this.successMessage = response._data.message
+                            this.successMessage = "Journal entry successfully created."
                         }
                     },
                 }
