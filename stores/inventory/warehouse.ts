@@ -44,12 +44,11 @@ export const useWarehouseStore = defineStore("warehouseStore", {
                     method: "PATCH",
                     body: this.warehousePssForm,
                     onRequest: () => {
-                        this.isLoading = true
+                        this.warehousePss.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.isLoading = false
                         if (response.ok) {
-                            this.reloadResources()
+                            this.warehousePss.isLoading = false
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
