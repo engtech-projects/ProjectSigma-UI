@@ -719,7 +719,6 @@ const config = useRuntimeConfig()
                 title="Vouchers"
             >
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.accounting_account_groups,
                     ])"
@@ -728,7 +727,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Disbursement Voucher"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.accounting_account_groups,
                     ])"
