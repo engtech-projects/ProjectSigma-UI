@@ -10,7 +10,6 @@ import { useJournalStore } from "~/stores/accounting/journal"
 const journalStore = useJournalStore()
 // const accountGroupStore = useAccountGroupStore()
 const accountStore = useAccountStore()
-await accountStore.getAccounts()
 
 const transactionTypeStore = useTransactionTypeStore()
 await transactionTypeStore.getTransactionTypes()
