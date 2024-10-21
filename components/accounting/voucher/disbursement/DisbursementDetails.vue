@@ -28,9 +28,9 @@ watch(showNetAmount, (newValue) => {
     }
 })
 const accountEntries = ref([])
-const accountId = computed(() => {
-    return voucherStore.voucher ? voucherStore.voucher.account_id : null
-})
+// const accountId = computed(() => {
+//     return voucherStore.voucher ? voucherStore.voucher.account_id : null
+// })
 // const print = () => {
 //     toPrint.value = true
 //     setTimeout(window.print, 500)
@@ -126,7 +126,7 @@ onMounted(() => {
                                 for="payee"
                                 class="text-xs italic"
                             >Expense Accounts</label>
-                            <select v-model="accountId" class="w-full rounded-lg" disabled>
+                            <select v-model="voucherStore.voucher.account_id" class="w-full rounded-lg">
                                 <option v-for="ac in accountGroup.accountGroup.accounts" :key="ac.id" :value="ac.id">
                                     {{ ac.account_name }}
                                 </option>

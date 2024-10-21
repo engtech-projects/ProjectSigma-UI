@@ -28,8 +28,9 @@ async function handleSubmit () {
     try {
         loading.value = true
         voucherStore.voucher.book_id = bookStore.cash.id
+        voucherStore.voucher.account_id = 1
         voucherStore.voucher.details = lineItems.value
-        voucherStore.voucher.book_id = 2
+        voucherStore.voucher.book_id = 1
         await voucherStore.createVoucher()
         if (voucherStore.errorMessage !== "") {
             snackbar.add({
@@ -103,6 +104,12 @@ watch(showNetAmount, (newValue) => {
         })
     }
 })
+const selectExpense = (val) => {
+    voucherStore.voucher.account_id = val.id
+}
+const selectPayee = (val) => {
+    voucherStore.voucher.stakeholder_id = val.id
+}
 onMounted(() => {
     voucherStore.voucher.voucher_date = dateToString(new Date())
     voucherStore.voucher.date_encoded = dateToString(new Date())
@@ -138,11 +145,19 @@ onMounted(() => {
                                 for="payee"
                                 class="text-xs italic"
                             >Payee</label>
-                            <select v-model="voucherStore.voucher.stakeholder_id" class="w-full rounded-lg">
+                            <AccountingSelectSearch
+                                class="z-50"
+                                :options="payeeList"
+                                title="name"
+                                opid="id"
+                                :selected-id="voucherStore.voucher.stakeholder_id"
+                                @select="selectPayee"
+                            />
+                            <!-- <select v-model="voucherStore.voucher.stakeholder_id" class="w-full rounded-lg">
                                 <option v-for="st in payeeList" :key="st.id" :value="st.id">
                                     {{ st.name }}
                                 </option>
-                            </select>
+                            </select> -->
                         </div>
                         <!-- <div class="flex-1">
                             <label
@@ -192,11 +207,19 @@ onMounted(() => {
                                 for="payee"
                                 class="text-xs italic"
                             >Expense Accounts</label>
-                            <select v-model="voucherStore.voucher.account_id" class="w-full rounded-lg">
+                            <!-- <select v-model="voucherStore.voucher.account_id" class="w-full rounded-lg">
                                 <option v-for="ac in accountGroup.accountGroup.accounts" :key="ac.id" :value="ac.id">
                                     {{ ac.account_name }}
                                 </option>
-                            </select>
+                            </select> -->
+                            <AccountingSelectSearch
+                                class="z-40"
+                                :options="accountGroup.accountGroup.accounts"
+                                title="account_name"
+                                opid="id"
+                                :selected-id="voucherStore.voucher.account_id"
+                                @select="selectExpense"
+                            />
                         </div>
                     </div>
                     <div class="flex flex-col flex-1 justify-start gap-2">
@@ -265,19 +288,6 @@ onMounted(() => {
                                 @focus="focusNetAmount()"
                             >
                         </div>
-                        <div class="flex-1">
-                            <label
-                                for="checkNo"
-                                class="text-xs italic"
-                            >Check No.</label>
-                            <input
-                                id="checkNo"
-                                v-model="voucherStore.voucher.check_no"
-                                type="text"
-                                class="w-full rounded-lg"
-                                required
-                            >
-                        </div>
                     </div>
                 </div>
             </div>
@@ -292,22 +302,38 @@ onMounted(() => {
                                 for="amountInWords"
                                 class="text-xs italic"
                             >Accounts</label>
-                            <select v-model="accountEntry.account_id" class="w-full rounded-lg">
+                            <AccountingSelectSearch
+                                class="bg-white z-30"
+                                :options="accountGroup.accountGroup.accounts"
+                                title="account_name"
+                                opid="id"
+                                :selected-id="accountEntry.account_id"
+                                @select="accountEntry.account_id = $event.id"
+                            />
+                            <!-- <select v-model="accountEntry.account_id" class="w-full rounded-lg">
                                 <option v-for="account in accountGroup.accountGroup.accounts" :key="account.id" :value="account.id">
                                     {{ account.account_name }}
                                 </option>
-                            </select>
+                            </select> -->
                         </div>
                         <div class="flex-1">
                             <label
                                 for="amountInWords"
                                 class="text-xs italic"
                             >Project/Section Code</label>
-                            <select v-model="accountEntry.project_id" class="w-full rounded-lg">
+                            <!-- <select v-model="accountEntry.project_id" class="w-full rounded-lg">
                                 <option v-for="st in payeeList" :key="st.id" :value="st.id">
                                     {{ st.name }}
                                 </option>
-                            </select>
+                            </select> -->
+                            <AccountingSelectSearch
+                                class="bg-white z-20"
+                                :options="payeeList"
+                                title="name"
+                                opid="id"
+                                :selected-id="accountEntry.project_id"
+                                @select="accountEntry.project_id=$event.id"
+                            />
                         </div>
                         <div class="flex-1">
                             <label
@@ -354,6 +380,16 @@ onMounted(() => {
                                 for="amountInWords"
                                 class="text-xs italic"
                             >Accounts</label>
+                            <!-- <AccountingSelectSearch
+                                class="bg-gray-100"
+                                :options="accountGroup.accountGroup.accounts"
+                                title="account_name"
+                                opid="id"
+                                height="h-30"
+                                fz="text-sm"
+                                :selected-id="ae.account_id"
+                                @select="ae.account_id = $event.id"
+                            /> -->
                             <select v-model="ae.account_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
                                 <option v-for="account in accountsList" :key="account.id" :value="account.id">
                                     {{ account.account_name }}
@@ -405,65 +441,10 @@ onMounted(() => {
                         </button>
                     </div>
                 </div>
-                <!-- <table v-if="accountEntries.length > 0" class="w-full">
-                    <thead>
-                        <tr>
-                            <th class="border-2 border-gray-800 text-sm">
-                                ACCOUNT CODE
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-1/3">
-                                ACCOUNT NAME
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm">
-                                PROJECT/SECTION CODE
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-24">
-                                DEBIT
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-24">
-                                CREDIT
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-2" />
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="ae,i in accountEntries" :key="i" class="hover:bg-gray-100 cursor-pointer">
-                            <td class="border px-4 py-1 border-gray-800 relative">
-                                {{ ae.account_code }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.account_name }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.project_id }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.debit }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.credit }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                <Icon name="ion:trash" class="text-xl text-gray-500 hover:text-red-600" @click="removeLine(ae)" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> -->
                 <span v-if="accountEntries.length === 0" class="block text-center text-gray-600">
                     No entries yet.
                 </span>
             </div>
-            <!-- <div class="flex gap-24">
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    REQUESTED BY:
-                </span>
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    APPROVED BY:
-                </span>
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    RECEIVED BY:
-                </span>
-            </div> -->
             <div class="flex justify-end">
                 <div class="flex gap-2 jus">
                     <NuxtLink

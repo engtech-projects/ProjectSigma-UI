@@ -561,7 +561,6 @@ const config = useRuntimeConfig()
             title="Accounting"
         >
             <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_journal_group,
                 ])"
@@ -659,7 +658,6 @@ const config = useRuntimeConfig()
                 single-nav-title="Subsidiary Account"
             />
             <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_stake_holder,
                 ])"
