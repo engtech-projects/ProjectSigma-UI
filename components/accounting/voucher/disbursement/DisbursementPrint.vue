@@ -26,44 +26,44 @@
                 <table class="border border-black">
                     <tbody>
                         <tr>
-                            <td class="border border-black pl-2 py-2 bg-blue-300">
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
                                 PAYEE :
                             </td>
-                            <td class="border border-black pl-2 py-2">
+                            <td class="border border-black pl-2 py-1 text-sm">
                                 {{ voucherStore.voucher.stakeholder ? voucherStore.voucher.stakeholder.name : '' }}
                             </td>
-                            <td class="border border-black pl-2 py-2 bg-blue-300">
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
                                 ENCODED DATE :
                             </td>
-                            <td class="border border-black pl-2 py-2">
+                            <td class="border border-black pl-2 py-1 text-sm">
                                 {{ dateToString(new Date(voucherStore.voucher.date_encoded)) }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="border border-black pl-2 py-2 bg-blue-300">
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
                                 PARTICULARS :
                             </td>
-                            <td class="border border-black pl-2 py-2">
+                            <td class="border border-black pl-2 py-1 text-sm">
                                 {{ voucherStore.voucher.particulars }}
                             </td>
-                            <td class="border border-black pl-2 py-2 bg-blue-300">
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
                                 ENTRY DATE :
                             </td>
-                            <td class="border border-black pl-2 py-2">
+                            <td class="border border-black pl-2 py-1 text-sm">
                                 {{ dateToString(new Date(voucherStore.voucher.voucher_date)) }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="border border-black pl-2 py-2 bg-blue-300">
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
                                 AMOUNT IN WORDS :
                             </td>
-                            <td class="border border-black pl-2 py-2">
+                            <td class="border border-black pl-2 py-1 text-sm">
                                 {{ voucherStore.voucher.amount_in_words }}
                             </td>
-                            <td class="border border-black pl-2 py-2 bg-blue-300">
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
                                 NET AMOUNT
                             </td>
-                            <td class="border border-black pl-2 py-2">
+                            <td class="border border-black pl-2 py-1 text-sm">
                                 {{ formatToCurrency(voucherStore.voucher.net_amount) }}
                             </td>
                         </tr>
@@ -74,8 +74,8 @@
                 <h2 class="text-xl font-bold text-center mb-4">
                     ACCOUNTING ENTRIES
                 </h2>
-                <div class="flex flex-col min-h-[700px]">
-                    <div class="flex-1">
+                <div class="flex flex-col">
+                    <div class="flex-1 mb-16">
                         <table v-if="voucherStore.voucher.details.length > 0" class="w-full">
                             <thead>
                                 <tr>
@@ -98,19 +98,19 @@
                             </thead>
                             <tbody>
                                 <tr v-for="ae,i in voucherStore.voucher.details" :key="i" class="hover:bg-gray-100 cursor-pointer">
-                                    <td class="border px-4 py-1 border-gray-800 relative">
+                                    <td class="border px-4 py-1 border-gray-800 text-sm relative">
                                         {{ account(ae.account_id).account_number }}
                                     </td>
-                                    <td class="border px-4 py-1 border-gray-800">
+                                    <td class="border px-4 py-1 border-gray-800 text-sm">
                                         {{ account(ae.account_id).account_name }}
                                     </td>
-                                    <td class="border px-4 py-1 border-gray-800">
+                                    <td class="border px-4 py-1 border-gray-800 text-sm">
                                         {{ stakeholder(ae.stakeholder_id).name }}
                                     </td>
-                                    <td class="border px-4 py-1 border-gray-800">
+                                    <td class="border px-4 py-1 border-gray-800 text-sm">
                                         {{ formatToCurrency(ae.debit) }}
                                     </td>
-                                    <td class="border px-4 py-1 border-gray-800">
+                                    <td class="border px-4 py-1 border-gray-800 text-sm">
                                         {{ formatToCurrency(ae.credit) }}
                                     </td>
                                 </tr>
