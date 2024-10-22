@@ -47,8 +47,8 @@ export const useWarehouseStore = defineStore("warehouseStore", {
                         this.warehousePss.isLoading = true
                     },
                     onResponse: ({ response }) => {
+                        this.warehousePss.isLoading = false
                         if (response.ok) {
-                            this.warehousePss.isLoading = false
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
