@@ -17,6 +17,7 @@ let canvas = null
 let context = null
 let displaySize = null
 const isPaused = defineModel("isPaused", { type: Boolean, default: false })
+const emit = defineEmits(["resetPortalData"])
 // CLOSE CAMERA ON LEAVE PAGE
 onBeforeRouteLeave(() => {
     if (stream) {
@@ -112,14 +113,15 @@ const saveEmployeeAttendanceLog = async (employeeID) => {
         attendancePortal.getTodayAttendanceLogs()
         lastIDlog.value = employeeID
         lastLogType.value = attendancePortal.attendancePortalParams.log_type
+    } finally {
         setTimeout(() => {
             detectionTimer.value = 4
             if (attendanceSession.value.assignment_count > 1) {
+                emit("resetPortalData")
                 isPaused.value = true
                 attendanceSession.value.currentName = ""
             }
         }, 100)
-    } finally {
         resetMessages()
     }
 }
