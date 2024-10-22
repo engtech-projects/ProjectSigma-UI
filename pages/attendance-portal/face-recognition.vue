@@ -19,6 +19,9 @@ await attendancePortal.checkSession()
 attendancePortalParams.value.log_type = CATEGORY_TIME_IN
 const detectionPaused = ref(false)
 onMounted(() => {
+    if (attendanceSession.value.assignment_count === 1) {
+        selectAssignment(0)
+    }
     document.addEventListener("keyup", (event) => {
         if (event.key === " " ||
             event.code === "Space" ||
@@ -32,9 +35,6 @@ onMounted(() => {
                     selectAssignment(index)
                 }
             })
-        }
-        if (attendanceSession.value.assignment_count === 1) {
-            selectAssignment(0)
         }
         if (attendanceSession.value.assignment_count > 1) {
             if (event.key === "Escape" || event.code === "Escape" || event.keyCode === 27) {
