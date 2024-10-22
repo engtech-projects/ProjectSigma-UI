@@ -95,6 +95,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             isLoaded: false,
             list: [],
             params: {},
+            pagination: {},
         },
         myRequests: {
             isLoading: false,

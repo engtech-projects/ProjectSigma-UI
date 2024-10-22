@@ -180,7 +180,6 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 "/api/attendance-portal/resource",
                 {
                     method: "GET",
-                    params: this.attendancePortalParams,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.attendancePortalList = response._data.data.data

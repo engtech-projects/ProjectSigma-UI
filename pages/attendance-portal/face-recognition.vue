@@ -1,5 +1,4 @@
 <script setup>
-import { storeToRefs } from "pinia"
 import { useAttendancePortal, CATEGORY_TIME_IN, CATEGORY_TIME_OUT } from "~/stores/hrms/attendancePortal"
 
 definePageMeta({
@@ -10,22 +9,50 @@ definePageMeta({
     },
 
 })
-onMounted(() => document.addEventListener("keyup", (event) => {
-    if (event.key === " " ||
-        event.code === "Space" ||
-        event.keyCode === 32
-    ) {
-        attendancePortalParams.value.log_type = (attendancePortalParams.value.log_type === CATEGORY_TIME_IN) ? CATEGORY_TIME_OUT : CATEGORY_TIME_IN
-    }
-}))
 
 const attendancePortal = useAttendancePortal()
 const { attendancePortalParams, attendanceSession } = storeToRefs(attendancePortal)
 
 attendancePortal.getAllEmployeePattern()
 attendancePortal.getTodayAttendanceLogs()
-attendancePortal.checkSession()
+await attendancePortal.checkSession()
 attendancePortalParams.value.log_type = CATEGORY_TIME_IN
+const detectionPaused = ref(false)
+onMounted(() => {
+    document.addEventListener("keyup", (event) => {
+        if (event.key === " " ||
+            event.code === "Space" ||
+            event.keyCode === 32
+        ) {
+            attendancePortalParams.value.log_type = (attendancePortalParams.value.log_type === CATEGORY_TIME_IN) ? CATEGORY_TIME_OUT : CATEGORY_TIME_IN
+        }
+
+        allAssignments.value.forEach((element, index) => {
+            if (String(event.key) === (index + 1).toString()) {
+                selectAssignment(index)
+                console.log(element)
+            }
+        })
+    })
+})
+const allAssignments = computed(() => {
+    return [
+        ...attendanceSession.value.departments,
+        ...attendanceSession.value.projects,
+    ]
+})
+const selectAssignment = (index) => {
+    detectionPaused.value = false
+    if (allAssignments.value[index].department_name) {
+        attendancePortalParams.value.assignment_type = "Department"
+        attendancePortalParams.value.department_id = allAssignments.value[index].id
+        attendanceSession.value.currentName = allAssignments.value[index].department_name
+    } else {
+        attendancePortalParams.value.assignment_type = "Project"
+        attendancePortalParams.value.project_id = allAssignments.value[index].id
+        attendanceSession.value.currentName = allAssignments.value[index].project_code
+    }
+}
 </script>
 <template>
     <div v-if="attendanceSession" id="attendance-face-recognition-page" class="w-full flex flex-col h-screen overflow-hidden gap-2">
@@ -39,7 +66,17 @@ attendancePortalParams.value.log_type = CATEGORY_TIME_IN
             <div class="w-full md:w-1/3 space-y-4">
                 <div class="text-center">
                     <div class="w-full">
-                        <AttendancePortalFacialRecognitionFaceCamera />
+                        <div v-show="detectionPaused">
+                            <div
+                                v-for="assign, key in allAssignments"
+                                :key="'attendanceValueSelector' + key"
+                                @click="selectAssignment(key)"
+                            >
+                                {{ key + 1 }}
+                                {{ assign.project_code ?? assign.department_name }}
+                            </div>
+                        </div>
+                        <AttendancePortalFacialRecognitionFaceCamera v-model:is-paused="detectionPaused" />
                         <div class="md:flex gap-2 space-x-2 p-2 justify-center">
                             <input
                                 id="Time-in"
