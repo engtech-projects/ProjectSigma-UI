@@ -94,6 +94,29 @@ export const useUtilities = () => {
     return ref({ upperFirst, upperWords, formatCurrency, formatTime, addOneDay, dateToString, addDaysToDate })
 }
 
+export const exportToCSV = (table: any) => {
+    let csv = ""
+
+    for (let i = 0; i < table.rows.length; i++) {
+        const row = table.rows[i]
+        const rowData = []
+        for (let j = 0; j < row.cells.length; j++) {
+            const cellData = row.cells[j].textContent
+            rowData.push(`"${cellData}"`)
+        }
+        csv += rowData.join(",") + "\n"
+    }
+
+    const blob = new Blob([csv], { type: "text/csvcharset=utf-8" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+
+    a.href = url
+    a.download = "table.csv"
+    a.click()
+    URL.revokeObjectURL(url)
+}
+
 export const formatToCurrency = (number: Number, locale = "en-US") => {
     const formatter = new Intl.NumberFormat(locale, {
         style: "decimal",

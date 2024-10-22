@@ -9,6 +9,11 @@ const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
 }
 
+function downloadCSV () {
+    const table = document.getElementById("voucherTable")
+    exportToCSV(table)
+}
+
 // const setEdit = (voucher) => {
 //     voucherStore.voucher = voucher
 //     return navigateTo("/accounting/voucher/disbursement/edit?id=" + voucher.voucher_no)
@@ -18,6 +23,7 @@ const changePaginate = (newParams) => {
 <template>
     <div class="flex flex-col items-end gap-4">
         <div class="flex items-center justify-end gap-4 w-full">
+            <Icon name="file-icons:microsoft-excel" class="text-2xl cursor-pointer text-gray-500 hover:text-gray-700" @click="downloadCSV" />
             <NuxtLink
                 to="/accounting/voucher/disbursement/create"
                 class="w-48 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
@@ -28,7 +34,7 @@ const changePaginate = (newParams) => {
         </div>
         <LayoutBoards title="List of Vouchers" class="w-full" :loading="voucherStore.isLoading">
             <div class="pb-2 text-gray-500">
-                <table class="table-auto w-full border-collapse">
+                <table id="voucherTable" class="table-auto w-full border-collapse">
                     <thead>
                         <tr class="text-left">
                             <th class="p-2 ">
@@ -104,6 +110,6 @@ const changePaginate = (newParams) => {
 
 <style scoped>
     #listTable tbody tr td, #listTable thead th {
-        text-align: left!important;
+        text-align: left!important
     }
 </style>

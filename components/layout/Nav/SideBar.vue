@@ -711,7 +711,7 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    'Admin only'
+                    AccessibilityTypes.accounting_journal_group,
                 ])"
                 icon="iconoir:credit-cards"
                 title="Vouchers"
