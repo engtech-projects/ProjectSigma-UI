@@ -37,8 +37,6 @@ const saveNewPss = async () => {
             text: warehouseStore.successMessage
         })
         isSet.value = false
-        mainPss.value = []
-        wareHouseId.value = null
     }
 }
 const removePss = (index: number) => {
