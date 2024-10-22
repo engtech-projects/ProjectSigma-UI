@@ -93,13 +93,6 @@ const processEmployee = (employeeID) => {
         currentDetectionId.value = employeeID
     }
     if (detectionTimer.value === 0) {
-        setTimeout(() => {
-            detectionTimer.value = 4
-            if (attendanceSession.value.assignment_count > 1) {
-                isPaused.value = true
-                attendanceSession.value.currentName = ""
-            }
-        }, 100)
         saveEmployeeAttendanceLog(employeeID)
     }
 }
@@ -119,6 +112,13 @@ const saveEmployeeAttendanceLog = async (employeeID) => {
         attendancePortal.getTodayAttendanceLogs()
         lastIDlog.value = employeeID
         lastLogType.value = attendancePortal.attendancePortalParams.log_type
+        setTimeout(() => {
+            detectionTimer.value = 4
+            if (attendanceSession.value.assignment_count > 1) {
+                isPaused.value = true
+                attendanceSession.value.currentName = ""
+            }
+        }, 100)
     } finally {
         resetMessages()
     }
@@ -139,7 +139,7 @@ const resetMessages = () => {
 </script>
 <template>
     <div id="FaceCamera Component">
-        <div class="relative justify-center w-full">
+        <div class="relative justify-center w-full" :class="{ 'hideCanvas': isPaused }">
             <div v-show="!isPaused">
                 <video
                     id="cameraPreview"
@@ -166,3 +166,10 @@ const resetMessages = () => {
         </div>
     </div>
 </template>
+<style scoped>
+.hideCanvas {
+    :deep(canvas) {
+        display: none;
+    }
+}
+</style>
