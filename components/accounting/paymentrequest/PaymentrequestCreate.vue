@@ -35,25 +35,12 @@
                         >Description</label>
                         <textarea
                             id="description"
-                            v-model="paymentRequestStore.paymentRequest.details"
+                            v-model="paymentRequestStore.paymentRequest.description"
                             class="w-full rounded-lg"
                         />
                     </div>
                 </div>
                 <div class="flex flex-col flex-1">
-                    <div class="flex-1">
-                        <label
-                            for="prf"
-                            class="text-xs italic"
-                        >PRF Number</label>
-                        <input
-                            id="prf"
-                            v-model="paymentRequestStore.paymentRequest.prf_no"
-                            type="text"
-                            class="w-full rounded-lg"
-                            required
-                        >
-                    </div>
                     <div class="flex-1">
                         <label
                             for="date"
@@ -63,6 +50,19 @@
                             id="date"
                             v-model="paymentRequestStore.paymentRequest.request_date"
                             type="date"
+                            class="w-full rounded-lg"
+                            required
+                        >
+                    </div>
+                    <div class="flex-1">
+                        <label
+                            for="totalAmount"
+                            class="text-xs italic"
+                        >Total Amount</label>
+                        <input
+                            id="totalAmount"
+                            v-model="paymentRequestStore.paymentRequest.total"
+                            type="number"
                             class="w-full rounded-lg"
                             required
                         >
@@ -202,12 +202,12 @@
             </div>
             <div class="flex justify-end">
                 <div class="flex gap-2 jus">
-                    <!-- <NuxtLink
-                        to="/accounting/voucher/disbursement"
+                    <NuxtLink
+                        to="/accounting/payment-request"
                         class="text-white p-2 px-6 rounded bg-gray-600 content-center mt-5 rounded-md w-fit"
                     >
                         <span>Back</span>
-                    </NuxtLink> -->
+                    </NuxtLink>
                     <button
                         type="submit"
                         class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
@@ -235,8 +235,8 @@ const detail = ref({
 const details = ref([])
 const loading = ref(false)
 const addDetails = () => {
-    details.value.push(detail.value)
-    details.value = {
+    details.value.push(JSON.parse(JSON.stringify(detail.value)))
+    detail.value = {
         stakeholder_id: null,
         particulars: "",
         cost: 0,
@@ -244,9 +244,6 @@ const addDetails = () => {
     }
 }
 const snackbar = useSnackbar()
-const generatePrNo = () => {
-    return "PR-" + randomInt(100001, 999999) + "-" + randomInt(1000, 9999)
-}
 
 const removeLine = (line: object) => {
     details.value = details.value.filter(acc => acc !== line)
@@ -270,7 +267,7 @@ async function handleSubmit () {
             })
             details.value = []
             paymentRequestStore.reset()
-            // navigateTo("/accounting/voucher/disbursement")
+            navigateTo("/accounting/payment-request")
         }
     } catch (error) {
         // paymentRequestStore.errorMessage = error.Message
@@ -282,11 +279,5 @@ async function handleSubmit () {
         loading.value = false
     }
 }
-onMounted(() => {
-    paymentRequestStore.paymentRequest.prf_no = generatePrNo()
-})
+
 </script>
-
-<style>
-
-</style>

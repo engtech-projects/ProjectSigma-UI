@@ -586,15 +586,19 @@ const config = useRuntimeConfig()
                 icon="iconoir:book"
                 single-nav-title="Books"
             />
-            <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
-                v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_chart_of_accounts,
-                ])"
-                linkarea="/accounting/requests"
+            <LayoutNavGroup
                 icon="iconoir:bell-notification"
-                single-nav-title="Requests"
-            />
+                title="Requests"
+            >
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_chart_of_accounts,
+                    ])"
+                    linkarea="/accounting/payment-request"
+                    icon="iconoir:credit-card-2"
+                    single-nav-title="Payment Request"
+                />
+            </LayoutNavGroup>
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
