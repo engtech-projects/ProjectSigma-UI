@@ -26,10 +26,10 @@ const startCamera = () => {
     cameraStarted.value = true
     Promise.all([
         faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL),
-        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+        // faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
         faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
         faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-        faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+        // faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
     ]).then(async () => {
         const video = document.getElementById("cameraPreview")
 
@@ -52,7 +52,7 @@ const startCamera = () => {
             faceapi.matchDimensions(canvas, displaySize)
             setInterval(async () => {
                 try {
-                    const detection = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions().withFaceDescriptor()
+                    const detection = await faceapi.detectSingleFace(video).withFaceLandmarks().withFaceDescriptor()
                     const resizedDetections = faceapi.resizeResults(detection, displaySize)
                     canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height)
                     faceapi.draw.drawDetections(canvas, resizedDetections)
