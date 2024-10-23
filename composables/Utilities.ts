@@ -94,29 +94,6 @@ export const useUtilities = () => {
     return ref({ upperFirst, upperWords, formatCurrency, formatTime, addOneDay, dateToString, addDaysToDate })
 }
 
-export const exportToCSV = (table: any) => {
-    let csv = ""
-
-    for (let i = 0; i < table.rows.length; i++) {
-        const row = table.rows[i]
-        const rowData = []
-        for (let j = 0; j < row.cells.length; j++) {
-            const cellData = row.cells[j].textContent
-            rowData.push(`"${cellData}"`)
-        }
-        csv += rowData.join(",") + "\n"
-    }
-
-    const blob = new Blob([csv], { type: "text/csvcharset=utf-8" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-
-    a.href = url
-    a.download = "table.csv"
-    a.click()
-    URL.revokeObjectURL(url)
-}
-
 export const formatToCurrency = (number: Number, locale = "en-US") => {
     const formatter = new Intl.NumberFormat(locale, {
         style: "decimal",
@@ -188,12 +165,21 @@ export const amountToWords = (num: any) => {
     }
 }
 
+<<<<<<< HEAD
+=======
 export const randomInt = (min, max) => {
     min = Math.ceil(min)
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+export const fullDate = (dateString: any) => {
+    const date = new Date(dateString)
+    const options = { month: "long", day: "numeric", year: "numeric" }
+    return date.toLocaleDateString("en-US", options)
+}
+
+>>>>>>> 75722efe (Voucher ui revamp with fx)
 export const dateToString = (date) => {
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, "0") // Pad month with zero

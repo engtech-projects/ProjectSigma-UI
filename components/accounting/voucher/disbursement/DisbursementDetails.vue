@@ -1,31 +1,48 @@
 <script lang="ts" setup>
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useVoucherStore } from "~/stores/accounting/voucher"
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+import { useVoucherStore } from "~/stores/accounting/voucher"
 
-const { list: payeeList } = storeToRefs(useStakeholderStore())
+const stakeholderStore = useStakeholderStore()
+const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
-const accountGroup = useAccountGroupStore()
 
 const loading = ref(false)
-const showNetAmount = ref(true)
-const amountElement = ref()
-const amount = computed(() => {
-    return voucherStore.voucher.net_amount
-})
-watch(amount, (newAmount) => {
-    voucherStore.voucher.amount_in_words = useAmountInWords(newAmount)
-})
-
-const focusNetAmount = () => {
-    showNetAmount.value = false
+const account = (id) => {
+    return accountGroupStore.accountGroup.accounts.filter(a => a.id === id)[0]
 }
-watch(showNetAmount, (newValue) => {
-    if (!newValue) {
-        nextTick(() => {
-            amountElement.value.focus()
-        })
+const stakeholder = (id) => {
+    return stakeholderStore.list.filter(st => st.id === id)[0]
+}
+const totalDebit = computed(() => {
+    let amount = 0
+    voucherStore.voucher.details.forEach((v) => {
+        amount += parseFloat(v.debit)
+    })
+    return amount
+})
+const totalCredit = computed(() => {
+    let amount = 0
+    voucherStore.voucher.details.forEach((v) => {
+        amount += parseFloat(v.credit)
+    })
+    return amount
+})
+function print () {
+    const divToPrint = document.getElementById("toPrint")
+    const tailwindCSSUrl = "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+
+    const printWindow = window.open("", "_blank", `width=${screen.width},height=${screen.height}`)
+    const htmlString = `<html><head><link href='${tailwindCSSUrl}' rel='stylesheet'></head><body>${divToPrint.outerHTML}</body></html>`
+
+    printWindow.document.write(htmlString)
+    printWindow.document.close()
+
+    printWindow.onload = function () {
+        printWindow.focus()
+        printWindow.print()
     }
+<<<<<<< HEAD
 })
 const accountEntries = ref([])
 // const accountId = computed(() => {
@@ -39,30 +56,33 @@ onMounted(() => {
     // console.log(accountId.value)
     accountEntries.value = voucherStore.voucher.details
 })
+=======
+}
+>>>>>>> 75722efe (Voucher ui revamp with fx)
 </script>
 <template>
-    <div>
-        <div class="flex flex-col gap-16 pb-24 pt-8 relative">
-            <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
-                <img
-                    class="flex justify-center w-28 rounded-md"
-                    src="/loader.gif"
-                    alt="logo"
-                >
-            </div>
-            <AccountingCommonEvenparHeader />
-            <h1 class="text-2xl text-center font-bold">
-                DISBURSEMENT VOUCHER DETAILS
-            </h1>
-            <div class="flex flex-col gap-2">
-                <div class="flex justify-end gap-4">
-                    <h3 class="font-bold">
-                        REFERENCE NO.
-                    </h3>
-                    <span class="border-b border-gray-800">
+    <div class="bg-white shadow rounded-lg border border-gray-200 px-2">
+        <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+            <img
+                class="flex justify-center w-28 rounded-md"
+                src="/loader.gif"
+                alt="logo"
+            >
+        </div>
+        <div class="flex justify-between items-center h-16 border-b px-4">
+            <h2 class="text-xl text-gray-800">
+                Disbursement Voucher Details
+            </h2>
+        </div>
+        <div class="flex flex-col p-4 w-full">
+            <div class="flex gap-4 border-b py-4 w-full">
+                <div class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white">Reference No.</label>
+                    <h4 class="font-bold text-gray-900 text-sm">
                         {{ voucherStore.voucher.voucher_no }}
-                    </span>
+                    </h4>
                 </div>
+<<<<<<< HEAD
                 <div class="flex flex-col gap-12 sm:flex-row">
                     <div class="flex flex-col flex-1 gap-2">
                         <div class="flex-1">
@@ -190,94 +210,141 @@ onMounted(() => {
                             >
                         </div>
                     </div>
+=======
+                <div class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white">Payee</label>
+                    <h4 class="font-bold text-gray-900 text-sm">
+                        {{ voucherStore.voucher.stakeholder?.name }}
+                    </h4>
+>>>>>>> 75722efe (Voucher ui revamp with fx)
                 </div>
             </div>
-            <div class="flex flex-col gap-4">
-                <h2 class="text-xl font-bold text-center mb-10">
-                    ACCOUNTING ENTRIES
-                </h2>
-                <div class="flex flex-col bg-gray-100 rounded-lg px-8 py-4 gap-2">
-                    <div v-for="ae,i in accountEntries" :key="i" class="flex gap-2">
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Accounts</label>
-                            <select v-model="ae.account_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
-                                <option v-for="ac in accountGroup.accountGroup.accounts" :key="ac.id" :value="ac.id">
-                                    {{ ac.account_name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Project/Section Code</label>
-                            <select v-model="ae.stakeholder_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
-                                <option v-for="st in payeeList" :key="st.id" :value="st.id">
-                                    {{ st.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="debit"
-                                class="text-xs italic"
-                            >Debit</label>
-                            <input
-                                id="debit"
-                                v-model="ae.debit"
-                                type="number"
-                                class="w-full rounded-lg h-9 text-sm bg-gray-100"
-                                required
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="credit"
-                                class="text-xs italic"
-                            >Credit</label>
-                            <input
-                                id="credit"
-                                v-model="ae.credit"
-                                type="number"
-                                class="w-full rounded-lg h-9 text-sm bg-gray-100"
-                                required
-                            >
-                        </div>
-                    </div>
+            <div class="flex gap-4 border-b py-4 w-full">
+                <div class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white">Encoded Date</label>
+                    <h4 class="font-bold text-gray-900 text-sm">
+                        {{ fullDate(voucherStore.voucher.date_encoded) }}
+                    </h4>
                 </div>
-                <span v-if="accountEntries.length === 0" class="block text-center text-gray-600">
-                    No entries yet.
-                </span>
+                <div class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white">Voucher Date</label>
+                    <h4 class="font-bold text-gray-900 text-sm">
+                        {{ fullDate(voucherStore.voucher.voucher_date) }}
+                    </h4>
+                </div>
             </div>
-            <div class="flex justify-between">
-                <NuxtLink
-                    class="text-white p-2 px-4 rounded bg-orange-600 content-center mt-5 rounded-md w-fit"
-                    :to="'/accounting/voucher/disbursement/print?id=' + voucherStore.voucher.id"
-                >
-                    <Icon name="ion:printer" /> Print
-                </NuxtLink>
-                <div class="flex gap-2">
-                    <NuxtLink
-                        to="/accounting/voucher/disbursement"
-                        class="flex items-center text-white p-2 px-6 rounded bg-gray-600 content-center mt-5 rounded-md w-fit"
-                    >
-                        <span>Decline</span>
-                    </NuxtLink>
-                    <button
-                        type="submit"
-                        class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
-                    >
-                        Approve
-                    </button>
+            <div class="flex gap-4 border-b py-4 w-full">
+                <div class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white">Net Amount</label>
+                    <h4 class="font-bold text-gray-900 text-sm">
+                        {{ formatToCurrency(voucherStore.voucher.net_amount) }}
+                    </h4>
+                </div>
+                <div class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white">Amount in Words</label>
+                    <h4 class="font-bold text-gray-900 text-sm">
+                        {{ voucherStore.voucher.amount_in_words }}
+                    </h4>
+                </div>
+            </div>
+            <div class="flex gap-2 w-full justify-between py-4">
+                <div class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white">Expense Account</label>
+                    <h4 class="font-bold text-gray-900 text-sm">
+                        {{ voucherStore.voucher.account?.account_name }}
+                    </h4>
+                </div>
+                <div class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white">Check No.</label>
+                    <h4 class="font-bold text-gray-900 text-sm">
+                        {{ voucherStore.voucher.check_no }}
+                    </h4>
                 </div>
             </div>
         </div>
-        <!-- <AccountingVoucherDisbursementPrint v-show="toPrint" @close="toPrint=false" /> -->
+        <form action="">
+            <div class="bg-gray-100 p-4 py-8 flex flex-col items-center mb-8">
+                <h2 class="text-center font-bold text-gray-800">
+                    ACCOUNTING ENTRIES
+                </h2>
+                <table v-if="voucherStore.voucher.details.length > 0" class="w-full mt-6">
+                    <thead>
+                        <tr>
+                            <th class="border-2 border-gray-800 text-xs">
+                                ACCOUNT CODE
+                            </th>
+                            <th class="border-2 border-gray-800 text-xs w-1/3">
+                                ACCOUNT NAME
+                            </th>
+                            <th class="border-2 border-gray-800 text-xs">
+                                PROJECT/SECTION CODE
+                            </th>
+                            <th class="border-2 border-gray-800 text-xs w-24">
+                                DEBIT
+                            </th>
+                            <th class="border-2 border-gray-800 text-xs w-24">
+                                CREDIT
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="ae,i in voucherStore.voucher.details" :key="i" class="hover:bg-gray-100 cursor-pointer">
+                            <td class="border px-4 py-1 border-gray-800 text-xs relative">
+                                {{ account(ae.account_id).account_number }}
+                            </td>
+                            <td class="border px-4 py-1 border-gray-800 text-xs">
+                                {{ account(ae.account_id).account_name }}
+                            </td>
+                            <td class="border px-4 py-1 border-gray-800 text-xs">
+                                {{ stakeholder(ae.stakeholder_id).name }}
+                            </td>
+                            <td class="border px-4 py-1 border-gray-800 text-xs">
+                                {{ formatToCurrency(ae.debit) }}
+                            </td>
+                            <td class="border px-4 py-1 border-gray-800 text-xs">
+                                {{ formatToCurrency(ae.credit) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td />
+                            <td />
+                            <td class="text-center font-bold py-2">
+                                TOTAL
+                            </td>
+                            <td class="border-b-2 border-black font-bold py-2 px-4">
+                                {{ formatToCurrency(totalDebit) }}
+                            </td>
+                            <td class="border-b-2 border-black font-bold py-2 px-4">
+                                {{ formatToCurrency(totalCredit) }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <i v-if="voucherStore.voucher.details.length === 0" class="text-center block mt-4 mb-2 text-gray-500">
+                    There are no entries yet.
+                </i>
+            </div>
+        </form>
+        <div class="flex justify-end w-full mb-8 gap-2">
+            <button
+                class="text-white p-2 px-6 bg-orange-600 content-center mt-5 rounded-md w-fit"
+                @click="print"
+            >
+                Print
+            </button>
+            <button
+                class="text-white p-2 px-6 bg-teal-600 content-center mt-5 rounded-md w-fit"
+            >
+                Edit
+            </button>
+        </div>
+
+        <!-- PRINT AREA  -->
+
+        <div class="hidden">
+            <AccountingVoucherDisbursementPrint />
+        </div>
     </div>
 </template>
-<style>
-
+<style scoped>
 </style>
