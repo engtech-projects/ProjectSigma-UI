@@ -66,7 +66,7 @@ const searchedOptions = computed(() => {
 })
 </script>
 <template>
-    <div class="border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer">
+    <div class="border border-gray-300 rounded-md px-3 text-md flex items-center relative cursor-pointer">
         <div class="flex flex-1 items-center" :class="props.height + ' ' + props.fz" @click="toggleDD">
             <div class="flex-1 h-[25px] overflow-hidden">
                 <span class="flex-1">{{ currentOptionValue?currentOptionValue[title]:'' }}</span>
