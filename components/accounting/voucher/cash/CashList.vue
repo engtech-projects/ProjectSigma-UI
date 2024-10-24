@@ -42,7 +42,7 @@ const voucherList = computed(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="voucher, i in voucherList" :key="i" class="border text-left">
+                    <tr v-for="voucher, i in voucherList" :key="i" class="border text-left hover:bg-gray-200 hover: text-black" :class="voucher.id === voucherStore.voucher.id ? 'selectedVoucher' : ''">
                         <td class="p-2">
                             {{ voucher.voucher_no }}
                         </td>
@@ -71,6 +71,10 @@ const voucherList = computed(() => {
 </template>
 
 <style scoped>
+    .selectedVoucher {
+        background-color: #b2d8d8;
+        color: black!important
+    }
     #listTable tbody tr td, #listTable thead th {
         text-align: left!important;
     }

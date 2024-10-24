@@ -66,7 +66,7 @@ onMounted(() => {
             </div>
             <div class="flex justify-between items-center h-16 border-b px-4">
                 <h2 class="text-xl text-gray-800">
-                    Edit Disbursement Voucher
+                    Edit Cash Voucher
                 </h2>
             </div>
             <div class="flex flex-col gap-3 p-4 w-full">

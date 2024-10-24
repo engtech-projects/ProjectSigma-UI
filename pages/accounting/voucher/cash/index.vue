@@ -7,7 +7,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <AccountingVoucherCashCreate v-if="action==='create'" />
-                <AccountingVoucherCashDetails v-if="action==='view'" @create="receiveAction('create')" />
+                <AccountingVoucherCashEdit v-if="action==='edit'" @view-details="receiveAction('view')" />
+                <AccountingVoucherCashDetails v-if="action==='view'" @edit="receiveAction('edit')" @create="receiveAction('create')" />
             </div>
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>

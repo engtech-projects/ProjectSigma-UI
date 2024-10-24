@@ -7,7 +7,7 @@ const stakeholderStore = useStakeholderStore()
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
 
-defineEmits(["create"])
+defineEmits(["create", "edit"])
 const loading = ref(false)
 const account = (id) => {
     return accountGroupStore.accountGroup.accounts.filter(a => a.id === id)[0]
@@ -197,6 +197,7 @@ function print () {
                 </button>
                 <button
                     class="text-white p-2 px-6 bg-teal-600 content-center rounded-md w-fit"
+                    @click="$emit('edit')"
                 >
                     Edit
                 </button>
