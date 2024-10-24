@@ -58,7 +58,9 @@ import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { useBookStore } from "~/stores/accounting/book"
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 
+const action = ref("create")
 const voucherStore = useVoucherStore()
+
 voucherStore.reset()
 voucherStore.generateVoucherNumber("CV")
 voucherStore.getVouchers()
@@ -75,7 +77,18 @@ await bookStore.getBooks()
 const accountGroup = useAccountGroupStore()
 accountGroup.showAccountGroup(bookStore.disbursement.id)
 
-const action = ref("create")
+if (useRoute().query.details) {
+    const id = useRoute().query.details
+    action.value = "view"
+    voucherStore.showVoucher(id)
+}
+
+if (useRoute().query.edit) {
+    const id = useRoute().query.edit
+    action.value = "edit"
+    voucherStore.showVoucher(id)
+}
+
 const receiveAction = (ac) => {
     action.value = ac
 }

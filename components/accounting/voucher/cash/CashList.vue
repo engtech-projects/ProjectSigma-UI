@@ -4,12 +4,14 @@ import { useVoucherStore } from "~/stores/accounting/voucher"
 const voucherStore = useVoucherStore()
 const emit = defineEmits(["view-details"])
 
-const setAction = (action, voucher) => {
-    if (action === "view-details" || action === "edit") {
+const navigate = (url = "", action = null, voucher = null) => {
+    history.pushState(null, "", url)
+    if (voucher) {
         voucherStore.voucher = voucher
     }
     emit(action)
 }
+
 const voucherList = computed(() => {
     return voucherStore.list.filter(v => v.book_id === 2)
 })
@@ -60,7 +62,7 @@ const voucherList = computed(() => {
                                 name="material-symbols:visibility-rounded"
                                 color="white"
                                 class="bg-green-500 hover:bg-green-600 active:bg-green-700 rounded h-8 w-8 p-1 cursor-pointer"
-                                @click="setAction('view-details', voucher)"
+                                @click="navigate('/accounting/voucher/cash?details=' + voucher.id, 'view-details', voucher)"
                             />
                         </td>
                     </tr>
