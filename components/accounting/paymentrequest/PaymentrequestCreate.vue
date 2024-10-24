@@ -29,7 +29,6 @@ async function handleSubmit () {
                 text: paymentRequestStore.successMessage
             })
             paymentRequestStore.reset()
-            navigateTo("/accounting/payment-request")
         }
     } catch (error) {
         snackbar.add({

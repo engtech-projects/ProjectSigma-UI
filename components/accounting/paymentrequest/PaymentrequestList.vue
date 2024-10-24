@@ -6,11 +6,11 @@ const emit = defineEmits(["view-details"])
 
 const navigate = (url = "", action = "", pr = null) => {
     history.pushState(null, "", url)
+    emit(action)
     if (pr) {
         // paymentRequestStore.paymentRequest = pr
         paymentRequestStore.getPaymentRequest(pr.id)
     }
-    emit(action)
 }
 </script>
 <template>
@@ -41,7 +41,7 @@ const navigate = (url = "", action = "", pr = null) => {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="pr, i in paymentRequestStore.list" :key="i" class="border text-left !text-sm !text-black">
+                <tr v-for="pr, i in paymentRequestStore.list" :key="i" class="border text-left hover:bg-gray-200 hover: !text-black !text-sm" :class="pr.id === paymentRequestStore.paymentRequest.id ? 'selectedItem' : ''">
                     <td class="p-2">
                         {{ pr.prf_no }}
                     </td>
@@ -54,7 +54,7 @@ const navigate = (url = "", action = "", pr = null) => {
                     <td class="p-2">
                         {{ useUtilities().value.formatCurrency(pr.total) }}
                     </td>
-                    <td class="text-right">
+                    <td class="text-right p-2">
                         <Icon
                             name="material-symbols:visibility-rounded"
                             color="white"
@@ -69,6 +69,10 @@ const navigate = (url = "", action = "", pr = null) => {
 </template>
 
 <style scoped>
+    .selectedItem {
+        background-color: #b2d8d8;
+        color: black!important
+    }
     #listTable tbody tr td, #listTable thead th {
         text-align: left!important
     }

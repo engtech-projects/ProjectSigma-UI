@@ -1,17 +1,12 @@
 <script lang="ts" setup>
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useVoucherStore } from "~/stores/accounting/voucher"
 import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
 
 const paymentRequestStore = usePaymentRequestStore()
-await paymentRequestStore.getPaymentRequest(paymentRequestStore.paymentRequest.id)
 
 const stakeholderStore = useStakeholderStore()
-const voucherStore = useVoucherStore()
 
 const emit = defineEmits(["create", "edit"])
-
-const loading = ref(false)
 
 const stakeholder = (id) => {
     return stakeholderStore.list.filter(st => st.id === id)[0]
@@ -46,17 +41,17 @@ function print () {
     }
 }
 
-const navigate = (url = "", action = "", voucher = null) => {
+const navigate = (url = "", action = "", pr = null) => {
     history.pushState(null, "", url)
-    if (voucher) {
-        voucherStore.voucher = voucher
-    }
     emit(action)
+    if (pr) {
+        paymentRequestStore.getPaymentRequest(pr.id)
+    }
 }
 </script>
 <template>
-    <div class="bg-white shadow rounded-lg border border-gray-200 px-2">
-        <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+    <div class="bg-white shadow rounded-lg border border-gray-200 px-2 relative">
+        <div v-if="paymentRequestStore.isShowLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
             <img
                 class="flex justify-center w-28 rounded-md"
                 src="/loader.gif"
@@ -98,10 +93,10 @@ const navigate = (url = "", action = "", voucher = null) => {
                 </div>
             </div>
             <div class="flex gap-2 w-full justify-between py-4">
-                <div v-if="paymentRequestStore.paymentRequest.descripton" class="flex-1 gap-4">
+                <div v-if="paymentRequestStore.paymentRequest.description" class="flex-1 gap-4">
                     <label class="block text-xs text-gray-900 dark:text-white">Description</label>
                     <h4 class="font-bold text-gray-900 text-sm">
-                        {{ paymentRequestStore.paymentRequest.descripton }}
+                        {{ paymentRequestStore.paymentRequest.description }}
                     </h4>
                 </div>
             </div>
@@ -165,7 +160,7 @@ const navigate = (url = "", action = "", voucher = null) => {
         <div class="flex justify-between w-full mb-8 gap-2 items-center mt-5">
             <button
                 class="text-gray-700 self-start hover:text-blue-500 border-gray-700 mt-2"
-                @click.prevent="navigate('/accounting/voucher/disbursement', 'create')"
+                @click.prevent="navigate('/accounting/payment-request', 'create')"
             >
                 <Icon name="ion:ios-arrow-thin-left" class="mr-1 text-2xl" />
                 Back to create
@@ -180,7 +175,7 @@ const navigate = (url = "", action = "", voucher = null) => {
                 </button>
                 <button
                     class="text-white p-2 px-6 bg-teal-600 content-center rounded-md w-fit flex items-center"
-                    @click="navigate('/accounting/voucher/disbursement?edit=' + voucherStore.voucher.id, 'edit')"
+                    @click="navigate('/accounting/payment-request?edit=' + paymentRequestStore.paymentRequest.id, 'edit')"
                 >
                     <Icon name="iconoir:edit" class="text-xl mr-2" />
                     Edit

@@ -17,6 +17,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         errorMessage: "",
         successMessage: "",
         isLoading: false,
+        isShowLoading: false,
         isEdit: false
     }),
     actions: {
@@ -67,14 +68,14 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         },
 
         async getPaymentRequest (id:any) {
-            this.isLoading = true
+            this.isShowLoading = true
             const { data, error } = await useAccountingApi(
                 "/api/payment-request/" + id,
                 {
                     method: "GET",
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.isLoading = false
+                        this.isShowLoading = false
                         this.paymentRequest = response._data
                     },
                 }
