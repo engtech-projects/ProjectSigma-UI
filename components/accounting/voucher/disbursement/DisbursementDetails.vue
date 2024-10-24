@@ -42,23 +42,7 @@ function print () {
         printWindow.focus()
         printWindow.print()
     }
-<<<<<<< HEAD
-})
-const accountEntries = ref([])
-const accountId = computed(() => {
-    return voucherStore.voucher ? voucherStore.voucher.account_id : null
-})
-// const print = () => {
-//     toPrint.value = true
-//     setTimeout(window.print, 500)
-// }
-onMounted(() => {
-    // console.log(accountId.value)
-    accountEntries.value = voucherStore.voucher.details
-})
-=======
 }
->>>>>>> 75722efe (Voucher ui revamp with fx)
 </script>
 <template>
     <div class="bg-white shadow rounded-lg border border-gray-200 px-2">
@@ -82,141 +66,11 @@ onMounted(() => {
                         {{ voucherStore.voucher.voucher_no }}
                     </h4>
                 </div>
-<<<<<<< HEAD
-                <div class="flex flex-col gap-12 sm:flex-row">
-                    <div class="flex flex-col flex-1 gap-2">
-                        <div class="flex-1">
-                            <label
-                                for="payee"
-                                class="text-xs italic"
-                            >Payee</label>
-                            <select :value="voucherStore.voucher ? voucherStore.voucher.stakeholder_id : null" class="w-full rounded-lg" disabled>
-                                <option v-for="st in payeeList" :key="st.id" :value="st.id">
-                                    {{ st.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <!-- <div class="flex-1">
-                            <label
-                                for="paymentTerms"
-                                class="text-xs italic"
-                            >Payment Terms</label>
-                            <select id="paymentTerms" class="w-full rounded-lg">
-                                <option value="monthly">
-                                    Monthly
-                                </option>
-                                <option value="quarterly">
-                                    Quarterly
-                                </option>
-                                <option value="annually">
-                                    Annually
-                                </option>
-                            </select>
-                        </div> -->
-                        <div class="flex-1">
-                            <label
-                                for="particulars"
-                                class="text-xs italic"
-                            >Particulars</label>
-                            <input
-                                id="particulars"
-                                v-model="voucherStore.voucher.particulars"
-                                type="text"
-                                class="w-full rounded-lg"
-                                required
-                                disabled
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Amount in words</label>
-                            <input
-                                id="amountInWords"
-                                v-model="voucherStore.voucher.amount_in_words"
-                                type="text"
-                                class="w-full rounded-lg"
-                                required
-                                disabled
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="payee"
-                                class="text-xs italic"
-                            >Expense Accounts</label>
-                            <select v-model="accountId" class="w-full rounded-lg" disabled>
-                                <option v-for="ac in accountGroup.accountGroup.accounts" :key="ac.id" :value="ac.id">
-                                    {{ ac.account_name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="flex flex-col flex-1 justify-start gap-2">
-                        <div>
-                            <label
-                                for="encodedDate"
-                                class="text-xs italic"
-                            >Encoded Date</label>
-                            <input
-                                id="encodedDate"
-                                :value="dateToString(new Date(voucherStore.voucher.date_encoded))"
-                                type="date"
-                                class="w-full rounded-lg"
-                                required
-                                disabled
-                            >
-                        </div>
-                        <div>
-                            <label
-                                for="entryDate"
-                                class="text-xs italic"
-                            >Entry Date</label>
-                            <input
-                                id="entryDate"
-                                :value="dateToString(new Date(voucherStore.voucher.voucher_date))"
-                                type="date"
-                                class="w-full rounded-lg"
-                                required
-                                disabled
-                            >
-                        </div>
-                        <div>
-                            <label
-                                for="netAmount"
-                                class="text-xs italic"
-                            >Net Amount</label>
-                            <input
-                                v-show="!showNetAmount"
-                                id="netAmount"
-                                ref="amountElement"
-                                v-model="voucherStore.voucher.net_amount"
-                                type="number"
-                                class="w-full rounded-lg"
-                                required
-                                disabled
-                                @blur="showNetAmount=true"
-                            >
-                            <input
-                                v-show="showNetAmount"
-                                id="netAmount2"
-                                type="text"
-                                class="w-full rounded-lg"
-                                :value="useUtilities().value.formatCurrency(voucherStore.voucher.net_amount)"
-                                required
-                                disabled
-                                @focus="focusNetAmount()"
-                            >
-                        </div>
-                    </div>
-=======
                 <div class="flex-1 gap-4">
                     <label class="block text-xs text-gray-900 dark:text-white">Payee</label>
                     <h4 class="font-bold text-gray-900 text-sm">
                         {{ voucherStore.voucher.stakeholder?.name }}
                     </h4>
->>>>>>> 75722efe (Voucher ui revamp with fx)
                 </div>
             </div>
             <div class="flex gap-4 border-b py-4 w-full">

@@ -1,31 +1,16 @@
 <script lang="ts" setup>
-import { useAccountStore } from "~/stores/accounting/account"
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useVoucherStore } from "~/stores/accounting/voucher"
-import { useBookStore } from "~/stores/accounting/book"
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 import { useVoucherStore } from "~/stores/accounting/voucher"
 import { useBookStore } from "~/stores/accounting/book"
 
-const { list: accountsList } = storeToRefs(useAccountStore())
 const { list: payeeList } = storeToRefs(useStakeholderStore())
-<<<<<<< HEAD
-const voucherStore = useVoucherStore()
-const bookStore = useBookStore()
-const snackbar = useSnackbar()
-const accountGroup = useAccountGroupStore()
-
-const loading = ref(false)
-const showNetAmount = ref(true)
-const amountElement = ref()
-=======
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
 const bookStore = useBookStore()
 
 const loading = ref(false)
 const snackbar = useSnackbar()
->>>>>>> 75722efe (Voucher ui revamp with fx)
 const accountEntry = ref({
     account_id: null,
     stakeholder_id: null,
@@ -35,14 +20,7 @@ const accountEntry = ref({
 async function handleSubmit () {
     try {
         loading.value = true
-<<<<<<< HEAD
-        voucherStore.voucher.book_id = bookStore.disbursement.id
-        voucherStore.voucher.account_id = 1
-        voucherStore.voucher.details = lineItems.value
-        voucherStore.voucher.book_id = 1
-=======
         voucherStore.voucher.book_id = bookStore.cash.id
->>>>>>> 75722efe (Voucher ui revamp with fx)
         await voucherStore.createVoucher()
         if (voucherStore.errorMessage !== "") {
             snackbar.add({
@@ -54,73 +32,6 @@ async function handleSubmit () {
                 type: "success",
                 text: voucherStore.successMessage
             })
-<<<<<<< HEAD
-            navigateTo("/accounting/voucher/disbursement")
-        }
-    } catch (error) {
-        // voucherStore.errorMessage = error.Message
-        // snackbar.add({
-        //     type: "error",
-        //     text: voucherStore.errorMessage
-        // })
-    } finally {
-        loading.value = false
-    }
-}
-const selectedAccount = computed(() => {
-    return accountsList.value.filter(a => a.id === accountEntry.value.account_id)[0]
-})
-const accountEntries = ref([])
-const addLine = () => {
-    accountEntry.value.account_code = selectedAccount.value.account_number
-    accountEntry.value.account_name = selectedAccount.value.account_name
-    accountEntries.value.push(JSON.parse(JSON.stringify(accountEntry.value)))
-    accountEntry.value = {
-        account_id: null,
-        account_code: null,
-        account_name: null,
-        project_id: null,
-        project_code: null,
-        debit: 0,
-        credit: 0
-    }
-}
-const amount = computed(() => {
-    return voucherStore.voucher.net_amount
-})
-watch(amount, (newAmount) => {
-    voucherStore.voucher.amount_in_words = useAmountInWords(newAmount)
-})
-const removeLine = (line: object) => {
-    accountEntries.value = accountEntries.value.filter(acc => acc !== line)
-}
-const lineItems = computed(() => {
-    const arr = []
-    accountEntries.value.forEach((entry) => {
-        arr.push({
-            account_id: entry.account_id,
-            stakeholder_id: entry.project_id,
-            debit: entry.debit,
-            credit: entry.credit
-        })
-    })
-    return arr
-})
-const focusNetAmount = () => {
-    showNetAmount.value = false
-}
-
-watch(showNetAmount, (newValue) => {
-    if (!newValue) {
-        nextTick(() => {
-            amountElement.value.focus()
-        })
-    }
-})
-onMounted(() => {
-    voucherStore.voucher.voucher_date = dateToString(new Date())
-    voucherStore.voucher.date_encoded = dateToString(new Date())
-=======
             voucherStore.reset()
         }
     } catch (error) {
@@ -144,233 +55,17 @@ onMounted(() => {
     voucherStore.voucher.voucher_date = dateToString(new Date())
     voucherStore.voucher.date_encoded = dateToString(new Date())
     voucherStore.voucher.net_amount = 0
->>>>>>> 75722efe (Voucher ui revamp with fx)
 })
 </script>
 <template>
     <form @submit.prevent="handleSubmit">
-<<<<<<< HEAD
-        <div class="flex flex-col gap-16 pb-24 pt-8 relative">
-=======
         <div class="bg-white shadow rounded-lg border border-gray-200 px-2">
->>>>>>> 75722efe (Voucher ui revamp with fx)
             <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
                 <img
                     class="flex justify-center w-28 rounded-md"
                     src="/loader.gif"
                     alt="logo"
                 >
-<<<<<<< HEAD
-            </div>
-            <AccountingCommonEvenparHeader />
-            <h1 class="text-2xl text-center font-bold">
-                DISBURSEMENT VOUCHER
-            </h1>
-            <div class="flex flex-col gap-2">
-                <div class="flex justify-end gap-4">
-                    <h3 class="font-bold">
-                        REFERENCE NO.
-                    </h3>
-                    <span class="border-b border-gray-800">
-                        {{ voucherStore.voucher.voucher_no }}
-                    </span>
-                </div>
-                <div class="flex flex-col gap-12 sm:flex-row">
-                    <div class="flex flex-col flex-1 gap-2">
-                        <div class="flex-1">
-                            <label
-                                for="payee"
-                                class="text-xs italic"
-                            >Payee</label>
-                            <select v-model="voucherStore.voucher.stakeholder_id" class="w-full rounded-lg">
-                                <option v-for="st in payeeList" :key="st.id" :value="st.id">
-                                    {{ st.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <!-- <div class="flex-1">
-                            <label
-                                for="paymentTerms"
-                                class="text-xs italic"
-                            >Payment Terms</label>
-                            <select id="paymentTerms" class="w-full rounded-lg">
-                                <option value="monthly">
-                                    Monthly
-                                </option>
-                                <option value="quarterly">
-                                    Quarterly
-                                </option>
-                                <option value="annually">
-                                    Annually
-                                </option>
-                            </select>
-                        </div> -->
-                        <div class="flex-1">
-                            <label
-                                for="particulars"
-                                class="text-xs italic"
-                            >Particulars</label>
-                            <input
-                                id="particulars"
-                                v-model="voucherStore.voucher.particulars"
-                                type="text"
-                                class="w-full rounded-lg"
-                                required
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Amount in words</label>
-                            <input
-                                id="amountInWords"
-                                v-model="voucherStore.voucher.amount_in_words"
-                                type="text"
-                                class="w-full rounded-lg"
-                                required
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="payee"
-                                class="text-xs italic"
-                            >Expense Accounts</label>
-                            <select v-model="voucherStore.voucher.account_id" class="w-full rounded-lg">
-                                <option v-for="ac in accountGroup.accountGroup.accounts" :key="ac.id" :value="ac.id">
-                                    {{ ac.account_name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="flex flex-col flex-1 justify-start gap-2">
-                        <div class="">
-                            <label
-                                for="encodedDate"
-                                class="text-xs italic"
-                            >Encoded Date</label>
-                            <input
-                                id="encodedDate"
-                                v-model="voucherStore.voucher.date_encoded"
-                                type="date"
-                                class="w-full rounded-lg"
-                                required
-                            >
-                        </div>
-                        <div class="">
-                            <label
-                                for="entryDate"
-                                class="text-xs italic"
-                            >Entry Date</label>
-                            <input
-                                id="entryDate"
-                                v-model="voucherStore.voucher.voucher_date"
-                                type="date"
-                                class="w-full rounded-lg"
-                                required
-                            >
-                        </div>
-                        <!-- <div class="">
-                            <label
-                                for="paymentMethod"
-                                class="text-xs italic"
-                            >Payment Method</label>
-                            <select id="paymentMethod" class="w-full rounded-lg">
-                                <option value="cash">
-                                    acc
-                                </option>
-                                <option value="check">
-                                    Check
-                                </option>
-                            </select>
-                        </div> -->
-                        <div class="">
-                            <label
-                                for="netAmount"
-                                class="text-xs italic"
-                            >Net Amount</label>
-                            <input
-                                v-show="!showNetAmount"
-                                id="netAmount"
-                                ref="amountElement"
-                                v-model="voucherStore.voucher.net_amount"
-                                type="number"
-                                class="w-full rounded-lg"
-                                required
-                                @blur="showNetAmount=true"
-                            >
-                            <input
-                                v-show="showNetAmount"
-                                id="netAmount2"
-                                type="text"
-                                class="w-full rounded-lg"
-                                :value="useUtilities().value.formatCurrency(voucherStore.voucher.net_amount)"
-                                required
-                                @focus="focusNetAmount()"
-                            >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-col gap-4">
-                <h2 class="text-xl font-bold text-center mb-10">
-                    ACCOUNTING ENTRIES
-                </h2>
-                <form @submit.prevent="addLine">
-                    <div class="flex flex-col lg:flex-row gap-2 bg-yellow-100 rounded-lg px-6 py-4">
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Accounts</label>
-                            <select v-model="accountEntry.account_id" class="w-full rounded-lg">
-                                <option v-for="account in accountGroup.accountGroup.accounts" :key="account.id" :value="account.id">
-                                    {{ account.account_name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Project/Section Code</label>
-                            <select v-model="accountEntry.project_id" class="w-full rounded-lg">
-                                <option v-for="st in payeeList" :key="st.id" :value="st.id">
-                                    {{ st.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="debit"
-                                class="text-xs italic"
-                            >Debit</label>
-                            <input
-                                id="debit"
-                                v-model="accountEntry.debit"
-                                type="number"
-                                class="w-full rounded-lg"
-                                :disabled="accountEntry.credit > 0"
-                                required
-                                @blur="accountEntry.debit = accountEntry.debit === '' ? 0 : accountEntry.debit"
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="credit"
-                                class="text-xs italic"
-                            >Credit</label>
-                            <input
-                                id="credit"
-                                v-model="accountEntry.credit"
-                                type="number"
-                                class="w-full rounded-lg"
-                                :disabled="accountEntry.debit > 0"
-                                required
-                                @blur="accountEntry.credit = accountEntry.credit === '' ? 0 : accountEntry.credit"
-                            >
-                        </div>
-=======
             </div>
             <div class="flex justify-between items-center h-16 border-b px-4">
                 <h2 class="text-xl text-gray-800">
@@ -481,151 +176,107 @@ onMounted(() => {
                         There are no entries yet.
                     </i>
                     <div v-if="voucherStore.voucher.details.length > 0" class="flex justify-left w-full mt-1">
->>>>>>> 75722efe (Voucher ui revamp with fx)
                         <button
-                            type="submit"
-                            class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
+                            class="
+                                border
+                                px-4
+                                rounded-xl
+                                text-xs
+                                py-[2px]
+                                bg-slate-400
+                                cursor-pointer
+                                hover:bg-slate-500
+                                active:bg-slate-600"
+                            @click.prevent="addEntry"
                         >
-                            Add line
+                            + Add Entry
                         </button>
                     </div>
-                </form>
-                <div class="flex flex-col bg-gray-100 rounded-lg px-8 py-4 gap-2">
-                    <div v-for="ae,i in accountEntries" :key="i" class="flex gap-2">
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Accounts</label>
-                            <select v-model="ae.account_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
-                                <option v-for="account in accountsList" :key="account.id" :value="account.id">
-                                    {{ account.account_name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Project/Section Code</label>
-                            <select v-model="ae.project_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
-                                <option v-for="st in payeeList" :key="st.id" :value="st.id">
-                                    {{ st.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="debit"
-                                class="text-xs italic"
-                            >Debit</label>
-                            <input
-                                id="debit"
-                                v-model="ae.debit"
-                                type="number"
-                                class="w-full rounded-lg h-9 text-sm bg-gray-100"
-                                required
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="credit"
-                                class="text-xs italic"
-                            >Credit</label>
-                            <input
-                                id="credit"
-                                v-model="ae.credit"
-                                type="number"
-                                class="w-full rounded-lg h-9 text-sm bg-gray-100"
-                                required
-                            >
-                        </div>
-                        <button
-                            class="text-white p-2 px-4 rounded bg-red-500 content-center mt-5 rounded-md w-fit"
-                            @click.prevent="removeLine(ae)"
-                        >
-                            Remove
-                        </button>
-                    </div>
-                </div>
-                <!-- <table v-if="accountEntries.length > 0" class="w-full">
-                    <thead>
-                        <tr>
-                            <th class="border-2 border-gray-800 text-sm">
-                                ACCOUNT CODE
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-1/3">
-                                ACCOUNT NAME
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm">
-                                PROJECT/SECTION CODE
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-24">
-                                DEBIT
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-24">
-                                CREDIT
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-2" />
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="ae,i in accountEntries" :key="i" class="hover:bg-gray-100 cursor-pointer">
-                            <td class="border px-4 py-1 border-gray-800 relative">
-                                {{ ae.account_code }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.account_name }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.project_id }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.debit }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.credit }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                <Icon name="ion:trash" class="text-xl text-gray-500 hover:text-red-600" @click="removeLine(ae)" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> -->
-                <span v-if="accountEntries.length === 0" class="block text-center text-gray-600">
-                    No entries yet.
-                </span>
-            </div>
-            <!-- <div class="flex gap-24">
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    REQUESTED BY:
-                </span>
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    APPROVED BY:
-                </span>
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    RECEIVED BY:
-                </span>
-            </div> -->
-            <div class="flex justify-end">
-                <div class="flex gap-2 jus">
-                    <NuxtLink
-                        to="/accounting/voucher/disbursement"
-                        class="text-white p-2 px-6 rounded bg-gray-600 content-center mt-5 rounded-md w-fit"
-                    >
-                        <span>Back</span>
-                    </NuxtLink>
                     <button
-                        type="submit"
-                        class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
+                        v-else
+                        class="
+                            border
+                            rounded-xl
+                            px-4
+                            text-xs
+                            py-[2px]
+                            bg-slate-400
+                            cursor-pointer
+                            hover:bg-slate-500
+                            active:bg-slate-600"
+                        @click.prevent="addEntry"
                     >
-                        Submit
+                        + Add Entry
                     </button>
                 </div>
+            </form>
+            <div class="flex justify-end w-full mb-8">
+                <button
+                    type="submit"
+                    class="text-white p-2 px-6 bg-teal-600 content-center mt-5 rounded-md w-fit"
+                >
+                    Create Voucher
+                </button>
             </div>
         </div>
     </form>
 </template>
-<style>
-
+<style scoped>
+.z-30 {
+    z-index: 30;
+}
+.z-29 {
+    z-index: 29;
+}
+.z-28 {
+    z-index: 28;
+}
+.z-27 {
+    z-index: 27;
+}
+.z-26 {
+    z-index: 26;
+}
+.z-30 {
+    z-index: 30;
+}
+.z-25 {
+    z-index: 25;
+}
+.z-24 {
+    z-index: 24;
+}
+.z-23 {
+    z-index: 23;
+}
+.z-22 {
+    z-index: 22;
+}
+.z-21 {
+    z-index: 21;
+}
+.z-20 {
+    z-index: 20;
+}
+.z-19 {
+    z-index: 19;
+}
+.z-18 {
+    z-index: 18;
+}
+.z-17 {
+    z-index: 17;
+}
+.z-16 {
+    z-index: 16;
+}
+.z-15 {
+    z-index: 15;
+}
+.z-14 {
+    z-index: 14;
+}
+.z-13 {
+    z-index: 13;
+}
 </style>
