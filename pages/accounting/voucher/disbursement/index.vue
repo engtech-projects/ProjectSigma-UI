@@ -1,9 +1,4 @@
 <template>
-<<<<<<< HEAD
-    <div class="bg-gray-50">
-        <AccountingVoucherDisbursementList />
-    </div>
-=======
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
             AccessibilityTypes.accounting_journal_group,
@@ -52,18 +47,21 @@
             </HrmsCommonTabsMainContainer>
         </div>
     </LayoutAcessContainer>
->>>>>>> 75722efe (Voucher ui revamp with fx)
 </template>
 
 <script lang="ts" setup>
 
 import { useVoucherStore } from "~/stores/accounting/voucher"
+import { useAccountStore } from "~/stores/accounting/account"
+import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+import { useBookStore } from "~/stores/accounting/book"
+import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 
 const voucherStore = useVoucherStore()
+voucherStore.reset()
+voucherStore.generateVoucherNumber("CV")
 voucherStore.getVouchers()
 
-<<<<<<< HEAD
-=======
 const accountStore = useAccountStore()
 accountStore.getAccounts()
 
@@ -81,5 +79,4 @@ const receiveAction = (ac) => {
     action.value = ac
 }
 
->>>>>>> 75722efe (Voucher ui revamp with fx)
 </script>
