@@ -72,7 +72,6 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             grade: "",
             color: "",
             uom: null,
-            uom_group_id: "",
             item_group: "",
             sub_item_group: "",
             uom_conversion_value: null,

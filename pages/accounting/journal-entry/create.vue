@@ -1,10 +1,12 @@
 <script lang="ts" setup>
-import { useJournalStore } from "~/stores/accounting/journal"
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
-const journalStore = useJournalStore()
-await journalStore.baseData()
-const accountGroupStore = useAccountGroupStore()
-await accountGroupStore.getAccountGroups()
+import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+import { useAccountStore } from "~/stores/accounting/account"
+
+const stakeholderStore = useStakeholderStore()
+await stakeholderStore.getStakeholders()
+
+const accountStore = useAccountStore()
+accountStore.getAccounts()
 useHead({
     title: "New Entry",
 })

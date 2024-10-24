@@ -1,27 +1,16 @@
 <script lang="ts" setup>
-import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
-import { useTransactionStore } from "~/stores/accounting/transaction"
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
 import { useAccountStore } from "~/stores/accounting/account"
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+// import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 import { useJournalStore } from "~/stores/accounting/journal"
 
-const journalStore = useJournalStore()
-const accountGroupStore = useAccountGroupStore()
-const accountStore = useAccountStore()
-await accountStore.getAccounts()
-
-const transactionTypeStore = useTransactionTypeStore()
-await transactionTypeStore.getTransactionTypes()
-const transactionStore = useTransactionStore()
-const stakeholderStore = useStakeholderStore()
-await stakeholderStore.getStakeholders()
-const stakeholderGroupStore = useStakeholderGroupStore()
-await stakeholderGroupStore.getStakeholderGroups()
-const boardLoading = ref(false)
 const snackbar = useSnackbar()
-transactionStore.transaction.transaction_date = useUtilities().value.dateToString(new Date())
+const journalStore = useJournalStore()
+// const accountGroupStore = useAccountGroupStore()
+const accountStore = useAccountStore()
+const stakeholderStore = useStakeholderStore()
+const boardLoading = ref(false)
+// const snackbar = useSnackbar()
 const removeDetail = (detail) => {
     details.value = details.value.filter(d => d !== detail)
 }
@@ -31,13 +20,15 @@ const detail = ref({
     stakeholder_name: null,
     account_id: null,
     account_name: null,
+    description: "",
     debit: 0,
     credit: 0
 })
 const details = ref([])
 const addDetail = () => {
-    detail.value.stakeholder_name = stakeholderStore.list.filter(s => s.stakeholder_id === detail.value.stakeholder_id)[0].display_name
-    detail.value.account_name = accountStore.list.filter(s => s.account_id === detail.value.account_id)[0].account_name
+    detail.value.stakeholder_name = stakeholderStore.list.filter(s => s.id === detail.value.stakeholder_id)[0].name
+    detail.value.account_name = accountStore.list.filter(s => s.id === detail.value.account_id)[0].account_name
+    detail.value.description = "No description"
     details.value.push(JSON.parse(JSON.stringify(detail.value)))
     detail.value = {
         transaction_detail_id: null,
@@ -50,14 +41,15 @@ const addDetail = () => {
     }
 }
 
+const generateJournalNo = () => {
+    return "JE-" + randomInt(100001, 999999) + "-" + randomInt(1000, 9999)
+}
+
 async function handleSubmit () {
     try {
         boardLoading.value = true
-        journalStore.journal.entry.status = "open"
-        journalStore.journal.entry.amount = 100
-        journalStore.journal.entry.stakeholder_id = 2
         journalStore.journal.details = tdetails.value
-        journalStore.journal.entry.description = "No description."
+        journalStore.journal.remarks = "Journal Entry"
         await journalStore.createJournal()
         if (journalStore.errorMessage !== "") {
             snackbar.add({
@@ -98,11 +90,13 @@ const tdetails = computed(() => {
         const dd = ref({
             stakeholder_id: null,
             account_id: null,
+            description: "",
             debit: 0,
             credit: 0
         })
         dd.value.stakeholder_id = detail.stakeholder_id
         dd.value.account_id = detail.account_id
+        dd.value.description = detail.description
         dd.value.debit = detail.debit
         dd.value.credit = detail.credit
         dds.value.push(dd.value)
@@ -110,18 +104,11 @@ const tdetails = computed(() => {
     return dds.value
 })
 
-const journalBase = computed(() => {
-    return journalStore.base.length > 0 ? journalStore.base[0] : null
-})
-
-const accountsList = computed(() => {
-    return accountGroupStore.list.filter(a => a.account_group_id === journalBase.value.book.account_group_id)[0]
-})
 // await accountGroupStore.showAccountGroup(journalBase.book.account_group_id)
 
-// onMounted(() => {
-//     console.log(accountsList.value)
-// })
+onMounted(() => {
+    journalStore.journal.journal_no = generateJournalNo()
+})
 
 </script>
 <template>
@@ -136,7 +123,7 @@ const accountsList = computed(() => {
                         >Journal Date</label>
                         <input
                             id="transactionDate"
-                            v-model="journalStore.journal.entry.transaction_date"
+                            v-model="journalStore.journal.journal_date"
                             type="date"
                             class="w-full rounded-lg"
                             required
@@ -147,13 +134,21 @@ const accountsList = computed(() => {
                             for="status"
                             class="text-xs italic"
                         >Status</label>
-                        <input
+                        <select v-model="journalStore.journal.status" class="w-full rounded-lg">
+                            <option value="draft">
+                                Draft
+                            </option>
+                            <option value="open">
+                                Open
+                            </option>
+                        </select>
+                        <!-- <input
                             id="particulars"
-                            v-model="journalStore.journal.entry.status"
+                            v-model="journalStore.journal.status"
                             type="text"
                             class="w-full rounded-lg"
                             required
-                        >
+                        > -->
                     </div>
                     <div class="flex-1">
                         <label
@@ -162,22 +157,12 @@ const accountsList = computed(() => {
                         >Journal No.</label>
                         <input
                             id="journalNo"
-                            v-model="journalStore.journal.entry.transaction_no"
+                            v-model="journalStore.journal.journal_no"
                             type="text"
                             class="w-full rounded-lg"
                             required
+                            disabled
                         >
-                    </div>
-                </div>
-                <!-- <div class="flex gap-4">
-                </div> -->
-                <div class="flex flex-col md:flex-row gap-4">
-                    <div class="flex-1">
-                        <label
-                            for="status"
-                            class="text-xs italic"
-                        >Note</label>
-                        <textarea v-model="journalStore.journal.entry.note" class="w-full rounded-lg" />
                     </div>
                 </div>
                 <span class="font-bold text-gray-700 mt-8">
@@ -195,8 +180,8 @@ const accountsList = computed(() => {
                                 class="w-full rounded-lg"
                                 required
                             >
-                                <option v-for="p in stakeholderStore.list" :key="p.stakeholder_id" :value="p.stakeholder_id">
-                                    {{ p.display_name }}
+                                <option v-for="p in stakeholderStore.list" :key="p.id" :value="p.id">
+                                    {{ p.name }}
                                 </option>
                             </select>
                         </div>
@@ -210,7 +195,7 @@ const accountsList = computed(() => {
                                 class="w-full rounded-lg"
                                 required
                             >
-                                <option v-for="p in accountsList.accounts" :key="p.account_id" :value="p.account_id">
+                                <option v-for="p in accountStore.list" :key="p.id" :value="p.id">
                                     {{ p.account_name }}
                                 </option>
                             </select>

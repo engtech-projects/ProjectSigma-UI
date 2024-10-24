@@ -2,19 +2,17 @@
 import { useJournalStore } from "~/stores/accounting/journal"
 
 const journalStore = useJournalStore()
-await journalStore.getJournals()
-
 </script>
 <template>
     <div class="flex flex-col items-end gap-4">
         <div class="flex">
-            <!-- <NuxtLink
+            <NuxtLink
                 to="/accounting/journal-entry/create"
                 class="flex-1 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
             >
                 <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
                 <span>New Entry</span>
-            </NuxtLink> -->
+            </NuxtLink>
         </div>
         <LayoutBoards
             v-if="useCheckAccessibility([
@@ -77,16 +75,6 @@ await journalStore.getJournals()
                 /> -->
                 <!-- <i v-if="!transactionList.length&&!transactionStore.isLoading" class="p-4 text-center block">No data available.</i> -->
             </div>
-            <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
-                {{ errorMessage }}
-            </p>
-            <p
-                v-show="successMessage"
-                hidden
-                class="success-message text-green-600 text-center font-semibold italic"
-            >
-                {{ successMessage }}
-            </p>
         </LayoutBoards>
     </div>
 </template>
