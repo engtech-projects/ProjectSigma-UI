@@ -73,6 +73,27 @@ export const useVoucherStore = defineStore("voucherStore", {
             )
         },
 
+        async editVoucher () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useAccountingApi(
+                "/api/voucher/" + this.voucher.id,
+                {
+                    method: "PATCH",
+                    body: this.voucher,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.getVouchers()
+                this.successMessage = "Voucher successfully updated."
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+
         async generateVoucherNumber (code:String) {
             this.successMessage = ""
             this.errorMessage = ""

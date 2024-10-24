@@ -7,7 +7,7 @@ const stakeholderStore = useStakeholderStore()
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
 
-defineEmits(["create"])
+defineEmits(["create", "edit"])
 const loading = ref(false)
 const account = (id) => {
     return accountGroupStore.accountGroup.accounts.filter(a => a.id === id)[0]
@@ -181,14 +181,17 @@ function print () {
             </button>
             <div class="flex gap-2">
                 <button
-                    class="text-white p-2 px-6 bg-orange-600 content-center rounded-md w-fit"
+                    class="text-white p-2 px-6 bg-orange-600 content-center rounded-md w-fit flex items-center"
                     @click="print"
                 >
+                    <Icon name="iconoir:printing-page" class="text-xl mr-2" />
                     Print
                 </button>
                 <button
-                    class="text-white p-2 px-6 bg-teal-600 content-center rounded-md w-fit"
+                    class="text-white p-2 px-6 bg-teal-600 content-center rounded-md w-fit flex items-center"
+                    @click="$emit('edit')"
                 >
+                    <Icon name="iconoir:edit" class="text-xl mr-2" />
                     Edit
                 </button>
             </div>
