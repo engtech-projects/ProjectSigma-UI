@@ -51,7 +51,6 @@ const removeEntry = (entry) => {
 onMounted(() => {
     voucherStore.voucher.voucher_date = dateToString(new Date(voucherStore.voucher.voucher_date))
     voucherStore.voucher.date_encoded = dateToString(new Date(voucherStore.voucher.date_encoded))
-    console.log(voucherStore.voucher)
 })
 </script>
 <template>
