@@ -7,7 +7,7 @@ const stakeholderStore = useStakeholderStore()
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
 
-defineEmits(["create", "edit"])
+const emit = defineEmits(["create", "edit"])
 const loading = ref(false)
 const account = (id) => {
     return accountGroupStore.accountGroup.accounts.filter(a => a.id === id)[0]
@@ -46,6 +46,13 @@ function print () {
         printWindow.focus()
         printWindow.print()
     }
+}
+const navigate = (url = "", action = "", voucher = null) => {
+    history.pushState(null, "", url)
+    if (voucher) {
+        voucherStore.voucher = voucher
+    }
+    emit(action)
 }
 </script>
 <template>
@@ -184,21 +191,26 @@ function print () {
             </div>
         </form>
         <div class="flex justify-between w-full mb-8 gap-2 items-center mt-5">
-            <button class="text-gray-700 self-start hover:text-blue-500 border-gray-700 mt-2" @click="$emit('create')">
+            <button
+                class="text-gray-700 self-start hover:text-blue-500 border-gray-700 mt-2"
+                @click="navigate('/accounting/voucher/cash', 'create')"
+            >
                 <Icon name="ion:ios-arrow-thin-left" class="mr-1 text-2xl" />
                 Back to create
             </button>
             <div class="flex gap-2">
                 <button
-                    class="text-white p-2 px-6 bg-orange-600 content-center rounded-md w-fit"
+                    class="text-white p-2 px-6 bg-orange-600 content-center rounded-md w-fit flex items-center"
                     @click="print"
                 >
+                    <Icon name="iconoir:printing-page" class="text-xl mr-2" />
                     Print
                 </button>
                 <button
-                    class="text-white p-2 px-6 bg-teal-600 content-center rounded-md w-fit"
-                    @click="$emit('edit')"
+                    class="text-white p-2 px-6 bg-teal-600 content-center rounded-md w-fit flex items-center"
+                    @click="navigate('/accounting/voucher/cash?edit=' + voucherStore.voucher.id, 'edit')"
                 >
+                    <Icon name="iconoir:edit" class="text-xl mr-2" />
                     Edit
                 </button>
             </div>

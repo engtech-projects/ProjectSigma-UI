@@ -76,6 +76,18 @@ const accountGroup = useAccountGroupStore()
 accountGroup.showAccountGroup(bookStore.disbursement.id)
 
 const action = ref("create")
+
+if (useRoute().query.details) {
+    const id = useRoute().query.details
+    action.value = "view"
+    voucherStore.showVoucher(id)
+}
+
+if (useRoute().query.edit) {
+    const id = useRoute().query.edit
+    action.value = "edit"
+    voucherStore.showVoucher(id)
+}
 const receiveAction = (ac) => {
     action.value = ac
 }

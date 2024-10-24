@@ -8,6 +8,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             stakeholder_id: null,
             request_date: null,
             total: 0,
+            descripton: "",
             details: []
         },
         list: [],
@@ -113,6 +114,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 stakeholder_id: null,
                 request_date: null,
                 total: 0,
+                descripton: "",
                 details: []
             }
             this.successMessage = ""

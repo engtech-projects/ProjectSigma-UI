@@ -7,7 +7,7 @@ const { list: payeeList } = storeToRefs(useStakeholderStore())
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
 
-defineEmits(["view-details"])
+const emit = defineEmits(["view-details"])
 const loading = ref(false)
 const snackbar = useSnackbar()
 const accountEntry = ref({
@@ -48,10 +48,16 @@ const addEntry = () => {
 const removeEntry = (entry) => {
     voucherStore.voucher.details = voucherStore.voucher.details.filter(e => e !== entry)
 }
+const navigate = (url = "", action = "", voucher = null) => {
+    history.pushState(null, "", url)
+    if (voucher) {
+        voucherStore.voucher = voucher
+    }
+    emit(action)
+}
 onMounted(() => {
     voucherStore.voucher.voucher_date = dateToString(new Date(voucherStore.voucher.voucher_date))
     voucherStore.voucher.date_encoded = dateToString(new Date(voucherStore.voucher.date_encoded))
-    console.log(voucherStore.voucher)
 })
 </script>
 <template>
@@ -208,7 +214,10 @@ onMounted(() => {
                 </div>
             </form>
             <div class="flex justify-between w-full mb-8 gap-2 items-center mt-5">
-                <button class="text-gray-700 self-start hover:text-blue-500 border-gray-700 mt-2" @click.prevent="$emit('view-details')">
+                <button
+                    class="text-gray-700 self-start hover:text-blue-500 border-gray-700 mt-2"
+                    @click.prevent="navigate('/accounting/voucher/cash?details=' + voucherStore.voucher.id, 'view-details')"
+                >
                     <Icon name="ion:ios-arrow-thin-left" class="mr-1 text-2xl" />
                     Back to details
                 </button>
