@@ -18,7 +18,7 @@ const { data: userData } = useAuth()
             <span>CHECKED BY</span>
             <div class="flex flex-col gap-1">
                 <span class="font-bold underline">
-                    JERMILY C. MOZO
+                    __________________________________
                 </span>
                 <span>
                     HEAD, HUMAN RESOURCE
