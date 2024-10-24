@@ -92,6 +92,6 @@ const searchedOptions = computed(() => {
         height: 40px!important
     }
     .h-30 {
-        height: 35px!important
+        height: 33px!important
     }
 </style>

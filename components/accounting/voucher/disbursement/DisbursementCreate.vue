@@ -52,6 +52,7 @@ const removeEntry = (entry) => {
     voucherStore.voucher.details = voucherStore.voucher.details.filter(e => e !== entry)
 }
 onMounted(() => {
+    voucherStore.reset()
     voucherStore.voucher.voucher_date = dateToString(new Date())
     voucherStore.voucher.date_encoded = dateToString(new Date())
     voucherStore.voucher.net_amount = 0
