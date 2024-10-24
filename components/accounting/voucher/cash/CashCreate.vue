@@ -1,13 +1,9 @@
 <script lang="ts" setup>
-import { useAccountStore } from "~/stores/accounting/account"
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useVoucherStore } from "~/stores/accounting/voucher"
-import { useBookStore } from "~/stores/accounting/book"
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 import { useVoucherStore } from "~/stores/accounting/voucher"
 import { useBookStore } from "~/stores/accounting/book"
 
-const { list: accountsList } = storeToRefs(useAccountStore())
 const { list: payeeList } = storeToRefs(useStakeholderStore())
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
@@ -56,6 +52,7 @@ const removeEntry = (entry) => {
     voucherStore.voucher.details = voucherStore.voucher.details.filter(e => e !== entry)
 }
 onMounted(() => {
+    voucherStore.reset()
     voucherStore.voucher.voucher_date = dateToString(new Date())
     voucherStore.voucher.date_encoded = dateToString(new Date())
     voucherStore.voucher.net_amount = 0
@@ -178,103 +175,112 @@ onMounted(() => {
                             </div>
                             <Icon name="ion:close-round" class="text-red-400 text-2xl mb-1 cursor-pointer hover:text-red-500 active:text-red-600" @click="removeEntry(ac)" />
                         </div>
-                        <button
-                            type="submit"
-                            class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
-                        >
-                            Add line
-                        </button>
                     </div>
                     <i v-if="voucherStore.voucher.details.length === 0" class="text-center block mt-4 mb-2 text-gray-500">
                         There are no entries yet.
                     </i>
                     <div v-if="voucherStore.voucher.details.length > 0" class="flex justify-left w-full mt-1">
                         <button
-                            class="text-white p-2 px-4 rounded bg-red-500 content-center mt-5 rounded-md w-fit"
-                            @click.prevent="removeLine(ae)"
+                            class="
+                                border
+                                px-4
+                                rounded-xl
+                                text-xs
+                                py-[2px]
+                                bg-slate-400
+                                cursor-pointer
+                                hover:bg-slate-500
+                                active:bg-slate-600"
+                            @click.prevent="addEntry"
                         >
-                            Remove
+                            + Add Entry
                         </button>
                     </div>
-                </div>
-                <!-- <table v-if="accountEntries.length > 0" class="w-full">
-                    <thead>
-                        <tr>
-                            <th class="border-2 border-gray-800 text-sm">
-                                ACCOUNT CODE
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-1/3">
-                                ACCOUNT NAME
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm">
-                                PROJECT/SECTION CODE
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-24">
-                                DEBIT
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-24">
-                                CREDIT
-                            </th>
-                            <th class="border-2 border-gray-800 text-sm w-2" />
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="ae,i in accountEntries" :key="i" class="hover:bg-gray-100 cursor-pointer">
-                            <td class="border px-4 py-1 border-gray-800 relative">
-                                {{ ae.account_code }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.account_name }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.project_id }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.debit }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                {{ ae.credit }}
-                            </td>
-                            <td class="border px-4 py-1 border-gray-800">
-                                <Icon name="ion:trash" class="text-xl text-gray-500 hover:text-red-600" @click="removeLine(ae)" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> -->
-                <span v-if="accountEntries.length === 0" class="block text-center text-gray-600">
-                    No entries yet.
-                </span>
-            </div>
-            <!-- <div class="flex gap-24">
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    REQUESTED BY:
-                </span>
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    APPROVED BY:
-                </span>
-                <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                    RECEIVED BY:
-                </span>
-            </div> -->
-            <div class="flex justify-end">
-                <div class="flex gap-2 jus">
-                    <NuxtLink
-                        to="/accounting/voucher/cash"
-                        class="text-white p-2 px-6 rounded bg-gray-600 content-center mt-5 rounded-md w-fit"
-                    >
-                        <span>Back</span>
-                    </NuxtLink>
                     <button
-                        type="submit"
-                        class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
+                        v-else
+                        class="
+                            border
+                            rounded-xl
+                            px-4
+                            text-xs
+                            py-[2px]
+                            bg-slate-400
+                            cursor-pointer
+                            hover:bg-slate-500
+                            active:bg-slate-600"
+                        @click.prevent="addEntry"
                     >
-                        Submit
+                        + Add Entry
                     </button>
                 </div>
+            </form>
+            <div class="flex justify-end w-full mb-8">
+                <button
+                    type="submit"
+                    class="text-white p-2 px-6 bg-teal-600 content-center mt-5 rounded-md w-fit"
+                >
+                    Create Voucher
+                </button>
             </div>
         </div>
     </form>
 </template>
-<style>
-
+<style scoped>
+.z-30 {
+    z-index: 30;
+}
+.z-29 {
+    z-index: 29;
+}
+.z-28 {
+    z-index: 28;
+}
+.z-27 {
+    z-index: 27;
+}
+.z-26 {
+    z-index: 26;
+}
+.z-30 {
+    z-index: 30;
+}
+.z-25 {
+    z-index: 25;
+}
+.z-24 {
+    z-index: 24;
+}
+.z-23 {
+    z-index: 23;
+}
+.z-22 {
+    z-index: 22;
+}
+.z-21 {
+    z-index: 21;
+}
+.z-20 {
+    z-index: 20;
+}
+.z-19 {
+    z-index: 19;
+}
+.z-18 {
+    z-index: 18;
+}
+.z-17 {
+    z-index: 17;
+}
+.z-16 {
+    z-index: 16;
+}
+.z-15 {
+    z-index: 15;
+}
+.z-14 {
+    z-index: 14;
+}
+.z-13 {
+    z-index: 13;
+}
 </style>
