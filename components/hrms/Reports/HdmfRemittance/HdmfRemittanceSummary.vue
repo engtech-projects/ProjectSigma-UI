@@ -17,6 +17,11 @@ const generateReport = async () => {
     }
 }
 
+const totalPagibigEmployeeCount = () => {
+    return Object.values(pagibigRemittanceSummaryList.value.list).reduce((accumulator, current) => {
+        return accumulator + current.summary.no_of_employee
+    }, 0)
+}
 const totalPagibigEmployeeRemittance = () => {
     return Object.values(pagibigRemittanceSummaryList.value.list).reduce((accumulator, current) => {
         return accumulator + current.summary.total_employee_contribution
@@ -60,7 +65,7 @@ watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => 
                             Employer ID:
                         </span>
                         <span class="text-md font-bold flex-5">
-                            80-0191406-1-000
+                            209658570002
                         </span>
                     </div>
                     <div class="flex gap-4">
@@ -96,9 +101,12 @@ watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => 
                         </span>
                     </div>
                 </div>
-                <div class="title flex flex-col justify-left gap-8 mb-2">
+                <div class="title flex flex-col justify-center gap-1 mb-12">
+                    <span class="text-2xl font-bold text-black text-center">
+                        HDMF REMITTANCE SUMMARY
+                    </span>
                     <span class="text-xl text-black text-center">
-                        Month of <span class="text-Black font-bold underline">APRIL 2024</span>
+                        Month of <span class="text-Black font-bold underline">{{ useMonthName(pagibigRemittanceSummaryList.params.filter_month) }} {{ pagibigRemittanceSummaryList.params.filter_year }}</span>
                     </span>
                     <span>SUMMARY</span>
                 </div>
@@ -152,15 +160,18 @@ watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => 
                                 {{ useFormatCurrency(reportData.summary.total_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                0
+                                0.00
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.summary.total_contribution) }}
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3" class="border border-gray-500 h-8 px-2 text-sm text-center font-bold">
+                            <td colspan="2" class="border border-gray-500 h-8 px-2 text-sm text-center font-bold">
                                 TOTAL
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ totalPagibigEmployeeCount() }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
                                 {{ useFormatCurrency(totalPagibigEmployerRemittance()) }}
@@ -172,7 +183,7 @@ watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => 
                                 {{ useFormatCurrency(pagibigTotalContribution()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
-                                {{ useFormatCurrency(pagibigTotalContribution()) }}
+                                {{ useFormatCurrency(0) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
                                 {{ useFormatCurrency(pagibigTotalContribution()) }}
@@ -180,7 +191,11 @@ watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => 
                         </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>

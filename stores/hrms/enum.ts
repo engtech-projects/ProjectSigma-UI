@@ -157,6 +157,11 @@ export const useEnumsStore = defineStore("enums", {
                 )
             })
         },
+        headByPosition (state: any): any {
+            return (positionName: any) => state.userEmployeeHeadsEnum.list.find((user: any) => {
+                return user.employee.current_position === positionName
+            })
+        }
     },
     actions: {
         async getPositionEnums () {

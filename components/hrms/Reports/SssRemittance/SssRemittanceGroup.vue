@@ -79,11 +79,14 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                     <span class="text-2xl font-bold text-blue-600">
                         EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
                     </span>
-                    <span class="text-xl text-black">
+                    <span class="text-xl text-blue-500">
                         P-1 POBLACION 8 BUENAVISTA AGUSAN DEL NORTE
                     </span>
                 </div>
-                <div class="title flex flex-col justify-left gap-8 mb-10">
+                <div class="title flex flex-col justify-center gap-1 mb-12">
+                    <span class="text-2xl font-bold text-black text-center">
+                        SSS REMITTANCE GROUP
+                    </span>
                     <span class="text-xl text-blue-600 text-center">
                         Month of <span class="text-Black font-bold underline">{{ useMonthName(sssGroupRemittance.params.filter_month) }} {{ sssGroupRemittance.params.filter_year }}</span>
                     </span>
@@ -106,7 +109,7 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                                 SSS NO.
                             </th>
                             <th colspan="3" class="border border-gray-500">
-                                SSS AMOUNT
+                                SS AMOUNT
                             </th>
 
                             <th rowspan="3" class="border border-gray-500">
@@ -185,7 +188,11 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                         </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>
