@@ -22,12 +22,18 @@ export const useVoucherStore = defineStore("voucherStore", {
         getParams: {},
         errorMessage: "",
         successMessage: "",
-        isLoading: false,
+        isLoading: {
+            list: false,
+            create: false,
+            show: false,
+            edit: false,
+            delete: false
+        },
         isEdit: false
     }),
     actions: {
         async getVouchers () {
-            this.isLoading = true
+            this.isLoading.list = true
             const { data, error } = await useAccountingApi(
                 "/api/voucher",
                 {
@@ -35,7 +41,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                     params: this.getParams,
                     watch: false,
                     onResponse: ({ response }) => {
-                        this.isLoading = false
+                        this.isLoading.list = false
                         this.list = response._data
                         this.pagination = {
                             first_page: response._data.first_page_url,
@@ -53,6 +59,7 @@ export const useVoucherStore = defineStore("voucherStore", {
         },
 
         async createVoucher () {
+            this.isLoading.create = true
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
@@ -62,6 +69,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                     body: this.voucher,
                     watch: false,
                     onResponse: ({ response }) => {
+                        this.isLoading.create = false
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
@@ -74,6 +82,7 @@ export const useVoucherStore = defineStore("voucherStore", {
         },
 
         async editVoucher () {
+            this.isLoading.edit = false
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
@@ -85,16 +94,19 @@ export const useVoucherStore = defineStore("voucherStore", {
                 }
             )
             if (data.value) {
+                this.isLoading.edit = false
                 this.getVouchers()
                 this.successMessage = "Voucher successfully updated."
                 return data
             } else if (error.value) {
+                this.isLoading.edit = false
                 this.errorMessage = error.value.data.message
                 return error
             }
         },
 
         async generateVoucherNumber (code:String) {
+            this.isLoading.create = true
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
@@ -103,6 +115,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                     method: "GET",
                     watch: false,
                     onResponse: ({ response }) => {
+                        this.isLoading.create = false
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
@@ -114,7 +127,7 @@ export const useVoucherStore = defineStore("voucherStore", {
         },
 
         async showVoucher (id: any) {
-            this.isLoading = true
+            this.isLoading.show = true
             const { data, error } = await useAccountingApi(
                 "/api/voucher/" + id,
                 {
@@ -122,7 +135,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                     params: this.getParams,
                     watch: false,
                     onResponse: ({ response }) => {
-                        this.isLoading = false
+                        this.isLoading.show = false
                         this.voucher = response._data
                         this.pagination = {
                             first_page: response._data.first_page_url,

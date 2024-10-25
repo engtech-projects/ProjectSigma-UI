@@ -18,7 +18,7 @@ const voucherList = computed(() => {
 </script>
 <template>
     <div class="flex flex-col items-end gap-4">
-        <div v-if="voucherStore.isLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+        <div v-if="voucherStore.isLoading.list" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
             <img
                 class="flex justify-center w-28 rounded-md"
                 src="/loader.gif"

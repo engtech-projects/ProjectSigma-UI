@@ -126,7 +126,7 @@ const navigate = (url = "", action = "", pr = null) => {
                     <tbody>
                         <tr v-for="ae,i in paymentRequestStore.paymentRequest.details" :key="i" class="hover:bg-gray-100 cursor-pointer">
                             <td class="border px-4 py-1 border-gray-800 text-xs">
-                                {{ stakeholder(ae.stakeholder_id).name }}
+                                {{ stakeholder(ae.stakeholder_id)?.name }}
                             </td>
                             <td class="border px-4 py-1 border-gray-800 text-xs">
                                 {{ formatToCurrency(ae.particulars) }}
@@ -186,7 +186,7 @@ const navigate = (url = "", action = "", pr = null) => {
         <!-- PRINT AREA  -->
 
         <div class="hidden">
-            <AccountingVoucherDisbursementPrint />
+            <AccountingPaymentrequestPrint />
         </div>
     </div>
 </template>

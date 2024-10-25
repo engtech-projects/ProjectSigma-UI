@@ -60,7 +60,6 @@ import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 
 const voucherStore = useVoucherStore()
 voucherStore.reset()
-voucherStore.generateVoucherNumber("CV")
 voucherStore.getVouchers()
 
 const accountStore = useAccountStore()

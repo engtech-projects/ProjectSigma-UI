@@ -7,9 +7,9 @@ import { useBookStore } from "~/stores/accounting/book"
 const { list: payeeList } = storeToRefs(useStakeholderStore())
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
+voucherStore.generateVoucherNumber("CV")
 const bookStore = useBookStore()
 
-const loading = ref(false)
 const snackbar = useSnackbar()
 const accountEntry = ref({
     account_id: null,
@@ -19,7 +19,6 @@ const accountEntry = ref({
 })
 async function handleSubmit () {
     try {
-        loading.value = true
         voucherStore.voucher.book_id = bookStore.cash.id
         await voucherStore.createVoucher()
         if (voucherStore.errorMessage !== "") {
@@ -35,8 +34,6 @@ async function handleSubmit () {
             voucherStore.reset()
         }
     } catch (error) {
-    } finally {
-        loading.value = false
     }
 }
 const amount = computed(() => {
@@ -60,8 +57,8 @@ onMounted(() => {
 </script>
 <template>
     <form @submit.prevent="handleSubmit">
-        <div class="bg-white shadow rounded-lg border border-gray-200 px-2">
-            <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+        <div class="bg-white shadow rounded-lg border border-gray-200 px-2 relative">
+            <div v-if="voucherStore.isLoading.create" class="absolute z-50 bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
                 <img
                     class="flex justify-center w-28 rounded-md"
                     src="/loader.gif"
@@ -116,7 +113,7 @@ onMounted(() => {
                         <label for="expenseAccount" class="block text-sm font-medium text-gray-900 dark:text-white">Expense Account</label>
                         <AccountingSelectSearch
                             id="expenseAccount"
-                            class="z-50 bg-gray-50 border-gray-200"
+                            class="z-40 bg-gray-50 border-gray-200"
                             :options="accountGroupStore.accountGroup.accounts"
                             :selected-id="voucherStore.voucher.account_id"
                             title="account_name"
