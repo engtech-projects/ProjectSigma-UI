@@ -9,7 +9,7 @@ export const useJournalStore = defineStore("journalStore", {
             journal_no: null,
             journal_date: null,
             voucher_id: null,
-            status: null,
+            status: "open",
             period_id: null,
             remarks: "",
             reference_no: "",
@@ -21,12 +21,18 @@ export const useJournalStore = defineStore("journalStore", {
         getParams: {},
         errorMessage: "",
         successMessage: "",
-        isLoading: false,
+        isLoading: {
+            list: false,
+            show: false,
+            edit: false,
+            create: false,
+            delete: false
+        },
         isEdit: false
     }),
     actions: {
         async getJournals () {
-            this.isLoading = true
+            this.isLoading.list = true
             const { data, error } = await useFetch(
                 "/api/journal-entry",
                 {
@@ -38,7 +44,7 @@ export const useJournalStore = defineStore("journalStore", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.isLoading = false
+                        this.isLoading.list = false
                         this.list = response._data
                     },
                 }
@@ -77,7 +83,17 @@ export const useJournalStore = defineStore("journalStore", {
         },
 
         reset () {
-            this.base = {}
+            this.journal = {
+                id: null,
+                journal_no: null,
+                journal_date: null,
+                voucher_id: null,
+                status: null,
+                period_id: null,
+                remarks: "",
+                reference_no: "",
+                details: []
+            }
             this.successMessage = ""
             this.errorMessage = ""
         },

@@ -110,7 +110,7 @@ onMounted(() => {
                 </div>
                 <div class="flex gap-2 w-full justify-between">
                     <div class="flex-1">
-                        <label for="expenseAccount" class="block text-sm font-medium text-gray-900 dark:text-white">Expense Account</label>
+                        <label for="expenseAccount" class="block text-sm font-medium text-gray-900 dark:text-white">Account</label>
                         <AccountingSelectSearch
                             id="expenseAccount"
                             class="bg-gray-50 border-gray-200"

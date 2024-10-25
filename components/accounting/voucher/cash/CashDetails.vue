@@ -114,7 +114,7 @@ const navigate = (url = "", action = "", voucher = null) => {
             </div>
             <div class="flex gap-2 w-full justify-between py-4">
                 <div class="flex-1 gap-4">
-                    <label class="block text-xs text-gray-900 dark:text-white">Expense Account</label>
+                    <label class="block text-xs text-gray-900 dark:text-white">Account</label>
                     <h4 class="font-bold text-gray-900 text-sm">
                         {{ voucherStore.voucher.account?.account_name }}
                     </h4>
