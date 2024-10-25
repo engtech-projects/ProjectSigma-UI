@@ -226,7 +226,11 @@
                 </tr>
             </tbody>
         </table>
-        <HrmsReportsPreparedByCheckBy />
+        <HrmsReportsSignaturesRow>
+            <HrmsReportsSignaturesPreparedBy />
+            <HrmsReportsSignaturesCertifiedCorrectBy />
+            <HrmsReportsSignaturesCheckedBy />
+        </HrmsReportsSignaturesRow>
     </div>
 </template>
 

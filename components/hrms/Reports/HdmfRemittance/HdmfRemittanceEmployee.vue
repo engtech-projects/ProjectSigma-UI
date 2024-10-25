@@ -62,7 +62,7 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
                             Employer ID:
                         </span>
                         <span class="text-md font-bold flex-5">
-                            80-0191406-1-000
+                            209658570002
                         </span>
                     </div>
                     <div class="flex gap-4">
@@ -98,7 +98,10 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
                         </span>
                     </div>
                 </div>
-                <div class="title flex flex-col justify-left gap-8 mb-2">
+                <div class="title flex flex-col justify-center gap-1 mb-12">
+                    <span class="text-2xl font-bold text-black text-center">
+                        HDMF CONTRIBUTION
+                    </span>
                     <span class="text-xl text-black text-center">
                         Month of <span class="text-Black font-bold underline">{{ useMonthName(pagibigEmployeeRemitanceList.params.filter_month) }} {{ pagibigEmployeeRemitanceList.params.filter_year }}</span>
                     </span>
@@ -144,7 +147,7 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
                                 {{ useFormatCurrency(reportData.pagibig_employer_contribution) }}
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.total_pagibig) }}
+                                {{ useFormatCurrency(reportData.total_contribution) }}
                             </td>
                         </tr>
                         <tr>
@@ -163,7 +166,11 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
                         </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>

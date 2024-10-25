@@ -166,7 +166,11 @@ watch(() => sssRemittanceSummaryList.value.params.month_year, (newValue) => {
                         </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>

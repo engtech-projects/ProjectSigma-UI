@@ -19,6 +19,22 @@ const generateReport = async () => {
     }
 }
 
+const totalPhilhealthEmployeeRemittance = () => {
+    return Object.values(philhealthGroupRemittance.value.list).reduce((accumulator, current) => {
+        console.log(current)
+        return accumulator + (current.philhealth_employee_contribution || 0)
+    }, 0)
+}
+const totalPhilhealthEmployerRemittance = () => {
+    return Object.values(philhealthGroupRemittance.value.list).reduce((accumulator, current) => {
+        return accumulator + (current.philhealth_employer_contribution || 0)
+    }, 0)
+}
+const PhilhealthTotalContribution = () => {
+    return Object.values(philhealthGroupRemittance.value.list).reduce((accumulator, current) => {
+        return accumulator + (current.total_contribution || 0)
+    }, 0)
+}
 watch(() => philhealthGroupRemittance.value.params.month_year, (newValue) => {
     if (newValue) {
         philhealthGroupRemittance.value.params.filter_month = newValue.month + 1
@@ -48,18 +64,21 @@ watch(() => philhealthGroupRemittance.value.params.month_year, (newValue) => {
         </form>
         <LayoutPrint>
             <div class="flex flex-col">
-                <div class="header flex flex-col gap-1 mb-20 px-2">
-                    <span class="text-xl font-bold text-blue-600">
-                        80-0191406-1-000
+                <div class="header flex flex-col gap-1 mb-20">
+                    <span class="text-xl font-bold text-blue-500">
+                        PEN: 018000013165
                     </span>
-                    <span class="text-2xl font-bold text-blue-600">
+                    <span class="text-2xl font-bold text-blue-500">
                         EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
                     </span>
-                    <span class="text-xl text-black">
+                    <span class="text-xl text-blue-500">
                         P-1 POBLACION 8 BUENAVISTA AGUSAN DEL NORTE
                     </span>
                 </div>
-                <div class="title flex flex-col justify-left gap-8 mb-10">
+                <div class="title flex flex-col justify-center gap-1 mb-12">
+                    <span class="text-2xl font-bold text-black text-center">
+                        PHIC REMITTANCE GROUP
+                    </span>
                     <span class="text-xl text-blue-600 text-center">
                         Month of <span class="text-Black font-bold underline">{{ useMonthName(philhealthGroupRemittance.params.filter_month) }} {{ philhealthGroupRemittance.params.filter_year }}</span>
                     </span>
@@ -113,9 +132,35 @@ watch(() => philhealthGroupRemittance.value.params.month_year, (newValue) => {
                                 {{ useFormatCurrency(reportData.total_contribution) }}
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="3" class="border border-gray-500 h-8 px-2 text-sm text-left font-bold">
+                                SUB-TOTAL
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(totalPhilhealthEmployeeRemittance()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(totalPhilhealthEmployerRemittance()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(PhilhealthTotalContribution()) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="border border-gray-500 h-8 px-2 text-sm text-left font-bold">
+                                TOTAL AMOUNT DUE
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(PhilhealthTotalContribution()) }}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>

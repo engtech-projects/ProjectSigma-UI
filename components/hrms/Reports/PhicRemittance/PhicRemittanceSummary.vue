@@ -61,7 +61,7 @@ watch(() => philhealthRemittanceSummaryList.value.params.month_year, (newValue) 
             <div class="flex flex-col">
                 <div class="header flex flex-col gap-1 mb-20">
                     <span class="text-xl font-bold text-blue-500">
-                        PEN: 80-0191406-1-000
+                        PEN: 018000013165
                     </span>
                     <span class="text-2xl font-bold text-blue-500">
                         EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
@@ -70,11 +70,13 @@ watch(() => philhealthRemittanceSummaryList.value.params.month_year, (newValue) 
                         P-1 POBLACION 8 BUENAVISTA AGUSAN DEL NORTE
                     </span>
                 </div>
-                <div class="title flex flex-col justify-left gap-8 mb-2">
-                    <span class="text-xl text-black text-center">
-                        Month of <span class="text-Black font-bold underline">APRIL 2024</span>
+                <div class="title flex flex-col justify-center gap-1 mb-12">
+                    <span class="text-2xl font-bold text-black text-center">
+                        PHIC CONTRIBUTION
                     </span>
-                    <span>SUMMARY</span>
+                    <span class="text-xl text-black text-center">
+                        Month of <span class="text-Black font-bold underline">{{ useMonthName(philhealthRemittanceSummaryList.params.filter_month) }} {{ philhealthRemittanceSummaryList.params.filter_year }}</span>
+                    </span>
                 </div>
                 <table class="printTable border border-gray-500 mb-20">
                     <thead class="text-blue-600 text-md">
@@ -147,7 +149,11 @@ watch(() => philhealthRemittanceSummaryList.value.params.month_year, (newValue) 
                         </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>

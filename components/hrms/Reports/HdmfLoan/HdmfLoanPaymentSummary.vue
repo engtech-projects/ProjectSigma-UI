@@ -52,373 +52,69 @@
             </span>
             <!-- <span>23PPA0001-UKJVEC</span> -->
         </div>
-        <table class="printTable border border-gray-500 border-2 mb-20">
+        <table class="printTable border border-gray-500 mb-20">
             <thead class="text-blue-600 text-md">
                 <tr class="py-4">
-                    <th class="py-4 border-gray-500 border-2">
+                    <th class="py-4 border-gray-500">
                         NO.
                     </th>
-                    <th class="border border-gray-500 border-2">
+                    <th class="border border-gray-500">
                         PROJECT ID
                     </th>
-                    <th class="border border-gray-500 border-2">
+                    <th class="border border-gray-500">
                         AMOUNT
                     </th>
                 </tr>
             </thead>
             <tbody class="text-sm">
                 <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
+                    <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                         1
                     </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
+                    <td class="border border-gray-500 h-8 px-2 text-sm">
                         22CPA001 CEBU
                     </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
+                    <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                         10,100.00
                     </td>
                 </tr>
                 <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
+                    <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                         1
                     </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
+                    <td class="border border-gray-500 h-8 px-2 text-sm">
                         22CPA001 CEBU
                     </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
+                    <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                         10,100.00
                     </td>
                 </tr>
                 <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
+                    <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                         1
                     </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
+                    <td class="border border-gray-500 h-8 px-2 text-sm">
                         22CPA001 CEBU
                     </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
-                        10,100.00
-                    </td>
-                </tr>
-                <tr class="h-2">
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm">
-                        22CPA001 CEBU
-                    </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 text-sm text-right">
+                    <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                         10,100.00
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="border border-gray-500 border-2 h-8 px-2 font-bold text-sm text-left">
+                    <td colspan="2" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
                         TOTAL
                     </td>
-                    <td class="border border-gray-500 border-2 h-8 px-2 font-bold text-sm text-right">
+                    <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
                         140,300.00
                     </td>
                 </tr>
             </tbody>
         </table>
-        <HrmsReportsPreparedByCheckBy />
+        <HrmsReportsSignaturesRow>
+            <HrmsReportsSignaturesPreparedBy />
+            <HrmsReportsSignaturesCertifiedCorrectBy />
+            <HrmsReportsSignaturesCheckedBy />
+        </HrmsReportsSignaturesRow>
     </div>
 </template>
 <style scoped>

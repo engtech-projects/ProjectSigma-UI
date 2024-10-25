@@ -19,6 +19,21 @@ const generateReport = async () => {
     }
 }
 
+const totalPhilhealthEmployeeRemittance = () => {
+    return Object.values(philhealthEmployeeRemitanceList.value.list).reduce((accumulator, current) => {
+        return accumulator + (current.philhealth_employee_contribution || 0)
+    }, 0)
+}
+const totalPhilhealthEmployerRemittance = () => {
+    return Object.values(philhealthEmployeeRemitanceList.value.list).reduce((accumulator, current) => {
+        return accumulator + (current.philhealth_employer_contribution || 0)
+    }, 0)
+}
+const PhilhealthTotalContribution = () => {
+    return Object.values(philhealthEmployeeRemitanceList.value.list).reduce((accumulator, current) => {
+        return accumulator + (current.total_contribution || 0)
+    }, 0)
+}
 watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) => {
     if (newValue) {
         philhealthEmployeeRemitanceList.value.params.filter_month = newValue.month + 1
@@ -42,13 +57,13 @@ watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) 
         <LayoutPrint>
             <div class="flex flex-col">
                 <div class="header flex flex-col gap-1 mb-20">
-                    <span class="text-xl font-bold">
-                        PEN: 80-0191406-1-000
+                    <span class="text-xl font-bold text-blue-500">
+                        PEN: 018000013165
                     </span>
-                    <span class="text-2xl font-bold">
+                    <span class="text-2xl font-bold text-blue-500">
                         EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
                     </span>
-                    <span class="text-xl">
+                    <span class="text-xl text-blue-500">
                         P-1 POBLACION 8 BUENAVISTA AGUSAN DEL NORTE
                     </span>
                 </div>
@@ -104,9 +119,35 @@ watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) 
                                 {{ useFormatCurrency(reportData.total_contribution) }}
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="3" class="border border-gray-500 h-8 px-2 text-sm text-left font-bold">
+                                SUB-TOTAL
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(totalPhilhealthEmployeeRemittance()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(totalPhilhealthEmployerRemittance()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(PhilhealthTotalContribution()) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="border border-gray-500 h-8 px-2 text-sm text-left font-bold">
+                                TOTAL AMOUNT DUE
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(PhilhealthTotalContribution()) }}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>

@@ -76,7 +76,10 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                         P-1 POBLACION 8 BUENAVISTA AGUSAN DEL NORTE
                     </span>
                 </div>
-                <div class="title flex flex-col justify-left gap-8 mb-10">
+                <div class="title flex flex-col justify-center gap-1 mb-12">
+                    <span class="text-2xl font-bold text-black text-center">
+                        SSS REMITTANCE EMPLOYEE
+                    </span>
                     <span class="text-xl text-black text-center">
                         Month of <span class="text-Black font-bold underline">{{ useMonthName(sssEmployeeRemitanceList.params.filter_month) }} {{ sssEmployeeRemitanceList.params.filter_year }}</span>
                     </span>
@@ -173,7 +176,11 @@ watch(() => sssEmployeeRemitanceList.value.params.month_year, (newValue) => {
                         </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>
