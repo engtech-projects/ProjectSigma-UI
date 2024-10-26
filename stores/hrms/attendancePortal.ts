@@ -34,11 +34,9 @@ export const useAttendancePortal = defineStore("attendancePortal", {
         attendancePortalList: [],
         attendancePortalParams: {
             name_location: null,
-            project_id: null as null | Number,
-            department_id: null as null | Number,
+            assignments: [] as null | Array<any>,
             employee_id: null as null | Number,
             log_type: null as null | String,
-            group_type: null as null | String,
             name: null as null | String,
             page: 1,
         },
@@ -182,7 +180,6 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 "/api/attendance-portal/resource",
                 {
                     method: "GET",
-                    params: this.attendancePortalParams,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.attendancePortalList = response._data.data.data

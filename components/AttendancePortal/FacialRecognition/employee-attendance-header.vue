@@ -40,7 +40,7 @@ myTimer()
                 </div>
                 <div class="w-1/3 text-center mb-4 md:mb-0">
                     <h1 class="text-3xl font-bold">
-                        {{ attendanceSession.name }}
+                        {{ attendanceSession.currentName || attendanceSession.name }}
                     </h1>
                     <p v-if="typeof(attendanceSession) == 'array'" class="text-sm">
                         press arrowkey to change
