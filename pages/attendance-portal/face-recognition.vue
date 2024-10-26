@@ -55,7 +55,7 @@ const selectAssignment = (index) => {
     if (allAssignments.value[index].department_name) {
         attendancePortalParams.value.assignment_type = "Department"
         attendancePortalParams.value.department_id = allAssignments.value[index].id
-        attendanceSession.value.currentName = allAssignments.value[index].department_name
+        attendanceSession.value.currentName = "Employee's Work Location"
     } else {
         attendancePortalParams.value.assignment_type = "Project"
         attendancePortalParams.value.project_id = allAssignments.value[index].id
@@ -82,33 +82,54 @@ const resetAssignment = () => {
                 <div class="text-center">
                     <div class="w-full">
                         <div v-show="detectionPaused">
-                            <div
-                                v-for="assign, key in allAssignments"
-                                :key="'attendanceValueSelector' + key"
-                                @click="selectAssignment(key)"
-                            >
-                                {{ key + 1 }}
-                                {{ assign.project_code ?? assign.department_name }}
+                            <div class="text-center">
+                                <h2 class="text-3xl font-bold">
+                                    Select Assignment
+                                </h2>
+                                <p class="text-sm">
+                                    Press 1-{{ attendanceSession.assignment_count }} to select
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div
+                                    v-for="assign, key in allAssignments"
+                                    :key="'attendanceValueSelector' + key"
+                                    class="text-center cursor-pointer w-full bg-gray-100 p-2 shadow-lg border-2 border-gray-300 rounded-lg"
+                                    @click="selectAssignment(key)"
+                                >
+                                    [{{ key + 1 }}]
+                                    {{ assign.project_code ?? "Employee's Work Location" }}
+                                </div>
                             </div>
                         </div>
+                        <div v-show="!detectionPaused && attendanceSession.assignment_count > 1">
+                            (Esc) To cancel selection
+                        </div>
                         <AttendancePortalFacialRecognitionFaceCamera v-model:is-paused="detectionPaused" @reset-portal-data="resetAssignment" />
-                        <div class="md:flex gap-2 space-x-2 p-2 justify-center">
-                            <input
-                                id="Time-in"
-                                v-model="attendancePortalParams.log_type"
-                                class=""
-                                type="radio"
-                                value="In"
-                            >
-                            <label for="Time-in" class="mr-4 text-xs text-gray-900 dark:text-gray-300">TIME IN</label>
-                            <input
-                                id="time-out"
-                                v-model="attendancePortalParams.log_type"
-                                class=""
-                                type="radio"
-                                value="Out"
-                            >
-                            <label for="time-out" class="mr-4 text-xs text-gray-900 dark:text-gray-300">TIME OUT</label>
+                        <div>
+                            <div class="md:flex gap-2 space-x-2 p-2 pb-0 justify-center">
+                                <input
+                                    id="Time-in"
+                                    v-model="attendancePortalParams.log_type"
+                                    class=""
+                                    type="radio"
+                                    value="In"
+                                >
+                                <label for="Time-in" class="mr-4 text-xs text-gray-900 dark:text-gray-300">TIME IN</label>
+                                <input
+                                    id="time-out"
+                                    v-model="attendancePortalParams.log_type"
+                                    class=""
+                                    type="radio"
+                                    value="Out"
+                                >
+                                <label for="time-out" class="mr-4 text-xs text-gray-900 dark:text-gray-300">TIME OUT</label>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-sm">
+                                    Press Space to toggle
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

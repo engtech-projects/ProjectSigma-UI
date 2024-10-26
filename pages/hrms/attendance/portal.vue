@@ -5,7 +5,7 @@ const boardLoading = ref(false)
 const listLoader = ref(false)
 const attendancePortal = useAttendancePortal()
 await attendancePortal.getAttendancePortal()
-const { attendancePortalParams, attendancePortalList, attendancePortalPagination } = storeToRefs(attendancePortal)
+const { attendancePortalParams, allAttendancePortals } = storeToRefs(attendancePortal)
 const headers = [
     { name: "NAME", id: "name_location" },
     { name: "PROJECT / DEPARTMENT", id: "name" },
@@ -58,7 +58,7 @@ const actions = {
     delete: true
 }
 const changePaginate = (pageInfo) => {
-    attendancePortalParams.value.page = pageInfo.page ?? "''"
+    allAttendancePortals.value.params.page = pageInfo.page ?? "''"
 }
 const addAssignment = () => {
     attendancePortalParams.value.assignments.push({
@@ -111,17 +111,17 @@ const addAssignment = () => {
                 </LayoutBoards>
             </div>
             <div class="w-full py-2">
-                <LayoutBoards title="Attendance Portal List" class="w-full" :loading="listLoader">
+                <LayoutBoards title="Attendance Portal List" class="w-full" :loading="allAttendancePortals.isLoading">
                     <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                         <LayoutPsTable
                             :header-columns="headers"
                             :actions="actions"
-                            :datas="attendancePortalList"
+                            :datas="allAttendancePortals.list"
                             @delete-row="deleteAttendancePortal"
                         />
                     </div>
                     <div class="flex justify-center mx-auto">
-                        <CustomPagination :links="attendancePortalPagination" @change-params="changePaginate" />
+                        <CustomPagination :links="allAttendancePortals.pagination" @change-params="changePaginate" />
                     </div>
                 </LayoutBoards>
             </div>
