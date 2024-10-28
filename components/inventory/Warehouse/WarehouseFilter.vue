@@ -36,7 +36,7 @@ const saveNewPss = async () => {
             type: "success",
             text: warehouseStore.successMessage
         })
-        isSet.value = false
+        isSet.value = true
     }
 }
 const removePss = (index: number) => {
