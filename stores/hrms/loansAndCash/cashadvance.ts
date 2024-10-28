@@ -271,8 +271,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             )
         },
         async createRequest () {
-            this.successMessage = ""
-            this.errorMessage = ""
             await useHRMSApiO(
                 "/api/cash-advance/resource",
                 {
