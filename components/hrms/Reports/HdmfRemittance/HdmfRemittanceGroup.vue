@@ -62,20 +62,54 @@ watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
         </form>
         <LayoutPrint>
             <div class="flex flex-col">
-                <div class="header flex flex-col gap-1 mb-20 px-2">
-                    <span class="text-xl font-bold text-blue-600">
-                        80-0191406-1-000
-                    </span>
-                    <span class="text-2xl font-bold text-blue-600">
-                        EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
-                    </span>
-                    <span class="text-xl text-black">
-                        P-1 POBLACION 8 BUENAVISTA AGUSAN DEL NORTE
-                    </span>
+                <div class="header flex flex-col  mb-8">
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Employer ID:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            209658570002
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Employer Name:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Address:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            P-1 POBLACION 1 BUENAVISTA AGUSAN DEL NORTE
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Contact No:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            09395096694
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Email Address:
+                        </span>
+                        <span class="text-md font-bold flex-5 underline">
+                            evenparcorporation@gmail.com
+                        </span>
+                    </div>
                 </div>
-                <div class="title flex flex-col justify-left gap-8 mb-10">
+                <div class="title flex flex-col justify-center gap-1 mb-12">
+                    <span class="text-2xl font-bold text-black text-center">
+                        HDMF CONTRIBUTION
+                    </span>
                     <span class="text-xl text-blue-600 text-center">
-                        Month of <span class="text-Black font-bold underline">{{ useMonthName(pagibigGroupRemittance.params.filter_month) }} {{ pagibigGroupRemittance.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(pagibigGroupRemittance.params.filter_month) }} {{ pagibigGroupRemittance.params.filter_year }}</span>
                     </span>
                 </div>
                 <div class="w-full flex justify-start px-2">
@@ -124,7 +158,7 @@ watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
                                 {{ useFormatCurrency(reportData.pagibig_employer_contribution) }}
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.total_pagibig) }}
+                                {{ useFormatCurrency(reportData.total_contribution) }}
                             </td>
                         </tr>
                         <tr>
@@ -143,7 +177,11 @@ watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
                         </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>

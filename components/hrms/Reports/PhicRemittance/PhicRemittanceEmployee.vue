@@ -19,6 +19,21 @@ const generateReport = async () => {
     }
 }
 
+const totalPhilhealthEmployeeRemittance = () => {
+    return Object.values(philhealthEmployeeRemitanceList.value.list).reduce((accumulator, current) => {
+        return accumulator + (current.philhealth_employee_contribution || 0)
+    }, 0)
+}
+const totalPhilhealthEmployerRemittance = () => {
+    return Object.values(philhealthEmployeeRemitanceList.value.list).reduce((accumulator, current) => {
+        return accumulator + (current.philhealth_employer_contribution || 0)
+    }, 0)
+}
+const PhilhealthTotalContribution = () => {
+    return Object.values(philhealthEmployeeRemitanceList.value.list).reduce((accumulator, current) => {
+        return accumulator + (current.total_contribution || 0)
+    }, 0)
+}
 watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) => {
     if (newValue) {
         philhealthEmployeeRemitanceList.value.params.filter_month = newValue.month + 1
@@ -41,23 +56,54 @@ watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) 
         </form>
         <LayoutPrint>
             <div class="flex flex-col">
-                <div class="header flex flex-col gap-1 mb-20">
-                    <span class="text-xl font-bold">
-                        PEN: 80-0191406-1-000
-                    </span>
-                    <span class="text-2xl font-bold">
-                        EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
-                    </span>
-                    <span class="text-xl">
-                        P-1 POBLACION 8 BUENAVISTA AGUSAN DEL NORTE
-                    </span>
+                <div class="header flex flex-col  mb-8">
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Employer ID:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            018000013165
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Employer Name:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Address:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            P-1 POBLACION 1 BUENAVISTA AGUSAN DEL NORTE
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Contact No:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            09395096694
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Email Address:
+                        </span>
+                        <span class="text-md font-bold flex-5 underline">
+                            evenparcorporation@gmail.com
+                        </span>
+                    </div>
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-center">
                         PHIC CONTRIBUTION
                     </span>
                     <span class="text-xl text-black text-center">
-                        FOR THE MONTH OF <span class="font-bold underline">{{ useMonthName(philhealthEmployeeRemitanceList.params.filter_month) }} {{ philhealthEmployeeRemitanceList.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="font-bold text-red-600 underline">{{ useMonthName(philhealthEmployeeRemitanceList.params.filter_month) }} {{ philhealthEmployeeRemitanceList.params.filter_year }}</span>
                     </span>
                 </div>
                 <table class="printTable border border-gray-500">
@@ -104,9 +150,35 @@ watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) 
                                 {{ useFormatCurrency(reportData.total_contribution) }}
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="3" class="border border-gray-500 h-8 px-2 text-sm text-left font-bold">
+                                SUB-TOTAL
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(totalPhilhealthEmployeeRemittance()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(totalPhilhealthEmployerRemittance()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(PhilhealthTotalContribution()) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="border border-gray-500 h-8 px-2 text-sm text-left font-bold">
+                                TOTAL AMOUNT DUE
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
+                                {{ useFormatCurrency(PhilhealthTotalContribution()) }}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>
