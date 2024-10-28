@@ -25,7 +25,7 @@ const headers = [
     { name: "Date Required", id: "date_required" },
     { name: "Employment Type", id: "employment_type" },
     { name: "Nature of Request", id: "nature_of_request" },
-    { name: "Requested by", id: "requested_by_user.name" },
+    { name: "Requested by", id: "requested_by_user_name" },
     { name: "Request Status", id: "request_status" },
 ]
 const actions = {
