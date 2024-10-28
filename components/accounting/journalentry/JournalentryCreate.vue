@@ -47,6 +47,7 @@ onMounted(() => {
     journalStore.reset()
     journalStore.journal.journal_date = dateToString(new Date())
     journalStore.journal.journal_no = generateJournalNo()
+    journalStore.journal.status = "open"
 })
 </script>
 <template>
