@@ -10,7 +10,7 @@
                 <AccountingJournalentryEdit v-if="action==='edit'" @view-details="receiveAction('view')" />
                 <AccountingJournalentryDetails v-if="action==='view'" @edit="receiveAction('edit')" @create="receiveAction('create')" />
             </div>
-            <AccountingJournalentryList />
+            <AccountingJournalentryList @view-details="receiveAction('view')" />
         </div>
     </LayoutAcessContainer>
 </template>

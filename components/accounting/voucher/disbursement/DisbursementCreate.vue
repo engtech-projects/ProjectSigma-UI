@@ -57,7 +57,7 @@ onMounted(() => {
 </script>
 <template>
     <form @submit.prevent="handleSubmit">
-        <div class="bg-white shadow rounded-lg border border-gray-200 px-2 relative">
+        <div class="bg-white shadow rounded-lg border border-gray-200 px-2 relative select-none">
             <div v-if="voucherStore.isLoading.create" class="absolute z-50 bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
                 <img
                     class="flex justify-center w-28 rounded-md"
@@ -73,8 +73,8 @@ onMounted(() => {
             <div class="flex flex-col gap-3 p-4 w-full">
                 <div class="flex gap-2 w-full">
                     <div class="flex-1">
-                        <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Voucher No.</label>
-                        <input id="referenceNo" v-model="voucherStore.voucher.voucher_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="voucherNo" class="block text-sm font-medium text-gray-900 dark:text-white">Voucher No.</label>
+                        <input id="voucherNo" v-model="voucherStore.voucher.voucher_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     </div>
                     <div class="flex-1 gap-2">
                         <label for="payee" class="block text-sm font-medium text-gray-900 dark:text-white">Payee</label>
@@ -123,12 +123,23 @@ onMounted(() => {
                     </div>
                     <div class="flex-1 gap-2">
                         <label for="formType" class="block text-sm font-medium text-gray-900 dark:text-white">Form Type</label>
-                        <select id="formType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="payment_request">
+                        <select id="formType" v-model="voucherStore.voucher.form_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option :value="null" selected />
+                            <option value="PaymentRequest">
                                 Payment Request
+                            </option>
+                            <option value="PayrollRequest">
+                                Payroll Request
                             </option>
                         </select>
                     </div>
+                </div>
+                <div v-if="voucherStore.voucher.form_type" class="flex gap-2 w-full">
+                    <div class="flex-1">
+                        <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Reference No.</label>
+                        <input id="referenceNo" v-model="voucherStore.voucher.reference_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div>
+                    <div class="flex-1 gap-2" />
                 </div>
             </div>
             <form action="">

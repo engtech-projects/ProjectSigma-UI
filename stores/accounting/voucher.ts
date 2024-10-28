@@ -15,8 +15,11 @@ export const useVoucherStore = defineStore("voucherStore", {
             created_by: 1,
             check_no: null,
             details: [],
+            form_type: null,
+            reference_no: null,
             status: "pending",
         },
+        formTypes: [],
         list: [],
         pagination: {},
         getParams: {},
@@ -152,6 +155,25 @@ export const useVoucherStore = defineStore("voucherStore", {
             }
         },
 
+        async getFormTypes () {
+            const { data, error } = await useAccountingApi(
+                "/api/form-types",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.formTypes = response._data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         reset () {
             this.voucher = {
                 stakeholder_id: null,
@@ -165,6 +187,8 @@ export const useVoucherStore = defineStore("voucherStore", {
                 voucher_date: null,
                 created_by: 1,
                 check_no: null,
+                form_type: null,
+                reference_no: null,
                 details: [],
                 status: "pending",
             }
