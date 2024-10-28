@@ -103,7 +103,7 @@ watch(() => pagibigEmployeeRemitanceList.value.params.month_year, (newValue) => 
                         HDMF CONTRIBUTION
                     </span>
                     <span class="text-xl text-black text-center">
-                        Month of <span class="text-Black font-bold underline">{{ useMonthName(pagibigEmployeeRemitanceList.params.filter_month) }} {{ pagibigEmployeeRemitanceList.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(pagibigEmployeeRemitanceList.params.filter_month) }} {{ pagibigEmployeeRemitanceList.params.filter_year }}</span>
                     </span>
                 </div>
                 <table class="printTable border border-gray-500 = mb-20">
