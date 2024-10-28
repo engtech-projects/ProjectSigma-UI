@@ -271,6 +271,8 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             )
         },
         async createRequest () {
+            const backupEmployee = this.cashadvance.employee_id
+            const backupApprovals = this.cashadvance.approvals
             await useHRMSApiO(
                 "/api/cash-advance/resource",
                 {
@@ -280,6 +282,8 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         if (response.ok) {
                             this.reloadResources()
                             this.successMessage = response._data.message
+                            this.cashadvance.employee_id = backupEmployee
+                            this.cashadvance.approvals = backupApprovals
                         } else {
                             this.errorMessage = response._data.message
                         }

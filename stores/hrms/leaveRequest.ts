@@ -91,6 +91,8 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
         async createRequest () {
             this.successMessage = ""
             this.errorMessage = ""
+            const idBackup = this.payload.employee_id
+            const approvalsBackup = this.payload.approvals
             const requestData = JSON.parse(JSON.stringify(this.payload))
             requestData.approvals = JSON.stringify(requestData.approvals)
             await useHRMSApiO(
@@ -102,6 +104,8 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                         if (response.ok) {
                             this.$reset()
                             this.successMessage = response._data.message
+                            this.payload.employee_id = idBackup
+                            this.payload.approvals = approvalsBackup
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
