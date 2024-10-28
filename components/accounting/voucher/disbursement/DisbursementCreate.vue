@@ -73,7 +73,7 @@ onMounted(() => {
             <div class="flex flex-col gap-3 p-4 w-full">
                 <div class="flex gap-2 w-full">
                     <div class="flex-1">
-                        <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Reference No.</label>
+                        <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Voucher No.</label>
                         <input id="referenceNo" v-model="voucherStore.voucher.voucher_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     </div>
                     <div class="flex-1 gap-2">
@@ -121,7 +121,14 @@ onMounted(() => {
                             @select="voucherStore.voucher.account_id = $event.id"
                         />
                     </div>
-                    <div class="flex-1 gap-2" />
+                    <div class="flex-1 gap-2">
+                        <label for="formType" class="block text-sm font-medium text-gray-900 dark:text-white">Form Type</label>
+                        <select id="formType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="payment_request">
+                                Payment Request
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <form action="">

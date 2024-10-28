@@ -7,8 +7,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <AccountingJournalentryCreate v-if="action==='create'" />
-                <AccountingPaymentrequestEdit v-if="action==='edit'" @view-details="receiveAction('view')" />
-                <AccountingPaymentrequestDetails v-if="action==='view'" @edit="receiveAction('edit')" @create="receiveAction('create')" />
+                <AccountingJournalentryEdit v-if="action==='edit'" @view-details="receiveAction('view')" />
+                <AccountingJournalentryDetails v-if="action==='view'" @edit="receiveAction('edit')" @create="receiveAction('create')" />
             </div>
             <AccountingJournalentryList />
         </div>
@@ -38,13 +38,13 @@ accountGroup.showAccountGroup(bookStore.disbursement.id)
 if (useRoute().query.details) {
     const id = useRoute().query.details
     action.value = "view"
-    paymentRequestStore.getPaymentRequest(id)
+    journalStore.getJournal(id)
 }
 
 if (useRoute().query.edit) {
     const id = useRoute().query.edit
     action.value = "edit"
-    paymentRequestStore.getPaymentRequest(id)
+    journalStore.getJournal(id)
 }
 
 const receiveAction = (ac) => {

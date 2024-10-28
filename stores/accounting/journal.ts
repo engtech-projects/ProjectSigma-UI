@@ -56,6 +56,31 @@ export const useJournalStore = defineStore("journalStore", {
             }
         },
 
+        async getJournal (id:any) {
+            this.isLoading.show = true
+            const { data, error } = await useFetch(
+                "/api/journal-entry/" + id,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading.show = false
+                        this.journal = response._data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         async createJournal () {
             this.successMessage = ""
             this.errorMessage = ""

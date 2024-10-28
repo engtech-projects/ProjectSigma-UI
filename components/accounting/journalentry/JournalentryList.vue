@@ -2,6 +2,15 @@
 import { useJournalStore } from "~/stores/accounting/journal"
 
 const journalStore = useJournalStore()
+const emit = defineEmits(["view-details"])
+
+const navigate = (url = "", action = "", journal = null) => {
+    history.pushState(null, "", url)
+    emit(action)
+    if (journal) {
+        journalStore.getJournal(journal.id)
+    }
+}
 </script>
 <template>
     <div class="bg-white shadow rounded-lg border border-gray-200 px-2 relative">
@@ -56,7 +65,7 @@ const journalStore = useJournalStore()
                                         name="material-symbols:visibility-rounded"
                                         color="white"
                                         class="bg-green-500 hover:bg-green-600 active:bg-green-700 rounded h-8 w-8 p-1 cursor-pointer"
-                                        @click="navigate('/accounting/payment-request?details=' + pr.id, 'view-details', pr)"
+                                        @click="navigate('/accounting/journal-entry?details=' + journal.id, 'view-details', journal)"
                                     />
                                     <!-- <button @click="setEdit(journal)">
                                         <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />

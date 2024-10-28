@@ -6,7 +6,13 @@ const paymentRequestStore = usePaymentRequestStore()
 
 const stakeholderStore = useStakeholderStore()
 
-const emit = defineEmits(["create", "edit"])
+const emit = defineEmits(["create", "edit", "backToList"])
+const props = defineProps({
+    target: {
+        type: String,
+        default: ""
+    }
+})
 
 const stakeholder = (id) => {
     return stakeholderStore.list.filter(st => st.id === id)[0]
@@ -157,7 +163,7 @@ const navigate = (url = "", action = "", pr = null) => {
                 </i>
             </div>
         </form>
-        <div class="flex justify-between w-full mb-8 gap-2 items-center mt-5">
+        <div v-if="props.target !== 'voucher'" class="flex justify-between w-full mb-8 gap-2 items-center mt-5">
             <button
                 class="text-gray-700 self-start hover:text-blue-500 border-gray-700 mt-2"
                 @click.prevent="navigate('/accounting/payment-request', 'create')"
@@ -181,6 +187,16 @@ const navigate = (url = "", action = "", pr = null) => {
                     Edit
                 </button>
             </div>
+        </div>
+
+        <div v-else class="flex justify-between w-full mb-8 gap-2 items-center mt-5">
+            <button
+                class="text-gray-700 self-start hover:text-blue-500 border-gray-700 mt-2"
+                @click.prevent="emit('backToList')"
+            >
+                <Icon name="ion:ios-arrow-thin-left" class="mr-1 text-2xl" />
+                Back to List
+            </button>
         </div>
 
         <!-- PRINT AREA  -->
