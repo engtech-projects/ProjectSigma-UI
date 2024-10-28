@@ -65,23 +65,54 @@ watch(() => sssRemittanceSummaryList.value.params.month_year, (newValue) => {
         </form>
         <LayoutPrint>
             <div class="flex flex-col">
-                <div class="header flex flex-col gap-1 mb-20">
-                    <span class="text-xl font-bold text-blue-500">
-                        80-0191406-1-000
-                    </span>
-                    <span class="text-2xl font-bold text-blue-500">
-                        EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
-                    </span>
-                    <span class="text-xl text-blue-500">
-                        P-1 POBLACION 8 BUENAVISTA AGUSAN DEL NORTE
-                    </span>
+                <div class="header flex flex-col  mb-8">
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Employer ID:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            80-0191406-1-000
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Employer Name:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Address:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            P-1 POBLACION 1 BUENAVISTA AGUSAN DEL NORTE
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Contact No:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            09395096694
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Email Address:
+                        </span>
+                        <span class="text-md font-bold flex-5 underline">
+                            evenparcorporation@gmail.com
+                        </span>
+                    </div>
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-center">
                         SSS CONTRIBUTION
                     </span>
                     <span class="text-xl text-black text-center">
-                        FOR THE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(sssRemittanceSummaryList.params.filter_month) }} {{ sssRemittanceSummaryList.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(sssRemittanceSummaryList.params.filter_month) }} {{ sssRemittanceSummaryList.params.filter_year }}</span>
                     </span>
                 </div>
                 <table class="printTable border border-gray-500">

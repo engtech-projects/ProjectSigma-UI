@@ -106,10 +106,10 @@ watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-center">
-                        HDMF REMITTANCE GROUP
+                        HDMF CONTRIBUTION
                     </span>
                     <span class="text-xl text-blue-600 text-center">
-                        Month of <span class="text-Black font-bold underline">{{ useMonthName(pagibigGroupRemittance.params.filter_month) }} {{ pagibigGroupRemittance.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(pagibigGroupRemittance.params.filter_month) }} {{ pagibigGroupRemittance.params.filter_year }}</span>
                     </span>
                 </div>
                 <div class="w-full flex justify-start px-2">
