@@ -2,7 +2,7 @@
 import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
 
 const paymentRequestStore = usePaymentRequestStore()
-const emit = defineEmits(["view-details"])
+const emit = defineEmits(["view-details", "voucher"])
 const props = defineProps({
     target: {
         type: String,
