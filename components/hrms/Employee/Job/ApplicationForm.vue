@@ -139,6 +139,11 @@ const handleResumeFileUpload = (event) => {
                     <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.name_suffix" title="Suffix" />
                 </div>
             </div>
+            <div>
+                <div class="relative z-0 w-full mb-5 group col-span-2">
+                    <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.nickname" title="Nickname" />
+                </div>
+            </div>
             <div class="relative z-0 w-full mb-5 group">
                 <input
                     id="floating_date_of_birth"
