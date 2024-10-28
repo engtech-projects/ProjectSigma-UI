@@ -30,29 +30,8 @@ const setDetail = (jobapp) => {
     isDetail.value = true
     manpower.value = jobapp
     if (jobapp && typeof jobapp === "object") {
-        const applicantCount = jobapp.job_applicants.length
-
-        manpower.value = {
-            id: jobapp.id,
-            Position: jobapp.position,
-            "Requesting Department": jobapp.requesting_department_name,
-            "Brief Description": jobapp.brief_description,
-            // "Charged To": jobapp.charged_to,
-            "Employment Type": jobapp.employment_type,
-            "Nature of Request": jobapp.nature_of_request,
-            "Requested By": jobapp.requested_by_user.name,
-            "Date Requested": jobapp.date_requested,
-            "Date Required": jobapp.date_required,
-            "Age Range": jobapp.age_range,
-            "Civil Status": jobapp.status,
-            Gender: jobapp.gender,
-            "Prefered Qualifications": jobapp.prefered_qualifications,
-            "Educational Requirement": jobapp.educational_requirement,
-            Remarks: jobapp.remarks,
-            "Request Status": jobapp.request_status,
-            "Total Applicants": applicantCount > 0 ? applicantCount : null,
-            job_applicants: jobapp.job_applicants
-        }
+        // const applicantCount = jobapp.job_applicants.length
+        manpower.value = jobapp
     }
 }
 </script>
