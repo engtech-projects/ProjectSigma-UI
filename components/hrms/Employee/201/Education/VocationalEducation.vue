@@ -80,7 +80,7 @@ addParams()
 <template>
     <div class="flex justify-start mt-3 gap-3">
         <label for="employeeinfo" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-4 italic">
-            Employee vocational Education
+            Employee Vocational Education
         </label>
     </div>
     <LayoutBoards title="" class="w-full" :loading="boardLoading">
@@ -92,7 +92,13 @@ addParams()
                             NAME OF SCHOOL
                         </p>
                         <div class="flex">
-                            <input id="vocational_name" v-model="information.employee_education_vocationalcourse.name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="vocational_name"
+                                v-model="information.employee_education_vocationalcourse.name"
+                                type="text"
+                                :disabled="!editable"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
@@ -100,7 +106,13 @@ addParams()
                             DEGREE EARNED
                         </p>
                         <div class="flex">
-                            <input id="vocational_degree_earned_of_school" v-model="information.employee_education_vocationalcourse.degree_earned_of_school" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="vocational_degree_earned_of_school"
+                                v-model="information.employee_education_vocationalcourse.degree_earned_of_school"
+                                type="text"
+                                :disabled="!editable"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </td>
                     <td class="border border-slate-300">
@@ -109,9 +121,21 @@ addParams()
                                 INCLUSIVE DATES
                             </p>
                             <div class="flex justify-center">
-                                <input id="vocational_period_attendance_from" v-model="information.employee_education_vocationalcourse.period_attendance_from" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <input
+                                    id="vocational_period_attendance_from"
+                                    v-model="information.employee_education_vocationalcourse.period_attendance_from"
+                                    type="text"
+                                    :disabled="!editable"
+                                    class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                >
                                 -
-                                <input id="vocational_period_attendance_to" v-model="information.employee_education_vocationalcourse.period_attendance_to" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <input
+                                    id="vocational_period_attendance_to"
+                                    v-model="information.employee_education_vocationalcourse.period_attendance_to"
+                                    type="text"
+                                    :disabled="!editable"
+                                    class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                >
                             </div>
                         </div>
                     </td>
@@ -120,7 +144,13 @@ addParams()
                             HONORS RECEIVED
                         </p>
                         <div class="flex">
-                            <input id="vocational_honors_received" v-model="information.employee_education_vocationalcourse.honors_received" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="vocational_honors_received"
+                                v-model="information.employee_education_vocationalcourse.honors_received"
+                                type="text"
+                                :disabled="!editable"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
@@ -128,7 +158,13 @@ addParams()
                             YEAR GRADUATED
                         </p>
                         <div class="flex">
-                            <input id="vocational_year_graduated" v-model="information.employee_education_vocationalcourse.year_graduated" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="vocational_year_graduated"
+                                v-model="information.employee_education_vocationalcourse.year_graduated"
+                                type="text"
+                                :disabled="!editable"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </td>
                     <td v-if="editable" class="border border-slate-300 p-1 justify-center">

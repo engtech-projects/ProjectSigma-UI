@@ -24,7 +24,7 @@ const { information, editable } = storeToRefs(employee)
 <template>
     <div class="flex justify-start mt-3 gap-3">
         <label for="employeeinfo" class="block mb-2 text-md font-medium text-gray-900 dark:text-white mt-4 italic">
-            Employee Secondary Education
+            Employee Graduate Studies
         </label>
     </div>
     <LayoutBoards title="" class="w-full" :loading="boardLoading">
@@ -41,13 +41,25 @@ const { information, editable } = storeToRefs(employee)
                     <td colspan="2" class="border border-slate-300 p-1">
                         <div>
                             <label for="master_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
-                            <input id="master_title" v-model="information.masterstudies.title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="master_title"
+                                v-model="information.masterstudies.title"
+                                type="text"
+                                :disabled="!editable"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="masters_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
-                            <input id="masters_date" v-model="information.masterstudies.date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="masters_date"
+                                v-model="information.masterstudies.date"
+                                type="date"
+                                :disabled="!editable"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </td>
                     <td v-if="editable" class="border border-slate-300 p-1 justify-center">
@@ -95,13 +107,25 @@ const { information, editable } = storeToRefs(employee)
                     <td colspan="2" class="border border-slate-300 p-1">
                         <div>
                             <label for="doctor_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
-                            <input id="doctor_title" v-model="information.doctorstudies.title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="doctor_title"
+                                v-model="information.doctorstudies.title"
+                                type="text"
+                                :disabled="!editable"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="doctor_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
-                            <input id="doctor_date" v-model="information.doctorstudies.date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="doctor_date"
+                                v-model="information.doctorstudies.date"
+                                type="date"
+                                :disabled="!editable"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </td>
                     <td v-if="editable" class="border border-slate-300 p-1 justify-center">
@@ -141,13 +165,25 @@ const { information, editable } = storeToRefs(employee)
                     <td colspan="2" class="border border-slate-300 p-1">
                         <div>
                             <label for="proflicence_title" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">TITLE</label>
-                            <input id="proflicence_title" v-model="information.professionalstudies.title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="proflicence_title"
+                                v-model="information.professionalstudies.title"
+                                type="text"
+                                :disabled="!editable"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </td>
                     <td class="border border-slate-300 p-1">
                         <div>
                             <label for="proflicence_date" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">DATE</label>
-                            <input id="proflicence_date" v-model="information.professionalstudies.date" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="proflicence_date"
+                                v-model="information.professionalstudies.date"
+                                type="date"
+                                :disabled="!editable"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </td>
                     <td v-if="editable" class="border border-slate-300 p-1 justify-center">
