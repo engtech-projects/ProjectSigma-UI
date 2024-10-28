@@ -126,27 +126,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 }
             )
         },
-        async makePayment (id: number) {
-            await useHRMSApi(
-                "/api/cash-advance/manual-payment/" + id, {
-                    method: "POST",
-                    watch: false,
-                    body: this.newPayment,
-                    onResponseError: ({ response }) => {
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                            return response._data.data
-                        } else {
-                            throw new Error(response._data.message)
-                        }
-                        this.$reset()
-                    },
-                })
-        },
-        async getCA () {
+        async getCA () { // GET ALL CA
             await useHRMSApi(
                 "/api/cash-advance/resource",
                 {
@@ -290,7 +270,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 }
             )
         },
-
         async createRequest () {
             this.successMessage = ""
             this.errorMessage = ""
@@ -299,10 +278,9 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "POST",
                     body: this.cashadvance,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.getCA()
-                            this.$reset()
+                            this.reloadResources()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -310,10 +288,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     },
                 }
             )
-        },
-        clearMessages () {
-            this.errorMessage = ""
-            this.successMessage = ""
         },
         async editRequest () {
             this.successMessage = ""
@@ -323,10 +297,9 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "PATCH",
                     body: this.cashadvance,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.getCA()
-                            this.$reset()
+                            this.reloadResources()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -343,8 +316,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.$reset()
-                            this.getCA()
+                            this.reloadResources()
                             this.successMessage = response._data.message
                         }
                     },
@@ -367,14 +339,14 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 "/api/approvals/approve/CashAdvance/" + id,
                 {
                     method: "POST",
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.reloadResources()
                             this.successMessage = response._data.message
-                            this.getMyApprovalRequests()
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
