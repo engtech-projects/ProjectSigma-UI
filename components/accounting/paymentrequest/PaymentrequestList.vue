@@ -3,6 +3,12 @@ import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
 
 const paymentRequestStore = usePaymentRequestStore()
 const emit = defineEmits(["view-details"])
+const props = defineProps({
+    target: {
+        type: String,
+        default: ""
+    }
+})
 
 const navigate = (url = "", action = "", pr = null) => {
     history.pushState(null, "", url)
@@ -56,6 +62,14 @@ const navigate = (url = "", action = "", pr = null) => {
                     </td>
                     <td class="text-right p-2">
                         <Icon
+                            v-if="props.target === 'voucher'"
+                            name="material-symbols:visibility-rounded"
+                            color="white"
+                            class="bg-green-500 hover:bg-green-600 active:bg-green-700 rounded h-8 w-8 p-1 cursor-pointer"
+                            @click="emit('voucher', pr.id)"
+                        />
+                        <Icon
+                            v-else
                             name="material-symbols:visibility-rounded"
                             color="white"
                             class="bg-green-500 hover:bg-green-600 active:bg-green-700 rounded h-8 w-8 p-1 cursor-pointer"

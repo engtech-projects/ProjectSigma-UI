@@ -26,13 +26,6 @@
                         title="My Approvals"
                         target-id="myApprovals"
                     />
-                    <HrmsCommonTabsTabTitle
-                        v-if="useCheckAccessibility([
-                            AccessibilityTypes.accounting_journal_group,
-                        ])"
-                        title="My Request"
-                        target-id="myRequests"
-                    />
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer id="allList">
@@ -40,9 +33,6 @@
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="myApprovals">
                         <span class="block text-center text-gray-300">No approvals yet.</span>
-                    </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="myRequests">
-                        <span class="block text-center text-gray-300">No requests yet.</span>
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>
