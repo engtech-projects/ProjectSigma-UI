@@ -551,6 +551,14 @@ const config = useRuntimeConfig()
                     single-nav-title="Stocks"
                 />
             </LayoutNavGroup>
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    'Admin only',
+                ])"
+                linkarea="/inventory/bom"
+                icon="streamline:money-cash-coins-stack-accounting-billing-payment-stack-cash-coins-currency-money-finance"
+                single-nav-title="Project/Department BOM"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Accounting -->

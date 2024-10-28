@@ -1,0 +1,16 @@
+<script setup>
+
+</script>
+<template>
+    <LayoutBoards title="Form Request" :loading="boardLoading" class="w-90">
+        <div class="text-gray-500 p-2">
+            <form>
+                <div class="pt-4">
+                    <button type="submit" class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </LayoutBoards>
+</template>
