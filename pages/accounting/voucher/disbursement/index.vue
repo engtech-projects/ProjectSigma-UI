@@ -43,7 +43,7 @@
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="myRequests">
                         <AccountingPaymentrequestList v-if="!prDetails" target="voucher" @voucher="setVoucher" />
-                        <AccountingPaymentrequestDetails v-else target="voucher" @back-to-list="prDetails=false" />
+                        <AccountingPaymentrequestDetails v-else target="voucher" :border="false" @back-to-list="prDetails=false" @detach="prDetails=false" />
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>

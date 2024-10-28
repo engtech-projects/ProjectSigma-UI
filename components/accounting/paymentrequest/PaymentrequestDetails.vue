@@ -6,11 +6,19 @@ const paymentRequestStore = usePaymentRequestStore()
 
 const stakeholderStore = useStakeholderStore()
 
-const emit = defineEmits(["create", "edit", "backToList"])
+const emit = defineEmits(["create", "edit", "backToList", "detach"])
 const props = defineProps({
     target: {
         type: String,
         default: ""
+    },
+    border: {
+        type: Boolean,
+        default: true
+    },
+    detach: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -56,18 +64,13 @@ const navigate = (url = "", action = "", pr = null) => {
 }
 </script>
 <template>
-    <div class="bg-white shadow rounded-lg border border-gray-200 px-2 relative">
-        <div v-if="paymentRequestStore.isShowLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
-            <img
-                class="flex justify-center w-28 rounded-md"
-                src="/loader.gif"
-                alt="logo"
-            >
-        </div>
+    <div class="bg-white rounded-lg px-2 relative select-none" :class="props.border ? 'shadow border border-gray-200' : ''">
+        <AccountingLoadScreen :is-loading="paymentRequestStore.isLoading.show" />
         <div class="flex justify-between items-center h-16 border-b px-4">
             <h2 class="text-xl text-gray-800">
                 Payment Request Details
             </h2>
+            <Icon class="text-4xl text-gray-400 cursor-pointer hover:text-red-500 active:text-red-600" name="iconoir:xmark" @click="emit('detach')" />
         </div>
         <div class="flex flex-col p-4 w-full">
             <div class="flex gap-4 border-b py-4 w-full">
@@ -135,7 +138,7 @@ const navigate = (url = "", action = "", pr = null) => {
                                 {{ stakeholder(ae.stakeholder_id)?.name }}
                             </td>
                             <td class="border px-4 py-1 border-gray-800 text-xs">
-                                {{ formatToCurrency(ae.particulars) }}
+                                {{ ae.particulars }}
                             </td>
                             <td class="border px-4 py-1 border-gray-800 text-xs">
                                 {{ formatToCurrency(ae.cost) }}

@@ -47,7 +47,7 @@ const navigate = (url = "", action = "", journal = null) => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="journal, i in journalStore.list" :key="i" class="border text-left">
+                            <tr v-for="journal, i in journalStore.list" :key="i" class="border text-left hover:bg-gray-200 hover: !text-black !text-sm" :class="journal.id === journalStore.journal.id ? 'selectedItem' : ''">
                                 <td class="p-2">
                                     {{ journal.journal_date }}
                                 </td>
@@ -81,6 +81,10 @@ const navigate = (url = "", action = "", journal = null) => {
 </template>
 
 <style scoped>
+    .selectedItem {
+        background-color: #b2d8d8;
+        color: black!important
+    }
     #listTable tbody tr td, #listTable thead th {
         text-align: left!important;
     }

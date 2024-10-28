@@ -20,14 +20,8 @@ const navigate = (url = "", action = "", pr = null) => {
 }
 </script>
 <template>
-    <div class="pb-2 text-gray-500">
-        <div v-if="paymentRequestStore.isLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
-            <img
-                class="flex justify-center w-28 rounded-md"
-                src="/loader.gif"
-                alt="logo"
-            >
-        </div>
+    <div class="pb-2 text-gray-500 select-none">
+        <AccountingLoadScreen :is-loading="paymentRequestStore.isLoading.list" />
         <table id="prfTable" class="table-auto w-full border-collapse">
             <thead>
                 <tr class="text-left !text-sm">

@@ -13,9 +13,10 @@ const accountEntry = ref({
     debit: 0,
     credit: 0
 })
+const emit = defineEmits(["view-details"])
 async function handleSubmit () {
     try {
-        await journalStore.createJournal()
+        await journalStore.editJournal()
         if (journalStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -26,9 +27,6 @@ async function handleSubmit () {
                 type: "success",
                 text: journalStore.successMessage
             })
-            journalStore.reset()
-            journalStore.journal.journal_no = generateJournalNo()
-            journalStore.journal.journal_date = dateToString(new Date())
         }
     } catch (error) {
     }
@@ -40,21 +38,24 @@ const addEntry = () => {
 const removeEntry = (entry) => {
     journalStore.journal.details = journalStore.journal.details.filter(e => e !== entry)
 }
-const generateJournalNo = () => {
-    return "JE-" + randomInt(100001, 999999) + "-" + randomInt(1000, 9999)
+
+const navigate = (url = "", action = "", journal = null) => {
+    history.pushState(null, "", url)
+    emit(action)
+    if (journal) {
+        journalStore.getJournal(journal.id)
+    }
 }
+
+onMounted(() => {
+    journalStore.journal.journal_date = dateToString(new Date(journalStore.journal.journal_date))
+})
 
 </script>
 <template>
     <form @submit.prevent="handleSubmit">
         <div class="bg-white shadow rounded-lg border border-green-500 border-t-4 px-2 relative">
-            <div v-if="journalStore.isLoading.create" class="absolute z-50 bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
-                <img
-                    class="flex justify-center w-28 rounded-md"
-                    src="/loader.gif"
-                    alt="logo"
-                >
-            </div>
+            <AccountingLoadScreen :is-loading="journalStore.isLoading.edit" />
             <div class="flex justify-between items-center h-16 border-b px-4">
                 <h2 class="text-xl text-gray-800">
                     Edit Journal Entry
@@ -169,20 +170,22 @@ const generateJournalNo = () => {
                     </button>
                 </div>
             </form>
-            <div class="flex justify-end w-full gap-2 mb-8">
+            <div class="flex justify-between items-center w-full mb-8 mt-8">
                 <button
-                    class="flex items-center text-gray-800 font-bold p-1 px-4 hover:bg-gray-200 hover:border-gray-800 content-center mt-5 rounded-md w-fit border-2 border-gray-400 border-dashed"
-                    @click="journalStore.journal.status = 'draft'"
+                    class="text-gray-700 self-start hover:text-blue-500 border-gray-700"
+                    @click.prevent="navigate('/accounting/journal-entry?details=' + journalStore.journal.id, 'view-details')"
                 >
-                    <Icon name="iconoir:submit-document" class="mr-2 text-2xl" />
-                    Save as draft
+                    <Icon name="ion:ios-arrow-thin-left" class="mr-1 text-2xl" />
+                    Back to details
                 </button>
-                <button
-                    type="submit"
-                    class="text-white p-1 px-6 border-teal-600 bg-teal-600 content-center mt-5 rounded-md w-fit"
-                >
-                    Save Journal
-                </button>
+                <div class="flex gap-2">
+                    <button
+                        type="submit"
+                        class="text-white p-1 px-6 border-teal-600 bg-teal-600 content-center rounded-md w-fit"
+                    >
+                        Update Journal
+                    </button>
+                </div>
             </div>
         </div>
     </form>

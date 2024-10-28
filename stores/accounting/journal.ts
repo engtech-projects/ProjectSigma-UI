@@ -84,6 +84,7 @@ export const useJournalStore = defineStore("journalStore", {
         async createJournal () {
             this.successMessage = ""
             this.errorMessage = ""
+            this.isLoading.create = true
             await useFetch(
                 "/api/journal-entry",
                 {
@@ -96,6 +97,7 @@ export const useJournalStore = defineStore("journalStore", {
                     body: this.journal,
                     watch: false,
                     onResponse: ({ response }) => {
+                        this.isLoading.create = false
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
@@ -105,6 +107,29 @@ export const useJournalStore = defineStore("journalStore", {
                     },
                 }
             )
+        },
+
+        async editJournal () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            this.isLoading.edit = true
+            const { data, error } = await useAccountingApi(
+                "/api/journal-entry/" + this.journal.id,
+                {
+                    method: "PATCH",
+                    body: this.journal,
+                    watch: false,
+                }
+            )
+            this.isLoading.edit = false
+            if (data.value) {
+                this.getJournals()
+                this.successMessage = "Journal entry successfully updated."
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
         },
 
         reset () {
