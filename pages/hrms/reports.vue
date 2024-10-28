@@ -46,6 +46,12 @@ const selectedReport = ref("")
                         v-if="useCheckAccessibility(['AdminOnly'])"
                         value="Report4"
                     >
+                        Loan Reports
+                    </option>
+                    <!-- <option
+                        v-if="useCheckAccessibility(['AdminOnly'])"
+                        value="Report4"
+                    >
                         SSS Loan Payment Summary
                     </option>
                     <option
@@ -53,7 +59,7 @@ const selectedReport = ref("")
                         value="Report5"
                     >
                         SSS Loan Payment
-                    </option>
+                    </option> -->
                     <option
                         v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_philhealthremittancesummary])"
                         value="Report6"
@@ -90,7 +96,7 @@ const selectedReport = ref("")
                     >
                         HDMF Employee Remittance
                     </option>
-                    <option
+                    <!-- <option
                         v-if="useCheckAccessibility(['AdminOnly'])"
                         value="Report12"
                     >
@@ -101,13 +107,13 @@ const selectedReport = ref("")
                         value="Report13"
                     >
                         HDMF Loan Project Remittance
-                    </option>
-                    <option
+                    </option> -->
+                    <!-- <option
                         v-if="useCheckAccessibility(['AdminOnly'])"
                         value="Report14"
                     >
                         HDMF Loan Remittance
-                    </option>
+                    </option> -->
                     <option
                         v-if="useCheckAccessibility(['AdminOnly'])"
                         value="Report15"

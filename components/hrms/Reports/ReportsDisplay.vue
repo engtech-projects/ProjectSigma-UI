@@ -17,11 +17,8 @@ defineProps({
         <HrmsReportsSssRemittanceEmployee
             v-show="selectedReport==='Report3'"
         />
-        <HrmsReportsSssLoanPaymentSummary
+        <HrmsReportsLoanReportsTemplate
             v-show="selectedReport==='Report4'"
-        />
-        <HrmsReportsSssLoanEmployeeGroup
-            v-show="selectedReport==='Report5'"
         />
         <HrmsReportsPhicRemittanceSummary
             v-show="selectedReport==='Report6'"
@@ -40,12 +37,6 @@ defineProps({
         />
         <HrmsReportsHdmfRemittanceEmployee
             v-show="selectedReport==='Report11'"
-        />
-        <HrmsReportsHdmfLoanPaymentSummary
-            v-show="selectedReport==='Report12'"
-        />
-        <HrmsReportsHdmfLoanEmployeeGroup
-            v-show="selectedReport==='Report13'"
         />
         <HrmsReportsSalaryMonitoring
             v-show="selectedReport==='Report15'"

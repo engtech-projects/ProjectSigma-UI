@@ -12,6 +12,17 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
+        sssEmployeeLoanList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
         pagibigEmployeeRemitanceList: {
             isLoading: false,
             isLoaded: false,
@@ -96,7 +107,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             pagination: {},
             errorMessage: null,
             successMessage: null,
-        }
+        },
     }),
     getters: {},
     actions: {
@@ -120,6 +131,31 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.sssEmployeeRemitanceList.isLoaded = true
                             this.sssEmployeeRemitanceList.list = response._data.data
                             this.sssEmployeeRemitanceList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getSssEmployeeLoan () {
+            await useHRMSApiO(
+                "/api/reports/sss-employee-loans",
+                {
+                    method: "GET",
+                    params: this.sssEmployeeLoanList.params,
+                    onRequest: () => {
+                        this.sssEmployeeLoanList.isLoading = true
+                        this.sssEmployeeLoanList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.sssEmployeeLoanList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.sssEmployeeLoanList.isLoading = false
+                        if (response.ok) {
+                            this.sssEmployeeLoanList.isLoaded = true
+                            this.sssEmployeeLoanList.list = response._data.data
+                            this.sssEmployeeLoanList.successMessage = response._data.message
                         }
                     },
                 }
