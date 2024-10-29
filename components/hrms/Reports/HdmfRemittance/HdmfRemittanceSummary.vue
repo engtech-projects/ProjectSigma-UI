@@ -101,14 +101,14 @@ watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => 
                         </span>
                     </div>
                 </div>
-                <div class="title flex flex-col justify-center gap-1 mb-12">
+                <div class="title flex flex-col justify-center gap-1">
                     <span class="text-2xl font-bold text-black text-center">
                         HDMF CONTRIBUTION
                     </span>
                     <span class="text-xl text-black text-center">
                         FOR THE APPLICABLE MONTH OF<span class="text-red-600 font-bold underline">{{ useMonthName(pagibigRemittanceSummaryList.params.filter_month) }} {{ pagibigRemittanceSummaryList.params.filter_year }}</span>
                     </span>
-                    <span>SUMMARY</span>
+                    <span class="font-bold mt-6">SUMMARY</span>
                 </div>
                 <table class="printTable border border-gray-500 mb-20">
                     <thead class="text-blue-600 text-md">
