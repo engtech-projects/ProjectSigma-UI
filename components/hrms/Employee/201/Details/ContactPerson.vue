@@ -77,49 +77,109 @@ const { information, editable } = storeToRefs(employee)
             <tr>
                 <td class="border border-slate-300 p-1">
                     <label for="contact_person_name" class="block mb-2 text-xs w-32 font-bold text-gray-900 dark:text-white">Name</label>
-                    <input id="contact_person_name" v-model="information.contact_person.name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input
+                        id="contact_person_name"
+                        v-model="information.contact_person.name"
+                        :disabled="!editable"
+                        type="text"
+                        class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                 </td>
                 <td class="border border-slate-300 p-1 space-y-1">
                     <label for="contact_person_zip" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">Date of Birth</label>
-                    <input id="contact_person_zip" v-model="information.contact_person.date_of_birth" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input
+                        id="contact_person_zip"
+                        v-model="information.contact_person.date_of_birth"
+                        :disabled="!editable"
+                        type="date"
+                        class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                 </td>
                 <td class="border border-slate-300 p-1 space-y-1">
                     <label for="contact_person_relationship" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">Occupation</label>
-                    <input id="contact_person_relationship" v-model="information.contact_person.occupation" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input
+                        id="contact_person_relationship"
+                        v-model="information.contact_person.occupation"
+                        :disabled="!editable"
+                        type="text"
+                        class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                 </td>
                 <td class="border border-slate-300 p-1">
                     <label for="contact_person_contact_no" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">Mobile No.</label>
                     <div class="flex justify-start items-center gap-1">
-                        <input id="contact_person_contact_no" v-model="information.contact_person.contact_no" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input
+                            id="contact_person_contact_no"
+                            v-model="information.contact_person.contact_no"
+                            :disabled="!editable"
+                            type="text"
+                            class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
                     </div>
                 </td>
             </tr>
             <tr>
                 <td class="border border-slate-300 p-1 space-y-1">
                     <label for="contact_person_relationship" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">Relationship</label>
-                    <input id="contact_person_relationship" v-model="information.contact_person.relationship" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input
+                        id="contact_person_relationship"
+                        v-model="information.contact_person.relationship"
+                        :disabled="!editable"
+                        type="text"
+                        class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                 </td>
                 <td class="border border-slate-300 p-1 space-y-1">
                     <label for="contact_person_street" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">Street</label>
-                    <input id="contact_person_street" v-model="information.contact_person.street" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input
+                        id="contact_person_street"
+                        v-model="information.contact_person.street"
+                        :disabled="!editable"
+                        type="text"
+                        class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                 </td>
                 <td class="border border-slate-300 p-1 space-y-1">
                     <label for="contact_person_brgyr" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">Barangay</label>
-                    <input id="contact_person_brgyr" v-model="information.contact_person.brgy" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input
+                        id="contact_person_brgyr"
+                        v-model="information.contact_person.brgy"
+                        :disabled="!editable"
+                        type="text"
+                        class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                 </td>
                 <td class="border border-slate-300 p-1 space-y-1">
                     <label for="contact_person_city" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">City</label>
-                    <input id="contact_person_city" v-model="information.contact_person.city" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input
+                        id="contact_person_city"
+                        v-model="information.contact_person.city"
+                        :disabled="!editable"
+                        type="text"
+                        class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                 </td>
             </tr>
             <tr>
                 <td class="border border-slate-300 p-1 space-y-1">
                     <label for="contact_person_zip" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">Zip</label>
-                    <input id="contact_person_zip" v-model="information.contact_person.zip" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input
+                        id="contact_person_zip"
+                        v-model="information.contact_person.zip"
+                        :disabled="!editable"
+                        type="text"
+                        class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                 </td>
                 <td class="border border-slate-300 p-1 space-y-1">
                     <label for="contact_person_province" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">Province</label>
-                    <input id="contact_person_province" v-model="information.contact_person.province" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input
+                        id="contact_person_province"
+                        v-model="information.contact_person.province"
+                        :disabled="!editable"
+                        type="text"
+                        class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                 </td>
             </tr>
         </tbody>

@@ -6,7 +6,7 @@ import { useApprovalStore, APPROVAL_CA } from "@/stores/hrms/setup/approvals"
 const approvals = useApprovalStore()
 
 const cashadvances = useCashadvanceStore()
-const { cashadvance, errorMessage, successMessage } = storeToRefs(cashadvances)
+const { cashadvance } = storeToRefs(cashadvances)
 
 cashadvance.value.approvals = await approvals.getApprovalByName(APPROVAL_CA)
 const grouptype = ref("")
@@ -28,15 +28,12 @@ const submitForm = async () => {
                 text: cashadvances.successMessage
             })
         }
-        cashadvances.reloadResources()
-        cashadvance.value.approvals = await approvals.getApprovalByName(APPROVAL_CA)
     } catch {
         snackbar.add({
             type: "error",
             text: cashadvances.errorMessage
         })
     } finally {
-        cashadvances.clearMessages()
         boardLoading.value = false
     }
 }
@@ -113,20 +110,6 @@ const setEmployee = (emp: any) => {
                     </button>
                 </div>
             </form>
-            <p
-                hidden
-                class=" text-red-600 text-center font-semibold mt-2 italic"
-                :class="{ 'fade-out': !errorMessage }"
-            >
-                {{ errorMessage }}
-            </p>
-            <p
-                v-show="successMessage"
-                hidden
-                class=" text-green-600 text-center font-semibold italic transition-opacity delay-1000"
-            >
-                {{ successMessage }}
-            </p>
         </div>
     </LayoutBoards>
 </template>

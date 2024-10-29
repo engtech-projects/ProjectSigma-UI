@@ -32,20 +32,78 @@ const closeModal = () => {
         <LayoutEditBoards title="Job Opening Details" class="w-full" :loading="boardLoading">
             <div class="text-gray-600 text-sm p-2">
                 <div class="rounded p-2 grid grid-cols-2 " @change="setDetail">
-                    <template v-for="(detailList, index) in manpowerData" :key="index">
-                        <div v-if="!['id', 'job_applicants'].includes(index)" class="border px-4 py-2">
-                            <span class="font-semibold">{{ index }}: </span>
-                            <template v-if="index === 'Total Applicants'">
-                                {{ detailList }}
-                            </template>
-                            <template v-else-if="index === 'Position'">
-                                {{ detailList.name }}
-                            </template>
-                            <template v-else>
-                                {{ detailList }}
-                            </template>
-                        </div>
-                    </template>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Requesting Department: </span>
+                        <span>{{ manpowerData.requesting_department_name }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Requested By: </span>
+                        <span>{{ manpowerData.requested_by_user_name }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Date Requested: </span>
+                        <span>{{ manpowerData.date_requested }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Date Required: </span>
+                        <span>{{ manpowerData.date_required }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Position: </span>
+                        <span>{{ manpowerData.job_title }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Employment Type: </span>
+                        <span>{{ manpowerData.employment_type }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Brief Description: </span>
+                        <span>{{ manpowerData.brief_description }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Job Description: </span>
+                        <span class="truncate hover:cursor-pointer text-blue-500 italic">
+                            <a target="_blank" :href="useHrmsDownloadLink(manpowerData.job_description_attachment)">
+                                <Icon
+                                    name="mage:file-download-fill"
+                                    class="h-5 w-5 lg:h-5 lg:w-5"
+                                />
+                                Download
+                            </a>
+                        </span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Nature of Request: </span>
+                        <span>{{ manpowerData.nature_of_request }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Age Range: </span>
+                        <span>{{ manpowerData.age_range }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Status: </span>
+                        <span>{{ manpowerData.status }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Gender: </span>
+                        <span>{{ manpowerData.gender }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Educational Requirements: </span>
+                        <span>{{ manpowerData.educational_requirement }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Preferred Qualifications: </span>
+                        <span>{{ manpowerData.preferred_qualifications }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Remarks: </span>
+                        <span>{{ manpowerData.remarks }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Total Applicants: </span>
+                        <span>{{ manpowerData.job_applicants?.length || 0 }}</span>
+                    </div>
                 </div>
                 <HrmsEmployeeJobProcessApplicant />
                 <div class="flex justify-end mt-4">

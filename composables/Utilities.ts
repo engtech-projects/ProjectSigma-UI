@@ -1,3 +1,4 @@
+const config = useRuntimeConfig()
 export const useUtilities = () => {
     const upperFirst = (str: string) => {
         return str.charAt(0).toUpperCase() + str.slice(1)
@@ -335,4 +336,10 @@ export const useAmountInWords = (s: any) => {
         }
     }
     return strVal.replace(/\s+/g, " ") + " Only"
+}
+export const useHrmsDownloadLink = (url: string) => {
+    if (url.startsWith("/")) {
+        url = url.substring(1)
+    }
+    return config.public.HRMS_API_URL + "/storage/" + url
 }
