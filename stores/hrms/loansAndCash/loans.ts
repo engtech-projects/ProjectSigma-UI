@@ -198,9 +198,8 @@ export const useLoansStore = defineStore("LoansStore", {
                     this.createData.isLoading = false
                     if (response.ok) {
                         this.reloadResources()
-                        this.createData.data = response._data.data
-                        this.createData.successMessage = response._data.message
                         this.createData.data.employee_id = backupEmployee
+                        this.createData.successMessage = response._data.message
                     }
                 },
             })
