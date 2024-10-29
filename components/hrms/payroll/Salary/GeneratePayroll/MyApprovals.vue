@@ -36,6 +36,13 @@ const showInformation = (data) => {
             <!-- FILTERS -->
             <div class="flex gap-2">
                 <LayoutFormPsDateInput v-model="myApprovals.params.payroll_date" class="w-full" title="Payroll Date" required />
+                <HrmsCommonDepartmentProjectSelector
+                    v-model:select-type="myApprovals.params.group_type"
+                    v-model:projectId="myApprovals.params.project_id"
+                    v-model:departmentId="myApprovals.params.department_id"
+                    title="Charged to"
+                    class="w-full p-2"
+                />
                 <LayoutFormPsSelect
                     v-model="myApprovals.params.payroll_type"
                     :options-list="PAYROLL_TYPE"
