@@ -28,7 +28,6 @@ const submitAdd = async () => {
             type: "success",
             text: createData.value.successMessage
         })
-        loanStore.reloadResources()
     } catch (error) {
         snackbar.add({
             type: "error",
