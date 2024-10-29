@@ -114,10 +114,15 @@ export const useEnumsStore = defineStore("enums", {
             isLoaded: false,
             list: [] as Employee[],
             params: {
-                filterType: "",
-                filterData: "",
             },
-            nameFilter: "",
+            localFilters: {
+                multi: {
+                    filterType: "",
+                    filterData: "",
+                },
+                atm: "",
+                name: "",
+            },
             successMessage: "",
             errorMessage: "",
         },
@@ -126,34 +131,42 @@ export const useEnumsStore = defineStore("enums", {
     getters: {
         filteredEmployeesList (state) : any[] {
             return state.allEmployeeEnum.list.filter((employee:any) => {
-                return employee.fullname_last.toLowerCase().includes(state.allEmployeeEnum.nameFilter.toLowerCase()) &&
+                return employee.fullname_last.toLowerCase().includes(state.allEmployeeEnum.localFilters.name.toLowerCase()) &&
                 (
-                    !state.allEmployeeEnum.params.filterType ||
+                    !state.allEmployeeEnum.localFilters.multi.filterType ||
                     (
-                        state.allEmployeeEnum.params.filterType === "Department" &&
+                        state.allEmployeeEnum.localFilters.multi.filterType === "Department" &&
                         (
-                            !state.allEmployeeEnum.params.filterData ||
-                            employee.department?.id === state.allEmployeeEnum.params.filterData
+                            !state.allEmployeeEnum.localFilters.multi.filterData ||
+                            employee.department?.id === state.allEmployeeEnum.localFilters.multi.filterData
                         )
                     ) ||
                     (
-                        state.allEmployeeEnum.params.filterType === "Project" &&
+                        state.allEmployeeEnum.localFilters.multi.filterType === "Project" &&
                         (
-                            !state.allEmployeeEnum.params.filterData ||
-                            employee.project?.id === state.allEmployeeEnum.params.filterData
+                            !state.allEmployeeEnum.localFilters.multi.filterData ||
+                            employee.project?.id === state.allEmployeeEnum.localFilters.multi.filterData
                         )
                     ) ||
                     (
-                        state.allEmployeeEnum.params.filterType === "SalaryType" &&
+                        state.allEmployeeEnum.localFilters.multi.filterType === "SalaryType" &&
                         (
-                            !state.allEmployeeEnum.params.filterData ||
-                            employee.current_employment?.salary_type === state.allEmployeeEnum.params.filterData ||
+                            !state.allEmployeeEnum.localFilters.multi.filterData ||
+                            employee.current_employment?.salary_type === state.allEmployeeEnum.localFilters.multi.filterData ||
                             (
-                                state.allEmployeeEnum.params.filterData === "Monthly" &&
+                                state.allEmployeeEnum.localFilters.multi.filterData === "Monthly" &&
                                 employee.current_employment?.salary_type === "Fixed"
                             )
                         )
                     )
+                ) &&
+                (
+                    !state.allEmployeeEnum.localFilters.atm ||
+                    (
+                        (state.allEmployeeEnum.localFilters.atm === "Yes" && employee.company_employments?.atm && employee.company_employments?.atm.toLowerCase() !== "n/a") ||
+                        (state.allEmployeeEnum.localFilters.atm === "No" && (!employee.company_employments.atm || employee.company_employments?.atm.toLowerCase() === "n/a"))
+                    )
+
                 )
             })
         },
@@ -296,7 +309,7 @@ export const useEnumsStore = defineStore("enums", {
                 "/api/employee/list",
                 {
                     method: "GET",
-                    params: this.allEmployeeEnum.params,
+                    params: this.allEmployeeEnum.localFilters.multi,
                     onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
