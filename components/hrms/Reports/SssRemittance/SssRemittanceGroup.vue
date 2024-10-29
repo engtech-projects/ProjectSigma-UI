@@ -118,7 +118,7 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
                     <span class="text-2xl font-bold text-black text-center">
                         SSS CONTRIBUTION
                     </span>
-                    <span class="text-xl text-blue-600 text-center">
+                    <span class="text-xl text-black text-center">
                         FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(sssGroupRemittance.params.filter_month) }} {{ sssGroupRemittance.params.filter_year }}</span>
                     </span>
                 </div>
@@ -228,3 +228,8 @@ watch(() => sssGroupRemittance.value.params.month_year, (newValue) => {
         </LayoutPrint>
     </LayoutBoards>
 </template>
+<style scoped>
+    .flex-5 {
+        flex: 5;
+    }
+</style>
