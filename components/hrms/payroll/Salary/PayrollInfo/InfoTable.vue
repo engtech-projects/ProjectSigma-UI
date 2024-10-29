@@ -136,11 +136,55 @@ const totalRegHrsPayroll = () => {
     return total.toFixed(2)
 }
 const uniqueLoanNames = computed(() => {
-    return ["Loan 1", "Loan 2"]
-    // props.payrollRequest.payroll_details
+    const loanNames = new Set()
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.payroll_records.salary_deduction.loan.loans.forEach((deduction: { name: string }) => {
+            loanNames.add(deduction.name)
+        })
+    })
+    return Array.from(loanNames)
 })
 const uniqueOtherDeductionNames = computed(() => {
-    return ["oded 1", "oded 2"]
+    const loanNames = new Set()
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.payroll_records.salary_deduction.other_deductions.other_deduction.forEach((deduction: { otherdeduction_name: string }) => {
+            loanNames.add(deduction.otherdeduction_name)
+        })
+    })
+    return Array.from(loanNames)
+})
+const uniqueLoanNameTotals = computed(() => {
+    const deductionTotals: any[] = []
+    uniqueLoanNames.value.forEach((name: string) => {
+        let total = 0
+        props.payrollRequest.payroll_details.forEach((element: any) => {
+            element.payroll_records.salary_deduction.loan.loans.forEach((deduction: { name: string; max_payroll_payment: number }) => {
+                if (deduction.name === name) {
+                    total += deduction.max_payroll_payment
+                }
+            })
+        })
+        deductionTotals[name] = total
+    })
+    return deductionTotals
+})
+const uniqueOtherDeductionNameTotals = computed(() => {
+    const deductionTotals: any[] = []
+    uniqueOtherDeductionNames.value.forEach((name: string) => {
+        let total = 0
+        props.payrollRequest.payroll_details.forEach((element: any) => {
+            element.payroll_records.salary_deduction.other_deductions.other_deduction.forEach((deduction: { otherdeduction_name: string; max_payroll_payment: number }) => {
+                if (deduction.otherdeduction_name === name) {
+                    total += deduction.max_payroll_payment
+                }
+            })
+        })
+        deductionTotals[name] = total
+    })
+    return deductionTotals
+})
+const totalCashadvance = computed(() => {
+    return 0
 })
 </script>
 <template>
@@ -236,7 +280,15 @@ const uniqueOtherDeductionNames = computed(() => {
                 <td>
                     {{ useFormatCurrency(totalEWTCPayroll()) }}
                 </td>
-                <td />
+                <td>
+                    {{ useFormatCurrency(totalCashadvance()) }}
+                </td>
+                <td v-for="deduction in uniqueLoanNames" :key="deduction">
+                    {{ useFormatCurrency(uniqueLoanNameTotals[deduction]) }}
+                </td>
+                <td v-for="deduction in uniqueOtherDeductionNames" :key="deduction">
+                    {{ useFormatCurrency(uniqueOtherDeductionNameTotals[deduction]) }}
+                </td>
                 <td>
                     <strong>{{ useFormatCurrency(totalDeductionPayroll()) }}</strong>
                 </td>

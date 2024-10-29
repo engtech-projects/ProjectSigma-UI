@@ -110,60 +110,21 @@ defineProps({
             {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.ewtc) ?? "-" }}
         </td>
         <td class="p-1 border-solid border border-slate-400 min-w-min">
-            <div class="divide-y min-w-min">
-                <div>
-                    <strong>
-                        Loans:
-                    </strong>
-                    <div v-for="(loan, index1) in employeePayrollRecord.payroll_records.salary_deduction.loan.loans" :key="'loanName'+index1">
-                        {{ loan.id }}: {{ useFormatCurrency(loan.max_payroll_payment) ?? "-" }}
-                    </div>
-                    <strong>
-                        Total:{{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.loan.total_paid) ?? "-" }}
-                    </strong>
-                </div>
-                <div>
-                    <strong>
-                        C.A.:
-                    </strong>
-                    <div v-for="(cAdv, index1) in employeePayrollRecord.payroll_records.salary_deduction.cash_advance.cash_advance" :key="'cAdvName'+index1">
-                        {{ cAdv.id }}: {{ useFormatCurrency(cAdv.max_payroll_payment) ?? "-" }}
-                    </div>
-                    <strong>
-                        Total:{{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.cash_advance.total_paid) ?? "-" }}
-                    </strong>
-                </div>
-                <div>
-                    <strong>
-                        Other Ded.:
-                    </strong>
-                    <div v-for="(otherDeduct, index1) in employeePayrollRecord.payroll_records.salary_deduction.other_deductions.other_deduction" :key="'oDed'+index1">
-                        {{ otherDeduct.otherdeduction_name }}:{{ useFormatCurrency(otherDeduct.max_payroll_payment) ?? "-" }}
-                    </div>
-                    <strong>
-                        Total:{{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.other_deductions.total_paid) ?? "-" }}
-                    </strong>
-                </div>
-                <!-- <div>
-                    <strong>
-                        HMO:
-                    </strong>
-                </div> -->
-            </div>
+            {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.cash_advance.total_paid) ?? "-" }}
         </td>
         <td
             v-for="loan, key in loans"
             :key="key"
             class="p-1 border-solid border border-slate-400 min-w-min"
         >
-            {{ employeePayrollRecord.payroll_records.salary_deduction.loan.loans.find((eloan: any) => eloan.name === loan) }}
+            {{ employeePayrollRecord.payroll_records.salary_deduction.loan.loans.find((eloan: any) => eloan.name === loan) ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.loan.loans.find((eloan: any) => eloan.name === loan).max_payroll_payment) : "-" }}
         </td>
         <td
             v-for="otherdeduction, key in otherdeductions"
             :key="key"
             class="p-1 border-solid border border-slate-400 min-w-min"
         >
-            {{ employeePayrollRecord.payroll_records.salary_deduction.other_deductions.other_deduction.find((eOded: any) => eOded.name === otherdeduction) }}
+            {{ employeePayrollRecord.payroll_records.salary_deduction.other_deductions.other_deduction.find((eOded: any) => eOded.otherdeduction_name === otherdeduction) ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.other_deductions.other_deduction.find((eOded: any) => eOded.otherdeduction_name === otherdeduction).max_payroll_payment) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.payroll_records.total_salary_deduction) ?? "-" }}

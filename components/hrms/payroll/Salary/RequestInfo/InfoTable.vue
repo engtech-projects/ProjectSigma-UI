@@ -185,6 +185,39 @@ const uniqueOtherDeductionNames = computed(() => {
     })
     return Array.from(loanNames)
 })
+const uniqueLoanNameTotals = computed(() => {
+    const loanNameTotals: any[] = []
+    uniqueLoanNames.value.forEach((name: string) => {
+        let total = 0
+        props.payrollRequest.payroll_details.forEach((element: any) => {
+            element.deductions.forEach((deduction: { type: string; name: string; amount: number }) => {
+                if (deduction.type === "Loan" && deduction.name === name) {
+                    total += deduction.amount
+                }
+            })
+        })
+        loanNameTotals[name] = total
+    })
+    return loanNameTotals
+})
+const uniqueOtherDeductionNameTotals = computed(() => {
+    const loanNameTotals: any[] = []
+    uniqueOtherDeductionNames.value.forEach((name: string) => {
+        let total = 0
+        props.payrollRequest.payroll_details.forEach((element: any) => {
+            element.deductions.forEach((deduction: { type: string; name: string; amount: number }) => {
+                if (deduction.type === "Other Deduction" && deduction.name === name) {
+                    total += deduction.amount
+                }
+            })
+        })
+        loanNameTotals[name] = total
+    })
+    return loanNameTotals
+})
+const totalCashadvancePayroll = computed(() => {
+    return 0
+})
 </script>
 <template>
     <div class="details flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
@@ -298,7 +331,15 @@ const uniqueOtherDeductionNames = computed(() => {
                 <td>
                     {{ useFormatCurrency(totalEWTCPayroll()) }}
                 </td>
-                <td />
+                <td>
+                    {{ useFormatCurrency(totalCashadvancePayroll()) }}
+                </td>
+                <td v-for="deduction in uniqueLoanNames" :key="deduction">
+                    {{ useFormatCurrency(uniqueLoanNameTotals[deduction]) }}
+                </td>
+                <td v-for="deduction in uniqueOtherDeductionNames" :key="deduction">
+                    {{ useFormatCurrency(uniqueOtherDeductionNameTotals[deduction]) }}
+                </td>
                 <td>
                     <strong>{{ useFormatCurrency(totalDeductionPayroll()) }}</strong>
                 </td>

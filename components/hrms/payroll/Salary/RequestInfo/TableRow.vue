@@ -21,9 +21,6 @@ const props = defineProps({
 const paymentsLoans = () => {
     return props.employeePayrollRecord.deductions.filter((adj: { type: string; }) => adj.type === "Loan")
 }
-const totalPaymentsLoans = () => {
-    return paymentsLoans().reduce((partialSum: any, a: any) => partialSum + a.amount, 0)
-}
 const paymentsCashAdvance = () => {
     return props.employeePayrollRecord.deductions.filter((adj: { type: string; }) => adj.type === "Cash Advance")
 }
@@ -32,9 +29,6 @@ const totalPaymentsCashAdvance = () => {
 }
 const paymentsOtherDeduction = () => {
     return props.employeePayrollRecord.deductions.filter((adj: { type: string; }) => adj.type === "Other Deduction")
-}
-const totalPaymentsOtherDeduction = () => {
-    return paymentsOtherDeduction().reduce((partialSum: any, a: any) => partialSum + a.amount, 0)
 }
 </script>
 <template>
