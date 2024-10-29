@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { storeToRefs } from "pinia"
-import { useEnumsStore } from "@/stores/hrms/enum"
 import { useEmployeeSearch } from "@/stores/hrms/employeeSearch"
 import type { EmployeeInformation } from "~/stores/hrms/employee"
 defineProps({
@@ -8,13 +7,6 @@ defineProps({
         type: String,
         required: false,
         default: "Employee Name",
-    }
-})
-const enums = useEnumsStore()
-const { allEmployeeEnum } = storeToRefs(enums)
-onMounted(() => {
-    if (!allEmployeeEnum.value.isLoaded) {
-        enums.getEmployeeEnum()
     }
 })
 const model = defineModel({ required: false, type: Number, default: null })

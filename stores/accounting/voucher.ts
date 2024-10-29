@@ -7,7 +7,7 @@ export const useVoucherStore = defineStore("voucherStore", {
             book_id: null,
             voucher_no: "",
             account_id: null,
-            particulars: null,
+            particulars: "Nothing in particular",
             net_amount: 0,
             amount_in_words: null,
             date_encoded: null,
@@ -40,7 +40,7 @@ export const useVoucherStore = defineStore("voucherStore", {
     }),
     getters: {
         filteredList () {
-            if (this.filter.value.length > 0) {
+            if (this.filter.value.length > 0 && this.filter.name.length > 0) {
                 return this.list.filter(v => v[this.filter.name].toString().toLowerCase().includes(this.filter.value.toString().toLowerCase()))
             }
             return this.list
@@ -175,7 +175,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                     params: this.getParams,
                     watch: false,
                     onResponse: ({ response }) => {
-                        this.formTypes = response._data
+                        this.formTypes = response._data.forms
                     },
                 }
             )
@@ -192,7 +192,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                 book_id: null,
                 voucher_no: "",
                 account_id: null,
-                particulars: null,
+                particulars: "Nothing in particular",
                 net_amount: 0,
                 amount_in_words: null,
                 date_encoded: null,

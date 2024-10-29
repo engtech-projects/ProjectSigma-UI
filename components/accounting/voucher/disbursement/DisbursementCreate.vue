@@ -19,7 +19,7 @@ const accountEntry = ref({
 })
 async function handleSubmit () {
     try {
-        voucherStore.voucher.book_id = bookStore.cash.id
+        voucherStore.voucher.book_id = bookStore.disbursement.id
         await voucherStore.createVoucher()
         if (voucherStore.errorMessage !== "") {
             snackbar.add({

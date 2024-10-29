@@ -148,13 +148,13 @@ const navigate = (url = "", action = "", voucher = null) => {
                     <tbody>
                         <tr v-for="ae,i in voucherStore.voucher.details" :key="i" class="hover:bg-gray-100 cursor-pointer">
                             <td class="border px-4 py-1 border-gray-800 text-xs relative">
-                                {{ account(ae.account_id).account_number }}
+                                {{ account(ae.account_id)?.account_number }}
                             </td>
                             <td class="border px-4 py-1 border-gray-800 text-xs">
-                                {{ account(ae.account_id).account_name }}
+                                {{ account(ae.account_id)?.account_name }}
                             </td>
                             <td class="border px-4 py-1 border-gray-800 text-xs">
-                                {{ stakeholder(ae.stakeholder_id).name }}
+                                {{ stakeholder(ae.stakeholder_id)?.name }}
                             </td>
                             <td class="border px-4 py-1 border-gray-800 text-xs">
                                 {{ formatToCurrency(ae.debit) }}

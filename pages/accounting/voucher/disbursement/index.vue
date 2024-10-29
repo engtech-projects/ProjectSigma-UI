@@ -65,6 +65,7 @@ const voucherStore = useVoucherStore()
 
 voucherStore.reset()
 voucherStore.getVouchers()
+voucherStore.getFormTypes()
 
 const accountStore = useAccountStore()
 accountStore.getAccounts()
