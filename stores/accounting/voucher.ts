@@ -19,6 +19,10 @@ export const useVoucherStore = defineStore("voucherStore", {
             reference_no: null,
             status: "pending",
         },
+        filter: {
+            name: null,
+            value: ""
+        },
         formTypes: [],
         list: [],
         pagination: {},
@@ -34,6 +38,14 @@ export const useVoucherStore = defineStore("voucherStore", {
         },
         isEdit: false
     }),
+    getters: {
+        filteredList () {
+            if (this.filter.value.length > 0) {
+                return this.list.filter(v => v[this.filter.name].toString().toLowerCase().includes(this.filter.value.toString().toLowerCase()))
+            }
+            return this.list
+        }
+    },
     actions: {
         async getVouchers () {
             this.isLoading.list = true

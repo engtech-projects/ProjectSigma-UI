@@ -44,7 +44,7 @@ if (useRoute().query.details) {
 if (useRoute().query.edit) {
     const id = useRoute().query.edit
     action.value = "edit"
-    journalStore.getJournal(id)
+    await journalStore.getJournal(id)
 }
 
 const receiveAction = (ac) => {

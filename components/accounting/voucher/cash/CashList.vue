@@ -11,9 +11,11 @@ const navigate = (url = "", action = null, voucher = null) => {
     }
     emit(action)
 }
-
 const voucherList = computed(() => {
-    return voucherStore.list.filter(v => v.book_id === 2)
+    return voucherStore.filteredList.filter(v => v.book_id === 2)
+})
+onMounted(() => {
+    voucherStore.filter.name = "status"
 })
 </script>
 <template>
@@ -25,8 +27,66 @@ const voucherList = computed(() => {
                 alt="logo"
             >
         </div>
-        <div class="pb-2 text-gray-500">
-            <table class="table-auto w-full border-collapse text-sm">
+        <div class="flex gap-2">
+            <!-- <div class="flex w-full items-center">
+                <label for="sortIput" class="text-xs mr-1">
+                    Sort by:
+                </label>
+                <select
+                    id="netAmount"
+                    class="bg-gray-50 border h-6 border-gray-300 text-gray-900 rounded-l-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 py-1 px-2 text-xs"
+                >
+                    <option value="status">
+                        Status
+                    </option>
+                </select>
+                <button class="bg-gray-500 hover:bg-gray-600 active:bg-gray-500 text-white text-sm px-2 h-6 pb-1 rounded-r-md border-0">
+                    <Icon name="mingcute:arrow-down-fill" class="font-bold mt-1" />
+                </button>
+            </div> -->
+            <div class="flex w-full items-center">
+                <label for="sortIput" class="text-xs mr-1 flex-1 block">
+                    Status:
+                </label>
+                <select
+                    id="netAmount"
+                    v-model="voucherStore.filter.value"
+                    class="bg-gray-50 border h-6 border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 py-1 px-2 text-xs"
+                >
+                    <option value="">
+                        All
+                    </option>
+                    <option value="draft">
+                        Draft
+                    </option>
+                    <option value="pending">
+                        Pending
+                    </option>
+                    <option value="approved">
+                        Approved
+                    </option>
+                    <option value="rejected">
+                        Rejected
+                    </option>
+                    <option value="void">
+                        Void
+                    </option>
+                </select>
+                <!-- <select
+                    id="netAmount"
+                    class="bg-gray-50 border h-6 border-gray-300 text-gray-900 rounded-r-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 py-1 px-2 text-xs"
+                >
+                    <option value="status">
+                        Open
+                    </option>
+                </select> -->
+            </div>
+        </div>
+        <div class="pb-2 text-gray-500 w-full">
+            <span v-if="voucherList.length === 0" class="text-sm text-center block py-8 pb-72 bg-gray-100 w-full">
+                List is empty.
+            </span>
+            <table v-else class="table-auto w-full border-collapse text-sm">
                 <thead>
                     <tr class="text-left">
                         <th class="p-2 text-sm">
@@ -37,6 +97,9 @@ const voucherList = computed(() => {
                         </th>
                         <th class="p-2 text-sm">
                             Payee
+                        </th>
+                        <th class="p-2 text-sm">
+                            Status
                         </th>
                         <th class="p-2 text-sm">
                             Amount
@@ -53,6 +116,9 @@ const voucherList = computed(() => {
                         </td>
                         <td class="p-2">
                             {{ voucher.stakeholder.name }}
+                        </td>
+                        <td class="p-2">
+                            {{ voucher.status }}
                         </td>
                         <td class="p-2">
                             {{ useUtilities().value.formatCurrency(voucher.net_amount) }}

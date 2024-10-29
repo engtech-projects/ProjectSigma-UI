@@ -189,6 +189,16 @@ export const amountToWords = (num: any) => {
     }
 }
 
+export const sortByProperty = (array, property, sortOrder = "asc") => {
+    return array.sort((a, b) => {
+        if (sortOrder === "asc") {
+            return a[property] > b[property] ? 1 : -1
+        } else {
+            return a[property] < b[property] ? 1 : -1
+        }
+    })
+}
+
 export const randomInt = (min, max) => {
     min = Math.ceil(min)
     max = Math.floor(max)

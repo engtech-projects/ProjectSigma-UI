@@ -30,8 +30,8 @@
                         v-if="useCheckAccessibility([
                             AccessibilityTypes.accounting_journal_group,
                         ])"
-                        title="My Request"
-                        target-id="myRequests"
+                        title="For Vouchering"
+                        target-id="forVouchering"
                     />
                 </template>
                 <template #tab-containers>
@@ -41,7 +41,7 @@
                     <HrmsCommonTabsTabContainer id="myApprovals">
                         <span class="block text-center text-gray-300">No approvals yet.</span>
                     </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="myRequests">
+                    <HrmsCommonTabsTabContainer id="forVouchering">
                         <AccountingPaymentrequestList v-if="!prDetails" target="voucher" @voucher="setVoucher" />
                         <AccountingPaymentrequestDetails v-else target="voucher" :border="false" @back-to-list="prDetails=false" @detach="prDetails=false" />
                     </HrmsCommonTabsTabContainer>
