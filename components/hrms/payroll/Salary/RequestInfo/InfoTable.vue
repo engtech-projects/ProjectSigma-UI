@@ -332,7 +332,7 @@ const totalCashadvancePayroll = computed(() => {
                     {{ useFormatCurrency(totalEWTCPayroll()) }}
                 </td>
                 <td>
-                    {{ useFormatCurrency(totalCashadvancePayroll()) }}
+                    {{ useFormatCurrency(totalCashadvancePayroll) }}
                 </td>
                 <td v-for="deduction in uniqueLoanNames" :key="deduction">
                     {{ useFormatCurrency(uniqueLoanNameTotals[deduction]) }}
