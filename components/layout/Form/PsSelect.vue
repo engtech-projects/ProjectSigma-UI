@@ -19,6 +19,10 @@ defineProps({
         type: Array<any>,
         default: [],
     },
+    addAll: {
+        type: Boolean,
+        default: false,
+    }
 })
 </script>
 <template>
@@ -37,6 +41,13 @@ defineProps({
             :required="required"
             :name="name"
         >
+            <option
+                v-if="addAll"
+                class="uppercase cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
+                value=""
+            >
+                All
+            </option>
             <option
                 v-for="option, i in optionsList"
                 :key="i"

@@ -1,6 +1,5 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+import { useGeneratePayrollStore, PAYROLL_TYPE, RELEASE_TYPE } from "@/stores/hrms/payroll/generatePayroll"
 
 const genPayrollRequestsStore = useGeneratePayrollStore()
 const { allRequests } = storeToRefs(genPayrollRequestsStore)
@@ -39,6 +38,33 @@ const showInformation = (data) => {
 <template>
     <div class="pb-2 text-gray-500 p-2">
         <LayoutLoadingContainer :loading="allRequests.isLoading">
+            <!-- FILTERS -->
+            <div class="flex gap-2">
+                <LayoutFormPsDateInput v-model="allRequests.params.payroll_date" class="w-full" title="Payroll Date" required />
+                <HrmsCommonDepartmentProjectSelector
+                    v-model:select-type="allRequests.params.group_type"
+                    v-model:projectId="allRequests.params.project_id"
+                    v-model:departmentId="allRequests.params.department_id"
+                    title="Charged to"
+                    class="w-full p-2"
+                />
+                <LayoutFormPsSelect
+                    v-model="allRequests.params.payroll_type"
+                    :options-list="PAYROLL_TYPE"
+                    :add-all="true"
+                    title="Payroll Type"
+                    class="w-full p-2"
+                    required
+                />
+                <LayoutFormPsSelect
+                    v-model="allRequests.params.release_type"
+                    :options-list="RELEASE_TYPE"
+                    :add-all="true"
+                    title="Release Type"
+                    class="w-full p-2"
+                    required
+                />
+            </div>
             <LayoutPsTable
                 :header-columns="headers"
                 :datas="allRequests.list"

@@ -1,5 +1,6 @@
 <script setup>
 import { useSalaryDisbursementStore } from "@/stores/hrms/payroll/salaryDisbursement"
+import { PAYROLL_TYPE, RELEASE_TYPE } from "@/stores/hrms/payroll/generatePayroll"
 
 const salaryDisbursementStore = useSalaryDisbursementStore()
 const { allRequests } = storeToRefs(salaryDisbursementStore)
@@ -35,6 +36,26 @@ const showInformation = (data) => {
 <template>
     <div class="pb-2 text-gray-500 p-2">
         <LayoutLoadingContainer :loading="allRequests.isLoading">
+            <!-- FILTERS -->
+            <div class="flex gap-2">
+                <LayoutFormPsDateInput v-model="allRequests.params.payroll_date" class="w-full" title="Payroll Date" required />
+                <LayoutFormPsSelect
+                    v-model="allRequests.params.payroll_type"
+                    :options-list="PAYROLL_TYPE"
+                    :add-all="true"
+                    title="Payroll Type"
+                    class="w-full p-2"
+                    required
+                />
+                <LayoutFormPsSelect
+                    v-model="allRequests.params.release_type"
+                    :options-list="RELEASE_TYPE"
+                    :add-all="true"
+                    title="Release Type"
+                    class="w-full p-2"
+                    required
+                />
+            </div>
             <LayoutPsTable
                 :header-columns="headers"
                 :datas="allRequests.list"
