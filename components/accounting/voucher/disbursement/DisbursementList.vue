@@ -15,6 +15,9 @@ const navigate = (url = "", action = null, voucher = null) => {
 const voucherList = computed(() => {
     return voucherStore.filteredList.filter(v => v.book_id === 1)
 })
+onMounted(() => {
+    voucherStore.filter.name = "status"
+})
 </script>
 <template>
     <div class="flex flex-col items-end gap-4">
