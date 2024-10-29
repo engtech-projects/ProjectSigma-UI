@@ -106,7 +106,7 @@ watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => 
                         HDMF CONTRIBUTION
                     </span>
                     <span class="text-xl text-black text-center">
-                        FOR THE APPLICABLE MONTH OF<span class="text-red-600 font-bold underline">{{ useMonthName(pagibigRemittanceSummaryList.params.filter_month) }} {{ pagibigRemittanceSummaryList.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(pagibigRemittanceSummaryList.params.filter_month) }} {{ pagibigRemittanceSummaryList.params.filter_year }}</span>
                     </span>
                     <span class="font-bold mt-6">SUMMARY</span>
                 </div>
