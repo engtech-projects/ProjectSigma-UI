@@ -183,3 +183,8 @@ watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) 
         </LayoutPrint>
     </LayoutBoards>
 </template>
+<style scoped>
+    .flex-5 {
+        flex: 5;
+    }
+</style>
