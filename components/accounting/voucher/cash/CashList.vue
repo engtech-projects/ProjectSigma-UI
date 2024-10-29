@@ -84,7 +84,7 @@ onMounted(() => {
         </div>
         <div class="pb-2 text-gray-500 w-full">
             <span v-if="voucherList.length === 0" class="text-sm text-center block py-8 pb-72 bg-gray-100 w-full">
-                List is empty.
+                No {{ voucherStore.filter.value }} vouchers in the list.
             </span>
             <table v-else class="table-auto w-full border-collapse text-sm">
                 <thead>
