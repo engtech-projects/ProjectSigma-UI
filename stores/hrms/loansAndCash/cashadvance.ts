@@ -127,6 +127,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             )
         },
         async getCA () { // GET ALL CA
+            this.cashAdvanceList.isLoaded = true
             await useHRMSApi(
                 "/api/cash-advance/resource",
                 {
@@ -139,7 +140,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         this.cashAdvanceList.isLoading = false
                         if (response.ok) {
                             this.cashAdvanceList.list = response._data.data.data
-                            this.cashAdvanceList.isLoaded = true
                             this.cashAdvanceList.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
@@ -151,6 +151,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             )
         },
         async getMyRequests () {
+            this.myRequestList.isLoaded = true
             await useHRMSApi(
                 "/api/cash-advance/my-request",
                 {
@@ -163,7 +164,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         this.myRequestList.isLoading = false
                         if (response.ok) {
                             this.myRequestList.list = response._data.data.data
-                            this.myRequestList.isLoaded = true
                             this.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
@@ -223,6 +223,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             )
         },
         async getMyApprovalRequests () {
+            this.myApprovalRequestList.isLoaded = true
             await useHRMSApi(
                 "/api/cash-advance/my-approvals",
                 {
@@ -235,7 +236,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         this.myApprovalRequestList.isLoading = false
                         if (response.ok) {
                             this.myApprovalRequestList.list = response._data.data.data
-                            this.myApprovalRequestList.isLoaded = true
                             this.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
@@ -311,28 +311,23 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             )
         },
         async deleteRequest (id: number) {
-            const { data, error } = await useHRMSApi(
+            return await useHRMSApiO(
                 "/api/cash-advance/resource/" + id,
                 {
                     method: "DELETE",
                     watch: false,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.reloadResources()
                             this.successMessage = response._data.message
+                            return response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            return response._data.message
                         }
                     },
                 }
             )
-            if (error.value) {
-                this.errorMessage = error.value.data.message
-                throw new Error(this.errorMessage)
-                return error
-            }
-            if (data.value) {
-                this.getCA()
-                return data
-            }
         },
         async approveApprovalForm (id: number) {
             this.successMessage = ""
@@ -410,6 +405,12 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             const callFunctions = []
             if (this.cashAdvanceList.isLoaded) {
                 callFunctions.push(this.getCA)
+            }
+            if (this.myRequestList.isLoaded) {
+                callFunctions.push(this.getMyRequests)
+            }
+            if (this.myApprovalRequestList.isLoaded) {
+                callFunctions.push(this.getMyApprovalRequests)
             }
             if (this.ongoingCashAdvanceList.isLoaded) {
                 callFunctions.push(this.getOngoingCashAdvance)
