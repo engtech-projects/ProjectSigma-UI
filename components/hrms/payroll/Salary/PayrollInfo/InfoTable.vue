@@ -135,16 +135,28 @@ const totalRegHrsPayroll = () => {
     })
     return total.toFixed(2)
 }
+const uniqueLoanNames = computed(() => {
+    return ["Loan 1", "Loan 2"]
+    // props.payrollRequest.payroll_details
+})
+const uniqueOtherDeductionNames = computed(() => {
+    return ["oded 1", "oded 2"]
+})
 </script>
 <template>
     <table class="w-full text-sm text-center text-gray-50 pb-4">
-        <HrmsPayrollSalaryPayrollInfoTableHeader />
+        <HrmsPayrollSalaryPayrollInfoTableHeader
+            :loans="uniqueLoanNames"
+            :otherdeductions="uniqueOtherDeductionNames"
+        />
         <tbody>
             <HrmsPayrollSalaryPayrollInfoTableRow
                 v-for="(data,index) in payrollRequest.payroll_details"
                 :key="'PayrollRow'+index"
                 :employee-payroll-record="data"
                 :index="index+1"
+                :loans="uniqueLoanNames"
+                :otherdeductions="uniqueOtherDeductionNames"
             />
             <tr class="bg-white text-gray-950">
                 <th

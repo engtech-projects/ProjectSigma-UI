@@ -163,6 +163,28 @@ const totalRegHrsPayroll = () => {
     })
     return total.toFixed(2)
 }
+const uniqueLoanNames = computed(() => {
+    const loanNames = new Set()
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.deductions.forEach((deduction: { type: string; name: string }) => {
+            if (deduction.type === "Loan") {
+                loanNames.add(deduction.name)
+            }
+        })
+    })
+    return Array.from(loanNames)
+})
+const uniqueOtherDeductionNames = computed(() => {
+    const loanNames = new Set()
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.deductions.forEach((deduction: { type: string; name: string }) => {
+            if (deduction.type === "Other Deduction") {
+                loanNames.add(deduction.name)
+            }
+        })
+    })
+    return Array.from(loanNames)
+})
 </script>
 <template>
     <div class="details flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
@@ -184,13 +206,18 @@ const totalRegHrsPayroll = () => {
         </div>
     </div>
     <table class="w-full text-sm text-center text-gray-50 pb-4">
-        <HrmsPayrollSalaryPayrollInfoTableHeader />
+        <HrmsPayrollSalaryPayrollInfoTableHeader
+            :loans="uniqueLoanNames"
+            :otherdeductions="uniqueOtherDeductionNames"
+        />
         <tbody>
             <HrmsPayrollSalaryRequestInfoTableRow
                 v-for="(data,index) in payrollRequest.payroll_details"
                 :key="'PayrollRow'+index"
                 :employee-payroll-record="data"
                 :index="index+1"
+                :loans="uniqueLoanNames"
+                :otherdeductions="uniqueOtherDeductionNames"
             />
             <!-- Final Row -->
             <tr class="bg-white text-gray-950">

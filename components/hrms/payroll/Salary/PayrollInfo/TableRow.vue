@@ -8,6 +8,14 @@ defineProps({
         type: Object,
         required: true,
     },
+    loans: {
+        type: Array,
+        required: true,
+    },
+    otherdeductions: {
+        type: Array,
+        required: true,
+    },
 })
 </script>
 <template>
@@ -142,6 +150,20 @@ defineProps({
                     </strong>
                 </div> -->
             </div>
+        </td>
+        <td
+            v-for="loan, key in loans"
+            :key="key"
+            class="p-1 border-solid border border-slate-400 min-w-min"
+        >
+            {{ employeePayrollRecord.payroll_records.salary_deduction.loan.loans.find((eloan: any) => eloan.name === loan) }}
+        </td>
+        <td
+            v-for="otherdeduction, key in otherdeductions"
+            :key="key"
+            class="p-1 border-solid border border-slate-400 min-w-min"
+        >
+            {{ employeePayrollRecord.payroll_records.salary_deduction.other_deductions.other_deduction.find((eOded: any) => eOded.name === otherdeduction) }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.payroll_records.total_salary_deduction) ?? "-" }}
