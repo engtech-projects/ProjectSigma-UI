@@ -57,7 +57,7 @@ defineProps({
                 <p class="font-semibold italic">
                     Personal Information:
                 </p>
-                <p>{{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }} {{ applicant.name_suffix }}</p>
+                <p>{{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }} {{ applicant.name_suffix }} ({{ applicant.nickname }})</p>
             </div>
             <div>
                 <p class="font-semibold italic">

@@ -2,14 +2,13 @@
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 import { useVoucherStore } from "~/stores/accounting/voucher"
-import { useBookStore } from "~/stores/accounting/book"
 
 const { list: payeeList } = storeToRefs(useStakeholderStore())
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
-voucherStore.generateVoucherNumber("DV")
-const bookStore = useBookStore()
 
+const emit = defineEmits(["view-details"])
+const loading = ref(false)
 const snackbar = useSnackbar()
 const accountEntry = ref({
     account_id: null,
@@ -19,8 +18,8 @@ const accountEntry = ref({
 })
 async function handleSubmit () {
     try {
-        voucherStore.voucher.book_id = bookStore.cash.id
-        await voucherStore.createVoucher()
+        loading.value = true
+        await voucherStore.editVoucher()
         if (voucherStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -31,9 +30,10 @@ async function handleSubmit () {
                 type: "success",
                 text: voucherStore.successMessage
             })
-            voucherStore.reset()
         }
     } catch (error) {
+    } finally {
+        loading.value = false
     }
 }
 const amount = computed(() => {
@@ -48,17 +48,22 @@ const addEntry = () => {
 const removeEntry = (entry) => {
     voucherStore.voucher.details = voucherStore.voucher.details.filter(e => e !== entry)
 }
+const navigate = (url = "", action = "", voucher = null) => {
+    history.pushState(null, "", url)
+    if (voucher) {
+        voucherStore.voucher = voucher
+    }
+    emit(action)
+}
 onMounted(() => {
-    voucherStore.reset()
-    voucherStore.voucher.voucher_date = dateToString(new Date())
-    voucherStore.voucher.date_encoded = dateToString(new Date())
-    voucherStore.voucher.net_amount = 0
+    voucherStore.voucher.voucher_date = dateToString(new Date(voucherStore.voucher.voucher_date))
+    voucherStore.voucher.date_encoded = dateToString(new Date(voucherStore.voucher.date_encoded))
 })
 </script>
 <template>
     <form @submit.prevent="handleSubmit">
-        <div class="bg-white shadow rounded-lg border border-gray-200 px-2 relative select-none">
-            <div v-if="voucherStore.isLoading.create" class="absolute z-50 bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+        <div class="bg-white shadow rounded-lg border px-2 border-t-4 border-green-500">
+            <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
                 <img
                     class="flex justify-center w-28 rounded-md"
                     src="/loader.gif"
@@ -67,14 +72,14 @@ onMounted(() => {
             </div>
             <div class="flex justify-between items-center h-16 border-b px-4">
                 <h2 class="text-xl text-gray-800">
-                    Disbursement Voucher
+                    Edit Cash Voucher
                 </h2>
             </div>
             <div class="flex flex-col gap-3 p-4 w-full">
                 <div class="flex gap-2 w-full">
                     <div class="flex-1">
-                        <label for="voucherNo" class="block text-sm font-medium text-gray-900 dark:text-white">Voucher No.</label>
-                        <input id="voucherNo" v-model="voucherStore.voucher.voucher_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Reference No.</label>
+                        <input id="referenceNo" v-model="voucherStore.voucher.voucher_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     </div>
                     <div class="flex-1 gap-2">
                         <label for="payee" class="block text-sm font-medium text-gray-900 dark:text-white">Payee</label>
@@ -113,7 +118,7 @@ onMounted(() => {
                         <label for="expenseAccount" class="block text-sm font-medium text-gray-900 dark:text-white">Account</label>
                         <AccountingSelectSearch
                             id="expenseAccount"
-                            class="bg-gray-50 border-gray-200"
+                            class="z-50 bg-gray-50 border-gray-200"
                             :options="accountGroupStore.accountGroup.accounts"
                             :selected-id="voucherStore.voucher.account_id"
                             title="account_name"
@@ -121,6 +126,12 @@ onMounted(() => {
                             @select="voucherStore.voucher.account_id = $event.id"
                         />
                     </div>
+                    <div class="flex-1 gap-2">
+                        <label for="checkNo" class="block text-sm font-medium text-gray-900 dark:text-white">Check No.</label>
+                        <input id="checkNo" v-model="voucherStore.voucher.check_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full justify-between">
                     <div class="flex-1 gap-2">
                         <label for="formType" class="block text-sm font-medium text-gray-900 dark:text-white">Form Type</label>
                         <select id="formType" v-model="voucherStore.voucher.form_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -133,13 +144,11 @@ onMounted(() => {
                             </option>
                         </select>
                     </div>
-                </div>
-                <div v-if="voucherStore.voucher.form_type" class="flex gap-2 w-full">
-                    <div class="flex-1">
+                    <div v-if="voucherStore.voucher.form_type" class="flex-1">
                         <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Reference No.</label>
                         <input id="referenceNo" v-model="voucherStore.voucher.reference_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     </div>
-                    <div class="flex-1 gap-2" />
+                    <div v-else class="flex-1" />
                 </div>
             </div>
             <form action="">
@@ -226,13 +235,22 @@ onMounted(() => {
                     </button>
                 </div>
             </form>
-            <div class="flex justify-end w-full mb-8">
+            <div class="flex justify-between w-full mb-8 gap-2 items-center mt-5">
                 <button
-                    type="submit"
-                    class="text-white p-2 px-6 bg-teal-600 content-center mt-5 rounded-md w-fit"
+                    class="text-gray-700 self-start hover:text-blue-500 border-gray-700 mt-2"
+                    @click.prevent="navigate('/accounting/voucher/cash?details=' + voucherStore.voucher.id, 'view-details')"
                 >
-                    Create Voucher
+                    <Icon name="ion:ios-arrow-thin-left" class="mr-1 text-2xl" />
+                    Back to details
                 </button>
+                <div class="flex gap-2">
+                    <button
+                        type="submit"
+                        class="text-white p-2 px-6 bg-teal-600 content-center rounded-md w-fit"
+                    >
+                        Update Voucher
+                    </button>
+                </div>
             </div>
         </div>
     </form>
