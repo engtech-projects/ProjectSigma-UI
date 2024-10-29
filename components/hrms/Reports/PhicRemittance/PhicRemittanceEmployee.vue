@@ -1,50 +1,52 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { pagibigRemittanceSummaryList } = storeToRefs(generateReportstore)
+const { philhealthEmployeeRemitanceList } = storeToRefs(generateReportstore)
+const snackbar = useSnackbar()
+
 const generateReport = async () => {
     try {
-        await generateReportstore.getPagibigRemittanceSummary()
+        await generateReportstore.getPhilhealthEmployeeRemitance()
         snackbar.add({
             type: "success",
-            text: pagibigRemittanceSummaryList.value.successMessage
+            text: philhealthEmployeeRemitanceList.value.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: pagibigRemittanceSummaryList.value.errorMessage || "something went wrong."
+            text: philhealthEmployeeRemitanceList.value.errorMessage || "something went wrong."
         })
     }
 }
 
-const totalPagibigEmployeeRemittance = () => {
-    return Object.values(pagibigRemittanceSummaryList.value.list).reduce((accumulator, current) => {
-        return accumulator + current.summary.total_employee_contribution
+const totalPhilhealthEmployeeRemittance = () => {
+    return Object.values(philhealthEmployeeRemitanceList.value.list).reduce((accumulator, current) => {
+        return accumulator + (current.philhealth_employee_contribution || 0)
     }, 0)
 }
-const totalPagibigEmployerRemittance = () => {
-    return Object.values(pagibigRemittanceSummaryList.value.list).reduce((accumulator, current) => {
-        return accumulator + current.summary.total_employer_contribution
+const totalPhilhealthEmployerRemittance = () => {
+    return Object.values(philhealthEmployeeRemitanceList.value.list).reduce((accumulator, current) => {
+        return accumulator + (current.philhealth_employer_contribution || 0)
     }, 0)
 }
-const pagibigTotalContribution = () => {
-    return Object.values(pagibigRemittanceSummaryList.value.list).reduce((accumulator, current) => {
-        return accumulator + current.summary.total_contribution
+const PhilhealthTotalContribution = () => {
+    return Object.values(philhealthEmployeeRemitanceList.value.list).reduce((accumulator, current) => {
+        return accumulator + (current.total_contribution || 0)
     }, 0)
 }
-watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => {
+watch(() => philhealthEmployeeRemitanceList.value.params.month_year, (newValue) => {
     if (newValue) {
-        pagibigRemittanceSummaryList.value.params.filter_month = newValue.month + 1
-        pagibigRemittanceSummaryList.value.params.filter_year = newValue.year
+        philhealthEmployeeRemitanceList.value.params.filter_month = newValue.month + 1
+        philhealthEmployeeRemitanceList.value.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards title="HDMF Remittance Summary" :loading="pagibigRemittanceSummaryList.isLoading">
+    <LayoutBoards title="PhilHealth Employee Remittance" :loading="philhealthEmployeeRemitanceList.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="pagibigRemittanceSummaryList.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="pagibigRemittanceSummaryList.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="pagibigRemittanceSummaryList.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="philhealthEmployeeRemitanceList.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="philhealthEmployeeRemitanceList.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="philhealthEmployeeRemitanceList.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -60,7 +62,7 @@ watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => 
                             Employer ID:
                         </span>
                         <span class="text-md font-bold flex-5">
-                            80-0191406-1-000
+                            018000013165
                         </span>
                     </div>
                     <div class="flex gap-4">
@@ -96,91 +98,87 @@ watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => 
                         </span>
                     </div>
                 </div>
-                <div class="title flex flex-col justify-left gap-8 mb-2">
-                    <span class="text-xl text-black text-center">
-                        Month of <span class="text-Black font-bold underline">APRIL 2024</span>
+                <div class="title flex flex-col justify-center gap-1 mb-12">
+                    <span class="text-2xl font-bold text-black text-center">
+                        PHIC CONTRIBUTION
                     </span>
-                    <span>SUMMARY</span>
+                    <span class="text-xl text-black text-center">
+                        FOR THE APPLICABLE MONTH OF <span class="font-bold text-red-600 underline">{{ useMonthName(philhealthEmployeeRemitanceList.params.filter_month) }} {{ philhealthEmployeeRemitanceList.params.filter_year }}</span>
+                    </span>
                 </div>
-                <table class="printTable border border-gray-500 mb-20">
-                    <thead class="text-blue-600 text-md">
+                <table class="printTable border border-gray-500">
+                    <thead class="text-md">
                         <tr class="py-4">
-                            <th class="py-4 border-gray-500">
+                            <th class="border border-gray-500">
                                 NO.
                             </th>
                             <th class="border border-gray-500">
-                                PROJECT ID
+                                NAME
                             </th>
                             <th class="border border-gray-500">
-                                NUMBER OF EMPLOYEES
+                                PHIC. NO.
                             </th>
                             <th class="border border-gray-500">
-                                EE SHARE
+                                PS
                             </th>
                             <th class="border border-gray-500">
-                                ER SHARE
+                                ES
                             </th>
                             <th class="border border-gray-500">
-                                TOTAL CONTRIBUTION
-                            </th>
-                            <th class="border border-gray-500">
-                                PENALTY
-                            </th>
-                            <th class="border border-gray-500">
-                                TOTAL PAYABLE
+                                TOTAL
                             </th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, key, index in pagibigRemittanceSummaryList.list" :key="'sssremittancesummary' + index">
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-left">
+                        <tr v-for="reportData, index in philhealthEmployeeRemitanceList.list" :key="'philhealthemployeeremitance' + index" class="h-2">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ index + 1 }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-left">
-                                {{ key }}
+                            <td class="border border-gray-500 h-8 px-2 text-sm">
+                                {{ reportData.employee_name }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.summary.no_of_employee }}
+                                {{ reportData.employee_philhealth_id }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.summary.total_employer_contribution) }}
+                                {{ useFormatCurrency(reportData.philhealth_employee_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.summary.total_employee_contribution) }}
+                                {{ useFormatCurrency(reportData.philhealth_employer_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.summary.total_contribution) }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                0
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.summary.total_contribution) }}
+                                {{ useFormatCurrency(reportData.total_contribution) }}
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3" class="border border-gray-500 h-8 px-2 text-sm text-center font-bold">
-                                TOTAL
+                            <td colspan="3" class="border border-gray-500 h-8 px-2 text-sm text-left font-bold">
+                                SUB-TOTAL
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
-                                {{ useFormatCurrency(totalPagibigEmployerRemittance()) }}
+                                {{ useFormatCurrency(totalPhilhealthEmployeeRemittance()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
-                                {{ useFormatCurrency(totalPagibigEmployeeRemittance()) }}
+                                {{ useFormatCurrency(totalPhilhealthEmployerRemittance()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
-                                {{ useFormatCurrency(pagibigTotalContribution()) }}
+                                {{ useFormatCurrency(PhilhealthTotalContribution()) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="border border-gray-500 h-8 px-2 text-sm text-left font-bold">
+                                TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
-                                {{ useFormatCurrency(pagibigTotalContribution()) }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
-                                {{ useFormatCurrency(pagibigTotalContribution()) }}
+                                {{ useFormatCurrency(PhilhealthTotalContribution()) }}
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>

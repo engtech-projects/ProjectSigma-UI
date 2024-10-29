@@ -59,22 +59,56 @@ watch(() => philhealthRemittanceSummaryList.value.params.month_year, (newValue) 
         </form>
         <LayoutPrint>
             <div class="flex flex-col">
-                <div class="header flex flex-col gap-1 mb-20">
-                    <span class="text-xl font-bold text-blue-500">
-                        PEN: 80-0191406-1-000
-                    </span>
-                    <span class="text-2xl font-bold text-blue-500">
-                        EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
-                    </span>
-                    <span class="text-xl text-blue-500">
-                        P-1 POBLACION 8 BUENAVISTA AGUSAN DEL NORTE
-                    </span>
+                <div class="header flex flex-col  mb-8">
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Employer ID:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            018000013165
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Employer Name:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Address:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            P-1 POBLACION 1 BUENAVISTA AGUSAN DEL NORTE
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Contact No:
+                        </span>
+                        <span class="text-md font-bold flex-5">
+                            09395096694
+                        </span>
+                    </div>
+                    <div class="flex gap-4">
+                        <span class="text-md flex-1">
+                            Email Address:
+                        </span>
+                        <span class="text-md font-bold flex-5 underline">
+                            evenparcorporation@gmail.com
+                        </span>
+                    </div>
                 </div>
-                <div class="title flex flex-col justify-left gap-8 mb-2">
-                    <span class="text-xl text-black text-center">
-                        Month of <span class="text-Black font-bold underline">APRIL 2024</span>
+                <div class="title flex flex-col justify-center gap-1">
+                    <span class="text-2xl font-bold text-black text-center">
+                        PHIC CONTRIBUTION
                     </span>
-                    <span>SUMMARY</span>
+                    <span class="text-xl text-black text-center">
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(philhealthRemittanceSummaryList.params.filter_month) }} {{ philhealthRemittanceSummaryList.params.filter_year }}</span>
+                    </span>
+                    <span class="font-bold mt-6">SUMMARY</span>
                 </div>
                 <table class="printTable border border-gray-500 mb-20">
                     <thead class="text-blue-600 text-md">
@@ -147,7 +181,11 @@ watch(() => philhealthRemittanceSummaryList.value.params.month_year, (newValue) 
                         </tr>
                     </tbody>
                 </table>
-                <HrmsReportsPreparedByCheckBy />
+                <HrmsReportsSignaturesRow>
+                    <HrmsReportsSignaturesPreparedBy />
+                    <HrmsReportsSignaturesCertifiedCorrectBy />
+                    <HrmsReportsSignaturesCheckedBy />
+                </HrmsReportsSignaturesRow>
             </div>
         </LayoutPrint>
     </LayoutBoards>
