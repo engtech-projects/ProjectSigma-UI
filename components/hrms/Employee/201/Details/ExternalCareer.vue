@@ -97,27 +97,56 @@ const deleteExternalCareerData = async (id) => {
             <tr>
                 <td class="border border-slate-300 p-1">
                     <label class="block mb-2 text-[11px] w-32 font-medium text-gray-900 dark:text-white">COMPANY NAME</label>
-                    <input v-model="externalCareer.company_name" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <input
+                        v-model="externalCareer.company_name"
+                        :disabled="!editable"
+                        type="text"
+                        class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
                 </td>
                 <td class="border border-slate-300 p-1 space-y-1">
                     <div class="flex justify-start items-center gap-2">
                         <label class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">TITLE:</label>
-                        <input id="superior_name" v-model="externalCareer.position_title" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input
+                            id="superior_name"
+                            v-model="externalCareer.position_title"
+                            :disabled="!editable"
+                            type="text"
+                            class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
                     </div>
                     <div class="flex justify-start items-center gap-2">
                         <label class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">SALARY: </label>
-                        <input id="superior_name" v-model="externalCareer.salary" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input
+                            id="superior_name"
+                            v-model="externalCareer.salary"
+                            :disabled="!editable"
+                            type="text"
+                            class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
                     </div>
                 </td>
                 <td class="border border-slate-300 p-1">
                     <div class="flex-1 justify-center items-center gap-2">
                         <div class="flex justify-start items-center gap-1">
                             <label class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">FROM:</label>
-                            <input id="superior_name" v-model="externalCareer.date_from" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-normal dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="superior_name"
+                                v-model="externalCareer.date_from"
+                                :disabled="!editable"
+                                type="date"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-normal dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                         <div class="flex justify-start items-center gap-1">
                             <label class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">TO:</label>
-                            <input id="superior_name" v-model="externalCareer.date_to" type="date" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="superior_name"
+                                v-model="externalCareer.date_to"
+                                :disabled="!editable"
+                                type="date"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </div>
                 </td>
@@ -125,7 +154,13 @@ const deleteExternalCareerData = async (id) => {
                     <div class="flex-1 justify-center items-center gap-2">
                         <div class="flex justify-start items-center gap-1">
                             <label class="block mb-2 text-[10px] font-normal text-gray-900 dark:text-white italic">STATUS OF APPOINTMENT</label>
-                            <input id="superior_name" v-model="externalCareer.status_of_appointment" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input
+                                id="superior_name"
+                                v-model="externalCareer.status_of_appointment"
+                                :disabled="!editable"
+                                type="text"
+                                class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
                         </div>
                     </div>
                 </td>
