@@ -70,7 +70,7 @@ const navigate = (url = "", action = "", pr = null) => {
             <h2 class="text-xl text-gray-800">
                 Payment Request Details
             </h2>
-            <Icon class="text-4xl text-gray-400 cursor-pointer hover:text-red-500 active:text-red-600" name="iconoir:xmark" @click="emit('detach')" />
+            <Icon v-if="props.target==='voucher'" class="text-4xl text-gray-400 cursor-pointer hover:text-red-500 active:text-red-600" name="iconoir:xmark" @click="emit('detach')" />
         </div>
         <div class="flex flex-col p-4 w-full">
             <div class="flex gap-4 border-b py-4 w-full">

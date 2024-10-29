@@ -68,6 +68,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                             this.errorMessage = response._data.message
                         } else {
                             this.successMessage = "New payment request successfully created."
+                            this.getPaymentRequests()
                         }
                     },
                 }
