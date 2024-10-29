@@ -148,7 +148,7 @@ const navigate = (url = "", action = "", journal = null) => {
             </button>
             <div class="flex gap-2">
                 <button
-                    class="text-white p-2 px-6 bg-teal-600 content-center rounded-md w-fit flex items-center"
+                    class="text-white p-2 px-6 bg-green-500 content-center rounded-md w-fit flex items-center"
                     @click="navigate('/accounting/journal-entry?edit=' + journalStore.journal.id, 'edit')"
                 >
                     <Icon name="iconoir:edit" class="text-xl mr-2" />

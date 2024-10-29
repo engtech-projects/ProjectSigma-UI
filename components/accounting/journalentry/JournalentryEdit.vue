@@ -15,6 +15,7 @@ const accountEntry = ref({
 })
 const emit = defineEmits(["view-details"])
 async function handleSubmit () {
+    journalStore.journal.details = toSaveEntries.value
     try {
         await journalStore.editJournal()
         if (journalStore.errorMessage !== "") {
@@ -38,7 +39,14 @@ const addEntry = () => {
 const removeEntry = (entry) => {
     journalStore.journal.details = journalStore.journal.details.filter(e => e !== entry)
 }
-
+const toSaveEntries = computed(() => {
+    const list = []
+    journalStore.journal.details.forEach((j) => {
+        j.journal_entry_id = journalStore.journal.id
+        list.push(j)
+    })
+    return list
+})
 const navigate = (url = "", action = "", journal = null) => {
     history.pushState(null, "", url)
     emit(action)

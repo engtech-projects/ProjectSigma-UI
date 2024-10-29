@@ -90,13 +90,13 @@
                             <tbody>
                                 <tr v-for="ae,i in voucherStore.voucher.details" :key="i" class="hover:bg-gray-100 cursor-pointer">
                                     <td class="border px-4 py-1 border-gray-800 text-sm relative">
-                                        {{ account(ae.account_id).account_number }}
+                                        {{ account(ae.account_id)?.account_number }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
-                                        {{ account(ae.account_id).account_name }}
+                                        {{ account(ae.account_id)?.account_name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
-                                        {{ stakeholder(ae.stakeholder_id).name }}
+                                        {{ stakeholder(ae.stakeholder_id)?.name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
                                         {{ formatToCurrency(ae.debit) }}

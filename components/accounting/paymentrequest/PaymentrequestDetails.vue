@@ -176,14 +176,14 @@ const navigate = (url = "", action = "", pr = null) => {
             </button>
             <div class="flex gap-2">
                 <button
-                    class="text-white p-2 px-6 bg-orange-600 content-center rounded-md w-fit flex items-center"
+                    class="text-white p-2 px-6 bg-blue-500 content-center rounded-md w-fit flex items-center"
                     @click="print"
                 >
                     <Icon name="iconoir:printing-page" class="text-xl mr-2" />
                     Print
                 </button>
                 <button
-                    class="text-white p-2 px-6 bg-teal-600 content-center rounded-md w-fit flex items-center"
+                    class="text-white p-2 px-6 bg-green-500 content-center rounded-md w-fit flex items-center"
                     @click="navigate('/accounting/payment-request?edit=' + paymentRequestStore.paymentRequest.id, 'edit')"
                 >
                     <Icon name="iconoir:edit" class="text-xl mr-2" />
