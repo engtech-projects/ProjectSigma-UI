@@ -1,5 +1,4 @@
 <script setup>
-import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 
 defineProps({
@@ -58,30 +57,39 @@ const denyRequest = async (id) => {
 }
 </script>
 <template>
-    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
+    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Manpower Request">
         <template #body>
-            <div class="grid gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-3xl">Application Information</span>
-                </div>
-            </div>
-            <div class="grid gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-4xl">POSITION {{ data.position.name }}</span>
-                </div>
-            </div>
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> Requested Date: </span> <span class="text-gray-900">{{ data.date_requested }}</span>
+                    <span class="text-teal-600 text-light"> Requesting Department </span> {{ data.requesting_department_name }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> Requested Required Date: </span> {{ data.date_required }}
+                    <span class="text-teal-600 text-light"> Date Requested: </span> <span class="text-gray-900">{{ data.date_requested }}</span>
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light"> Date Required: </span> {{ data.date_required }}
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light"> Position: </span> {{ data.position.name }}
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light"> Employment Type: </span> {{ data.employment_type }}
                 </div>
+                <br>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light"> Brief Description: </span> {{ data.brief_description }}
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light"> Job Description: </span>
+                    <span class="truncate hover:cursor-pointer text-blue-500 italic">
+                        <a target="_blank" :href="useHrmsDownloadLink(data.job_description_attachment)">
+                            <Icon
+                                name="mage:file-download-fill"
+                                class="h-5 w-5 lg:h-5 lg:w-5"
+                            />
+                            Download
+                        </a>
+                    </span>
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light"> Nature of Request: </span> {{ data.nature_of_request }}
@@ -101,20 +109,14 @@ const denyRequest = async (id) => {
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light"> Preferred Qualifications: </span> {{ data.preferred_qualifications }}
                 </div>
-                <!-- <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> approvals </span> {{ data.approvals }}
-                </div> -->
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light">Remarks: </span> {{ data.remarks }}
                 </div>
                 <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light"> Requested By: </span> {{ data.requested_by_user_name }}
+                </div>
+                <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light"> Request Status: </span> {{ data.request_status }}
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> Requesting Department </span> {{ data.requesting_department_name }}
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> Breakdown Details: </span> {{ data.breakdown_details }}
                 </div>
             </div>
             <div class="w-full">
