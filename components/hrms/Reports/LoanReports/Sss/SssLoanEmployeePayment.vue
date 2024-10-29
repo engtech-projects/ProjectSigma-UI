@@ -18,6 +18,11 @@ const generateReport = async () => {
         })
     }
 }
+const totalLoansPayments = () => {
+    return sssEmployeeLoanList.value.list.reduce((accumulator, current) => {
+        return accumulator + current.total_amount_payment
+    }, 0)
+}
 watch(() => sssEmployeeLoanList.value.params.month_year, (newValue) => {
     if (newValue) {
         sssEmployeeLoanList.value.params.filter_month = newValue.month + 1
@@ -26,7 +31,7 @@ watch(() => sssEmployeeLoanList.value.params.month_year, (newValue) => {
 })
 </script>
 <template>
-    <LayoutBoards title="HDMF Employee Remittance" :loading="false" class="flex flex-col">
+    <LayoutBoards title="HDMF Employee Remittance" :loading="sssEmployeeLoanList.isLoading" class="flex flex-col">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
             <LayoutFormPsMonthYearInput v-model="sssEmployeeLoanList.params.month_year" class="w-full" title="Month Year" required />
             <LayoutFormPsDateInput v-model="sssEmployeeLoanList.params.cutoff_start" class="w-full" title="Payroll Start" required />
@@ -38,109 +43,111 @@ watch(() => sssEmployeeLoanList.value.params.month_year, (newValue) => {
                 Generate Report
             </button>
         </form>
-        <div class="header flex flex-col  mb-8">
-            <div class="flex gap-4">
-                <span class="text-md flex-1">
-                    Employer ID:
+        <LayoutPrint>
+            <div class="header flex flex-col  mb-8">
+                <div class="flex gap-4">
+                    <span class="text-md flex-1">
+                        Employer ID:
+                    </span>
+                    <span class="text-md font-bold flex-5">
+                        80-0191406-1-000
+                    </span>
+                </div>
+                <div class="flex gap-4">
+                    <span class="text-md flex-1">
+                        Employer Name:
+                    </span>
+                    <span class="text-md font-bold flex-5">
+                        EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
+                    </span>
+                </div>
+                <div class="flex gap-4">
+                    <span class="text-md flex-1">
+                        Address:
+                    </span>
+                    <span class="text-md font-bold flex-5">
+                        P-1 POBLACION 1 BUENAVISTA AGUSAN DEL NORTE
+                    </span>
+                </div>
+                <div class="flex gap-4">
+                    <span class="text-md flex-1">
+                        Contact No:
+                    </span>
+                    <span class="text-md font-bold flex-5">
+                        09395096694
+                    </span>
+                </div>
+                <div class="flex gap-4">
+                    <span class="text-md flex-1">
+                        Email Address:
+                    </span>
+                    <span class="text-md font-bold flex-5 underline">
+                        evenparcorporation@gmail.com
+                    </span>
+                </div>
+            </div>
+            <div class="title flex flex-col justify-center gap-1 mb-12">
+                <span class="text-2xl font-bold text-black text-left">
+                    SSS LOAN PAYMENT
                 </span>
-                <span class="text-md font-bold flex-5">
-                    80-0191406-1-000
+                <span class="text-xl text-black text-left">
+                    For the applicable month of  <span class="font-bold text-red-600">{{ useMonthName(sssEmployeeLoanList.params.filter_month) }} {{ sssEmployeeLoanList.params.filter_year }}</span>
                 </span>
             </div>
-            <div class="flex gap-4">
-                <span class="text-md flex-1">
-                    Employer Name:
-                </span>
-                <span class="text-md font-bold flex-5">
-                    EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
-                </span>
-            </div>
-            <div class="flex gap-4">
-                <span class="text-md flex-1">
-                    Address:
-                </span>
-                <span class="text-md font-bold flex-5">
-                    P-1 POBLACION 1 BUENAVISTA AGUSAN DEL NORTE
-                </span>
-            </div>
-            <div class="flex gap-4">
-                <span class="text-md flex-1">
-                    Contact No:
-                </span>
-                <span class="text-md font-bold flex-5">
-                    09395096694
-                </span>
-            </div>
-            <div class="flex gap-4">
-                <span class="text-md flex-1">
-                    Email Address:
-                </span>
-                <span class="text-md font-bold flex-5 underline">
-                    evenparcorporation@gmail.com
-                </span>
-            </div>
-        </div>
-        <div class="title flex flex-col justify-center gap-1 mb-12">
-            <span class="text-2xl font-bold text-black text-left">
-                SSS LOAN PAYMENT
-            </span>
-            <span class="text-xl text-black text-left">
-                For the applicable month of  <span class="font-bold text-red-600">APRIL 2024</span>
-            </span>
-        </div>
-        <table class="printTable border border-gray-500 w-full">
-            <thead class="text-md">
-                <tr class="py-4">
-                    <th class="py-4 border-gray-500">
-                        NO.
-                    </th>
-                    <th class="py-4 border-gray-500">
-                        FULLNAME
-                    </th>
-                    <th class="border border-gray-500">
-                        SSS NO.
-                    </th>
-                    <th class="border border-gray-500">
-                        LOAN ACCOUNT NUMBER
-                    </th>
-                    <th class="border border-gray-500">
-                        AMOUNT
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="text-sm">
-                <tr class="h-2">
-                    <td class="border border-gray-500 h-8 px-2 text-sm text-center text-bold">
-                        1
-                    </td>
-                    <td class="border border-gray-500 h-8 px-2 text-sm">
-                        JUAN DELA CRUZ
-                    </td>
-                    <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                        0100192301230
-                    </td>
-                    <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                        AACCC_0100192301230
-                    </td>
-                    <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                        5,086.00
-                    </td>
-                </tr>
-                <tr class="h-2 font-bold">
-                    <td class="border border-gray-500 h-8 px-2 text-sm" colspan="4">
-                        TOTAL
-                    </td>
-                    <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                        55,086.00
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <HrmsReportsSignaturesRow>
-            <HrmsReportsSignaturesPreparedBy />
-            <HrmsReportsSignaturesCertifiedCorrectBy />
-            <HrmsReportsSignaturesCheckedBy />
-        </HrmsReportsSignaturesRow>
+            <table class="printTable border border-gray-500 w-full">
+                <thead class="text-md">
+                    <tr class="py-4">
+                        <th class="py-4 border-gray-500">
+                            NO.
+                        </th>
+                        <th class="py-4 border-gray-500">
+                            FULLNAME
+                        </th>
+                        <th class="border border-gray-500">
+                            SSS NO.
+                        </th>
+                        <th class="border border-gray-500">
+                            LOAN ACCOUNT NUMBER
+                        </th>
+                        <th class="border border-gray-500">
+                            AMOUNT
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm">
+                    <tr v-for="reportData, index in sssEmployeeLoanList.list" :key="'sssEmployeeLoanList' + index" class="h-2">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center text-bold">
+                            {{ index + 1 }}
+                        </td>
+                        <td class="border border-gray-500 h-8 px-2 text-sm">
+                            {{ reportData.employee_name }}
+                        </td>
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            {{ reportData.sss_number }}
+                        </td>
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            -
+                        </td>
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            {{ useFormatCurrency(reportData.total_amount_payment) }}
+                        </td>
+                    </tr>
+                    <tr class="h-2 font-bold">
+                        <td class="border border-gray-500 h-8 px-2 text-sm" colspan="4">
+                            TOTAL
+                        </td>
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            {{ useFormatCurrency(totalLoansPayments()) }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <HrmsReportsSignaturesRow>
+                <HrmsReportsSignaturesPreparedBy />
+                <HrmsReportsSignaturesCertifiedCorrectBy />
+                <HrmsReportsSignaturesCheckedBy />
+            </HrmsReportsSignaturesRow>
+        </LayoutPrint>
     </LayoutBoards>
 </template>
 

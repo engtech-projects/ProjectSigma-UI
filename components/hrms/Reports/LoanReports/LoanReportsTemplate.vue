@@ -1,9 +1,8 @@
 <script setup>
-const loanReports = ref({
-    loan_type: "",
-    group_type: "",
-    report_type: "",
-})
+import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
+const generateReportstore = useGenerateReportStore()
+const { loanReportOption } = storeToRefs(generateReportstore)
+
 </script>
 <template>
     <LayoutBoards title="Loan Reports">
@@ -13,20 +12,23 @@ const loanReports = ref({
                     Loan Type:
                 </span>
                 <select
-                    v-model="loanReports.loan_type"
+                    v-model="loanReportOption.loan_type"
                     class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                     <option value="" disabled selected>
                         -Select-
                     </option>
-                    <option value="sss">
+                    <option value="SSS LOAN">
                         SSS Loans
                     </option>
-                    <option value="hdmf">
+                    <option value="HDMF MPL">
                         HDMF Loans
                     </option>
-                    <option value="coop">
+                    <option value="COOP LOAN">
                         Coop Loans
+                    </option>
+                    <option value="HDMF CALAMITY LOAN">
+                        HDMF CALAMITY LOAN
                     </option>
                 </select>
             </div>
@@ -35,7 +37,7 @@ const loanReports = ref({
                     Group Type:
                 </span>
                 <select
-                    v-model="loanReports.group_type"
+                    v-model="loanReportOption.group_type"
                     class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                     <option value="" disabled selected>
@@ -54,7 +56,7 @@ const loanReports = ref({
                     Report Type:
                 </span>
                 <select
-                    v-model="loanReports.report_type"
+                    v-model="loanReportOption.report_type"
                     class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                     <option value="payment-loan">
@@ -68,48 +70,44 @@ const loanReports = ref({
         </div>
         <div class="p-2">
             <HrmsReportsLoanReportsSssLoanEmployeePayment
-                v-show="loanReports.loan_type ==='sss'
-                    && loanReports.group_type ==='individual'
-                    && loanReports.report_type ==='payment-loan'
-                "
+                v-show="loanReportOption.loan_type === 'SSS LOAN'
+                    && loanReportOption.group_type === 'individual'
+                    && loanReportOption.report_type === 'payment-loan'"
             />
             <HrmsReportsLoanReportsSssLoanEmployeePaymentSummary
-                v-show="loanReports.loan_type ==='sss'
-                    && loanReports.group_type ==='individual'
-                    && loanReports.report_type ==='loan-payment-summary'
-                "
+                v-show="loanReportOption.loan_type === 'SSS LOAN'
+                    && loanReportOption.group_type === 'individual'
+                    && loanReportOption.report_type === 'loan-payment-summary'"
             />
             <HrmsReportsLoanReportsSssLoanGroupPayment
-                v-show="loanReports.loan_type ==='sss'
-                    && loanReports.group_type ==='group'
-                    && loanReports.report_type ==='payment-loan'"
+                v-show="loanReportOption.loan_type === 'SSS LOAN'
+                    && loanReportOption.group_type === 'group'
+                    && loanReportOption.report_type === 'payment-loan'"
             />
             <HrmsReportsLoanReportsSssLoanGroupPaymentSummary
-                v-show="loanReports.loan_type ==='sss'
-                    && loanReports.group_type ==='group'
-                    && loanReports.report_type ==='loan-payment-summary'"
+                v-show="loanReportOption.loan_type === 'SSS LOAN'
+                    && loanReportOption.group_type === 'group'
+                    && loanReportOption.report_type === 'loan-payment-summary'"
             />
             <HrmsReportsLoanReportsHdmfLoanEmployeePayment
-                v-show="loanReports.loan_type ==='hdmf'
-                    && loanReports.group_type ==='individual'
-                    && loanReports.report_type ==='payment-loan'
-                "
+                v-show="loanReportOption.loan_type === 'HDMF MPL'
+                    && loanReportOption.group_type === 'individual'
+                    && loanReportOption.report_type === 'payment-loan'"
             />
             <HrmsReportsLoanReportsHdmfLoanEmployeePayment
-                v-show="loanReports.loan_type ==='hdmf'
-                    && loanReports.group_type ==='individual'
-                    && loanReports.report_type ==='loan-payment-summary'"
+                v-show="loanReportOption.loan_type === 'HDMF MPL'
+                    && loanReportOption.group_type === 'individual'
+                    && loanReportOption.report_type === 'loan-payment-summary'"
             />
             <HrmsReportsLoanReportsHdmfLoanGroupPayment
-                v-show="loanReports.loan_type ==='hdmf'
-                    && loanReports.group_type ==='group'
-                    && loanReports.report_type ==='payment-loan'"
+                v-show="loanReportOption.loan_type === 'HDMF MPL'
+                    && loanReportOption.group_type === 'group'
+                    && loanReportOption.report_type === 'payment-loan'"
             />
             <HrmsReportsLoanReportsHdmfLoanGroupPaymentSummary
-                v-show="loanReports.loan_type ==='hdmf'
-                    && loanReports.group_type ==='group'
-                    && loanReports.report_type ==='loan-payment-summary'
-                "
+                v-show="loanReportOption.loan_type === 'HDMF MPL'
+                    && loanReportOption.group_type === 'group'
+                    && loanReportOption.report_type === 'loan-payment-summary'"
             />
         </div>
     </LayoutBoards>

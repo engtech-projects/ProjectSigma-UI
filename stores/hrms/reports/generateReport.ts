@@ -17,6 +17,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             isLoaded: false,
             list: [],
             params: {
+                loan_type: "",
                 charging_type: null,
             },
             pagination: {},
@@ -69,6 +70,18 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
+        pagibigEmployeeLoanList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "",
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
         philhealthGroupRemittance: {
             isLoading: false,
             isLoaded: false,
@@ -108,6 +121,11 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
+        loanReportOption: {
+            loan_type: "",
+            group_type: "",
+            report_type: "",
+        }
     }),
     getters: {},
     actions: {
@@ -136,7 +154,34 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                 }
             )
         },
+        async getHdmfEmployeeLoan () {
+            this.pagibigEmployeeLoanList.params.loan_type = this.loanReportOption.loan_type
+            await useHRMSApiO(
+                "/api/reports/hdmf-employee-loans",
+                {
+                    method: "GET",
+                    params: this.pagibigEmployeeLoanList.params,
+                    onRequest: () => {
+                        this.pagibigEmployeeLoanList.isLoading = true
+                        this.pagibigEmployeeLoanList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.pagibigEmployeeLoanList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.pagibigEmployeeLoanList.isLoading = false
+                        if (response.ok) {
+                            this.pagibigEmployeeLoanList.isLoaded = true
+                            this.pagibigEmployeeLoanList.list = response._data.data
+                            this.pagibigEmployeeLoanList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
         async getSssEmployeeLoan () {
+            this.sssEmployeeLoanList.params.loan_type = this.loanReportOption.loan_type
             await useHRMSApiO(
                 "/api/reports/sss-employee-loans",
                 {
