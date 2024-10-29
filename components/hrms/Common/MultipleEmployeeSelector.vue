@@ -16,7 +16,7 @@ const model = defineModel({ required: true, type: Array<Number> })
         <div class="flex flex-row gap-1 mb-4">
             <div class="w-1/3 flex items-center">
                 <select
-                    v-model="allEmployeeEnum.params.filterType"
+                    v-model="allEmployeeEnum.localFilters.multi.filterType"
                     class="p-2 leading-none bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                     <option value="" selected>
@@ -31,23 +31,28 @@ const model = defineModel({ required: true, type: Array<Number> })
                 </select>
             </div>
             <div class="w-2/3">
-                <template v-if="allEmployeeEnum.params.filterType === 'Department'">
+                <template v-if="allEmployeeEnum.localFilters.multi.filterType === 'Department'">
                     <HrmsCommonDepartmentSelector
-                        v-model="allEmployeeEnum.params.filterData"
+                        v-model="allEmployeeEnum.localFilters.multi.filterData"
                         :show-all="true"
                         class="p-0 leading-none text-xs"
                     />
                 </template>
-                <template v-if="allEmployeeEnum.params.filterType === 'Project'">
+                <template v-if="allEmployeeEnum.localFilters.multi.filterType === 'Project'">
                     <HrmsCommonProjectSelector
-                        v-model="allEmployeeEnum.params.filterData"
+                        v-model="allEmployeeEnum.localFilters.multi.filterData"
                         :show-all="true"
                         class="p-0 leading-none text-xs"
                     />
                 </template>
             </div>
         </div>
-        <input v-model="allEmployeeEnum.nameFilter" type="text" class="bg-gray-100 mb-4 text-sm rounded-md h-8 w-full border border-gray-200" placeholder="Search Employee..">
+        <input
+            v-model="allEmployeeEnum.localFilters.name"
+            type="text"
+            class="bg-gray-100 mb-4 text-sm rounded-md h-8 w-full border border-gray-200"
+            placeholder="Search Employee.."
+        >
 
         <div class="h-64">
             <table class="w-full">
