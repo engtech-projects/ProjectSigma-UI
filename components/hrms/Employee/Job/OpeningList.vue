@@ -18,7 +18,7 @@ const headers = [
     { name: "Requesting Department", id: "requesting_department_name" },
     { name: "Employment Type", id: "employment_type" },
     { name: "Nature of Request", id: "nature_of_request" },
-    { name: "Requested By", id: "requested_by_user.name" },
+    { name: "Requested By", id: "requested_by_user_name" },
 ]
 const actions = {
     showTable: false,
