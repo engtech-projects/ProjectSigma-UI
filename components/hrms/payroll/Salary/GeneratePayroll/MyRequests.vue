@@ -1,6 +1,5 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
+import { useGeneratePayrollStore, PAYROLL_TYPE, RELEASE_TYPE } from "@/stores/hrms/payroll/generatePayroll"
 
 const genPayrollRequestsStore = useGeneratePayrollStore()
 const { myRequests } = storeToRefs(genPayrollRequestsStore)
@@ -36,6 +35,26 @@ const showInformation = (data) => {
 <template>
     <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
         <LayoutLoadingContainer :loading="myRequests.isLoading">
+            <!-- FILTERS -->
+            <div class="flex gap-2">
+                <LayoutFormPsDateInput v-model="myRequests.params.payroll_date" class="w-full" title="Payroll Date" required />
+                <LayoutFormPsSelect
+                    v-model="myRequests.params.payroll_type"
+                    :options-list="PAYROLL_TYPE"
+                    :add-all="true"
+                    title="Payroll Type"
+                    class="w-full p-2"
+                    required
+                />
+                <LayoutFormPsSelect
+                    v-model="myRequests.params.release_type"
+                    :options-list="RELEASE_TYPE"
+                    :add-all="true"
+                    title="Release Type"
+                    class="w-full p-2"
+                    required
+                />
+            </div>
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
