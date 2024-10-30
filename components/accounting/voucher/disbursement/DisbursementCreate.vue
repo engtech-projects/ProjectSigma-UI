@@ -2,13 +2,16 @@
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 import { useVoucherStore } from "~/stores/accounting/voucher"
+import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
 import { useBookStore } from "~/stores/accounting/book"
 
 const { list: payeeList } = storeToRefs(useStakeholderStore())
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
+const paymentRequestStore = usePaymentRequestStore()
 voucherStore.generateVoucherNumber("DV")
 const bookStore = useBookStore()
+const emit = defineEmits(["detach"])
 
 const snackbar = useSnackbar()
 const accountEntry = ref({
@@ -31,6 +34,8 @@ async function handleSubmit () {
                 type: "success",
                 text: voucherStore.successMessage
             })
+            emit("detach")
+            paymentRequestStore.editForm(voucherStore.voucher?.form_id, "issued")
             voucherStore.reset()
         }
     } catch (error) {
@@ -139,7 +144,13 @@ onMounted(() => {
                         <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Reference No.</label>
                         <input id="referenceNo" v-model="voucherStore.voucher.reference_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     </div>
-                    <div class="flex-1 gap-2" />
+                    <div class="flex-1" />
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex-1">
+                        <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Particulars</label>
+                        <textarea v-model="voucherStore.voucher.particulars" class="bg-gray-50 border h-32 resize-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                    </div>
                 </div>
             </div>
             <form action="">

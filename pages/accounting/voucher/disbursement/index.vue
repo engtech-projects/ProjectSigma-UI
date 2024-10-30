@@ -6,7 +6,7 @@
     >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-                <AccountingVoucherDisbursementCreate v-if="action==='create'" />
+                <AccountingVoucherDisbursementCreate v-if="action==='create'" @detach="prDetails=false" />
                 <AccountingVoucherDisbursementEdit v-if="action==='edit'" @view-details="receiveAction('view')" />
                 <AccountingVoucherDisbursementDetails v-if="action==='view'" @edit="receiveAction('edit')" @create="receiveAction('create')" />
             </div>

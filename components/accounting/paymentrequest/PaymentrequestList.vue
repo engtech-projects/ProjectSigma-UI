@@ -1,7 +1,9 @@
 <script setup>
 import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
+import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 
 const paymentRequestStore = usePaymentRequestStore()
+const stakeholderStore = useStakeholderStore()
 const emit = defineEmits(["view-details", "voucher"])
 const props = defineProps({
     target: {
@@ -9,6 +11,10 @@ const props = defineProps({
         default: ""
     }
 })
+
+const stakeholder = (id) => {
+    return stakeholderStore.list.filter(st => st.id === id)[0]
+}
 
 const navigate = (url = "", action = "", pr = null) => {
     history.pushState(null, "", url)
@@ -18,11 +24,17 @@ const navigate = (url = "", action = "", pr = null) => {
         paymentRequestStore.getPaymentRequest(pr.id)
     }
 }
+const forVouchering = computed(() => {
+    return paymentRequestStore.list.filter(pr => pr.form?.status !== "issued")
+})
+const changePaginate = (newParams) => {
+    paymentRequestStore.getParams.value.page = newParams.page ?? ""
+}
 </script>
 <template>
     <div class="pb-2 text-gray-500 select-none">
         <AccountingLoadScreen :is-loading="paymentRequestStore.isLoading.list" />
-        <table id="prfTable" class="table-auto w-full border-collapse">
+        <table id="prfTable" class="table-auto w-full border-collapse mb-8">
             <thead>
                 <tr class="text-left !text-sm">
                     <th class="p-2 ">
@@ -40,7 +52,7 @@ const navigate = (url = "", action = "", pr = null) => {
                     <th />
                 </tr>
             </thead>
-            <tbody>
+            <tbody v-if="props.target!=='voucher'">
                 <tr v-for="pr, i in paymentRequestStore.list" :key="i" class="border text-left hover:bg-gray-200 hover: !text-black !text-sm" :class="pr.id === paymentRequestStore.paymentRequest.id ? 'selectedItem' : ''">
                     <td class="p-2">
                         {{ pr.prf_no }}
@@ -49,7 +61,39 @@ const navigate = (url = "", action = "", pr = null) => {
                         {{ useUtilities().value.dateToString(new Date(pr.request_date)) }}
                     </td>
                     <td class="p-2">
-                        {{ pr.stakeholder.name }}
+                        {{ stakeholder(pr.stakeholder_id)?.name }}
+                    </td>
+                    <td class="p-2">
+                        {{ useUtilities().value.formatCurrency(pr.total) }}
+                    </td>
+                    <td class="text-right p-2">
+                        <Icon
+                            v-if="props.target === 'voucher'"
+                            name="material-symbols:visibility-rounded"
+                            color="white"
+                            class="bg-green-500 hover:bg-green-600 active:bg-green-700 rounded h-8 w-8 p-1 cursor-pointer"
+                            @click="emit('voucher', pr.id)"
+                        />
+                        <Icon
+                            v-else
+                            name="material-symbols:visibility-rounded"
+                            color="white"
+                            class="bg-green-500 hover:bg-green-600 active:bg-green-700 rounded h-8 w-8 p-1 cursor-pointer"
+                            @click="navigate('/accounting/payment-request?details=' + pr.id, 'view-details', pr)"
+                        />
+                    </td>
+                </tr>
+            </tbody>
+            <tbody v-else>
+                <tr v-for="pr, i in forVouchering" :key="i" class="border text-left hover:bg-gray-200 hover: !text-black !text-sm" :class="pr.id === paymentRequestStore.paymentRequest.id ? 'selectedItem' : ''">
+                    <td class="p-2">
+                        {{ pr.prf_no }}
+                    </td>
+                    <td class="p-2">
+                        {{ useUtilities().value.dateToString(new Date(pr.request_date)) }}
+                    </td>
+                    <td class="p-2">
+                        {{ stakeholder(pr.stakeholder_id)?.name }}
                     </td>
                     <td class="p-2">
                         {{ useUtilities().value.formatCurrency(pr.total) }}
@@ -73,6 +117,13 @@ const navigate = (url = "", action = "", pr = null) => {
                 </tr>
             </tbody>
         </table>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination
+                v-if="paymentRequestStore.list.length"
+                :links="paymentRequestStore.pagination"
+                @change-params="changePaginate"
+            />
+        </div>
     </div>
 </template>
 
