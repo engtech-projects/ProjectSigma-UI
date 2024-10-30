@@ -25,10 +25,11 @@ const navigate = (url = "", action = "", pr = null) => {
     }
 }
 const forVouchering = computed(() => {
-    return paymentRequestStore.list.filter(pr => pr.form?.status !== "issued")
+    return paymentRequestStore.list.filter(pr => pr.form?.status === "approved")
 })
 const changePaginate = (newParams) => {
-    paymentRequestStore.getParams.value.page = newParams.page ?? ""
+    paymentRequestStore.params.page = newParams.page ?? ""
+    paymentRequestStore.getPaymentRequests()
 }
 </script>
 <template>
@@ -117,6 +118,9 @@ const changePaginate = (newParams) => {
                 </tr>
             </tbody>
         </table>
+        <span v-if="paymentRequestStore.list.length === 0" class="w-full mb-8 text-center block">
+            List is emtpy.
+        </span>
         <div class="flex justify-center mx-auto">
             <CustomPagination
                 v-if="paymentRequestStore.list.length"

@@ -27,7 +27,7 @@ export const useVoucherStore = defineStore("voucherStore", {
         formTypes: [],
         list: [],
         pagination: {},
-        getParams: {},
+        params: {},
         errorMessage: "",
         successMessage: "",
         isLoading: {
@@ -54,15 +54,15 @@ export const useVoucherStore = defineStore("voucherStore", {
                 "/api/voucher",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.params,
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
                         this.list = response._data.vouchers
                         this.pagination = {
-                            first_page: response._data.first_page_url,
-                            pages: response._data.links,
-                            last_page: response._data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     },
                 }

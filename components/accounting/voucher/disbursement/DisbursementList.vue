@@ -15,6 +15,10 @@ const navigate = (url = "", action = null, voucher = null) => {
 const voucherList = computed(() => {
     return voucherStore.filteredList.filter(v => v.book_id === 1)
 })
+const changePaginate = (newParams) => {
+    voucherStore.params.page = newParams.page ?? ""
+    voucherStore.getVouchers()
+}
 onMounted(() => {
     voucherStore.filter.name = "status"
 })
@@ -135,6 +139,13 @@ onMounted(() => {
                     </tr>
                 </tbody>
             </table>
+            <div class="flex justify-center mx-auto my-8">
+                <CustomPagination
+                    v-if="voucherStore.list.length"
+                    :links="voucherStore.pagination"
+                    @change-params="changePaginate"
+                />
+            </div>
         </div>
     </div>
 </template>

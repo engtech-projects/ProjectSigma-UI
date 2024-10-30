@@ -14,6 +14,9 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         list: [],
         pagination: {},
         getParams: {},
+        params: {
+            name: "",
+        },
         errorMessage: "",
         successMessage: "",
         isLoading: {
@@ -32,7 +35,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 "/api/payment-request",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.params,
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
