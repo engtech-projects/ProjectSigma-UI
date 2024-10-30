@@ -21,7 +21,6 @@ const generateReport = async () => {
 
 const totalPhilhealthEmployeeRemittance = () => {
     return Object.values(philhealthGroupRemittance.value.list).reduce((accumulator, current) => {
-        console.log(current)
         return accumulator + (current.philhealth_employee_contribution || 0)
     }, 0)
 }
