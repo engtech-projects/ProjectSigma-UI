@@ -2,13 +2,16 @@
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 import { useVoucherStore } from "~/stores/accounting/voucher"
+import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
 import { useBookStore } from "~/stores/accounting/book"
 
 const { list: payeeList } = storeToRefs(useStakeholderStore())
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
+const paymentRequestStore = usePaymentRequestStore()
 voucherStore.generateVoucherNumber("DV")
 const bookStore = useBookStore()
+const emit = defineEmits(["detach"])
 
 const snackbar = useSnackbar()
 const accountEntry = ref({
@@ -31,6 +34,8 @@ async function handleSubmit () {
                 type: "success",
                 text: voucherStore.successMessage
             })
+            emit("detach")
+            paymentRequestStore.editForm(voucherStore.voucher?.form_id, "issued")
             voucherStore.reset()
         }
     } catch (error) {

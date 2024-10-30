@@ -36,11 +36,11 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.list = response._data
+                        this.list = response._data.payment_request
                         this.pagination = {
-                            first_page: response._data.first_page_url,
-                            pages: response._data.links,
-                            last_page: response._data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     },
                 }
@@ -113,6 +113,29 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 this.successMessage = "Payment request successfully updated."
                 return data
             } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+        async editForm (id:any, type:any) {
+            this.isLoading.edit = false
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useAccountingApi(
+                "/api/form/" + type + "/" + id,
+                {
+                    method: "PUT",
+                    body: this.voucher,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.isLoading.edit = false
+                this.getPaymentRequests()
+                this.successMessage = "Form successfully updated"
+                return data
+            } else if (error.value) {
+                this.isLoading.edit = false
                 this.errorMessage = error.value.data.message
                 return error
             }

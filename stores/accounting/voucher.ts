@@ -18,6 +18,7 @@ export const useVoucherStore = defineStore("voucherStore", {
             form_type: null,
             reference_no: null,
             status: "pending",
+            form_id: null,
         },
         filter: {
             name: null,
@@ -57,7 +58,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.list = response._data
+                        this.list = response._data.vouchers
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -85,6 +86,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.create = false
+                        this.voucher = response._data
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
@@ -186,6 +188,30 @@ export const useVoucherStore = defineStore("voucherStore", {
             }
         },
 
+        async editForm (id:any, type:any) {
+            this.isLoading.edit = false
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useAccountingApi(
+                "/api/form/" + type + "/" + id,
+                {
+                    method: "PATCH",
+                    body: this.voucher,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.isLoading.edit = false
+                this.getVouchers()
+                this.successMessage = "Voucher successfully updated."
+                return data
+            } else if (error.value) {
+                this.isLoading.edit = false
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+
         reset () {
             this.voucher = {
                 stakeholder_id: null,
@@ -203,6 +229,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                 reference_no: null,
                 details: [],
                 status: "pending",
+                form_id: null,
             }
             this.successMessage = ""
             this.errorMessage = ""
