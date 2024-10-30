@@ -25,15 +25,55 @@ const navigate = (url = "", action = "", pr = null) => {
     }
 }
 const forVouchering = computed(() => {
-    return paymentRequestStore.list.filter(pr => pr.form?.status !== "issued")
+    return paymentRequestStore.list.filter(pr => pr.form?.status === "approved")
 })
 const changePaginate = (newParams) => {
-    paymentRequestStore.getParams.value.page = newParams.page ?? ""
+    paymentRequestStore.params.page = newParams.page ?? ""
+    paymentRequestStore.getPaymentRequests()
 }
+
 </script>
 <template>
     <div class="pb-2 text-gray-500 select-none">
         <AccountingLoadScreen :is-loading="paymentRequestStore.isLoading.list" />
+        <div class="flex w-full items-center">
+            <label for="sortIput" class="text-xs mr-1 flex-1 block">
+                Status:
+            </label>
+            <select
+                id="netAmount"
+                v-model="paymentRequestStore.params.filter.status"
+                class="bg-gray-50 border h-6 border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 py-1 px-2 text-xs"
+                @change="paymentRequestStore.getPaymentRequests"
+            >
+                <option value="">
+                    All
+                </option>
+                <option value="draft">
+                    Draft
+                </option>
+                <option value="pending">
+                    Pending
+                </option>
+                <option value="approved">
+                    Approved
+                </option>
+                <option value="rejected">
+                    Rejected
+                </option>
+                <option value="void">
+                    Void
+                </option>
+            </select>
+            <!-- <select
+                id="netAmount"
+                class="bg-gray-50 border h-6 border-gray-300 text-gray-900 rounded-r-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 py-1 px-2 text-xs"
+            >
+                <option value="status">
+                    Open
+                </option>
+            </select> -->
+        </div>
         <table id="prfTable" class="table-auto w-full border-collapse mb-8">
             <thead>
                 <tr class="text-left !text-sm">
@@ -45,6 +85,9 @@ const changePaginate = (newParams) => {
                     </th>
                     <th class="p-2">
                         Payee
+                    </th>
+                    <th class="p-2">
+                        Status
                     </th>
                     <th class="p-2">
                         Total Amount
@@ -62,6 +105,9 @@ const changePaginate = (newParams) => {
                     </td>
                     <td class="p-2">
                         {{ stakeholder(pr.stakeholder_id)?.name }}
+                    </td>
+                    <td class="p-2">
+                        {{ pr.form?.status }}
                     </td>
                     <td class="p-2">
                         {{ useUtilities().value.formatCurrency(pr.total) }}
@@ -117,9 +163,15 @@ const changePaginate = (newParams) => {
                 </tr>
             </tbody>
         </table>
+        <span v-if="paymentRequestStore.list.length === 0" class="w-full mb-8 text-center block">
+            List is emtpy.
+        </span>
+        <span v-if="forVouchering.length === 0 && props.target==='voucher'" class="w-full mb-8 text-center block">
+            List is emtpy.
+        </span>
         <div class="flex justify-center mx-auto">
             <CustomPagination
-                v-if="paymentRequestStore.list.length"
+                v-if="paymentRequestStore.list.length && props.target!=='voucher'"
                 :links="paymentRequestStore.pagination"
                 @change-params="changePaginate"
             />

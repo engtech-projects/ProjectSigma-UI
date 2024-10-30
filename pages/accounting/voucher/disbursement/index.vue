@@ -64,6 +64,10 @@ const action = ref("create")
 const voucherStore = useVoucherStore()
 
 voucherStore.reset()
+voucherStore.params.filter = {
+    book: "disbursement",
+    status: "all"
+}
 voucherStore.getVouchers()
 voucherStore.getFormTypes()
 

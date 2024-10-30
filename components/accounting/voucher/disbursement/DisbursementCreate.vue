@@ -199,10 +199,10 @@ onMounted(() => {
                             <Icon name="ion:close-round" class="text-red-400 text-2xl mb-1 cursor-pointer hover:text-red-500 active:text-red-600" @click="removeEntry(ac)" />
                         </div>
                     </div>
-                    <i v-if="voucherStore.voucher.details.length === 0" class="text-center block mt-4 mb-2 text-gray-500">
+                    <i v-if="voucherStore.voucher.details?.length === 0" class="text-center block mt-4 mb-2 text-gray-500">
                         There are no entries yet.
                     </i>
-                    <div v-if="voucherStore.voucher.details.length > 0" class="flex justify-left w-full mt-1">
+                    <div v-if="voucherStore.voucher.details?.length > 0" class="flex justify-left w-full mt-1">
                         <button
                             class="
                                 border

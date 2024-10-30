@@ -14,6 +14,11 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         list: [],
         pagination: {},
         getParams: {},
+        params: {
+            filter: {
+                status: ""
+            }
+        },
         errorMessage: "",
         successMessage: "",
         isLoading: {
@@ -32,7 +37,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 "/api/payment-request",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.params,
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
@@ -118,7 +123,8 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             }
         },
         async editForm (id:any, type:any) {
-            this.isLoading.edit = false
+            this.isLoading.show = true
+            this.isLoading.edit = true
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
@@ -130,6 +136,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 }
             )
             if (data.value) {
+                this.isLoading.show = false
                 this.isLoading.edit = false
                 this.getPaymentRequests()
                 this.successMessage = "Form successfully updated"
@@ -139,6 +146,11 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 this.errorMessage = error.value.data.message
                 return error
             }
+        },
+
+        async approve () {
+            await this.editForm(this.paymentRequest.form?.id, "approved")
+            this.paymentRequest.form.status = "approved"
         },
 
         reset () {

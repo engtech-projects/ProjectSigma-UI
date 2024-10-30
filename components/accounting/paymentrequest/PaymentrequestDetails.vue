@@ -55,6 +55,21 @@ function print () {
     }
 }
 
+const statusColor = computed(() => {
+    if (paymentRequestStore.paymentRequest.form?.status === "approved") {
+        return "!text-green-500"
+    }
+    if (paymentRequestStore.paymentRequest.form?.status === "pending") {
+        return "!text-gray-500"
+    }
+    if (paymentRequestStore.paymentRequest.form?.status === "declined") {
+        return "!text-red-500"
+    }
+    if (paymentRequestStore.paymentRequest.form?.status === "issued") {
+        return "!text-blue-500"
+    }
+})
+
 const navigate = (url = "", action = "", pr = null) => {
     history.pushState(null, "", url)
     emit(action)
@@ -101,12 +116,36 @@ const navigate = (url = "", action = "", pr = null) => {
                     </h4>
                 </div>
             </div>
-            <div class="flex gap-2 w-full justify-between py-4">
+            <div class="flex gap-2 w-full justify-between py-4 border-b">
                 <div v-if="paymentRequestStore.paymentRequest.description" class="flex-1 gap-4">
                     <label class="block text-xs text-gray-900 dark:text-white">Description</label>
                     <h4 class="font-bold text-gray-900 text-sm">
                         {{ paymentRequestStore.paymentRequest.description }}
                     </h4>
+                </div>
+                <div v-if="paymentRequestStore.paymentRequest.form" class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white">Status</label>
+                    <h4 class="font-bold text-gray-900 text-sm" :class="statusColor">
+                        {{ upperFirst(paymentRequestStore.paymentRequest.form?.status) }}
+                    </h4>
+                </div>
+            </div>
+            <div class="flex gap-2 w-full justify-between py-4">
+                <div v-if="paymentRequestStore.paymentRequest.form?.status==='pending'" class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white font-bold mb-1">Action</label>
+                    <div class="flex gap-2 items-center">
+                        <button
+                            class="flex items-center px-3 text-sm py-1 rounded-md bg-teal-400 hover:bg-teal-600 active:bg-teal-500 text-white"
+                            @click="paymentRequestStore.approve"
+                        >
+                            <Icon name="iconoir:thumbs-up" class="mr-1 text-lg" />
+                            Approve
+                        </button>
+                        <button class="flex items-center px-3 text-sm py-1 rounded-md bg-orange-400 hover:bg-orange-600 active:bg-orange-500 text-white">
+                            <Icon name="iconoir:thumbs-down" class="mr-1 text-lg" />
+                            Decline
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

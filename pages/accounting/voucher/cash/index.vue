@@ -62,6 +62,10 @@ import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
 
 const voucherStore = useVoucherStore()
 voucherStore.reset()
+voucherStore.params.filter = {
+    book: "cash",
+    status: "pending"
+}
 voucherStore.getVouchers()
 
 const accountStore = useAccountStore()
