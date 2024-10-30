@@ -187,7 +187,7 @@ const uniqueOtherDeductionNames = computed(() => {
 })
 const uniqueLoanNameTotals = computed(() => {
     const loanNameTotals: any[] = []
-    uniqueLoanNames.value.forEach((name: string) => {
+    uniqueLoanNames.value.forEach((name: any) => {
         let total = 0
         props.payrollRequest.payroll_details.forEach((element: any) => {
             element.deductions.forEach((deduction: { type: string; name: string; amount: number }) => {
@@ -202,7 +202,7 @@ const uniqueLoanNameTotals = computed(() => {
 })
 const uniqueOtherDeductionNameTotals = computed(() => {
     const loanNameTotals: any[] = []
-    uniqueOtherDeductionNames.value.forEach((name: string) => {
+    uniqueOtherDeductionNames.value.forEach((name: any) => {
         let total = 0
         props.payrollRequest.payroll_details.forEach((element: any) => {
             element.deductions.forEach((deduction: { type: string; name: string; amount: number }) => {
