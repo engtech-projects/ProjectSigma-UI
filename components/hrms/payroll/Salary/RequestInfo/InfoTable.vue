@@ -216,7 +216,15 @@ const uniqueOtherDeductionNameTotals = computed(() => {
     return loanNameTotals
 })
 const totalCashadvancePayroll = computed(() => {
-    return 0
+    let total = 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.deductions.forEach((deduction: { type: string; name: string; amount: number }) => {
+            if (deduction.type === "Cash Advance") {
+                total += deduction.amount
+            }
+        })
+    })
+    return total
 })
 </script>
 <template>

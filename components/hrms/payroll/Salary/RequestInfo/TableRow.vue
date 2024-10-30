@@ -130,14 +130,14 @@ const paymentsOtherDeduction = () => {
             :key="key"
             class="p-4 border-solid border border-slate-400"
         >
-            {{ paymentsLoans().find((eloan: any) => eloan.name === loan) ? useFormatCurrency(paymentsLoans().find((eloan: any) => eloan.name === loan).amount) : "-" }}
+            {{ paymentsLoans().find((eloan: any) => eloan.name === loan) ? useFormatCurrency(paymentsLoans().filter((eloan: any) => eloan.name === loan).reduce((acc, curr) => acc + curr.amount, 0)) : "-" }}
         </td>
         <td
             v-for="otherdeduction, key in otherdeductions"
             :key="key"
             class="p-4 border-solid border border-slate-400"
         >
-            {{ paymentsOtherDeduction().find((eOded: any) => eOded.name === otherdeduction) ? useFormatCurrency(paymentsOtherDeduction().find((eOded: any) => eOded.name === otherdeduction).amount) : "-" }}
+            {{ paymentsOtherDeduction().find((eOded: any) => eOded.name === otherdeduction) ? useFormatCurrency(paymentsOtherDeduction().filter((eOded: any) => eOded.name === otherdeduction).reduce((acc, curr) => acc + curr.amount, 0)) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.total_deduct) ?? "-" }}

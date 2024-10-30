@@ -184,7 +184,13 @@ const uniqueOtherDeductionNameTotals = computed(() => {
     return deductionTotals
 })
 const totalCashadvance = computed(() => {
-    return 0
+    let total = 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.payroll_records.salary_deduction.cash_advance.cash_advance.forEach((deduction: { otherdeduction_name: string; max_payroll_payment: number }) => {
+            total += deduction.max_payroll_payment
+        })
+    })
+    return total
 })
 </script>
 <template>

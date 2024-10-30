@@ -117,14 +117,14 @@ defineProps({
             :key="key"
             class="p-1 border-solid border border-slate-400 min-w-min"
         >
-            {{ employeePayrollRecord.payroll_records.salary_deduction.loan.loans.find((eloan: any) => eloan.name === loan) ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.loan.loans.find((eloan: any) => eloan.name === loan).max_payroll_payment) : "-" }}
+            {{ employeePayrollRecord.payroll_records.salary_deduction.loan.loans.find((eloan: any) => eloan.name === loan) ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.loan.loans.filter((eloan: any) => eloan.name === loan).reduce((acc, curr) => acc + curr.max_payroll_payment, 0)) : "-" }}
         </td>
         <td
             v-for="otherdeduction, key in otherdeductions"
             :key="key"
             class="p-1 border-solid border border-slate-400 min-w-min"
         >
-            {{ employeePayrollRecord.payroll_records.salary_deduction.other_deductions.other_deduction.find((eOded: any) => eOded.otherdeduction_name === otherdeduction) ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.other_deductions.other_deduction.find((eOded: any) => eOded.otherdeduction_name === otherdeduction).max_payroll_payment) : "-" }}
+            {{ employeePayrollRecord.payroll_records.salary_deduction.other_deductions.other_deduction.find((eOded: any) => eOded.otherdeduction_name === otherdeduction) ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.other_deductions.other_deduction.filter((eOded: any) => eOded.otherdeduction_name === otherdeduction).reduce((acc, curr) => acc + curr.max_payroll_payment, 0)) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.payroll_records.total_salary_deduction) ?? "-" }}
