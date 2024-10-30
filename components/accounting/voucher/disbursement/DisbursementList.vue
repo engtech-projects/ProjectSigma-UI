@@ -12,11 +12,16 @@ const navigate = (url = "", action = null, voucher = null) => {
     emit(action)
 }
 
-const voucherList = computed(() => {
-    return voucherStore.filteredList.filter(v => v.book_id === 1)
-})
+// const voucherList = computed(() => {
+//     return voucherStore.filteredList.filter(v => v.book_id === 1)
+// })
 const changePaginate = (newParams) => {
     voucherStore.params.page = newParams.page ?? ""
+    voucherStore.getVouchers()
+}
+const filterList = () => {
+    voucherStore.params.filter.status = voucherStore.filter.value
+    voucherStore.params.page = 1
     voucherStore.getVouchers()
 }
 onMounted(() => {
@@ -57,6 +62,7 @@ onMounted(() => {
                     id="netAmount"
                     v-model="voucherStore.filter.value"
                     class="bg-gray-50 border h-6 border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 py-1 px-2 text-xs"
+                    @change="filterList"
                 >
                     <option value="">
                         All
@@ -88,7 +94,7 @@ onMounted(() => {
             </div>
         </div>
         <div class="pb-2 text-gray-500 w-full">
-            <span v-if="voucherList.length === 0" class="text-sm text-center block py-8 pb-72 bg-gray-100 w-full">
+            <span v-if="voucherStore.list.length === 0" class="text-sm text-center block py-8 pb-72 bg-gray-100 w-full">
                 No {{ voucherStore.filter.value }} vouchers in the list.
             </span>
             <table v-else class="table-auto w-full border-collapse text-sm">
@@ -112,7 +118,7 @@ onMounted(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="voucher, i in voucherList" :key="i" class="border text-left hover:bg-gray-200 hover: text-black" :class="voucher.id === voucherStore.voucher.id ? 'selectedVoucher' : ''">
+                    <tr v-for="voucher, i in voucherStore.list" :key="i" class="border text-left hover:bg-gray-200 hover: text-black" :class="voucher.id === voucherStore.voucher.id ? 'selectedVoucher' : ''">
                         <td class="p-2">
                             {{ voucher.voucher_no }}
                         </td>
