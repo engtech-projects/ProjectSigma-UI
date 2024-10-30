@@ -45,7 +45,7 @@ defineProps({
                             {{ index + 1 }}
                         </td>
                         <td class="p-4 border-solid border border-slate-400">
-                            {{ data.fullname_last }}
+                            {{ data.fullname_last || data.employee.fullname_last }}
                         </td>
                         <td class="p-4 border-solid border border-slate-400">
                             <template v-if="data.payroll_records?.chargings">
