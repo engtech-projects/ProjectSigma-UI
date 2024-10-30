@@ -64,7 +64,7 @@ const navigate = (url = "", action = "", pr = null) => {
 }
 </script>
 <template>
-    <div class="bg-white rounded-lg px-2 relative select-none" :class="props.border ? 'shadow border border-gray-200' : ''">
+    <div class="bg-white rounded-lg px-2 relative" :class="props.border ? 'shadow border border-gray-200' : ''">
         <AccountingLoadScreen :is-loading="paymentRequestStore.isLoading.show" />
         <div class="flex justify-between items-center h-16 border-b px-4">
             <h2 class="text-xl text-gray-800">

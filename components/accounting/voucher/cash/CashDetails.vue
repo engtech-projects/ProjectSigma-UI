@@ -72,7 +72,7 @@ const navigate = (url = "", action = "", voucher = null) => {
         <div class="flex flex-col p-4 w-full">
             <div class="flex gap-4 border-b py-4 w-full">
                 <div class="flex-1 gap-4">
-                    <label class="block text-xs text-gray-900 dark:text-white">Reference No.</label>
+                    <label class="block text-xs text-gray-900 dark:text-white">Voucher No.</label>
                     <h4 class="font-bold text-gray-900 text-sm">
                         {{ voucherStore.voucher.voucher_no }}
                     </h4>
