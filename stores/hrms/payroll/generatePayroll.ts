@@ -163,7 +163,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         deductions: [
                             ...data.payroll_records.salary_deduction.loan.loans.map((loan: any) => ({
                                 deduction_id: loan.id,
-                                name: "Loan",
+                                name: loan.name,
                                 amount: loan.max_payroll_payment,
                                 type: "Loan",
                             })),
