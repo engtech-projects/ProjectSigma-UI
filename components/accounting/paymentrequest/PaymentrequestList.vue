@@ -49,9 +49,6 @@ const changePaginate = (newParams) => {
                 <option value="">
                     All
                 </option>
-                <option value="draft">
-                    Draft
-                </option>
                 <option value="pending">
                     Pending
                 </option>
@@ -61,8 +58,8 @@ const changePaginate = (newParams) => {
                 <option value="rejected">
                     Rejected
                 </option>
-                <option value="void">
-                    Void
+                <option value="issued">
+                    Issued
                 </option>
             </select>
             <!-- <select
