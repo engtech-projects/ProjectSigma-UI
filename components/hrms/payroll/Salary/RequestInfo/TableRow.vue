@@ -156,11 +156,23 @@ const grosspayCharging = computed(() => {
             <strong>{{ totalPaymentsCashAdvance() ? useFormatCurrency(totalPaymentsCashAdvance()) : "-" }}</strong>
         </td>
         <td
+            v-if="loans.length === 0"
+            class="p-4 border-solid border border-slate-400"
+        >
+            -
+        </td>
+        <td
             v-for="loan, key in loans"
             :key="key"
             class="p-4 border-solid border border-slate-400"
         >
             {{ paymentsLoans().find((eloan: any) => eloan.name === loan) ? useFormatCurrency(paymentsLoans().filter((eloan: any) => eloan.name === loan).reduce((acc, curr) => acc + curr.amount, 0)) : "-" }}
+        </td>
+        <td
+            v-if="otherdeductions.length === 0"
+            class="p-4 border-solid border border-slate-400"
+        >
+            -
         </td>
         <td
             v-for="otherdeduction, key in otherdeductions"

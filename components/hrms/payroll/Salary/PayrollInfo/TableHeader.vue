@@ -66,7 +66,7 @@ defineProps({
             </th>
             <th
                 scope="col"
-                :colspan="7 + loans.length + otherdeductions.length"
+                :colspan="7 + (loans.length || 1) + (otherdeductions.length || 1)"
                 class="p-2 border-solid border border-slate-400 bg-sky-200"
             >
                 Salary Deduction
@@ -268,11 +268,23 @@ defineProps({
                 Employee WISP
             </th>
             <th
+                v-if="loans.length === 0"
+                class="px-4 border-solid border border-slate-400"
+            >
+                -
+            </th>
+            <th
                 v-for="loan, key in loans"
                 :key="key"
                 class="px-4 border-solid border border-slate-400"
             >
                 {{ loan }}
+            </th>
+            <th
+                v-if="loans.length === 0"
+                class="px-4 border-solid border border-slate-400"
+            >
+                -
             </th>
             <th
                 v-for="otherdeduction, key in otherdeductions"

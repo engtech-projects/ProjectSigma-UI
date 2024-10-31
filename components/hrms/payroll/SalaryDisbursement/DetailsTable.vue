@@ -340,11 +340,23 @@ const uniqueLoanNameTotals = computed(() => {
                             {{ useFormatCurrency(rowData.summary.deduct_cashadvance) }}
                         </td>
                         <td
+                            v-if="uniqueLoanNames.length === 0"
+                            class="border border-gray-500 h-8 px-2 font-bold text-sm"
+                        >
+                            -
+                        </td>
+                        <td
                             v-for="name, lKey in uniqueLoanNames"
                             :key="lKey"
                             class="border border-gray-500 h-8 px-2 font-bold text-sm"
                         >
                             {{ flattenLoans(rowData.data.details, name) ? useFormatCurrency(flattenLoans(rowData.data.details, name).reduce((a, b) => a + b.amount, 0)) : 0.00 }}
+                        </td>
+                        <td
+                            v-if="uniqueOtherDeductionNames"
+                            class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
+                        >
+                            -
                         </td>
                         <td
                             v-for="name, odKey in uniqueOtherDeductionNames"
@@ -426,11 +438,23 @@ const uniqueLoanNameTotals = computed(() => {
                             {{ useFormatCurrency(totalDeductCashadvance()) }}
                         </td>
                         <td
+                            v-if="uniqueLoanNames.length === 0"
+                            class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
+                        >
+                            -
+                        </td>
+                        <td
                             v-for="name, lKey in uniqueLoanNames"
                             :key="lKey"
                             class="border border-gray-500 h-8 px-2 font-bold text-sm"
                         >
                             {{ useFormatCurrency(uniqueLoanNameTotals[name]) }}
+                        </td>
+                        <td
+                            v-if="uniqueOtherDeductionNames.length === 0"
+                            class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
+                        >
+                            -
                         </td>
                         <td
                             v-for="name, odKey in uniqueOtherDeductionNames"
