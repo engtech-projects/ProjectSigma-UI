@@ -208,10 +208,10 @@ onMounted(() => {
                                 rounded-xl
                                 text-xs
                                 py-[2px]
-                                bg-slate-400
+                                bg-green-400
                                 cursor-pointer
-                                hover:bg-slate-500
-                                active:bg-slate-600"
+                                hover:bg-green-500
+                                active:bg-green-600"
                             @click.prevent="addEntry"
                         >
                             + Add Entry
@@ -225,10 +225,10 @@ onMounted(() => {
                             px-4
                             text-xs
                             py-[2px]
-                            bg-slate-400
+                            bg-green-400
                             cursor-pointer
-                            hover:bg-slate-500
-                            active:bg-slate-600"
+                            hover:bg-green-500
+                            active:bg-green-600"
                         @click.prevent="addEntry"
                     >
                         + Add Entry

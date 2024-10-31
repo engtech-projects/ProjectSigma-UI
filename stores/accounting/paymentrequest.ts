@@ -153,6 +153,16 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             this.paymentRequest.form.status = "approved"
         },
 
+        async issue () {
+            await this.editForm(this.paymentRequest.form?.id, "issued")
+            this.paymentRequest.form.status = "issued"
+        },
+
+        async reject () {
+            await this.editForm(this.paymentRequest.form?.id, "rejected")
+            this.paymentRequest.form.status = "rejected"
+        },
+
         reset () {
             this.paymentRequest = {
                 id: null,

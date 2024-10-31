@@ -12,6 +12,7 @@ const paymentRequestStore = usePaymentRequestStore()
 voucherStore.generateVoucherNumber("DV")
 const bookStore = useBookStore()
 const emit = defineEmits(["detach"])
+const entriesError = ref(false)
 
 const snackbar = useSnackbar()
 const accountEntry = ref({
@@ -21,34 +22,41 @@ const accountEntry = ref({
     credit: 0
 })
 async function handleSubmit () {
-    try {
-        voucherStore.voucher.book_id = bookStore.disbursement.id
-        await voucherStore.createVoucher()
-        if (voucherStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: voucherStore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: voucherStore.successMessage
-            })
-            emit("detach")
-            paymentRequestStore.editForm(voucherStore.voucher?.form_id, "issued")
-            voucherStore.reset()
+    if (voucherStore.voucher.details.length > 0) {
+        try {
+            voucherStore.voucher.book_id = bookStore.disbursement.id
+            await voucherStore.createVoucher()
+            if (voucherStore.errorMessage !== "") {
+                voucherStore.isLoading.create = false
+                snackbar.add({
+                    type: "error",
+                    text: voucherStore.errorMessage
+                })
+            } else {
+                voucherStore.isLoading.create = false
+                snackbar.add({
+                    type: "success",
+                    text: voucherStore.successMessage
+                })
+                emit("detach")
+                paymentRequestStore.editForm(voucherStore.voucher?.form_id, "issued")
+                voucherStore.reset()
+            }
+        } catch (error) {
         }
-    } catch (error) {
+    } else {
+        entriesError.value = true
     }
 }
 const amount = computed(() => {
     return voucherStore.voucher.net_amount
 })
 watch(amount, (newAmount) => {
-    voucherStore.voucher.amount_in_words = useAmountInWords(newAmount)
+    voucherStore.voucher.amount_in_words = amountToWords(newAmount)
 })
 const addEntry = () => {
     voucherStore.voucher.details.push(JSON.parse(JSON.stringify(accountEntry.value)))
+    entriesError.value = false
 }
 const removeEntry = (entry) => {
     voucherStore.voucher.details = voucherStore.voucher.details.filter(e => e !== entry)
@@ -153,90 +161,91 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-            <form action="">
-                <div class="bg-gray-100 p-4 py-8 flex flex-col items-center mb-8">
-                    <h2 class="text-center font-bold text-gray-800">
-                        ACCOUNTING ENTRIES
-                    </h2>
-                    <div class="flex flex-col w-full gap-2 mt-4">
-                        <div v-for="ac,i in voucherStore.voucher.details" :key="i" class="flex gap-1 w-full items-end">
-                            <div class="flex-1">
-                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Accounts</label>
-                                <AccountingSelectSearch
-                                    id="expenseAccount"
-                                    v-model="ac.account_id"
-                                    class="bg-gray-50 border-gray-200"
-                                    :class="'z-' + (30 - i)"
-                                    height="h-30"
-                                    :options="accountGroupStore.accountGroup.accounts"
-                                    :selected-id="ac.account_id"
-                                    title="account_name"
-                                    opid="id"
-                                    @select="ac.account_id = $event.id"
-                                />
-                            </div>
-                            <div class="flex-1">
-                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Stakeholder</label>
-                                <AccountingSelectSearch
-                                    class="bg-gray-50 border-gray-200"
-                                    :class="'z-' + (30 - i)"
-                                    height="h-30"
-                                    :options="payeeList"
-                                    :selected-id="ac.stakeholder_id"
-                                    title="name"
-                                    opid="id"
-                                    @select="ac.stakeholder_id = $event.id"
-                                />
-                            </div>
-                            <div class="flex-1">
-                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Debit</label>
-                                <input v-model="ac.debit" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-800 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            </div>
-                            <div class="flex-1">
-                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Credit</label>
-                                <input v-model="ac.credit" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                            </div>
-                            <Icon name="ion:close-round" class="text-red-400 text-2xl mb-1 cursor-pointer hover:text-red-500 active:text-red-600" @click="removeEntry(ac)" />
+            <div class="bg-gray-100 p-4 py-8 flex flex-col items-center mb-8" :class="entriesError ? '!bg-red-200' : ''">
+                <h2 class="text-center font-bold text-gray-800">
+                    ACCOUNTING ENTRIES
+                </h2>
+                <div class="flex flex-col w-full gap-2 mt-4">
+                    <div v-for="ac,i in voucherStore.voucher.details" :key="i" class="flex gap-1 w-full items-end">
+                        <div class="flex-1">
+                            <label class="block text-xs font-medium text-gray-900 dark:text-white">Accounts</label>
+                            <AccountingSelectSearch
+                                id="expenseAccount"
+                                v-model="ac.account_id"
+                                class="bg-gray-50 border-gray-200"
+                                :class="'z-' + (30 - i)"
+                                height="h-30"
+                                :options="accountGroupStore.accountGroup.accounts"
+                                :selected-id="ac.account_id"
+                                title="account_name"
+                                opid="id"
+                                @select="ac.account_id = $event.id"
+                            />
                         </div>
+                        <div class="flex-1">
+                            <label class="block text-xs font-medium text-gray-900 dark:text-white">Stakeholder</label>
+                            <AccountingSelectSearch
+                                class="bg-gray-50 border-gray-200"
+                                :class="'z-' + (30 - i)"
+                                height="h-30"
+                                :options="payeeList"
+                                :selected-id="ac.stakeholder_id"
+                                title="name"
+                                opid="id"
+                                @select="ac.stakeholder_id = $event.id"
+                            />
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-xs font-medium text-gray-900 dark:text-white">Debit</label>
+                            <input v-model="ac.debit" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-800 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-xs font-medium text-gray-900 dark:text-white">Credit</label>
+                            <input v-model="ac.credit" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        </div>
+                        <Icon name="ion:close-round" class="text-red-400 text-2xl mb-1 cursor-pointer hover:text-red-500 active:text-red-600" @click="removeEntry(ac)" />
                     </div>
-                    <i v-if="voucherStore.voucher.details?.length === 0" class="text-center block mt-4 mb-2 text-gray-500">
-                        There are no entries yet.
-                    </i>
-                    <div v-if="voucherStore.voucher.details?.length > 0" class="flex justify-left w-full mt-1">
-                        <button
-                            class="
-                                border
-                                px-4
-                                rounded-xl
-                                text-xs
-                                py-[2px]
-                                bg-slate-400
-                                cursor-pointer
-                                hover:bg-slate-500
-                                active:bg-slate-600"
-                            @click.prevent="addEntry"
-                        >
-                            + Add Entry
-                        </button>
-                    </div>
+                </div>
+                <i v-if="voucherStore.voucher.details?.length === 0" class="text-center block mt-4 mb-2 text-gray-500">
+                    There are no entries yet.
+                </i>
+                <div v-if="voucherStore.voucher.details?.length > 0" class="flex justify-left w-full mt-1">
                     <button
-                        v-else
                         class="
                             border
-                            rounded-xl
                             px-4
+                            rounded-xl
                             text-xs
                             py-[2px]
-                            bg-slate-400
+                            bg-green-400
                             cursor-pointer
-                            hover:bg-slate-500
-                            active:bg-slate-600"
+                            hover:bg-green-500
+                            active:bg-green-600"
                         @click.prevent="addEntry"
                     >
                         + Add Entry
                     </button>
                 </div>
-            </form>
+                <button
+                    v-else
+                    class="
+                        border
+                        rounded-xl
+                        px-4
+                        text-xs
+                        py-[2px]
+                        bg-green-400
+                        cursor-pointer
+                        hover:bg-green-500
+                        active:bg-green-600"
+                    @click.prevent="addEntry"
+                >
+                    + Add Entry
+                </button>
+                <span v-if="entriesError" class="text-red font-bold block text-center mt-4 text-sm p-2 text-red-500">
+                    You forgot to add some entries.
+                </span>
+            </div>
             <div class="flex justify-end w-full mb-8">
                 <button
                     type="submit"

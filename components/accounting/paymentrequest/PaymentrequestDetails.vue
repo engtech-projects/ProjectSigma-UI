@@ -141,7 +141,10 @@ const navigate = (url = "", action = "", pr = null) => {
                             <Icon name="iconoir:thumbs-up" class="mr-1 text-lg" />
                             Approve
                         </button>
-                        <button class="flex items-center px-3 text-sm py-1 rounded-md bg-orange-400 hover:bg-orange-600 active:bg-orange-500 text-white">
+                        <button
+                            class="flex items-center px-3 text-sm py-1 rounded-md bg-orange-400 hover:bg-orange-600 active:bg-orange-500 text-white"
+                            @click="paymentRequestStore.reject"
+                        >
                             <Icon name="iconoir:thumbs-down" class="mr-1 text-lg" />
                             Decline
                         </button>

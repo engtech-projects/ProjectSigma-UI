@@ -12,7 +12,8 @@ const navigate = (url = "", action = null, voucher = null) => {
     emit(action)
 }
 const voucherList = computed(() => {
-    return voucherStore.filteredList.filter(v => v.book_id === 2)
+    return voucherStore.list
+    // return voucherStore.filteredList.filter(v => v.book_id === 2)
 })
 const changePaginate = (newParams) => {
     voucherStore.params.page = newParams.page ?? ""
