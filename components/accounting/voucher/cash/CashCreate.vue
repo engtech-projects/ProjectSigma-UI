@@ -35,7 +35,9 @@ async function handleSubmit () {
                 text: voucherStore.successMessage
             })
             emit("detach")
-            paymentRequestStore.editForm(voucherStore.voucher?.form_id, "issued")
+            if (voucherStore.voucher.form_id) {
+                paymentRequestStore.editForm(voucherStore.voucher?.form_id, "issued")
+            }
             voucherStore.reset()
         }
     } catch (error) {
@@ -45,7 +47,7 @@ const amount = computed(() => {
     return voucherStore.voucher.net_amount
 })
 watch(amount, (newAmount) => {
-    voucherStore.voucher.amount_in_words = useAmountInWords(newAmount)
+    voucherStore.voucher.amount_in_words = amountToWords(newAmount)
 })
 const addEntry = () => {
     voucherStore.voucher.details.push(JSON.parse(JSON.stringify(accountEntry.value)))
@@ -214,10 +216,10 @@ onMounted(() => {
                                 rounded-xl
                                 text-xs
                                 py-[2px]
-                                bg-slate-400
+                                bg-green-400
                                 cursor-pointer
-                                hover:bg-slate-500
-                                active:bg-slate-600"
+                                hover:bg-green-500
+                                active:bg-green-600"
                             @click.prevent="addEntry"
                         >
                             + Add Entry
@@ -231,10 +233,10 @@ onMounted(() => {
                             px-4
                             text-xs
                             py-[2px]
-                            bg-slate-400
+                            bg-green-400
                             cursor-pointer
-                            hover:bg-slate-500
-                            active:bg-slate-600"
+                            hover:bg-green-500
+                            active:bg-green-600"
                         @click.prevent="addEntry"
                     >
                         + Add Entry

@@ -36,8 +36,8 @@ const changePaginate = (newParams) => {
 <template>
     <div class="pb-2 text-gray-500 select-none">
         <AccountingLoadScreen :is-loading="paymentRequestStore.isLoading.list" />
-        <div class="flex w-full items-center">
-            <label for="sortIput" class="text-xs mr-1 flex-1 block">
+        <div class="flex w-full items-center justify-end my-2">
+            <label for="sortIput" class="text-xs mr-1 block">
                 Status:
             </label>
             <select
@@ -137,6 +137,9 @@ const changePaginate = (newParams) => {
                     </td>
                     <td class="p-2">
                         {{ stakeholder(pr.stakeholder_id)?.name }}
+                    </td>
+                    <td class="p-2">
+                        {{ pr.form?.status }}
                     </td>
                     <td class="p-2">
                         {{ useUtilities().value.formatCurrency(pr.total) }}
