@@ -113,11 +113,23 @@ defineProps({
             {{ useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.cash_advance.total_paid) ?? "-" }}
         </td>
         <td
+            v-if="loans.length === 0"
+            class="p-1 border-solid border border-slate-400 min-w-min"
+        >
+            -
+        </td>
+        <td
             v-for="loan, key in loans"
             :key="key"
             class="p-1 border-solid border border-slate-400 min-w-min"
         >
             {{ employeePayrollRecord.payroll_records.salary_deduction.loan.loans.find((eloan: any) => eloan.name === loan) ? useFormatCurrency(employeePayrollRecord.payroll_records.salary_deduction.loan.loans.filter((eloan: any) => eloan.name === loan).reduce((acc, curr) => acc + curr.max_payroll_payment, 0)) : "-" }}
+        </td>
+        <td
+            v-if="otherdeductions.length === 0"
+            class="p-1 border-solid border border-slate-400 min-w-min"
+        >
+            -
         </td>
         <td
             v-for="otherdeduction, key in otherdeductions"
