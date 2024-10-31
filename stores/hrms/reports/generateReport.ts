@@ -24,6 +24,18 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
+        sssGroupLoanList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "",
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
         pagibigEmployeeRemitanceList: {
             isLoading: false,
             isLoaded: false,
@@ -201,6 +213,32 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.sssEmployeeLoanList.isLoaded = true
                             this.sssEmployeeLoanList.list = response._data.data
                             this.sssEmployeeLoanList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getSssGroupLoan () {
+            this.sssGroupLoanList.params.loan_type = this.loanReportOption.loan_type
+            await useHRMSApiO(
+                "/api/reports/sss-group-loans",
+                {
+                    method: "GET",
+                    params: this.sssGroupLoanList.params,
+                    onRequest: () => {
+                        this.sssGroupLoanList.isLoading = true
+                        this.sssGroupLoanList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.sssGroupLoanList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.sssGroupLoanList.isLoading = false
+                        if (response.ok) {
+                            this.sssGroupLoanList.isLoaded = true
+                            this.sssGroupLoanList.list = response._data.data
+                            this.sssGroupLoanList.successMessage = response._data.message
                         }
                     },
                 }
