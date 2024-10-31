@@ -173,7 +173,7 @@ const uniqueLoanNameTotals = computed(() => {
                             GROSS AMOUNT
                         </th>
                         <th
-                            :colspan="6 + uniqueOtherDeductionNames.length + uniqueLoanNames.length"
+                            :colspan="6 + (uniqueOtherDeductionNames.length || 1) + (uniqueLoanNames.length || 1)"
                             class="border border-gray-500"
                         >
                             DEDUCTIONS
@@ -272,11 +272,23 @@ const uniqueLoanNameTotals = computed(() => {
                             OVERTIME
                         </th>
                         <th
+                            v-if="uniqueLoanNames.length === 0"
+                            class="border border-gray-500"
+                        >
+                            -
+                        </th>
+                        <th
                             v-for="name, key in uniqueLoanNames"
                             :key="key"
                             class="border border-gray-500"
                         >
                             {{ name }}
+                        </th>
+                        <th
+                            v-if="uniqueOtherDeductionNames.length === 0"
+                            class="border border-gray-500"
+                        >
+                            -
                         </th>
                         <th
                             v-for="name, key in uniqueOtherDeductionNames"
@@ -353,7 +365,7 @@ const uniqueLoanNameTotals = computed(() => {
                             {{ flattenLoans(rowData.data.details, name) ? useFormatCurrency(flattenLoans(rowData.data.details, name).reduce((a, b) => a + b.amount, 0)) : 0.00 }}
                         </td>
                         <td
-                            v-if="uniqueOtherDeductionNames"
+                            v-if="uniqueOtherDeductionNames.length === 0"
                             class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
                         >
                             -
