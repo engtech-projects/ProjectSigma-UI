@@ -19,6 +19,11 @@ const changePaginate = (newParams) => {
     voucherStore.params.page = newParams.page ?? ""
     voucherStore.getVouchers()
 }
+const filterList = () => {
+    voucherStore.params.filter.status = voucherStore.filter.value
+    voucherStore.params.page = 1
+    voucherStore.getVouchers()
+}
 onMounted(() => {
     voucherStore.filter.name = "status"
 })
@@ -57,6 +62,7 @@ onMounted(() => {
                     id="netAmount"
                     v-model="voucherStore.filter.value"
                     class="bg-gray-50 border h-6 border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 py-1 px-2 text-xs"
+                    @change="filterList"
                 >
                     <option value="">
                         All
@@ -141,7 +147,7 @@ onMounted(() => {
             </table>
             <div class="flex justify-center mx-auto my-8">
                 <CustomPagination
-                    v-if="1===2"
+                    v-if="1===1"
                     :links="voucherStore.pagination"
                     @change-params="changePaginate"
                 />
