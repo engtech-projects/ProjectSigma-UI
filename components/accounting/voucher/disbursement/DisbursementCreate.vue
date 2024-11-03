@@ -89,16 +89,24 @@ onMounted(() => {
                         <label for="voucherNo" class="block text-sm font-medium text-gray-900 dark:text-white">Voucher No.</label>
                         <input id="voucherNo" v-model="voucherStore.voucher.voucher_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     </div>
-                    <div class="flex-1 gap-2">
-                        <label for="payee" class="block text-sm font-medium text-gray-900 dark:text-white">Payee</label>
-                        <AccountingSelectSearch
-                            class="z-50 bg-gray-50 border-gray-200"
-                            :options="payeeList"
-                            title="name"
-                            opid="id"
-                            :selected-id="voucherStore.voucher.stakeholder_id"
-                            @select="voucherStore.voucher.stakeholder_id = $event.id"
-                        />
+                    <div class="flex flex-col relative flex-1">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Payee</label>
+                            <AccountingSelectSearch
+                                class="z-50 bg-gray-50 border-gray-200"
+                                :options="payeeList"
+                                title="name"
+                                opid="id"
+                                :selected-id="voucherStore.voucher.stakeholder_id"
+                                @select="voucherStore.voucher.stakeholder_id = $event.id"
+                            />
+                        </div>
+                        <input
+                            v-model="voucherStore.voucher.stakeholder_id"
+                            type="text"
+                            class="focus:ring-0 text-white absolute left-0 bottom-0 bg-transparent border-none h-[1px] p-0 w-fill"
+                            required
+                        >
                     </div>
                 </div>
                 <div class="flex gap-2 w-full">
@@ -122,17 +130,25 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="flex gap-2 w-full justify-between">
-                    <div class="flex-1">
-                        <label for="expenseAccount" class="block text-sm font-medium text-gray-900 dark:text-white">Account</label>
-                        <AccountingSelectSearch
-                            id="expenseAccount"
-                            class="bg-gray-50 border-gray-200"
-                            :options="accountGroupStore.accountGroup.accounts"
-                            :selected-id="voucherStore.voucher.account_id"
-                            title="account_name"
-                            opid="id"
-                            @select="voucherStore.voucher.account_id = $event.id"
-                        />
+                    <div class="flex flex-col relative flex-1">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Account</label>
+                            <AccountingSelectSearch
+                                id="expenseAccount"
+                                class="bg-gray-50 border-gray-200"
+                                :options="accountGroupStore.accountGroup.accounts"
+                                :selected-id="voucherStore.voucher.account_id"
+                                title="account_name"
+                                opid="id"
+                                @select="voucherStore.voucher.account_id = $event.id"
+                            />
+                        </div>
+                        <input
+                            v-model="voucherStore.voucher.account_id"
+                            type="text"
+                            class="focus:ring-0 text-white absolute left-0 bottom-0 bg-transparent border-none h-[1px] p-0 w-fill"
+                            required
+                        >
                     </div>
                     <div class="flex-1 gap-2">
                         <label for="formType" class="block text-sm font-medium text-gray-900 dark:text-white">Form Type</label>
@@ -167,33 +183,49 @@ onMounted(() => {
                 </h2>
                 <div class="flex flex-col w-full gap-2 mt-4">
                     <div v-for="ac,i in voucherStore.voucher.details" :key="i" class="flex gap-1 w-full items-end">
-                        <div class="flex-1">
-                            <label class="block text-xs font-medium text-gray-900 dark:text-white">Accounts</label>
-                            <AccountingSelectSearch
-                                id="expenseAccount"
+                        <div class="flex flex-col relative flex-1">
+                            <div class="flex-1">
+                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Accounts</label>
+                                <AccountingSelectSearch
+                                    id="expenseAccount"
+                                    v-model="ac.account_id"
+                                    class="bg-gray-50 border-gray-200"
+                                    :class="'z-' + (30 - i)"
+                                    height="h-30"
+                                    :options="accountGroupStore.accountGroup.accounts"
+                                    :selected-id="ac.account_id"
+                                    title="account_name"
+                                    opid="id"
+                                    @select="ac.account_id = $event.id"
+                                />
+                            </div>
+                            <input
                                 v-model="ac.account_id"
-                                class="bg-gray-50 border-gray-200"
-                                :class="'z-' + (30 - i)"
-                                height="h-30"
-                                :options="accountGroupStore.accountGroup.accounts"
-                                :selected-id="ac.account_id"
-                                title="account_name"
-                                opid="id"
-                                @select="ac.account_id = $event.id"
-                            />
+                                type="text"
+                                class="focus:ring-0 text-white absolute left-0 bottom-0 bg-transparent border-none h-[1px] p-0 w-fill"
+                                required
+                            >
                         </div>
-                        <div class="flex-1">
-                            <label class="block text-xs font-medium text-gray-900 dark:text-white">Stakeholder</label>
-                            <AccountingSelectSearch
-                                class="bg-gray-50 border-gray-200"
-                                :class="'z-' + (30 - i)"
-                                height="h-30"
-                                :options="payeeList"
-                                :selected-id="ac.stakeholder_id"
-                                title="name"
-                                opid="id"
-                                @select="ac.stakeholder_id = $event.id"
-                            />
+                        <div class="flex flex-col relative flex-1">
+                            <div class="flex-1">
+                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Stakeholder</label>
+                                <AccountingSelectSearch
+                                    class="bg-gray-50 border-gray-200"
+                                    :class="'z-' + (30 - i)"
+                                    height="h-30"
+                                    :options="payeeList"
+                                    :selected-id="ac.stakeholder_id"
+                                    title="name"
+                                    opid="id"
+                                    @select="ac.stakeholder_id = $event.id"
+                                />
+                            </div>
+                            <input
+                                v-model="ac.stakeholder_id"
+                                type="text"
+                                class="focus:ring-0 text-white absolute left-0 bottom-0 bg-transparent border-none h-[1px] p-0 w-fill"
+                                required
+                            >
                         </div>
                         <div class="flex-1">
                             <label class="block text-xs font-medium text-gray-900 dark:text-white">Debit</label>
