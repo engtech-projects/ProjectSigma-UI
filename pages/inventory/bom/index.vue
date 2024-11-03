@@ -9,6 +9,7 @@ useHead({
         :if-access="useCheckAccessibility([
             'Admin only',
         ])"
+        class="max-w-4xl"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
@@ -53,16 +54,16 @@ useHead({
                     <InventoryBomForm />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="allList">
-                    <InventoryBomForm />
+                    <InventoryBomRequestAllRequests />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myApprovals">
-                    <InventoryBomForm />
+                    <InventoryBomRequestMyApprovals />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myRequests">
-                    <InventoryBomForm />
+                    <InventoryBomRequestMyRequests />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myCurrentBom">
-                    <InventoryBomForm />
+                    <InventoryBomRequestCurrentBom />
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>

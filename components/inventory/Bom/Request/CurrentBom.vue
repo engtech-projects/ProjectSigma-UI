@@ -11,7 +11,7 @@ const headers = [
 </script>
 <template>
     <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b p-2">
-        Form Request
+        Current BOM
     </h5>
     <div class="text-gray-500 p-2">
         <form>
@@ -30,17 +30,16 @@ const headers = [
                             <label> Year : </label>
                         </div>
                         <div>
-                            <input id="year" v-model="currentYear" type="text" class="bg-gray-50 border disabled:opacity-75 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" disabled>
+                            <select v-model="currentYear" class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
+                                <option>
+                                    2024
+                                </option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <InventoryBomItemTable title="Item List" :header-columns="headers" />
-                </div>
-                <div>
-                    <button type="submit" class=" text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
-                        Submit
-                    </button>
+                    <InventoryBomTable title="Item List" :header-columns="headers" />
                 </div>
             </div>
         </form>
