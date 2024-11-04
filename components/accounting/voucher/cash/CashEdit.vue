@@ -132,6 +132,10 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="flex gap-2 w-full justify-between">
+                    <!-- <div class="flex-1 gap-2">
+                        <label for="status" class="block text-sm font-medium text-gray-900 dark:text-white">Status</label>
+                        <input id="status" v-model="voucherStore.voucher.status" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div> -->
                     <div v-if="voucherStore.voucher.form_type" class="flex-1">
                         <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Reference No.</label>
                         <input id="referenceNo" v-model="voucherStore.voucher.reference_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
@@ -244,5 +248,61 @@ onMounted(() => {
     </form>
 </template>
 <style scoped>
-@import "/css/accounting.css";
+.z-30 {
+    z-index: 30;
+}
+.z-29 {
+    z-index: 29;
+}
+.z-28 {
+    z-index: 28;
+}
+.z-27 {
+    z-index: 27;
+}
+.z-26 {
+    z-index: 26;
+}
+.z-30 {
+    z-index: 30;
+}
+.z-25 {
+    z-index: 25;
+}
+.z-24 {
+    z-index: 24;
+}
+.z-23 {
+    z-index: 23;
+}
+.z-22 {
+    z-index: 22;
+}
+.z-21 {
+    z-index: 21;
+}
+.z-20 {
+    z-index: 20;
+}
+.z-19 {
+    z-index: 19;
+}
+.z-18 {
+    z-index: 18;
+}
+.z-17 {
+    z-index: 17;
+}
+.z-16 {
+    z-index: 16;
+}
+.z-15 {
+    z-index: 15;
+}
+.z-14 {
+    z-index: 14;
+}
+.z-13 {
+    z-index: 13;
+}
 </style>
