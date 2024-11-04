@@ -33,10 +33,6 @@ const changePaginate = (newParams) => {
 
 const headers = [
     { name: "Display Name", id: "name", style: "text-left" },
-    { name: "Email", id: "email" },
-    { name: "Mobile No.", id: "mobile_number" },
-    { name: "Company", id: "company" },
-    { name: "Type", id: "stakeholder_type" },
 ]
 // const actions = {
 //     edit: true,

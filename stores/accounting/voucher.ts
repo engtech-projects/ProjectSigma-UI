@@ -15,6 +15,7 @@ export const useVoucherStore = defineStore("voucherStore", {
             created_by: 1,
             check_no: null,
             details: [],
+            form: {},
             form_type: null,
             reference_no: null,
             status: "pending",
@@ -212,6 +213,42 @@ export const useVoucherStore = defineStore("voucherStore", {
             }
         },
 
+        async approve () {
+            this.voucher.date_encoded = dateToString(new Date(this.voucher.date_encoded))
+            this.voucher.voucher_date = dateToString(new Date(this.voucher.voucher_date))
+            const ddata = JSON.parse(JSON.stringify(this.voucher))
+            ddata.status = "approved"
+            this.isLoading.show = true
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useAccountingApi(
+                "/api/voucher/" + this.voucher.id,
+                {
+                    method: "PATCH",
+                    body: ddata,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.isLoading.show = false
+                this.getVouchers()
+                this.voucher.status = "approved"
+                this.successMessage = "Voucher has been approved"
+                return data
+            } else if (error.value) {
+                this.isLoading.show = false
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+
+        async reject () {
+            this.voucher.status = "rejected"
+            this.isLoading.show = true
+            await this.editVoucher()
+            this.isLoading.show = false
+        },
+
         reset () {
             this.voucher = {
                 stakeholder_id: null,
@@ -228,6 +265,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                 form_type: null,
                 reference_no: null,
                 details: [],
+                form: {},
                 status: "pending",
                 form_id: null,
             }

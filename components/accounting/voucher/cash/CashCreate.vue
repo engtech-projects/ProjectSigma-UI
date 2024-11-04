@@ -15,12 +15,7 @@ const emit = defineEmits(["detach"])
 const entriesError = ref(false)
 
 const snackbar = useSnackbar()
-const accountEntry = ref({
-    account_id: null,
-    stakeholder_id: null,
-    debit: 0,
-    credit: 0
-})
+
 async function handleSubmit () {
     if (voucherStore.voucher.details.length > 0) {
         try {
@@ -54,13 +49,6 @@ const amount = computed(() => {
 watch(amount, (newAmount) => {
     voucherStore.voucher.amount_in_words = amountToWords(newAmount)
 })
-const addEntry = () => {
-    voucherStore.voucher.details.push(JSON.parse(JSON.stringify(accountEntry.value)))
-    entriesError.value = false
-}
-const removeEntry = (entry) => {
-    voucherStore.voucher.details = voucherStore.voucher.details.filter(e => e !== entry)
-}
 onMounted(() => {
     voucherStore.reset()
     voucherStore.voucher.voucher_date = dateToString(new Date())
@@ -86,8 +74,8 @@ onMounted(() => {
             <div class="flex flex-col gap-3 p-4 w-full">
                 <div class="flex gap-2 w-full">
                     <div class="flex-1">
-                        <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Reference No.</label>
-                        <input id="referenceNo" v-model="voucherStore.voucher.voucher_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="voucherNo" class="block text-sm font-medium text-gray-900 dark:text-white">Voucher No.</label>
+                        <input id="voucherNo" v-model="voucherStore.voucher.voucher_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     </div>
                     <div class="flex flex-col relative flex-1">
                         <div class="flex-1">
@@ -97,6 +85,7 @@ onMounted(() => {
                                 :options="payeeList"
                                 title="name"
                                 opid="id"
+                                :disabled="true"
                                 :selected-id="voucherStore.voucher.stakeholder_id"
                                 @select="voucherStore.voucher.stakeholder_id = $event.id"
                             />
@@ -112,21 +101,47 @@ onMounted(() => {
                 <div class="flex gap-2 w-full">
                     <div class="flex-1">
                         <label for="dateEncoded" class="block text-sm font-medium text-gray-900 dark:text-white">Encoded Date</label>
-                        <input id="dateEncoded" v-model="voucherStore.voucher.date_encoded" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <input
+                            id="dateEncoded"
+                            v-model="voucherStore.voucher.date_encoded"
+                            type="date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                        >
                     </div>
                     <div class="flex-1 gap-2">
                         <label for="dateCreate" class="block text-sm font-medium text-gray-900 dark:text-white">Created Date</label>
-                        <input id="dateCreate" v-model="voucherStore.voucher.voucher_date" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <input
+                            id="dateCreate"
+                            v-model="voucherStore.voucher.voucher_date"
+                            type="date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                        >
                     </div>
                 </div>
                 <div class="flex gap-2 w-full">
                     <div class="flex-1">
                         <label for="netAmount" class="block text-sm font-medium text-gray-900 dark:text-white">Net Amount</label>
-                        <input id="netAmount" v-model="voucherStore.voucher.net_amount" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <input
+                            id="netAmount"
+                            v-model="voucherStore.voucher.net_amount"
+                            type="number"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                            disabled
+                        >
                     </div>
                     <div class="flex-1 gap-2">
                         <label for="amountWords" class="block text-sm font-medium text-gray-900 dark:text-white">Amount in words</label>
-                        <input id="amountWords" v-model="voucherStore.voucher.amount_in_words" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <input
+                            id="amountWords"
+                            v-model="voucherStore.voucher.amount_in_words"
+                            type="text"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            required
+                            disabled
+                        >
                     </div>
                 </div>
                 <div class="flex gap-2 w-full justify-between">
@@ -139,6 +154,7 @@ onMounted(() => {
                                 :options="accountGroupStore.accountGroup.accounts"
                                 :selected-id="voucherStore.voucher.account_id"
                                 title="account_name"
+                                :disabled="true"
                                 opid="id"
                                 @select="voucherStore.voucher.account_id = $event.id"
                             />
@@ -148,36 +164,25 @@ onMounted(() => {
                             type="text"
                             class="focus:ring-0 text-white absolute left-0 bottom-0 bg-transparent border-none h-[1px] p-0 w-fill"
                             required
+                            disabled
                         >
                     </div>
                     <div class="flex-1 gap-2">
                         <label for="checkNo" class="block text-sm font-medium text-gray-900 dark:text-white">Check No.</label>
-                        <input id="checkNo" v-model="voucherStore.voucher.check_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <input id="checkNo" v-model="voucherStore.voucher.check_no" type="text" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     </div>
                 </div>
                 <div class="flex gap-2 w-full justify-between">
-                    <div class="flex-1 gap-2">
-                        <label for="formType" class="block text-sm font-medium text-gray-900 dark:text-white">Form Type</label>
-                        <select id="formType" v-model="voucherStore.voucher.form_type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option :value="null" selected />
-                            <option value="PaymentRequest">
-                                Payment Request
-                            </option>
-                            <option value="PayrollRequest">
-                                Payroll Request
-                            </option>
-                        </select>
-                    </div>
                     <div v-if="voucherStore.voucher.form_type" class="flex-1">
                         <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Reference No.</label>
-                        <input id="referenceNo" v-model="voucherStore.voucher.reference_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <input id="referenceNo" v-model="voucherStore.voucher.reference_no" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
                     </div>
                     <div v-else class="flex-1" />
                 </div>
                 <div class="flex gap-2 w-full">
                     <div class="flex-1">
                         <label for="referenceNo" class="block text-sm font-medium text-gray-900 dark:text-white">Particulars</label>
-                        <textarea v-model="voucherStore.voucher.particulars" class="bg-gray-50 border h-32 resize-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                        <textarea v-model="voucherStore.voucher.particulars" class="bg-gray-50 border h-32 resize-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled />
                     </div>
                 </div>
             </div>
@@ -200,6 +205,7 @@ onMounted(() => {
                                     :selected-id="ac.account_id"
                                     title="account_name"
                                     opid="id"
+                                    :disabled="true"
                                     @select="ac.account_id = $event.id"
                                 />
                             </div>
@@ -221,6 +227,7 @@ onMounted(() => {
                                     :selected-id="ac.stakeholder_id"
                                     title="name"
                                     opid="id"
+                                    :disabled="true"
                                     @select="ac.stakeholder_id = $event.id"
                                 />
                             </div>
@@ -229,58 +236,22 @@ onMounted(() => {
                                 type="text"
                                 class="focus:ring-0 text-white absolute left-0 bottom-0 bg-transparent border-none h-[1px] p-0 w-fill"
                                 required
+                                disabled
                             >
                         </div>
                         <div class="flex-1">
                             <label class="block text-xs font-medium text-gray-900 dark:text-white">Debit</label>
-                            <input v-model="ac.debit" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-800 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <input v-model="ac.debit" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-800 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
                         </div>
                         <div class="flex-1">
                             <label class="block text-xs font-medium text-gray-900 dark:text-white">Credit</label>
-                            <input v-model="ac.credit" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            <input v-model="ac.credit" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
                         </div>
-                        <Icon name="ion:close-round" class="text-red-400 text-2xl mb-1 cursor-pointer hover:text-red-500 active:text-red-600" @click="removeEntry(ac)" />
                     </div>
                 </div>
                 <i v-if="voucherStore.voucher.details.length === 0" class="text-center block mt-4 mb-2 text-gray-500">
                     There are no entries yet.
                 </i>
-                <div v-if="voucherStore.voucher.details.length > 0" class="flex justify-left w-full mt-1">
-                    <button
-                        class="
-                            border
-                            px-4
-                            rounded-xl
-                            text-xs
-                            py-[2px]
-                            bg-green-400
-                            cursor-pointer
-                            hover:bg-green-500
-                            active:bg-green-600"
-                        @click.prevent="addEntry"
-                    >
-                        + Add Entry
-                    </button>
-                </div>
-                <button
-                    v-else
-                    class="
-                        border
-                        rounded-xl
-                        px-4
-                        text-xs
-                        py-[2px]
-                        bg-green-400
-                        cursor-pointer
-                        hover:bg-green-500
-                        active:bg-green-600"
-                    @click.prevent="addEntry"
-                >
-                    + Add Entry
-                </button>
-                <span v-if="entriesError" class="text-red font-bold block text-center mt-4 text-sm p-2 text-red-500">
-                    You forgot to add some entries.
-                </span>
             </div>
             <div class="flex justify-end w-full mb-8">
                 <button
