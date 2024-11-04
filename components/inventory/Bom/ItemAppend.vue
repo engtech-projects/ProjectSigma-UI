@@ -5,7 +5,7 @@ defineProps({
         required: true,
     }
 })
-const emit = defineEmits("removeItem")
+const emit = defineEmits(["removeItem"])
 const doRemoveItem = (item:any) => {
     emit("removeItem", item)
 }
@@ -16,22 +16,16 @@ const amount = 0
 <template>
     <tr class="border-b-2 border-gray-300">
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-            <input
+            <InventoryBomItemSelector
                 :id="compId"
                 v-model="item.item_id"
-                type="text"
-                class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
-                required
-            >
+            />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-            <input
+            <InventoryBomItemUomSelector
                 :id="compId"
                 v-model="item.uom_id"
-                type="text"
-                class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
-                required
-            >
+            />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <input

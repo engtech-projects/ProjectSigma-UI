@@ -11,24 +11,34 @@ export const REQ_STATUS = [
     DENIED,
 ]
 export interface NewItemBOM {
-    id: number,
-    request_bom_id: number,
     item_id: number,
     uom_id: number,
     unit_price: number,
     quantity: number,
 }
-
+export interface DepartmentBOMForm {
+    assignment_id: number,
+    assignment_type: "Department",
+    effectivity: string,
+    details: any,
+}
+export interface ProjecttBOMForm {
+    assignment_id: number,
+    assignment_type: "Project",
+    effectivity: string,
+    details: any,
+}
 export const useBOMStore = defineStore("BOMStore", {
     state: () => ({
         isEdit: false,
-        bomItems: [] as Array<NewItemBOM>,
         bomRequest: {
             isLoading: false,
             isLoaded: false,
             list: [],
-            items: [],
-            form: {},
+            assignList: [],
+            details: [] as Array<NewItemBOM>,
+            formDepartment: {} as DepartmentBOMForm,
+            formProject: {} as ProjecttBOMForm,
             params: {},
             pagination: {},
         },
@@ -53,7 +63,15 @@ export const useBOMStore = defineStore("BOMStore", {
             params: {},
             pagination: {},
         },
-        approvals: {},
+        approvalList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         errorMessage: "",
         successMessage: "",
         remarks: "",
@@ -67,7 +85,7 @@ export const useBOMStore = defineStore("BOMStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.approvals = response._data.data.approvals.map((approv: any) => {
+                            this.approvalList.list = response._data.data.approvals.map((approv: any) => {
                                 return {
                                     type: approv.type,
                                     status: "Pending",
@@ -174,12 +192,12 @@ export const useBOMStore = defineStore("BOMStore", {
                 }
             )
         },
-        async storeBOM () {
+        async storeBOMDepartment () {
             await useInventoryApi(
                 "/api/bom/resource",
                 {
                     method: "POST",
-                    body: this.bomRequest.form,
+                    body: this.bomRequest.formDepartment,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -195,7 +213,7 @@ export const useBOMStore = defineStore("BOMStore", {
         },
         async getCurrentBOM () {
             await useInventoryApi(
-                "/api/item-profile/list",
+                "/api/bom/resource",
                 {
                     method: "GET",
                     params: this.bomRequest.params,
@@ -219,9 +237,35 @@ export const useBOMStore = defineStore("BOMStore", {
                 }
             )
         },
+        async getAllAssignBOM () {
+            await useInventoryApi(
+                "/api/bom/resource/assignment",
+                {
+                    method: "GET",
+                    params: this.bomRequest.params,
+                    onRequest: () => {
+                        this.bomRequest.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.bomRequest.isLoading = false
+                        if (response.ok) {
+                            this.bomRequest.isLoaded = true
+                            this.bomRequest.assignList = response._data.data.data
+                            this.bomRequest.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getMyApprovalRequests () {
             await useInventoryApi(
-                "/api/item-profile/new-request/my-approvals",
+                "/api/bom/new-request/my-approvals",
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
@@ -289,6 +333,9 @@ export const useBOMStore = defineStore("BOMStore", {
             }
             if (this.myApprovals.isLoaded) {
                 callFunctions.push(this.getMyApprovals)
+            }
+            if (this.approvalList.isLoaded) {
+                callFunctions.push(this.getApprovalByName(APPROVALS))
             }
             this.$reset()
             callFunctions.forEach((element) => {

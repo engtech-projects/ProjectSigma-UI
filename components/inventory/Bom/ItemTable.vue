@@ -17,7 +17,7 @@ defineProps({
     },
 })
 const addItem = () => {
-    bomRequest.value.items.push(
+    bomRequest.value.details.push(
         {
             item_id: null,
             uom_id: null,
@@ -27,7 +27,7 @@ const addItem = () => {
     )
 }
 const removeItem = (id: number) => {
-    bomRequest.value.items.splice(id, 1)
+    bomRequest.value.details.splice(id, 1)
 }
 </script>
 <template>
@@ -60,9 +60,9 @@ const removeItem = (id: number) => {
                                 </button>
                             </td>
                         </tr>
-                        <template v-for="(item, index) in bomRequest.items" :key="index">
+                        <template v-for="(item, index) in bomRequest.details" :key="index">
                             <InventoryBomItemAppend
-                                v-model:item="bomRequest.items[index]"
+                                v-model:item="bomRequest.details[index]"
                                 :index="index"
                                 @remove-item="removeItem"
                             />

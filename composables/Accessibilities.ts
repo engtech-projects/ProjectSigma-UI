@@ -133,6 +133,11 @@ export enum AccessibilityTypes {
     inventory_warehouse_group = "inventory:warehouse_overview_",
     inventory_warehouse_viewonly = "inventory:warehouse_overview_view only",
     inventory_warehouse_pssmanager = "inventory:warehouse_oveview_pss manager",
+    inventory_bom_group = "inventory:bom_",
+    inventory_bom_form = "inventory:bom_form and my requests",
+    inventory_bom_all_request = "inventory:bom_all requests",
+    inventory_bom_my_approvals = "inventory:bom_my approvals",
+    inventory_bom_forms_and_my_requests = "inventory:bom_current bom",
 
     // ACCOUNTING
     accounting_journal_group = "accounting:journal entry_",

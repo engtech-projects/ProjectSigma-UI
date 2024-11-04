@@ -1,8 +1,13 @@
 <script lang="ts" setup>
+import { useBOMStore, APPROVALS } from "@/stores/inventory/bom"
+const main = useBOMStore()
+main.getApprovalByName(APPROVALS)
+main.getAllRequests()
+main.getMyRequests()
+main.getMyApprovals()
 useHead({
     title: "Project/Department BOM",
 })
-
 </script>
 <template>
     <LayoutAcessContainer
