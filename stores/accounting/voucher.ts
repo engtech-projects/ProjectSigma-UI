@@ -21,6 +21,7 @@ export const useVoucherStore = defineStore("voucherStore", {
             status: "pending",
             form_id: null,
         },
+        voucherClone: null,
         filter: {
             name: null,
             value: ""
@@ -100,6 +101,7 @@ export const useVoucherStore = defineStore("voucherStore", {
         },
 
         async editVoucher () {
+            const v = this.voucherClone ? this.voucherClone : this.voucher
             this.isLoading.edit = false
             this.successMessage = ""
             this.errorMessage = ""
@@ -107,12 +109,13 @@ export const useVoucherStore = defineStore("voucherStore", {
                 "/api/voucher/" + this.voucher.id,
                 {
                     method: "PATCH",
-                    body: this.voucher,
+                    body: v,
                     watch: false,
                 }
             )
             if (data.value) {
                 this.isLoading.edit = false
+                this.voucherClone = null
                 this.getVouchers()
                 this.successMessage = "Voucher successfully updated."
                 return data

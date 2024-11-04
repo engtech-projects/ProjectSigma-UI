@@ -34,8 +34,12 @@ const filterList = () => {
 }
 const setCashVoucher = (voucher) => {
     voucher = clone(voucher)
+    console.log(voucher)
     voucher.voucher_date = dateToString(new Date(voucher.voucher_date))
     voucher.date_encoded = dateToString(new Date(voucher.date_encoded))
+    voucherStore.voucherClone = clone(voucher)
+    voucherStore.voucherClone.status = "void"
+    console.log(voucherStore.voucherClone)
     voucher.reference_no = voucher.voucher_no
     voucher.voucher_no = voucherStore.voucher.voucher_no
     voucher.id = null
