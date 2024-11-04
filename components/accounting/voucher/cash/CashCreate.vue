@@ -29,6 +29,9 @@ async function handleSubmit () {
                 })
             } else {
                 voucherStore.isLoading.create = false
+                if (voucherStore.voucherClone) {
+                    await voucherStore.editVoucher()
+                }
                 snackbar.add({
                     type: "success",
                     text: voucherStore.successMessage
