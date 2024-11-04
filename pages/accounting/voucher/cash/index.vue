@@ -42,8 +42,7 @@
                         <span class="block text-center text-gray-300">No approvals yet.</span>
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="forVouchering">
-                        <AccountingPaymentrequestList v-if="!prDetails" target="voucher" @voucher="setVoucher" />
-                        <AccountingPaymentrequestDetails v-else target="voucher" :border="false" @back-to-list="prDetails=false" @detach="prDetails=false" />
+                        <AccountingVoucherDisbursementList target="cash" />
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>
@@ -58,7 +57,6 @@ import { useAccountStore } from "~/stores/accounting/account"
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { useBookStore } from "~/stores/accounting/book"
 import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
-import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
 
 const voucherStore = useVoucherStore()
 voucherStore.reset()
@@ -80,9 +78,6 @@ await bookStore.getBooks()
 const accountGroup = useAccountGroupStore()
 accountGroup.showAccountGroup(bookStore.disbursement.id)
 
-const paymentRequestStore = usePaymentRequestStore()
-paymentRequestStore.getPaymentRequests()
-
 const action = ref("create")
 
 if (useRoute().query.details) {
@@ -101,8 +96,5 @@ const receiveAction = (ac) => {
 }
 
 const prDetails = ref(false)
-const setVoucher = (val:any) => {
-    prDetails.value = true
-    paymentRequestStore.getPaymentRequest(val)
-}
+
 </script>
