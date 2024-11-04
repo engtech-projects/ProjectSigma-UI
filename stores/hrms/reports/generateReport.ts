@@ -1,11 +1,64 @@
 import { defineStore } from "pinia"
 export const useGenerateReportStore = defineStore("GenerateReport", {
     state: () => ({
+        loanReportOption: {
+            group_type: "",
+            report_type: "",
+            loan_type: "",
+        },
         sssEmployeeRemitanceList: {
             isLoading: false,
             isLoaded: false,
             list: [],
             params: {
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        sssEmployeeLoanList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "SSS LOAN",
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        sssGroupSummaryLoan: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "SSS LOAN",
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        hdmfEmployeeLoan: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "HDMF MPL",
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        hdmfGroupSummaryLoan: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "HDMF MPL",
                 charging_type: null,
             },
             pagination: {},
@@ -96,7 +149,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             pagination: {},
             errorMessage: null,
             successMessage: null,
-        }
+        },
     }),
     getters: {},
     actions: {
@@ -120,6 +173,106 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.sssEmployeeRemitanceList.isLoaded = true
                             this.sssEmployeeRemitanceList.list = response._data.data
                             this.sssEmployeeRemitanceList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getHdmfEmployeeLoan () {
+            await useHRMSApiO(
+                "/api/reports/hdmf-employee-loans",
+                {
+                    method: "GET",
+                    params: this.hdmfEmployeeLoan.params,
+                    onRequest: () => {
+                        this.hdmfEmployeeLoan.isLoading = true
+                        this.hdmfEmployeeLoan.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.hdmfEmployeeLoan.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.hdmfEmployeeLoan.isLoading = false
+                        if (response.ok) {
+                            this.hdmfEmployeeLoan.isLoaded = true
+                            this.hdmfEmployeeLoan.list = response._data.data
+                            this.hdmfEmployeeLoan.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getSssEmployeeLoan () {
+            await useHRMSApiO(
+                "/api/reports/sss-employee-loans",
+                {
+                    method: "GET",
+                    params: this.sssEmployeeLoanList.params,
+                    onRequest: () => {
+                        this.sssEmployeeLoanList.isLoading = true
+                        this.sssEmployeeLoanList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.sssEmployeeLoanList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.sssEmployeeLoanList.isLoading = false
+                        if (response.ok) {
+                            this.sssEmployeeLoanList.isLoaded = true
+                            this.sssEmployeeLoanList.list = response._data.data
+                            this.sssEmployeeLoanList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getSssGroupLoan () {
+            await useHRMSApiO(
+                "/api/reports/sss-group-summary-loans",
+                {
+                    method: "GET",
+                    params: this.sssGroupSummaryLoan.params,
+                    onRequest: () => {
+                        this.sssGroupSummaryLoan.isLoading = true
+                        this.sssGroupSummaryLoan.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.sssGroupSummaryLoan.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.sssGroupSummaryLoan.isLoading = false
+                        if (response.ok) {
+                            this.sssGroupSummaryLoan.isLoaded = true
+                            this.sssGroupSummaryLoan.list = response._data.data
+                            this.sssGroupSummaryLoan.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getHdmfGroupLoan () {
+            await useHRMSApiO(
+                "/api/reports/hdmf-group-summary-loans",
+                {
+                    method: "GET",
+                    params: this.hdmfGroupSummaryLoan.params,
+                    onRequest: () => {
+                        this.hdmfGroupSummaryLoan.isLoading = true
+                        this.hdmfGroupSummaryLoan.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.hdmfGroupSummaryLoan.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.hdmfGroupSummaryLoan.isLoading = false
+                        if (response.ok) {
+                            this.hdmfGroupSummaryLoan.isLoaded = true
+                            this.hdmfGroupSummaryLoan.list = response._data.data
+                            this.hdmfGroupSummaryLoan.successMessage = response._data.message
                         }
                     },
                 }
