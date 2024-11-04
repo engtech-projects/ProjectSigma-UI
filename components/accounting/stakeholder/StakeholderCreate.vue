@@ -1,7 +1,7 @@
-<script setup>
-import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+<script lang="ts" setup>
+import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 
-const stakeholderStore = useStakeHolderStore()
+const stakeholderStore = useStakeholderStore()
 const snackbar = useSnackbar()
 
 async function handleSubmit () {

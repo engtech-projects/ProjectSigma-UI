@@ -1,7 +1,7 @@
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
+            AccessibilityTypes.accounting_journal_group,
         ])"
     >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -14,21 +14,21 @@
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
+                            AccessibilityTypes.accounting_journal_group,
                         ])"
                         title="All List"
                         target-id="allList"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
+                            AccessibilityTypes.accounting_journal_group,
                         ])"
                         title="My Approvals"
                         target-id="myApprovals"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
+                            AccessibilityTypes.accounting_journal_group,
                         ])"
                         title="For Vouchering"
                         target-id="forVouchering"
@@ -52,26 +52,24 @@
 
 <script lang="ts" setup>
 
-import { useVoucherStore } from "~/stores/accounting/vouchers/voucher"
-import { useAccountStore } from "~/stores/accounting/setup/account"
-import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
-import { useBookStore } from "~/stores/accounting/setup/book"
-import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
+import { useVoucherStore } from "~/stores/accounting/voucher"
+import { useAccountStore } from "~/stores/accounting/account"
+import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+import { useBookStore } from "~/stores/accounting/book"
+import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 
 const voucherStore = useVoucherStore()
 voucherStore.reset()
-voucherStore.params.book = "cash"
-voucherStore.params.status = "pending"
+voucherStore.params.filter = {
+    book: "cash",
+    status: "pending"
+}
 voucherStore.getVouchers()
-
-voucherStore.vparams.book = "disbursement"
-voucherStore.vparams.status = "approved"
-voucherStore.getForVouchering()
 
 const accountStore = useAccountStore()
 accountStore.getAccounts()
 
-const stakeholderStore = useStakeHolderStore()
+const stakeholderStore = useStakeholderStore()
 stakeholderStore.getStakeholders()
 
 const bookStore = useBookStore()
