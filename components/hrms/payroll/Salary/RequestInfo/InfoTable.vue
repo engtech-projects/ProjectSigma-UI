@@ -319,7 +319,9 @@ const totalCashadvancePayroll = computed(() => {
                     {{ useFormatCurrency(totalAdjustments()) }}
                 </td>
                 <td>
-                    {{ useFormatCurrency(totalGrossPayPayroll()) }}
+                    <strong>
+                        {{ useFormatCurrency(totalGrossPayPayroll()) }}
+                    </strong>
                 </td>
                 <td>
                     {{ totalSSSContributionEmployeePayroll() ? useFormatCurrency(totalSSSContributionEmployeePayroll()) : "-" }}
@@ -342,8 +344,14 @@ const totalCashadvancePayroll = computed(() => {
                 <td>
                     {{ useFormatCurrency(totalCashadvancePayroll) }}
                 </td>
+                <td v-if="uniqueLoanNames.length === 0">
+                    -
+                </td>
                 <td v-for="deduction in uniqueLoanNames" :key="deduction">
                     {{ useFormatCurrency(uniqueLoanNameTotals[deduction]) }}
+                </td>
+                <td v-if="uniqueOtherDeductionNames.length === 0">
+                    -
                 </td>
                 <td v-for="deduction in uniqueOtherDeductionNames" :key="deduction">
                     {{ useFormatCurrency(uniqueOtherDeductionNameTotals[deduction]) }}
