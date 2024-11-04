@@ -36,6 +36,18 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
+        hdmfGroupLoanList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "",
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
         pagibigEmployeeRemitanceList: {
             isLoading: false,
             isLoaded: false,
@@ -239,6 +251,32 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.sssGroupLoanList.isLoaded = true
                             this.sssGroupLoanList.list = response._data.data
                             this.sssGroupLoanList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getHdmfGroupLoan () {
+            this.hdmfGroupLoanList.params.loan_type = this.loanReportOption.loan_type
+            await useHRMSApiO(
+                "/api/reports/hdmf-group-loans",
+                {
+                    method: "GET",
+                    params: this.hdmfGroupLoanList.params,
+                    onRequest: () => {
+                        this.hdmfGroupLoanList.isLoading = true
+                        this.hdmfGroupLoanList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.hdmfGroupLoanList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.hdmfGroupLoanList.isLoading = false
+                        if (response.ok) {
+                            this.hdmfGroupLoanList.isLoaded = true
+                            this.hdmfGroupLoanList.list = response._data.data
+                            this.hdmfGroupLoanList.successMessage = response._data.message
                         }
                     },
                 }
