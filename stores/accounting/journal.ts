@@ -9,7 +9,7 @@ export const useJournalStore = defineStore("journalStore", {
             journal_no: null,
             journal_date: null,
             voucher_id: null,
-            status: null,
+            status: "open",
             period_id: null,
             remarks: "",
             reference_no: "",
@@ -21,12 +21,18 @@ export const useJournalStore = defineStore("journalStore", {
         getParams: {},
         errorMessage: "",
         successMessage: "",
-        isLoading: false,
+        isLoading: {
+            list: false,
+            show: false,
+            edit: false,
+            create: false,
+            delete: false
+        },
         isEdit: false
     }),
     actions: {
         async getJournals () {
-            this.isLoading = true
+            this.isLoading.list = true
             const { data, error } = await useFetch(
                 "/api/journal-entry",
                 {
@@ -38,8 +44,33 @@ export const useJournalStore = defineStore("journalStore", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.isLoading = false
+                        this.isLoading.list = false
                         this.list = response._data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async getJournal (id:any) {
+            this.isLoading.show = true
+            const { data, error } = await useFetch(
+                "/api/journal-entry/" + id,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading.show = false
+                        this.journal = response._data
                     },
                 }
             )
@@ -53,6 +84,7 @@ export const useJournalStore = defineStore("journalStore", {
         async createJournal () {
             this.successMessage = ""
             this.errorMessage = ""
+            this.isLoading.create = true
             await useFetch(
                 "/api/journal-entry",
                 {
@@ -65,6 +97,7 @@ export const useJournalStore = defineStore("journalStore", {
                     body: this.journal,
                     watch: false,
                     onResponse: ({ response }) => {
+                        this.isLoading.create = false
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
@@ -76,8 +109,41 @@ export const useJournalStore = defineStore("journalStore", {
             )
         },
 
+        async editJournal () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            this.isLoading.edit = true
+            const { data, error } = await useAccountingApi(
+                "/api/journal-entry/" + this.journal.id,
+                {
+                    method: "PATCH",
+                    body: this.journal,
+                    watch: false,
+                }
+            )
+            this.isLoading.edit = false
+            if (data.value) {
+                this.getJournals()
+                this.successMessage = "Journal entry successfully updated."
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+
         reset () {
-            this.base = {}
+            this.journal = {
+                id: null,
+                journal_no: null,
+                journal_date: null,
+                voucher_id: null,
+                status: null,
+                period_id: null,
+                remarks: "",
+                reference_no: "",
+                details: []
+            }
             this.successMessage = ""
             this.errorMessage = ""
         },

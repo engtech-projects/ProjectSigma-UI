@@ -1,259 +1,22 @@
-<template>
-    <form @submit.prevent="handleSubmit">
-        <div class="flex flex-col gap-16 pb-24 pt-8">
-            <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
-                <img
-                    class="flex justify-center w-28 rounded-md"
-                    src="/loader.gif"
-                    alt="logo"
-                >
-            </div>
-            <AccountingCommonEvenparHeader />
-            <h1 class="text-2xl text-center font-bold">
-                PAYMENT REQUEST FORM
-            </h1>
-            <div class="flex gap-12">
-                <div class="flex flex-col flex-1">
-                    <div class="flex-1">
-                        <label
-                            for="payee"
-                            class="text-xs italic"
-                        >Payee</label>
-                        <AccountingSelectSearch
-                            class="z-50"
-                            :options="stakeholderStore.list"
-                            title="name"
-                            opid="id"
-                            :selected-id="paymentRequestStore.paymentRequest.stakeholder_id"
-                            @select="paymentRequestStore.paymentRequest.stakeholder_id=$event.id"
-                        />
-                    </div>
-                    <div class="flex-1">
-                        <label
-                            for="description"
-                            class="text-xs italic"
-                        >Description</label>
-                        <textarea
-                            id="description"
-                            v-model="paymentRequestStore.paymentRequest.description"
-                            class="w-full rounded-lg"
-                        />
-                    </div>
-                </div>
-                <div class="flex flex-col flex-1">
-                    <div class="flex-1">
-                        <label
-                            for="date"
-                            class="text-xs italic"
-                        >Date</label>
-                        <input
-                            id="date"
-                            v-model="paymentRequestStore.paymentRequest.request_date"
-                            type="date"
-                            class="w-full rounded-lg"
-                            required
-                        >
-                    </div>
-                    <div class="flex-1">
-                        <label
-                            for="totalAmount"
-                            class="text-xs italic"
-                        >Total Amount</label>
-                        <input
-                            id="totalAmount"
-                            v-model="paymentRequestStore.paymentRequest.total"
-                            type="number"
-                            class="w-full rounded-lg"
-                            required
-                        >
-                    </div>
-                </div>
-            </div>
-            <div class="mb-16">
-                <h2 class="text-xl font-bold text-center mb-10">
-                    PAYMENT REQUEST DETAILS
-                </h2>
-                <form @submit.prevent="addDetails">
-                    <div class="flex flex-col lg:flex-row gap-2 bg-yellow-100 rounded-lg px-6 py-4">
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Project/Section Code</label>
-                            <AccountingSelectSearch
-                                class="z-40 bg-white"
-                                :options="stakeholderStore.list"
-                                title="name"
-                                opid="id"
-                                :selected-id="detail.stakeholder_id"
-                                @select="detail.stakeholder_id=$event.id"
-                            />
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Particulars</label>
-                            <input
-                                id="credit"
-                                v-model="detail.particulars"
-                                type="text"
-                                class="w-full rounded-lg"
-                                required
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="debit"
-                                class="text-xs italic"
-                            >Cost</label>
-                            <input
-                                id="debit"
-                                v-model="detail.cost"
-                                type="number"
-                                class="w-full rounded-lg"
-                                required
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="credit"
-                                class="text-xs italic"
-                            >Vat</label>
-                            <input
-                                id="credit"
-                                v-model="detail.vat"
-                                type="number"
-                                class="w-full rounded-lg"
-                                required
-                            >
-                        </div>
-                        <button
-                            type="submit"
-                            class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
-                        >
-                            Add line
-                        </button>
-                    </div>
-                </form>
-                <div v-show="details.length > 0" class="flex flex-col bg-gray-100 rounded-lg px-8 py-4 gap-2">
-                    <div v-for="ae,i in details" :key="i" class="flex gap-2">
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Project/Section Code</label>
-                            <select v-model="ae.stakeholder_id" class="w-full rounded-lg h-9 text-sm bg-gray-100">
-                                <option v-for="st in stakeholderStore.list" :key="st.id" :value="st.id">
-                                    {{ st.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="amountInWords"
-                                class="text-xs italic"
-                            >Particulars</label>
-                            <input
-                                id="particulars"
-                                v-model="ae.particulars"
-                                type="text"
-                                class="w-full rounded-lg h-9 text-sm bg-gray-100"
-                                required
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="cost"
-                                class="text-xs italic"
-                            >Cost</label>
-                            <input
-                                id="cost"
-                                v-model="ae.cost"
-                                type="number"
-                                class="w-full rounded-lg h-9 text-sm bg-gray-100"
-                                required
-                            >
-                        </div>
-                        <div class="flex-1">
-                            <label
-                                for="vat"
-                                class="text-xs italic"
-                            >Vat</label>
-                            <input
-                                id="vat"
-                                v-model="ae.vat"
-                                type="number"
-                                class="w-full rounded-lg h-9 text-sm bg-gray-100"
-                                required
-                            >
-                        </div>
-                        <button
-                            class="text-white p-2 px-4 rounded bg-red-500 content-center mt-5 rounded-md w-fit"
-                            @click.prevent="removeLine(ae)"
-                        >
-                            Remove
-                        </button>
-                    </div>
-                </div>
-                <span v-if="details.length === 0" class="block text-center text-gray-600">
-                    No entries yet.
-                </span>
-            </div>
-            <div class="flex justify-end">
-                <div class="flex gap-2 jus">
-                    <NuxtLink
-                        to="/accounting/payment-request"
-                        class="text-white p-2 px-6 rounded bg-gray-600 content-center mt-5 rounded-md w-fit"
-                    >
-                        <span>Back</span>
-                    </NuxtLink>
-                    <button
-                        type="submit"
-                        class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
-                    >
-                        Submit
-                    </button>
-                </div>
-            </div>
-        </div>
-    </form>
-</template>
-
 <script lang="ts" setup>
-import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
 
-const stakeholderStore = useStakeholderStore()
 const paymentRequestStore = usePaymentRequestStore()
+
+const { list: payeeList } = storeToRefs(useStakeholderStore())
+
+const loading = ref(false)
+const snackbar = useSnackbar()
 const detail = ref({
     stakeholder_id: null,
     particulars: "",
     cost: 0,
     vat: 0
 })
-const details = ref([])
-const loading = ref(false)
-const addDetails = () => {
-    details.value.push(JSON.parse(JSON.stringify(detail.value)))
-    detail.value = {
-        stakeholder_id: null,
-        particulars: "",
-        cost: 0,
-        vat: 0
-    }
-}
-const snackbar = useSnackbar()
-
-const removeLine = (line: object) => {
-    details.value = details.value.filter(acc => acc !== line)
-}
-
 async function handleSubmit () {
     try {
         loading.value = true
-        paymentRequestStore.paymentRequest.total = 0
-        paymentRequestStore.paymentRequest.details = details.value
         await paymentRequestStore.createPaymentRequest()
         if (paymentRequestStore.errorMessage !== "") {
             snackbar.add({
@@ -265,19 +28,219 @@ async function handleSubmit () {
                 type: "success",
                 text: paymentRequestStore.successMessage
             })
-            details.value = []
             paymentRequestStore.reset()
-            navigateTo("/accounting/payment-request")
         }
     } catch (error) {
-        // paymentRequestStore.errorMessage = error.Message
-        // snackbar.add({
-        //     type: "error",
-        //     text: paymentRequestStore.errorMessage
-        // })
+        snackbar.add({
+            type: "error",
+            text: "something went wrong."
+        })
     } finally {
         loading.value = false
     }
 }
 
+const addEntry = () => {
+    paymentRequestStore.paymentRequest.details.push(JSON.parse(JSON.stringify(detail.value)))
+}
+const removeEntry = (entry) => {
+    paymentRequestStore.paymentRequest.details = paymentRequestStore.paymentRequest.details.filter(e => e !== entry)
+}
+onMounted(() => {
+    paymentRequestStore.reset()
+    paymentRequestStore.paymentRequest.request_date = dateToString(new Date())
+})
 </script>
+<template>
+    <form @submit.prevent="handleSubmit">
+        <div class="bg-white shadow rounded-lg border border-gray-200 px-2 relative">
+            <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+                <img
+                    class="flex justify-center w-28 rounded-md"
+                    src="/loader.gif"
+                    alt="logo"
+                >
+            </div>
+            <div class="flex justify-between items-center h-16 border-b px-4">
+                <h2 class="text-xl text-gray-800">
+                    Payment Request
+                </h2>
+            </div>
+            <div class="flex flex-col gap-3 p-4 w-full">
+                <div class="flex gap-2 w-full">
+                    <div class="flex-1">
+                        <label for="requestDate" class="block text-sm font-medium text-gray-900 dark:text-white">Request Date</label>
+                        <input id="requestDate" v-model="paymentRequestStore.paymentRequest.request_date" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div>
+                    <div class="flex-1">
+                        <label for="totalAmount" class="block text-sm font-medium text-gray-900 dark:text-white">Net Amount</label>
+                        <input id="totalAmount" v-model="paymentRequestStore.paymentRequest.total" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full">
+                    <div class="flex-1 gap-2">
+                        <label for="payee" class="block text-sm font-medium text-gray-900 dark:text-white">Payee</label>
+                        <AccountingSelectSearch
+                            class="z-50 bg-gray-50 border-gray-200"
+                            :options="payeeList"
+                            title="name"
+                            opid="id"
+                            :selected-id="paymentRequestStore.paymentRequest.stakeholder_id"
+                            @select="paymentRequestStore.paymentRequest.stakeholder_id = $event.id"
+                        />
+                    </div>
+                </div>
+                <div class="flex gap-2 w-full justify-between">
+                    <div class="flex-1">
+                        <label for="totalAmount" class="block text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                        <textarea
+                            id="totalAmount"
+                            v-model="paymentRequestStore.paymentRequest.descripton"
+                            class="bg-gray-50 border h-24 resize-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        />
+                    </div>
+                </div>
+            </div>
+            <form action="">
+                <div class="bg-gray-100 p-4 py-8 flex flex-col items-center mb-8">
+                    <h2 class="text-center font-bold text-gray-800">
+                        PAYMENT REQUEST DETAILS
+                    </h2>
+                    <div class="flex flex-col w-full gap-2 mt-4">
+                        <div v-for="ac,i in paymentRequestStore.paymentRequest.details" :key="i" class="flex gap-1 w-full items-end">
+                            <div class="flex-1">
+                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Stakeholder</label>
+                                <AccountingSelectSearch
+                                    class="bg-gray-50 border-gray-200"
+                                    :class="'z-' + (30 - i)"
+                                    height="h-30"
+                                    :options="payeeList"
+                                    :selected-id="ac.stakeholder_id"
+                                    title="name"
+                                    opid="id"
+                                    @select="ac.stakeholder_id = $event.id"
+                                />
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Particulars</label>
+                                <input v-model="ac.particulars" type="text" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-800 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Cost</label>
+                                <input v-model="ac.cost" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-800 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Vat</label>
+                                <input v-model="ac.vat" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            </div>
+                            <Icon name="ion:close-round" class="text-red-400 text-2xl mb-1 cursor-pointer hover:text-red-500 active:text-red-600" @click="removeEntry(ac)" />
+                        </div>
+                    </div>
+                    <i v-if="paymentRequestStore.paymentRequest.details.length === 0" class="text-center block mt-4 mb-2 text-gray-500">
+                        There are no entries yet.
+                    </i>
+                    <div v-if="paymentRequestStore.paymentRequest.details.length > 0" class="flex justify-left w-full mt-1">
+                        <button
+                            class="
+                                border
+                                px-4
+                                rounded-xl
+                                text-xs
+                                py-[2px]
+                                bg-green-400
+                                cursor-pointer
+                                hover:bg-green-500
+                                active:bg-green-600"
+                            @click.prevent="addEntry"
+                        >
+                            + Add Details
+                        </button>
+                    </div>
+                    <button
+                        v-else
+                        class="
+                            border
+                            rounded-xl
+                            px-4
+                            text-xs
+                            py-[2px]
+                            bg-green-400
+                            cursor-pointer
+                            hover:bg-green-500
+                            active:bg-green-600"
+                        @click.prevent="addEntry"
+                    >
+                        + Add Details
+                    </button>
+                </div>
+            </form>
+            <div class="flex justify-end w-full mb-8">
+                <button
+                    type="submit"
+                    class="text-white p-2 px-6 bg-teal-600 content-center mt-5 rounded-md w-fit"
+                >
+                    Create Payment Request
+                </button>
+            </div>
+        </div>
+    </form>
+</template>
+<style scoped>
+.z-30 {
+    z-index: 30;
+}
+.z-29 {
+    z-index: 29;
+}
+.z-28 {
+    z-index: 28;
+}
+.z-27 {
+    z-index: 27;
+}
+.z-26 {
+    z-index: 26;
+}
+.z-30 {
+    z-index: 30;
+}
+.z-25 {
+    z-index: 25;
+}
+.z-24 {
+    z-index: 24;
+}
+.z-23 {
+    z-index: 23;
+}
+.z-22 {
+    z-index: 22;
+}
+.z-21 {
+    z-index: 21;
+}
+.z-20 {
+    z-index: 20;
+}
+.z-19 {
+    z-index: 19;
+}
+.z-18 {
+    z-index: 18;
+}
+.z-17 {
+    z-index: 17;
+}
+.z-16 {
+    z-index: 16;
+}
+.z-15 {
+    z-index: 15;
+}
+.z-14 {
+    z-index: 14;
+}
+.z-13 {
+    z-index: 13;
+}
+</style>

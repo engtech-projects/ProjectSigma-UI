@@ -8,32 +8,44 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             stakeholder_id: null,
             request_date: null,
             total: 0,
+            descripton: "",
             details: []
         },
         list: [],
         pagination: {},
         getParams: {},
+        params: {
+            filter: {
+                status: ""
+            }
+        },
         errorMessage: "",
         successMessage: "",
-        isLoading: false,
+        isLoading: {
+            list: false,
+            show: false,
+            create: false,
+            edit: false,
+            delete: false
+        },
         isEdit: false
     }),
     actions: {
         async getPaymentRequests () {
-            this.isLoading = true
+            this.isLoading.list = true
             const { data, error } = await useAccountingApi(
                 "/api/payment-request",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.params,
                     watch: false,
                     onResponse: ({ response }) => {
-                        this.isLoading = false
-                        this.list = response._data
+                        this.isLoading.list = false
+                        this.list = response._data.payment_request
                         this.pagination = {
-                            first_page: response._data.first_page_url,
-                            pages: response._data.links,
-                            last_page: response._data.last_page_url,
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
                         }
                     },
                 }
@@ -48,6 +60,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         async createPaymentRequest () {
             this.successMessage = ""
             this.errorMessage = ""
+            this.isLoading.create = true
             await useAccountingApi(
                 "/api/payment-request",
                 {
@@ -55,10 +68,12 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                     body: this.paymentRequest,
                     watch: false,
                     onResponse: ({ response }) => {
+                        this.isLoading.create = false
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.successMessage = "New payment request successfully created."
+                            this.getPaymentRequests()
                         }
                     },
                 }
@@ -66,14 +81,14 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         },
 
         async getPaymentRequest (id:any) {
-            this.isLoading = true
+            this.isLoading.show = true
             const { data, error } = await useAccountingApi(
                 "/api/payment-request/" + id,
                 {
                     method: "GET",
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.isLoading = false
+                        this.isLoading.show = false
                         this.paymentRequest = response._data
                     },
                 }
@@ -88,6 +103,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         async editPaymentRequest () {
             this.successMessage = ""
             this.errorMessage = ""
+            this.isLoading.edit = true
             const { data, error } = await useAccountingApi(
                 "/api/payment-request/" + this.paymentRequest.id,
                 {
@@ -96,6 +112,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                     watch: false,
                 }
             )
+            this.isLoading.edit = false
             if (data.value) {
                 this.getPaymentRequests()
                 this.successMessage = "Payment request successfully updated."
@@ -105,6 +122,46 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 return error
             }
         },
+        async editForm (id:any, type:any) {
+            this.isLoading.show = true
+            this.isLoading.edit = true
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useAccountingApi(
+                "/api/form/" + type + "/" + id,
+                {
+                    method: "PUT",
+                    body: this.voucher,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.isLoading.show = false
+                this.isLoading.edit = false
+                this.getPaymentRequests()
+                this.successMessage = "Form successfully updated"
+                return data
+            } else if (error.value) {
+                this.isLoading.edit = false
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+
+        async approve () {
+            await this.editForm(this.paymentRequest.form?.id, "approved")
+            this.paymentRequest.form.status = "approved"
+        },
+
+        async issue () {
+            await this.editForm(this.paymentRequest.form?.id, "issued")
+            this.paymentRequest.form.status = "issued"
+        },
+
+        async reject () {
+            await this.editForm(this.paymentRequest.form?.id, "rejected")
+            this.paymentRequest.form.status = "rejected"
+        },
 
         reset () {
             this.paymentRequest = {
@@ -113,6 +170,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 stakeholder_id: null,
                 request_date: null,
                 total: 0,
+                descripton: "",
                 details: []
             }
             this.successMessage = ""
