@@ -29,7 +29,7 @@ onBeforeRouteLeave(() => {
 const startCamera = () => {
     Promise.all([
         faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL),
-        // faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
         faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
         faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
         // faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
@@ -62,7 +62,7 @@ const detectFace = () => {
     setInterval(async () => {
         if (isPaused.value) { return }
         context.clearRect(0, 0, canvas.width, canvas.height)
-        currentDetectedFace.value = await faceapi.detectSingleFace(video).withFaceLandmarks().withFaceDescriptor()
+        currentDetectedFace.value = await faceapi.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptor()
         if (currentDetectedFace.value) {
             // const resizedDetections = faceapi.resizeResults(currentDetectedFace.value, displaySize)
             // faceapi.draw.drawDetections(canvas, resizedDetections)
