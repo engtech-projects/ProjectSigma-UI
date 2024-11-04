@@ -67,9 +67,6 @@ const navigate = (url = "", action = "", journal = null) => {
                                         class="bg-green-500 hover:bg-green-600 active:bg-green-700 rounded h-8 w-8 p-1 cursor-pointer"
                                         @click="navigate('/accounting/journal-entry?details=' + journal.id, 'view-details', journal)"
                                     />
-                                    <!-- <button @click="setEdit(journal)">
-                                        <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
-                                    </button> -->
                                 </td>
                             </tr>
                         </tbody>

@@ -12,9 +12,6 @@ const navigate = (url = "", action = null, voucher = null) => {
     emit(action)
 }
 
-// const voucherList = computed(() => {
-//     return voucherStore.filteredList.filter(v => v.book_id === 1)
-// })
 const changePaginate = (newParams) => {
     voucherStore.params.page = newParams.page ?? ""
     voucherStore.getVouchers()
@@ -38,22 +35,6 @@ onMounted(() => {
             >
         </div>
         <div class="flex gap-2">
-            <!-- <div class="flex w-full items-center">
-                <label for="sortIput" class="text-xs mr-1">
-                    Sort by:
-                </label>
-                <select
-                    id="netAmount"
-                    class="bg-gray-50 border h-6 border-gray-300 text-gray-900 rounded-l-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 py-1 px-2 text-xs"
-                >
-                    <option value="status">
-                        Status
-                    </option>
-                </select>
-                <button class="bg-gray-500 hover:bg-gray-600 active:bg-gray-500 text-white text-sm px-2 h-6 pb-1 rounded-r-md border-0">
-                    <Icon name="mingcute:arrow-down-fill" class="font-bold mt-1" />
-                </button>
-            </div> -->
             <div class="flex w-full items-center">
                 <label for="sortIput" class="text-xs mr-1 flex-1 block">
                     Status:
@@ -83,14 +64,6 @@ onMounted(() => {
                         Void
                     </option>
                 </select>
-                <!-- <select
-                    id="netAmount"
-                    class="bg-gray-50 border h-6 border-gray-300 text-gray-900 rounded-r-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 py-1 px-2 text-xs"
-                >
-                    <option value="status">
-                        Open
-                    </option>
-                </select> -->
             </div>
         </div>
         <div class="pb-2 text-gray-500 w-full">

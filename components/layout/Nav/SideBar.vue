@@ -592,7 +592,7 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_chart_of_accounts,
+                        AccessibilityTypes.accounting_journal_group,
                     ])"
                     linkarea="/accounting/payment-request"
                     icon="iconoir:credit-card-2"
@@ -722,7 +722,7 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_account_groups,
+                        AccessibilityTypes.accounting_journal_group,
                     ])"
                     linkarea="/accounting/voucher/disbursement"
                     icon="iconoir:hand-contactless"
@@ -730,7 +730,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_account_groups,
+                        AccessibilityTypes.accounting_journal_group,
                     ])"
                     linkarea="/accounting/voucher/cash"
                     icon="iconoir:iconoir:cash"
