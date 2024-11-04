@@ -1,7 +1,7 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { hdmfGroupLoanList } = storeToRefs(generateReportstore)
+const { hdmfGroupSummaryLoan } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
@@ -9,33 +9,33 @@ const generateReport = async () => {
         await generateReportstore.getHdmfGroupLoan()
         snackbar.add({
             type: "success",
-            text: hdmfGroupLoanList.value.successMessage
+            text: hdmfGroupSummaryLoan.value.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: hdmfGroupLoanList.value.errorMessage || "something went wrong."
+            text: hdmfGroupSummaryLoan.value.errorMessage || "something went wrong."
         })
     }
 }
 const hdmfTotal = () => {
-    return hdmfGroupLoanList.value.list.reduce((accumulator, current) => {
+    return hdmfGroupSummaryLoan.value.list.reduce((accumulator, current) => {
         return accumulator + current.total_payments
     }, 0)
 }
-watch(() => hdmfGroupLoanList.value.params.month_year, (newValue) => {
+watch(() => hdmfGroupSummaryLoan.value.params.month_year, (newValue) => {
     if (newValue) {
-        hdmfGroupLoanList.value.params.filter_month = newValue.month + 1
-        hdmfGroupLoanList.value.params.filter_year = newValue.year
+        hdmfGroupSummaryLoan.value.params.filter_month = newValue.month + 1
+        hdmfGroupSummaryLoan.value.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards title="HDMF Loan Payment (Group)" :loading="hdmfGroupLoanList.isLoading">
+    <LayoutBoards title="HDMF Loan Payment (Group)" :loading="hdmfGroupSummaryLoan.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="hdmfGroupLoanList.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="hdmfGroupLoanList.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="hdmfGroupLoanList.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="hdmfGroupSummaryLoan.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="hdmfGroupSummaryLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="hdmfGroupSummaryLoan.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -92,7 +92,7 @@ watch(() => hdmfGroupLoanList.value.params.month_year, (newValue) => {
                         HDMF MPL LOAN PAYMENT (GROUP)
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(hdmfGroupLoanList.params.filter_month) }} {{ hdmfGroupLoanList.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(hdmfGroupSummaryLoan.params.filter_month) }} {{ hdmfGroupSummaryLoan.params.filter_year }}</span>
                     </span>
                 </div>
                 <div>
@@ -133,7 +133,7 @@ watch(() => hdmfGroupLoanList.value.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in hdmfGroupLoanList.list" :key="'sssemployeeremitance' + index" class="h-2">
+                        <tr v-for="reportData, index in hdmfGroupSummaryLoan.list" :key="'sssemployeeremitance' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center font-bold">
                                 {{ index + 1 }}
                             </td>

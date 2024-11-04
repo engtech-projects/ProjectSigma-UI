@@ -42,24 +42,7 @@ const selectedReport = ref("")
                     >
                         SSS Employee Remittance
                     </option>
-                    <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
-                        value="Report4"
-                    >
-                        Loan Reports
-                    </option>
-                    <!-- <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
-                        value="Report4"
-                    >
-                        SSS Loan Payment Summary
-                    </option>
-                    <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
-                        value="Report5"
-                    >
-                        SSS Loan Payment
-                    </option> -->
+
                     <option
                         v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_philhealthremittancesummary])"
                         value="Report6"
@@ -96,24 +79,12 @@ const selectedReport = ref("")
                     >
                         HDMF Employee Remittance
                     </option>
-                    <!-- <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
-                        value="Report12"
-                    >
-                        HDMF Loan Summary
-                    </option>
                     <option
                         v-if="useCheckAccessibility(['AdminOnly'])"
-                        value="Report13"
+                        value="Report4"
                     >
-                        HDMF Loan Project Remittance
-                    </option> -->
-                    <!-- <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
-                        value="Report14"
-                    >
-                        HDMF Loan Remittance
-                    </option> -->
+                        Loan Reports
+                    </option>
                     <option
                         v-if="useCheckAccessibility(['AdminOnly'])"
                         value="Report15"

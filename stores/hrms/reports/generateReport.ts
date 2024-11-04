@@ -1,6 +1,11 @@
 import { defineStore } from "pinia"
 export const useGenerateReportStore = defineStore("GenerateReport", {
     state: () => ({
+        loanReportOption: {
+            group_type: "",
+            report_type: "",
+            loan_type: "",
+        },
         sssEmployeeRemitanceList: {
             isLoading: false,
             isLoaded: false,
@@ -17,31 +22,43 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             isLoaded: false,
             list: [],
             params: {
-                loan_type: "",
+                loan_type: "SSS LOAN",
                 charging_type: null,
             },
             pagination: {},
             errorMessage: null,
             successMessage: null,
         },
-        sssGroupLoanList: {
+        sssGroupSummaryLoan: {
             isLoading: false,
             isLoaded: false,
             list: [],
             params: {
-                loan_type: "",
+                loan_type: "SSS LOAN",
                 charging_type: null,
             },
             pagination: {},
             errorMessage: null,
             successMessage: null,
         },
-        hdmfGroupLoanList: {
+        hdmfEmployeeLoan: {
             isLoading: false,
             isLoaded: false,
             list: [],
             params: {
-                loan_type: "",
+                loan_type: "HDMF MPL",
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        hdmfGroupSummaryLoan: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "HDMF MPL",
                 charging_type: null,
             },
             pagination: {},
@@ -94,18 +111,6 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
-        pagibigEmployeeLoanList: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {
-                loan_type: "",
-                charging_type: null,
-            },
-            pagination: {},
-            errorMessage: null,
-            successMessage: null,
-        },
         philhealthGroupRemittance: {
             isLoading: false,
             isLoaded: false,
@@ -145,11 +150,6 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
-        loanReportOption: {
-            loan_type: "",
-            group_type: "",
-            report_type: "",
-        }
     }),
     getters: {},
     actions: {
@@ -179,33 +179,31 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             )
         },
         async getHdmfEmployeeLoan () {
-            this.pagibigEmployeeLoanList.params.loan_type = this.loanReportOption.loan_type
             await useHRMSApiO(
                 "/api/reports/hdmf-employee-loans",
                 {
                     method: "GET",
-                    params: this.pagibigEmployeeLoanList.params,
+                    params: this.hdmfEmployeeLoan.params,
                     onRequest: () => {
-                        this.pagibigEmployeeLoanList.isLoading = true
-                        this.pagibigEmployeeLoanList.list = []
+                        this.hdmfEmployeeLoan.isLoading = true
+                        this.hdmfEmployeeLoan.list = []
                     },
                     onResponseError: ({ response } : any) => {
-                        this.pagibigEmployeeLoanList.errorMessage = response._data.message
+                        this.hdmfEmployeeLoan.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
-                        this.pagibigEmployeeLoanList.isLoading = false
+                        this.hdmfEmployeeLoan.isLoading = false
                         if (response.ok) {
-                            this.pagibigEmployeeLoanList.isLoaded = true
-                            this.pagibigEmployeeLoanList.list = response._data.data
-                            this.pagibigEmployeeLoanList.successMessage = response._data.message
+                            this.hdmfEmployeeLoan.isLoaded = true
+                            this.hdmfEmployeeLoan.list = response._data.data
+                            this.hdmfEmployeeLoan.successMessage = response._data.message
                         }
                     },
                 }
             )
         },
         async getSssEmployeeLoan () {
-            this.sssEmployeeLoanList.params.loan_type = this.loanReportOption.loan_type
             await useHRMSApiO(
                 "/api/reports/sss-employee-loans",
                 {
@@ -231,52 +229,50 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             )
         },
         async getSssGroupLoan () {
-            this.sssGroupLoanList.params.loan_type = this.loanReportOption.loan_type
             await useHRMSApiO(
-                "/api/reports/sss-group-loans",
+                "/api/reports/sss-group-summary-loans",
                 {
                     method: "GET",
-                    params: this.sssGroupLoanList.params,
+                    params: this.sssGroupSummaryLoan.params,
                     onRequest: () => {
-                        this.sssGroupLoanList.isLoading = true
-                        this.sssGroupLoanList.list = []
+                        this.sssGroupSummaryLoan.isLoading = true
+                        this.sssGroupSummaryLoan.list = []
                     },
                     onResponseError: ({ response } : any) => {
-                        this.sssGroupLoanList.errorMessage = response._data.message
+                        this.sssGroupSummaryLoan.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
-                        this.sssGroupLoanList.isLoading = false
+                        this.sssGroupSummaryLoan.isLoading = false
                         if (response.ok) {
-                            this.sssGroupLoanList.isLoaded = true
-                            this.sssGroupLoanList.list = response._data.data
-                            this.sssGroupLoanList.successMessage = response._data.message
+                            this.sssGroupSummaryLoan.isLoaded = true
+                            this.sssGroupSummaryLoan.list = response._data.data
+                            this.sssGroupSummaryLoan.successMessage = response._data.message
                         }
                     },
                 }
             )
         },
         async getHdmfGroupLoan () {
-            this.hdmfGroupLoanList.params.loan_type = this.loanReportOption.loan_type
             await useHRMSApiO(
-                "/api/reports/hdmf-group-loans",
+                "/api/reports/hdmf-group-summary-loans",
                 {
                     method: "GET",
-                    params: this.hdmfGroupLoanList.params,
+                    params: this.hdmfGroupSummaryLoan.params,
                     onRequest: () => {
-                        this.hdmfGroupLoanList.isLoading = true
-                        this.hdmfGroupLoanList.list = []
+                        this.hdmfGroupSummaryLoan.isLoading = true
+                        this.hdmfGroupSummaryLoan.list = []
                     },
                     onResponseError: ({ response } : any) => {
-                        this.hdmfGroupLoanList.errorMessage = response._data.message
+                        this.hdmfGroupSummaryLoan.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
-                        this.hdmfGroupLoanList.isLoading = false
+                        this.hdmfGroupSummaryLoan.isLoading = false
                         if (response.ok) {
-                            this.hdmfGroupLoanList.isLoaded = true
-                            this.hdmfGroupLoanList.list = response._data.data
-                            this.hdmfGroupLoanList.successMessage = response._data.message
+                            this.hdmfGroupSummaryLoan.isLoaded = true
+                            this.hdmfGroupSummaryLoan.list = response._data.data
+                            this.hdmfGroupSummaryLoan.successMessage = response._data.message
                         }
                     },
                 }

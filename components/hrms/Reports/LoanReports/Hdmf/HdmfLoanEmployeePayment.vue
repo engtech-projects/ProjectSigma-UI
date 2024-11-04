@@ -1,7 +1,7 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { pagibigEmployeeLoanList } = storeToRefs(generateReportstore)
+const { hdmfEmployeeLoan } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
@@ -9,33 +9,33 @@ const generateReport = async () => {
         await generateReportstore.getHdmfEmployeeLoan()
         snackbar.add({
             type: "success",
-            text: pagibigEmployeeLoanList.value.successMessage
+            text: hdmfEmployeeLoan.value.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: pagibigEmployeeLoanList.value.errorMessage || "something went wrong."
+            text: hdmfEmployeeLoan.value.errorMessage || "something went wrong."
         })
     }
 }
 const pagibigTotal = () => {
-    return pagibigEmployeeLoanList.value.list.reduce((accumulator, current) => {
+    return hdmfEmployeeLoan.value.list.reduce((accumulator, current) => {
         return accumulator + current.total_payments
     }, 0)
 }
-watch(() => pagibigEmployeeLoanList.value.params.month_year, (newValue) => {
+watch(() => hdmfEmployeeLoan.value.params.month_year, (newValue) => {
     if (newValue) {
-        pagibigEmployeeLoanList.value.params.filter_month = newValue.month + 1
-        pagibigEmployeeLoanList.value.params.filter_year = newValue.year
+        hdmfEmployeeLoan.value.params.filter_month = newValue.month + 1
+        hdmfEmployeeLoan.value.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards title="SSS Employee Loans" :loading="pagibigEmployeeLoanList.isLoading">
+    <LayoutBoards title="SSS Employee Loans" :loading="hdmfEmployeeLoan.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="pagibigEmployeeLoanList.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="pagibigEmployeeLoanList.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="pagibigEmployeeLoanList.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="hdmfEmployeeLoan.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="hdmfEmployeeLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="hdmfEmployeeLoan.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -92,7 +92,7 @@ watch(() => pagibigEmployeeLoanList.value.params.month_year, (newValue) => {
                         HDMF MPL LOAN PAYMENT
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(pagibigEmployeeLoanList.params.filter_month) }} {{ pagibigEmployeeLoanList.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(hdmfEmployeeLoan.params.filter_month) }} {{ hdmfEmployeeLoan.params.filter_year }}</span>
                     </span>
                 </div>
                 <table class="printTable border border-gray-500 mb-20">
@@ -128,7 +128,7 @@ watch(() => pagibigEmployeeLoanList.value.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in pagibigEmployeeLoanList.list" :key="'sssemployeeremitance' + index" class="h-2">
+                        <tr v-for="reportData, index in hdmfEmployeeLoan.list" :key="'sssemployeeremitance' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.employee_pagibig_no }}
                             </td>
