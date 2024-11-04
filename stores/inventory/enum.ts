@@ -46,6 +46,7 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
         itemEnum: {
             list: [] as Item[],
             params: {},
+            isLoading: false,
             isLoaded: false,
             successMessage: "",
             errorMessage: "",
@@ -98,10 +99,14 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
                 {
                     method: "GET",
                     params: this.itemEnum.params,
+                    onRequest: () => {
+                        this.itemEnum.isLoading = true
+                    },
                     onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
+                        this.itemEnum.isLoading = false
                         if (response.ok) {
                             this.itemEnum.list = response._data.data ?? []
                         }

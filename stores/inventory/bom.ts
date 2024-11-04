@@ -16,15 +16,9 @@ export interface NewItemBOM {
     unit_price: number,
     quantity: number,
 }
-export interface DepartmentBOMForm {
+export interface BOMForm {
     assignment_id: number,
-    assignment_type: "Department",
-    effectivity: string,
-    details: any,
-}
-export interface ProjecttBOMForm {
-    assignment_id: number,
-    assignment_type: "Project",
+    assignment_type: string,
     effectivity: string,
     details: any,
 }
@@ -35,10 +29,9 @@ export const useBOMStore = defineStore("BOMStore", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            assignList: [],
-            details: [] as Array<NewItemBOM>,
-            formDepartment: {} as DepartmentBOMForm,
-            formProject: {} as ProjecttBOMForm,
+            details: [],
+            formDepartment: {} as BOMForm,
+            formProject: {} as BOMForm,
             params: {},
             pagination: {},
         },
@@ -225,32 +218,6 @@ export const useBOMStore = defineStore("BOMStore", {
                         if (response.ok) {
                             this.bomRequest.isLoaded = true
                             this.bomRequest.list = response._data.data.data
-                            this.bomRequest.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
-                            }
-                        } else {
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getAllAssignBOM () {
-            await useInventoryApi(
-                "/api/bom/resource/assignment",
-                {
-                    method: "GET",
-                    params: this.bomRequest.params,
-                    onRequest: () => {
-                        this.bomRequest.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.bomRequest.isLoading = false
-                        if (response.ok) {
-                            this.bomRequest.isLoaded = true
-                            this.bomRequest.assignList = response._data.data.data
                             this.bomRequest.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,

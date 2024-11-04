@@ -11,7 +11,10 @@ const doRemoveItem = (item:any) => {
 }
 const item = defineModel("item", { required: true, type: Object, default: null })
 const compId = useId()
-const amount = 0
+const amount = computed(() => {
+    const total = item.value.unit_price * item.value.quantity
+    return total
+})
 </script>
 <template>
     <tr class="border-b-2 border-gray-300">
@@ -31,7 +34,7 @@ const amount = 0
             <input
                 :id="compId"
                 v-model="item.unit_price"
-                type="text"
+                type="number"
                 class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
                 required
             >
@@ -40,7 +43,7 @@ const amount = 0
             <input
                 :id="compId"
                 v-model="item.quantity"
-                type="text"
+                type="number"
                 class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
                 required
             >

@@ -11,9 +11,9 @@ const headers = [
     { name: "Quantity", id: "quantity" },
     { name: "Amount", id: "amount" },
 ]
-const storeBOM = (e) => {
-    e.preventDefault()
-    bomRequest.value.formDepartment.assignment_type = "Project"
+const storeBOM = () => {
+    bomRequest.value.formDepartment.assignment_type = "Department"
+    bomRequest.value.formDepartment.details = bomRequest.value.details
 }
 </script>
 <template>
@@ -58,7 +58,7 @@ const storeBOM = (e) => {
                     <button
                         type="submit"
                         class=" text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                        @click="storeBOM()"
+                        @click="storeBOM"
                     >
                         Submit
                     </button>
