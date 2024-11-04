@@ -1,30 +1,54 @@
+<template>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.accounting_journal_group,
+        ])"
+    >
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <AccountingStakeholderCreate v-if="action==='create'" />
+                <AccountingJournalentryEdit v-if="action==='edit'" @view-details="receiveAction('view')" />
+                <AccountingJournalentryDetails v-if="action==='view'" @edit="receiveAction('edit')" @create="receiveAction('create')" />
+            </div>
+            <AccountingStakeholderList class="col-span-2" @view-details="receiveAction('view')" />
+        </div>
+    </LayoutAcessContainer>
+</template>
+
 <script lang="ts" setup>
+
+import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+import { useJournalStore } from "~/stores/accounting/journal"
 import { useBookStore } from "~/stores/accounting/book"
+import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+
+const journalStore = useJournalStore()
+journalStore.getJournals()
+
+const action = ref("create")
+const stakeholderStore = useStakeholderStore()
+stakeholderStore.getStakeholders()
 
 const bookStore = useBookStore()
 await bookStore.getBooks()
 
-definePageMeta({
-    layout: "default",
-})
-useHead({
-    title: "Books",
-})
-</script>
-<template>
-    <div class="flex flex-col gap-2">
-        <div class="flex">
-            <!-- <div class="flex-1">
-                <AccountingBookEditBook v-if="bookStore.isEdit" />
-                <AccountingBookNewBook v-else />
-            </div> -->
-            <AccountingStakeholderList class="flex-2" />
-        </div>
-    </div>
-</template>
+const accountGroup = useAccountGroupStore()
+accountGroup.showAccountGroup(bookStore.disbursement.id)
 
-<style scoped>
-    .flex-2 {
-        flex: 2;
-    }
-</style>
+if (useRoute().query.details) {
+    const id = useRoute().query.details
+    action.value = "view"
+    journalStore.getJournal(id)
+}
+
+if (useRoute().query.edit) {
+    const id = useRoute().query.edit
+    action.value = "edit"
+    await journalStore.getJournal(id)
+}
+
+const receiveAction = (ac) => {
+    action.value = ac
+}
+
+</script>

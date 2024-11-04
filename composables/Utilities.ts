@@ -343,3 +343,7 @@ export const useHrmsDownloadLink = (url: string) => {
     }
     return config.public.HRMS_API_URL + "/storage/" + url
 }
+
+export const clone = (obj) => {
+    return JSON.parse(JSON.stringify(obj))
+}

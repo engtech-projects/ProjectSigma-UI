@@ -3,7 +3,12 @@ import { useVoucherStore } from "~/stores/accounting/voucher"
 
 const voucherStore = useVoucherStore()
 const emit = defineEmits(["view-details"])
-
+const props = defineProps({
+    target: {
+        type: String,
+        default: ""
+    }
+})
 const navigate = (url = "", action = null, voucher = null) => {
     history.pushState(null, "", url)
     if (voucher) {
@@ -16,11 +21,29 @@ const changePaginate = (newParams) => {
     voucherStore.params.page = newParams.page ?? ""
     voucherStore.getVouchers()
 }
+const voucherList = computed(() => {
+    if (props.target === "cash") {
+        return voucherStore.list.filter(v => v.status === "approved")
+    }
+    return voucherStore.list
+})
 const filterList = () => {
     voucherStore.params.filter.status = voucherStore.filter.value
     voucherStore.params.page = 1
     voucherStore.getVouchers()
 }
+const setCashVoucher = (voucher) => {
+    voucher = clone(voucher)
+    voucher.voucher_date = dateToString(new Date(voucher.voucher_date))
+    voucher.date_encoded = dateToString(new Date(voucher.date_encoded))
+    voucher.reference_no = voucher.voucher_no
+    voucher.voucher_no = voucherStore.voucher.voucher_no
+    voucher.id = null
+    voucher.status = "pending"
+    voucher.form_type = null
+    voucherStore.voucher = voucher
+}
+
 onMounted(() => {
     voucherStore.filter.name = "status"
 })
@@ -67,7 +90,7 @@ onMounted(() => {
             </div>
         </div>
         <div class="pb-2 text-gray-500 w-full">
-            <span v-if="voucherStore.list.length === 0" class="text-sm text-center block py-8 pb-72 bg-gray-100 w-full">
+            <span v-if="voucherList.length === 0" class="text-sm text-center block py-8 pb-72 bg-gray-100 w-full">
                 No {{ voucherStore.filter.value }} vouchers in the list.
             </span>
             <table v-else class="table-auto w-full border-collapse text-sm">
@@ -91,7 +114,7 @@ onMounted(() => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="voucher, i in voucherStore.list" :key="i" class="border text-left hover:bg-gray-200 hover: text-black" :class="voucher.id === voucherStore.voucher.id ? 'selectedVoucher' : ''">
+                    <tr v-for="voucher, i in voucherList" :key="i" class="border text-left hover:bg-gray-200 hover: text-black" :class="voucher.id === voucherStore.voucher.id || voucher.voucher_no === voucherStore.voucher.reference_no ? 'selectedVoucher' : ''">
                         <td class="p-2">
                             {{ voucher.voucher_no }}
                         </td>
@@ -99,7 +122,7 @@ onMounted(() => {
                             {{ useUtilities().value.dateToString(new Date(voucher.date_encoded)) }}
                         </td>
                         <td class="p-2">
-                            {{ voucher.stakeholder.name }}
+                            {{ voucher.stakeholder?.name }}
                         </td>
                         <td class="p-2">
                             {{ voucher.status }}
@@ -109,6 +132,14 @@ onMounted(() => {
                         </td>
                         <td class="p-2">
                             <Icon
+                                v-if="props.target==='cash'"
+                                name="material-symbols:visibility-rounded"
+                                color="white"
+                                class="bg-green-500 hover:bg-green-600 active:bg-green-700 rounded h-8 w-8 p-1 cursor-pointer"
+                                @click="setCashVoucher(voucher)"
+                            />
+                            <Icon
+                                v-else
                                 name="material-symbols:visibility-rounded"
                                 color="white"
                                 class="bg-green-500 hover:bg-green-600 active:bg-green-700 rounded h-8 w-8 p-1 cursor-pointer"
@@ -120,7 +151,7 @@ onMounted(() => {
             </table>
             <div class="flex justify-center mx-auto my-8">
                 <CustomPagination
-                    v-if="voucherStore.list.length"
+                    v-if="voucherList.length"
                     :links="voucherStore.pagination"
                     @change-params="changePaginate"
                 />

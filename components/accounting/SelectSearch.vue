@@ -23,6 +23,10 @@ const props = defineProps({
     fz: {
         type: String,
         default: "text-md"
+    },
+    disabled: {
+        type: Boolean,
+        default: false
     }
 })
 const searchInput = ref("")
@@ -30,7 +34,9 @@ const emit = defineEmits(["select"])
 const selectedOption = ref(null)
 const showDD = ref(false)
 function toggleDD () {
-    showDD.value = !showDD.value
+    if (!props.disabled) {
+        showDD.value = !showDD.value
+    }
 }
 function selectOption (option:any) {
     emit("select", option)
@@ -71,7 +77,7 @@ const searchedOptions = computed(() => {
             <div class="flex-1 h-[25px] overflow-hidden">
                 <span class="flex-1">{{ currentOptionValue ? currentOptionValue[title] : '' }}</span>
             </div>
-            <Icon name="iconoir:nav-arrow-down" class="font-bold text-xl" />
+            <Icon v-if="!props.disabled" name="iconoir:nav-arrow-down" class="font-bold text-xl" />
         </div>
         <div v-if="showDD" class="absolute max-h-72 left-0 top-11 min-w-full py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2">
             <div class="px-3 w-full">
