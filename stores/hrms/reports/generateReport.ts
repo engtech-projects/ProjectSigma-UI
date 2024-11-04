@@ -65,6 +65,30 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
+        coopEmployeeLoan: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "COOP LOANS",
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        coopGroupSummaryLoan: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "COOP LOANS",
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
         pagibigEmployeeRemitanceList: {
             isLoading: false,
             isLoaded: false,
@@ -223,6 +247,56 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.sssEmployeeLoanList.isLoaded = true
                             this.sssEmployeeLoanList.list = response._data.data
                             this.sssEmployeeLoanList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getcoopEmployeeLoan () {
+            await useHRMSApiO(
+                "/api/reports/coop-employee-loans",
+                {
+                    method: "GET",
+                    params: this.coopEmployeeLoan.params,
+                    onRequest: () => {
+                        this.coopEmployeeLoan.isLoading = true
+                        this.coopEmployeeLoan.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.coopEmployeeLoan.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.coopEmployeeLoan.isLoading = false
+                        if (response.ok) {
+                            this.coopEmployeeLoan.isLoaded = true
+                            this.coopEmployeeLoan.list = response._data.data
+                            this.coopEmployeeLoan.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getCoopGroupSummaryLoan () {
+            await useHRMSApiO(
+                "/api/reports/coop-employee-loans",
+                {
+                    method: "GET",
+                    params: this.coopEmployeeLoan.params,
+                    onRequest: () => {
+                        this.coopEmployeeLoan.isLoading = true
+                        this.coopEmployeeLoan.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.coopEmployeeLoan.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.coopEmployeeLoan.isLoading = false
+                        if (response.ok) {
+                            this.coopEmployeeLoan.isLoaded = true
+                            this.coopEmployeeLoan.list = response._data.data
+                            this.coopEmployeeLoan.successMessage = response._data.message
                         }
                     },
                 }
