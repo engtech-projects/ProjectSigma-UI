@@ -9,7 +9,6 @@ const voucherStore = useVoucherStore()
 
 const emit = defineEmits(["create", "edit"])
 
-const loading = ref(false)
 const account = (id) => {
     return accountGroupStore.accountGroup.accounts.filter(a => a.id === id)[0]
 }
@@ -55,8 +54,8 @@ const navigate = (url = "", action = "", voucher = null) => {
 }
 </script>
 <template>
-    <div class="bg-white shadow rounded-lg border border-gray-200 px-2">
-        <div v-if="loading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+    <div class="bg-white shadow rounded-lg border border-gray-200 px-2 relative">
+        <div v-if="voucherStore.isLoading.show" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
             <img
                 class="flex justify-center w-28 rounded-md"
                 src="/loader.gif"
@@ -117,6 +116,33 @@ const navigate = (url = "", action = "", voucher = null) => {
                     <h4 class="font-bold text-gray-900 text-sm">
                         {{ voucherStore.voucher.account?.account_name }}
                     </h4>
+                </div>
+                <div class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white">Status</label>
+                    <h4 class="font-bold text-gray-900 text-sm">
+                        {{ upperFirst(voucherStore.voucher.status) }}
+                    </h4>
+                </div>
+            </div>
+            <div class="flex gap-2 w-full justify-between py-4">
+                <div v-if="voucherStore.voucher?.status==='pending'" class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white font-bold mb-1">Action</label>
+                    <div class="flex gap-2 items-center">
+                        <button
+                            class="flex items-center px-3 text-sm py-1 rounded-md bg-teal-400 hover:bg-teal-600 active:bg-teal-500 text-white"
+                            @click="voucherStore.approve"
+                        >
+                            <Icon name="iconoir:thumbs-up" class="mr-1 text-lg" />
+                            Approve
+                        </button>
+                        <button
+                            class="flex items-center px-3 text-sm py-1 rounded-md bg-orange-400 hover:bg-orange-600 active:bg-orange-500 text-white"
+                            @click="voucherStore.reject"
+                        >
+                            <Icon name="iconoir:thumbs-down" class="mr-1 text-lg" />
+                            Decline
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

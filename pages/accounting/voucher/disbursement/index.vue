@@ -42,7 +42,7 @@
                         <span class="block text-center text-gray-300">No approvals yet.</span>
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="forVouchering">
-                        <AccountingPaymentrequestList v-if="!prDetails" target="voucher" @voucher="setVoucher" />
+                        <AccountingPaymentrequestList v-if="!prDetails" target="voucher" :show-filter="false" @voucher="setVoucher" />
                         <AccountingPaymentrequestDetails v-else target="voucher" :border="false" @back-to-list="prDetails=false" @detach="prDetails=false" />
                     </HrmsCommonTabsTabContainer>
                 </template>

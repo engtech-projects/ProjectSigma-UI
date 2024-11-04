@@ -4,21 +4,7 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
     state: () => ({
         stakeholder: {
             stakeholder_id: null,
-            title: null,
-            firstname: null,
-            middlename: null,
-            lastname: null,
-            suffix: null,
-            email: null,
-            company: null,
-            display_name: null,
-            street: null,
-            city: null,
-            state: null,
-            country: null,
-            phone_number: null,
-            mobile_number: null,
-            stakeholder_type_id: null,
+            name: null
         },
         list: [],
         pagination: {},
