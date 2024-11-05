@@ -21,25 +21,28 @@ const changePaginate = (newParams) => {
     voucherStore.params.page = newParams.page ?? ""
     voucherStore.getVouchers()
 }
+const vchangePaginate = (newParams) => {
+    voucherStore.vparams.page = newParams.page ?? ""
+    voucherStore.getForVouchering()
+}
 const voucherList = computed(() => {
     if (props.target === "cash") {
-        return voucherStore.list.filter(v => v.status === "approved")
+        return voucherStore.vlist
     }
     return voucherStore.list
 })
 const filterList = () => {
-    voucherStore.params.filter.status = voucherStore.filter.value
+    voucherStore.params.status = voucherStore.filter.value
+    voucherStore.params.book = "disbursement"
     voucherStore.params.page = 1
     voucherStore.getVouchers()
 }
 const setCashVoucher = (voucher) => {
     voucher = clone(voucher)
-    console.log(voucher)
     voucher.voucher_date = dateToString(new Date(voucher.voucher_date))
     voucher.date_encoded = dateToString(new Date(voucher.date_encoded))
     voucherStore.voucherClone = clone(voucher)
     voucherStore.voucherClone.status = "void"
-    console.log(voucherStore.voucherClone)
     voucher.reference_no = voucher.voucher_no
     voucher.voucher_no = voucherStore.voucher.voucher_no
     voucher.id = null
@@ -61,7 +64,7 @@ onMounted(() => {
                 alt="logo"
             >
         </div>
-        <div class="flex gap-2">
+        <div v-if="props.target!=='cash'" class="flex gap-2">
             <div class="flex w-full items-center">
                 <label for="sortIput" class="text-xs mr-1 flex-1 block">
                     Status:
@@ -153,9 +156,16 @@ onMounted(() => {
                     </tr>
                 </tbody>
             </table>
-            <div class="flex justify-center mx-auto my-8">
+            <div v-if="props.target==='cash'" class="flex justify-center mx-auto my-8">
                 <CustomPagination
-                    v-if="voucherList.length"
+                    v-if="voucherList.length > 0"
+                    :links="voucherStore.vpagination"
+                    @change-params="vchangePaginate"
+                />
+            </div>
+            <div v-else class="flex justify-center mx-auto my-8">
+                <CustomPagination
+                    v-if="voucherList.length > 0"
                     :links="voucherStore.pagination"
                     @change-params="changePaginate"
                 />

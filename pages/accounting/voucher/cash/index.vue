@@ -60,11 +60,13 @@ import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 
 const voucherStore = useVoucherStore()
 voucherStore.reset()
-voucherStore.params.filter = {
-    book: "cash",
-    status: "pending"
-}
+voucherStore.params.book = "cash"
+voucherStore.params.status = "pending"
 voucherStore.getVouchers()
+
+voucherStore.vparams.book = "disbursement"
+voucherStore.vparams.status = "approved"
+voucherStore.getForVouchering()
 
 const accountStore = useAccountStore()
 accountStore.getAccounts()
