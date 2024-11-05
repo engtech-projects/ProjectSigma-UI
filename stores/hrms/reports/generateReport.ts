@@ -24,6 +24,15 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
+        defaultPaymentGroupReport: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
         sssEmployeeRemitanceList: {
             isLoading: false,
             isLoaded: false,
@@ -221,7 +230,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
         },
         async getDefaultPaymentReport () {
             await useHRMSApiO(
-                "/api/reports/default-loan-payments",
+                "/api/reports/default-loan-employee",
                 {
                     method: "GET",
                     params: this.defaultPaymentReport.params,
@@ -239,6 +248,31 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.defaultPaymentReport.isLoaded = true
                             this.defaultPaymentReport.list = response._data.data
                             this.defaultPaymentReport.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getDefaultPaymentGroupReport () {
+            await useHRMSApiO(
+                "/api/reports/default-loan-group",
+                {
+                    method: "GET",
+                    params: this.defaultPaymentGroupReport.params,
+                    onRequest: () => {
+                        this.defaultPaymentGroupReport.isLoading = true
+                        this.defaultPaymentGroupReport.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.defaultPaymentGroupReport.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.defaultPaymentGroupReport.isLoading = false
+                        if (response.ok) {
+                            this.defaultPaymentGroupReport.isLoaded = true
+                            this.defaultPaymentGroupReport.list = response._data.data
+                            this.defaultPaymentGroupReport.successMessage = response._data.message
                         }
                     },
                 }

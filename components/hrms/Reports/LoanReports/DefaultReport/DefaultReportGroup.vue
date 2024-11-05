@@ -1,42 +1,42 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { defaultPaymentReport, loanReportOption } = storeToRefs(generateReportstore)
+const { defaultPaymentGroupReport, loanReportOption } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        defaultPaymentReport.value.params.loan_type = loanReportOption.value.loan_type
-        await generateReportstore.getDefaultPaymentReport()
+        defaultPaymentGroupReport.value.params.loan_type = loanReportOption.value.loan_type
+        await generateReportstore.getDefaultPaymentGroupReport()
         snackbar.add({
             type: "success",
-            text: defaultPaymentReport.value.successMessage
+            text: defaultPaymentGroupReport.value.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: defaultPaymentReport.value.errorMessage || "something went wrong."
+            text: defaultPaymentGroupReport.value.errorMessage || "something went wrong."
         })
     }
 }
 const totalDefaultAmount = () => {
-    return defaultPaymentReport.value.list.reduce((accumulator, current) => {
+    return defaultPaymentGroupReport.value.list.reduce((accumulator, current) => {
         return accumulator + current.total_payments
     }, 0)
 }
-watch(() => defaultPaymentReport.value.params.month_year, (newValue) => {
+watch(() => defaultPaymentGroupReport.value.params.month_year, (newValue) => {
     if (newValue) {
-        defaultPaymentReport.value.params.filter_month = newValue.month + 1
-        defaultPaymentReport.value.params.filter_year = newValue.year
+        defaultPaymentGroupReport.value.params.filter_month = newValue.month + 1
+        defaultPaymentGroupReport.value.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards :title="loanReportOption.loan_type + ' Report (EMPLOYEE)'" :loading="defaultPaymentReport.isLoading">
+    <LayoutBoards :title="loanReportOption.loan_type + ' Report (GROUP)'" :loading="defaultPaymentGroupReport.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="defaultPaymentReport.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="defaultPaymentReport.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="defaultPaymentReport.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="defaultPaymentGroupReport.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="defaultPaymentGroupReport.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="defaultPaymentGroupReport.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -90,15 +90,20 @@ watch(() => defaultPaymentReport.value.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        {{ loanReportOption.loan_type }} REPORT (EMPLOYEE)
+                        {{ loanReportOption.loan_type }} REPORT (GROUP)
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(defaultPaymentReport.params.filter_month) }} {{ defaultPaymentReport.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(defaultPaymentGroupReport.params.filter_month) }} {{ defaultPaymentGroupReport.params.filter_year }}</span>
                     </span>
+                </div>
+                <div>
+                    <p class="font-bold text-lg">
+                        SUMMARY
+                    </p>
                 </div>
                 <table class="printTable border border-gray-500 mb-20">
                     <thead class="text-black text-md">
-                        <tr class="py-4">
+                        <tr class="py-2">
                             <th rowspan="3" class="border border-gray-500">
                                 FULL NAME
                             </th>
@@ -106,12 +111,15 @@ watch(() => defaultPaymentReport.value.params.month_year, (newValue) => {
                                 LOAN TYPE
                             </th>
                             <th rowspan="3" class="border border-gray-500">
+                                EMPLOYEE/GROUP
+                            </th>
+                            <th rowspan="3" class="border border-gray-500">
                                 AMOUNT
                             </th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in defaultPaymentReport.list" :key="'sssemployeeremitance' + index" class="h-2">
+                        <tr v-for="reportData, index in defaultPaymentGroupReport.list" :key="'sssemployeeremitance' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.employee_fullname }}
                             </td>
@@ -119,11 +127,14 @@ watch(() => defaultPaymentReport.value.params.month_year, (newValue) => {
                                 {{ loanReportOption.loan_type }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                {{ reportData.payroll_record.charging_name }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.total_payments }}
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="2" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                            <td colspan="3" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">

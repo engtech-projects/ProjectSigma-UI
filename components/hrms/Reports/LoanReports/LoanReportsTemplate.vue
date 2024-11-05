@@ -68,7 +68,15 @@ await generateReportstore.getLoanCategoryList()
                 v-show="loanReportOption.loan_type !== 'COOP LOAN'
                     && (loanReportOption.loan_type !== 'HDMF MPL LOAN'
                         || loanReportOption.loan_type !== 'HDMF MPL')
-                    && loanReportOption.loan_type !== 'SSS LOAN'"
+                    && loanReportOption.loan_type !== 'SSS LOAN'
+                    && loanReportOption.report_type === 'employee'"
+            />
+            <HrmsReportsLoanReportsDefaultReportGroup
+                v-show="loanReportOption.loan_type !== 'COOP LOAN'
+                    && (loanReportOption.loan_type !== 'HDMF MPL LOAN'
+                        || loanReportOption.loan_type !== 'HDMF MPL')
+                    && loanReportOption.loan_type !== 'SSS LOAN'
+                    && loanReportOption.report_type === 'summary-with-group'"
             />
         </div>
     </LayoutBoards>
