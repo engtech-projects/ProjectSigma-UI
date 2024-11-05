@@ -19,7 +19,8 @@ const changePaginate = (newParams) => {
     voucherStore.getVouchers()
 }
 const filterList = () => {
-    voucherStore.params.filter.status = voucherStore.filter.value
+    voucherStore.params.status = voucherStore.filter.value
+    voucherStore.params.book = "cash"
     voucherStore.params.page = 1
     voucherStore.getVouchers()
 }
@@ -79,6 +80,9 @@ onMounted(() => {
                             Voucher No.
                         </th>
                         <th class="p-2 text-sm">
+                            Reference No.
+                        </th>
+                        <th class="p-2 text-sm">
                             Date Created
                         </th>
                         <th class="p-2 text-sm">
@@ -96,6 +100,9 @@ onMounted(() => {
                     <tr v-for="voucher, i in voucherList" :key="i" class="border text-left hover:bg-gray-200 hover: text-black" :class="voucher.id === voucherStore.voucher.id ? 'selectedVoucher' : ''">
                         <td class="p-2">
                             {{ voucher.voucher_no }}
+                        </td>
+                        <td class="p-2">
+                            {{ voucher.reference_no }}
                         </td>
                         <td class="p-2">
                             {{ useUtilities().value.dateToString(new Date(voucher.date_encoded)) }}
@@ -122,7 +129,7 @@ onMounted(() => {
             </table>
             <div class="flex justify-center mx-auto my-8">
                 <CustomPagination
-                    v-if="1===1"
+                    v-if="voucherList.length > 0"
                     :links="voucherStore.pagination"
                     @change-params="changePaginate"
                 />
