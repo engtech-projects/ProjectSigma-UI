@@ -131,7 +131,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 "/api/form/" + type + "/" + id,
                 {
                     method: "PUT",
-                    body: this.voucher,
+                    body: {},
                     watch: false,
                 }
             )
