@@ -6,6 +6,24 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             report_type: "",
             loan_type: "",
         },
+        loanCategoryList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        defaultPaymentReport: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
         sssEmployeeRemitanceList: {
             isLoading: false,
             isLoaded: false,
@@ -177,6 +195,55 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
     }),
     getters: {},
     actions: {
+        async getLoanCategoryList () {
+            await useHRMSApiO(
+                "/api/reports/loan-category-list",
+                {
+                    method: "GET",
+                    onRequest: () => {
+                        this.loanCategoryList.isLoading = true
+                        this.loanCategoryList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.loanCategoryList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.loanCategoryList.isLoading = false
+                        if (response.ok) {
+                            this.loanCategoryList.isLoaded = true
+                            this.loanCategoryList.list = response._data.data
+                            this.loanCategoryList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getDefaultPaymentReport () {
+            await useHRMSApiO(
+                "/api/reports/default-loan-payments",
+                {
+                    method: "GET",
+                    params: this.defaultPaymentReport.params,
+                    onRequest: () => {
+                        this.defaultPaymentReport.isLoading = true
+                        this.defaultPaymentReport.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.defaultPaymentReport.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.defaultPaymentReport.isLoading = false
+                        if (response.ok) {
+                            this.defaultPaymentReport.isLoaded = true
+                            this.defaultPaymentReport.list = response._data.data
+                            this.defaultPaymentReport.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
         async getSssEmployeeRemittance () {
             await useHRMSApiO(
                 "/api/reports/sss-employee-remittance",
