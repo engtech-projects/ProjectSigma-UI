@@ -20,7 +20,6 @@ const amount = computed(() => {
     <tr class="border-b-2 border-gray-300">
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryBomItemSelector
-                :id="compId"
                 v-model="item.item_id"
             />
         </td>
