@@ -66,6 +66,22 @@ const { loanReportOption } = storeToRefs(generateReportstore)
                 v-show="loanReportOption.loan_type === 'HDMF MPL'
                     && loanReportOption.report_type === 'summary-with-group'"
             />
+            <HrmsReportsLoanReportsCoopLoanEmployeePayment
+                v-show="loanReportOption.loan_type === 'COOP LOAN'
+                    && loanReportOption.report_type === 'employee'"
+            />
+            <!-- <HrmsReportsLoanReportsCoopLoanEmployeeSummaryWithGroup
+                v-show="loanReportOption.loan_type === 'COOP LOAN'
+                    && loanReportOption.report_type === 'summary-with-group'"
+            /> -->
+            <!-- <HrmsReportsLoanReportsHdmfCalamityLoanEmployeePayment
+                v-show="loanReportOption.loan_type === 'HDMF CALAMITY LOAN'
+                    && loanReportOption.report_type === 'employee'"
+            />
+            <HrmsReportsLoanReportsHdmfCalamityEmployeeSummaryWithGroup
+                v-show="loanReportOption.loan_type === 'HDMF CALAMITY LOAN'
+                    && loanReportOption.report_type === 'summary-with-group'"
+            /> -->
         </div>
     </LayoutBoards>
 </template>
