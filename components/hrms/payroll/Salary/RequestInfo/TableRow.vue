@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { data: userData } = useAuth()
 const props = defineProps({
     index: {
         type: Number,
@@ -8,13 +9,18 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    loans: {
+        type: Array,
+        required: true,
+    },
+    otherdeductions: {
+        type: Array,
+        required: true,
+    },
 })
 
 const paymentsLoans = () => {
     return props.employeePayrollRecord.deductions.filter((adj: { type: string; }) => adj.type === "Loan")
-}
-const totalPaymentsLoans = () => {
-    return paymentsLoans().reduce((partialSum: any, a: any) => partialSum + a.amount, 0)
 }
 const paymentsCashAdvance = () => {
     return props.employeePayrollRecord.deductions.filter((adj: { type: string; }) => adj.type === "Cash Advance")
@@ -25,9 +31,31 @@ const totalPaymentsCashAdvance = () => {
 const paymentsOtherDeduction = () => {
     return props.employeePayrollRecord.deductions.filter((adj: { type: string; }) => adj.type === "Other Deduction")
 }
-const totalPaymentsOtherDeduction = () => {
-    return paymentsOtherDeduction().reduce((partialSum: any, a: any) => partialSum + a.amount, 0)
-}
+const grosspayCharging = computed(() => {
+    const basicPayNames = [
+        "Salary Regular Regular",
+        "Salary Rest Regular",
+        "Salary RegularHoliday Regular",
+        "Salary SpecialHoliday Regular",
+        "Salary Adjustment",
+    ]
+    const overtimePayNames = [
+        "Salary Regular Overtime",
+        "Salary Rest Overtime",
+        "Salary RegularHoliday Overtime",
+        "Salary SpecialHoliday Overtime",
+    ]
+    let total = 0
+    props.employeePayrollRecord.charges.forEach((charge: any) => {
+        if (basicPayNames.includes(charge.name)) {
+            total += parseFloat(charge.amount)
+        }
+        if (overtimePayNames.includes(charge.name)) {
+            total += parseFloat(charge.amount)
+        }
+    })
+    return total
+})
 </script>
 <template>
     <tr class="bg-white border-b text-gray-950">
@@ -101,6 +129,10 @@ const totalPaymentsOtherDeduction = () => {
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.gross_pay) ?? "-" }}
+            <template v-if="userData?.type === 'Administrator'">
+                {{ useFormatCurrency(grosspayCharging) }}
+                {{ useFormatCurrency(employeePayrollRecord.gross_pay - grosspayCharging) }}
+            </template>
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ employeePayrollRecord.sss_employee_contribution ? useFormatCurrency(employeePayrollRecord.sss_employee_contribution) : "-" }}
@@ -121,32 +153,33 @@ const totalPaymentsOtherDeduction = () => {
             {{ useFormatCurrency(employeePayrollRecord.withholdingtax_contribution) ?? "-" }}
         </td>
         <td class="p-2 border-solid border border-slate-400">
-            <div class="divide-y">
-                <div>
-                    <strong>Loans:</strong>
-                    <div v-for="(loan, index1) in paymentsLoans()" :key="'loanName'+index1">
-                        {{ loan.name }}: {{ useFormatCurrency(loan.amount) ?? "-" }}
-                    </div>
-                    <strong>Total:{{ useFormatCurrency(totalPaymentsLoans()) }}</strong>
-                </div>
-                <div>
-                    <strong>C.A.:</strong>
-                    <div v-for="(cAdv, index1) in paymentsCashAdvance()" :key="'cAdvName'+index1">
-                        {{ cAdv.name }}: {{ useFormatCurrency(cAdv.amount) ?? "-" }}
-                    </div>
-                    <strong>Total:{{ useFormatCurrency(totalPaymentsCashAdvance()) }}</strong>
-                </div>
-                <div>
-                    <strong>Other Ded.:</strong>
-                    <div v-for="(otherDeduct, index1) in paymentsOtherDeduction()" :key="'oDed'+index1">
-                        {{ otherDeduct.name }}:{{ useFormatCurrency(otherDeduct.amount) ?? "-" }}
-                    </div>
-                    <strong>Total:{{ useFormatCurrency(totalPaymentsOtherDeduction()) }}</strong>
-                </div>
-                <!-- <div>
-                    <strong>HMO:</strong>
-                </div> -->
-            </div>
+            <strong>{{ totalPaymentsCashAdvance() ? useFormatCurrency(totalPaymentsCashAdvance()) : "-" }}</strong>
+        </td>
+        <td
+            v-if="loans.length === 0"
+            class="p-4 border-solid border border-slate-400"
+        >
+            -
+        </td>
+        <td
+            v-for="loan, key in loans"
+            :key="key"
+            class="p-4 border-solid border border-slate-400"
+        >
+            {{ paymentsLoans().find((eloan: any) => eloan.name === loan) ? useFormatCurrency(paymentsLoans().filter((eloan: any) => eloan.name === loan).reduce((acc, curr) => acc + curr.amount, 0)) : "-" }}
+        </td>
+        <td
+            v-if="otherdeductions.length === 0"
+            class="p-4 border-solid border border-slate-400"
+        >
+            -
+        </td>
+        <td
+            v-for="otherdeduction, key in otherdeductions"
+            :key="key"
+            class="p-4 border-solid border border-slate-400"
+        >
+            {{ paymentsOtherDeduction().find((eOded: any) => eOded.name === otherdeduction) ? useFormatCurrency(paymentsOtherDeduction().filter((eOded: any) => eOded.name === otherdeduction).reduce((acc, curr) => acc + curr.amount, 0)) : "-" }}
         </td>
         <td class="p-4 border-solid border border-slate-400">
             {{ useFormatCurrency(employeePayrollRecord.total_deduct) ?? "-" }}

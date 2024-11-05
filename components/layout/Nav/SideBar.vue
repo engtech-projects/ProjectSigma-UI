@@ -577,7 +577,6 @@ const config = useRuntimeConfig()
             title="Accounting"
         >
             <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_journal_group,
                 ])"
@@ -603,15 +602,19 @@ const config = useRuntimeConfig()
                 icon="iconoir:book"
                 single-nav-title="Books"
             />
-            <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
-                v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_chart_of_accounts,
-                ])"
-                linkarea="/accounting/requests"
+            <LayoutNavGroup
                 icon="iconoir:bell-notification"
-                single-nav-title="Requests"
-            />
+                title="Requests"
+            >
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.accounting_journal_group,
+                    ])"
+                    linkarea="/accounting/payment-request"
+                    icon="iconoir:credit-card-2"
+                    single-nav-title="Payment Request"
+                />
+            </LayoutNavGroup>
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
@@ -675,7 +678,6 @@ const config = useRuntimeConfig()
                 single-nav-title="Subsidiary Account"
             />
             <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_stake_holder,
                 ])"
@@ -729,24 +731,22 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    'Admin only'
+                    AccessibilityTypes.accounting_journal_group,
                 ])"
                 icon="iconoir:credit-cards"
                 title="Vouchers"
             >
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_account_groups,
+                        AccessibilityTypes.accounting_journal_group,
                     ])"
                     linkarea="/accounting/voucher/disbursement"
                     icon="iconoir:hand-contactless"
                     single-nav-title="Disbursement Voucher"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_account_groups,
+                        AccessibilityTypes.accounting_journal_group,
                     ])"
                     linkarea="/accounting/voucher/cash"
                     icon="iconoir:iconoir:cash"

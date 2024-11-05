@@ -183,6 +183,7 @@ export const useLoansStore = defineStore("LoansStore", {
             })
         },
         async createResource () {
+            const backupEmployee = this.createData.data.employee_id
             await useHRMSApiO("/api/loans/resource", {
                 method: "POST",
                 body: this.createData.data,
@@ -197,7 +198,7 @@ export const useLoansStore = defineStore("LoansStore", {
                     this.createData.isLoading = false
                     if (response.ok) {
                         this.reloadResources()
-                        this.createData.data = response._data.data
+                        this.createData.data.employee_id = backupEmployee
                         this.createData.successMessage = response._data.message
                     }
                 },
@@ -219,20 +220,6 @@ export const useLoansStore = defineStore("LoansStore", {
                     }
                 },
             })
-        },
-        resetCreateData () {
-            this.createData = {
-                data: {
-                    id: null,
-                    employee_id: null,
-                    amount: null,
-                    installment_deduction: null,
-                    deduction_date_start: "",
-                    terms_of_payment: "",
-                } as Loan,
-                successMessage: "",
-                errorMessage: "",
-            }
         },
         async submitPayment (id: any) {
             return await useHRMSApiO(

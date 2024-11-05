@@ -17,6 +17,28 @@ export interface SavedFaceDescriptor {
 
 export const useAttendancePortal = defineStore("attendancePortal", {
     state: () => ({
+        allAttendancePortals: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        createAttendancePortal: {
+            isLoading: false,
+            isLoaded: false,
+            data: {
+                name_location: null,
+                assignments: [] as null | Array<any>,
+                employee_id: null as null | Number,
+                log_type: null as null | String,
+                name: null as null | String,
+            },
+            errorMessage: "",
+            successMessage: "",
+        },
         attendanceLogs: {
             isLoaded: false,
             list: [],
@@ -31,19 +53,14 @@ export const useAttendancePortal = defineStore("attendancePortal", {
         },
         attendanceLogList: [],
         facialPatterList: [] as Array<SavedFaceDescriptor>,
-        attendancePortalList: [],
         attendancePortalParams: {
             name_location: null,
-            project_id: null as null | Number,
-            department_id: null as null | Number,
+            assignments: [] as null | Array<any>,
             employee_id: null as null | Number,
             log_type: null as null | String,
-            group_type: null as null | String,
             name: null as null | String,
             page: 1,
         },
-        attendancePortalPagination: {},
-        pagination: {},
         getParams: {
             date: null,
             employee_id: null,
@@ -175,31 +192,6 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 }
             )
         },
-        async getAttendancePortal () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApi(
-                "/api/attendance-portal/resource",
-                {
-                    method: "GET",
-                    params: this.attendancePortalParams,
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.attendancePortalList = response._data.data.data
-                            this.attendancePortalPagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
-                            }
-                            return response._data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
         async getEmployeePattern (id: any) {
             this.successMessage = ""
             this.errorMessage = ""
@@ -254,6 +246,34 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getAttendancePortal () {
+            this.allAttendancePortals.isLoaded = true
+            await useHRMSApi(
+                "/api/attendance-portal/resource",
+                {
+                    method: "GET",
+                    params: this.allAttendancePortals.params,
+                    onRequest: () => {
+                        this.allAttendancePortals.isLoading = true
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.allAttendancePortals.isLoading = false
+                        if (response.ok) {
+                            this.allAttendancePortals.list = response._data.data.data
+                            this.allAttendancePortals.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                            return response._data
+                        } else {
+                            this.allAttendancePortals.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },

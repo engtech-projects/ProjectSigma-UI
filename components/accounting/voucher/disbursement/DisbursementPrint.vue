@@ -1,14 +1,5 @@
 <template>
-    <div class="absolute bg-white left-0 top-0 w-screen min-h-[1000px] z-[99999] p-12">
-        <div class="flex justify-end gap-4 no-print">
-            <Icon name="ion:printer" class="text-2xl text-gray-500 cursor-pointer hover:text-red-500" @click="print" />
-            <NuxtLink
-                :to="'/accounting/voucher/disbursement/details?id=' + props.id"
-            >
-                <Icon name="ion:close-round" class="text-2xl text-gray-500 cursor-pointer hover:text-red-500" @click="closeWindow" />
-            </NuxtLink>
-        </div>
-
+    <div id="toPrint" class="absolute bg-white left-0 top-0 w-screen min-h-[1000px] z-[99999] p-12">
         <div class="flex flex-col gap-10 pb-24 pt-8 relative">
             <AccountingCommonEvenparHeader />
             <h1 class="text-2xl text-center font-bold">
@@ -99,13 +90,13 @@
                             <tbody>
                                 <tr v-for="ae,i in voucherStore.voucher.details" :key="i" class="hover:bg-gray-100 cursor-pointer">
                                     <td class="border px-4 py-1 border-gray-800 text-sm relative">
-                                        {{ account(ae.account_id).account_number }}
+                                        {{ account(ae.account_id)?.account_number }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
-                                        {{ account(ae.account_id).account_name }}
+                                        {{ account(ae.account_id)?.account_name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
-                                        {{ stakeholder(ae.stakeholder_id).name }}
+                                        {{ stakeholder(ae.stakeholder_id)?.name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
                                         {{ formatToCurrency(ae.debit) }}
@@ -158,14 +149,6 @@ import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
 const voucherStore = useVoucherStore()
 const stakeholderStore = useStakeholderStore()
 const accountGroupStore = useAccountGroupStore()
-const props = defineProps({
-    id: {
-        type: String,
-        default: null
-    }
-})
-
-const emit = defineEmits(["close"])
 
 const account = (id) => {
     return accountGroupStore.accountGroup.accounts.filter(a => a.id === id)[0]
@@ -173,9 +156,7 @@ const account = (id) => {
 const stakeholder = (id) => {
     return stakeholderStore.list.filter(st => st.id === id)[0]
 }
-const closeWindow = () => {
-    emit("close")
-}
+
 const totalDebit = computed(() => {
     let amount = 0
     voucherStore.voucher.details.forEach((v) => {
@@ -190,22 +171,13 @@ const totalCredit = computed(() => {
     })
     return amount
 })
-const print = () => {
-    setTimeout(window.print, 500)
-}
-onMounted(() => {
-    print()
-})
+
 </script>
 
-<style style media="print" type="text/css" scoped>
+<style scoped>
     @media print {
         .no-print {
             display: none!important;
         }
     }
 </style>
-
-function emit(arg0: string) {
-  throw new Error("Function not implemented.")
-}

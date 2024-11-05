@@ -163,6 +163,69 @@ const totalRegHrsPayroll = () => {
     })
     return total.toFixed(2)
 }
+const uniqueLoanNames = computed(() => {
+    const loanNames = new Set()
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.deductions.forEach((deduction: { type: string; name: string }) => {
+            if (deduction.type === "Loan") {
+                loanNames.add(deduction.name)
+            }
+        })
+    })
+    return Array.from(loanNames)
+})
+const uniqueOtherDeductionNames = computed(() => {
+    const loanNames = new Set()
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.deductions.forEach((deduction: { type: string; name: string }) => {
+            if (deduction.type === "Other Deduction") {
+                loanNames.add(deduction.name)
+            }
+        })
+    })
+    return Array.from(loanNames)
+})
+const uniqueLoanNameTotals = computed(() => {
+    const loanNameTotals: any[] = []
+    uniqueLoanNames.value.forEach((name: any) => {
+        let total = 0
+        props.payrollRequest.payroll_details.forEach((element: any) => {
+            element.deductions.forEach((deduction: { type: string; name: string; amount: number }) => {
+                if (deduction.type === "Loan" && deduction.name === name) {
+                    total += deduction.amount
+                }
+            })
+        })
+        loanNameTotals[name] = total
+    })
+    return loanNameTotals
+})
+const uniqueOtherDeductionNameTotals = computed(() => {
+    const loanNameTotals: any[] = []
+    uniqueOtherDeductionNames.value.forEach((name: any) => {
+        let total = 0
+        props.payrollRequest.payroll_details.forEach((element: any) => {
+            element.deductions.forEach((deduction: { type: string; name: string; amount: number }) => {
+                if (deduction.type === "Other Deduction" && deduction.name === name) {
+                    total += deduction.amount
+                }
+            })
+        })
+        loanNameTotals[name] = total
+    })
+    return loanNameTotals
+})
+const totalCashadvancePayroll = computed(() => {
+    let total = 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.deductions.forEach((deduction: { type: string; name: string; amount: number }) => {
+            if (deduction.type === "Cash Advance") {
+                total += deduction.amount
+            }
+        })
+    })
+    return total
+})
 </script>
 <template>
     <div class="details flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
@@ -184,13 +247,18 @@ const totalRegHrsPayroll = () => {
         </div>
     </div>
     <table class="w-full text-sm text-center text-gray-50 pb-4">
-        <HrmsPayrollSalaryPayrollInfoTableHeader />
+        <HrmsPayrollSalaryPayrollInfoTableHeader
+            :loans="uniqueLoanNames"
+            :otherdeductions="uniqueOtherDeductionNames"
+        />
         <tbody>
             <HrmsPayrollSalaryRequestInfoTableRow
                 v-for="(data,index) in payrollRequest.payroll_details"
                 :key="'PayrollRow'+index"
                 :employee-payroll-record="data"
                 :index="index+1"
+                :loans="uniqueLoanNames"
+                :otherdeductions="uniqueOtherDeductionNames"
             />
             <!-- Final Row -->
             <tr class="bg-white text-gray-950">
@@ -251,7 +319,9 @@ const totalRegHrsPayroll = () => {
                     {{ useFormatCurrency(totalAdjustments()) }}
                 </td>
                 <td>
-                    {{ useFormatCurrency(totalGrossPayPayroll()) }}
+                    <strong>
+                        {{ useFormatCurrency(totalGrossPayPayroll()) }}
+                    </strong>
                 </td>
                 <td>
                     {{ totalSSSContributionEmployeePayroll() ? useFormatCurrency(totalSSSContributionEmployeePayroll()) : "-" }}
@@ -271,7 +341,21 @@ const totalRegHrsPayroll = () => {
                 <td>
                     {{ useFormatCurrency(totalEWTCPayroll()) }}
                 </td>
-                <td />
+                <td>
+                    {{ useFormatCurrency(totalCashadvancePayroll) }}
+                </td>
+                <td v-if="uniqueLoanNames.length === 0">
+                    -
+                </td>
+                <td v-for="deduction in uniqueLoanNames" :key="deduction">
+                    {{ useFormatCurrency(uniqueLoanNameTotals[deduction]) }}
+                </td>
+                <td v-if="uniqueOtherDeductionNames.length === 0">
+                    -
+                </td>
+                <td v-for="deduction in uniqueOtherDeductionNames" :key="deduction">
+                    {{ useFormatCurrency(uniqueOtherDeductionNameTotals[deduction]) }}
+                </td>
                 <td>
                     <strong>{{ useFormatCurrency(totalDeductionPayroll()) }}</strong>
                 </td>

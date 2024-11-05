@@ -8,18 +8,6 @@ export interface EmployeeSearch {
 }
 export const useEmployeeSearch = defineStore("employeeSearchStore", {
     state: () => ({
-        searchEmployeeParams: {
-            key: "",
-            type: "AllEmployees"
-        },
-        searchEmployeeParamsNoAccount: {
-            key: "",
-            type: "NoAccounts",
-        },
-        searchEmployeeParamsWithAccount: {
-            key: "",
-            type: "WithAccounts"
-        },
         searchResultList: [] as EmployeeSearch[],
         employeesWithoutAccount: {
             isLoading: false,

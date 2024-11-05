@@ -6,7 +6,7 @@ definePageMeta({
     layout: "default",
 })
 useHead({
-    title: "New Book",
+    title: "Edit Book",
 })
 if (!useRoute().query.id) {
     navigateTo("/accounting/books")

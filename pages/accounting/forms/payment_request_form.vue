@@ -5,6 +5,10 @@
 </template>
 
 <script lang="ts" setup>
+import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+
+const stakeholderStore = useStakeholderStore()
+stakeholderStore.getStakeholders()
 
 </script>
 
