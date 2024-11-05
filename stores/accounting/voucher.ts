@@ -28,8 +28,11 @@ export const useVoucherStore = defineStore("voucherStore", {
         },
         formTypes: [],
         list: [],
+        vlist: [],
         pagination: {},
+        vpagination: {},
         params: {},
+        vparams: {},
         errorMessage: "",
         successMessage: "",
         isLoading: {
@@ -62,6 +65,32 @@ export const useVoucherStore = defineStore("voucherStore", {
                         this.isLoading.list = false
                         this.list = response._data.vouchers
                         this.pagination = {
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async getForVouchering () {
+            this.isLoading.list = true
+            const { data, error } = await useAccountingApi(
+                "/api/voucher",
+                {
+                    method: "GET",
+                    params: this.vparams,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.isLoading.list = false
+                        this.vlist = response._data.vouchers
+                        this.vpagination = {
                             first_page: response._data.links.first,
                             pages: response._data.meta.links,
                             last_page: response._data.links.last,
@@ -237,6 +266,30 @@ export const useVoucherStore = defineStore("voucherStore", {
                 this.getVouchers()
                 this.voucher.status = "approved"
                 this.successMessage = "Voucher has been approved"
+                return data
+            } else if (error.value) {
+                this.isLoading.show = false
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+
+        async updateVoucherStatus (type: String, id: any) {
+            this.isLoading.show = true
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useAccountingApi(
+                "/api/voucher/" + type + "/" + id,
+                {
+                    method: "PUT",
+                    body: { id },
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.isLoading.show = false
+                this.getVouchers()
+                this.successMessage = "Voucher has been " + type
                 return data
             } else if (error.value) {
                 this.isLoading.show = false
