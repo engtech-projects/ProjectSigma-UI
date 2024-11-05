@@ -102,10 +102,15 @@ const headers = [
                     :actions="actions"
                 />
             </div>
-            <div class="w-full">
+            <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light"> Prepared by: </span> {{ data.created_by }}
                 </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light"> Prepared on: </span> {{ data.created_at_human }}
+                </div>
+            </div>
+            <div class="w-full">
                 <LayoutApprovalsListView :approvals="data.approvals" />
             </div>
         </template>
