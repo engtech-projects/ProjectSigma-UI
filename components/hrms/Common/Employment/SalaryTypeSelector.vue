@@ -14,7 +14,7 @@ const options = [
         value: "Weekly",
     },
     {
-        name: "MONTLY",
+        name: "MONTHLY",
         value: "Monthly",
     },
 ]
