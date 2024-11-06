@@ -13,8 +13,12 @@ const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const profileStore = useItemProfileStore()
-await profileStore.getUOM()
 const { remarks, uom } = storeToRefs(profileStore)
+onMounted(() => {
+    if (!uom.value.isLoaded) {
+        profileStore.getUOM()
+    }
+})
 const getType = (id:number) => {
     const symbol = uom.value.map((data: any) => {
         return data.id === id ? data.symbol : null

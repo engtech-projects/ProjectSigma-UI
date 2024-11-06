@@ -17,6 +17,15 @@ export interface UserEmployee {
     employee_details: Object,
     employee: any,
 }
+export interface Item {
+    id: Number | null,
+    item_name: String,
+    item_id: Number | null,
+    uom_id: Number | null,
+    unit_price: String,
+    quantity: Number | null,
+    uom: Array<any>,
+}
 export const useInventoryEnumsStore = defineStore("inventoryEnums", {
     state: () => ({
         test: true,
@@ -31,6 +40,14 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
         userEmployeeEnum: {
             list: [] as UserEmployee[],
             params: {},
+            successMessage: "",
+            errorMessage: "",
+        },
+        itemEnum: {
+            list: [] as Item[],
+            params: {},
+            isLoading: false,
+            isLoaded: false,
             successMessage: "",
             errorMessage: "",
         },
@@ -71,6 +88,27 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.userEmployeeEnum.list = response._data.data ?? []
+                        }
+                    },
+                }
+            )
+        },
+        async getItems () {
+            await useHRMSApiO(
+                "/api/bom/resource",
+                {
+                    method: "GET",
+                    params: this.itemEnum.params,
+                    onRequest: () => {
+                        this.itemEnum.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.itemEnum.isLoading = false
+                        if (response.ok) {
+                            this.itemEnum.list = response._data.data ?? []
                         }
                     },
                 }
