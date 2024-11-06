@@ -15,9 +15,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         pagination: {},
         getParams: {},
         params: {
-            filter: {
-                status: ""
-            }
+            status: ""
         },
         errorMessage: "",
         successMessage: "",
