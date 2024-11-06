@@ -1,10 +1,4 @@
 <script lang="ts" setup>
-import { useBOMStore, APPROVALS } from "@/stores/inventory/bom"
-const main = useBOMStore()
-main.getApprovalByName(APPROVALS)
-main.getAllRequests()
-main.getMyRequests()
-main.getMyApprovals()
 useHead({
     title: "Project/Department BOM",
 })
@@ -48,7 +42,7 @@ useHead({
                 />
                 <HrmsCommonTabsTabTitle
                     :if-access="useCheckAccessibility([
-                        AccessibilityTypes.inventory_bom_current_form,
+                        AccessibilityTypes.inventory_bom_current_bom,
                     ])"
                     title="Current Bom"
                     target-id="myCurrentBom"

@@ -95,7 +95,7 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
         },
         async getItems () {
             await useHRMSApiO(
-                "/api/bom/details/resource",
+                "/api/bom/resource",
                 {
                     method: "GET",
                     params: this.itemEnum.params,

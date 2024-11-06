@@ -551,22 +551,14 @@ const config = useRuntimeConfig()
                     single-nav-title="Stocks"
                 />
             </LayoutNavGroup>
-            <LayoutNavGroup
+            <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.inventory_bom_group
+                    AccessibilityTypes.inventory_bom_group,
                 ])"
-                icon="material-symbols:warehouse-outline-rounded"
-                title="BOM"
-            >
-                <LayoutNavSingle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.inventory_bom_forms_and_my_requests,
-                    ])"
-                    linkarea="/inventory/bom"
-                    icon="streamline:money-cash-coins-stack-accounting-billing-payment-stack-cash-coins-currency-money-finance"
-                    single-nav-title="Department BOM"
-                />
-            </LayoutNavGroup>
+                linkarea="/inventory/bom"
+                icon="streamline:money-cash-coins-stack-accounting-billing-payment-stack-cash-coins-currency-money-finance"
+                single-nav-title="Department BOM"
+            />
         </LayoutNavModuleGroup>
 
         <!-- Accounting -->

@@ -1,7 +1,11 @@
 <script setup>
-import { useBOMStore } from "@/stores/inventory/bom"
+import { useBOMStore, APPROVALS } from "@/stores/inventory/bom"
 const BOMStore = useBOMStore()
 const { approvalList, bomRequest } = storeToRefs(BOMStore)
+BOMStore.getApprovalByName(APPROVALS)
+BOMStore.getAllRequests()
+BOMStore.getMyRequests()
+BOMStore.getMyApprovals()
 const today = new Date()
 const currentYear = today.getFullYear()
 const headers = [

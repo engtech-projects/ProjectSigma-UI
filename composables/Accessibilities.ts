@@ -138,7 +138,7 @@ export enum AccessibilityTypes {
     inventory_bom_forms_and_my_requests = "inventory:bom_form and my requests",
     inventory_bom_all_request = "inventory:bom_all requests",
     inventory_bom_my_approvals = "inventory:bom_my approvals",
-    inventory_bom_current_form = "inventory:bom_current bom",
+    inventory_bom_current_bom = "inventory:bom_current bom",
 
     // ACCOUNTING
     accounting_journal_group = "accounting:journal entry_",
