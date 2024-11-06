@@ -21,7 +21,7 @@ const generateReport = async () => {
 }
 const totalDefaultAmount = () => {
     return defaultPaymentGroupReport.value.list.reduce((accumulator, current) => {
-        return accumulator + current.total_payments
+        return accumulator + current.total_group_amount
     }, 0)
 }
 watch(() => defaultPaymentGroupReport.value.params.month_year, (newValue) => {
@@ -108,29 +108,29 @@ watch(() => defaultPaymentGroupReport.value.params.month_year, (newValue) => {
                                 FULL NAME
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                LOAN TYPE
-                            </th>
-                            <th rowspan="3" class="border border-gray-500">
                                 EMPLOYEE/GROUP
                             </th>
                             <th rowspan="3" class="border border-gray-500">
                                 AMOUNT
                             </th>
+                            <th rowspan="3" class="border border-gray-500">
+                                TOTAL
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in defaultPaymentGroupReport.list" :key="'sssemployeeremitance' + index" class="h-2">
+                        <tr v-for="reportData, index in defaultPaymentGroupReport.list" :key="'defaultreportgroup' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.employee_fullname }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ loanReportOption.loan_type }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.payroll_record.charging_name }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.total_payments }}
+                                {{ useFormatCurrency(reportData.total_amount) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                {{ useFormatCurrency(reportData.total_group_amount) }}
                             </td>
                         </tr>
                         <tr>

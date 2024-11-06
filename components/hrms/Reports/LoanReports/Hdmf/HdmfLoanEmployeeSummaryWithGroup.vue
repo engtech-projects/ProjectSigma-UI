@@ -20,7 +20,7 @@ const generateReport = async () => {
 }
 const hdmfTotal = () => {
     return hdmfGroupSummaryLoan.value.list.reduce((accumulator, current) => {
-        return accumulator + current.total_payments
+        return accumulator + current.total_group_amount
     }, 0)
 }
 watch(() => hdmfGroupSummaryLoan.value.params.month_year, (newValue) => {
@@ -156,10 +156,10 @@ watch(() => hdmfGroupSummaryLoan.value.params.month_year, (newValue) => {
                                 {{ reportData.payroll_record.charging_name }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.amount }}
+                                {{ useFormatCurrency(reportData.total_amount) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ useFormatCurrency(reportData.total_payments) }}
+                                {{ useFormatCurrency(reportData.total_group_amount) }}
                             </td>
                         </tr>
                         <tr>

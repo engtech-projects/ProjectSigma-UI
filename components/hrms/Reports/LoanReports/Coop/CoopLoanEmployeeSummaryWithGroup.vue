@@ -133,7 +133,7 @@ watch(() => coopGroupSummaryLoan.value.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in coopGroupSummaryLoan.list" :key="'sssemployeeremitance' + index" class="h-2">
+                        <tr v-for="reportData, index in coopGroupSummaryLoan.list" :key="'coopemployeesummarygroup' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center font-bold">
                                 {{ index + 1 }}
                             </td>
