@@ -1,4 +1,12 @@
 <script setup>
+import { useBOMStore } from "@/stores/inventory/bom"
+const BOMStore = useBOMStore()
+const { currentBom: List } = storeToRefs(BOMStore)
+onMounted(() => {
+    if (!currentBom.value.isLoaded) {
+        BOMStore.getCurrentBOM()
+    }
+})
 const today = new Date()
 const currentYear = today.getFullYear()
 const headers = [
@@ -39,7 +47,7 @@ const headers = [
                     </div>
                 </div>
                 <div>
-                    <InventoryBomTable title="Item List" :header-columns="headers" />
+                    <InventoryBomTable title="Item List" :header-columns="headers" :data-columns="List.list" />
                 </div>
             </div>
         </form>

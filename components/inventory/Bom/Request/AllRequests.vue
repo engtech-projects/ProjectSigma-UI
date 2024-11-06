@@ -1,10 +1,13 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
-
-const mains = useItemProfileStore()
-const { allRequests: List } = storeToRefs(mains)
-
+import { useBOMStore } from "@/stores/inventory/bom"
+const BOMStore = useBOMStore()
+const { allRequests: List } = storeToRefs(BOMStore)
+onMounted(() => {
+    if (!allRequests.value.isLoaded) {
+        BOMStore.getAllRequests()
+    }
+})
 const headers = [
     { name: "Item Summary", id: "profile_summary" },
     { name: "Request Status", id: "request_status" },

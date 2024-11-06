@@ -1,11 +1,11 @@
 <script setup>
 import { useBOMStore, APPROVALS } from "@/stores/inventory/bom"
+import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 const BOMStore = useBOMStore()
-const { approvalList, bomRequest } = storeToRefs(BOMStore)
-BOMStore.getApprovalByName(APPROVALS)
-BOMStore.getAllRequests()
-BOMStore.getMyRequests()
-BOMStore.getMyApprovals()
+const approvals = useApprovalStore()
+const { bomRequest, approvalList } = storeToRefs(BOMStore)
+approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
+
 const today = new Date()
 const currentYear = today.getFullYear()
 const headers = [
@@ -46,7 +46,7 @@ const storeBOM = () => {
                     </div>
                 </div>
                 <div class="flex w-full">
-                    <InventoryBomItemTable title="Item List" :header-columns="headers" />
+                    <InventoryBomItemTable title="Item List" :header-columns="headers" :data-columns="bomRequest" />
                 </div>
                 <div class="flex w-full">
                     <div class="pt-5 w-full mb-2 rounded-lg p-4 bg-slate-100 ">

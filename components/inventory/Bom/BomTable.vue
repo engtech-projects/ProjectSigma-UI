@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useBOMStore } from "@/stores/inventory/bom"
-const BOMStore = useBOMStore()
-const { bomRequest } = storeToRefs(BOMStore)
 interface HeaderColumn {
     name: string,
     id: string,
@@ -12,6 +9,10 @@ defineProps({
         required: true,
     },
     headerColumns: {
+        type: Array<HeaderColumn>,
+        required: true,
+    },
+    dataColumns: {
         type: Array<HeaderColumn>,
         required: true,
     },
@@ -37,8 +38,8 @@ defineProps({
                     </thead>
                     <tbody>
                         <tr>
-                            <td v-for="(item, index) in bomRequest.items" :key="index">
-                                {{ item }}
+                            <td v-for="(item, index) in dataColumns" :key="index">
+                                {{ item ? item : "" }}
                             </td>
                         </tr>
                     </tbody>

@@ -1,10 +1,13 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
-
-const mains = useItemProfileStore()
-const { myApprovals: List } = storeToRefs(mains)
-
+import { useBOMStore } from "@/stores/inventory/bom"
+const BOMStore = useBOMStore()
+const { approvalList: List } = storeToRefs(BOMStore)
+onMounted(() => {
+    if (!approvalList.value.isLoaded) {
+        BOMStore.getMyApprovals()
+    }
+})
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {

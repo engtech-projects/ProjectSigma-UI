@@ -35,6 +35,13 @@ export const useBOMStore = defineStore("BOMStore", {
             params: {},
             pagination: {},
         },
+        currentBom: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
         allRequests: {
             isLoading: false,
             isLoaded: false,
@@ -70,45 +77,6 @@ export const useBOMStore = defineStore("BOMStore", {
         remarks: "",
     }),
     actions: {
-        async getApprovalByName (approvalName: String) {
-            const { data } = await useHRMSApi<any>(
-                "/api/get-form-requests/" + approvalName,
-                {
-                    method: "GET",
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.approvalList.list = response._data.data.approvals.map((approv: any) => {
-                                return {
-                                    type: approv.type,
-                                    status: "Pending",
-                                    user_id: approv.user_id,
-                                    userselector: approv.userselector,
-                                    date_approved: "",
-                                    remarks: "",
-                                    employee: approv.employee,
-                                }
-                            })
-                        } else {
-                            this.errorMessage = response._data.message
-                        }
-                    },
-                }
-            )
-            if (data.value) {
-                return data.value.data.approvals.map((approv: any) => {
-                    return {
-                        type: approv.type,
-                        status: "Pending",
-                        user_id: approv.user_id,
-                        userselector: approv.userselector,
-                        date_approved: "",
-                        remarks: "",
-                        employee: approv.employee,
-                    }
-                })
-            }
-        },
         async getAllRequests () {
             await useInventoryApi(
                 "/api/bom/all-request",
@@ -209,16 +177,16 @@ export const useBOMStore = defineStore("BOMStore", {
                 "/api/bom/resource",
                 {
                     method: "GET",
-                    params: this.bomRequest.params,
+                    params: this.currentBom.params,
                     onRequest: () => {
-                        this.bomRequest.isLoading = true
+                        this.currentBom.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.bomRequest.isLoading = false
+                        this.currentBom.isLoading = false
                         if (response.ok) {
-                            this.bomRequest.isLoaded = true
-                            this.bomRequest.list = response._data.data.data
-                            this.bomRequest.pagination = {
+                            this.currentBom.isLoaded = true
+                            this.currentBom.list = response._data.data.data
+                            this.currentBom.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
                                 last_page: response._data.data.last_page_url,
