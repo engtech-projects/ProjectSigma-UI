@@ -3,7 +3,7 @@ import { useBOMStore } from "@/stores/inventory/bom"
 const BOMStore = useBOMStore()
 const { currentBom: List } = storeToRefs(BOMStore)
 onMounted(() => {
-    if (!currentBom.value.isLoaded) {
+    if (!List.value.isLoaded) {
         BOMStore.getCurrentBOM()
     }
 })

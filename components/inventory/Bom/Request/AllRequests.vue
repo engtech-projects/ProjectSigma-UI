@@ -4,7 +4,7 @@ import { useBOMStore } from "@/stores/inventory/bom"
 const BOMStore = useBOMStore()
 const { allRequests: List } = storeToRefs(BOMStore)
 onMounted(() => {
-    if (!allRequests.value.isLoaded) {
+    if (!List.isLoaded) {
         BOMStore.getAllRequests()
     }
 })

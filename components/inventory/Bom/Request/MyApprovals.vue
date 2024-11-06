@@ -4,7 +4,7 @@ import { useBOMStore } from "@/stores/inventory/bom"
 const BOMStore = useBOMStore()
 const { approvalList: List } = storeToRefs(BOMStore)
 onMounted(() => {
-    if (!approvalList.value.isLoaded) {
+    if (!List.value.isLoaded) {
         BOMStore.getMyApprovals()
     }
 })

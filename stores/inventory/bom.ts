@@ -269,9 +269,6 @@ export const useBOMStore = defineStore("BOMStore", {
             if (this.myApprovals.isLoaded) {
                 callFunctions.push(this.getMyApprovals)
             }
-            if (this.approvalList.isLoaded) {
-                callFunctions.push(this.getApprovalByName(APPROVALS))
-            }
             this.$reset()
             callFunctions.forEach((element) => {
                 element()
