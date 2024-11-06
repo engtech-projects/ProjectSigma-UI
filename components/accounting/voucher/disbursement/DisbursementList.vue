@@ -1,108 +1,139 @@
 <script setup>
-import { storeToRefs } from "pinia"
 import { useVoucherStore } from "~/stores/accounting/voucher"
 
 const voucherStore = useVoucherStore()
-const { getParams, pagination, errorMessage, successMessage } = storeToRefs(voucherStore)
+const emit = defineEmits(["view-details"])
 
-const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+const navigate = (url = "", action = null, voucher = null) => {
+    history.pushState(null, "", url)
+    if (voucher) {
+        voucherStore.voucher = voucher
+    }
+    emit(action)
 }
 
-// const setEdit = (voucher) => {
-//     voucherStore.voucher = voucher
-//     return navigateTo("/accounting/voucher/disbursement/edit?id=" + voucher.voucher_no)
-// }
-
+const changePaginate = (newParams) => {
+    voucherStore.params.page = newParams.page ?? ""
+    voucherStore.getVouchers()
+}
+const filterList = () => {
+    voucherStore.params.filter.status = voucherStore.filter.value
+    voucherStore.params.page = 1
+    voucherStore.getVouchers()
+}
+onMounted(() => {
+    voucherStore.filter.name = "status"
+})
 </script>
 <template>
     <div class="flex flex-col items-end gap-4">
-        <div class="flex items-center justify-end gap-4 w-full">
-            <NuxtLink
-                to="/accounting/voucher/disbursement/create"
-                class="w-48 text-white p-2 rounded bg-teal-600 content-center text-center px-4 flex items-center hover:bg-teal-700 active:bg-teal-600"
+        <div v-if="voucherStore.isLoading.list" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+            <img
+                class="flex justify-center w-28 rounded-md"
+                src="/loader.gif"
+                alt="logo"
             >
-                <Icon name="fa:plus-circle" class="mr-2 mt-[3px]" />
-                <span>New Voucher</span>
-            </NuxtLink>
         </div>
-        <LayoutBoards title="List of Vouchers" class="w-full" :loading="voucherStore.isLoading">
-            <div class="pb-2 text-gray-500">
-                <table class="table-auto w-full border-collapse">
-                    <thead>
-                        <tr class="text-left">
-                            <th class="p-2 ">
-                                Voucher No.
-                            </th>
-                            <th class="p-2">
-                                Date Created
-                            </th>
-                            <th class="p-2">
-                                Payee
-                            </th>
-                            <th class="p-2">
-                                Amount
-                            </th>
-                            <th />
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="voucher, i in voucherStore.list" :key="i" class="border text-left">
-                            <td class="p-2">
-                                {{ voucher.voucher_no }}
-                            </td>
-                            <td class="p-2">
-                                {{ useUtilities().value.dateToString(new Date(voucher.date_encoded)) }}
-                            </td>
-                            <td class="p-2">
-                                {{ voucher.payee }}
-                            </td>
-                            <td class="p-2">
-                                {{ useUtilities().value.formatCurrency(voucher.net_amount) }}
-                            </td>
-                            <NuxtLink :to="'/accounting/voucher/disbursement/details?id=' + voucher.voucher_no" @click="voucherStore.voucher = voucher">
-                                <Icon name="material-symbols:visibility-rounded" color="white" class="bg-green-500 rounded h-8 w-8 p-1 " />
-                            </NuxtLink>
-                            <!-- <td class="text-right">
-                                <button @click="setEdit(voucher)">
-                                    <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
-                                </button>
-                            </td> -->
-                        </tr>
-                    </tbody>
-                </table>
-                <!-- <LayoutPsTable
-                    id="listTable"
-                    :header-columns="headers"
-                    :datas="voucherStore.list"
-                    :actions="actions"
-                    @edit-row="setEdit"
-                    @delete-row="deleteType"
-                /> -->
-                <!-- <i v-if="!voucherStore.list.length&&!voucherStore.isLoading" class="p-4 text-center block">No data available.</i> -->
+        <div class="flex gap-2">
+            <div class="flex w-full items-center">
+                <label for="sortIput" class="text-xs mr-1 flex-1 block">
+                    Status:
+                </label>
+                <select
+                    id="netAmount"
+                    v-model="voucherStore.filter.value"
+                    class="bg-gray-50 border h-6 border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 py-1 px-2 text-xs"
+                    @change="filterList"
+                >
+                    <option value="">
+                        All
+                    </option>
+                    <option value="draft">
+                        Draft
+                    </option>
+                    <option value="pending">
+                        Pending
+                    </option>
+                    <option value="approved">
+                        Approved
+                    </option>
+                    <option value="rejected">
+                        Rejected
+                    </option>
+                    <option value="void">
+                        Void
+                    </option>
+                </select>
             </div>
-            <div class="flex justify-center mx-auto">
+        </div>
+        <div class="pb-2 text-gray-500 w-full">
+            <span v-if="voucherStore.list.length === 0" class="text-sm text-center block py-8 pb-72 bg-gray-100 w-full">
+                No {{ voucherStore.filter.value }} vouchers in the list.
+            </span>
+            <table v-else class="table-auto w-full border-collapse text-sm">
+                <thead>
+                    <tr class="text-left">
+                        <th class="p-2 text-sm">
+                            Voucher No.
+                        </th>
+                        <th class="p-2 text-sm">
+                            Date Created
+                        </th>
+                        <th class="p-2 text-sm">
+                            Payee
+                        </th>
+                        <th class="p-2 text-sm">
+                            Status
+                        </th>
+                        <th class="p-2 text-sm">
+                            Amount
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="voucher, i in voucherStore.list" :key="i" class="border text-left hover:bg-gray-200 hover: text-black" :class="voucher.id === voucherStore.voucher.id ? 'selectedVoucher' : ''">
+                        <td class="p-2">
+                            {{ voucher.voucher_no }}
+                        </td>
+                        <td class="p-2">
+                            {{ useUtilities().value.dateToString(new Date(voucher.date_encoded)) }}
+                        </td>
+                        <td class="p-2">
+                            {{ voucher.stakeholder.name }}
+                        </td>
+                        <td class="p-2">
+                            {{ voucher.status }}
+                        </td>
+                        <td class="p-2">
+                            {{ useUtilities().value.formatCurrency(voucher.net_amount) }}
+                        </td>
+                        <td class="p-2">
+                            <Icon
+                                name="material-symbols:visibility-rounded"
+                                color="white"
+                                class="bg-green-500 hover:bg-green-600 active:bg-green-700 rounded h-8 w-8 p-1 cursor-pointer"
+                                @click="navigate('/accounting/voucher/disbursement?details=' + voucher.id, 'view-details', voucher)"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="flex justify-center mx-auto my-8">
                 <CustomPagination
                     v-if="voucherStore.list.length"
-                    :links="pagination"
+                    :links="voucherStore.pagination"
                     @change-params="changePaginate"
                 />
             </div>
-            <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
-                {{ errorMessage }}
-            </p>
-            <p
-                v-show="successMessage"
-                hidden
-                class="success-message text-green-600 text-center font-semibold italic"
-            >
-                {{ successMessage }}
-            </p>
-        </LayoutBoards>
+        </div>
     </div>
 </template>
 
 <style scoped>
+    .selectedVoucher {
+        background-color: #b2d8d8;
+        color: black!important
+    }
     #listTable tbody tr td, #listTable thead th {
         text-align: left!important;
     }

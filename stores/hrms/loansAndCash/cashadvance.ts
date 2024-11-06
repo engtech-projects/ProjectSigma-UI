@@ -126,27 +126,8 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 }
             )
         },
-        async makePayment (id: number) {
-            await useHRMSApi(
-                "/api/cash-advance/manual-payment/" + id, {
-                    method: "POST",
-                    watch: false,
-                    body: this.newPayment,
-                    onResponseError: ({ response }) => {
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
-                            return response._data.data
-                        } else {
-                            throw new Error(response._data.message)
-                        }
-                        this.$reset()
-                    },
-                })
-        },
-        async getCA () {
+        async getCA () { // GET ALL CA
+            this.cashAdvanceList.isLoaded = true
             await useHRMSApi(
                 "/api/cash-advance/resource",
                 {
@@ -159,7 +140,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         this.cashAdvanceList.isLoading = false
                         if (response.ok) {
                             this.cashAdvanceList.list = response._data.data.data
-                            this.cashAdvanceList.isLoaded = true
                             this.cashAdvanceList.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
@@ -171,6 +151,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             )
         },
         async getMyRequests () {
+            this.myRequestList.isLoaded = true
             await useHRMSApi(
                 "/api/cash-advance/my-request",
                 {
@@ -183,7 +164,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         this.myRequestList.isLoading = false
                         if (response.ok) {
                             this.myRequestList.list = response._data.data.data
-                            this.myRequestList.isLoaded = true
                             this.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
@@ -243,6 +223,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             )
         },
         async getMyApprovalRequests () {
+            this.myApprovalRequestList.isLoaded = true
             await useHRMSApi(
                 "/api/cash-advance/my-approvals",
                 {
@@ -255,7 +236,6 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         this.myApprovalRequestList.isLoading = false
                         if (response.ok) {
                             this.myApprovalRequestList.list = response._data.data.data
-                            this.myApprovalRequestList.isLoaded = true
                             this.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
@@ -290,30 +270,26 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 }
             )
         },
-
         async createRequest () {
-            this.successMessage = ""
-            this.errorMessage = ""
+            const backupEmployee = this.cashadvance.employee_id
+            const backupApprovals = this.cashadvance.approvals
             await useHRMSApiO(
                 "/api/cash-advance/resource",
                 {
                     method: "POST",
                     body: this.cashadvance,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.getCA()
-                            this.$reset()
+                            this.reloadResources()
                             this.successMessage = response._data.message
+                            this.cashadvance.employee_id = backupEmployee
+                            this.cashadvance.approvals = backupApprovals
                         } else {
                             this.errorMessage = response._data.message
                         }
                     },
                 }
             )
-        },
-        clearMessages () {
-            this.errorMessage = ""
-            this.successMessage = ""
         },
         async editRequest () {
             this.successMessage = ""
@@ -323,10 +299,9 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "PATCH",
                     body: this.cashadvance,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.getCA()
-                            this.$reset()
+                            this.reloadResources()
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
@@ -336,29 +311,23 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             )
         },
         async deleteRequest (id: number) {
-            const { data, error } = await useHRMSApi(
+            return await useHRMSApiO(
                 "/api/cash-advance/resource/" + id,
                 {
                     method: "DELETE",
                     watch: false,
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.$reset()
-                            this.getCA()
+                            this.reloadResources()
                             this.successMessage = response._data.message
+                            return response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            return response._data.message
                         }
                     },
                 }
             )
-            if (error.value) {
-                this.errorMessage = error.value.data.message
-                throw new Error(this.errorMessage)
-                return error
-            }
-            if (data.value) {
-                this.getCA()
-                return data
-            }
         },
         async approveApprovalForm (id: number) {
             this.successMessage = ""
@@ -367,14 +336,14 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 "/api/approvals/approve/CashAdvance/" + id,
                 {
                     method: "POST",
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.reloadResources()
                             this.successMessage = response._data.message
-                            this.getMyApprovalRequests()
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -436,6 +405,12 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             const callFunctions = []
             if (this.cashAdvanceList.isLoaded) {
                 callFunctions.push(this.getCA)
+            }
+            if (this.myRequestList.isLoaded) {
+                callFunctions.push(this.getMyRequests)
+            }
+            if (this.myApprovalRequestList.isLoaded) {
+                callFunctions.push(this.getMyApprovalRequests)
             }
             if (this.ongoingCashAdvanceList.isLoaded) {
                 callFunctions.push(this.getOngoingCashAdvance)

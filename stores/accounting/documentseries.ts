@@ -22,7 +22,7 @@ export const useDocumentSeriesStore = defineStore("documentSeriesStore", {
         async getSeries () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/document-series",
+                "/api/document-series",
                 {
                     method: "GET",
                     params: this.getParams,
@@ -48,7 +48,7 @@ export const useDocumentSeriesStore = defineStore("documentSeriesStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/v1/document-series",
+                "/api/document-series",
                 {
                     method: "POST",
                     body: this.documentSeries,
@@ -70,7 +70,7 @@ export const useDocumentSeriesStore = defineStore("documentSeriesStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/v1/document-series/" + this.documentSeries.series_id,
+                "/api/document-series/" + this.documentSeries.series_id,
                 {
                     method: "PATCH",
                     body: this.documentSeries,
@@ -89,7 +89,7 @@ export const useDocumentSeriesStore = defineStore("documentSeriesStore", {
 
         async deleteSeries (id: number) {
             const { data, error } = await useAccountingApi(
-                "/api/v1/document-series/" + id,
+                "/api/document-series/" + id,
                 {
                     method: "DELETE",
                     body: this.documentSeries,

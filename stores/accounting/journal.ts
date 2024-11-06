@@ -5,27 +5,15 @@ const config = useRuntimeConfig()
 export const useJournalStore = defineStore("journalStore", {
     state: () => ({
         journal: {
-            entry: {
-                transaction_date: "",
-                transaction_no: "",
-                note: "",
-                period_id: "9",
-                reference_no: "JE",
-                transaction_type_id: 1,
-                stakeholder_id: 1,
-                description: "Journal Entry",
-                amount: 100,
-                status: "open"
-            },
-            details: [
-                {
-                    transaction_id: "1",
-                    stakeholder_id: "1",
-                    account_id: 10,
-                    debit: 100,
-                    credit: 0
-                },
-            ]
+            id: null,
+            journal_no: null,
+            journal_date: null,
+            voucher_id: null,
+            status: "open",
+            period_id: null,
+            remarks: "",
+            reference_no: "",
+            details: []
         },
         base: {},
         list: [],
@@ -33,14 +21,20 @@ export const useJournalStore = defineStore("journalStore", {
         getParams: {},
         errorMessage: "",
         successMessage: "",
-        isLoading: false,
+        isLoading: {
+            list: false,
+            show: false,
+            edit: false,
+            create: false,
+            delete: false
+        },
         isEdit: false
     }),
     actions: {
-        async baseData () {
-            this.isLoading = true
+        async getJournals () {
+            this.isLoading.list = true
             const { data, error } = await useFetch(
-                "/api/v1/journal",
+                "/api/journal-entry",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
@@ -50,8 +44,33 @@ export const useJournalStore = defineStore("journalStore", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.isLoading = false
-                        this.base = response._data.data
+                        this.isLoading.list = false
+                        this.list = response._data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async getJournal (id:any) {
+            this.isLoading.show = true
+            const { data, error } = await useFetch(
+                "/api/journal-entry/" + id,
+                {
+                    baseURL: config.public.ACCOUNTING_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading.show = false
+                        this.journal = response._data
                     },
                 }
             )
@@ -65,8 +84,9 @@ export const useJournalStore = defineStore("journalStore", {
         async createJournal () {
             this.successMessage = ""
             this.errorMessage = ""
+            this.isLoading.create = true
             await useFetch(
-                "/api/v1/journal",
+                "/api/journal-entry",
                 {
                     baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
@@ -77,19 +97,53 @@ export const useJournalStore = defineStore("journalStore", {
                     body: this.journal,
                     watch: false,
                     onResponse: ({ response }) => {
+                        this.isLoading.create = false
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
                             this.reset()
-                            this.successMessage = response._data.message
+                            this.successMessage = "Journal entry successfully created."
                         }
                     },
                 }
             )
         },
 
+        async editJournal () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            this.isLoading.edit = true
+            const { data, error } = await useAccountingApi(
+                "/api/journal-entry/" + this.journal.id,
+                {
+                    method: "PATCH",
+                    body: this.journal,
+                    watch: false,
+                }
+            )
+            this.isLoading.edit = false
+            if (data.value) {
+                this.getJournals()
+                this.successMessage = "Journal entry successfully updated."
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+
         reset () {
-            this.base = {}
+            this.journal = {
+                id: null,
+                journal_no: null,
+                journal_date: null,
+                voucher_id: null,
+                status: null,
+                period_id: null,
+                remarks: "",
+                reference_no: "",
+                details: []
+            }
             this.successMessage = ""
             this.errorMessage = ""
         },

@@ -1,3 +1,15 @@
+<script setup>
+defineProps({
+    loans: {
+        type: Array,
+        required: true,
+    },
+    otherdeductions: {
+        type: Array,
+        required: true,
+    },
+})
+</script>
 <template>
     <thead
         class="text-xs text-black uppercase bg-sky-50 dark:bg-gray-950"
@@ -54,7 +66,7 @@
             </th>
             <th
                 scope="col"
-                colspan="6"
+                :colspan="7 + (loans.length || 1) + (otherdeductions.length || 1)"
                 class="p-2 border-solid border border-slate-400 bg-sky-200"
             >
                 Salary Deduction
@@ -198,7 +210,7 @@
             </th>
             <th
                 class="px-4 border-solid border border-slate-400"
-                colspan="2"
+                colspan="3"
             >
                 SSS
             </th>
@@ -224,7 +236,19 @@
                 rowspan="2"
                 class="px-4 border-solid border border-slate-400"
             >
-                Other Deductions
+                CASH ADVANCE
+            </th>
+            <th
+                :colspan="loans.length"
+                class="px-4 border-solid border border-slate-400"
+            >
+                LOANS
+            </th>
+            <th
+                :colspan="otherdeductions.length"
+                class="px-4 border-solid border border-slate-400"
+            >
+                OTHER DEDUCTIONS
             </th>
         </tr>
         <tr>
@@ -237,6 +261,37 @@
                 class="px-4 border-solid border border-slate-400"
             >
                 Employee Compensation
+            </th>
+            <th
+                class="px-4 border-solid border border-slate-400"
+            >
+                Employee WISP
+            </th>
+            <th
+                v-if="loans.length === 0"
+                class="px-4 border-solid border border-slate-400"
+            >
+                -
+            </th>
+            <th
+                v-for="loan, key in loans"
+                :key="key"
+                class="px-4 border-solid border border-slate-400"
+            >
+                {{ loan }}
+            </th>
+            <th
+                v-if="loans.length === 0"
+                class="px-4 border-solid border border-slate-400"
+            >
+                -
+            </th>
+            <th
+                v-for="otherdeduction, key in otherdeductions"
+                :key="key"
+                class="px-4 border-solid border border-slate-400"
+            >
+                {{ otherdeduction }}
             </th>
         </tr>
     </thead>

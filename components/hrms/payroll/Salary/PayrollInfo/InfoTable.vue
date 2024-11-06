@@ -32,36 +32,43 @@ const totalDeductionPayroll = () => {
 }
 const totalEWTCPayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { ewtc: string } } }) => {
+    props.payrollRequest.payroll_details.forEach((element: any) => {
         total += parseFloat(element.payroll_records.salary_deduction.ewtc)
     })
     return total.toFixed(2)
 }
 const totalHDMFEmployeePayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { hmdf: { employee_contribution: string } } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.hmdf.employee_contribution) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.payroll_records.salary_deduction.hmdf.employee_contribution) || 0
     })
     return total.toFixed(2)
 }
 const totalPHICEmployeePayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { phic: { employee_contribution: string } } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.phic.employee_contribution) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.payroll_records.salary_deduction.phic.employee_contribution) || 0
     })
     return total.toFixed(2)
 }
 const totalSSSCompensationEmployeePayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { sss: { employee_compensation: string } } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.sss.employee_compensation) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.payroll_records.salary_deduction.sss.employee_compensation) || 0
     })
     return total.toFixed(2)
 }
 const totalSSSContributionEmployeePayroll = () => {
     let total = 0
-    props.payrollRequest.payroll_details.forEach((element: { payroll_records: { salary_deduction: { sss: { employee_contribution: string } } } }) => {
-        total += parseFloat(element.payroll_records.salary_deduction.sss.employee_contribution) ?? 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.payroll_records.salary_deduction.sss.employee_contribution) || 0
+    })
+    return total.toFixed(2)
+}
+const totalSSSWispEmployeePayroll = () => {
+    let total = 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        total += parseFloat(element.payroll_records.salary_deduction.sss.employee_wisp) || 0
     })
     return total.toFixed(2)
 }
@@ -128,16 +135,78 @@ const totalRegHrsPayroll = () => {
     })
     return total.toFixed(2)
 }
+const uniqueLoanNames = computed(() => {
+    const loanNames = new Set()
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.payroll_records.salary_deduction.loan.loans.forEach((deduction: { name: string }) => {
+            loanNames.add(deduction.name)
+        })
+    })
+    return Array.from(loanNames)
+})
+const uniqueOtherDeductionNames = computed(() => {
+    const loanNames = new Set()
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.payroll_records.salary_deduction.other_deductions.other_deduction.forEach((deduction: { otherdeduction_name: string }) => {
+            loanNames.add(deduction.otherdeduction_name)
+        })
+    })
+    return Array.from(loanNames)
+})
+const uniqueLoanNameTotals = computed(() => {
+    const deductionTotals: any[] = []
+    uniqueLoanNames.value.forEach((name: any) => {
+        let total = 0
+        props.payrollRequest.payroll_details.forEach((element: any) => {
+            element.payroll_records.salary_deduction.loan.loans.forEach((deduction: { name: string; max_payroll_payment: number }) => {
+                if (deduction.name === name) {
+                    total += deduction.max_payroll_payment
+                }
+            })
+        })
+        deductionTotals[name] = total
+    })
+    return deductionTotals
+})
+const uniqueOtherDeductionNameTotals = computed(() => {
+    const deductionTotals: any[] = []
+    uniqueOtherDeductionNames.value.forEach((name: any) => {
+        let total = 0
+        props.payrollRequest.payroll_details.forEach((element: any) => {
+            element.payroll_records.salary_deduction.other_deductions.other_deduction.forEach((deduction: { otherdeduction_name: string; max_payroll_payment: number }) => {
+                if (deduction.otherdeduction_name === name) {
+                    total += deduction.max_payroll_payment
+                }
+            })
+        })
+        deductionTotals[name] = total
+    })
+    return deductionTotals
+})
+const totalCashadvance = computed(() => {
+    let total = 0
+    props.payrollRequest.payroll_details.forEach((element: any) => {
+        element.payroll_records.salary_deduction.cash_advance.cash_advance.forEach((deduction: { otherdeduction_name: string; max_payroll_payment: number }) => {
+            total += deduction.max_payroll_payment
+        })
+    })
+    return total
+})
 </script>
 <template>
     <table class="w-full text-sm text-center text-gray-50 pb-4">
-        <HrmsPayrollSalaryPayrollInfoTableHeader />
+        <HrmsPayrollSalaryPayrollInfoTableHeader
+            :loans="uniqueLoanNames"
+            :otherdeductions="uniqueOtherDeductionNames"
+        />
         <tbody>
             <HrmsPayrollSalaryPayrollInfoTableRow
                 v-for="(data,index) in payrollRequest.payroll_details"
                 :key="'PayrollRow'+index"
                 :employee-payroll-record="data"
                 :index="index+1"
+                :loans="uniqueLoanNames"
+                :otherdeductions="uniqueOtherDeductionNames"
             />
             <tr class="bg-white text-gray-950">
                 <th
@@ -197,13 +266,18 @@ const totalRegHrsPayroll = () => {
                     {{ useFormatCurrency(totalAdjustments()) }}
                 </td>
                 <td>
-                    {{ useFormatCurrency(totalGrossPayPayroll()) }}
+                    <strong>
+                        {{ useFormatCurrency(totalGrossPayPayroll()) }}
+                    </strong>
                 </td>
                 <td>
                     {{ totalSSSContributionEmployeePayroll() ? useFormatCurrency(totalSSSContributionEmployeePayroll()) : "-" }}
                 </td>
                 <td>
                     {{ totalSSSCompensationEmployeePayroll() ? useFormatCurrency(totalSSSCompensationEmployeePayroll()) : "-" }}
+                </td>
+                <td>
+                    {{ totalSSSWispEmployeePayroll() ? useFormatCurrency(totalSSSWispEmployeePayroll()) : "-" }}
                 </td>
                 <td>
                     {{ useFormatCurrency(totalPHICEmployeePayroll()) ?? "-" }}
@@ -214,7 +288,21 @@ const totalRegHrsPayroll = () => {
                 <td>
                     {{ useFormatCurrency(totalEWTCPayroll()) }}
                 </td>
-                <td />
+                <td>
+                    {{ useFormatCurrency(totalCashadvance) }}
+                </td>
+                <td v-if="uniqueLoanNames.length === 0">
+                    -
+                </td>
+                <td v-for="deduction in uniqueLoanNames" :key="deduction">
+                    {{ useFormatCurrency(uniqueLoanNameTotals[deduction]) }}
+                </td>
+                <td v-if="uniqueOtherDeductionNames.length === 0">
+                    -
+                </td>
+                <td v-for="deduction in uniqueOtherDeductionNames" :key="deduction">
+                    {{ useFormatCurrency(uniqueOtherDeductionNameTotals[deduction]) }}
+                </td>
                 <td>
                     <strong>{{ useFormatCurrency(totalDeductionPayroll()) }}</strong>
                 </td>

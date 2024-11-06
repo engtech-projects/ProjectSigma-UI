@@ -101,15 +101,28 @@ export const useEnumsStore = defineStore("enums", {
             successMessage: "",
             errorMessage: "",
         },
+        userEmployeeHeadsEnum: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as UserEmployee[],
+            params: {},
+            successMessage: "",
+            errorMessage: "",
+        },
         allEmployeeEnum: {
             isLoading: false,
             isLoaded: false,
             list: [] as Employee[],
             params: {
-                filterType: "",
-                filterData: "",
             },
-            nameFilter: "",
+            localFilters: {
+                multi: {
+                    filterType: "",
+                    filterData: "",
+                },
+                atm: "",
+                name: "",
+            },
             successMessage: "",
             errorMessage: "",
         },
@@ -118,37 +131,50 @@ export const useEnumsStore = defineStore("enums", {
     getters: {
         filteredEmployeesList (state) : any[] {
             return state.allEmployeeEnum.list.filter((employee:any) => {
-                return employee.fullname_last.toLowerCase().includes(state.allEmployeeEnum.nameFilter.toLowerCase()) &&
+                return employee.fullname_last.toLowerCase().includes(state.allEmployeeEnum.localFilters.name.toLowerCase()) &&
                 (
-                    !state.allEmployeeEnum.params.filterType ||
+                    !state.allEmployeeEnum.localFilters.multi.filterType ||
                     (
-                        state.allEmployeeEnum.params.filterType === "Department" &&
+                        state.allEmployeeEnum.localFilters.multi.filterType === "Department" &&
                         (
-                            !state.allEmployeeEnum.params.filterData ||
-                            employee.department?.id === state.allEmployeeEnum.params.filterData
+                            !state.allEmployeeEnum.localFilters.multi.filterData ||
+                            employee.department?.id === state.allEmployeeEnum.localFilters.multi.filterData
                         )
                     ) ||
                     (
-                        state.allEmployeeEnum.params.filterType === "Project" &&
+                        state.allEmployeeEnum.localFilters.multi.filterType === "Project" &&
                         (
-                            !state.allEmployeeEnum.params.filterData ||
-                            employee.project?.id === state.allEmployeeEnum.params.filterData
+                            !state.allEmployeeEnum.localFilters.multi.filterData ||
+                            employee.project?.id === state.allEmployeeEnum.localFilters.multi.filterData
                         )
                     ) ||
                     (
-                        state.allEmployeeEnum.params.filterType === "SalaryType" &&
+                        state.allEmployeeEnum.localFilters.multi.filterType === "SalaryType" &&
                         (
-                            !state.allEmployeeEnum.params.filterData ||
-                            employee.current_employment?.salary_type === state.allEmployeeEnum.params.filterData ||
+                            !state.allEmployeeEnum.localFilters.multi.filterData ||
+                            employee.current_employment?.salary_type === state.allEmployeeEnum.localFilters.multi.filterData ||
                             (
-                                state.allEmployeeEnum.params.filterData === "Monthly" &&
+                                state.allEmployeeEnum.localFilters.multi.filterData === "Monthly" &&
                                 employee.current_employment?.salary_type === "Fixed"
                             )
                         )
                     )
+                ) &&
+                (
+                    !state.allEmployeeEnum.localFilters.atm ||
+                    (
+                        (state.allEmployeeEnum.localFilters.atm === "Yes" && employee.company_employments?.atm && employee.company_employments?.atm.toLowerCase() !== "n/a") ||
+                        (state.allEmployeeEnum.localFilters.atm === "No" && (!employee.company_employments.atm || employee.company_employments?.atm.toLowerCase() === "n/a"))
+                    )
+
                 )
             })
         },
+        headByPosition (state: any): any {
+            return (positionName: any) => state.userEmployeeHeadsEnum.list.find((user: any) => {
+                return user.employee.current_position === positionName
+            })
+        }
     },
     actions: {
         async getPositionEnums () {
@@ -259,13 +285,31 @@ export const useEnumsStore = defineStore("enums", {
                 }
             )
         },
+        async getUserEmployeeHeadsEnums () {
+            this.userEmployeeHeadsEnum.isLoaded = true
+            await useHRMSApiO(
+                "/api/enums/employee-heads",
+                {
+                    method: "GET",
+                    params: this.userEmployeeHeadsEnum.params,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.userEmployeeHeadsEnum.list = response._data.data ?? []
+                        }
+                    },
+                }
+            )
+        },
         async getEmployeeEnum () {
             this.allEmployeeEnum.isLoaded = true
             await useHRMSApiO(
                 "/api/employee/list",
                 {
                     method: "GET",
-                    params: this.allEmployeeEnum.params,
+                    params: this.allEmployeeEnum.localFilters.multi,
                     onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },

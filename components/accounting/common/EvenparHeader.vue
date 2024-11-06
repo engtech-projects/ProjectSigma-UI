@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-end gap-4 items-center">
         <div class="flex flex-col items-end">
-            <h1 class="text-2xl text-teal-500">
+            <h1 class="text-xl text-teal-500">
                 EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
             </h1>
             <h4 class="text-lg text-black">

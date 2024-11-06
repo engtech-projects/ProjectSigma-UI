@@ -53,7 +53,7 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
             })
         },
         dtrUniqueSchedulesV2 (state) {
-            if (!state.getEmployeeDTRv2Data.data?.dtr ?? null) {
+            if (!state.getEmployeeDTRv2Data.data?.dtr) {
                 return []
             }
             const allScheds = Object.values(state.getEmployeeDTRv2Data.data?.dtr ?? []).map((sched:any) => {
@@ -67,7 +67,7 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
             })
         },
         dtrUniqueOvertimeV2 (state) {
-            if (!state.getEmployeeDTRv2Data.data?.dtr ?? null) {
+            if (!state.getEmployeeDTRv2Data.data?.dtr) {
                 return []
             }
             const allScheds = Object.values(state.getEmployeeDTRv2Data.data?.dtr ?? []).map((sched:any) => {
@@ -81,7 +81,7 @@ export const useMyDtrStore = defineStore("myDTRSTORE", {
             })
         },
         dtrUniqueScheduleNamesV2 (state) {
-            if (!state.getEmployeeDTRv2Data.data?.dtr ?? null) {
+            if (!state.getEmployeeDTRv2Data.data?.dtr) {
                 return ""
             }
             const allScheds = Object.values(state.getEmployeeDTRv2Data.data?.dtr ?? []).map((sched:any) => {

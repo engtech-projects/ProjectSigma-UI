@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 const profileStore = useItemProfileStore()
-const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension } = storeToRefs(profileStore)
+const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension, uomCustom } = storeToRefs(profileStore)
 defineProps({
     actions: {
         type: Object,
@@ -27,6 +27,7 @@ const AllTypes = ref({
     areaType: uomArea,
     forceType: uomForce,
     dimensionType: uomDimension,
+    customType: uomCustom,
 })
 const inventoryTypes = ref(
     [
@@ -267,7 +268,7 @@ const doStoreItemProfile = async () => {
         <div class="flex w-full">
             <div class="pt-5 w-full mb-2 rounded-lg p-4 bg-slate-100 ">
                 <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white"> Approval:</label>
-                <InventorySetupApprovalsList
+                <HrmsSetupApprovalsList
                     v-for="(approv, apr) in formItemProfile.approvals"
                     :key="'hrmsetupapprovallist' + apr"
                     v-model="formItemProfile.approvals[apr]"

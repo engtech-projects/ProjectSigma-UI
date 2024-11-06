@@ -5,7 +5,7 @@ const boardLoading = ref(false)
 const listLoader = ref(false)
 const attendancePortal = useAttendancePortal()
 await attendancePortal.getAttendancePortal()
-const { attendancePortalParams, attendancePortalList, attendancePortalPagination, ipAddress } = storeToRefs(attendancePortal)
+const { attendancePortalParams, allAttendancePortals } = storeToRefs(attendancePortal)
 const headers = [
     { name: "NAME", id: "name_location" },
     { name: "PROJECT / DEPARTMENT", id: "name" },
@@ -58,7 +58,12 @@ const actions = {
     delete: true
 }
 const changePaginate = (pageInfo) => {
-    attendancePortalParams.value.page = pageInfo.page ?? "''"
+    allAttendancePortals.value.params.page = pageInfo.page ?? "''"
+}
+const addAssignment = () => {
+    attendancePortalParams.value.assignments.push({
+        assignment_type: "",
+    })
 }
 </script>
 <template>
@@ -70,24 +75,32 @@ const changePaginate = (pageInfo) => {
         <div class="md:flex gap-4 justify-center">
             <div class="w-full mx-auto">
                 <LayoutBoards class="rounded-lg p-2" title="Setup Attendance Portal" :loading="boardLoading">
-                    <div class="grid grid-cols-1 gap-4 p-2">
-                        <label for="ipAddress" class="block text-sm font-medium text-zinc-700">Portal Token (auto generated)</label>
-                        <p class="text-gray-700 text-xl">
-                            {{ ipAddress }}
-                        </p>
-                    </div>
                     <div class="w-full grid grid-cols-1 gap-4 p-2">
                         <div>
                             <label for="ipAddress" class="block text-sm font-medium text-zinc-700 py-2">Location Name</label>
                             <input v-model="attendancePortalParams.name_location" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text">
                         </div>
                     </div>
-                    <div class="p-2">
-                        <HrmsCommonDepartmentProjectSelector
-                            v-model:select-type="attendancePortalParams.group_type"
-                            v-model:department-id="attendancePortalParams.department_id"
-                            v-model:project-id="attendancePortalParams.project_id"
-                            class="py-2"
+                    <div class="w-full grid grid-cols-1 gap-4 p-2">
+                        <label for="ipAddress" class="block text-sm font-medium text-zinc-700 py-2">Assignments</label>
+                        <template v-for="(assignment, index) in attendancePortalParams.assignments" :key="index">
+                            <div class="flex items-center gap-2">
+                                <HrmsCommonDepartmentProjectSelector
+                                    v-model:select-type="attendancePortalParams.assignments[index].assignment_type"
+                                    v-model:department-id="attendancePortalParams.assignments[index].department_id"
+                                    v-model:project-id="attendancePortalParams.assignments[index].project_id"
+                                    title=""
+                                    class="py-2 w-full"
+                                />
+                                <Icon name="iconoir:trash" class="text-2xl text-slate-800 hover:text-blue-500 cursor-pointer" @click="attendancePortalParams.assignments.splice(index, 1)" />
+                            </div>
+                        </template>
+                    </div>
+                    <div class="p-2 flex gap-2">
+                        <Icon
+                            name="iconoir:plus"
+                            class="text-2xl text-slate-800 hover:text-blue-500 cursor-pointer"
+                            @click="addAssignment"
                         />
                     </div>
                     <div class="flex mt-6 justify-end py-2">
@@ -98,17 +111,17 @@ const changePaginate = (pageInfo) => {
                 </LayoutBoards>
             </div>
             <div class="w-full py-2">
-                <LayoutBoards title="Attendance Portal List" class="w-full" :loading="listLoader">
+                <LayoutBoards title="Attendance Portal List" class="w-full" :loading="allAttendancePortals.isLoading">
                     <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                         <LayoutPsTable
                             :header-columns="headers"
                             :actions="actions"
-                            :datas="attendancePortalList"
+                            :datas="allAttendancePortals.list"
                             @delete-row="deleteAttendancePortal"
                         />
                     </div>
                     <div class="flex justify-center mx-auto">
-                        <CustomPagination :links="attendancePortalPagination" @change-params="changePaginate" />
+                        <CustomPagination :links="allAttendancePortals.pagination" @change-params="changePaginate" />
                     </div>
                 </LayoutBoards>
             </div>

@@ -1,3 +1,4 @@
+const config = useRuntimeConfig()
 export const useUtilities = () => {
     const upperFirst = (str: string) => {
         return str.charAt(0).toUpperCase() + str.slice(1)
@@ -94,6 +95,38 @@ export const useUtilities = () => {
     return ref({ upperFirst, upperWords, formatCurrency, formatTime, addOneDay, dateToString, addDaysToDate })
 }
 
+export const exportToCSV = (table: any) => {
+    let csv = ""
+
+    for (let i = 0; i < table.rows.length; i++) {
+        const row = table.rows[i]
+        const rowData = []
+        for (let j = 0; j < row.cells.length; j++) {
+            const cellData = row.cells[j].textContent
+            rowData.push(`"${cellData}"`)
+        }
+        csv += rowData.join(",") + "\n"
+    }
+
+    const blob = new Blob([csv], { type: "text/csvcharset=utf-8" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+
+    a.href = url
+    a.download = "table.csv"
+    a.click()
+    URL.revokeObjectURL(url)
+}
+
+export const formatToCurrency = (number: Number, locale = "en-US") => {
+    const formatter = new Intl.NumberFormat(locale, {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })
+    return formatter.format(number)
+}
+
 export const upperFirst = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1)
 }
@@ -154,6 +187,28 @@ export const amountToWords = (num: any) => {
     } else {
         return wholePartWords + " Pesos"
     }
+}
+
+export const sortByProperty = (array, property, sortOrder = "asc") => {
+    return array.sort((a, b) => {
+        if (sortOrder === "asc") {
+            return a[property] > b[property] ? 1 : -1
+        } else {
+            return a[property] < b[property] ? 1 : -1
+        }
+    })
+}
+
+export const randomInt = (min, max) => {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+export const fullDate = (dateString: any) => {
+    const date = new Date(dateString)
+    const options = { month: "long", day: "numeric", year: "numeric" }
+    return date.toLocaleDateString("en-US", options)
 }
 
 export const dateToString = (date) => {
@@ -281,4 +336,10 @@ export const useAmountInWords = (s: any) => {
         }
     }
     return strVal.replace(/\s+/g, " ") + " Only"
+}
+export const useHrmsDownloadLink = (url: string) => {
+    if (url.startsWith("/")) {
+        url = url.substring(1)
+    }
+    return config.public.HRMS_API_URL + "/storage/" + url
 }

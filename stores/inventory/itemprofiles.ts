@@ -72,7 +72,6 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             grade: "",
             color: "",
             uom: null,
-            uom_group_id: "",
             item_group: "",
             sub_item_group: "",
             uom_conversion_value: null,
@@ -84,7 +83,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         addItemProfile: [] as Array<NewItemProfile>,
         formItemProfile: {} as ItemProfile,
         newItemProfile: [] as Array<NewItemProfile>,
-        uom: {} as any,
+        uom: [] as any,
         itemDetails: {
             isLoading: false,
             isLoaded: false,
@@ -161,6 +160,11 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                 return data.group_id === 6 ? data : null
             })
         },
+        uomCustom (state) {
+            return state.uom.filter(function (data: any) {
+                return data.is_standard === 0 ? data : null
+            })
+        },
     },
     actions: {
         async getApprovalByName (approvalName: String) {
@@ -203,8 +207,8 @@ export const useItemProfileStore = defineStore("itemprofiles", {
             }
         },
         async getUOM () {
-            const { data, error } = await useInventoryApi(
-                "/api/uom/resource",
+            await useInventoryApi(
+                "/api/uom/all",
                 {
                     method: "GET",
                     watch: false,
@@ -213,11 +217,6 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
         async activeItemProfile (id: number) {
             await useInventoryApi(
@@ -435,9 +434,6 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             return response._data
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }

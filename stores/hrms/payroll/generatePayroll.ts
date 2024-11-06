@@ -95,6 +95,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             isLoaded: false,
             list: [],
             params: {},
+            pagination: {},
         },
         myRequests: {
             isLoading: false,
@@ -140,10 +141,12 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         special_holiday_ot_pay: data.payroll_records.gross_pays.special_holidays.overtime,
                         gross_pay: data.payroll_records.total_gross_pay,
                         // Deductions
-                        sss_employee_compensation: data.payroll_records.salary_deduction.sss.employee_compensation,
-                        sss_employer_compensation: data.payroll_records.salary_deduction.sss.employer_compensation,
                         sss_employee_contribution: data.payroll_records.salary_deduction.sss.employee_contribution,
                         sss_employer_contribution: data.payroll_records.salary_deduction.sss.employer_contribution,
+                        sss_employee_compensation: data.payroll_records.salary_deduction.sss.employee_compensation,
+                        sss_employer_compensation: data.payroll_records.salary_deduction.sss.employer_compensation,
+                        sss_employee_wisp: data.payroll_records.salary_deduction.sss.employee_wisp,
+                        sss_employer_wisp: data.payroll_records.salary_deduction.sss.employer_wisp,
                         philhealth_employee_contribution: data.payroll_records.salary_deduction.phic.employee_contribution,
                         philhealth_employer_contribution: data.payroll_records.salary_deduction.phic.employer_contribution,
                         pagibig_employee_contribution: data.payroll_records.salary_deduction.hmdf.employee_contribution,
@@ -160,7 +163,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         deductions: [
                             ...data.payroll_records.salary_deduction.loan.loans.map((loan: any) => ({
                                 deduction_id: loan.id,
-                                name: "Loan",
+                                name: loan.name,
                                 amount: loan.max_payroll_payment,
                                 type: "Loan",
                             })),

@@ -15,7 +15,7 @@ export const useChartOfAccountsStore = defineStore("chartOfAccounts", {
         async getAccounts () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/chart-of-accounts",
+                "/api/chart-of-accounts",
                 {
                     method: "GET",
                     params: this.getParams,

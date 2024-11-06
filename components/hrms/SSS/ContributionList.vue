@@ -40,8 +40,10 @@ const headers = [
     { name: "Range To", id: "range_to" },
     { name: "Employer Share", id: "employer_share" },
     { name: "Employer Compensation", id: "employer_compensation" },
+    { name: "Employer WISP", id: "employer_wisp" },
     { name: "Employee Share", id: "employee_share" },
     { name: "Employee Compensation", id: "employee_compensation" },
+    { name: "Employee WISP", id: "employee_wisp" },
 ]
 const actions = {
     edit: true,

@@ -3,11 +3,10 @@ import { defineStore } from "pinia"
 export const useBookStore = defineStore("bookStore", {
     state: () => ({
         book: {
-            book_id: null,
-            book_name: null,
-            account_id: null,
-            account_group_id: null,
-            symbol: null,
+            id: null,
+            name: null,
+            code: null,
+            account_group: null
         },
         list: [],
         pagination: {},
@@ -17,17 +16,25 @@ export const useBookStore = defineStore("bookStore", {
         isLoading: false,
         isEdit: false
     }),
+    getters: {
+        disbursement () {
+            return this.list.filter(b => b.name === "disbursement")[0]
+        },
+        cash () {
+            return this.list.filter(b => b.name === "cash")[0]
+        }
+    },
     actions: {
         async getBooks () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/book",
+                "/api/books",
                 {
                     method: "GET",
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.books
+                        this.list = response._data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -46,7 +53,7 @@ export const useBookStore = defineStore("bookStore", {
         async getBook (id:any) {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/book/" + id,
+                "/api/books/" + id,
                 {
                     method: "GET",
                     params: this.getParams,
@@ -68,7 +75,7 @@ export const useBookStore = defineStore("bookStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/v1/book",
+                "/api/books",
                 {
                     method: "POST",
                     body: this.book,
@@ -90,7 +97,7 @@ export const useBookStore = defineStore("bookStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/v1/book/" + this.book.book_id,
+                "/api/books/" + this.book.book_id,
                 {
                     method: "PATCH",
                     body: this.book,
@@ -109,7 +116,7 @@ export const useBookStore = defineStore("bookStore", {
 
         async deleteBook (id: number) {
             const { data, error } = await useAccountingApi(
-                "/api/v1/book/" + id,
+                "/api/books/" + id,
                 {
                     method: "DELETE",
                     body: this.book,

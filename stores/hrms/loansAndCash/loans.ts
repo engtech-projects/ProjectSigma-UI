@@ -20,9 +20,11 @@ export interface Loan {
 export const useLoansStore = defineStore("LoansStore", {
     state: () => ({
         createData: {
+            isLoading: false,
             data: {
                 id: null,
                 employee_id: null,
+                name: "",
                 amount: null,
                 installment_deduction: null,
                 deduction_date_start: "",
@@ -35,6 +37,7 @@ export const useLoansStore = defineStore("LoansStore", {
             data: {
                 id: null,
                 employee_id: null,
+                name: "'",
                 amount: null,
                 installment_deduction: null,
                 deduction_date_start: "",
@@ -94,6 +97,7 @@ export const useLoansStore = defineStore("LoansStore", {
                     throw new Error(response._data.message)
                 },
                 onResponse: ({ response }) => {
+                    this.allList.isLoading = false
                     if (response.ok) {
                         this.allList.list = response._data.data.data
                         this.allList.isLoaded = true
@@ -179,19 +183,22 @@ export const useLoansStore = defineStore("LoansStore", {
             })
         },
         async createResource () {
-            await useHRMSApi("/api/loans/resource", {
+            const backupEmployee = this.createData.data.employee_id
+            await useHRMSApiO("/api/loans/resource", {
                 method: "POST",
-                watch: false,
                 body: this.createData.data,
-                onResponseError: ({ response }) => {
+                onRequest: () => {
+                    this.createData.isLoading = true
+                },
+                onResponseError: ({ response }: any) => {
                     this.createData.errorMessage = response._data.message
                     throw new Error(response._data.message)
                 },
-                onResponse: ({ response }) => {
+                onResponse: ({ response }: any) => {
+                    this.createData.isLoading = false
                     if (response.ok) {
-                        this.resetCreateData()
-                        this.getAllList()
-                        this.createData.data = response._data.data
+                        this.reloadResources()
+                        this.createData.data.employee_id = backupEmployee
                         this.createData.successMessage = response._data.message
                     }
                 },
@@ -213,20 +220,6 @@ export const useLoansStore = defineStore("LoansStore", {
                     }
                 },
             })
-        },
-        resetCreateData () {
-            this.createData = {
-                data: {
-                    id: null,
-                    employee_id: null,
-                    amount: null,
-                    installment_deduction: null,
-                    deduction_date_start: "",
-                    terms_of_payment: "",
-                } as Loan,
-                successMessage: "",
-                errorMessage: "",
-            }
         },
         async submitPayment (id: any) {
             return await useHRMSApiO(

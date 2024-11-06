@@ -120,9 +120,11 @@ export interface ApplicantInformation {
     application_letter_attachment: undefined,
     resume_attachment: undefined,
     status: String,
-    lastname: String,
     firstname: String,
     middlename: String,
+    lastname: String,
+    name_suffix: String,
+    nickname: String,
     date_of_application: String,
     date_of_birth: String,
     per_address_street: String,
@@ -172,6 +174,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             firstname: "",
             middlename: "",
             name_suffix: "",
+            nickname: "",
             date_of_application: "",
             date_of_birth: "",
             per_address_street: "",
@@ -355,10 +358,11 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             formData.append("manpowerrequests_id", this.jobapplicant.manpowerrequests_id ?? "")
             formData.append("application_letter_attachment", this.jobapplicant.application_letter_attachment ?? "")
             formData.append("resume_attachment", this.jobapplicant.resume_attachment ?? "")
-            formData.append("lastname", this.jobapplicant.lastname)
             formData.append("firstname", this.jobapplicant.firstname)
             formData.append("middlename", this.jobapplicant.middlename)
+            formData.append("lastname", this.jobapplicant.lastname)
             formData.append("name_suffix", this.jobapplicant.name_suffix)
+            formData.append("nickname", this.jobapplicant.nickname)
             formData.append("status", this.jobapplicant.status)
             formData.append("date_of_application", this.jobapplicant.date_of_application)
             formData.append("date_of_birth", this.jobapplicant.date_of_birth)

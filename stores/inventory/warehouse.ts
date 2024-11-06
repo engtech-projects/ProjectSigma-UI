@@ -3,8 +3,13 @@ import { defineStore } from "pinia"
 export interface WarehouseDetails {
     name: String,
     location: String,
-    project_code: String,
-    pss: Array<any>,
+    owner_id: Number,
+    owner_type: String,
+}
+export interface WarehousePss {
+    id: Number,
+    user_id: Number,
+    warehouse_id: Number,
 }
 
 export const useWarehouseStore = defineStore("warehouseStore", {
@@ -17,29 +22,34 @@ export const useWarehouseStore = defineStore("warehouseStore", {
                 }
             ],
         },
-        warehouse: {} as WarehouseDetails,
+        warehouse: [] as Array<WarehouseDetails>,
+        warehouseDetails: {} as WarehouseDetails,
+        warehousePss: {
+            list: [] as Array<WarehousePss>,
+            isLoading: false,
+            inWarehouse: false
+        },
+        warehousePssForm: {},
         params: {},
-        warehouseList: [] as any,
-        addPSS: [] as any,
         isLoading: false,
         errorMessage: "",
         successMessage: "",
         remarks: "",
     }),
     actions: {
-        async fetchWarehouse () {
+        async updatePssWarehouse (id: any) {
             await useInventoryApi(
-                "/api/warehouse",
+                "/api/warehouse/set-pss/" + id,
                 {
-                    method: "GET",
-                    params: this.params,
+                    method: "PATCH",
+                    body: this.warehousePssForm,
                     onRequest: () => {
-                        this.isLoading = true
+                        this.warehousePss.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.isLoading = false
+                        this.warehousePss.isLoading = false
                         if (response.ok) {
-                            this.warehouseList = response._data.data
+                            this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -48,23 +58,42 @@ export const useWarehouseStore = defineStore("warehouseStore", {
                 }
             )
         },
-        async fetchWarehouseDetails () {
+        async fetchWarehouse () {
             await useInventoryApi(
-                "/api/warehouse",
+                "/api/warehouse/resource",
                 {
                     method: "GET",
                     params: this.params,
                     onRequest: () => {
-                        this.isLoading = true
+                        this.warehousePss.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.isLoading = false
+                        this.warehousePss.isLoading = false
                         if (response.ok) {
-                            this.stocks.data = response._data.data
-                            this.warehouse.name = response._data.data.name
-                            this.warehouse.location = response._data.data.location
-                            this.warehouse.pss = response._data.data.pss
-                            this.warehouse.project_code = response._data.data.project_code
+                            this.warehouse = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async fetchWarehouseDetails (id: any) {
+            await useInventoryApi(
+                "/api/warehouse/overview/" + id,
+                {
+                    method: "GET",
+                    watch: false,
+                    onRequest: () => {
+                        this.warehousePss.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.warehousePss.isLoading = false
+                        if (response.ok) {
+                            this.warehouseDetails = response._data.warehouse
+                            this.warehousePss.list = response._data.warehouse.warehouse_pss
+                            this.warehousePss.inWarehouse = true
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -76,6 +105,10 @@ export const useWarehouseStore = defineStore("warehouseStore", {
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
+        },
+        reloadResources () {
+            this.$reset()
+            this.fetchWarehouse()
         },
     },
 })

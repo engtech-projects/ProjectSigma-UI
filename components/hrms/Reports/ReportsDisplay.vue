@@ -8,43 +8,43 @@ defineProps({
 </script>
 <template>
     <div id="printContent">
-        <HrmsReportsSssContribution
+        <HrmsReportsSssRemittanceSummary
             v-show="selectedReport==='Report1'"
         />
-        <HrmsReportsSssProjectRemittance
+        <HrmsReportsSssRemittanceGroup
             v-show="selectedReport==='Report2'"
         />
-        <HrmsReportsSssEmployeeRemittance
+        <HrmsReportsSssRemittanceEmployee
             v-show="selectedReport==='Report3'"
         />
         <HrmsReportsSssLoanPaymentSummary
             v-show="selectedReport==='Report4'"
         />
-        <HrmsReportsSssLoanPayment
+        <HrmsReportsSssLoanEmployeeGroup
             v-show="selectedReport==='Report5'"
         />
-        <HrmsReportsPhicSummaryReport
+        <HrmsReportsPhicRemittanceSummary
             v-show="selectedReport==='Report6'"
         />
-        <HrmsReportsPhicProjectRemittance
+        <HrmsReportsPhicRemittanceGroup
             v-show="selectedReport==='Report7'"
         />
-        <HrmsReportsPhicEmployeeRemittance
+        <HrmsReportsPhicRemittanceEmployee
             v-show="selectedReport==='Report8'"
         />
-        <HrmsReportsHdmfSummary
+        <HrmsReportsHdmfRemittanceSummary
             v-show="selectedReport==='Report9'"
         />
-        <HrmsReportsHdmfProjectRemittance
+        <HrmsReportsHdmfRemittanceGroup
             v-show="selectedReport==='Report10'"
         />
-        <HrmsReportsHdmfEmployeeRemittance
+        <HrmsReportsHdmfRemittanceEmployee
             v-show="selectedReport==='Report11'"
         />
         <HrmsReportsHdmfLoanPaymentSummary
             v-show="selectedReport==='Report12'"
         />
-        <HrmsReportsHdmfProjectRemittance
+        <HrmsReportsHdmfLoanEmployeeGroup
             v-show="selectedReport==='Report13'"
         />
         <HrmsReportsSalaryMonitoring

@@ -14,10 +14,16 @@ useHead({
             AccessibilityTypes.hrms_loans_and_advances_loans,
         ])"
     >
-        <div>
-            <HrmsLoansForm />
+        <div class="w-full flex gap-2">
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_loans_and_advances_loans,
+                        ])"
+                        :target-id="'tab0'+compID"
+                        title="Loans Form"
+                    />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
                             AccessibilityTypes.hrms_loans_and_advances_loans,
@@ -48,6 +54,9 @@ useHead({
                     />
                 </template>
                 <template #tab-containers>
+                    <HrmsCommonTabsTabContainer :id="'tab0'+compID">
+                        <HrmsLoansForm />
+                    </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer :id="'tab1'+compID">
                         <HrmsLoansTable />
                     </HrmsCommonTabsTabContainer>

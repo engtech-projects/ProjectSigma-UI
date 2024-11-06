@@ -28,7 +28,7 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
         async getTransactionTypes () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/transaction-type",
+                "/api/transaction-type",
                 {
                     method: "GET",
                     params: this.getParams,
@@ -53,7 +53,7 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
         async getTransactionType (id:any) {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/v1/transaction-type/" + id,
+                "/api/transaction-type/" + id,
                 {
                     method: "GET",
                     params: this.getParams,
@@ -77,7 +77,7 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/v1/transaction-type",
+                "/api/transaction-type",
                 {
                     method: "POST",
                     body: this.transactionType,
@@ -99,7 +99,7 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/v1/transaction-type/" + this.transactionType.transaction_type_id,
+                "/api/transaction-type/" + this.transactionType.transaction_type_id,
                 {
                     method: "PATCH",
                     body: this.transactionType,
@@ -118,7 +118,7 @@ export const useTransactionTypeStore = defineStore("transactionTypeStore", {
 
         async deleteTransactionType (id: number) {
             const { data, error } = await useAccountingApi(
-                "/api/v1/transaction-type/" + id,
+                "/api/transaction-type/" + id,
                 {
                     method: "DELETE",
                     body: this.transactionType,
