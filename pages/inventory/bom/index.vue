@@ -19,36 +19,36 @@ useHead({
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        'Admin only',
+                    :if-access="useCheckAccessibility([
+                        AccessibilityTypes.inventory_bom_forms_and_my_requests,
                     ])"
                     title="Form"
                     target-id="Form"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        'Admin only',
+                    :if-access="useCheckAccessibility([
+                        AccessibilityTypes.inventory_bom_all_request,
                     ])"
                     title="All List"
                     target-id="allList"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        'Admin only',
+                    :if-access="useCheckAccessibility([
+                        AccessibilityTypes.inventory_bom_my_approvals,
                     ])"
                     title="My Approvals"
                     target-id="myApprovals"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        'Admin only',
+                    :if-access="useCheckAccessibility([
+                        AccessibilityTypes.inventory_bom_forms_and_my_requests,
                     ])"
                     title="My Request"
                     target-id="myRequests"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        'Admin only',
+                    :if-access="useCheckAccessibility([
+                        AccessibilityTypes.inventory_bom_current_form,
                     ])"
                     title="Current Bom"
                     target-id="myCurrentBom"

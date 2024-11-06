@@ -39,7 +39,6 @@ function selectOption (option: any) {
 }
 function clearSelection () {
     result.value = ""
-    console.log(result.value)
 }
 function clearSearchQuery () {
     searchInput.value = ""

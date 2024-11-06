@@ -560,7 +560,7 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.inventory_bom_form,
+                        AccessibilityTypes.inventory_bom_forms_and_my_requests,
                     ])"
                     linkarea="/inventory/bom"
                     icon="streamline:money-cash-coins-stack-accounting-billing-payment-stack-cash-coins-currency-money-finance"

@@ -11,7 +11,6 @@ onMounted(() => {
 let toggleTimeout: any = null
 const showDD = ref(false)
 const forFocusOut = ref()
-// const placeHolder = "Select Item"
 const model = defineModel({ required: false, type: Number, default: null })
 const result = ref("")
 const searchInput = defineModel("searchInput", { type: String, required: true })
@@ -56,7 +55,7 @@ function clearSelection () {
                         placeholder="Search"
                         @click.stop
                     >
-                    <span v-else class="flex-1">{{ result }}</span>
+                    <span v-else class="flex-1">{{ result ? result : "Search" }}</span>
 
                     <span v-show="showDD" @click="clearSearchQuery">
                         <Icon name="material-symbols:close-rounded" class="-ml-8 font-bold text-xl" title="Clear Search Input" />

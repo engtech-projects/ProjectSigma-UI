@@ -111,7 +111,7 @@ export const useBOMStore = defineStore("BOMStore", {
         },
         async getAllRequests () {
             await useInventoryApi(
-                "/api/bom/new-request/all-request",
+                "/api/bom/all-request",
                 {
                     method: "GET",
                     params: this.allRequests.params,
@@ -135,7 +135,7 @@ export const useBOMStore = defineStore("BOMStore", {
         },
         async getMyRequests () {
             await useInventoryApi(
-                "/api/bom/new-request/my-request",
+                "/api/bom/my-request",
                 {
                     method: "GET",
                     params: this.myRequests.params,
@@ -161,7 +161,7 @@ export const useBOMStore = defineStore("BOMStore", {
         },
         async getMyApprovals () {
             await useInventoryApi(
-                "/api/bom/new-request/my-approvals",
+                "/api/bom/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
@@ -232,7 +232,7 @@ export const useBOMStore = defineStore("BOMStore", {
         },
         async getMyApprovalRequests () {
             await useInventoryApi(
-                "/api/bom/new-request/my-approvals",
+                "/api/bom/my-approvals",
                 {
                     method: "GET",
                     onResponse: ({ response }) => {
