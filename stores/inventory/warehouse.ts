@@ -49,6 +49,7 @@ export const useWarehouseStore = defineStore("warehouseStore", {
                     onResponse: ({ response }) => {
                         this.warehousePss.isLoading = false
                         if (response.ok) {
+                            this.warehousePss.list = response._data.data.warehouse_pss
                             this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
