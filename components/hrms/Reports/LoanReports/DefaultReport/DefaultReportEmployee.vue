@@ -111,7 +111,7 @@ watch(() => defaultPaymentReport.value.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in defaultPaymentReport.list" :key="'sssemployeeremitance' + index" class="h-2">
+                        <tr v-for="reportData, index in defaultPaymentReport.list" :key="'defaultreportemployee' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.employee_fullname }}
                             </td>
