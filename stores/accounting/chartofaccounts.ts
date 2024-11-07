@@ -15,13 +15,13 @@ export const useChartOfAccountsStore = defineStore("chartOfAccounts", {
         async getAccounts () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/accounts",
+                "/api/chart-of-accounts",
                 {
                     method: "GET",
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data
+                        this.list = response._data.data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
