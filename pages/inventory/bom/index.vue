@@ -6,7 +6,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            'Admin only',
+            AccessibilityTypes.inventory_bom_group,
         ])"
         class="max-w-4xl"
     >
