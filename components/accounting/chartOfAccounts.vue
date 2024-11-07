@@ -11,19 +11,13 @@ const accounts = useChartOfAccountsStore()
                     <thead>
                         <tr class="text-left">
                             <th class="p-2">
-                                Name
+                                Account Name
+                            </th>
+                            <th class="p-2">
+                                Account #
                             </th>
                             <th class="p-2">
                                 Type
-                            </th>
-                            <th class="p-2">
-                                Book
-                            </th>
-                            <th class="p-2">
-                                Group
-                            </th>
-                            <th class="p-2">
-                                Balance
                             </th>
                             <!-- <th class="p-2 text-right">
                                 Actions
@@ -33,17 +27,13 @@ const accounts = useChartOfAccountsStore()
                     <tbody>
                         <tr v-for="ac in accounts.list" :key="ac.account_id">
                             <td class="border px-2">
-                                {{ ac.account }}
+                                {{ ac.account_number }}
                             </td>
                             <td class="border px-2">
-                                {{ ac.account_type? ac.account_type.account_type_name : "" }}
-                            </td>
-                            <td class="border px-2" />
-                            <td class="border px-2">
-                                {{ ac.account_group[0]? ac.account_group[0].account_group_name : "" }}
+                                {{ ac.account_name }}
                             </td>
                             <td class="border px-2">
-                                {{ ac.opening_balance }}
+                                {{ ac.account_type_id }}
                             </td>
                             <!-- <td class="text-right border px-2">
                                 <button>
