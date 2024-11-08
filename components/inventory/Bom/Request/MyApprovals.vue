@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia"
 import { useBOMStore } from "@/stores/inventory/bom"
 const BOMStore = useBOMStore()
-const { approvalList: List } = storeToRefs(BOMStore)
+const { myApprovals: List } = storeToRefs(BOMStore)
 onMounted(() => {
     if (!List.value.isLoaded) {
         BOMStore.getMyApprovals()
