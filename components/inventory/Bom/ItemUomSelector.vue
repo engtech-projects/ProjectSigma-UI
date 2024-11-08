@@ -8,12 +8,18 @@ onMounted(() => {
         enums.getItems()
     }
 })
+defineProps({
+    conversion: {
+        type: Number,
+        required: true,
+    },
+})
 let toggleTimeout: any = null
 const showDD = ref(false)
 const forFocusOut = ref()
-// const placeHolder = "Select Item"
 const model = defineModel({ required: false, type: Number, default: null })
 const result = ref("")
+const searchData = ref("")
 const searchInput = defineModel("searchInput", { type: String, required: true })
 const openDD = () => {
     if (toggleTimeout) {
@@ -27,7 +33,8 @@ const closeDD = () => {
     }, 100)
 }
 function selectOption (option: any) {
-    result.value = option
+    result.value = option.name
+    model.value = option.id
     forFocusOut.value.focus()
 }
 function clearSearchQuery () {
@@ -50,7 +57,7 @@ function clearSelection () {
                 <div class="h-full flex flex-1 items-center overflow-hidden py-[9px]">
                     <input
                         v-if="showDD"
-                        v-model="model"
+                        v-model="searchData"
                         type="text"
                         class="border border-slate-300 rounded w-full h-full"
                         placeholder="Search"
@@ -77,14 +84,14 @@ function clearSelection () {
                     <div v-show="itemEnum.isLoading" class="mx-auto">
                         <Icon name="svg-spinners:6-dots-rotate" />
                     </div>
-                    <div v-if="itemEnum.list.length" class="flex flex-col overflow-auto">
+                    <div v-if="itemEnum.itemGroupFilter.length" class="flex flex-col overflow-auto">
                         <span
-                            v-for="option, i in itemEnum.list"
+                            v-for="option, i in itemEnum.itemGroupFilter"
                             :key="i"
                             class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
                             @click="selectOption(option)"
                         >
-                            {{ itemEnum.list[i].item_name }}
+                            {{ itemEnum.itemGroupFilter[i].name }}
                         </span>
                     </div>
                     <div v-else class="px-4">

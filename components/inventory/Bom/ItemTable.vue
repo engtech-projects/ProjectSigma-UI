@@ -23,6 +23,7 @@ const addItem = () => {
             uom_id: null,
             unit_price: null,
             quantity: null,
+            conversion: null,
         }
     )
 }

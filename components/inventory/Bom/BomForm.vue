@@ -15,9 +15,31 @@ const headers = [
     { name: "Quantity", id: "quantity" },
     { name: "Amount", id: "amount" },
 ]
-const storeBOM = () => {
-    bomRequest.value.formDepartment.assignment_type = "Department"
-    bomRequest.value.formDepartment.details = bomRequest.value.details
+const storeBOM = async () => {
+    if (bomRequest.value.details >= 1) {
+        bomRequest.value.formDepartment.assignment_type = "Department"
+        bomRequest.value.formDepartment.effectivity = currentYear
+        bomRequest.value.formDepartment.details = bomRequest.value.details
+        bomRequest.value.formDepartment.approvals = approvalList.value.list
+        await BOMStore.storeBOMDepartment()
+        if (BOMStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: BOMStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: BOMStore.successMessage
+            })
+            BOMStore.$reset()
+        }
+    } else {
+        snackbar.add({
+            type: "error",
+            text: "No BOM Request."
+        })
+    }
 }
 </script>
 <template>

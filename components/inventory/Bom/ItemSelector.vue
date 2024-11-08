@@ -13,6 +13,7 @@ const showDD = ref(false)
 const forFocusOut = ref()
 const model = defineModel({ required: false, type: Number, default: null })
 const result = ref("")
+const searchData = ref("")
 const searchInput = defineModel("searchInput", { type: String, required: true })
 const openDD = () => {
     if (toggleTimeout) {
@@ -26,14 +27,22 @@ const closeDD = () => {
     }, 100)
 }
 function selectOption (option: any) {
-    result.value = option
+    result.value = option.item_summary
+    model.value = option.id
+    const names = option.convertable_units
+    itemEnum.value.itemGroupFilter = names
     forFocusOut.value.focus()
+    searchInput.value = ""
+    itemEnum.value.params.query = ""
 }
 function clearSearchQuery () {
     searchInput.value = ""
 }
 function clearSelection () {
     result.value = ""
+}
+const handleInput = () => {
+    itemEnum.value.params.query = searchData.value
 }
 </script>
 <template>
@@ -49,10 +58,11 @@ function clearSelection () {
                 <div class="h-full flex flex-1 items-center overflow-hidden py-[9px]">
                     <input
                         v-if="showDD"
-                        v-model="model"
+                        v-model="searchData"
                         type="text"
                         class="border border-slate-300 rounded w-full h-full"
                         placeholder="Search"
+                        @input="handleInput"
                         @click.stop
                     >
                     <span v-else class="flex-1">{{ result ? result : "Search" }}</span>
@@ -83,7 +93,7 @@ function clearSelection () {
                             class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
                             @click="selectOption(option)"
                         >
-                            {{ itemEnum.list[i].item_name }}
+                            {{ option.item_summary }}
                         </span>
                     </div>
                     <div v-else class="px-4">
