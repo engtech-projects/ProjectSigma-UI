@@ -27,7 +27,7 @@ export const useAccountStore = defineStore("accountStore", {
                 if (!uniqueTypes.some(item => item.id === account.account_type.type_id)) {
                     uniqueTypes.push(
                         {
-                            id: account.account_type.type_id,
+                            id: account.account_type?.type_id,
                             type: account.account_type.account_type_name,
                             collapse: false
                         }
@@ -37,7 +37,7 @@ export const useAccountStore = defineStore("accountStore", {
             }, [])
         },
         byTypes () {
-            const btypes = JSON.parse(JSON.stringify(this.types))
+            const btypes = this.types ? JSON.parse(JSON.stringify(this.types)) : []
             btypes.forEach((type) => {
                 type.types = []
                 this.list.forEach((account) => {
