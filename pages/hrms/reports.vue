@@ -42,7 +42,6 @@ const selectedReport = ref("")
                     >
                         SSS Employee Remittance
                     </option>
-
                     <option
                         v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_philhealthremittancesummary])"
                         value="Report6"
@@ -80,7 +79,7 @@ const selectedReport = ref("")
                         HDMF Employee Remittance
                     </option>
                     <option
-                        v-if="useCheckAccessibility(['AdminOnly'])"
+                        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_loanreports])"
                         value="Report4"
                     >
                         Loan Reports

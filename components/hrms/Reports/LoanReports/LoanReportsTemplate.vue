@@ -1,7 +1,8 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { loanReportOption } = storeToRefs(generateReportstore)
+const { loanReportOption, loanCategoryList } = storeToRefs(generateReportstore)
+await generateReportstore.getLoanCategoryList()
 
 </script>
 <template>
@@ -18,17 +19,8 @@ const { loanReportOption } = storeToRefs(generateReportstore)
                     <option value="" disabled selected>
                         -Select-
                     </option>
-                    <option value="SSS LOAN">
-                        SSS LOANS
-                    </option>
-                    <option value="HDMF MPL">
-                        HDMF LOANS
-                    </option>
-                    <option value="COOP LOAN">
-                        COOP LOANS
-                    </option>
-                    <option value="HDMF CALAMITY LOAN">
-                        HDMF CALAMITY LOAN
+                    <option v-for="category in loanCategoryList.list" :key="category.id" :value="category.name">
+                        {{ category.name }}
                     </option>
                 </select>
             </div>
@@ -59,11 +51,31 @@ const { loanReportOption } = storeToRefs(generateReportstore)
                     && loanReportOption.report_type === 'summary-with-group'"
             />
             <HrmsReportsLoanReportsHdmfLoanEmployeePayment
-                v-show="loanReportOption.loan_type === 'HDMF MPL'
+                v-show="loanReportOption.loan_type === 'HDMF MPL LOAN'
+                    || loanReportOption.loan_type === 'HDMF MPL'
                     && loanReportOption.report_type === 'employee'"
             />
             <HrmsReportsLoanReportsHdmfLoanEmployeeSummaryWithGroup
-                v-show="loanReportOption.loan_type === 'HDMF MPL'
+                v-show="loanReportOption.loan_type === 'HDMF MPL LOAN'
+                    || loanReportOption.loan_type === 'HDMF MPL'
+                    && loanReportOption.report_type === 'summary-with-group'"
+            />
+            <HrmsReportsLoanReportsCoopLoanEmployeePayment
+                v-show="loanReportOption.loan_type === 'COOP LOAN'
+                    && loanReportOption.report_type === 'employee'"
+            />
+            <HrmsReportsLoanReportsDefaultReportEmployee
+                v-show="loanReportOption.loan_type !== 'COOP LOAN'
+                    && (loanReportOption.loan_type !== 'HDMF MPL LOAN'
+                        || loanReportOption.loan_type !== 'HDMF MPL')
+                    && loanReportOption.loan_type !== 'SSS LOAN'
+                    && loanReportOption.report_type === 'employee'"
+            />
+            <HrmsReportsLoanReportsDefaultReportGroup
+                v-show="loanReportOption.loan_type !== 'COOP LOAN'
+                    && (loanReportOption.loan_type !== 'HDMF MPL LOAN'
+                        || loanReportOption.loan_type !== 'HDMF MPL')
+                    && loanReportOption.loan_type !== 'SSS LOAN'
                     && loanReportOption.report_type === 'summary-with-group'"
             />
         </div>
