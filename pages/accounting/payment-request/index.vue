@@ -1,7 +1,7 @@
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER,
+            AccessibilityTypes.accounting_journal_group,
         ])"
     >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -14,14 +14,14 @@
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER,
+                            AccessibilityTypes.accounting_journal_group,
                         ])"
                         title="All List"
                         target-id="allList"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER,
+                            AccessibilityTypes.accounting_journal_group,
                         ])"
                         title="My Approvals"
                         target-id="myApprovals"
@@ -47,9 +47,8 @@ import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
 
 const action = ref("create")
 const paymentRequestStore = usePaymentRequestStore()
-paymentRequestStore.params.status = ""
+paymentRequestStore.params.status = "pending"
 paymentRequestStore.getPaymentRequests()
-paymentRequestStore.getVat()
 
 const stakeholderStore = useStakeholderStore()
 stakeholderStore.getStakeholders()
