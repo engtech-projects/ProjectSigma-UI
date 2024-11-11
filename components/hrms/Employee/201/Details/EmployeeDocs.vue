@@ -5,12 +5,11 @@ import { useEmployeeInfo } from "@/stores/hrms/employee"
 const config = useRuntimeConfig()
 const employee = useEmployeeInfo()
 const snackbar = useSnackbar()
-const boardLoading = ref(false)
 
 const { information } = storeToRefs(employee)
 
 const headers = [
-    { text: "employee_uploads", value: "employee_uploads" },
+    { text: "File", value: "employee_uploads" },
     { text: "Type", value: "upload_type" },
     { text: "Action", value: "actions" },
 ]
@@ -20,17 +19,6 @@ const viewItemDocs = (item) => {
     selectedItemDetailsDocs.value = item
 }
 
-const downloadItemDocs = (item) => {
-    const fileUrl = config.public.HRMS_API_URL + "/storage/" + item.file_location // Replace 'file_url' with the actual property name
-
-    const downloadLink = document.createElement("a")
-    downloadLink.href = fileUrl
-    downloadLink.download = item.document_name // Set the file name for download
-    document.body.appendChild(downloadLink)
-    downloadLink.click()
-
-    document.body.removeChild(downloadLink)
-}
 const closeViewModal = () => {
     selectedItemDetailsDocs.value = null
 }
@@ -48,13 +36,12 @@ const handleDocumentUpload = async (event) => {
             type: "success",
             text: employee.successMessage
         })
+        employee.getEmployeeInformation(employee.information.id)
     } catch (error) {
         snackbar.add({
             type: "error",
             text: error
         })
-    } finally {
-        boardLoading.value = false
     }
 }
 </script>
@@ -97,11 +84,13 @@ const handleDocumentUpload = async (event) => {
                     >
                         <Icon name="material-symbols:visibility-rounded" color="teal" class="w-4 h-4 " />
                     </button>
-                    <button
-                        @click="downloadItemDocs(item)"
+                    <a
+                        :href="config.public.HRMS_API_URL + '/storage/' + item.file_location"
+                        target="_blank"
                     >
                         <Icon name="ic:sharp-file-download" color="green" class="w-4 h-4 " />
-                    </button>
+
+                    </a>
                 </div>
             </template>
         </EasyDataTable>
