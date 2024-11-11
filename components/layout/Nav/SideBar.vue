@@ -610,24 +610,6 @@ const config = useRuntimeConfig()
             <LayoutNavSingle
                 v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_transaction_type,
-                ])"
-                linkarea="/accounting/transaction-type"
-                icon="iconoir:x"
-                single-nav-title="Transaction Type"
-            />
-            <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
-                v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_document_Series,
-                ])"
-                linkarea="/accounting/document-series"
-                icon="iconoir:archive"
-                single-nav-title="Document Series"
-            />
-            <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
-                v-if="useCheckAccessibility([
                     AccessibilityTypes.accounting_posting_period,
                 ])"
                 linkarea="/accounting/posting-period"
