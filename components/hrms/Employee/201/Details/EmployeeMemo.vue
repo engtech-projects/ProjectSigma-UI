@@ -2,6 +2,7 @@
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 const employee = useEmployeeInfo()
 const config = useRuntimeConfig()
+const snackbar = useSnackbar()
 
 const headers = [
     { text: "File", value: "employee_uploads" },
@@ -30,13 +31,12 @@ const handleDocumentUpload = async (event) => {
             type: "success",
             text: employee.successMessage
         })
+        employee.getEmployeeInformation(employee.information.id)
     } catch (error) {
         snackbar.add({
             type: "error",
             text: error
         })
-    } finally {
-        boardLoading.value = false
     }
 }
 </script>

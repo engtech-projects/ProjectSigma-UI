@@ -26,6 +26,9 @@ export interface Item {
     quantity: Number | null,
     uom: Array<any>,
 }
+export interface ItemProfileSearch {
+    query: String | null,
+}
 export const useInventoryEnumsStore = defineStore("inventoryEnums", {
     state: () => ({
         test: true,
@@ -45,7 +48,8 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
         },
         itemEnum: {
             list: [] as Item[],
-            params: {},
+            itemGroupFilter: [],
+            params: {} as ItemProfileSearch,
             isLoading: false,
             isLoaded: false,
             successMessage: "",
@@ -94,8 +98,8 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
             )
         },
         async getItems () {
-            await useInventoryApiO(
-                "/api/bom/resource",
+            await useInventoryApi(
+                "/api/item-profile/search",
                 {
                     method: "GET",
                     params: this.itemEnum.params,

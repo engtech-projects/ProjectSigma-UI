@@ -5,7 +5,6 @@ import { useEmployeeInfo } from "@/stores/hrms/employee"
 const config = useRuntimeConfig()
 const employee = useEmployeeInfo()
 const snackbar = useSnackbar()
-const boardLoading = ref(false)
 
 const { information } = storeToRefs(employee)
 
@@ -37,13 +36,12 @@ const handleDocumentUpload = async (event) => {
             type: "success",
             text: employee.successMessage
         })
+        employee.getEmployeeInformation(employee.information.id)
     } catch (error) {
         snackbar.add({
             type: "error",
             text: error
         })
-    } finally {
-        boardLoading.value = false
     }
 }
 </script>
