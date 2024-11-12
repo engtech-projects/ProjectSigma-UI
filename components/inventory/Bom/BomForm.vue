@@ -8,6 +8,7 @@ approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
 
 const today = new Date()
 const currentYear = today.getFullYear()
+const snackbar = useSnackbar()
 const headers = [
     { name: "Item", id: "item_id" },
     { name: "Unit", id: "uom_id" },
