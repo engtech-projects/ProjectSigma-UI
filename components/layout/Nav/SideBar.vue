@@ -562,20 +562,11 @@ const config = useRuntimeConfig()
         >
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_journal_group,
+                    AccessibilityTypes.accounting_journal_entry,
                 ])"
                 linkarea="/accounting/journal-entry"
                 icon="iconoir:plug-type-l"
                 single-nav-title="Journal Entry"
-            />
-            <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
-                v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_chart_of_accounts,
-                ])"
-                linkarea="/accounting/chart-of-accounts"
-                icon="ci:table"
-                single-nav-title="Chart of Accounts"
             />
             <LayoutNavGroup
                 icon="iconoir:bell-notification"
@@ -583,11 +574,11 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_journal_group,
+                        AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER,
                     ])"
                     linkarea="/accounting/payment-request"
                     icon="iconoir:credit-card-2"
-                    single-nav-title="Payment Request"
+                    single-nav-title="PRF (Non Purchase Order)"
                 />
             </LayoutNavGroup>
             <LayoutNavGroup
@@ -651,7 +642,7 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_journal_group,
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT,
                     ])"
                     linkarea="/accounting/voucher/disbursement"
                     icon="iconoir:hand-contactless"
@@ -659,7 +650,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_journal_group,
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
                     ])"
                     linkarea="/accounting/voucher/cash"
                     icon="iconoir:iconoir:cash"
@@ -668,25 +659,32 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
 
             <LayoutNavGroup
-                v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_journal_group,
-                ])"
                 icon="iconoir:credit-cards"
                 title="Setup"
             >
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_books,
+                        AccessibilityTypes.ACCOUNTING_SETUP_APPROVALS,
                     ])"
                     linkarea="/accounting/setup/approvals"
-                    icon="iconoir:book"
+                    icon="iconoir:thumbs-up"
                     single-nav-title="Approvals"
                 />
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_books,
+                        AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNTS,
+                        AccessibilityTypes.ACCOUNTING_SETUP_CHART_OF_ACCOUNTS
+                    ])"
+                    linkarea="/accounting/chart-of-accounts"
+                    icon="ci:table"
+                    single-nav-title="Chart of Accounts"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_BOOK_OF_ACCOUNTS
                     ])"
                     linkarea="/accounting/books"
                     icon="iconoir:book"
@@ -695,7 +693,7 @@ const config = useRuntimeConfig()
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_account_groups,
+                        AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNT_GROUPS
                     ])"
                     linkarea="/accounting/account-groups"
                     icon="iconoir:commodity"
@@ -704,7 +702,7 @@ const config = useRuntimeConfig()
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_posting_period,
+                        AccessibilityTypes.ACCOUNTING_SETUP_POSTING_PERIODS
                     ])"
                     linkarea="/accounting/posting-period"
                     icon="iconoir:notes"
@@ -712,11 +710,19 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_stake_holder,
+                        AccessibilityTypes.ACCOUNTING_SETUP_STAKEHOLDERS
                     ])"
                     linkarea="/accounting/stakeholder"
                     icon="iconoir:user-square"
                     single-nav-title="Stakeholders"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_SYNCHRONIZATION,
+                    ])"
+                    linkarea="/accounting/synchronization"
+                    icon="iconoir:data-transfer-down"
+                    single-nav-title="Synchronization"
                 />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>

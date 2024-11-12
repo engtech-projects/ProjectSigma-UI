@@ -160,17 +160,20 @@ const navigate = (url = "", action = "", pr = null) => {
                 <table v-if="paymentRequestStore.paymentRequest.details.length > 0" class="w-full mt-6">
                     <thead>
                         <tr>
-                            <th class="border-2 border-gray-800 text-xs">
-                                STAKEHOLDER
-                            </th>
                             <th class="border-2 border-gray-800 text-xs w-1/3">
                                 PARTICULARS
                             </th>
                             <th class="border-2 border-gray-800 text-xs">
+                                Proj/Sec Code
+                            </th>
+                            <th class="border-2 border-gray-800 text-xs">
                                 COST
                             </th>
-                            <th class="border-2 border-gray-800 text-xs w-24">
+                            <th class="border-2 border-gray-800 text-xs">
                                 VAT
+                            </th>
+                            <th class="border-2 border-gray-800 text-xs">
+                                Total
                             </th>
                         </tr>
                     </thead>
@@ -188,17 +191,23 @@ const navigate = (url = "", action = "", pr = null) => {
                             <td class="border px-4 py-1 border-gray-800 text-xs">
                                 {{ formatToCurrency(ae.vat) }}
                             </td>
+                            <td class="border px-4 py-1 border-gray-800 text-xs font-bold">
+                                {{ formatToCurrency(parseFloat(ae.cost) + parseFloat(ae.vat)) }}
+                            </td>
                         </tr>
                         <tr>
-                            <td />
                             <td class="text-center font-bold py-2">
                                 TOTAL
                             </td>
-                            <td class="border-b-2 border-black font-bold py-2 px-4">
+                            <td />
+                            <td class="border-b-2 border-black py-2 px-4">
                                 {{ formatToCurrency(totalCost) }}
                             </td>
-                            <td class="border-b-2 border-black font-bold py-2 px-4">
+                            <td class="border-b-2 border-black py-2 px-4">
                                 {{ formatToCurrency(totalVat) }}
+                            </td>
+                            <td class="border-b-2 border-black font-bold py-2 px-4">
+                                {{ formatToCurrency(totalCost + totalVat) }}
                             </td>
                         </tr>
                     </tbody>
