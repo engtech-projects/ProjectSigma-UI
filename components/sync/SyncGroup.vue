@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { useDataSyncStore } from "~/stores/datasync"
-
 const props = defineProps({
     name: {
         type: String,
@@ -9,44 +7,36 @@ const props = defineProps({
     url: {
         type: String,
         default: ""
-    },
-    api: {
-        type: String,
-        default: ""
     }
 })
-const dataSyncStore = useDataSyncStore()
-const snackbar = useSnackbar()
 const loading = ref(false)
+const snackbar = useSnackbar()
+
 const sync = async () => {
-    try {
-        loading.value = true
-        dataSyncStore.url = props.url
-        dataSyncStore.api = props.api.toLowerCase()
-        await dataSyncStore.sync()
-        if (dataSyncStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: dataSyncStore.errorMessage
-            })
+    loading.value = true
+    const { data, error } = await useHRMSApi(
+        props.url,
+        {
+            method: "POST",
+            watch: false,
+            onResponse: () => {
+                loading.value = false
+            },
         }
-        if (dataSyncStore.successMessage !== "") {
-            snackbar.add({
-                type: "success",
-                text: dataSyncStore.successMessage
-            })
-        }
-    } catch (error) {
+    )
+    if (data) {
+        snackbar.add({
+            type: "success",
+            text: data.value.message
+        })
+    } else if (error) {
         snackbar.add({
             type: "error",
-            text: "something went wrong."
+            text: data.value.message
         })
-    } finally {
-        loading.value = false
-        dataSyncStore.reset()
     }
+    loading.value = false
 }
-
 </script>
 
 <template>
@@ -57,12 +47,12 @@ const sync = async () => {
                 {{ props.name }}
             </h2>
             <button
-                class="border border-2-teal-600 rounded-md px-3 py-1 flex items-center gap-2 bg-teal-500 text-white hover:bg-teal-600 active:bg-teal-500"
+                class="border border-2-green-600 rounded-md px-3 py-1 flex items-center gap-2 bg-green-500 text-white hover:bg-green-600 active:bg-green-500"
                 @click="sync"
             >
-                <Icon name="iconoir:refresh-double" />
+                <Icon name="iconoir:cloud-sync" />
                 <span class="text-xs">
-                    Sync Group
+                    Sync All
                 </span>
             </button>
         </div>
