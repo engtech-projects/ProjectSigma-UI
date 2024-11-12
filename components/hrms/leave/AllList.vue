@@ -15,7 +15,7 @@ const showInformation = (data) => {
 }
 
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    allList.value.params.page = newParams.page ?? ""
 }
 
 const headers = [

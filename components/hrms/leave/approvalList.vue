@@ -11,7 +11,7 @@ const showInformation = (data) => {
     showInformationModal.value = true
 }
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    approvalList.value.params.page = newParams.page ?? ""
 }
 const headers = [
     { name: "EMPLOYEE NAME", id: "employee.fullname_last" },
