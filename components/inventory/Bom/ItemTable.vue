@@ -30,6 +30,7 @@ const addItem = () => {
 const removeItem = (id: number) => {
     bomRequest.value.details.splice(id, 1)
 }
+
 </script>
 <template>
     <div class="h-full w-full">

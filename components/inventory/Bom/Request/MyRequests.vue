@@ -12,7 +12,7 @@ const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/item-profile/new-profile/request-details",
+        path: "/inventory/bom/request-details",
         query: {
             key: data.id
         },
@@ -35,7 +35,7 @@ const changePaginate = (newParams) => {
 <template>
     <LayoutLoadingContainer class="w-full" :loading="List.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <InventoryCommonLayoutPsTable
+            <InventoryCommonLayoutBOMTable
                 :header-columns="headers"
                 :actions="actions"
                 :datas="List.list ?? []"

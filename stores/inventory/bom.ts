@@ -10,12 +10,6 @@ export const REQ_STATUS = [
     PENDING,
     DENIED,
 ]
-export interface NewItemBOM {
-    item_id: number,
-    uom_id: number,
-    unit_price: number,
-    quantity: number,
-}
 export interface BOMForm {
     assignment_id: number,
     assignment_type: string,
@@ -29,6 +23,12 @@ export const useBOMStore = defineStore("BOMStore", {
             isLoading: false,
             isLoaded: false,
             list: [],
+            bomDetails: {
+                isLoading: false,
+                isLoaded: false,
+                list: [],
+                params: {},
+            },
             details: [],
             formDepartment: {} as BOMForm,
             formProject: {} as BOMForm,
@@ -77,6 +77,9 @@ export const useBOMStore = defineStore("BOMStore", {
         remarks: "",
     }),
     actions: {
+        getConversionBaseValue (conversion:any) {
+            return conversion
+        },
         async getAllRequests () {
             await useInventoryApi(
                 "/api/bom/all-request",
@@ -172,6 +175,23 @@ export const useBOMStore = defineStore("BOMStore", {
                 }
             )
         },
+        async getOne (id: number) {
+            return await useInventoryApiO(
+                "/api/bom/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.bomRequest.bomDetails.params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.bomRequest.bomDetails.list = response._data.data
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getCurrentBOM () {
             await useInventoryApi(
                 "/api/bom/resource",
@@ -218,7 +238,7 @@ export const useBOMStore = defineStore("BOMStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useInventoryApi(
-                "/api/approvals/approve/RequestItemProfiling/" + id,
+                "/api/approvals/approve/RequestBOM/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -241,7 +261,7 @@ export const useBOMStore = defineStore("BOMStore", {
             formData.append("id", id)
             formData.append("remarks", this.remarks)
             await useInventoryApi(
-                "/api/approvals/disapprove/RequestItemProfiling/" + id,
+                "/api/approvals/disapprove/RequestBOM/" + id,
                 {
                     method: "POST",
                     body: formData,
