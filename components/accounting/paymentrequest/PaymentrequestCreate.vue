@@ -9,7 +9,7 @@ const { list: payeeList } = storeToRefs(useStakeholderStore())
 const loading = ref(false)
 const snackbar = useSnackbar()
 const detail = ref({
-    stakeholder_id: null,
+    project_section_code: null,
     particulars: "",
     cost: 0,
     vat: 0
@@ -109,21 +109,12 @@ onMounted(() => {
                     <div class="flex flex-col w-full gap-2 mt-4">
                         <div v-for="ac,i in paymentRequestStore.paymentRequest.details" :key="i" class="flex gap-1 w-full items-end">
                             <div class="flex-1">
-                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Stakeholder</label>
-                                <AccountingSelectSearch
-                                    class="bg-gray-50 border-gray-200"
-                                    :class="'z-' + (30 - i)"
-                                    height="h-30"
-                                    :options="payeeList"
-                                    :selected-id="ac.stakeholder_id"
-                                    title="name"
-                                    opid="id"
-                                    @select="ac.stakeholder_id = $event.id"
-                                />
-                            </div>
-                            <div class="flex-1">
                                 <label class="block text-xs font-medium text-gray-900 dark:text-white">Particulars</label>
                                 <input v-model="ac.particulars" type="text" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-800 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Proj Code</label>
+                                <input v-model="ac.project_section_code" type="text" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-800 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             </div>
                             <div class="flex-1">
                                 <label class="block text-xs font-medium text-gray-900 dark:text-white">Cost</label>
@@ -132,6 +123,16 @@ onMounted(() => {
                             <div class="flex-1">
                                 <label class="block text-xs font-medium text-gray-900 dark:text-white">Vat</label>
                                 <input v-model="ac.vat" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-xs font-medium text-gray-900 dark:text-white">Total</label>
+                                <input
+                                    type="number"
+                                    :value="parseFloat(ac.cost) + parseFloat(ac.vat)"
+                                    class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    disabled
+                                    required
+                                >
                             </div>
                             <Icon name="ion:close-round" class="text-red-400 text-2xl mb-1 cursor-pointer hover:text-red-500 active:text-red-600" @click="removeEntry(ac)" />
                         </div>
@@ -186,61 +187,5 @@ onMounted(() => {
     </form>
 </template>
 <style scoped>
-.z-30 {
-    z-index: 30;
-}
-.z-29 {
-    z-index: 29;
-}
-.z-28 {
-    z-index: 28;
-}
-.z-27 {
-    z-index: 27;
-}
-.z-26 {
-    z-index: 26;
-}
-.z-30 {
-    z-index: 30;
-}
-.z-25 {
-    z-index: 25;
-}
-.z-24 {
-    z-index: 24;
-}
-.z-23 {
-    z-index: 23;
-}
-.z-22 {
-    z-index: 22;
-}
-.z-21 {
-    z-index: 21;
-}
-.z-20 {
-    z-index: 20;
-}
-.z-19 {
-    z-index: 19;
-}
-.z-18 {
-    z-index: 18;
-}
-.z-17 {
-    z-index: 17;
-}
-.z-16 {
-    z-index: 16;
-}
-.z-15 {
-    z-index: 15;
-}
-.z-14 {
-    z-index: 14;
-}
-.z-13 {
-    z-index: 13;
-}
+
 </style>
