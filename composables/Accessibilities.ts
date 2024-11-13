@@ -135,7 +135,9 @@ export enum AccessibilityTypes {
     inventory_warehouse_viewonly = "inventory:warehouse_overview_view only",
     inventory_warehouse_pssmanager = "inventory:warehouse_oveview_pss manager",
 
+    ACCOUNTING_GROUP = "accounting:",
     // Accounting Setup
+    ACCOUNTING_SETUP_GROUP = "accounting:setup_",
     ACCOUNTING_SETUP_APPROVALS = "accounting:setup_approvals",
     ACCOUNTING_SETUP_ACCOUNTS = "accounting:setup_accounts",
     ACCOUNTING_SETUP_BOOK_OF_ACCOUNTS = "accounting:setup_book of accounts",
@@ -147,11 +149,13 @@ export enum AccessibilityTypes {
     ACCOUNTING_SETUP_SYNCHRONIZATION = "accounting:setup_synchronization",
 
     // Accounting Request
+    ACCOUNTING_REQUEST_GROUP = "accounting:request_",
     ACCOUNTING_REQUEST_PURCHASE_ORDER = "accounting:request_purchase order",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER = "accounting:request_non purchase order",
     ACCOUNTING_REQUEST_PRE_PAYROLL_AUDIT = "accounting:request_pre payroll audit",
 
     // Accounting Voucher
+    ACCOUNTING_VOUCHER_GROUP = "accounting:voucher_",
     ACCOUNTING_VOUCHER_DISBURSEMENT = "accounting:voucher_disbursement",
     ACCOUNTING_VOUCHER_CASH = "accounting:voucher_cash",
 

@@ -24,15 +24,16 @@ const sync = async () => {
             },
         }
     )
-    if (data) {
+    if (data.success) {
         snackbar.add({
             type: "success",
             text: data.value.message
         })
     } else if (error) {
+        console.log(error)
         snackbar.add({
             type: "error",
-            text: data.value.message
+            text: error.value.message
         })
     }
     loading.value = false

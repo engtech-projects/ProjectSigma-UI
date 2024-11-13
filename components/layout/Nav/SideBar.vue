@@ -556,19 +556,22 @@ const config = useRuntimeConfig()
         <!-- Accounting -->
         <LayoutNavModuleGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.accounting_group,
+                AccessibilityTypes.ACCOUNTING_GROUP,
             ])"
             title="Accounting"
         >
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_journal_entry,
+                    AccessibilityTypes.ACCOUNTING_JOURNAL_ENTRY,
                 ])"
                 linkarea="/accounting/journal-entry"
                 icon="iconoir:plug-type-l"
                 single-nav-title="Journal Entry"
             />
             <LayoutNavGroup
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.ACCOUNTING_REQUEST_GROUP,
+                ])"
                 icon="iconoir:bell-notification"
                 title="Requests"
             >
@@ -635,7 +638,7 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_journal_group,
+                    AccessibilityTypes.ACCOUNTING_VOUCHER_GROUP,
                 ])"
                 icon="iconoir:credit-cards"
                 title="Vouchers"
@@ -659,6 +662,9 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
 
             <LayoutNavGroup
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.ACCOUNTING_SETUP_GROUP,
+                ])"
                 icon="iconoir:credit-cards"
                 title="Setup"
             >
