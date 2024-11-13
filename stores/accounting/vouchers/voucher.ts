@@ -62,7 +62,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.list = response._data.vouchers
+                        this.list = response._data.data
                         this.pagination = {
                             first_page: response._data.links.first,
                             pages: response._data.meta.links,
@@ -88,7 +88,7 @@ export const useVoucherStore = defineStore("voucherStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.vlist = response._data.vouchers
+                        this.vlist = response._data.data
                         this.vpagination = {
                             first_page: response._data.links.first,
                             pages: response._data.meta.links,
