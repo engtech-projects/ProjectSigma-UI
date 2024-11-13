@@ -93,12 +93,7 @@ search()
             </div>
             <Icon v-if="!props.disabled" name="iconoir:nav-arrow-down" class="font-bold text-xl" />
         </div>
-        <div v-if="showDD" class="absolute max-h-72 left-0 top-12 min-w-full py-2 px-4 border border-slate-800 bg-gray-100 rounded flex flex-col gap-2">
-            <Icon
-                name="iconoir:xbox-x"
-                class="absolute shadow p-[2px] text-gray-500 hover:text-black active:text-gray-500 top-[-10px] right-[-10px] w-8 h-8 rounded-full bg-white text-3xl"
-                @click="toggleDD"
-            />
+        <div v-if="showDD" class="absolute max-h-72 left-0 top-11 min-w-full py-2 px-4 border border-slate-800 bg-gray-100 rounded flex flex-col gap-2">
             <div class="px-3 my-3 w-full flex border rounded-md bg-white items-center">
                 <select v-model="filter.type" class="border-0 h-10 focus:ring-0 active:ring-0 border-r border-gray-200">
                     <option value="employee">
