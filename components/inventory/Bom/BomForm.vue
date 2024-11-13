@@ -8,17 +8,19 @@ approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
 
 const today = new Date()
 const currentYear = today.getFullYear()
+const snackbar = useSnackbar()
 const headers = [
     { name: "Item", id: "item_id" },
     { name: "Unit", id: "uom_id" },
     { name: "Price", id: "price" },
     { name: "Quantity", id: "quantity" },
     { name: "Amount", id: "amount" },
+    { name: "Action", id: "" },
 ]
 const storeBOM = async () => {
-    if (bomRequest.value.details >= 1) {
+    if (bomRequest.value.details.length >= 1) {
         bomRequest.value.formDepartment.assignment_type = "Department"
-        bomRequest.value.formDepartment.effectivity = currentYear
+        bomRequest.value.formDepartment.effectivity = String(currentYear)
         bomRequest.value.formDepartment.details = bomRequest.value.details
         bomRequest.value.formDepartment.approvals = approvalList.value.list
         await BOMStore.storeBOMDepartment()

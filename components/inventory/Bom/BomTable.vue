@@ -31,9 +31,6 @@ defineProps({
                             <th v-for="(dataHeader, index) in headerColumns" :key="index" scope="col" class="p-2 border-0 border-b text-sm">
                                 {{ dataHeader.name }}
                             </th>
-                            <th scope="col" class="p-2 border-0 border-b text-sm">
-                                Action
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
