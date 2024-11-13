@@ -9,7 +9,8 @@ const { list: payeeList } = storeToRefs(useStakeholderStore())
 const loading = ref(false)
 const snackbar = useSnackbar()
 const detail = ref({
-    project_section_code: null,
+    id: null,
+    type: null,
     particulars: "",
     cost: 0,
     vat: 0
@@ -46,6 +47,11 @@ const addEntry = () => {
 const removeEntry = (entry) => {
     paymentRequestStore.paymentRequest.details = paymentRequestStore.paymentRequest.details.filter(e => e !== entry)
 }
+const setDetailStakeholder = (ac, ev) => {
+    ac.id = ev.id
+    ac.type = ev.stakeholdable_type
+    console.log(ac)
+}
 onMounted(() => {
     paymentRequestStore.reset()
     paymentRequestStore.paymentRequest.request_date = dateToString(new Date())
@@ -80,7 +86,7 @@ onMounted(() => {
                 <div class="flex gap-2 w-full">
                     <div class="flex-1 gap-2">
                         <label for="payee" class="block text-sm font-medium text-gray-900 dark:text-white">Payee</label>
-                        <AccountingSelectSearch
+                        <AccountingStakeholderSelectSearch
                             class="z-50 bg-gray-50 border-gray-200"
                             :options="payeeList"
                             title="name"
@@ -114,7 +120,16 @@ onMounted(() => {
                             </div>
                             <div class="flex-1">
                                 <label class="block text-xs font-medium text-gray-900 dark:text-white">Proj Code</label>
-                                <input v-model="ac.project_section_code" type="text" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-800 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                <AccountingStakeholderSelectSearch
+                                    class="bg-gray-50 border-gray-200"
+                                    :class="'z-' + (30 - i)"
+                                    :options="payeeList"
+                                    title="name"
+                                    opid="id"
+                                    height="h-30"
+                                    :selected-id="ac.id"
+                                    @select="setDetailStakeholder(ac, $event)"
+                                />
                             </div>
                             <div class="flex-1">
                                 <label class="block text-xs font-medium text-gray-900 dark:text-white">Cost</label>
