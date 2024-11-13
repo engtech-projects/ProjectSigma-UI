@@ -39,7 +39,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.list = response._data.payment_request
+                        this.list = response._data.data
                         this.pagination = {
                             first_page: response._data.links.first,
                             pages: response._data.meta.links,
