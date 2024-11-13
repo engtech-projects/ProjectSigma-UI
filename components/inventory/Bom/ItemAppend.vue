@@ -15,6 +15,15 @@ const amount = computed(() => {
     const total = item.value.unit_price * item.value.quantity
     return total
 })
+
+const watchUnitChange = (thisItem:any) => {
+    if (item.value.conversion) {
+        const baseValue = parseFloat(item.value.quantity) / parseFloat(item.value.conversion)
+        item.value.conversion = thisItem.conversion
+        item.value.quantity = baseValue * item.value.conversion
+    }
+    item.value.conversion = thisItem.conversion
+}
 </script>
 <template>
     <tr class="border-b-2 border-gray-300">
@@ -27,6 +36,7 @@ const amount = computed(() => {
             <InventoryBomItemUomSelector
                 :id="compId"
                 v-model="item.uom_id"
+                @watch-item="watchUnitChange"
             />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">

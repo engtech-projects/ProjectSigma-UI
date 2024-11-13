@@ -35,6 +35,7 @@ const closeDD = () => {
 function selectOption (option: any) {
     result.value = option.name
     model.value = option.id
+    emit("watchItem", option)
     forFocusOut.value.focus()
 }
 function clearSearchQuery () {
@@ -43,6 +44,7 @@ function clearSearchQuery () {
 function clearSelection () {
     result.value = ""
 }
+const emit = defineEmits(["watchItem"])
 </script>
 <template>
     <div ref="forFocusOut" tabindex="51">
