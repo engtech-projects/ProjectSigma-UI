@@ -14,7 +14,7 @@ const loading = ref(false)
 
 const sync = async () => {
     loading.value = true
-    const { data, error } = await useHRMSApi(
+    const { data } = await useHRMSApi(
         props.url,
         {
             method: "POST",
@@ -24,17 +24,18 @@ const sync = async () => {
             },
         }
     )
-    if (data.success) {
-        snackbar.add({
-            type: "success",
-            text: data.value.message
-        })
-    } else if (error) {
-        console.log(error)
-        snackbar.add({
-            type: "error",
-            text: error.value.message
-        })
+    if (data) {
+        if (data.value?.success) {
+            snackbar.add({
+                type: "success",
+                text: data.value.message
+            })
+        } else {
+            snackbar.add({
+                type: "error",
+                text: "Synchronization failed"
+            })
+        }
     }
     loading.value = false
 }
