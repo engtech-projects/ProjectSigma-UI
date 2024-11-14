@@ -24,16 +24,23 @@ const sync = async () => {
             },
         }
     )
-    if (data.success) {
-        snackbar.add({
-            type: "success",
-            text: data.value.message
-        })
+    if (data) {
+        if (data.value?.success) {
+            snackbar.add({
+                type: "success",
+                text: data.value.message
+            })
+        } else {
+            snackbar.add({
+                type: "error",
+                text: "Synchronization failed"
+            })
+        }
     } else if (error) {
         console.log(error)
         snackbar.add({
             type: "error",
-            text: error.value.message
+            text: "Something went wrong"
         })
     }
     loading.value = false

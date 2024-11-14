@@ -8,9 +8,20 @@
         ])"
     >
         <div class="p-8 min-h-screen bg-white shadow rounded-md">
-            <h1 class="text-2xl font-bold mb-8">
-                Data Synchronization
-            </h1>
+            <div class="flex items-center justify-between mb-8">
+                <h1 class="text-2xl font-bold">
+                    Data Synchronization
+                </h1>
+                <!-- <button
+                    class="border border-2-green-600 rounded-md px-3 py-2 flex items-center gap-2 bg-yellow-500 text-white hover:bg-yellow-600 active:bg-yellow-500"
+                    @click="sync"
+                >
+                    <Icon name="iconoir:cloud-sync" />
+                    <span class="text-xs">
+                        Ultra Sync Pro Max
+                    </span>
+                </button> -->
+            </div>
             <div class="flex flex-col gap-8">
                 <sync-group name="HRMS" url="https://projectsigma-accountingapi-staging.engtechglobalsolutions.com/api/hrms/sync-all">
                     <sync-item

@@ -50,9 +50,9 @@ const sync = async () => {
                 class="border border-2-green-600 rounded-md px-3 py-1 flex items-center gap-2 bg-green-500 text-white hover:bg-green-600 active:bg-green-500"
                 @click="sync"
             >
-                <Icon name="iconoir:cloud-sync" />
+                <Icon name="iconoir:refresh-double" />
                 <span class="text-xs">
-                    Sync All
+                    Sync {{ props.name }}
                 </span>
             </button>
         </div>

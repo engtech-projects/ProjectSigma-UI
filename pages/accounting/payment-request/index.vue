@@ -47,8 +47,9 @@ import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
 
 const action = ref("create")
 const paymentRequestStore = usePaymentRequestStore()
-paymentRequestStore.params.status = "pending"
+paymentRequestStore.params.status = ""
 paymentRequestStore.getPaymentRequests()
+paymentRequestStore.getVat()
 
 const stakeholderStore = useStakeholderStore()
 stakeholderStore.getStakeholders()
