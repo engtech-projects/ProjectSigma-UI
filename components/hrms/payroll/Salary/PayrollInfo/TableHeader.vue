@@ -281,7 +281,7 @@ defineProps({
                 {{ loan }}
             </th>
             <th
-                v-if="loans.length === 0"
+                v-if="otherdeductions.length === 0"
                 class="px-4 border-solid border border-slate-400"
             >
                 -
