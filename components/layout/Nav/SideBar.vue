@@ -542,14 +542,6 @@ const config = useRuntimeConfig()
                     icon="grommet-icons:overview"
                     single-nav-title="Overview"
                 />
-                <LayoutNavSingle
-                    v-if="useCheckAccessibility([
-                        'Admin only',
-                    ])"
-                    linkarea="/inventory/warehouse"
-                    icon="lsicon:management-stockout-filled"
-                    single-nav-title="Stocks"
-                />
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
