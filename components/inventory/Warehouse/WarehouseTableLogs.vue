@@ -71,8 +71,6 @@ const filterHistory = async () => {
                                 <td>
                                     {{ item.item_code ? item.item_code : "" }}
                                 </td>
-                                <td>
-                                </td>
                             </tr>
                         </tbody>
                     </table>
