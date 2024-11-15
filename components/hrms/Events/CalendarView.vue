@@ -3,8 +3,6 @@ import FullCalendar from "@fullcalendar/vue3"
 import interactionPlugin from "@fullcalendar/interaction"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 // const snackbar = useSnackbar()
 
 export default {
@@ -27,7 +25,8 @@ export default {
                 with_work: false,
                 start_date: null,
                 end_date: null,
-                description: ""
+                description: "",
+                attendance_date: null,
             },
             newEvent: {
                 title: "",
@@ -164,17 +163,11 @@ export default {
             this.isLoading = true
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useHRMSApiO(
                 "/api/events/" + this.toEditEvent.id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "PUT",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.toEditEvent,
-                    watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
                         if (!response.ok) {
@@ -194,17 +187,11 @@ export default {
             this.isLoading = true
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useHRMSApiO(
                 "/api/events/" + this.selectedEventId,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.toEditEvent,
-                    watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
                         if (!response.ok) {
@@ -246,7 +233,8 @@ export default {
                 with_work: false,
                 start_date: null,
                 end_date: null,
-                description: ""
+                description: "",
+                attendance_date: null,
             }
         },
         removeEvent (info) {
@@ -303,15 +291,20 @@ export default {
                     </select>
                 </div>
 
-                <div class="flex gap-4 rounded-lg p-4 bg-slate-50">
+                <div class="flex flex-col rounded-lg p-4 bg-slate-50">
                     <div class="flex gap-2 items-center">
                         <input id="" v-model="event.with_pay" type="checkbox" name="">
                         <label for="repetition_type" class="text-sm">With Pay</label>
                     </div>
+                    <br>
                     <div class="flex gap-2 items-center">
                         <input v-model="event.with_work" type="checkbox" name="">
                         <label for="repetition_type" class="text-sm">With Work</label>
                     </div>
+                    <small class="text-red-600 text-xs">
+                        *FOR REGULAR EMPLOYEES ONLY.<br>
+                        NON-REGULAR EMPLOYEES ARE DEFAULT TO "WITH WORK"
+                    </small>
                 </div>
 
                 <div>
@@ -326,7 +319,14 @@ export default {
 
                 <div>
                     <label for="description">Description</label>
-                    <textarea id="eventTitle" v-model="event.description" type="text" class="w-full rounded" placeholder="What are your thoughts?" />
+                    <textarea id="eventTitle" v-model="event.description" type="text" class="w-full rounded" placeholder="Event Description" />
+                </div>
+
+                <div>
+                    <span v-if="event.event_type === 'Regular Holiday'" class="text-red-600">*</span>
+                    <label for="start_date">Attendance Date</label>
+                    <small class="text-red-600 text-xs">*FOR REGULAR HOLIDAY - NON-REGULAR EMPLOYEES ONLY</small>
+                    <input id="startDate" v-model="event.start_date" type="date" class="w-full rounded" :required="event.event_type === 'Regular Holiday'">
                 </div>
 
                 <div class="flex justify-end">
@@ -453,13 +453,18 @@ export default {
                         <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
                             {{ selectEvent.with_work? "Yes" : "No" }}
                         </span>
-                        <input
-                            v-else
-                            id="withWork"
-                            v-model="toEditEvent.with_work"
-                            type="checkbox"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        >
+                        <template v-else>
+                            <input
+                                id="withWork"
+                                v-model="toEditEvent.with_work"
+                                type="checkbox"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
+                            <small class="text-red-600 text-xs">
+                                *FOR REGULAR EMPLOYEES ONLY.<br>
+                                NON-REGULAR EMPLOYEES ARE DEFAULT TO "WITH WORK"
+                            </small>
+                        </template>
                     </div>
                     <div class="flex flex-col gap-1 flex-1">
                         <label for="" class="text-sm text-slate-600 px-2">
@@ -474,6 +479,43 @@ export default {
                             v-model="toEditEvent.with_pay"
                             type="checkbox"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex flex-col gap-1 flex-1">
+                        <label for="" class="text-sm text-slate-600 px-2">
+                            Description
+                        </label>
+                        <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
+                            {{ selectEvent.description }}
+                        </span>
+                        <textarea
+                            v-else
+                            id="eventTitle"
+                            v-model="toEditEvent.description"
+                            type="text"
+                            class="w-full rounded"
+                            placeholder="Event Description"
+                        />
+                    </div>
+                    <div class="flex flex-col gap-1 flex-1">
+                        <label for="" class="text-sm text-slate-600 px-2">
+                            <span v-if="toEditEvent.event_type === 'Regular Holiday'" class="text-red-600">*</span>
+                            Attendance Date
+                            <small class="text-red-600 text-xs">*FOR REGULAR HOLIDAY - NON-REGULAR EMPLOYEES ONLY</small>
+                        </label>
+                        <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
+                            {{ selectEvent.attendance_date ?? "-" }}
+                        </span>
+                        <input
+                            v-else
+                            id="endDate"
+                            v-model="toEditEvent.attendance_date"
+                            type="date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder=""
+                            required=""
                         >
                     </div>
                 </div>
