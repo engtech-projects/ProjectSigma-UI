@@ -15,7 +15,8 @@ export const useEventStore = defineStore("eventStore", {
             with_work: false,
             start_date: null,
             end_date: null,
-            description: ""
+            description: "",
+            attendance_date: null,
         },
         departmentList: [],
         list: [],
@@ -65,7 +66,7 @@ export const useEventStore = defineStore("eventStore", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.l
+                    body: this.event,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (!response.ok) {
@@ -95,7 +96,7 @@ export const useEventStore = defineStore("eventStore", {
                         Authorization: token.value + "",
                         Accept: "application/json"
                     },
-                    body: this.event
+                    body: this.event,
                     watch: false,
                 }
             )
@@ -145,7 +146,8 @@ export const useEventStore = defineStore("eventStore", {
                 with_work: false,
                 start_date: null,
                 end_date: null,
-                description: ""
+                description: "",
+                attendance_date: null,
             }
             this.isEdit = false
             this.successMessage = ""
