@@ -30,7 +30,7 @@ const totalDeductSSS = () => {
 }
 const totalDeductPhilhealth = () => {
     return Object.values(props.data.summary).reduce((accumulator, current) => {
-        return accumulator + current.summary.deduct_phihealth_employee_contribution
+        return accumulator + current.summary.deduct_philhealth_employee_contribution
     }, 0)
 }
 const totalDeductPagibig = () => {
@@ -334,7 +334,7 @@ const uniqueLoanNameTotals = computed(() => {
                         <td
                             class="border border-gray-500 h-8 px-2 font-bold text-sm"
                         >
-                            {{ useFormatCurrency(rowData.summary.deduct_phihealth_employee_contribution) }}
+                            {{ useFormatCurrency(rowData.summary.deduct_philhealth_employee_contribution) }}
                         </td>
                         <td
                             class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
