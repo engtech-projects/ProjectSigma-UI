@@ -87,14 +87,14 @@ const denyRequest = async (id : any) => {
             <div class="w-full">
                 <LayoutApprovalsListView :approvals="data.approvals" />
             </div>
-            <div class="w-full">
-                <LayoutPrint>
+            <LayoutPrint>
+                <div class="w-full">
                     <LazyHrmsPayrollSalaryRequestInfoTable :payroll-request="data" />
-                </LayoutPrint>
-            </div>
-            <div class="w-full">
-                <HrmsPayrollSalaryChargingTable :payroll-request="data" />
-            </div>
+                </div>
+                <div class="w-full">
+                    <HrmsPayrollSalaryChargingTable :payroll-request="data" />
+                </div>
+            </LayoutPrint>
         </template>
         <template #footer>
             <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
