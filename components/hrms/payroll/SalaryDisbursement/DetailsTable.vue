@@ -10,17 +10,17 @@ const currentMonth = () => {
 }
 const totalBasicPay = () => {
     return Object.values(props.data.summary).reduce((accumulator, current) => {
-        return accumulator + current.summary.pay_basic
+        return accumulator + current.summary.charging_pay_basic
     }, 0)
 }
 const totalOvertimePay = () => {
     return Object.values(props.data.summary).reduce((accumulator, current) => {
-        return accumulator + current.summary.pay_overtime
+        return accumulator + current.summary.charging_pay_overtime
     }, 0)
 }
 const totalGrossPay = () => {
     return Object.values(props.data.summary).reduce((accumulator, current) => {
-        return accumulator + current.summary.pay_gross
+        return accumulator + current.summary.charging_pay_gross
     }, 0)
 }
 const totalDeductSSS = () => {
@@ -30,12 +30,12 @@ const totalDeductSSS = () => {
 }
 const totalDeductPhilhealth = () => {
     return Object.values(props.data.summary).reduce((accumulator, current) => {
-        return accumulator + current.summary.deduct_phihealth_employee_cotribution
+        return accumulator + current.summary.deduct_philhealth_employee_contribution
     }, 0)
 }
 const totalDeductPagibig = () => {
     return Object.values(props.data.summary).reduce((accumulator, current) => {
-        return accumulator + current.summary.deduct_pagibig_employee_cotribution
+        return accumulator + current.summary.deduct_pagibig_employee_contribution
     }, 0)
 }
 const totalDeductWithholdingtax = () => {
@@ -60,7 +60,7 @@ const totalDeduct = () => {
 }
 const totalNetpay = () => {
     return Object.values(props.data.summary).reduce((accumulator, current) => {
-        return accumulator + current.summary.net_pay
+        return accumulator + current.summary.charging_net_pay
     }, 0)
 }
 const uniqueOtherDeductionNames = computed(() => {
@@ -154,7 +154,7 @@ const uniqueLoanNameTotals = computed(() => {
             </div>
             <div class="title flex flex-col justify-center gap-1 mb-12">
                 <span class="text-md text-black text-center">
-                    FOR THE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(currentMonth()) }} 2024</span>
+                    FOR THE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(currentMonth() + 1) }} 2024</span>
                 </span>
             </div>
             <table class="printTable border border-gray-500">
@@ -309,17 +309,17 @@ const uniqueLoanNameTotals = computed(() => {
                         <td
                             class="border border-gray-500 h-8 px-2 font-bold text-sm"
                         >
-                            {{ useFormatCurrency(rowData.summary.pay_basic) }}
+                            {{ useFormatCurrency(rowData.summary.charging_pay_basic) }}
                         </td>
                         <td
                             class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
                         >
-                            {{ useFormatCurrency(rowData.summary.pay_overtime) }}
+                            {{ useFormatCurrency(rowData.summary.charging_pay_overtime) }}
                         </td>
                         <td
                             class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                         >
-                            {{ useFormatCurrency(rowData.summary.pay_gross) }}
+                            {{ useFormatCurrency(rowData.summary.charging_pay_gross) }}
                         </td>
                         <td
                             class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
@@ -334,12 +334,12 @@ const uniqueLoanNameTotals = computed(() => {
                         <td
                             class="border border-gray-500 h-8 px-2 font-bold text-sm"
                         >
-                            {{ useFormatCurrency(rowData.summary.deduct_phihealth_employee_cotribution) }}
+                            {{ useFormatCurrency(rowData.summary.deduct_philhealth_employee_contribution) }}
                         </td>
                         <td
                             class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
                         >
-                            {{ useFormatCurrency(rowData.summary.deduct_pagibig_employee_cotribution) }}
+                            {{ useFormatCurrency(rowData.summary.deduct_pagibig_employee_contribution) }}
                         </td>
                         <td
                             class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
