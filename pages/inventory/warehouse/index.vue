@@ -10,11 +10,42 @@ const headers = [
     { name: "Item Code", id: "item_code" },
     { name: "Stocks", id: "stocks" },
 ]
-
 </script>
 <template>
-    <div class="grid grid-cols-1 gap-4 w-full max-w-4xl">
-        <InventoryWarehouseFilter />
-        <InventoryWarehouseTable :header-columns="headers" title="Stocks Details" :data="stocks.data" />
-    </div>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.inventory_warehouse_group,
+        ])"
+        class="max-w-4xl"
+    >
+        <div class="grid grid-cols-1 gap-4 w-full max-w-4xl mb-5">
+            <InventoryWarehouseFilter />
+        </div>
+        <HrmsCommonTabsMainContainer>
+            <template #tab-titles>
+                <HrmsCommonTabsTabTitle
+                    :if-access="useCheckAccessibility([
+                        AccessibilityTypes.inventory_warehouse_group,
+                    ])"
+                    title="Stocks"
+                    target-id="Stocks"
+                />
+                <HrmsCommonTabsTabTitle
+                    :if-access="useCheckAccessibility([
+                        AccessibilityTypes.inventory_warehouse_group,
+                    ])"
+                    title="Logs"
+                    target-id="Logs"
+                />
+            </template>
+            <template #tab-containers>
+                <HrmsCommonTabsTabContainer id="Stocks">
+                    <InventoryWarehouseTable :header-columns="headers" title="Stocks" :data="stocks.data" />
+                </HrmsCommonTabsTabContainer>
+                <HrmsCommonTabsTabContainer id="Logs">
+                    <InventoryWarehouseTableLogs title="Logs" />
+                </HrmsCommonTabsTabContainer>
+            </template>
+        </HrmsCommonTabsMainContainer>
+    </LayoutAcessContainer>
 </template>

@@ -69,7 +69,7 @@ const filterWarehouse = async () => {
                                 class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
                                 @change="filterWarehouse"
                             >
-                                <option v-for="item in warehouse" :key="item.id" :value="item.id">
+                                <option v-for="item in warehouse.list" :key="item.id" :value="item.id">
                                     {{ item.name }}
                                 </option>
                             </select>

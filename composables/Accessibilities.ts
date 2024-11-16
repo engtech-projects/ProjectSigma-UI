@@ -134,21 +134,38 @@ export enum AccessibilityTypes {
     inventory_warehouse_group = "inventory:warehouse_overview_",
     inventory_warehouse_viewonly = "inventory:warehouse_overview_view only",
     inventory_warehouse_pssmanager = "inventory:warehouse_oveview_pss manager",
+    inventory_bom_group = "inventory:bom_",
+    inventory_bom_forms_and_my_requests = "inventory:bom_form and my requests",
+    inventory_bom_all_request = "inventory:bom_all requests",
+    inventory_bom_my_approvals = "inventory:bom_my approvals",
+    inventory_bom_current_bom = "inventory:bom_current bom",
 
-    // ACCOUNTING
-    accounting_journal_group = "accounting:journal entry_",
-    accounting_journal_create = "accounting:journal entry_create",
-    accounting_journal_viewall = "accounting:journal entry_view all entries",
-    accounting_journal_modify = "accounting:journal entry_modify entry",
-    accounting_group = "accounting:",
-    accounting_dashboard = "accounting:dashboard",
-    accounting_chart_of_accounts = "accounting:chart of accounts",
-    accounting_books = "accounting:books",
-    accounting_transaction_type = "accounting:transaction type",
-    accounting_document_Series = "accounting:document Series",
-    accounting_posting_period = "accounting:posting period",
-    accounting_account_groups = "accounting:account groups",
-    accounting_stake_holder = "accounting:stake holder",
+    ACCOUNTING_GROUP = "accounting:",
+    // Accounting Setup
+    ACCOUNTING_SETUP_GROUP = "accounting:setup_",
+    ACCOUNTING_SETUP_APPROVALS = "accounting:setup_approvals",
+    ACCOUNTING_SETUP_ACCOUNTS = "accounting:setup_accounts",
+    ACCOUNTING_SETUP_BOOK_OF_ACCOUNTS = "accounting:setup_book of accounts",
+    ACCOUNTING_SETUP_ACCOUNT_GROUPS = "accounting:setup_account groups",
+    ACCOUNTING_SETUP_ACCOUNT_TYPES = "accounting:setup_account types",
+    ACCOUNTING_SETUP_POSTING_PERIODS = "accounting:setup_posting periods",
+    ACCOUNTING_SETUP_CHART_OF_ACCOUNTS = "accounting:setup_chart of accounts",
+    ACCOUNTING_SETUP_STAKEHOLDERS = "accounting:setup_stakeholders",
+    ACCOUNTING_SETUP_SYNCHRONIZATION = "accounting:setup_synchronization",
+
+    // Accounting Request
+    ACCOUNTING_REQUEST_GROUP = "accounting:request_",
+    ACCOUNTING_REQUEST_PURCHASE_ORDER = "accounting:request_purchase order",
+    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER = "accounting:request_non purchase order",
+    ACCOUNTING_REQUEST_PRE_PAYROLL_AUDIT = "accounting:request_pre payroll audit",
+
+    // Accounting Voucher
+    ACCOUNTING_VOUCHER_GROUP = "accounting:voucher_",
+    ACCOUNTING_VOUCHER_DISBURSEMENT = "accounting:voucher_disbursement",
+    ACCOUNTING_VOUCHER_CASH = "accounting:voucher_cash",
+
+    // Accounting Journal
+    ACCOUNTING_JOURNAL_ENTRY = "accounting:journal_journal entry",
 
     // PROJECT MONITORING
     project_monitoring_group = "project_monitoring:",

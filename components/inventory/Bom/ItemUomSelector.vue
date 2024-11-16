@@ -1,27 +1,26 @@
 <script lang="ts" setup>
-const props = defineProps({
-    placeholder: {
-        type: String,
-        default: "Search",
-    },
-    title: {
-        type: String,
-        default: "",
-    },
-    searchList: {
-        type: Array<any>,
-        default: [],
-    },
-    loading: {
-        type: Boolean,
-        default: false,
+import { useInventoryEnumsStore } from "@/stores/inventory/enum"
+const compId = useId()
+const enums = useInventoryEnumsStore()
+const { itemEnum } = storeToRefs(enums)
+onMounted(() => {
+    if (!itemEnum.value.isLoaded) {
+        enums.getItems()
     }
 })
-const forFocusOut = ref()
-const result = defineModel("result", { type: Object, required: true })
-const searchInput = defineModel("searchInput", { type: String, required: true })
-const showDD = ref(false)
+defineProps({
+    conversion: {
+        type: Number,
+        required: true,
+    },
+})
 let toggleTimeout: any = null
+const showDD = ref(false)
+const forFocusOut = ref()
+const model = defineModel({ required: false, type: Number, default: null })
+const result = ref("")
+const searchData = ref("")
+const searchInput = defineModel("searchInput", { type: String, required: true })
 const openDD = () => {
     if (toggleTimeout) {
         clearTimeout(toggleTimeout)
@@ -34,20 +33,23 @@ const closeDD = () => {
     }, 100)
 }
 function selectOption (option: any) {
-    result.value = option
+    result.value = option.name
+    model.value = option.id
+    emit("watchItem", option)
     forFocusOut.value.focus()
-}
-function clearSelection () {
-    result.value = ""
 }
 function clearSearchQuery () {
     searchInput.value = ""
 }
+function clearSelection () {
+    result.value = ""
+}
+const emit = defineEmits(["watchItem"])
 </script>
 <template>
     <div ref="forFocusOut" tabindex="51">
         <div
-            id="PSSELECTSEARCH"
+            :id="compId"
             ref="compContainer"
             tabindex="50"
             @focusin="openDD"
@@ -57,38 +59,41 @@ function clearSearchQuery () {
                 <div class="h-full flex flex-1 items-center overflow-hidden py-[9px]">
                     <input
                         v-if="showDD"
-                        v-model="searchInput"
+                        v-model="searchData"
                         type="text"
                         class="border border-slate-300 rounded w-full h-full"
                         placeholder="Search"
                         @click.stop
                     >
-                    <span v-else class="flex-1">{{ Object.keys(result).length > 0 ? result[title] : placeholder }}</span>
+                    <span v-else class="flex-1">{{ result ? result : "Search" }}</span>
+
                     <span v-show="showDD" @click="clearSearchQuery">
                         <Icon name="material-symbols:close-rounded" class="-ml-8 font-bold text-xl" title="Clear Search Input" />
                     </span>
-                    <div v-show="Object.keys(result).length > 0" @click="clearSelection">
+                    <div v-if="result !== ''" @click="clearSelection">
                         <Icon name="material-symbols:close-rounded" class="font-bold text-xl" title="Clear Selection" />
                     </div>
-                    <Icon name="iconoir:nav-arrow-down" class="font-bold text-xl" />
+                    <div v-if="result == ''">
+                        <Icon name="iconoir:nav-arrow-down" class="font-bold text-xl" />
+                    </div>
                 </div>
             </div>
-            <div class="relative">
+            <div class="absolute z-50">
                 <div
                     v-if="showDD"
                     class="absolute max-h-72 left-0 min-w-full py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2 z-10"
                 >
-                    <div v-show="loading" class="mx-auto">
+                    <div v-show="itemEnum.isLoading" class="mx-auto">
                         <Icon name="svg-spinners:6-dots-rotate" />
                     </div>
-                    <div v-if="props.searchList.length" class="flex flex-col overflow-auto">
+                    <div v-if="itemEnum.itemGroupFilter.length" class="flex flex-col overflow-auto">
                         <span
-                            v-for="option, i in props.searchList"
+                            v-for="option, i in itemEnum.itemGroupFilter"
                             :key="i"
                             class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
                             @click="selectOption(option)"
                         >
-                            {{ option[props.title] }}
+                            {{ itemEnum.itemGroupFilter[i].name }}
                         </span>
                     </div>
                     <div v-else class="px-4">
@@ -99,5 +104,3 @@ function clearSearchQuery () {
         </div>
     </div>
 </template>
-
-<style scoped></style>

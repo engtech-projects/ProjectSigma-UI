@@ -11,12 +11,11 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             descripton: "",
             details: []
         },
+        vat: null,
         list: [],
         pagination: {},
         getParams: {},
-        params: {
-            status: ""
-        },
+        params: {},
         errorMessage: "",
         successMessage: "",
         isLoading: {
@@ -39,7 +38,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.list = response._data.payment_request
+                        this.list = response._data.data.data
                         this.pagination = {
                             first_page: response._data.links.first,
                             pages: response._data.meta.links,
@@ -87,7 +86,27 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading.show = false
-                        this.paymentRequest = response._data
+                        this.paymentRequest = response._data.data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async getVat () {
+            this.isLoading.show = true
+            const { data, error } = await useAccountingApi(
+                "/api/vat-value",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading.show = false
+                        this.vat = response._data.vat
                     },
                 }
             )
