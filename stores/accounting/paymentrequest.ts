@@ -9,6 +9,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             request_date: null,
             total: 0,
             descripton: "",
+            approvals: null,
             details: []
         },
         vat: null,
@@ -188,6 +189,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 request_date: null,
                 total: 0,
                 descripton: "",
+                approvals: null,
                 details: []
             }
             this.successMessage = ""
