@@ -208,6 +208,17 @@ const navigate = (url = "", action = "", pr = null) => {
                 </i>
             </div>
         </form>
+        <div class="mb-8 px-2">
+            <h2 class="font-bold mb-2">
+                Approvals
+            </h2>
+            <HrmsSetupApprovalsList
+                v-for="a,i in paymentRequestStore.paymentRequest.approvals"
+                :key="i"
+                v-model="paymentRequestStore.paymentRequest.approvals[i]"
+                class="text-xs"
+            />
+        </div>
         <div v-if="props.target !== 'voucher'" class="flex justify-between w-full mb-8 gap-2 items-center mt-5">
             <button
                 class="text-gray-700 self-start hover:text-blue-500 border-gray-700 mt-2"

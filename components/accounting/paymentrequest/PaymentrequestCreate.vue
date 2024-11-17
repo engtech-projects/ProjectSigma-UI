@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import { useStakeholderStore } from "~/stores/accounting/stakeholder"
 import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
+import { useApprovalStore, APPROVAL_NPO } from "~/stores/hrms/setup/approvals"
 
+const hrmsApprovals = useApprovalStore()
 const paymentRequestStore = usePaymentRequestStore()
 
 const { list: payeeList } = storeToRefs(useStakeholderStore())
 
+const approvals = await hrmsApprovals.getApprovalByName(APPROVAL_NPO)
 const loading = ref(false)
 const detailsError = ref(false)
 const detailsErrorMsg = ref("")
@@ -19,6 +22,7 @@ const detail = ref({
 })
 async function handleSubmit () {
     if (paymentRequestStore.paymentRequest.details.length !== 0 && paymentRequestStore.paymentRequest.total === total.value) {
+        paymentRequestStore.paymentRequest.approvals = approvals
         try {
             loading.value = true
             await paymentRequestStore.createPaymentRequest()
