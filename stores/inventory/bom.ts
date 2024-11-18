@@ -157,7 +157,7 @@ export const useBOMStore = defineStore("BOMStore", {
             )
         },
         async storeBOMDepartment () {
-            await useInventoryApi(
+            await useInventoryApiO(
                 "/api/bom/resource",
                 {
                     method: "POST",
