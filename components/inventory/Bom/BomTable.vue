@@ -13,7 +13,7 @@ defineProps({
         required: true,
     },
     dataColumns: {
-        type: Array<HeaderColumn>,
+        type: Array<any>,
         required: true,
     },
 })
@@ -34,9 +34,21 @@ defineProps({
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td v-for="(item, index) in dataColumns" :key="index">
-                                {{ item ? item : "" }}
+                        <tr v-for="(item, index) in dataColumns" :key="index">
+                            <td>
+                                {{ item ? item.item_summary : "" }}
+                            </td>
+                            <td>
+                                {{ item ? item.uom_id : "" }}
+                            </td>
+                            <td>
+                                {{ item ? item.unit : "" }}
+                            </td>
+                            <td>
+                                {{ item ? item.quantity : "" }}
+                            </td>
+                            <td>
+                                {{ item ? item.amount : "" }}
                             </td>
                         </tr>
                     </tbody>

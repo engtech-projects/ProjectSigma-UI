@@ -2,11 +2,6 @@
 import { useBOMStore } from "@/stores/inventory/bom"
 const BOMStore = useBOMStore()
 const { currentBom: List } = storeToRefs(BOMStore)
-onMounted(() => {
-    if (!List.value.isLoaded) {
-        BOMStore.getCurrentBOM()
-    }
-})
 const today = new Date()
 const currentYear = today.getFullYear()
 const headers = [
@@ -16,6 +11,11 @@ const headers = [
     { name: "Quantity", id: "quantity" },
     { name: "Amount", id: "amount" },
 ]
+const filterBOM = () => {
+    List.value.params.effectivity = currentYear
+    List.value.params.assignment_type = "Department"
+    BOMStore.getCurrentBOM()
+}
 </script>
 <template>
     <h5 class="text-xl font-medium text-gray-900 dark:text-white border-b p-2">
@@ -27,22 +27,16 @@ const headers = [
                 <div class="flex flex-col gap-4 mb-5 max-w-xl">
                     <div class="flex flex-row gap-4 justify-start items-center">
                         <label class="text-">Assignment :</label>
-                        <select class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                            <option>
-                                Test
-                            </option>
-                        </select>
+                        <div>
+                            <HrmsCommonDepartmentSelector v-model="List.params.assignment_id" @change="filterBOM" />
+                        </div>
                     </div>
                     <div class="flex flex-row gap-2 justify-start items-center">
                         <div>
                             <label> Year : </label>
                         </div>
                         <div>
-                            <select v-model="currentYear" class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5">
-                                <option>
-                                    2024
-                                </option>
-                            </select>
+                            <input id="year" v-model="currentYear" type="text" class="bg-gray-50 border disabled:opacity-75 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" disabled>
                         </div>
                     </div>
                 </div>
