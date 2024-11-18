@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useDocumentSeriesStore } from "~/stores/accounting/documentseries"
+import { useDocumentSeriesStore } from "~/stores/accounting/documents/documentseries"
 
 const documentSeriesStore = useDocumentSeriesStore()
 const { list: seriesList, getParams, pagination, errorMessage, successMessage } = storeToRefs(documentSeriesStore)

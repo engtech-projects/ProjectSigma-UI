@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
-import { useTransactionStore } from "~/stores/accounting/transaction"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
+import { useTransactionTypeStore } from "~/stores/accounting/transactions/transactiontype"
+import { useTransactionStore } from "~/stores/accounting/transactions/transaction"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeholderGroupStore } from "~/stores/accounting/stakeholders/stakeholdergroup"
 
 const transactionTypeStore = useTransactionTypeStore()
 const transactionStore = useTransactionStore()
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 const stakeholderGroupStore = useStakeholderGroupStore()
 const boardLoading = ref(false)
 const snackbar = useSnackbar()

@@ -1,5 +1,5 @@
 <script setup>
-import { useJournalStore } from "~/stores/accounting/journal"
+import { useJournalStore } from "~/stores/accounting/journals/journal"
 
 const journalStore = useJournalStore()
 const emit = defineEmits(["view-details"])

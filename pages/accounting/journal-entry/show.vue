@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
-import { useTransactionStore } from "~/stores/accounting/transaction"
-import { usePostingPeriodStore } from "~/stores/accounting/postingperiod"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
+import { useTransactionTypeStore } from "~/stores/accounting/transactions/transactiontype"
+import { useTransactionStore } from "~/stores/accounting/transactions/transaction"
+import { usePostingPeriodStore } from "~/stores/accounting/setup/postingperiod"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeholderGroupStore } from "~/stores/accounting/stakeholders/stakeholdergroup"
 
 const postingPeriodStore = usePostingPeriodStore()
 await postingPeriodStore.getPostingPeriods()
@@ -11,7 +11,7 @@ const transactionTypeStore = useTransactionTypeStore()
 await transactionTypeStore.getTransactionTypes()
 const transactionStore = useTransactionStore()
 await transactionStore.showTransaction(useRoute().query.id)
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 await stakeholderStore.getStakeholders()
 const stakeholderGroupStore = useStakeholderGroupStore()
 await stakeholderGroupStore.getStakeholderGroups()

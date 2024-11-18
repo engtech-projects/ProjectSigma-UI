@@ -1,5 +1,5 @@
 <script setup>
-import { useVoucherStore } from "~/stores/accounting/voucher"
+import { useVoucherStore } from "~/stores/accounting/vouchers/voucher"
 
 const voucherStore = useVoucherStore()
 const emit = defineEmits(["view-details"])

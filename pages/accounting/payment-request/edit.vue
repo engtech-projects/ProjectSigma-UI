@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"
 
 const paymentRequestStore = usePaymentRequestStore()
 if (!useRoute().query.id) {
@@ -15,7 +15,7 @@ if (!useRoute().query.id) {
     await paymentRequestStore.getPaymentRequest(useRoute().query.id)
 }
 
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 stakeholderStore.getStakeholders()
 
 </script>

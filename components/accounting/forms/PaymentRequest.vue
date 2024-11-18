@@ -1,3 +1,69 @@
+<script setup>
+import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+
+const stakeholderStore = useStakeHolderStore()
+const paymentRequestStore = usePaymentRequestStore()
+const detail = ref({
+    stakeholder_id: null,
+    particulars: "",
+    cost: 0,
+    vat: 0
+})
+const details = ref([])
+const loading = ref(false)
+const addDetails = () => {
+    details.value.push(detail.value)
+    details.value = {
+        stakeholder_id: null,
+        particulars: "",
+        cost: 0,
+        vat: 0
+    }
+}
+const snackbar = useSnackbar()
+const generatePrNo = () => {
+    return "PR-" + randomInt(100001, 999999) + "-" + randomInt(1000, 9999)
+}
+
+const removeLine = (line) => {
+    details.value = details.value.filter(acc => acc !== line)
+}
+
+async function handleSubmit () {
+    try {
+        loading.value = true
+        paymentRequestStore.paymentRequest.total = 0
+        paymentRequestStore.paymentRequest.details = details.value
+        await paymentRequestStore.createPaymentRequest()
+        if (paymentRequestStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: paymentRequestStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: paymentRequestStore.successMessage
+            })
+            details.value = []
+            paymentRequestStore.reset()
+            // navigateTo("/accounting/voucher/disbursement")
+        }
+    } catch (error) {
+        // paymentRequestStore.errorMessage = error.Message
+        // snackbar.add({
+        //     type: "error",
+        //     text: paymentRequestStore.errorMessage
+        // })
+    } finally {
+        loading.value = false
+    }
+}
+onMounted(() => {
+    paymentRequestStore.paymentRequest.prf_no = generatePrNo()
+})
+</script>
 <template>
     <form @submit.prevent="handleSubmit">
         <div class="flex flex-col gap-16 pb-24 pt-8">
@@ -130,7 +196,7 @@
                         </div>
                         <button
                             type="submit"
-                            class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
+                            class="text-white p-2 px-4 bg-teal-600 content-center mt-5 rounded-md w-fit"
                         >
                             Add line
                         </button>
@@ -189,7 +255,7 @@
                             >
                         </div>
                         <button
-                            class="text-white p-2 px-4 rounded bg-red-500 content-center mt-5 rounded-md w-fit"
+                            class="text-white p-2 px-4 bg-red-500 content-center mt-5 rounded-md w-fit"
                             @click.prevent="removeLine(ae)"
                         >
                             Remove
@@ -210,7 +276,7 @@
                     </NuxtLink> -->
                     <button
                         type="submit"
-                        class="text-white p-2 px-4 rounded bg-teal-600 content-center mt-5 rounded-md w-fit"
+                        class="text-white p-2 px-4 bg-teal-600 content-center mt-5 rounded-md w-fit"
                     >
                         Submit
                     </button>
@@ -219,74 +285,3 @@
         </div>
     </form>
 </template>
-
-<script lang="ts" setup>
-import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-
-const stakeholderStore = useStakeholderStore()
-const paymentRequestStore = usePaymentRequestStore()
-const detail = ref({
-    stakeholder_id: null,
-    particulars: "",
-    cost: 0,
-    vat: 0
-})
-const details = ref([])
-const loading = ref(false)
-const addDetails = () => {
-    details.value.push(detail.value)
-    details.value = {
-        stakeholder_id: null,
-        particulars: "",
-        cost: 0,
-        vat: 0
-    }
-}
-const snackbar = useSnackbar()
-const generatePrNo = () => {
-    return "PR-" + randomInt(100001, 999999) + "-" + randomInt(1000, 9999)
-}
-
-const removeLine = (line: object) => {
-    details.value = details.value.filter(acc => acc !== line)
-}
-
-async function handleSubmit () {
-    try {
-        loading.value = true
-        paymentRequestStore.paymentRequest.total = 0
-        paymentRequestStore.paymentRequest.details = details.value
-        await paymentRequestStore.createPaymentRequest()
-        if (paymentRequestStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: paymentRequestStore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: paymentRequestStore.successMessage
-            })
-            details.value = []
-            paymentRequestStore.reset()
-            // navigateTo("/accounting/voucher/disbursement")
-        }
-    } catch (error) {
-        // paymentRequestStore.errorMessage = error.Message
-        // snackbar.add({
-        //     type: "error",
-        //     text: paymentRequestStore.errorMessage
-        // })
-    } finally {
-        loading.value = false
-    }
-}
-onMounted(() => {
-    paymentRequestStore.paymentRequest.prf_no = generatePrNo()
-})
-</script>
-
-<style>
-
-</style>

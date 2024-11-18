@@ -1,8 +1,8 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
 
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 await stakeholderStore.getStakeholders()
 
 const { list: stakeholderList, getParams, pagination, errorMessage, successMessage } = storeToRefs(stakeholderStore)

@@ -1,18 +1,18 @@
-<script lang="ts" setup>
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useStakeHolderTypeStore } from "~/stores/accounting/stakeholdertype"
+<script setup>
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeHolderTypesStore } from "~/stores/accounting/stakeholders/stakeholdertype"
 import { useModalStore } from "~/stores/modal"
 
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 const snackbar = useSnackbar()
 const isLoading = ref(false)
 const modalStore = useModalStore()
 modalStore.title = "Create New Stakeholder Type"
 
-const stakeHolderTypeStore = useStakeHolderTypeStore()
+const stakeHolderTypeStore = useStakeHolderTypesStore()
 stakeHolderTypeStore.getStakeHolderTypes()
 
-function select (val:any) {
+function select (val) {
     stakeholderStore.stakeholder.stakeholder_type_id = val.stakeholder_type_id
 }
 

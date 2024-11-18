@@ -194,10 +194,11 @@ export const useBOMStore = defineStore("BOMStore", {
         },
         async getCurrentBOM () {
             await useInventoryApi(
-                "/api/bom/resource",
+                "/api/bom/current",
                 {
                     method: "GET",
                     params: this.currentBom.params,
+                    watch: false,
                     onRequest: () => {
                         this.currentBom.isLoading = true
                     },

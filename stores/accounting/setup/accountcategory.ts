@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 
-export const useAccountCategory = defineStore("accountCategory", {
+export const useAccountCategoriesStore = defineStore("accountCategoriesStore", {
     state: () => ({
         accountCategory: {
             id: null,

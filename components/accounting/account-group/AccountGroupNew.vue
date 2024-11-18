@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
-import { useAccountStore } from "~/stores/accounting/account"
+import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
+import { useAccountStore } from "~/stores/accounting/setup/account"
 
 const accountGroupStore = useAccountGroupStore()
 const accountStore = useAccountStore()
