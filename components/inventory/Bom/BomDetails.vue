@@ -84,9 +84,6 @@ const denyRequest = async (id:any) => {
     }
 }
 
-const showAmount = (quantity:number, price:number) => {
-    return quantity * price
-}
 </script>
 <template>
     <div
@@ -117,7 +114,7 @@ const showAmount = (quantity:number, price:number) => {
                                         {{ dataValue.item_summary }}
                                     </td>
                                     <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.uom_id ? dataValue.uom_id : "" }}
+                                        {{ dataValue.unit ? dataValue.unit : "" }}
                                     </td>
                                     <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.unit_price ? dataValue.unit_price : 0 }}
@@ -126,7 +123,7 @@ const showAmount = (quantity:number, price:number) => {
                                         {{ dataValue.quantity ? dataValue.quantity : 0 }}
                                     </td>
                                     <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ showAmount(parseFloat(dataValue.quantity), parseFloat(dataValue.unit_price)) ? showAmount(parseFloat(dataValue.quantity), parseFloat(dataValue.unit_price)) : 0 }}
+                                        {{ dataValue.amount ? dataValue.amount : 0 }}
                                     </td>
                                 </tr>
                             </tbody>

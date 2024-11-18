@@ -177,7 +177,7 @@ export const useBOMStore = defineStore("BOMStore", {
         },
         async getOne (id: number) {
             return await useInventoryApiO(
-                "/api/bom/resource/" + id,
+                "/api/bom/details/resource/" + id,
                 {
                     method: "GET",
                     params: this.bomRequest.bomDetails.params,
