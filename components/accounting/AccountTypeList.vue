@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useAccountType } from "~/stores/accounting/accounttype"
+import { useAccountType } from "~/stores/accounting/setup/accounttype"
 
 const accountTypeStore = useAccountType()
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
+import { useTransactionTypeStore } from "~/stores/accounting/transactions/transactiontype"
 const transactionTypeStore = useTransactionTypeStore()
 
 definePageMeta({

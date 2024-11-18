@@ -1,11 +1,11 @@
-<script lang="ts" setup>
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
-import { useJournalStore } from "~/stores/accounting/journal"
+<script setup>
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
+import { useJournalStore } from "~/stores/accounting/journals/journal"
 
 const journalStore = useJournalStore()
 const accountGroupStore = useAccountGroupStore()
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 
 const emit = defineEmits(["create", "edit"])
 

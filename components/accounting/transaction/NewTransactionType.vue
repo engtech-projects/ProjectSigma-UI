@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
-import { useBookStore } from "~/stores/accounting/book"
-import { useAccountStore } from "~/stores/accounting/account"
+import { useTransactionTypeStore } from "~/stores/accounting/transactions/transactiontype"
+import { useBookStore } from "~/stores/accounting/setup/book"
+import { useAccountStore } from "~/stores/accounting/setup/account"
 import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
 
 const transactionTypeStore = useTransactionTypeStore()

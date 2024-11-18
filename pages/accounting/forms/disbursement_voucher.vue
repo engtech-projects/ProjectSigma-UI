@@ -6,13 +6,13 @@
 
 <script lang="ts" setup>
 
-import { useAccountStore } from "~/stores/accounting/account"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+import { useAccountStore } from "~/stores/accounting/setup/account"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
 
 const accountStore = useAccountStore()
 accountStore.getAccounts()
 
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 stakeholderStore.getStakeholders()
 
 </script>

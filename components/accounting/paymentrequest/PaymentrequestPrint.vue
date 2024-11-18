@@ -1,3 +1,29 @@
+<script setup>
+import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+
+const paymentRequestStore = usePaymentRequestStore()
+const stakeholderStore = useStakeHolderStore()
+
+const stakeholder = (id) => {
+    return stakeholderStore.list.filter(st => st.id === id)[0]
+}
+
+const totalCost = computed(() => {
+    let amount = 0
+    paymentRequestStore.paymentRequest.details.forEach((v) => {
+        amount += parseFloat(v.cost)
+    })
+    return amount
+})
+const totalVat = computed(() => {
+    let amount = 0
+    paymentRequestStore.paymentRequest.details.forEach((v) => {
+        amount += parseFloat(v.vat)
+    })
+    return amount
+})
+</script>
 <template>
     <div id="toPrint" class="absolute bg-white left-0 top-0 w-screen min-h-[1000px] z-[99999] p-12">
         <div class="flex flex-col gap-10 pb-24 pt-8 relative">
@@ -119,35 +145,6 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-
-const paymentRequestStore = usePaymentRequestStore()
-const stakeholderStore = useStakeholderStore()
-
-const stakeholder = (id) => {
-    return stakeholderStore.list.filter(st => st.id === id)[0]
-}
-
-const totalCost = computed(() => {
-    let amount = 0
-    paymentRequestStore.paymentRequest.details.forEach((v) => {
-        amount += parseFloat(v.cost)
-    })
-    return amount
-})
-const totalVat = computed(() => {
-    let amount = 0
-    paymentRequestStore.paymentRequest.details.forEach((v) => {
-        amount += parseFloat(v.vat)
-    })
-    return amount
-})
-
-</script>
-
 <style scoped>
     @media print {
         .no-print {
