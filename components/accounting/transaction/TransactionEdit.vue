@@ -2,7 +2,7 @@
 import { useTransactionTypeStore } from "~/stores/accounting/transactions/transactiontype"
 import { useTransactionStore } from "~/stores/accounting/transactions/transaction"
 import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
-import { useStakeholderGroupStore } from "~/stores/accounting/stakeholders/stakeholdergroup"
+import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
 
 const transactionTypeStore = useTransactionTypeStore()
 const transactionStore = useTransactionStore()
