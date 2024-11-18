@@ -1,10 +1,12 @@
 import { defineStore } from "pinia"
+const { token } = useAuth()
+const config = useRuntimeConfig()
 
-export const useStakeholderStore = defineStore("stakeholderStore", {
+export const useStakeHolderTypesStore = defineStore("stakeHolderTypesStore", {
     state: () => ({
-        stakeholder: {
-            stakeholder_id: null,
-            name: null
+        stakeHolderType: {
+            stakehodler_type_id: null,
+            stakeholder_type_name: null,
         },
         list: [],
         pagination: {},
@@ -15,16 +17,21 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
         isEdit: false
     }),
     actions: {
-        async getStakeholders () {
+        async getStakeHolderTypes () {
             this.isLoading = true
-            const { data, error } = await useAccountingApi(
-                "/api/stakeholders",
+            const { data, error } = await useFetch(
+                "/api/stakeholder-type",
                 {
+                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.data
+                        this.list = response._data.stakeholder_type
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -40,20 +47,25 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
             }
         },
 
-        async createStakeholder () {
+        async createStakeHolderType () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useAccountingApi(
-                "/api/stakeholders",
+            await useFetch(
+                "/api/stakeholder-type",
                 {
+                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
-                    body: this.stakeholder,
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    body: this.stakeHolderType,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getStakeholders()
+                            this.getStakeHolderTypes()
                             // this.reset()
                             this.successMessage = response._data.message
                         }
@@ -62,19 +74,23 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
             )
         },
 
-        async editStakeholder () {
+        async editStakeHolderType () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useAccountingApi(
-                "/api/stakeholders/" + this.stakeholder.stakeholder_id,
+            const { data, error } = await useFetch(
+                "/api/stakeholder-type/" + this.stakeHolderType.stakehodler_type_id,
                 {
+                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
-                    body: this.stakeholder,
+                    headers: {
+                        Authorization: token.value + ""
+                    },
+                    body: this.stakeHolderType,
                     watch: false,
                 }
             )
             if (data.value) {
-                this.getStakeholders()
+                this.getStakeHolderTypes()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -83,12 +99,16 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
             }
         },
 
-        async deleteStakeholder (id: number) {
-            const { data, error } = await useAccountingApi(
-                "/api/stakeholders/" + id,
+        async deleteStakeHolderType (id: number) {
+            const { data, error } = await useFetch(
+                "/api/stakeholder-type/" + id,
                 {
+                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",
-                    body: this.stakeholder,
+                    headers: {
+                        Authorization: token.value + ""
+                    },
+                    body: this.stakeHolderType,
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
@@ -96,7 +116,7 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
                 }
             )
             if (data.value) {
-                this.getStakeholders()
+                this.getStakeHolderTypes()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -106,23 +126,9 @@ export const useStakeholderStore = defineStore("stakeholderStore", {
         },
 
         reset () {
-            this.stakeholder = {
-                stakeholder_id: null,
-                title: null,
-                firstname: null,
-                middlename: null,
-                lastname: null,
-                suffix: null,
-                email: null,
-                company: null,
-                display_name: null,
-                street: null,
-                city: null,
-                state: null,
-                country: null,
-                phone_number: null,
-                mobile_number: null,
-                stakeholder_type_id: null,
+            this.stakeHolderType = {
+                stakehodler_type_id: null,
+                stakeholder_type_name: null,
             }
             this.successMessage = ""
             this.errorMessage = ""

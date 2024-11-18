@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
 const accountGroupStore = useAccountGroupStore()
 
 definePageMeta({

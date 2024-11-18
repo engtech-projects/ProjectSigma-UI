@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { usePostingPeriodStore } from "~/stores/accounting/postingperiod"
+import { usePostingPeriodStore } from "~/stores/accounting/setup/postingperiod"
 
 const postingPeriodStore = usePostingPeriodStore()
 const { list: periodList, getParams, pagination, errorMessage, successMessage } = storeToRefs(postingPeriodStore)

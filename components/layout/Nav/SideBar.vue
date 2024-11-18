@@ -585,7 +585,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.accounting_journal_group,
                     ])"
-                    linkarea="/accounting/payment-request"
+                    linkarea="/accounting/request/non-purchase-order"
                     icon="iconoir:credit-card-2"
                     single-nav-title="Payment Request"
                 />

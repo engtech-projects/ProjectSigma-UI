@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSubsidiaryStore } from "~/stores/accounting/subsidiary"
+import { useSubsidiaryStore } from "~/stores/accounting/journals/subsidiary"
 
 const subsidiaryStore = useSubsidiaryStore()
 const snackbar = useSnackbar()
