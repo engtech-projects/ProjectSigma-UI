@@ -28,7 +28,7 @@ const showInformation = (data) => {
     infoModalData.value = data
     showInfoModal.value = true
 }
-
+const filterType = ref("")
 </script>
 <template>
     <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
@@ -37,7 +37,7 @@ const showInformation = (data) => {
             <div class="flex gap-2">
                 <LayoutFormPsDateInput v-model="myApprovals.params.payroll_date" class="w-full" title="Payroll Date" required />
                 <HrmsCommonDepartmentProjectSelector
-                    v-model:select-type="myApprovals.params.group_type"
+                    v-model:select-type="filterType"
                     v-model:projectId="myApprovals.params.project_id"
                     v-model:departmentId="myApprovals.params.department_id"
                     title="Charged to"
