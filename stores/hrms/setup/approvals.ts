@@ -11,6 +11,7 @@ export const APPROVAL_LEAVE = "Leave"
 export const APPROVAL_FAILTOLOG = "Failure To Log"
 export const APPROVAL_SALARYDISBURSEMENT = "Salary Disbursement"
 // ACCOUNTING APPROVALS
+export const APPROVAL_NPO = "Payment Request Form (NPO)"
 // INVENTORY APPROVALS
 export const APPROVAL_NEW_ITEM_PROFILE = "New Item Profile"
 // PROJECTS APPROVALS

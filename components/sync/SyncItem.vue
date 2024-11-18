@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useDataSyncStore } from "~/stores/datasync"
+
 const props = defineProps({
     name: {
         type: String,
@@ -8,36 +10,42 @@ const props = defineProps({
         type: String,
         default: ""
     },
+    api: {
+        type: String,
+        default: ""
+    }
 })
+const dataSyncStore = useDataSyncStore()
 const snackbar = useSnackbar()
 const loading = ref(false)
 
 const sync = async () => {
-    loading.value = true
-    const { data } = await useHRMSApi(
-        props.url,
-        {
-            method: "POST",
-            watch: false,
-            onResponse: () => {
-                loading.value = false
-            },
-        }
-    )
-    if (data) {
-        if (data.value?.success) {
-            snackbar.add({
-                type: "success",
-                text: data.value.message
-            })
-        } else {
+    try {
+        loading.value = true
+        dataSyncStore.url = props.url
+        dataSyncStore.api = props.api.toLowerCase()
+        await dataSyncStore.sync()
+        if (dataSyncStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
-                text: "Synchronization failed"
+                text: dataSyncStore.errorMessage
             })
         }
+        if (dataSyncStore.successMessage !== "") {
+            snackbar.add({
+                type: "success",
+                text: dataSyncStore.successMessage
+            })
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: "something went wrong."
+        })
+    } finally {
+        loading.value = false
+        dataSyncStore.reset()
     }
-    loading.value = false
 }
 </script>
 
