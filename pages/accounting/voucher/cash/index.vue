@@ -52,11 +52,11 @@
 
 <script lang="ts" setup>
 
-import { useVoucherStore } from "~/stores/accounting/voucher"
-import { useAccountStore } from "~/stores/accounting/account"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useBookStore } from "~/stores/accounting/book"
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+import { useVoucherStore } from "~/stores/accounting/vouchers/voucher"
+import { useAccountStore } from "~/stores/accounting/setup/account"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useBookStore } from "~/stores/accounting/setup/book"
+import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
 
 const voucherStore = useVoucherStore()
 voucherStore.reset()
@@ -71,7 +71,7 @@ voucherStore.getForVouchering()
 const accountStore = useAccountStore()
 accountStore.getAccounts()
 
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 stakeholderStore.getStakeholders()
 
 const bookStore = useBookStore()

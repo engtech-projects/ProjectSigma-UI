@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
-import { useVoucherStore } from "~/stores/accounting/voucher"
-import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
-import { useBookStore } from "~/stores/accounting/book"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
+import { useVoucherStore } from "~/stores/accounting/vouchers/voucher"
+import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"
+import { useBookStore } from "~/stores/accounting/setup/book"
 
-const { list: payeeList } = storeToRefs(useStakeholderStore())
+const { list: payeeList } = storeToRefs(useStakeHolderStore())
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
 const paymentRequestStore = usePaymentRequestStore()

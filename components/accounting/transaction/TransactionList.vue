@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useTransactionStore } from "~/stores/accounting/transaction"
-import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
+import { useTransactionStore } from "~/stores/accounting/transactions/transaction"
+import { useTransactionTypeStore } from "~/stores/accounting/transactions/transactiontype"
 
 const transactionTypeStore = useTransactionTypeStore()
 await transactionTypeStore.getTransactionTypes()

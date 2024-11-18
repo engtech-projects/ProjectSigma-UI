@@ -1,7 +1,7 @@
-<script lang="ts" setup>
-import { useAccountCategory } from "~/stores/accounting/accountcategory"
+<script setup>
+import { useAccountCategoriesStore } from "~/stores/accounting/accountcategories/accountcategory"
 
-const accountCategory = useAccountCategory()
+const accountCategory = useAccountCategoriesStore()
 const { errorMessage } = storeToRefs(accountCategory)
 const snackbar = useSnackbar()
 const boardLoading = ref(false)

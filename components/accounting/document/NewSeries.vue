@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
-import { useDocumentSeriesStore } from "~/stores/accounting/documentseries"
+import { useTransactionTypeStore } from "~/stores/accounting/transactions/transactiontype"
+import { useDocumentSeriesStore } from "~/stores/accounting/documents/documentseries"
 
 const transactionTypeStore = useTransactionTypeStore()
 transactionTypeStore.getTransactionTypes()

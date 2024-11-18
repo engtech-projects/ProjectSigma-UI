@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useBookStore } from "~/stores/accounting/book"
+import { useBookStore } from "~/stores/accounting/setup/book"
 const bookStore = useBookStore()
 
 definePageMeta({

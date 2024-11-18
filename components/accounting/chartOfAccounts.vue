@@ -1,5 +1,5 @@
 <script setup>
-import { useChartOfAccountsStore } from "~/stores/accounting/chartofaccounts"
+import { useChartOfAccountsStore } from "~/stores/accounting/setup/chartofaccounts"
 
 const accounts = useChartOfAccountsStore()
 </script>

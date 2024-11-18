@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useSubsidiaryStore } from "~/stores/accounting/subsidiary"
+import { useSubsidiaryStore } from "~/stores/accounting/journals/subsidiary"
 
 const subsidiaryStore = useSubsidiaryStore()
 await subsidiaryStore.getSubsidiaries()

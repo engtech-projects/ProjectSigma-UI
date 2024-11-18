@@ -3,10 +3,10 @@ import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 
 const approvals = useApprovalStore()
 
-const { accountingApprovals, editApproval } = storeToRefs(approvals)
+const { hrmsApprovals, editApproval } = storeToRefs(approvals)
 onMounted(() => {
-    if (!accountingApprovals.value.isLoaded) {
-        approvals.getAccountingApprovals()
+    if (!hrmsApprovals.value.isLoaded) {
+        approvals.getHrmsApprovals()
     }
 })
 const snackbar = useSnackbar()
@@ -41,11 +41,11 @@ const submitApprov = async (approval) => {
     }
 }
 const changePaginate = (newParams) => {
-    accountingApprovals.value.params.page = newParams.page ?? ""
+    hrmsApprovals.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>
-    <LayoutBoards title="Approvals" class="w-full" :loading="accountingApprovals.isLoading">
+    <LayoutBoards title="Approvals" class="w-full" :loading="hrmsApprovals.isLoading">
         <div class="pb-2 text-gray-500">
             <table class="table-auto w-full border-collapse">
                 <thead>
@@ -62,8 +62,9 @@ const changePaginate = (newParams) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(approv, index) in accountingApprovals.list" :key="index" class="border-2 border-slate-300 ">
+                    <tr v-for="(approv, index) in hrmsApprovals.list" :key="index" class="border-2 border-slate-300 ">
                         <td class="p-2">
+                            <form :id="index + 'approvform'" @submit.prevent="submitApprov(approv)" />
                             {{ approv.form }}
                         </td>
                         <div class="p-2 space-y-2">
@@ -146,7 +147,9 @@ const changePaginate = (newParams) => {
                                             <HrmsCommonUserEmployeeSelector
                                                 id="users_list"
                                                 v-model="approvers.user_id"
+                                                :form="index + 'approvform'"
                                                 :disabled="approvers.selector_type !== 'specific'"
+                                                :required="approvers.selector_type === 'specific'"
                                             />
                                         </div>
                                     </div>
@@ -161,9 +164,9 @@ const changePaginate = (newParams) => {
                         <td class="p-2 rounded-md">
                             <div class="grid md:grid-rows-1 justify-center gap-4 p-2">
                                 <button
+                                    :form="index + 'approvform'"
                                     type="submit"
                                     class="rounded-md bg-green-400 p-2 text-white hover:bg-green-500 justify-end"
-                                    @click.prevent="submitApprov(approv)"
                                 >
                                     Save Changes
                                 </button>
@@ -174,7 +177,7 @@ const changePaginate = (newParams) => {
             </table>
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="accountingApprovals.pagination" @change-params="changePaginate" />
+            <CustomPagination :links="hrmsApprovals.pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
 </template>
