@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useAccountStore } from "~/stores/accounting/account"
+import { useAccountStore } from "~/stores/accounting/setup/account"
 
 const accountStore = useAccountStore()
 await accountStore.getAccounts()

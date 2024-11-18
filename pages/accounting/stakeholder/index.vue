@@ -17,16 +17,16 @@
 
 <script lang="ts" setup>
 
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useJournalStore } from "~/stores/accounting/journal"
-import { useBookStore } from "~/stores/accounting/book"
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useJournalStore } from "~/stores/accounting/journals/journal"
+import { useBookStore } from "~/stores/accounting/setup/book"
+import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
 
 const journalStore = useJournalStore()
 journalStore.getJournals()
 
 const action = ref("create")
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 stakeholderStore.getStakeholders()
 
 const bookStore = useBookStore()

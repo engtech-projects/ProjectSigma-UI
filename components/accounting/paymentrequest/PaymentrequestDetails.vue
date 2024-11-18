@@ -1,10 +1,10 @@
-<script lang="ts" setup>
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
+<script setup>
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"
 
 const paymentRequestStore = usePaymentRequestStore()
 
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 
 const emit = defineEmits(["create", "edit", "backToList", "detach"])
 const props = defineProps({

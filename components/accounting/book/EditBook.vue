@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useAccountStore } from "~/stores/accounting/account"
-import { useBookStore } from "~/stores/accounting/book"
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+import { useAccountStore } from "~/stores/accounting/setup/account"
+import { useBookStore } from "~/stores/accounting/setup/book"
+import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
 
 const bookStore = useBookStore()
 const snackbar = useSnackbar()

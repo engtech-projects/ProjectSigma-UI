@@ -1,12 +1,11 @@
-<script lang="ts" setup>
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
-import { useApprovalStore, APPROVAL_NPO } from "~/stores/hrms/setup/approvals"
+<script setup>
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"
 
 const hrmsApprovals = useApprovalStore()
 const paymentRequestStore = usePaymentRequestStore()
 
-const { list: payeeList } = storeToRefs(useStakeholderStore())
+const { list: payeeList } = storeToRefs(useStakeHolderStore())
 
 const approvals = await hrmsApprovals.getApprovalByName(APPROVAL_NPO)
 const loading = ref(false)
@@ -81,14 +80,14 @@ const calculateVat = (ac) => {
 }
 const totalCost = computed(() => {
     let total = 0
-    paymentRequestStore.paymentRequest.details.forEach((d:any) => {
+    paymentRequestStore.paymentRequest.details.forEach((d) => {
         total += parseFloat(d.cost)
     })
     return total
 })
 const totalVat = computed(() => {
     let total = 0
-    paymentRequestStore.paymentRequest.details.forEach((d:any) => {
+    paymentRequestStore.paymentRequest.details.forEach((d) => {
         total += parseFloat(d.vat)
     })
     return total

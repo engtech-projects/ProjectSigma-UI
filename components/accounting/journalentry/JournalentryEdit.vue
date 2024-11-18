@@ -1,10 +1,10 @@
-<script lang="ts" setup>
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
-import { useJournalStore } from "~/stores/accounting/journal"
+<script setup>
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
+import { useJournalStore } from "~/stores/accounting/journals/journal"
 
 const journalStore = useJournalStore()
-const { list: payeeList } = storeToRefs(useStakeholderStore())
+const { list: payeeList } = storeToRefs(useStakeHolderStore())
 const accountGroupStore = useAccountGroupStore()
 const snackbar = useSnackbar()
 const accountEntry = ref({
