@@ -39,10 +39,10 @@ defineProps({
                                 {{ item ? item.item_summary : "" }}
                             </td>
                             <td>
-                                {{ item ? item.uom_id : "" }}
+                                {{ item ? item.unit : "" }}
                             </td>
                             <td>
-                                {{ item ? item.unit : "" }}
+                                {{ item ? item.price : "" }}
                             </td>
                             <td>
                                 {{ item ? item.quantity : "" }}
