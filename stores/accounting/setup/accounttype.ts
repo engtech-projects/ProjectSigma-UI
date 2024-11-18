@@ -1,17 +1,16 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
-export const useAccountType = defineStore("accountType", {
+export const useAccountTypeStore = defineStore("accountTypeStore", {
     state: () => ({
         accountType: {
-            type_id: null,
-            account_type: null,
-            account_category: null,
-            balance_type: null,
-            notation: null,
+            id: null,
+            account_type: "",
+            account_category: "",
+            balance_type: "",
+            notation: ""
         },
         list: [],
+        categories: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -22,19 +21,41 @@ export const useAccountType = defineStore("accountType", {
     actions: {
         async getAccountTypes () {
             this.isLoading = true
-            const { data, error } = await useFetch(
-                "/api/account/type",
+            const { data, error } = await useAccountingApi(
+                "/api/account-type",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
+                    watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.account_type.data
+                        this.list = response._data.data.data
+                        this.pagination = {
+                            first_page: response._data.data.links.first,
+                            pages: response._data.data.meta.links,
+                            last_page: response._data.data.links.last,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async getAccountCategories () {
+            this.isLoading = true
+            const { data, error } = await useAccountingApi(
+                "/api/account-category",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        this.categories = response._data.account_category
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -53,15 +74,10 @@ export const useAccountType = defineStore("accountType", {
         async createAccountType () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
-                "/api/account/type",
+            await useAccountingApi(
+                "/api/account-type",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.accountType,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -69,7 +85,7 @@ export const useAccountType = defineStore("accountType", {
                             this.errorMessage = response._data.message
                         } else {
                             this.getAccountTypes()
-                            // this.reset()
+                            this.reset()
                             this.successMessage = response._data.message
                         }
                     },
@@ -80,14 +96,10 @@ export const useAccountType = defineStore("accountType", {
         async editAccountType () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch(
-                "/api/account/type/" + this.accountType.type_id,
+            const { data, error } = await useAccountingApi(
+                "/api/account-type/" + this.accountType.id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.accountType,
                     watch: false,
                 }
@@ -102,20 +114,15 @@ export const useAccountType = defineStore("accountType", {
             }
         },
 
-        async deleteAccountType (id: number) {
-            const { data, error } = await useFetch(
-                "/api/account/type/" + id,
+        async deleteAccountType (id) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useAccountingApi(
+                "/api/account-type/" + id,
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.accountType,
                     watch: false,
-                    onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
-                    },
                 }
             )
             if (data.value) {
@@ -123,18 +130,23 @@ export const useAccountType = defineStore("accountType", {
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
-                this.errorMessage = "Error"
+                this.errorMessage = error.value.data.message
                 return error
             }
         },
 
+        clearMessages () {
+            this.errorMessage = ""
+            this.successMessage = ""
+        },
+
         reset () {
             this.accountType = {
-                type_id: null,
-                account_type: null,
-                account_category: null,
-                balance_type: null,
-                notation: null,
+                id: null,
+                account_type: "",
+                account_category: "",
+                balance_type: "",
+                notation: ""
             }
             this.successMessage = ""
             this.errorMessage = ""

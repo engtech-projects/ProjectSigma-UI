@@ -4,16 +4,16 @@ import { useAccountTypeStore } from "@/stores/accounting/setup/accounttype"
 
 const accountTypeStore = useAccountTypeStore()
 
-const { list: accountTypeList, isEdit, accountType, getParams, pagination, errorMessage, successMessage } = storeToRefs(accountTypeStore)
+const { list: atypeList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(accountTypeStore)
 
-const setEdit = (acc) => {
+const setEdit = (atype) => {
     isEdit.value = true
-    accountType.value = acc
+    accountTypeStore.accountType = atype
 }
-const deleteDept = async (acc) => {
+const deleteAtype = async (atype) => {
     try {
         boardLoading.value = true
-        await accountTypeStore.deleteAccountType(acc.id)
+        await accountTypeStore.deleteAccountType(atype.id)
         snackbar.add({
             type: "success",
             text: accountTypeStore.successMessage
@@ -25,6 +25,7 @@ const deleteDept = async (acc) => {
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
+    accountTypeStore.getAccountTypes()
     // getParams.value.syId = newParams.id ?? ""
     // getParams.value.semId = newParams.semId ?? ""
     // getParams.value.feeType = newParams.feeType ?? ""
@@ -33,6 +34,9 @@ const changePaginate = (newParams) => {
 
 const headers = [
     { name: "Account Type", id: "account_type" },
+    { name: "Category", id: "account_category" },
+    { name: "Balance Type", id: "balance_type" },
+    { name: "Notation", id: "notation" }
 ]
 const actions = {
     edit: true,
@@ -44,9 +48,9 @@ const boardLoading = ref(false)
 
 </script>
 <template>
-    <LayoutBoards title="Department List" class="w-full" :loading="boardLoading">
+    <LayoutBoards title="Account Type List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="accountTypeList" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
+            <LayoutPsTable :header-columns="headers" :datas="atypeList" :actions="actions" @edit-row="setEdit" @delete-row="deleteAtype" />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
