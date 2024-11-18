@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
+import { useStakeholderGroupStore } from "~/stores/accounting/stakeholders/stakeholdergroup"
 const stakeholderGroupStore = useStakeholderGroupStore()
 definePageMeta({
     layout: "default",
