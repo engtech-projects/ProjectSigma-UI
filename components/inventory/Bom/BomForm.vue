@@ -19,22 +19,29 @@ const headers = [
 ]
 const storeBOM = async () => {
     if (bomRequest.value.details.length >= 1) {
-        bomRequest.value.formDepartment.assignment_type = "Department"
-        bomRequest.value.formDepartment.effectivity = String(currentYear)
-        bomRequest.value.formDepartment.details = bomRequest.value.details
-        bomRequest.value.formDepartment.approvals = approvalList.value.list
-        await BOMStore.storeBOMDepartment()
-        if (BOMStore.errorMessage !== "") {
+        try {
+            bomRequest.value.formDepartment.assignment_type = "Department"
+            bomRequest.value.formDepartment.effectivity = String(currentYear)
+            bomRequest.value.formDepartment.details = bomRequest.value.details
+            bomRequest.value.formDepartment.approvals = approvalList.value.list
+            await BOMStore.storeBOMDepartment()
+            if (BOMStore.errorMessage !== "") {
+                snackbar.add({
+                    type: "error",
+                    text: BOMStore.errorMessage
+                })
+            } else {
+                snackbar.add({
+                    type: "success",
+                    text: BOMStore.successMessage
+                })
+                BOMStore.$reset()
+            }
+        } catch {
             snackbar.add({
                 type: "error",
                 text: BOMStore.errorMessage
             })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: BOMStore.successMessage
-            })
-            BOMStore.$reset()
         }
     } else {
         snackbar.add({
@@ -52,14 +59,7 @@ const storeBOM = async () => {
         <form @submit.prevent="storeBOM">
             <div class="flex flex-col gap-4 pt-4 w-full">
                 <div class="flex flex-col gap-4 mb-5 max-w-2xl">
-                    <div class="flex flex-row gap-4 justify-start items-center">
-                        <div class="flex flex-row justify-center items-center">
-                            <label class="text-">Assignment :</label>
-                        </div>
-                        <div>
-                            <HrmsCommonDepartmentSelector v-model="bomRequest.formDepartment.assignment_id" />
-                        </div>
-                    </div>
+                    <InventoryCommonFormAssignmentFilter v-model="bomRequest.formDepartment.assignment_id" />
                     <div class="flex flex-row gap-2 justify-start items-center">
                         <div>
                             <label> Year : </label>
@@ -86,7 +86,6 @@ const storeBOM = async () => {
                     <button
                         type="submit"
                         class=" text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                        @click="storeBOM"
                     >
                         Submit
                     </button>

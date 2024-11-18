@@ -36,14 +36,7 @@ const changePaginate = (newParams) => {
     <LayoutLoadingContainer class="w-full" :loading="List.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <div class="flex flex-col gap-4 mb-5">
-                <div class="flex flex-row gap-4 justify-start items-center">
-                    <div class="flex flex-row justify-center items-center">
-                        <label class="text-">Assignment :</label>
-                    </div>
-                    <div>
-                        <HrmsCommonDepartmentSelector v-model="List.params.assignment_id" />
-                    </div>
-                </div>
+                <InventoryCommonFormAssignmentFilter v-model="List.params.assignment_id" />
                 <InventoryCommonLayoutBOMTable
                     :header-columns="headers"
                     :actions="actions"
