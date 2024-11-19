@@ -686,6 +686,15 @@ const config = useRuntimeConfig()
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNT_TYPES,
+                    ])"
+                    linkarea="/accounting/setup/account-type"
+                    icon="ion:ios-today"
+                    single-nav-title="Account Type"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
                         AccessibilityTypes.accounting_books,
                     ])"
                     linkarea="/accounting/books"
