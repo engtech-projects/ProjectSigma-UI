@@ -21,9 +21,10 @@ useHead({
         <div class="flex flex-col md:flex-row gap-4">
             <AccountingSetupAccounttypeCreate
                 v-show="!isEdit"
+                class="w-1/3"
             />
             <AccountingSetupAccounttypeEdit v-show="isEdit" />
-            <AccountingSetupAccounttypeList />
+            <AccountingSetupAccounttypeList class="flex-1" />
         </div>
     </LayoutAcessContainer>
 </template>

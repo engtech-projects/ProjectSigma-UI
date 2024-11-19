@@ -1,22 +1,22 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useAccountTypeStore } from "@/stores/accounting/setup/accounttype"
+import { useDepartmentStore } from "@/stores/hrms/setup/departments"
 
-const accountTypeStore = useAccountTypeStore()
+const departments = useDepartmentStore()
 
-const { list: accountTypeList, isEdit, accountType, getParams, pagination, errorMessage, successMessage } = storeToRefs(accountTypeStore)
+const { list: departmentList, isEdit, department, getParams, pagination, errorMessage, successMessage } = storeToRefs(departments)
 
-const setEdit = (acc) => {
+const setEdit = (dept) => {
     isEdit.value = true
-    accountType.value = acc
+    department.value = dept
 }
-const deleteDept = async (acc) => {
+const deleteDept = async (dept) => {
     try {
         boardLoading.value = true
-        await accountTypeStore.deleteAccountType(acc.id)
+        await departments.deleteDepartment(dept.id)
         snackbar.add({
             type: "success",
-            text: accountTypeStore.successMessage
+            text: departments.successMessage
         })
     } finally {
         boardLoading.value = false
@@ -32,7 +32,7 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Account Type", id: "account_type" },
+    { name: "Department Name", id: "department_name" },
 ]
 const actions = {
     edit: true,
@@ -46,7 +46,7 @@ const boardLoading = ref(false)
 <template>
     <LayoutBoards title="Department List" class="w-full" :loading="boardLoading">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="accountTypeList" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
+            <LayoutPsTable :header-columns="headers" :datas="departmentList" :actions="actions" @edit-row="setEdit" @delete-row="deleteDept" />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
