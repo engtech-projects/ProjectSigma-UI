@@ -3,15 +3,14 @@ import { defineStore } from "pinia"
 export const useAccountStore = defineStore("useAccountStore", {
     state: () => ({
         account: {
-            account_id: null,
+            id: null,
             account_number: null,
             account_name: null,
+            account_type_id: null,
             account_description: null,
-            parent_account: null,
-            bank_reconciliation: "no",
+            bank_reconciliation: "yes",
+            is_active: 1,
             statement: null,
-            type_id: null,
-            opening_balance: 0
         },
         list: [],
         pagination: {},
@@ -21,35 +20,6 @@ export const useAccountStore = defineStore("useAccountStore", {
         isLoading: false,
         isEdit: false
     }),
-    getters: {
-        types () {
-            return this.list.reduce((uniqueTypes, account) => {
-                if (!uniqueTypes.some(item => item.id === account.account_type.type_id)) {
-                    uniqueTypes.push(
-                        {
-                            id: account.account_type?.type_id,
-                            type: account.account_type.account_type_name,
-                            collapse: false
-                        }
-                    )
-                }
-                return uniqueTypes
-            }, [])
-        },
-        byTypes () {
-            const btypes = this.types ? JSON.parse(JSON.stringify(this.types)) : []
-            btypes.forEach((type) => {
-                type.types = []
-                this.list.forEach((account) => {
-                    if (account.account_type.type_id === type.id) {
-                        account.checked = false
-                        type.types.push(account)
-                    }
-                })
-            })
-            return btypes
-        }
-    },
     actions: {
         async getAccounts () {
             this.isLoading = true
@@ -61,7 +31,7 @@ export const useAccountStore = defineStore("useAccountStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data
+                        this.list = response._data.data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -120,17 +90,42 @@ export const useAccountStore = defineStore("useAccountStore", {
             }
         },
 
+        async deleteAccount (id) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useAccountingApi(
+                "/api/accounts/" + id,
+                {
+                    method: "DELETE",
+                    body: this.account,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.getAccounts()
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+
+        clearMessages () {
+            this.errorMessage = ""
+            this.successMessage = ""
+        },
+
         reset () {
             this.account = {
-                account_id: null,
+                id: null,
                 account_number: null,
                 account_name: null,
+                account_type_id: null,
                 account_description: null,
-                parent_account: null,
-                bank_reconciliation: "no",
+                bank_reconciliation: "yes",
+                is_active: 1,
                 statement: null,
-                type_id: null,
-                opening_balance: 0
             }
             this.successMessage = ""
             this.errorMessage = ""
