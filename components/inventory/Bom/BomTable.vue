@@ -35,19 +35,19 @@ defineProps({
                     </thead>
                     <tbody>
                         <tr v-for="(item, index) in dataColumns" :key="index">
-                            <td>
+                            <td class="text-center">
                                 {{ item ? item.item_summary : "" }}
                             </td>
-                            <td>
-                                {{ item ? item.uom_id : "" }}
-                            </td>
-                            <td>
+                            <td class="text-center">
                                 {{ item ? item.unit : "" }}
                             </td>
-                            <td>
+                            <td class="text-center">
+                                {{ item ? item.unit_price : "" }}
+                            </td>
+                            <td class="text-center">
                                 {{ item ? item.quantity : "" }}
                             </td>
-                            <td>
+                            <td class="text-center">
                                 {{ item ? item.amount : "" }}
                             </td>
                         </tr>

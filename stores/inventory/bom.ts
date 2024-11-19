@@ -157,7 +157,7 @@ export const useBOMStore = defineStore("BOMStore", {
             )
         },
         async storeBOMDepartment () {
-            await useInventoryApi(
+            await useInventoryApiO(
                 "/api/bom/resource",
                 {
                     method: "POST",
@@ -206,7 +206,7 @@ export const useBOMStore = defineStore("BOMStore", {
                         this.currentBom.isLoading = false
                         if (response.ok) {
                             this.currentBom.isLoaded = true
-                            this.currentBom.list = response._data.data.data
+                            this.currentBom.list = response._data.data.details
                             this.currentBom.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,

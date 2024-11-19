@@ -142,12 +142,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useVoucherStore } from "~/stores/accounting/voucher"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
+import { useVoucherStore } from "~/stores/accounting/vouchers/voucher"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
 
 const voucherStore = useVoucherStore()
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 const accountGroupStore = useAccountGroupStore()
 
 const account = (id) => {

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { usePostingPeriodStore } from "~/stores/accounting/postingperiod"
+import { usePostingPeriodStore } from "~/stores/accounting/setup/postingperiod"
 
 const postingPeriodStore = usePostingPeriodStore()
 const snackbar = useSnackbar()

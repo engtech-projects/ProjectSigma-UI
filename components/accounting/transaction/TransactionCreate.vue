@@ -1,9 +1,9 @@
-<script lang="ts" setup>
-import { useTransactionTypeStore } from "~/stores/accounting/transactiontype"
-import { useTransactionStore } from "~/stores/accounting/transaction"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
-import { useAccountStore } from "~/stores/accounting/account"
+<script setup>
+import { useTransactionTypeStore } from "~/stores/accounting/transactions/transactiontype"
+import { useTransactionStore } from "~/stores/accounting/transactions/transaction"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeholderGroupStore } from "~/stores/accounting/stakeholders/stakeholdergroup"
+import { useAccountStore } from "~/stores/accounting/setup/account"
 
 const accountStore = useAccountStore()
 await accountStore.getAccounts()
@@ -11,7 +11,7 @@ await accountStore.getAccounts()
 const transactionTypeStore = useTransactionTypeStore()
 await transactionTypeStore.getTransactionTypes()
 const transactionStore = useTransactionStore()
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 await stakeholderStore.getStakeholders()
 const stakeholderGroupStore = useStakeholderGroupStore()
 await stakeholderGroupStore.getStakeholderGroups()
@@ -89,11 +89,11 @@ async function handleSubmit () {
 //     transactionTypeStore.isEdit = false
 //     transactionTypeStore.reset()
 // }
-function select (val:any) {
+function select (val) {
     transactionTypeStore.transactionType = val
     transactionStore.transaction.transaction_type_id = val.transaction_type_id
 }
-function selectStakeholder (val:any) {
+function selectStakeholder (val) {
     transactionStore.transaction.stakeholder_id = val.stakeholder_id
 }
 const accountsList = computed(() => {
@@ -112,7 +112,7 @@ const detailsForSubmit = computed(() => {
         debit: null,
         credit: null
     })
-    details.value.forEach((d:any) => {
+    details.value.forEach((d) => {
         item.value.stakeholder_id = d.stakeholder_id
         item.value.account_id = d.account_id
         item.value.debit = d.debit
@@ -267,7 +267,9 @@ const detailsForSubmit = computed(() => {
                             <th class="text-left px-2 border-y py-2 uppercase">
                                 Credit
                             </th>
-                            <th class="text-left px-2 border-y py-2 uppercase" />
+                            <th class="text-left px-2 border-y py-2 uppercase">
+                                -
+                            </th>
                         </thead>
                         <tbody>
                             <tr v-for="d,i in details" :key="i" class="border-y">

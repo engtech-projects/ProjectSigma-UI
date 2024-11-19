@@ -1,11 +1,13 @@
-<script lang="ts" setup>
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
+<script setup>
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"
 
+const hrmsApprovals = useApprovalStore()
 const paymentRequestStore = usePaymentRequestStore()
 
-const { list: payeeList } = storeToRefs(useStakeholderStore())
+const { list: payeeList } = storeToRefs(useStakeHolderStore())
 
+const approvals = await hrmsApprovals.getApprovalByName(APPROVAL_NPO)
 const loading = ref(false)
 const detailsError = ref(false)
 const detailsErrorMsg = ref("")
@@ -19,6 +21,7 @@ const detail = ref({
 })
 async function handleSubmit () {
     if (paymentRequestStore.paymentRequest.details.length !== 0 && paymentRequestStore.paymentRequest.total === total.value) {
+        paymentRequestStore.paymentRequest.approvals = approvals
         try {
             loading.value = true
             await paymentRequestStore.createPaymentRequest()
@@ -77,14 +80,14 @@ const calculateVat = (ac) => {
 }
 const totalCost = computed(() => {
     let total = 0
-    paymentRequestStore.paymentRequest.details.forEach((d:any) => {
+    paymentRequestStore.paymentRequest.details.forEach((d) => {
         total += parseFloat(d.cost)
     })
     return total
 })
 const totalVat = computed(() => {
     let total = 0
-    paymentRequestStore.paymentRequest.details.forEach((d:any) => {
+    paymentRequestStore.paymentRequest.details.forEach((d) => {
         total += parseFloat(d.vat)
     })
     return total

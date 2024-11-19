@@ -1,9 +1,9 @@
 <script setup>
-import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
 
 const paymentRequestStore = usePaymentRequestStore()
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 const emit = defineEmits(["view-details", "voucher"])
 const props = defineProps({
     target: {
@@ -97,7 +97,9 @@ const changePaginate = (newParams) => {
                     <th class="p-2">
                         Total Amount
                     </th>
-                    <th />
+                    <th class="p-2">
+                        Actions
+                    </th>
                 </tr>
             </thead>
             <tbody v-if="props.target!=='voucher'">

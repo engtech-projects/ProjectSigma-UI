@@ -35,12 +35,15 @@ const changePaginate = (newParams) => {
 <template>
     <LayoutLoadingContainer class="w-full" :loading="List.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <InventoryCommonLayoutBOMTable
-                :header-columns="headers"
-                :actions="actions"
-                :datas="List.list ?? []"
-                @show-table="showInformation"
-            />
+            <div class="flex flex-col gap-4 mb-5">
+                <InventoryCommonFormAssignmentFilter v-model="List.params.assignment_id" />
+                <InventoryCommonLayoutBOMTable
+                    :header-columns="headers"
+                    :actions="actions"
+                    :datas="List.list ?? []"
+                    @show-table="showInformation"
+                />
+            </div>
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="List.pagination" @change-params="changePaginate" />

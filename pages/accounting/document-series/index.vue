@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useDocumentSeriesStore } from "~/stores/accounting/documentseries"
+import { useDocumentSeriesStore } from "~/stores/accounting/documents/documentseries"
 
 const documentSeriesStore = useDocumentSeriesStore()
 await documentSeriesStore.getSeries()

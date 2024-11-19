@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useAccountType } from "~/stores/accounting/accounttype"
-import { useAccountStore } from "~/stores/accounting/account"
+import { useAccountTypeStore } from "~/stores/accounting/setup/accounttype"
+import { useAccountStore } from "~/stores/accounting/setup/account"
 
-const accountTypeStore = useAccountType()
+const accountTypeStore = useAccountTypeStore()
 const accountStore = useAccountStore()
 // const isSub = ref(false)
 const snackbar = useSnackbar()

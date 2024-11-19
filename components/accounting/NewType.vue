@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useAccountType } from "~/stores/accounting/accounttype"
+import { useAccountTypeStore } from "~/stores/accounting/setup/accounttype"
 
-const accountType = useAccountType()
+const accountType = useAccountTypeStore()
 const boardLoading = ref(false)
 const snackbar = useSnackbar()
 accountType.getAccountTypes()

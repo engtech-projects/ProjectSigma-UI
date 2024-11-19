@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useTransactionStore } from "~/stores/accounting/transaction"
+import { useTransactionStore } from "~/stores/accounting/transactions/transaction"
 const transactionStore = useTransactionStore()
 
 const details = ref([])

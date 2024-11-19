@@ -18,6 +18,8 @@ const model = defineModel({ required: true, type: Object })
             </div>
             <div v-else-if="model.employee">
                 <span class="font-semibold">{{ model.employee?.fullname_first }}</span>
+                <br>
+                <span class="text-sm">{{ model.employee?.current_position }}</span>
             </div>
             <div v-else>
                 <span class="font-semibold">Please Fix Approval</span>

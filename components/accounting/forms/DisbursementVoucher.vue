@@ -1,10 +1,10 @@
-<script lang="ts" setup>
-import { useAccountStore } from "~/stores/accounting/account"
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useVoucherStore } from "~/stores/accounting/voucher"
+<script setup>
+import { useAccountStore } from "~/stores/accounting/setup/account"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useVoucherStore } from "~/stores/accounting/vouchers/voucher"
 
 const { list: accountsList } = storeToRefs(useAccountStore())
-const { list: payeeList } = storeToRefs(useStakeholderStore())
+const { list: payeeList } = storeToRefs(useStakeHolderStore())
 const voucherStore = useVoucherStore()
 const snackbar = useSnackbar()
 
@@ -74,7 +74,7 @@ const amount = computed(() => {
 watch(amount, (newAmount) => {
     voucherStore.voucher.amount_in_words = amountToWords(newAmount)
 })
-const removeLine = (line: object) => {
+const removeLine = (line) => {
     accountEntries.value = accountEntries.value.filter(acc => acc !== line)
 }
 const lineItems = computed(() => {
