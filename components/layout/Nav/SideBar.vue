@@ -551,6 +551,22 @@ const config = useRuntimeConfig()
                 icon="streamline:money-cash-coins-stack-accounting-billing-payment-stack-cash-coins-currency-money-finance"
                 single-nav-title="Department BOM"
             />
+            <LayoutNavGroup
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.inventory_procurement_group
+                ])"
+                icon="material-symbols:warehouse-outline-rounded"
+                title="Procurement"
+            >
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.inventory_procurement_suppliers_group,
+                    ])"
+                    linkarea="/inventory/warehouse"
+                    icon="grommet-icons:overview"
+                    single-nav-title="Suppliers"
+                />
+            </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
         <!-- Accounting -->
