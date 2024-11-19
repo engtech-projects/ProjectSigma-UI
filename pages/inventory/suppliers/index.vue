@@ -35,21 +35,21 @@ useHead({
                 />
                 <HrmsCommonTabsTabTitle
                     :if-access="useCheckAccessibility([
-                        AccessibilityTypes.inventory_bom_forms_and_my_requests,
+                        AccessibilityTypes.inventory_procurement_forms_and_my_requests,
                     ])"
                     title="My Request"
                     target-id="myRequests"
                 />
                 <HrmsCommonTabsTabTitle
                     :if-access="useCheckAccessibility([
-                        AccessibilityTypes.inventory_bom_forms_and_my_requests,
+                        AccessibilityTypes.inventory_procurement_suppliers_group,
                     ])"
                     title="Approved Suppliers"
                     target-id="approvedSuppliers"
                 />
                 <HrmsCommonTabsTabTitle
                     :if-access="useCheckAccessibility([
-                        AccessibilityTypes.inventory_bom_forms_and_my_requests,
+                        AccessibilityTypes.inventory_procurement_edit,
                     ])"
                     title="Approved Suppliers List Edit"
                     target-id="approvedSuppliersListEdit"
