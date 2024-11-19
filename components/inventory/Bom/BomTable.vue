@@ -42,7 +42,7 @@ defineProps({
                                 {{ item ? item.unit : "" }}
                             </td>
                             <td>
-                                {{ item ? item.price : "" }}
+                                {{ item ? item.unit_price : "" }}
                             </td>
                             <td>
                                 {{ item ? item.quantity : "" }}
