@@ -27,7 +27,7 @@ const headers = [
         ])"
     >
         <template v-if="validKey">
-            <InventoryBomDetails title="BOM Details" :data="bomRequest.bomDetails.list" :request="bomRequest.bomDetails" :header-columns="headers" />
+            <InventoryBomDetails title="BOM Details" :data="bomRequest.bomDetails.list" :header-columns="headers" />
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">
