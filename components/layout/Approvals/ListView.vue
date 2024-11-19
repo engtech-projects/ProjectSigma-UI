@@ -19,9 +19,13 @@ defineProps({
                 <li class="w-full p-2 text-left">
                     <template v-if="apprv.employee">
                         {{ apprv.employee?.fullname_first }}
+                        <br>
+                        {{ apprv.employee?.current_position }}
                     </template>
                     <template v-else>
                         {{ apprv.fullname_first }}
+                        <br>
+                        {{ apprv.current_position }}
                     </template>
                 </li>
                 <li class="w-full p-2 text-center">
