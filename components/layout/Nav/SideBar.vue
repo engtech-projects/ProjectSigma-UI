@@ -562,7 +562,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.inventory_procurement_suppliers_group,
                     ])"
-                    linkarea="/inventory/warehouse"
+                    linkarea="/inventory/suppliers"
                     icon="grommet-icons:overview"
                     single-nav-title="Suppliers"
                 />

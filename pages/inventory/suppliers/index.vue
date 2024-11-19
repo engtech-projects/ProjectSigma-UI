@@ -23,8 +23,8 @@ useHead({
                     :if-access="useCheckAccessibility([
                         AccessibilityTypes.inventory_procurement_all_request,
                     ])"
-                    title="All List"
-                    target-id="allList"
+                    title="All Request"
+                    target-id="allRequest"
                 />
                 <HrmsCommonTabsTabTitle
                     :if-access="useCheckAccessibility([
@@ -40,12 +40,26 @@ useHead({
                     title="My Request"
                     target-id="myRequests"
                 />
+                <HrmsCommonTabsTabTitle
+                    :if-access="useCheckAccessibility([
+                        AccessibilityTypes.inventory_bom_forms_and_my_requests,
+                    ])"
+                    title="Approved Suppliers"
+                    target-id="approvedSuppliers"
+                />
+                <HrmsCommonTabsTabTitle
+                    :if-access="useCheckAccessibility([
+                        AccessibilityTypes.inventory_bom_forms_and_my_requests,
+                    ])"
+                    title="Approved Suppliers List Edit"
+                    target-id="approvedSuppliersListEdit"
+                />
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="Form">
                     <InventoryBomForm />
                 </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer id="allList">
+                <HrmsCommonTabsTabContainer id="allRequest">
                     <InventoryBomRequestAllRequests />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myApprovals">
@@ -53,6 +67,12 @@ useHead({
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myRequests">
                     <InventoryBomRequestMyRequests />
+                </HrmsCommonTabsTabContainer>
+                <HrmsCommonTabsTabContainer id="approvedSuppliers">
+                    <InventorySuppliersApproveSupplierList />
+                </HrmsCommonTabsTabContainer>
+                <HrmsCommonTabsTabContainer id="approvedSuppliersListEdit">
+                    <InventorySuppliersEditApproveSupplierList />
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>
