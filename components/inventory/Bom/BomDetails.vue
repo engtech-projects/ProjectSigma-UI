@@ -20,10 +20,6 @@ defineProps({
         type: Array<any>,
         required: true,
     },
-    request: {
-        type: Object,
-        required: true,
-    },
 })
 
 const { data: userData } = useAuth()
@@ -91,10 +87,20 @@ const denyRequest = async (id:any) => {
     >
         <div class="flex flex-col gap-2 w-full p-4">
             <div id="headline mb-4">
-                <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-between border-b rounded-t">
+                <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-between border-b rounded-t mb-4">
                     <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                         {{ title }}
                     </h3>
+                </div>
+                <div>
+                    <p v-if="title" class="pl-4 text-md text-gray-900">
+                        Assignment : {{ data.assignment_type }}
+                    </p>
+                </div>
+                <div>
+                    <p v-if="title" class="pl-4 text-md text-gray-900">
+                        Year : {{ data.effectivity }}
+                    </p>
                 </div>
             </div>
             <LayoutPrint>
@@ -130,13 +136,12 @@ const denyRequest = async (id:any) => {
                         </table>
                     </div>
                     <div id="approvals" class="w-full">
-                        <LayoutApprovalsListView :approvals="request.approvals" />
+                        <LayoutApprovalsListView :approvals="data.approvals" />
                     </div>
                 </div>
             </LayoutPrint>
             <div id="footer">
-                {{ request.next_approval }}
-                <div v-if="request.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+                <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
                     <HrmsCommonApprovalDenyButton
                         v-model:deny-remarks="remarks"
                         :request-id="request.id"
