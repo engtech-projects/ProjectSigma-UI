@@ -542,13 +542,29 @@ const config = useRuntimeConfig()
                     icon="grommet-icons:overview"
                     single-nav-title="Overview"
                 />
+            </LayoutNavGroup>
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.inventory_bom_group,
+                ])"
+                linkarea="/inventory/bom"
+                icon="streamline:money-cash-coins-stack-accounting-billing-payment-stack-cash-coins-currency-money-finance"
+                single-nav-title="Department BOM"
+            />
+            <LayoutNavGroup
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.inventory_procurement_group
+                ])"
+                icon="material-symbols:warehouse-outline-rounded"
+                title="Procurement"
+            >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        'Admin only',
+                        AccessibilityTypes.inventory_procurement_suppliers_group,
                     ])"
-                    linkarea="/inventory/warehouse"
-                    icon="lsicon:management-stockout-filled"
-                    single-nav-title="Stocks"
+                    linkarea="/inventory/suppliers"
+                    icon="grommet-icons:overview"
+                    single-nav-title="Suppliers"
                 />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
@@ -556,7 +572,7 @@ const config = useRuntimeConfig()
         <!-- Accounting -->
         <LayoutNavModuleGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.accounting_group,
+                AccessibilityTypes.ACCOUNTING_GROUP,
             ])"
             title="Accounting"
         >
@@ -600,7 +616,7 @@ const config = useRuntimeConfig()
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_account_groups,
+                        AccessibilityTypes.ACCOUNTING_SETUP_STAKEHOLDERS,
                     ])"
                     linkarea="/accounting/stakeholder-group"
                     icon="iconoir:profile-circle"
@@ -644,14 +660,14 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_journal_group,
+                    AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT,
                 ])"
                 icon="iconoir:credit-cards"
                 title="Vouchers"
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_journal_group,
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT,
                     ])"
                     linkarea="/accounting/voucher/disbursement"
                     icon="iconoir:hand-contactless"
@@ -659,7 +675,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_journal_group,
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
                     ])"
                     linkarea="/accounting/voucher/cash"
                     icon="iconoir:iconoir:cash"
@@ -669,7 +685,7 @@ const config = useRuntimeConfig()
 
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.accounting_journal_group,
+                    AccessibilityTypes.ACCOUNTING_SETUP_GROUP,
                 ])"
                 icon="iconoir:credit-cards"
                 title="Setup"
@@ -677,7 +693,7 @@ const config = useRuntimeConfig()
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_books,
+                        AccessibilityTypes.ACCOUNTING_SETUP_APPROVALS,
                     ])"
                     linkarea="/accounting/setup/approvals"
                     icon="iconoir:book"
@@ -693,17 +709,18 @@ const config = useRuntimeConfig()
                     single-nav-title="Account Type"
                 />
                 <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_BOOK_OF_ACCOUNTS,
                     ])"
-                    linkarea="/accounting/setup/books"
+                    linkarea="/accounting/books"
                     icon="iconoir:book"
                     single-nav-title="Book of Accounts"
                 />
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_account_groups,
+                        AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNT_GROUPS,
                     ])"
                     linkarea="/accounting/account-groups"
                     icon="iconoir:commodity"
@@ -712,7 +729,7 @@ const config = useRuntimeConfig()
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_posting_period,
+                        AccessibilityTypes.ACCOUNTING_SETUP_POSTING_PERIODS,
                     ])"
                     linkarea="/accounting/posting-period"
                     icon="iconoir:notes"
@@ -720,7 +737,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_stake_holder,
+                        AccessibilityTypes.ACCOUNTING_SETUP_STAKEHOLDERS,
                     ])"
                     linkarea="/accounting/stakeholder"
                     icon="iconoir:user-square"

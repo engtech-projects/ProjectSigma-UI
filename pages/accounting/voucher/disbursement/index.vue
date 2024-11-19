@@ -1,7 +1,7 @@
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.accounting_journal_group,
+            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT,
         ])"
     >
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -14,21 +14,21 @@
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.accounting_journal_group,
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT,
                         ])"
                         title="All List"
                         target-id="allList"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.accounting_journal_group,
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT,
                         ])"
                         title="My Approvals"
                         target-id="myApprovals"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.accounting_journal_group,
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT,
                         ])"
                         title="For Vouchering"
                         target-id="forVouchering"

@@ -385,7 +385,7 @@ const uniqueLoanNameTotals = computed(() => {
                         <td
                             class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                         >
-                            {{ useFormatCurrency(rowData.summary.net_pay) }}
+                            {{ useFormatCurrency(rowData.summary.charging_net_pay) }}
                         </td>
                         <td
                             v-if="index === 0"
