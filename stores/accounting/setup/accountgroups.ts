@@ -5,7 +5,6 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
         accountGroup: {
             id: null,
             name: null,
-            accounts: [],
         },
         list: [],
         pagination: {},
@@ -25,7 +24,7 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data
+                        this.list = response._data.data.data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,

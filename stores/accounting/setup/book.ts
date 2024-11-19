@@ -6,7 +6,7 @@ export const useBookStore = defineStore("bookStore", {
             id: null,
             name: null,
             code: null,
-            account_group: null
+            account_group_id: null
         },
         list: [],
         pagination: {},
@@ -16,14 +16,6 @@ export const useBookStore = defineStore("bookStore", {
         isLoading: false,
         isEdit: false
     }),
-    getters: {
-        disbursement () {
-            return this.list.filter(b => b.name === "disbursement")[0]
-        },
-        cash () {
-            return this.list.filter(b => b.name === "cash")[0]
-        }
-    },
     actions: {
         async getBooks () {
             this.isLoading = true
@@ -34,7 +26,7 @@ export const useBookStore = defineStore("bookStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data
+                        this.list = response._data.data
                         this.pagination = {
                             first_page: response._data.first_page_url,
                             pages: response._data.links,
@@ -71,7 +63,7 @@ export const useBookStore = defineStore("bookStore", {
             }
         },
 
-        async createAccount () {
+        async createBook () {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
@@ -97,9 +89,9 @@ export const useBookStore = defineStore("bookStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/books/" + this.book.book_id,
+                "/api/books/" + this.book.id,
                 {
-                    method: "PATCH",
+                    method: "PUT",
                     body: this.book,
                     watch: false,
                 }
@@ -134,6 +126,11 @@ export const useBookStore = defineStore("bookStore", {
                 this.errorMessage = "Error"
                 return error
             }
+        },
+
+        clearMessages () {
+            this.errorMessage = ""
+            this.successMessage = ""
         },
 
         reset () {
