@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useAccountType } from "~/stores/accounting/setup/accounttype"
+import { useAccountTypeStore } from "~/stores/accounting/setup/accounttype"
 import { useChartOfAccountsStore } from "~/stores/accounting/setup/chartofaccounts"
 
 const accounts = useChartOfAccountsStore()
-const accountTypeStore = useAccountType()
+const accountTypeStore = useAccountTypeStore()
 await accountTypeStore.getAccountTypes()
 const btnAction = ref("chart")
 accounts.getAccounts()

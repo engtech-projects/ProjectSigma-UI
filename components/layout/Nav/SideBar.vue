@@ -693,11 +693,10 @@ const config = useRuntimeConfig()
                     single-nav-title="Account Type"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.accounting_books,
+                        AccessibilityTypes.ACCOUNTING_SETUP_BOOK_OF_ACCOUNTS,
                     ])"
-                    linkarea="/accounting/books"
+                    linkarea="/accounting/setup/books"
                     icon="iconoir:book"
                     single-nav-title="Book of Accounts"
                 />
