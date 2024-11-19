@@ -144,7 +144,7 @@ const denyRequest = async (id:any) => {
                 <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
                     <HrmsCommonApprovalDenyButton
                         v-model:deny-remarks="remarks"
-                        :request-id="request.id"
+                        :request-id="data.id"
                         @approve="approvedRequest"
                         @deny="denyRequest"
                     />
