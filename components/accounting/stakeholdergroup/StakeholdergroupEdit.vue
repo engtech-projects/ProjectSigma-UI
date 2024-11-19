@@ -1,8 +1,8 @@
-<script lang="ts" setup>
-import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
-import { useStakeHolderTypeStore } from "~/stores/accounting/stakeholdertype"
+<script setup>
+import { useStakeholderGroupStore } from "~/stores/accounting/stakeholders/stakeholdergroup"
+import { useStakeHolderTypesStore } from "~/stores/accounting/stakeholders/stakeholdertype"
 
-const stakeHolderTypeStore = useStakeHolderTypeStore()
+const stakeHolderTypeStore = useStakeHolderTypesStore()
 stakeHolderTypeStore.getStakeHolderTypes()
 const stakeholderGroupStore = useStakeholderGroupStore()
 const snackbar = useSnackbar()

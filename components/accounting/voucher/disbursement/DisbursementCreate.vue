@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useAccountGroupStore } from "~/stores/accounting/accountgroups"
-import { useVoucherStore } from "~/stores/accounting/voucher"
-import { usePaymentRequestStore } from "~/stores/accounting/paymentrequest"
-import { useBookStore } from "~/stores/accounting/book"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
+import { useVoucherStore } from "~/stores/accounting/vouchers/voucher"
+import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"
+import { useBookStore } from "~/stores/accounting/setup/book"
 
-const { list: payeeList } = storeToRefs(useStakeholderStore())
+const { list: payeeList } = storeToRefs(useStakeHolderStore())
 const accountGroupStore = useAccountGroupStore()
 const voucherStore = useVoucherStore()
 const paymentRequestStore = usePaymentRequestStore()
@@ -65,7 +65,6 @@ const totalDebit = computed(() => {
     let total = 0
     voucherStore.voucher.details.forEach((d:any) => {
         total += parseFloat(d.debit)
-        console.log(d.debit)
     })
     return total
 })
@@ -319,61 +318,5 @@ onMounted(() => {
     </form>
 </template>
 <style scoped>
-.z-30 {
-    z-index: 30;
-}
-.z-29 {
-    z-index: 29;
-}
-.z-28 {
-    z-index: 28;
-}
-.z-27 {
-    z-index: 27;
-}
-.z-26 {
-    z-index: 26;
-}
-.z-30 {
-    z-index: 30;
-}
-.z-25 {
-    z-index: 25;
-}
-.z-24 {
-    z-index: 24;
-}
-.z-23 {
-    z-index: 23;
-}
-.z-22 {
-    z-index: 22;
-}
-.z-21 {
-    z-index: 21;
-}
-.z-20 {
-    z-index: 20;
-}
-.z-19 {
-    z-index: 19;
-}
-.z-18 {
-    z-index: 18;
-}
-.z-17 {
-    z-index: 17;
-}
-.z-16 {
-    z-index: 16;
-}
-.z-15 {
-    z-index: 15;
-}
-.z-14 {
-    z-index: 14;
-}
-.z-13 {
-    z-index: 13;
-}
+@import "/css/accounting.css";
 </style>

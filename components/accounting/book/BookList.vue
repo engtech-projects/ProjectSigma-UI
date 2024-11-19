@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useBookStore } from "~/stores/accounting/book"
+import { useBookStore } from "~/stores/accounting/setup/book"
 
 const bookStore = useBookStore()
 const { list: bookList, getParams, pagination, errorMessage, successMessage } = storeToRefs(bookStore)

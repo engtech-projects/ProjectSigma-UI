@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useStakeholderGroupStore } from "~/stores/accounting/stakeholdergroup"
+import { useStakeholderGroupStore } from "~/stores/accounting/stakeholders/stakeholdergroup"
 
 const stakeholderGroupStore = useStakeholderGroupStore()
 await stakeholderGroupStore.getStakeholderGroups()

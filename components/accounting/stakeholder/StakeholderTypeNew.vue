@@ -1,8 +1,8 @@
-<script lang="ts" setup>
-import { useStakeHolderTypeStore } from "~/stores/accounting/stakeholdertype"
+<script setup>
+import { useStakeHolderTypesStore } from "~/stores/accounting/stakeholders/stakeholdertype"
 import { useModalStore } from "~/stores/modal"
 
-const stakeHolderTypeStore = useStakeHolderTypeStore()
+const stakeHolderTypeStore = useStakeHolderTypesStore()
 const snackbar = useSnackbar()
 const isLoading = ref(false)
 const modalStore = useModalStore()

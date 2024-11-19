@@ -20,7 +20,7 @@ defineProps({
 </script>
 <template>
     <div class="h-full w-full">
-        <LayoutBoards :title="title" class="w-full">
+        <LayoutBoards class="w-full">
             <div id="itemDetails">
                 <div v-if="data && data.length > 0" id="content" class="overflow-auto max-h-96">
                     <table class="table-auto w-full border-collapse">

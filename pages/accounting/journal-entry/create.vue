@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
-import { useAccountStore } from "~/stores/accounting/account"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useAccountStore } from "~/stores/accounting/setup/account"
 
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 await stakeholderStore.getStakeholders()
 
 const accountStore = useAccountStore()

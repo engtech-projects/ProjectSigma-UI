@@ -3,8 +3,6 @@ import FullCalendar from "@fullcalendar/vue3"
 import interactionPlugin from "@fullcalendar/interaction"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 // const snackbar = useSnackbar()
 
 export default {
@@ -27,7 +25,8 @@ export default {
                 with_work: false,
                 start_date: null,
                 end_date: null,
-                description: ""
+                description: "",
+                attendance_date: null,
             },
             newEvent: {
                 title: "",
@@ -105,7 +104,7 @@ export default {
         "errorMessage" () {
             if (this.errorMessage) {
                 this.$snackbar.add({
-                    type: "success",
+                    type: "error",
                     text: this.errorMessage
                 })
             }
@@ -164,17 +163,11 @@ export default {
             this.isLoading = true
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useHRMSApiO(
                 "/api/events/" + this.toEditEvent.id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "PUT",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.toEditEvent,
-                    watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
                         if (!response.ok) {
@@ -194,17 +187,11 @@ export default {
             this.isLoading = true
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useHRMSApiO(
                 "/api/events/" + this.selectedEventId,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.toEditEvent,
-                    watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
                         if (!response.ok) {
@@ -246,7 +233,8 @@ export default {
                 with_work: false,
                 start_date: null,
                 end_date: null,
-                description: ""
+                description: "",
+                attendance_date: null,
             }
         },
         removeEvent (info) {
@@ -275,7 +263,7 @@ export default {
 
                 <div>
                     <label for="eventTypr">Event Type</label>
-                    <select id="" v-model="event.event_type" name="" class="w-full rounded" required>
+                    <select id="eventTypr" v-model="event.event_type" name="" class="w-full rounded" required>
                         <option value="Company Event">
                             Company Event
                         </option>
@@ -290,7 +278,7 @@ export default {
 
                 <div>
                     <label for="repetition_type">Repetition Type</label>
-                    <select id="" v-model="event.repetition_type" name="" class="w-full rounded" required>
+                    <select id="repetition_type" v-model="event.repetition_type" name="" class="w-full rounded" required>
                         <option value="One Day">
                             One Day
                         </option>
@@ -303,30 +291,42 @@ export default {
                     </select>
                 </div>
 
-                <div class="flex gap-4 rounded-lg p-4 bg-slate-50">
+                <div class="flex flex-col rounded-lg p-4 bg-slate-50">
                     <div class="flex gap-2 items-center">
-                        <input id="" v-model="event.with_pay" type="checkbox" name="">
-                        <label for="repetition_type" class="text-sm">With Pay</label>
+                        <input id="wPay" v-model="event.with_pay" type="checkbox" name="">
+                        <label for="wPay" class="text-sm">With Pay</label>
                     </div>
+                    <br>
                     <div class="flex gap-2 items-center">
-                        <input v-model="event.with_work" type="checkbox" name="">
-                        <label for="repetition_type" class="text-sm">With Work</label>
+                        <input id="wWork" v-model="event.with_work" type="checkbox" name="">
+                        <label for="wWork" class="text-sm">With Work</label>
                     </div>
+                    <small class="text-red-600 text-xs">
+                        *FOR REGULAR EMPLOYEES ONLY.<br>
+                        NON-REGULAR EMPLOYEES ARE DEFAULT TO "WITH WORK"
+                    </small>
                 </div>
 
                 <div>
-                    <label for="start_date">Start Date</label>
+                    <label for="startDate">Start Date</label>
                     <input id="startDate" v-model="event.start_date" type="date" class="w-full rounded" disabled="true">
                 </div>
 
                 <div>
-                    <label for="end_date">End Date</label>
+                    <label for="endDate">End Date</label>
                     <input id="endDate" v-model="event.end_date" type="date" class="w-full rounded" disabled>
                 </div>
 
                 <div>
                     <label for="description">Description</label>
-                    <textarea id="eventTitle" v-model="event.description" type="text" class="w-full rounded" placeholder="What are your thoughts?" />
+                    <textarea id="description" v-model="event.description" type="text" class="w-full rounded" placeholder="Event Description" />
+                </div>
+
+                <div>
+                    <span v-if="event.event_type === 'Regular Holiday'" class="text-red-600">*</span>
+                    <label for="attendanceDateCreate">Attendance Date</label>
+                    <small class="text-red-600 text-xs">*FOR REGULAR HOLIDAY - NON-REGULAR EMPLOYEES ONLY</small>
+                    <input id="attendanceDateCreate" v-model="event.attendance_date" type="date" class="w-full rounded" :required="event.event_type === 'Regular Holiday'">
                 </div>
 
                 <div class="flex justify-end">
@@ -343,7 +343,7 @@ export default {
         <ModalContainer title="Event Details" :loading="isLoading" :local="true" :show="showModal" @hide="showModal=false">
             <div class="flex flex-col gap-4 w-full">
                 <div class="flex flex-col gap">
-                    <label for="" class="text-sm text-slate-600 px-2">
+                    <label for="eventTitleEdit" class="text-sm text-slate-600 px-2">
                         Event Title
                     </label>
                     <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
@@ -351,7 +351,7 @@ export default {
                     </span>
                     <input
                         v-else
-                        id="eventTitle"
+                        id="eventTitleEdit"
                         v-model="toEditEvent.title"
                         type="text"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -361,7 +361,7 @@ export default {
                 </div>
                 <div class="flex gap-4">
                     <div class="flex flex-col gap-1 flex-1">
-                        <label for="" class="text-sm text-slate-600 px-2">
+                        <label for="startDateEdit" class="text-sm text-slate-600 px-2">
                             Start Date
                         </label>
                         <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
@@ -369,7 +369,7 @@ export default {
                         </span>
                         <input
                             v-else
-                            id="startDate"
+                            id="startDateEdit"
                             v-model="toEditEvent.start_date"
                             type="date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -378,7 +378,7 @@ export default {
                         >
                     </div>
                     <div class="flex flex-col gap-1 flex-1">
-                        <label for="" class="text-sm text-slate-600 px-2">
+                        <label for="endDateEdit" class="text-sm text-slate-600 px-2">
                             End Date
                         </label>
                         <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
@@ -386,7 +386,7 @@ export default {
                         </span>
                         <input
                             v-else
-                            id="endDate"
+                            id="endDateEdit"
                             v-model="toEditEvent.end_date"
                             type="date"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -397,7 +397,7 @@ export default {
                 </div>
                 <div class="flex gap-4">
                     <div class="flex flex-col gap-1 flex-1">
-                        <label for="" class="text-sm text-slate-600 px-2">
+                        <label for="eventTypeEdit" class="text-sm text-slate-600 px-2">
                             Event Type
                         </label>
                         <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
@@ -405,7 +405,7 @@ export default {
                         </span>
                         <select
                             v-else
-                            id="eventType"
+                            id="eventTypeEdit"
                             v-model="toEditEvent.event_type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
@@ -421,7 +421,7 @@ export default {
                         </select>
                     </div>
                     <div class="flex flex-col gap-1 flex-1">
-                        <label for="" class="text-sm text-slate-600 px-2">
+                        <label for="repititionTypeEdit" class="text-sm text-slate-600 px-2">
                             Repition Type
                         </label>
                         <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
@@ -429,7 +429,7 @@ export default {
                         </span>
                         <select
                             v-else
-                            id="repititionType"
+                            id="repititionTypeEdit"
                             v-model="toEditEvent.repetition_type"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
@@ -447,22 +447,27 @@ export default {
                 </div>
                 <div class="flex gap-4">
                     <div class="flex flex-col gap-1 flex-1">
-                        <label for="" class="text-sm text-slate-600 px-2">
+                        <label for="withWorkEdit" class="text-sm text-slate-600 px-2">
                             With Work
                         </label>
                         <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
                             {{ selectEvent.with_work? "Yes" : "No" }}
                         </span>
-                        <input
-                            v-else
-                            id="withWork"
-                            v-model="toEditEvent.with_work"
-                            type="checkbox"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        >
+                        <template v-else>
+                            <input
+                                id="withWorkEdit"
+                                v-model="toEditEvent.with_work"
+                                type="checkbox"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            >
+                            <small class="text-red-600 text-xs">
+                                *FOR REGULAR EMPLOYEES ONLY.<br>
+                                NON-REGULAR EMPLOYEES ARE DEFAULT TO "WITH WORK"
+                            </small>
+                        </template>
                     </div>
                     <div class="flex flex-col gap-1 flex-1">
-                        <label for="" class="text-sm text-slate-600 px-2">
+                        <label for="withPayEdit" class="text-sm text-slate-600 px-2">
                             WITH PAY
                         </label>
                         <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
@@ -470,10 +475,47 @@ export default {
                         </span>
                         <input
                             v-else
-                            id="withPay"
+                            id="withPayEdit"
                             v-model="toEditEvent.with_pay"
                             type="checkbox"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        >
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="flex flex-col gap-1 flex-1">
+                        <label for="descriptionEdit" class="text-sm text-slate-600 px-2">
+                            Description
+                        </label>
+                        <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
+                            {{ selectEvent.description }}
+                        </span>
+                        <textarea
+                            v-else
+                            id="descriptionEdit"
+                            v-model="toEditEvent.description"
+                            type="text"
+                            class="w-full rounded"
+                            placeholder="Event Description"
+                        />
+                    </div>
+                    <div class="flex flex-col gap-1 flex-1">
+                        <label for="attendanceDateEdit" class="text-sm text-slate-600 px-2">
+                            <span v-if="toEditEvent.event_type === 'Regular Holiday'" class="text-red-600">*</span>
+                            Attendance Date
+                            <small class="text-red-600 text-xs">*FOR REGULAR HOLIDAY - NON-REGULAR EMPLOYEES ONLY</small>
+                        </label>
+                        <span v-if="!isEdit" class="px-2 py-1 rounded-sm bg-slate-200 text-xl">
+                            {{ selectEvent.attendance_date ?? "-" }}
+                        </span>
+                        <input
+                            v-else
+                            id="attendanceDateEdit"
+                            v-model="toEditEvent.attendance_date"
+                            type="date"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder=""
+                            required=""
                         >
                     </div>
                 </div>

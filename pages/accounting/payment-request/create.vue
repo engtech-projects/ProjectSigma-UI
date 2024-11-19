@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useStakeholderStore } from "~/stores/accounting/stakeholder"
+import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
 
-const stakeholderStore = useStakeholderStore()
+const stakeholderStore = useStakeHolderStore()
 stakeholderStore.getStakeholders()
 
 </script>
