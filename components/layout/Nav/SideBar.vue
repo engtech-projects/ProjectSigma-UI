@@ -572,7 +572,7 @@ const config = useRuntimeConfig()
         <!-- Accounting -->
         <LayoutNavModuleGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.accounting_group,
+                AccessibilityTypes.ACCOUNTING_GROUP,
             ])"
             title="Accounting"
         >
