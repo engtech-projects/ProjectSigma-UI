@@ -542,13 +542,29 @@ const config = useRuntimeConfig()
                     icon="grommet-icons:overview"
                     single-nav-title="Overview"
                 />
+            </LayoutNavGroup>
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.inventory_bom_group,
+                ])"
+                linkarea="/inventory/bom"
+                icon="streamline:money-cash-coins-stack-accounting-billing-payment-stack-cash-coins-currency-money-finance"
+                single-nav-title="Department BOM"
+            />
+            <LayoutNavGroup
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.inventory_procurement_group
+                ])"
+                icon="material-symbols:warehouse-outline-rounded"
+                title="Procurement"
+            >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        'Admin only',
+                        AccessibilityTypes.inventory_procurement_suppliers_group,
                     ])"
-                    linkarea="/inventory/warehouse"
-                    icon="lsicon:management-stockout-filled"
-                    single-nav-title="Stocks"
+                    linkarea="/inventory/suppliers"
+                    icon="grommet-icons:overview"
+                    single-nav-title="Suppliers"
                 />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>

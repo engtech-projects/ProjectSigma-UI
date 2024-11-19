@@ -139,6 +139,12 @@ export enum AccessibilityTypes {
     inventory_bom_all_request = "inventory:bom_all requests",
     inventory_bom_my_approvals = "inventory:bom_my approvals",
     inventory_bom_current_bom = "inventory:bom_current bom",
+    inventory_procurement_group = "inventory:procurement_",
+    inventory_procurement_suppliers_group = "inventory:procurement_suppliers_",
+    inventory_procurement_all_request = "inventory:procurement_suppliers_all requests",
+    inventory_procurement_forms_and_my_requests = "inventory:procurement_suppliers_form and my requests",
+    inventory_procurement_my_approvals = "inventory:procurement_suppliers_my approvals",
+    inventory_procurement_edit = "inventory:procurement_suppliers_edit",
 
     ACCOUNTING_GROUP = "accounting:",
     // Accounting Setup
