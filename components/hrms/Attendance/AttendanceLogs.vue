@@ -11,6 +11,7 @@ const headers = [
     { name: "Date", id: "date" },
     { name: "Time", id: "time_human" },
     { name: "Description", id: "log_type" },
+    { name: "Attendance Type", id: "attendance_type" },
 ]
 const changePaginate = (newParams) => {
     attendanceLogs.value.params.page = newParams.page ?? ""

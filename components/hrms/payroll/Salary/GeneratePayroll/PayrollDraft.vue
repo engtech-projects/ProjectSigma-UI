@@ -28,8 +28,8 @@ const showEdit = () => {
 
 </script>
 <template>
-    <div class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
-        <LayoutPrint print-button-title="Print Draft">
+    <LayoutPrint print-button-title="Print Draft">
+        <div class="bg-white w-full shadow overflow-hidden sm:rounded-lg">
             <div class="details flex flex-cols justify-between p-2 sm:px-2 bg-sky-100 border-b-4 border-red-500">
                 <div class="sticky top-0 text-xl leading-6 font-normal text-gray-900 uppercase">
                     {{ payrollDraft.release_type.toUpperCase() }}
@@ -62,11 +62,11 @@ const showEdit = () => {
                     <HrmsPayrollSalaryPayrollInfoTable :payroll-request="payrollDraft" />
                 </div>
             </div>
-        </LayoutPrint>
-    </div>
-    <div class="relative overflow-x-auto shadow-md">
-        <HrmsPayrollSalaryChargingTable :payroll-request="payrollDraft" />
-    </div>
+        </div>
+        <div class="relative overflow-x-auto shadow-md">
+            <HrmsPayrollSalaryChargingTable :payroll-request="payrollDraft" />
+        </div>
+    </LayoutPrint>
     <div class="mt-2">
         <div class="flex flex-row justify-end gap-2">
             <button

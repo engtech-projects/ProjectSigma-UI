@@ -126,6 +126,14 @@ const navigate = (url = "", action = "", voucher = null) => {
                     </h4>
                 </div>
             </div>
+            <div class="flex gap-2 w-full justify-between py-4">
+                <div class="flex-1 gap-4">
+                    <label class="block text-xs text-gray-900 dark:text-white">Reference No.</label>
+                    <h4 class="font-bold text-gray-900 text-sm">
+                        {{ voucherStore.voucher.reference_no }}
+                    </h4>
+                </div>
+            </div>
         </div>
         <form action="">
             <div class="bg-gray-100 p-4 py-8 flex flex-col items-center mb-8">

@@ -9,6 +9,10 @@ const props = defineProps({
     target: {
         type: String,
         default: ""
+    },
+    showFilter: {
+        type: Boolean,
+        default: true
     }
 })
 
@@ -24,6 +28,10 @@ const navigate = (url = "", action = "", pr = null) => {
         paymentRequestStore.getPaymentRequest(pr.id)
     }
 }
+const filterRequest = () => {
+    paymentRequestStore.params.page = 1
+    paymentRequestStore.getPaymentRequests()
+}
 const forVouchering = computed(() => {
     return paymentRequestStore.list.filter(pr => pr.form?.status === "approved")
 })
@@ -36,15 +44,15 @@ const changePaginate = (newParams) => {
 <template>
     <div class="pb-2 text-gray-500 select-none">
         <AccountingLoadScreen :is-loading="paymentRequestStore.isLoading.list" />
-        <div class="flex w-full items-center justify-end my-2">
+        <div v-if="props.showFilter" class="flex w-full items-center justify-end my-2">
             <label for="sortIput" class="text-xs mr-1 block">
                 Status:
             </label>
             <select
                 id="netAmount"
-                v-model="paymentRequestStore.params.filter.status"
+                v-model="paymentRequestStore.params.status"
                 class="bg-gray-50 border h-6 border-gray-300 text-gray-900 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 py-1 px-2 text-xs"
-                @change="paymentRequestStore.getPaymentRequests"
+                @change="filterRequest"
             >
                 <option value="">
                     All

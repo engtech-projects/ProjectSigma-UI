@@ -96,7 +96,7 @@ const setEmployee = (emp: any) => {
                     <label
                         for="approved_by"
                         class="block text-sm font-medium text-gray-900 dark:text-white"
-                    >Recommending Approval:</label>
+                    >Approvals:</label>
                     <HrmsSetupApprovalsList
                         v-for="(approv, apr) in cashadvance.approvals"
                         :key="'hrmsetupapprovallist' + apr"

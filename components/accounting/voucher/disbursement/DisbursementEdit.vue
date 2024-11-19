@@ -55,6 +55,21 @@ const navigate = (url = "", action = "", voucher = null) => {
     }
     emit(action)
 }
+const totalDebit = computed(() => {
+    let total = 0
+    voucherStore.voucher.details.forEach((d:any) => {
+        total += parseFloat(d.debit)
+        console.log(d.debit)
+    })
+    return total
+})
+const totalCredit = computed(() => {
+    let total = 0
+    voucherStore.voucher.details.forEach((d:any) => {
+        total += parseFloat(d.credit)
+    })
+    return total
+})
 onMounted(() => {
     voucherStore.voucher.voucher_date = dateToString(new Date(voucherStore.voucher.voucher_date))
     voucherStore.voucher.date_encoded = dateToString(new Date(voucherStore.voucher.date_encoded))
@@ -191,6 +206,24 @@ onMounted(() => {
                                 <input v-model="ac.credit" type="number" class="h-[35px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             </div>
                             <Icon name="ion:close-round" class="text-red-400 text-2xl mb-1 cursor-pointer hover:text-red-500 active:text-red-600" @click="removeEntry(ac)" />
+                        </div>
+                        <div v-if="voucherStore.voucher.details.length > 1" class="flex gap-1 bg-green-200 py-1 px-4">
+                            <div class="flex-1">
+                                <h3 class="font-bold">
+                                    TOTAL
+                                </h3>
+                            </div>
+                            <div class="flex-1" />
+                            <div class="flex-1">
+                                <h3 class="font-bold">
+                                    {{ formatToCurrency(totalDebit) }}
+                                </h3>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-bold">
+                                    {{ formatToCurrency(totalCredit) }}
+                                </h3>
+                            </div>
                         </div>
                     </div>
                     <i v-if="voucherStore.voucher.details.length === 0" class="text-center block mt-4 mb-2 text-gray-500">

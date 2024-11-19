@@ -15,9 +15,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         pagination: {},
         getParams: {},
         params: {
-            filter: {
-                status: ""
-            }
+            status: ""
         },
         errorMessage: "",
         successMessage: "",
@@ -131,7 +129,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 "/api/form/" + type + "/" + id,
                 {
                     method: "PUT",
-                    body: this.voucher,
+                    body: {},
                     watch: false,
                 }
             )

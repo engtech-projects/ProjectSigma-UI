@@ -100,7 +100,7 @@ const submitForm = async () => {
                     </div>
                 </div>
                 <div class="pt-5 w-full mb-2 rounded-lg p-4 bg-slate-100 ">
-                    <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Recommending Approval:</label>
+                    <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Approvals:</label>
                     <HrmsSetupApprovalsList
                         v-for="(approv, apr) in generateParams.approvals"
                         :key="'hrmsetupapprovallist' + apr"

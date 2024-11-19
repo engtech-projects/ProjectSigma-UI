@@ -33,7 +33,7 @@ const showInformation = (data) => {
     infoModalData.value = data
     showInfoModal.value = true
 }
-
+const filterType = ref("")
 </script>
 <template>
     <div class="pb-2 text-gray-500 p-2">
@@ -42,7 +42,7 @@ const showInformation = (data) => {
             <div class="flex gap-2">
                 <LayoutFormPsDateInput v-model="allRequests.params.payroll_date" class="w-full" title="Payroll Date" required />
                 <HrmsCommonDepartmentProjectSelector
-                    v-model:select-type="allRequests.params.group_type"
+                    v-model:select-type="filterType"
                     v-model:projectId="allRequests.params.project_id"
                     v-model:departmentId="allRequests.params.department_id"
                     title="Charged to"

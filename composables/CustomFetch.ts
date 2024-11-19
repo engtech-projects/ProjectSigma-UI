@@ -137,13 +137,16 @@ export function useProjectsApi<T> (url: string, options: AsyncDataOptions<T>|Use
     const params = defu(options, defaults)
     return useFetch(url, params)
 }
-export const useProjectsApiO = ofetch.create({
-    baseURL: config.public.PROJECTS_API_URL,
-    headers: {
-        Authorization: token.value + "",
-        Accept: "application/json"
-    },
-})
+export function useProjectsApiO (url: string, params: any) {
+    const ofetchApi = ofetch.create({
+        baseURL: config.public.PROJECTS_API_URL,
+        headers: {
+            Authorization: token.value + "",
+            Accept: "application/json"
+        },
+    })
+    return ofetchApi(url, params)
+}
 export function useAccountingApi<T> (url: string, options: AsyncDataOptions<T>|UseFetchOptions<T> = {}) {
     const defaults: UseFetchOptions<T> = {
         baseURL: config.public.ACCOUNTING_API_URL,
@@ -162,13 +165,16 @@ export function useAccountingApi<T> (url: string, options: AsyncDataOptions<T>|U
     const params = defu(options, defaults)
     return useFetch(url, params)
 }
-export const useAccountingApiO = ofetch.create({
-    baseURL: config.public.ACCOUNTING_API_URL,
-    headers: {
-        Authorization: token.value + "",
-        Accept: "application/json"
-    },
-})
+export function useAccountingApiO (url: string, params: any) {
+    const ofetchApi = ofetch.create({
+        baseURL: config.public.ACCOUNTING_API_URL,
+        headers: {
+            Authorization: token.value + "",
+            Accept: "application/json"
+        },
+    })
+    return ofetchApi(url, params)
+}
 export function useInventoryApi<T> (url: string, options: AsyncDataOptions<T>|UseFetchOptions<T> = {}) {
     const defaults: UseFetchOptions<T> = {
         baseURL: config.public.INVENTORY_API_URL,

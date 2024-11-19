@@ -129,7 +129,7 @@ const endDateTime = computed(() => {
                     </div>
                 </div>
                 <div class="w-full rounded-lg p-4 bg-slate-100 ">
-                    <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Recommending Approval:</label>
+                    <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Approvals:</label>
                     <HrmsSetupApprovalsList
                         v-for="(approv, apr) in travel.approvals"
                         :key="'hrmsetupapprovallist'+apr"
