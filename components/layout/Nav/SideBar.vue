@@ -548,14 +548,14 @@ const config = useRuntimeConfig()
                     AccessibilityTypes.inventory_bom_group,
                 ])"
                 linkarea="/inventory/bom"
-                icon="streamline:money-cash-coins-stack-accounting-billing-payment-stack-cash-coins-currency-money-finance"
+                icon="material-symbols:checklist"
                 single-nav-title="Department BOM"
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.inventory_procurement_group
                 ])"
-                icon="material-symbols:warehouse-outline-rounded"
+                icon="material-symbols:add-shopping-cart"
                 title="Procurement"
             >
                 <LayoutNavSingle
@@ -563,7 +563,7 @@ const config = useRuntimeConfig()
                         AccessibilityTypes.inventory_procurement_suppliers_group,
                     ])"
                     linkarea="/inventory/suppliers"
-                    icon="grommet-icons:overview"
+                    icon="mdi:truck-cargo-container"
                     single-nav-title="Suppliers"
                 />
             </LayoutNavGroup>
