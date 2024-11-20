@@ -47,13 +47,6 @@ useHead({
                     title="Approved Suppliers"
                     target-id="approvedSuppliers"
                 />
-                <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.inventory_procurement_edit,
-                    ])"
-                    title="Approved Suppliers List Edit"
-                    target-id="approvedSuppliersListEdit"
-                />
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="Form">
@@ -70,9 +63,6 @@ useHead({
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="approvedSuppliers">
                     <InventorySuppliersApproveSupplierList />
-                </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer id="approvedSuppliersListEdit">
-                    <InventorySuppliersEditApproveSupplierList />
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>
