@@ -1,7 +1,10 @@
 <script lang="ts" setup>
+import { useSupplierStore } from "@/stores/inventory/suppliers"
 useHead({
     title: "Edit Procurement Suppliers",
 })
+const mainStore = useSupplierStore()
+const { createRequest } = storeToRefs(mainStore)
 </script>
 <template>
     <LayoutAcessContainer
@@ -11,7 +14,7 @@ useHead({
         class="w-full"
     >
         <HrmsCommonTabsMainContainer>
-            <InventorySuppliersSupplierForm />
+            <InventorySuppliersSupplierForm v-model="createRequest.editForm" />
         </HrmsCommonTabsMainContainer>
     </LayoutAcessContainer>
 </template>

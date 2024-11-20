@@ -3,7 +3,7 @@ import { defineStore } from "pinia"
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
 export const DENIED = "Denied"
-export const APPROVALS = "Supplier BOM"
+export const APPROVALS = "Supplier Approvals"
 
 export const REQ_STATUS = [
     APPROVED,
@@ -44,6 +44,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
             isLoading: false,
             isLoaded: false,
             list: [],
+            details: {},
             editForm: {} as SupplierForm,
             form: {} as SupplierForm,
             attachments: [] as Array<Attachments>,
@@ -107,9 +108,9 @@ export const useSupplierStore = defineStore("SupplierStore", {
                             this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         }
                     },
@@ -131,9 +132,9 @@ export const useSupplierStore = defineStore("SupplierStore", {
                             this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             throw new Error(response._data.message)
@@ -157,9 +158,9 @@ export const useSupplierStore = defineStore("SupplierStore", {
                             this.myApprovals.isLoaded = true
                             this.myApprovals.list = response._data.data.data
                             this.myApprovals.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             throw new Error(response._data.message)
@@ -170,7 +171,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
         },
         async storeRequest () {
             await useInventoryApiO(
-                "/api/bom/resource",
+                "/api/request-supplier/resource",
                 {
                     method: "POST",
                     body: this.createRequest.form,
@@ -189,13 +190,13 @@ export const useSupplierStore = defineStore("SupplierStore", {
         },
         async getOne (id: number) {
             return await useInventoryApiO(
-                "/api/bom/resource/" + id,
+                "/api/request-supplier/resource/" + id,
                 {
                     method: "GET",
-                    params: this.bomRequest.bomDetails.params,
+                    params: this.createRequest.details.params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.bomRequest.bomDetails.list = response._data.data
+                            this.createRequest.details.list = response._data.data
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)
@@ -220,27 +221,11 @@ export const useSupplierStore = defineStore("SupplierStore", {
                             this.approvedSuppliers.isLoaded = true
                             this.approvedSuppliers.list = response._data.data
                             this.approvedSuppliers.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getMyApprovalRequests () {
-            await useInventoryApi(
-                "/api/bom/my-approvals",
-                {
-                    method: "GET",
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.myApprovals.list = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
@@ -251,7 +236,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useInventoryApi(
-                "/api/approvals/approve/RequestBOM/" + id,
+                "/api/approvals/approve/RequestSupplier/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -274,7 +259,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
             formData.append("id", id)
             formData.append("remarks", this.remarks)
             await useInventoryApi(
-                "/api/approvals/disapprove/RequestBOM/" + id,
+                "/api/approvals/disapprove/RequestSupplier/" + id,
                 {
                     method: "POST",
                     body: formData,
@@ -301,6 +286,9 @@ export const useSupplierStore = defineStore("SupplierStore", {
             }
             if (this.myApprovals.isLoaded) {
                 callFunctions.push(this.getMyApprovals)
+            }
+            if (this.approvedSuppliers.isLoaded) {
+                callFunctions.push(this.getApprovedSuppliers)
             }
             this.$reset()
             callFunctions.forEach((element) => {

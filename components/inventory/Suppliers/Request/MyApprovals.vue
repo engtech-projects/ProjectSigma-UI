@@ -2,9 +2,9 @@
 import { storeToRefs } from "pinia"
 import { useSupplierStore } from "@/stores/inventory/suppliers"
 const mainStore = useSupplierStore()
-const { myApprovals: List } = storeToRefs(mainStore)
+const { myApprovals } = storeToRefs(mainStore)
 onMounted(() => {
-    if (!List.value.isLoaded) {
+    if (!myApprovals.value.isLoaded) {
         mainStore.getMyApprovals()
     }
 })
@@ -32,21 +32,21 @@ const actions = {
 }
 
 const changePaginate = (newParams) => {
-    List.value.params.page = newParams.page ?? ""
+    myApprovals.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="List.isLoading">
+    <LayoutLoadingContainer class="w-full" :loading="myApprovals.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="List.list ?? []"
+                :datas="myApprovals.myApprovals ?? []"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="List.pagination" @change-params="changePaginate" />
+            <CustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <InventoryItemProfileInfoModal

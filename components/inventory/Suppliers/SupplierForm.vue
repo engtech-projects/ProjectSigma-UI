@@ -1,10 +1,12 @@
 <script setup>
 import { useSupplierStore, APPROVALS } from "@/stores/inventory/suppliers"
 import { useApprovalStore } from "@/stores/hrms/setup/approvals"
-
 const mainStore = useSupplierStore()
+const { approvalList, createRequest } = storeToRefs(mainStore)
+
+const form = defineModel({ required: true, type: Object })
+
 const approvals = useApprovalStore()
-const { createRequest, approvalList } = storeToRefs(mainStore)
 approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
 
 const snackbar = useSnackbar()
@@ -55,68 +57,44 @@ const removeAttachment = (index) => {
             <div class="flex flex-col gap-4 pt-4 w-full">
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="w-full flex justify-end">
-                        <LayoutFormPsTextInput v-model="createRequest.form.supplier_code" title="Supplier Code" />
+                        <LayoutFormPsTextInput v-model="form.supplier_code" title="Supplier Code" />
                     </div>
                     <div class="w-full">
                         <p class="font-bold">
                             Please accomplish this form completely and submit the required documents listed below.  The information given would serve as basis for accreditation.
                         </p>
                     </div>
-                    <div class="w-full">
-                        <LayoutFormPsTextInput v-model="createRequest.form.company_name" title="Company Name" />
-                    </div>
-                    <div class="w-full">
-                        <LayoutFormPsTextInput v-model="createRequest.form.company_address" title="Company Address" />
+                    <LayoutFormPsTextInput v-model="form.company_name" class="w-full" title="Company Name" />
+                    <LayoutFormPsTextInput v-model="form.company_address" class="w-full" title="Company Address" />
+                    <div class="flex flex-row items-center gap-4">
+                        <LayoutFormPsNumberInput v-model="form.company_contact_number" class="w-full" title="Contact Number" />
+                        <LayoutFormPsEmailInput v-model="form.company_email" class="w-full" title="Company Email" />
                     </div>
                     <div class="flex flex-row items-center gap-4">
-                        <div class="w-full">
-                            <LayoutFormPsNumberInput v-model="createRequest.form.company_contact_number" title="Contact Number" />
-                        </div>
-                        <div class="w-full">
-                            <LayoutFormPsEmailInput v-model="createRequest.form.company_email" title="Company Email" />
-                        </div>
+                        <LayoutFormPsTextInput v-model="form.contact_person_name" class="w-full" title="Contact Person Name" />
+                        <LayoutFormPsNumberInput v-model="form.contact_person_number" class="w-full" title="Contact Person Number" />
+                        <LayoutFormPsTextInput v-model="form.contact_person_designation" class="w-full" title="Contact Person Designation" />
+                    </div>
+                    <LayoutFormPsSelect
+                        v-model="form.type_of_ownership"
+                        :options-list="['SINGLE PROPRIETORSHIP', 'PARTNERSHIP', 'CORPORATION']"
+                        class="w-full"
+                        title="Type of Ownership"
+                    />
+                    <div class="flex flex-row items-center gap-4">
+                        <LayoutFormPsTextInput v-model="form.nature_of_business" class="w-full" title="Nature of Business" />
+                        <LayoutFormPsTextInput v-model="form.products_services" class="w-full" title="Products/Services" />
                     </div>
                     <div class="flex flex-row items-center gap-4">
-                        <div class="w-full">
-                            <LayoutFormPsTextInput v-model="createRequest.form.contact_person_name" title="Contact Person Name" />
-                        </div>
-                        <div class="w-full">
-                            <LayoutFormPsNumberInput v-model="createRequest.form.contact_person_number" title="Contact Person Number" />
-                        </div>
-                        <div class="w-full">
-                            <LayoutFormPsTextInput v-model="createRequest.form.contact_person_designation" title="Contact Person Designation" />
-                        </div>
-                    </div>
-                    <div class="w-full">
                         <LayoutFormPsSelect
-                            v-model="createRequest.form.type_of_ownership"
-                            :options-list="['SINGLE PROPRIETORSHIP', 'PARTNERSHIP', 'CORPORATION']"
-                            title="Type of Ownership"
+                            v-model="form.classification"
+                            :options-list="['VAT', 'NON-VAT']"
+                            class="w-full"
+                            title="Classification"
                         />
+                        <LayoutFormPsNumberInput v-model="form.tin" class="w-full" title="TIN" />
                     </div>
-                    <div class="flex flex-row items-center gap-4">
-                        <div class="w-full">
-                            <LayoutFormPsTextInput v-model="createRequest.form.nature_of_business" title="Nature of Business" />
-                        </div>
-                        <div class="w-full">
-                            <LayoutFormPsTextInput v-model="createRequest.form.products_services" title="Products/Services" />
-                        </div>
-                    </div>
-                    <div class="flex flex-row items-center gap-4">
-                        <div class="w-full">
-                            <LayoutFormPsSelect
-                                v-model="createRequest.form.classification"
-                                :options-list="['VAT', 'NON-VAT']"
-                                title="Classification"
-                            />
-                        </div>
-                        <div class="w-full">
-                            <LayoutFormPsNumberInput v-model="createRequest.form.tin" title="TIN" />
-                        </div>
-                    </div>
-                    <div class="w-full">
-                        <LayoutFormPsTextArea v-model="createRequest.form.terms_and_conditions" title="Terms and Conditions" />
-                    </div>
+                    <LayoutFormPsTextArea v-model="form.terms_and_conditions" class="w-full" title="Terms and Conditions" />
                     <div class="w-full">
                         <p class="font-bold">
                             I/We hereby certify that the information furnished are in all respect true and correct.  It is agreed that ECDC may inquire into the accuracy of the information submitted.  It is further agreed that these information shall remain the property of ECDC whether or not the accreditation applied for is granted
@@ -127,15 +105,9 @@ const removeAttachment = (index) => {
                             Any information/document found to be false and incorrect shall be sufficient ground for disapproval of this application for accreditation.
                         </p>
                     </div>
-                    <div class="w-full">
-                        <LayoutFormPsTextInput v-model="createRequest.form.filled_by" title="Filled By" />
-                    </div>
-                    <div class="w-full">
-                        <LayoutFormPsTextInput v-model="createRequest.form.filled_designation" title="Filled Designation" />
-                    </div>
-                    <div class="w-full">
-                        <LayoutFormPsDateInput v-model="createRequest.form.filled_date" title="Filled Date" />
-                    </div>
+                    <LayoutFormPsTextInput v-model="form.filled_by" class="w-full" title="Filled By" />
+                    <LayoutFormPsTextInput v-model="form.filled_designation" class="w-full" title="Filled Designation" />
+                    <LayoutFormPsDateInput v-model="form.filled_date" class="w-full" title="Filled Date" />
                     <div class="flex flex-col full gap-2">
                         <div class="flex full gap-2">
                             <label class="block mb-1 text-sm font-medium text-gray-900">Attachments:</label>
@@ -143,26 +115,23 @@ const removeAttachment = (index) => {
                         <template v-for="data, itemIndex in createRequest.attachments" :key="data">
                             <div class="flex flex-col gap-4">
                                 <div class="flex flex-row gap-4 justify-center items-center">
-                                    <div class="w-full">
-                                        <LayoutFormPsSelect
-                                            v-model="createRequest.attachments[itemIndex].type"
-                                            :options-list="[
-                                                'BANK DETAILS',
-                                                'CERTIFICATE OF REGISTRATION WITH SEC/DTI REGISTRATION',
-                                                'CITY/MUNICIPAL PERMIT',
-                                                'BIR 2303 CERTIFICATE OF REGISTRATION',
-                                                'CERTIFICATE OF PRODUCT/MSDS',
-                                                'CERTIFICATE OF DELEARSHIP/DISTRIBUTORSHIP',
-                                                'DENR PERMITS',
-                                                'TRADE TEST RESULTS',
-                                                'PRICE LIST/QUOTATION',
-                                                'OTHERS',
-                                            ]"
-                                        />
-                                    </div>
-                                    <div v-show="createRequest.attachments[itemIndex].type == 'OTHERS'" class="w-full">
-                                        <LayoutFormPsTextInput v-model="createRequest.attachments[itemIndex].other_type" />
-                                    </div>
+                                    <LayoutFormPsSelect
+                                        v-model="createRequest.attachments[itemIndex].type"
+                                        :options-list="[
+                                            'BANK DETAILS',
+                                            'CERTIFICATE OF REGISTRATION WITH SEC/DTI REGISTRATION',
+                                            'CITY/MUNICIPAL PERMIT',
+                                            'BIR 2303 CERTIFICATE OF REGISTRATION',
+                                            'CERTIFICATE OF PRODUCT/MSDS',
+                                            'CERTIFICATE OF DELEARSHIP/DISTRIBUTORSHIP',
+                                            'DENR PERMITS',
+                                            'TRADE TEST RESULTS',
+                                            'PRICE LIST/QUOTATION',
+                                            'OTHERS',
+                                        ]"
+                                        class="w-full"
+                                    />
+                                    <LayoutFormPsTextInput v-show="createRequest.attachments[itemIndex].type == 'OTHERS'" v-model="createRequest.attachments[itemIndex].other_type" class="w-full" />
                                     <div class="w-full">
                                         <input
                                             class="w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -187,10 +156,10 @@ const removeAttachment = (index) => {
                         </div>
                     </div>
                     <div class="w-full">
-                        <LayoutFormPsTextInput v-model="createRequest.form.requirements_complete" title="Requirements Complete" />
+                        <LayoutFormPsTextInput v-model="form.requirements_complete" title="Requirements Complete" />
                     </div>
                     <div class="w-full">
-                        <LayoutFormPsTextArea v-model="createRequest.form.remarks" title="Remarks" />
+                        <LayoutFormPsTextArea v-model="form.remarks" title="Remarks" />
                     </div>
                 </div>
                 <div class="flex w-full">

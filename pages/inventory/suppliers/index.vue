@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { useSupplierStore } from "@/stores/inventory/suppliers"
+const mainStore = useSupplierStore()
+const { createRequest } = storeToRefs(mainStore)
 useHead({
     title: "Procurement Suppliers",
 })
@@ -50,7 +53,7 @@ useHead({
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="Form">
-                    <InventorySuppliersSupplierForm />
+                    <InventorySuppliersSupplierForm v-model="createRequest.form" />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="allRequest">
                     <InventorySuppliersRequestAllRequests />

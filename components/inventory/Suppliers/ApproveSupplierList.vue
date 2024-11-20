@@ -2,9 +2,9 @@
 import { storeToRefs } from "pinia"
 import { useSupplierStore } from "@/stores/inventory/suppliers"
 const mainStore = useSupplierStore()
-const { approvedSuppliers: List } = storeToRefs(mainStore)
+const { approvedSuppliers } = storeToRefs(mainStore)
 onMounted(() => {
-    if (!List.isLoaded) {
+    if (!approvedSuppliers.isLoaded) {
         mainStore.getApprovedSuppliers()
     }
 })
@@ -40,7 +40,7 @@ const actions = {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="List.list ?? []"
+                :datas="approvedSuppliers.list ?? []"
                 @edit-row="editInformation"
             />
         </div>
