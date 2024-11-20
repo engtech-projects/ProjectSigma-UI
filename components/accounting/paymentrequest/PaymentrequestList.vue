@@ -1,6 +1,6 @@
 <script setup>
 import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"
-import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeHolderStore } from "~/stores/accounting/setup/stakeholder"
 
 const paymentRequestStore = usePaymentRequestStore()
 const stakeholderStore = useStakeHolderStore()

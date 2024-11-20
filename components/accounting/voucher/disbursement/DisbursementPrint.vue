@@ -143,7 +143,7 @@
 
 <script lang="ts" setup>
 import { useVoucherStore } from "~/stores/accounting/vouchers/voucher"
-import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeHolderStore } from "~/stores/accounting/setup/stakeholder"
 import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
 
 const voucherStore = useVoucherStore()
