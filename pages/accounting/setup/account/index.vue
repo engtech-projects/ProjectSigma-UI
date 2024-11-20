@@ -23,10 +23,15 @@ useHead({
         <div class="flex flex-col md:flex-row gap-4">
             <AccountingSetupAccountCreate
                 v-show="!isEdit"
-                class="w-1/3"
+                class="flex-1"
             />
-            <AccountingSetupAccountEdit v-show="isEdit" />
-            <AccountingSetupAccountList class="flex-1" />
+            <AccountingSetupAccountEdit v-show="isEdit" class="flex-1" />
+            <AccountingSetupAccountList class="flex-2" />
         </div>
     </LayoutAcessContainer>
 </template>
+<style scoped>
+.flex-2 {
+    flex: 2;
+}
+</style>

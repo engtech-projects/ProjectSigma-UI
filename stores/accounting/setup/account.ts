@@ -17,12 +17,17 @@ export const useAccountStore = defineStore("useAccountStore", {
         getParams: {},
         errorMessage: "",
         successMessage: "",
-        isLoading: false,
+        isLoading: {
+            list: false,
+            show: false,
+            edit: false,
+            delete: false
+        },
         isEdit: false
     }),
     actions: {
         async getAccounts () {
-            this.isLoading = true
+            this.isLoading.list = true
             const { data, error } = await useAccountingApi(
                 "/api/accounts",
                 {
@@ -30,12 +35,12 @@ export const useAccountStore = defineStore("useAccountStore", {
                     params: this.getParams,
                     watch: false,
                     onResponse: ({ response }) => {
-                        this.isLoading = false
-                        this.list = response._data.data
+                        this.isLoading.list = false
+                        this.list = response._data.data.data
                         this.pagination = {
-                            first_page: response._data.first_page_url,
-                            pages: response._data.links,
-                            last_page: response._data.last_page_url,
+                            first_page: response._data.data.links.first,
+                            pages: response._data.data.meta.links,
+                            last_page: response._data.data.links.last,
                         }
                     },
                 }
@@ -73,9 +78,9 @@ export const useAccountStore = defineStore("useAccountStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/account/" + this.account.account_id,
+                "/api/accounts/" + this.account.id,
                 {
-                    method: "PATCH",
+                    method: "PUT",
                     body: this.account,
                     watch: false,
                 }
