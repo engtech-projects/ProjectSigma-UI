@@ -25,7 +25,7 @@ export const useStakeHolderStore = defineStore("stakeholderStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.data
+                        this.list = response._data.data.data
                         this.pagination = {
                             first_page: response._data.data.links.first,
                             pages: response._data.data.meta.links,

@@ -50,7 +50,7 @@ const handleSubmit = async () => {
                     <PsSelect
                         v-model="stakeholder.stakeholdable_type"
                         title="Stakeholder Type"
-                        :options-list="[]"
+                        :options-list="['employee','supplier','projects','department']"
                         required
                     />
                 </div>
