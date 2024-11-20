@@ -30,7 +30,6 @@ const editAccess = () => {
     }
     return access
 }
-console.log(editAccess())
 
 const actions = {
     showTable: false,
