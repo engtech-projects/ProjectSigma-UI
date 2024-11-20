@@ -25,7 +25,7 @@ useHead({
                 v-show="!isEdit"
                 class="flex-1"
             />
-            <LazyAccountingSetupBookEditBook v-show="isEdit" />
+            <AccountingSetupBookEditBook v-show="isEdit" class="flex-1" />
             <AccountingSetupBookList class="flex-2" />
         </div>
     </LayoutAcessContainer>
