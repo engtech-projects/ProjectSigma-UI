@@ -23,17 +23,9 @@ const editInformation = (data) => {
     })
 }
 
-const editAccess = () => {
-    let access = false
-    if (useCheckAccessibility([AccessibilityTypes.inventory_procurement_edit])) {
-        access = true
-    }
-    return access
-}
-
 const actions = {
     showTable: false,
-    edit: editAccess(),
+    edit: useCheckAccessibility([AccessibilityTypes.inventory_procurement_edit]),
     delete: false,
 }
 
