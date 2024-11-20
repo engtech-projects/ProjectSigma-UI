@@ -8,7 +8,7 @@ useHead({
         :if-access="useCheckAccessibility([
             AccessibilityTypes.inventory_procurement_suppliers_group,
         ])"
-        class="max-w-4xl"
+        class="w-full"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
@@ -16,7 +16,7 @@ useHead({
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.inventory_procurement_forms_and_my_requests,
                     ])"
-                    title="Form"
+                    title="SUPPLIER ACCREDITATION FORM"
                     target-id="Form"
                 />
                 <HrmsCommonTabsTabTitle
@@ -50,16 +50,16 @@ useHead({
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="Form">
-                    <InventoryBomForm />
+                    <InventorySuppliersSupplierForm />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="allRequest">
-                    <InventoryBomRequestAllRequests />
+                    <InventorySuppliersRequestAllRequests />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myApprovals">
-                    <InventoryBomRequestMyApprovals />
+                    <InventorySuppliersRequestMyApprovals />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myRequests">
-                    <InventoryBomRequestMyRequests />
+                    <InventorySuppliersRequestMyRequests />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="approvedSuppliers">
                     <InventorySuppliersApproveSupplierList />

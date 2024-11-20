@@ -1,11 +1,11 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useBOMStore } from "@/stores/inventory/bom"
-const BOMStore = useBOMStore()
-const { myApprovals: List } = storeToRefs(BOMStore)
+import { useSupplierStore } from "@/stores/inventory/suppliers"
+const mainStore = useSupplierStore()
+const { myApprovals: List } = storeToRefs(mainStore)
 onMounted(() => {
     if (!List.value.isLoaded) {
-        BOMStore.getMyApprovals()
+        mainStore.getMyApprovals()
     }
 })
 const infoModalData = ref({})
@@ -20,8 +20,11 @@ const showInformation = (data) => {
 }
 
 const headers = [
-    { name: "Item Summary", id: "profile_summary" },
-    { name: "Request Status", id: "request_status" },
+    { name: "Company Name", id: "company_name" },
+    { name: "Company Address", id: "company_address" },
+    { name: "Contact Person", id: "contact_person_number" },
+    { name: "Request By", id: "filled_by" },
+    { name: "Request at", id: "filled_date" },
 ]
 
 const actions = {
@@ -35,7 +38,7 @@ const changePaginate = (newParams) => {
 <template>
     <LayoutLoadingContainer class="w-full" :loading="List.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <InventoryCommonLayoutBOMTable
+            <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
                 :datas="List.list ?? []"
