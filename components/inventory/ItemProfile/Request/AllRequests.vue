@@ -33,7 +33,7 @@ const changePaginate = (newParams) => {
 <template>
     <LayoutLoadingContainer class="w-full" :loading="List.isLoading">
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
-            <InventoryCommonLayoutPsTable
+            <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
                 :datas="List.list ?? []"
