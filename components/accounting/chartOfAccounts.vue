@@ -1,11 +1,11 @@
 <script setup>
 import { useChartOfAccountsStore } from "~/stores/accounting/setup/chartofaccounts"
 
-const accounts = useChartOfAccountsStore()
+const accountStore = useChartOfAccountsStore()
 </script>
 <template>
     <div class="flex flex-col">
-        <LayoutBoards title="Chart of Accounts" :loading="accounts.isLoading" class="w-full flex-2">
+        <LayoutBoards title="Chart of Accounts" :loading="false" class="w-full flex-2">
             <div class="flex flex-col gap-2 pt-4">
                 <table class="table-auto w-full border-collapse">
                     <thead>
@@ -22,15 +22,9 @@ const accounts = useChartOfAccountsStore()
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="ac in accounts.list" :key="ac.account_id">
+                        <tr v-for="ac,i in accountStore.chart" :key="ac.account_id">
                             <td class="border px-2">
-                                {{ ac.account_number }}
-                            </td>
-                            <td class="border px-2">
-                                {{ ac.account_name }}
-                            </td>
-                            <td class="border px-2">
-                                {{ ac.account_type_id }}
+                                {{ i }}
                             </td>
                         </tr>
                     </tbody>

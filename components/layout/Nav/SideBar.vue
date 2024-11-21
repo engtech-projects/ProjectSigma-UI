@@ -618,6 +618,14 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNT_TYPES,
                     ])"
+                    linkarea="/accounting/setup/account"
+                    icon="iconoir:post"
+                    single-nav-title="Account"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNT_TYPES,
+                    ])"
                     linkarea="/accounting/setup/account-type"
                     icon="ion:ios-today"
                     single-nav-title="Account Type"
@@ -650,7 +658,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_CHART_OF_ACCOUNTS,
                     ])"
-                    linkarea="/accounting/chart-of-accounts"
+                    linkarea="/accounting/setup/chart-of-accounts"
                     icon="ci:table"
                     single-nav-title="Chart of Accounts"
                 />
