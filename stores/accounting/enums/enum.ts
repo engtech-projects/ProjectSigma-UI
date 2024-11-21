@@ -7,6 +7,13 @@ export interface Supplier {
     created_at: String,
     updated_at: String,
 }
+export interface Payees {
+    name: String,
+    stakeholdable_type: String,
+    stakeholdable_id: Number,
+    created_at: String,
+    updated_at: String,
+}
 export interface Employee {
     name: String,
     stakeholdable_type: String,
@@ -45,6 +52,17 @@ export const useAccountingEnumStore = defineStore("accountingEnums", {
             list: [] as Supplier[],
             params: {
                 type: "supplier",
+                key: "",
+            },
+            successMessage: "",
+            errorMessage: "",
+        },
+        payeeEnum: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as Payees[],
+            params: {
+                type: "payee",
                 key: "",
             },
             successMessage: "",
@@ -110,6 +128,25 @@ export const useAccountingEnumStore = defineStore("accountingEnums", {
                         if (response.ok) {
                             this.supplierEnum.list = response._data.data.data
                             this.supplierEnum.isLoaded = true
+                        }
+                    },
+                }
+            )
+        },
+        async getPayeesEnum () {
+            this.payeeEnum.isLoaded = true
+            await useAccountingApi(
+                "/api/search-stakeholders",
+                {
+                    method: "GET",
+                    params: this.payeeEnum.params,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.payeeEnum.list = response._data.data.data
+                            this.payeeEnum.isLoaded = true
                         }
                     },
                 }
