@@ -16,19 +16,16 @@ const showInformation = (data) => {
     requestData.value = data
     showInformationModal.value = true
 }
-
 const changePaginate = (newParams) => {
     allRequests.value.params.page = newParams.page ?? ""
 }
-
 const headers = [
     { name: "PRF Number", id: "prf_no" },
-    { name: "Total Amount", id: "total" },
-    { name: "Total VAT", id: "totalVat" },
-    { name: "Status", id: "status" },
+    { name: "Payee", id: "stakeholder.name" },
+    { name: "Amount", id: "total" },
     { name: "Created At", id: "created_at" },
+    { name: "Status", id: "request_status" },
 ]
-
 const actions = {
     showTable: true,
 }
@@ -49,6 +46,7 @@ const actions = {
     </LayoutBoards>
     <AccountingNonPurchaseRequestInfoModal
         v-model:showModal="showInformationModal"
-        :data="requestData"
+        :fillable="false"
+        :payment-data="requestData"
     />
 </template>
