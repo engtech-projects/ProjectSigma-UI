@@ -94,7 +94,7 @@ const denyRequest = async (id:any) => {
                 </div>
                 <div>
                     <p v-if="title" class="pl-4 text-md text-gray-900">
-                        Assignment : {{ data.assignment_type }}
+                        Assignment : {{ data.department }}
                     </p>
                 </div>
                 <div>
