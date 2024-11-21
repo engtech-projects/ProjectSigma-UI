@@ -39,15 +39,23 @@ export interface Attachments {
 }
 export const useSupplierStore = defineStore("SupplierStore", {
     state: () => ({
-        isEdit: false,
         createRequest: {
             isLoading: false,
             isLoaded: false,
             list: [],
             details: {},
-            editForm: {} as SupplierForm,
-            form: {} as SupplierForm,
-            attachments: [] as Array<Attachments>,
+            form: {
+                attachments: [] as Array<Attachments>,
+            } as SupplierForm,
+            params: {},
+            pagination: {},
+        },
+        editRequest: {
+            isLoading: false,
+            isLoaded: false,
+            form: {
+                attachments: [] as Array<Attachments>,
+            } as SupplierForm,
             params: {},
             pagination: {},
         },

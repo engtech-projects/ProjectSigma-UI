@@ -2,7 +2,7 @@
 import { useSupplierStore, APPROVALS } from "@/stores/inventory/suppliers"
 import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 const mainStore = useSupplierStore()
-const { approvalList, createRequest } = storeToRefs(mainStore)
+const { approvalList } = storeToRefs(mainStore)
 
 const form = defineModel({ required: true, type: Object })
 
@@ -40,7 +40,7 @@ const handleDocumentUpload = (event, data) => {
 }
 
 const addAttachment = () => {
-    createRequest.value.attachments.push(
+    form.value.attachments.push(
         {
             type: null,
             value: null,
@@ -48,7 +48,7 @@ const addAttachment = () => {
     )
 }
 const removeAttachment = (index) => {
-    createRequest.value.attachments.splice(index, 1)
+    form.value.attachments.splice(index, 1)
 }
 </script>
 <template>
@@ -112,11 +112,11 @@ const removeAttachment = (index) => {
                         <div class="flex full gap-2">
                             <label class="block mb-1 text-sm font-medium text-gray-900">Attachments:</label>
                         </div>
-                        <template v-for="data, itemIndex in createRequest.attachments" :key="data">
+                        <template v-for="data, itemIndex in form.attachments" :key="data">
                             <div class="flex flex-col gap-4">
                                 <div class="flex flex-row gap-4 justify-center items-center">
                                     <LayoutFormPsSelect
-                                        v-model="createRequest.attachments[itemIndex].type"
+                                        v-model="form.attachments[itemIndex].type"
                                         :options-list="[
                                             'BANK DETAILS',
                                             'CERTIFICATE OF REGISTRATION WITH SEC/DTI REGISTRATION',
@@ -131,7 +131,7 @@ const removeAttachment = (index) => {
                                         ]"
                                         class="w-full"
                                     />
-                                    <LayoutFormPsTextInput v-show="createRequest.attachments[itemIndex].type == 'OTHERS'" v-model="createRequest.attachments[itemIndex].other_type" class="w-full" />
+                                    <LayoutFormPsTextInput v-show="form.attachments[itemIndex].type == 'OTHERS'" v-model="form.attachments[itemIndex].other_type" class="w-full" />
                                     <div class="w-full">
                                         <input
                                             class="w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -140,7 +140,7 @@ const removeAttachment = (index) => {
                                             accept=".doc, .docx, .pdf"
                                             placeholder="Please Specify Attachment Type"
                                             required
-                                            @change="handleDocumentUpload($event, createRequest.attachments[itemIndex])"
+                                            @change="handleDocumentUpload($event, form.attachments[itemIndex])"
                                         >
                                     </div>
                                     <div class="flex">
