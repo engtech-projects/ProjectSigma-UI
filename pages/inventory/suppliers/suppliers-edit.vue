@@ -1,51 +1,18 @@
 <script lang="ts" setup>
-import { useWarehouseStore } from "@/stores/inventory/warehouse"
+import { useSupplierStore } from "@/stores/inventory/suppliers"
 useHead({
-    title: "Warehouse",
+    title: "Edit Procurement Suppliers",
 })
-const warehouseStore = useWarehouseStore()
-const { stocks } = storeToRefs(warehouseStore)
-
-const headers = [
-    { name: "Item Code", id: "item_code" },
-    { name: "Stocks", id: "stocks" },
-]
+const mainStore = useSupplierStore()
+const { editRequest } = storeToRefs(mainStore)
 </script>
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.inventory_warehouse_group,
+            AccessibilityTypes.inventory_procurement_edit,
         ])"
-        class="max-w-4xl"
+        class="w-full"
     >
-        <div class="grid grid-cols-1 gap-4 w-full max-w-4xl mb-5">
-            <InventoryWarehouseFilter />
-        </div>
-        <HrmsCommonTabsMainContainer>
-            <template #tab-titles>
-                <HrmsCommonTabsTabTitle
-                    :if-access="useCheckAccessibility([
-                        AccessibilityTypes.inventory_warehouse_group,
-                    ])"
-                    title="Stocks"
-                    target-id="Stocks"
-                />
-                <HrmsCommonTabsTabTitle
-                    :if-access="useCheckAccessibility([
-                        AccessibilityTypes.inventory_warehouse_group,
-                    ])"
-                    title="Logs"
-                    target-id="Logs"
-                />
-            </template>
-            <template #tab-containers>
-                <HrmsCommonTabsTabContainer id="Stocks">
-                    <InventoryWarehouseTable :header-columns="headers" title="Stocks" :data="stocks.data" />
-                </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer id="Logs">
-                    <InventoryWarehouseTableLogs title="Logs" />
-                </HrmsCommonTabsTabContainer>
-            </template>
-        </HrmsCommonTabsMainContainer>
+        <InventorySuppliersSupplierForm v-model="editRequest.form" />
     </LayoutAcessContainer>
 </template>
