@@ -5,7 +5,6 @@ export const useStakeHolderStore = defineStore("stakeholderStore", {
         stakeholder: {
             id: null,
             name: null,
-            stakeholdable_type: null
         },
         list: [],
         pagination: {},
@@ -67,7 +66,7 @@ export const useStakeHolderStore = defineStore("stakeholderStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/stakeholders/" + this.stakeholder.stakeholder_id,
+                "/api/stakeholders/" + this.stakeholder.id,
                 {
                     method: "PATCH",
                     body: this.stakeholder,
@@ -115,7 +114,6 @@ export const useStakeHolderStore = defineStore("stakeholderStore", {
             this.stakeholder = {
                 id: null,
                 name: null,
-                stakeholdable_type: null
             }
             this.successMessage = ""
             this.errorMessage = ""

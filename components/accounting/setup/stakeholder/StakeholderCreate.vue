@@ -1,7 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useStakeHolderStore } from "@/stores/accounting/setup/stakeholder"
-import PsSelect from "~/components/layout/Form/PsSelect.vue"
 import PsTextInput from "~/components/layout/Form/PsTextInput.vue"
 
 const stakeholderStore = useStakeHolderStore()
@@ -38,19 +37,13 @@ const handleSubmit = async () => {
 }
 </script>
 <template>
-    <LayoutBoards title="Stakeholder" :loading="boardLoading">
+    <LayoutBoards title="Payee" :loading="boardLoading">
         <div class="text-gray-500">
             <form class="p-2" @submit.prevent="handleSubmit">
                 <div class="flex flex-col gap-2 py-3">
                     <PsTextInput
                         v-model="stakeholder.name"
-                        title="Stakeholder Name"
-                        required
-                    />
-                    <PsSelect
-                        v-model="stakeholder.stakeholdable_type"
-                        title="Stakeholder Type"
-                        :options-list="['employee','supplier','projects','department']"
+                        title="Payee Name"
                         required
                     />
                 </div>
@@ -59,7 +52,7 @@ const handleSubmit = async () => {
                         type="submit"
                         class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
                     >
-                        Add Stakeholder
+                        Add Payee
                     </button>
                 </div>
             </form>

@@ -4,24 +4,7 @@ import { useStakeHolderStore } from "@/stores/accounting/setup/stakeholder"
 
 const stakeholderStore = useStakeHolderStore()
 
-const { list: stakeholderList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(stakeholderStore)
-
-const setEdit = (stakeholder) => {
-    isEdit.value = true
-    stakeholderStore.stakeholder = stakeholder
-}
-const deleteStakeholder = async (stakeholder) => {
-    try {
-        boardLoading.value = true
-        await stakeholderStore.deleteStakeholder(stakeholder.id)
-        snackbar.add({
-            type: "success",
-            text: stakeholderStore.successMessage
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
+const { list: stakeholderList, getParams, pagination, errorMessage, successMessage } = storeToRefs(stakeholderStore)
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
@@ -29,24 +12,32 @@ const changePaginate = (newParams) => {
 }
 
 const headers = [
-    { name: "Name", id: "name" },
-    { name: "Type", id: "stakeholdable_type" },
+    { name: "Name", id: "name", style: "text-left" },
+    { name: "Type", id: "stakeholder_type", style: "text-left" },
 ]
-const actions = {
-    edit: true,
-    delete: true
+
+const stakeholderType = (str) => {
+    if (str) {
+        const parts = str.split("\\")
+        return parts[parts.length - 1]
+    }
+    return "N/A"
 }
-
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
-
+const stakeholdersList = computed(() => {
+    const list = []
+    stakeholderList.value.forEach((st) => {
+        st.stakeholder_type = stakeholderType(st.stakeholdable_type)
+        list.push(st)
+    })
+    return list
+})
 </script>
 <template>
-    <LayoutBoards title="Stakeholders List" class="w-full" :loading="stakeholderStore.isLoading">
+    <LayoutBoards title="Payee List" class="w-full" :loading="stakeholderStore.isLoading">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="stakeholderList" :actions="actions" @edit-row="setEdit" @delete-row="deleteStakeholder" />
+            <LayoutPsTable :header-columns="headers" :datas="stakeholdersList" class="!text-left" />
         </div>
-        <div class="flex justify-center mx-auto">
+        <div class="flex justify-center mx-auto my-8">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
         <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
