@@ -1,5 +1,5 @@
 <script setup>
-import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeHolderStore } from "~/stores/accounting/setup/stakeholder"
 import { useStakeHolderTypesStore } from "~/stores/accounting/stakeholders/stakeholdertype"
 import { useModalStore } from "~/stores/modal"
 

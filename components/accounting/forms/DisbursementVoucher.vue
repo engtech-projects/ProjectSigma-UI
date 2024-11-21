@@ -1,6 +1,6 @@
 <script setup>
 import { useAccountStore } from "~/stores/accounting/setup/account"
-import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeHolderStore } from "~/stores/accounting/setup/stakeholder"
 import { useVoucherStore } from "~/stores/accounting/vouchers/voucher"
 
 const { list: accountsList } = storeToRefs(useAccountStore())

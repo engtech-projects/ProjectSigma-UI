@@ -658,7 +658,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_STAKEHOLDERS,
                     ])"
-                    linkarea="/accounting/stakeholder"
+                    linkarea="/accounting/setup/stakeholder"
                     icon="iconoir:user-square"
                     single-nav-title="Stakeholders"
                 />
