@@ -59,7 +59,7 @@ const storeBOM = async () => {
         <form @submit.prevent="storeBOM">
             <div class="flex flex-col gap-4 pt-4 w-full">
                 <div class="flex flex-col gap-4 mb-5 max-w-2xl">
-                    <InventoryCommonFormAssignmentFilter v-model="bomRequest.formDepartment.assignment_id" />
+                    <InventoryCommonFormAssignmentFilter v-model="bomRequest.formDepartment" :with-year="false" />
                     <div class="flex flex-row gap-2 justify-start items-center">
                         <div>
                             <label> Year : </label>
