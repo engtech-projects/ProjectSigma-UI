@@ -46,7 +46,7 @@ const headers = [
 
 </script>
 <template>
-    <LayoutBoards title="List of Accounts" class="w-full" :loading="accountStore.isLoading">
+    <LayoutBoards title="List of Accounts" class="w-full" :loading="accountStore.isLoading.list">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable
                 id="listTable"

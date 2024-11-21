@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeHolderStore } from "~/stores/accounting/setup/stakeholder"
 import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"
 
 const paymentRequestStore = usePaymentRequestStore()

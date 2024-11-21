@@ -3,8 +3,8 @@ import { defineStore } from "pinia"
 export const useStakeHolderStore = defineStore("stakeholderStore", {
     state: () => ({
         stakeholder: {
-            stakeholder_id: null,
-            name: null
+            id: null,
+            name: null,
         },
         list: [],
         pagination: {},
@@ -24,11 +24,11 @@ export const useStakeHolderStore = defineStore("stakeholderStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.data
+                        this.list = response._data.data.data
                         this.pagination = {
-                            first_page: response._data.first_page_url,
-                            pages: response._data.links,
-                            last_page: response._data.last_page_url,
+                            first_page: response._data.data.links.first,
+                            pages: response._data.data.meta.links,
+                            last_page: response._data.data.links.last,
                         }
                     },
                 }
@@ -66,7 +66,7 @@ export const useStakeHolderStore = defineStore("stakeholderStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/stakeholders/" + this.stakeholder.stakeholder_id,
+                "/api/stakeholders/" + this.stakeholder.id,
                 {
                     method: "PATCH",
                     body: this.stakeholder,
@@ -105,24 +105,15 @@ export const useStakeHolderStore = defineStore("stakeholderStore", {
             }
         },
 
+        clearMessages () {
+            this.errorMessage = ""
+            this.successMessage = ""
+        },
+
         reset () {
             this.stakeholder = {
-                stakeholder_id: null,
-                title: null,
-                firstname: null,
-                middlename: null,
-                lastname: null,
-                suffix: null,
-                email: null,
-                company: null,
-                display_name: null,
-                street: null,
-                city: null,
-                state: null,
-                country: null,
-                phone_number: null,
-                mobile_number: null,
-                stakeholder_type_id: null,
+                id: null,
+                name: null,
             }
             this.successMessage = ""
             this.errorMessage = ""

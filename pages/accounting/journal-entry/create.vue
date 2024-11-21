@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeHolderStore } from "~/stores/accounting/setup/stakeholder"
 import { useAccountStore } from "~/stores/accounting/setup/account"
 
 const stakeholderStore = useStakeHolderStore()

@@ -1,14 +1,16 @@
 <script setup>
 import { storeToRefs } from "pinia"
+import { useAccountStore } from "@/stores/accounting/setup/account"
 import { useAccountTypeStore } from "@/stores/accounting/setup/accounttype"
 
+const accountStore = useAccountStore()
 const accountTypeStore = useAccountTypeStore()
-const { isEdit } = storeToRefs(accountTypeStore)
 accountTypeStore.getAccountTypes()
-accountTypeStore.getAccountCategories()
+const { isEdit } = storeToRefs(accountStore)
+accountStore.getAccounts()
 
 useHead({
-    title: "Account Type",
+    title: "Account",
 })
 
 </script>
@@ -19,17 +21,17 @@ useHead({
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">
-            <AccountingSetupAccounttypeCreate
+            <AccountingSetupAccountCreate
                 v-show="!isEdit"
                 class="flex-1"
             />
-            <AccountingSetupAccounttypeEdit v-show="isEdit" class="flex-1" />
-            <AccountingSetupAccounttypeList class="flex-2" />
+            <AccountingSetupAccountEdit v-show="isEdit" class="flex-1" />
+            <AccountingSetupAccountList class="flex-2" />
         </div>
     </LayoutAcessContainer>
 </template>
 <style scoped>
 .flex-2 {
-    flex: 2
+    flex: 2;
 }
 </style>

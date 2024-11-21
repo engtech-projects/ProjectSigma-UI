@@ -1,16 +1,20 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useBOMStore } from "@/stores/inventory/bom"
-const BOMStore = useBOMStore()
-const { allRequests: List } = storeToRefs(BOMStore)
+import { useSupplierStore } from "@/stores/inventory/suppliers"
+
+const mainStore = useSupplierStore()
+const { allRequests } = storeToRefs(mainStore)
 onMounted(() => {
-    if (!List.isLoaded) {
-        BOMStore.getAllRequests()
+    if (!allRequests.isLoaded) {
+        mainStore.getAllRequests()
     }
 })
 const headers = [
-    { name: "Item Summary", id: "profile_summary" },
-    { name: "Request Status", id: "request_status" },
+    { name: "Company Name", id: "company_name" },
+    { name: "Company Address", id: "company_address" },
+    { name: "Contact Person", id: "contact_person_number" },
+    { name: "Request By", id: "filled_by" },
+    { name: "Request at", id: "filled_date" },
 ]
 const actions = {
     showTable: true,
@@ -30,21 +34,21 @@ const showInformation = (data) => {
     })
 }
 const changePaginate = (newParams) => {
-    List.value.params.page = newParams.page ?? ""
+    allRequests.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="List.isLoading">
+    <LayoutLoadingContainer class="w-full" :loading="allRequests.isLoading">
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
-            <InventoryCommonLayoutBOMTable
+            <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="List.list ?? []"
+                :datas="allRequests.allRequests ?? []"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="List.pagination" @change-params="changePaginate" />
+            <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <InventoryItemProfileInfoModal

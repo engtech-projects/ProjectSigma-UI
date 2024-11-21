@@ -94,7 +94,7 @@ const denyRequest = async (id:any) => {
                 </div>
                 <div>
                     <p v-if="title" class="pl-4 text-md text-gray-900">
-                        Assignment : {{ data.assignment_type }}
+                        Assignment : {{ data.department }}
                     </p>
                 </div>
                 <div>
@@ -123,7 +123,7 @@ const denyRequest = async (id:any) => {
                                         {{ dataValue.unit ? dataValue.unit : "" }}
                                     </td>
                                     <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.unit_price ? dataValue.price : 0 }}
+                                        {{ dataValue.price ? dataValue.price : 0 }}
                                     </td>
                                     <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
                                         {{ dataValue.quantity ? dataValue.quantity : 0 }}

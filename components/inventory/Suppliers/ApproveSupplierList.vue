@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia"
-import { useBOMStore } from "@/stores/inventory/bom"
-const BOMStore = useBOMStore()
-const { allRequests: List } = storeToRefs(BOMStore)
+import { useSupplierStore } from "@/stores/inventory/suppliers"
+const mainStore = useSupplierStore()
+const { approvedSuppliers } = storeToRefs(mainStore)
 onMounted(() => {
-    if (!List.isLoaded) {
-        BOMStore.getAllRequests()
+    if (!approvedSuppliers.isLoaded) {
+        mainStore.getApprovedSuppliers()
     }
 })
 const headers = [
-    { name: "Item Summary", id: "profile_summary" },
-    { name: "Request Status", id: "request_status" },
+    { name: "Company Name", id: "company_name" },
+    { name: "Company Address", id: "company_address" },
+    { name: "Contact Number", id: "company_contact_number" },
+    { name: "Contact Email", id: "company_email" },
+    { name: "Contact Person", id: "contact_person_name" },
+    { name: "Contact Person Number", id: "contact_person_number" },
 ]
 
 const editInformation = (data) => {
@@ -23,17 +27,9 @@ const editInformation = (data) => {
     })
 }
 
-const editAccess = () => {
-    let access = false
-    if (useCheckAccessibility([AccessibilityTypes.inventory_procurement_edit])) {
-        access = true
-    }
-    return access
-}
-
 const actions = {
     showTable: false,
-    edit: editAccess(),
+    edit: useCheckAccessibility([AccessibilityTypes.inventory_procurement_edit]),
     delete: false,
 }
 
@@ -44,7 +40,7 @@ const actions = {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="List.list ?? []"
+                :datas="approvedSuppliers.list ?? []"
                 @edit-row="editInformation"
             />
         </div>
