@@ -5,7 +5,6 @@ const { createRequest } = storeToRefs(mainStore)
 useHead({
     title: "Procurement Suppliers",
 })
-const compId = useId()
 </script>
 <template>
     <LayoutAcessContainer
@@ -20,52 +19,52 @@ const compId = useId()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.inventory_procurement_forms_and_my_requests,
                     ])"
-                    :target-id="compId + 'a'"
+                    target-id="Form"
                     title="SUPPLIER ACCREDITATION FORM"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.inventory_procurement_all_request,
                     ])"
-                    :target-id="compId + 'b'"
+                    target-id="allRequest"
                     title="All Request"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.inventory_procurement_my_approvals,
                     ])"
-                    :target-id="compId + 'c'"
+                    target-id="myApprovals"
                     title="My Approvals"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.inventory_procurement_forms_and_my_requests,
                     ])"
-                    :target-id="compId + 'd'"
+                    target-id="myRequests"
                     title="My Request"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.inventory_procurement_suppliers_group,
                     ])"
-                    :target-id="compId + 'e'"
+                    target-id="approvedSuppliers"
                     title="Approved Suppliers"
                 />
             </template>
             <template #tab-containers>
-                <HrmsCommonTabsTabContainer :id="compId + 'a'">
+                <HrmsCommonTabsTabContainer id="Form">
                     <InventorySuppliersSupplierForm v-model="createRequest.form" />
                 </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer :id="compId + 'b'">
+                <HrmsCommonTabsTabContainer id="allRequest">
                     <InventorySuppliersRequestAllRequests />
                 </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer :id="compId + 'c'">
+                <HrmsCommonTabsTabContainer id="myApprovals">
                     <InventorySuppliersRequestMyApprovals />
                 </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer :id="compId + 'd'">
+                <HrmsCommonTabsTabContainer id="myRequests">
                     <InventorySuppliersRequestMyRequests />
                 </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer :id="compId + 'e'">
+                <HrmsCommonTabsTabContainer id="approvedSuppliers">
                     <InventorySuppliersApproveSupplierList />
                 </HrmsCommonTabsTabContainer>
             </template>
