@@ -1,5 +1,4 @@
 <script setup>
-
 const props = defineProps({
     selectedType: {
         type: String,
@@ -35,6 +34,9 @@ const selectedType = ref(props.selectedType)
                 <option value="employee">
                     Employee
                 </option>
+                <option value="payee">
+                    Payee
+                </option>
             </select>
         </div>
         <div class="w-2/3">
@@ -53,6 +55,10 @@ const selectedType = ref(props.selectedType)
             <AccountingCommonSelectStakeholderEmployeeSelector
                 v-show="selectedType === 'employee'"
                 v-model:employeeInfo="stakeholderInfo"
+            />
+            <AccountingCommonSelectStakeholderPayeeSelector
+                v-show="selectedType === 'payee'"
+                v-model:payeeInfo="stakeholderInfo"
             />
         </div>
     </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeHolderStore } from "~/stores/accounting/setup/stakeholder"
 import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
 import { useJournalStore } from "~/stores/accounting/journals/journal"
 

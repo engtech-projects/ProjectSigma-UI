@@ -1,11 +1,11 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useBOMStore } from "@/stores/inventory/bom"
-const BOMStore = useBOMStore()
-const { myApprovals: List } = storeToRefs(BOMStore)
+import { useSupplierStore } from "@/stores/inventory/suppliers"
+const mainStore = useSupplierStore()
+const { myApprovals } = storeToRefs(mainStore)
 onMounted(() => {
-    if (!List.value.isLoaded) {
-        BOMStore.getMyApprovals()
+    if (!myApprovals.value.isLoaded) {
+        mainStore.getMyApprovals()
     }
 })
 const infoModalData = ref({})
@@ -20,8 +20,11 @@ const showInformation = (data) => {
 }
 
 const headers = [
-    { name: "Item Summary", id: "profile_summary" },
-    { name: "Request Status", id: "request_status" },
+    { name: "Company Name", id: "company_name" },
+    { name: "Company Address", id: "company_address" },
+    { name: "Contact Person", id: "contact_person_number" },
+    { name: "Request By", id: "filled_by" },
+    { name: "Request at", id: "filled_date" },
 ]
 
 const actions = {
@@ -29,21 +32,21 @@ const actions = {
 }
 
 const changePaginate = (newParams) => {
-    List.value.params.page = newParams.page ?? ""
+    myApprovals.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="List.isLoading">
+    <LayoutLoadingContainer class="w-full" :loading="myApprovals.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <InventoryCommonLayoutBOMTable
+            <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="List.list ?? []"
+                :datas="myApprovals.myApprovals ?? []"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="List.pagination" @change-params="changePaginate" />
+            <CustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <InventoryItemProfileInfoModal

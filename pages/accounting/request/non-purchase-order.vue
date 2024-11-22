@@ -35,7 +35,7 @@
     >
         <div class="flex flex-col gap-4">
             <div class="w-full">
-                <AccountingNonPurchaseRequestForm />
+                <AccountingNonPurchaseRequestForm :fillable="true" />
             </div>
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>

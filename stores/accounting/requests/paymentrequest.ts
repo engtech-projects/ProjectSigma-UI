@@ -43,6 +43,8 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             errorMessage: "",
             successMessage: "",
         },
+        successMessage: "",
+        errorMessage: "",
         vat: null,
         list: [],
         pagination: {},
@@ -55,6 +57,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             edit: false,
             delete: false
         },
+        remarks: "",
         isEdit: false
     }),
     getters: {},
@@ -75,9 +78,9 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                         if (response.ok) {
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         }
                     },
@@ -99,13 +102,10 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                         if (response.ok) {
                             this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
-                        } else {
-                            this.myRequests.errorMessage = response._data.message
-                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -124,10 +124,12 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                     onResponse: ({ response }) => {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
-                            this.myApprovals.list = response._data.data
-                        } else {
-                            this.myApprovals.errorMessage = response._data.message
-                            throw new Error(response._data.message)
+                            this.myApprovals.list = response._data.data.data
+                            this.myApprovals.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
                         }
                     },
                 }
@@ -136,8 +138,8 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         async addPaymentRequest () {
             this.paymentRequest.successMessage = ""
             this.paymentRequest.errorMessage = ""
-            await useAccountingApi(
-                "/api/payment-requests",
+            await useAccountingApiO(
+                "/api/payment-request",
                 {
                     method: "POST",
                     body: this.paymentRequest,
@@ -149,23 +151,23 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                         this.paymentRequest.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         this.paymentRequest.isLoading = false
                         if (response.ok) {
                             this.reloadResources()
                             this.paymentRequest.successMessage = response._data.message
                         } else {
+                            this.paymentRequest.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
                 }
             )
         },
-
         async getPaymentRequest (id:any) {
             this.isLoading.show = true
             const { data, error } = await useAccountingApi(
-                "/api/payment-requests/" + id,
+                "/api/payment-request/" + id,
                 {
                     method: "GET",
                     params: this.getParams,
@@ -181,7 +183,6 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 return error
             }
         },
-
         async getVat () {
             this.isLoading.show = true
             const { data, error } = await useAccountingApi(
@@ -201,11 +202,10 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 return error
             }
         },
-
         async editPaymentRequest () {
             this.paymentRequest.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/payment-requests/" + this.paymentRequest.id,
+                "/api/payment-request/" + this.paymentRequest.id,
                 {
                     method: "PATCH",
                     body: this.paymentRequest,
@@ -266,6 +266,55 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         },
         generatePrNo () {
             return "PR-" + randomInt(100001, 999999) + "-" + randomInt(1000, 9999)
+        },
+        async approveApprovalForm (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAccountingApiO(
+                "/api/approvals/approve/ACCOUNTING_PAYMENT_REQUEST/" + id,
+                {
+                    method: "POST",
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.reloadResources()
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async denyApprovalForm  (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAccountingApiO(
+                "/api/approvals/disapprove/ACCOUNTING_PAYMENT_REQUEST/" + id,
+                {
+                    method: "POST",
+                    body: { remarks: this.remarks },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.reloadResources()
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
         },
     },
 })

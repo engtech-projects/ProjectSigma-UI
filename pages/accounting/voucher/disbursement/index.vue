@@ -55,7 +55,7 @@
 
 import { useVoucherStore } from "~/stores/accounting/vouchers/voucher"
 import { useAccountStore } from "~/stores/accounting/setup/account"
-import { useStakeHolderStore } from "~/stores/accounting/stakeholders/stakeholder"
+import { useStakeHolderStore } from "~/stores/accounting/setup/stakeholder"
 import { useBookStore } from "~/stores/accounting/setup/book"
 import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
 import { usePaymentRequestStore } from "~/stores/accounting/requests/paymentrequest"

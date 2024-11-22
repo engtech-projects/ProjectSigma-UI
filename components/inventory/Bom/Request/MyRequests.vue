@@ -36,7 +36,7 @@ const changePaginate = (newParams) => {
     <LayoutLoadingContainer class="w-full" :loading="List.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <div class="flex flex-col gap-4 mb-5">
-                <InventoryCommonFormAssignmentFilter v-model="List.params.assignment_id" />
+                <InventoryCommonFormAssignmentFilter v-model="List.params" />
                 <InventoryCommonLayoutBOMTable
                     :header-columns="headers"
                     :actions="actions"
