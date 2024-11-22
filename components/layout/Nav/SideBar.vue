@@ -654,8 +654,17 @@ const config = useRuntimeConfig()
                         AccessibilityTypes.ACCOUNTING_SETUP_APPROVALS,
                     ])"
                     linkarea="/accounting/setup/approvals"
-                    icon="iconoir:book"
+                    icon="iconoir:thumbs-up"
                     single-nav-title="Approvals"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNT_TYPES,
+                    ])"
+                    linkarea="/accounting/setup/account"
+                    icon="ion:ios-paper-outline"
+                    single-nav-title="Account"
                 />
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
@@ -697,7 +706,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_STAKEHOLDERS,
                     ])"
-                    linkarea="/accounting/stakeholder"
+                    linkarea="/accounting/setup/stakeholder"
                     icon="iconoir:user-square"
                     single-nav-title="Stakeholders"
                 />

@@ -13,18 +13,21 @@ export const useAccountStore = defineStore("useAccountStore", {
             statement: null,
         },
         list: [],
+        chart: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
         isLoading: {
             list: false,
+            chart: false,
             show: false,
             edit: false,
             delete: false
         },
         isEdit: false
     }),
+
     actions: {
         async getAccounts () {
             this.isLoading.list = true
@@ -42,6 +45,27 @@ export const useAccountStore = defineStore("useAccountStore", {
                             pages: response._data.data.meta.links,
                             last_page: response._data.data.links.last,
                         }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async getChart () {
+            this.isLoading.chart = true
+            const { data, error } = await useAccountingApi(
+                "/api/chart-of-accounts",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.isLoading.chart = false
+                        this.chart = response._data.data
                     },
                 }
             )
