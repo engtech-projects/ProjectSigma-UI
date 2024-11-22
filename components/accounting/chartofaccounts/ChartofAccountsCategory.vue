@@ -1,11 +1,13 @@
 <template>
     <div class="flex flex-col gap-4 pt-4">
-        <div class="flex justify-between items-center w-full bg-gray-100 hover:bg-gray-200 active:bg-gray-100 py-2 px-2" @click="collapse = !collapse">
+        <div class="flex justify-between items-center w-full bg-gray-100 hover:bg-gray-200 py-2 px-2" @click="collapse = !collapse">
             <h1 class="font-bold">
                 {{ upperFirst(props.title) }}
             </h1>
-            <Icon v-if="collapse" name="iconoir:nav-arrow-down" class="cursor-pointer" />
-            <Icon v-else name="iconoir:nav-arrow-right" class="cursor-pointer" />
+            <div class="flex gap-4">
+                <Icon v-if="collapse" name="iconoir:nav-arrow-down" class="cursor-pointer" />
+                <Icon v-else name="iconoir:nav-arrow-right" class="cursor-pointer" />
+            </div>
         </div>
         <div v-if="collapse">
             <div v-for="aa,p in props.data" :key="p" class="flex flex-col">

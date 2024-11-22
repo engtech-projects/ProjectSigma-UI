@@ -7,11 +7,15 @@ const addAccount = (ac) => {
     accountStore.account.account_type_id = ac[0]?.account_type.id
     showModal.value = true
 }
+const accountSaved = () => {
+    showModal.value = false
+    accountStore.getChart()
+}
 </script>
 <template>
     <div class="flex flex-col relative">
         <LayoutBoards title="Chart of Accounts" :loading="accountStore.isLoading.chart" class="w-full flex-2">
-            <AccountingSetupChartofaccountsChartofAccountsCategory
+            <AccountingChartofaccountsChartofAccountsCategory
                 v-for="ac,i in accountStore.chart"
                 :key="i"
                 :data="ac"
@@ -26,7 +30,7 @@ const addAccount = (ac) => {
             :header="true"
             @hide="showModal=false"
         >
-            <AccountingSetupAccountCreate />
+            <AccountingSetupAccountCreate @saved="accountSaved" />
         </ModalContainer>
     </div>
 </template>

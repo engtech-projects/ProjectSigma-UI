@@ -19,7 +19,7 @@ useHead({
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">
-            <AccountingSetupChartofaccountsList class="flex-1" />
+            <AccountingChartofaccountsList class="flex-1" />
         </div>
     </LayoutAcessContainer>
 </template>
