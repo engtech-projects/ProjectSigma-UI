@@ -129,6 +129,7 @@ paymentRequest.value.total = computed(() => {
                                     v-model:stakeholder-info="paymentRequest.stakeholderInformation"
                                     class="w-full"
                                     :selected-id="paymentRequest.stakeholder_id"
+                                    :filter-options="['employee', 'supplier', 'payee']"
                                 />
                             </div>
                             <div>
@@ -172,7 +173,7 @@ paymentRequest.value.total = computed(() => {
                             </button>
                         </div>
                         <div v-show="paymentRequest.details.length > 0" class="flex flex-col bg-gray-100 rounded-lg gap-2">
-                            <AccountingNonPurchaseRequestDetailItem
+                            <AccountingRequestNonPurchaseRequestDetailItem
                                 v-for="(_detail, idx) in paymentRequest.details"
                                 :key="'detail'+idx"
                                 v-model="paymentRequest.details[idx]"

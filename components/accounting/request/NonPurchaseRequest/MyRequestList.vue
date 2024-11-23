@@ -44,7 +44,7 @@ const actions = {
             </div>
         </div>
     </LayoutBoards>
-    <AccountingNonPurchaseRequestInfoModal
+    <AccountingRequestNonPurchaseRequestInfoModal
         v-model:showModal="showInformationModal"
         :fillable="false"
         :payment-data="requestData"

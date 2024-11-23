@@ -55,6 +55,7 @@ const compute = () => {
                 v-model:stakeholder-info="model.stakeholderInformation"
                 class="w-full"
                 :selected-id="model.stakeholderInformation"
+                :filter-options="['project', 'department', 'employee']"
             />
         </div>
         <div class="flex-1">

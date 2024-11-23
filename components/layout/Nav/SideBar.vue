@@ -710,6 +710,14 @@ const config = useRuntimeConfig()
                     icon="iconoir:user-square"
                     single-nav-title="Stakeholders"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_SYNCHRONIZATION,
+                    ])"
+                    linkarea="/accounting/synchronization"
+                    icon="iconoir:user-square"
+                    single-nav-title="Synchronization"
+                />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
 

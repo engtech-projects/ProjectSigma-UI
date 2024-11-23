@@ -1,4 +1,5 @@
 <script setup>
+
 defineProps({
     fillable: {
         type: Boolean,
@@ -15,9 +16,9 @@ defineProps({
 
 <template>
     <div v-show="fillable">
-        <AccountingNonPurchaseRequestCreateForm />
+        <AccountingRequestNonPurchaseRequestCreateForm />
     </div>
     <div v-show="!fillable">
-        <AccountingNonPurchaseRequestViewForm :payment-data="paymentData" />
+        <AccountingRequestNonPurchaseRequestViewForm :payment-data="paymentData" />
     </div>
 </template>
