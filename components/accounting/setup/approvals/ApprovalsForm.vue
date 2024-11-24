@@ -3,10 +3,10 @@ import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 
 const approvals = useApprovalStore()
 
-const { hrmsApprovals, editApproval } = storeToRefs(approvals)
+const { accountingApprovals, editApproval } = storeToRefs(approvals)
 onMounted(() => {
-    if (!hrmsApprovals.value.isLoaded) {
-        approvals.getHrmsApprovals()
+    if (!accountingApprovals.value.isLoaded) {
+        approvals.getAccountingApprovals()
     }
 })
 const snackbar = useSnackbar()
@@ -41,11 +41,11 @@ const submitApprov = async (approval) => {
     }
 }
 const changePaginate = (newParams) => {
-    hrmsApprovals.value.params.page = newParams.page ?? ""
+    accountingApprovals.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>
-    <LayoutBoards title="Approvals" class="w-full" :loading="hrmsApprovals.isLoading">
+    <LayoutBoards title="Approvals" class="w-full" :loading="accountingApprovals.isLoading">
         <div class="pb-2 text-gray-500">
             <table class="table-auto w-full border-collapse">
                 <thead>
@@ -62,7 +62,7 @@ const changePaginate = (newParams) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(approv, index) in hrmsApprovals.list" :key="index" class="border-2 border-slate-300 ">
+                    <tr v-for="(approv, index) in accountingApprovals.list" :key="index" class="border-2 border-slate-300 ">
                         <td class="p-2">
                             <form :id="index + 'approvform'" @submit.prevent="submitApprov(approv)" />
                             {{ approv.form }}
@@ -177,7 +177,7 @@ const changePaginate = (newParams) => {
             </table>
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="hrmsApprovals.pagination" @change-params="changePaginate" />
+            <CustomPagination :links="accountingApprovals.pagination" @change-params="changePaginate" />
         </div>
     </LayoutBoards>
 </template>
