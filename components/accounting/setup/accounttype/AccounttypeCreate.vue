@@ -7,6 +7,7 @@ const { accountType, categories, errorMessage, successMessage } = storeToRefs(ac
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
+const emit = defineEmits("saved")
 
 const handleSubmit = async () => {
     try {
@@ -18,6 +19,7 @@ const handleSubmit = async () => {
                 text: accountTypeStore.errorMessage
             })
         } else {
+            emit("saved")
             snackbar.add({
                 type: "success",
                 text: accountTypeStore.successMessage
