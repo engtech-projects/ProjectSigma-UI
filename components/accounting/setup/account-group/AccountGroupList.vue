@@ -10,13 +10,21 @@ const setEdit = (ac) => {
     accountGroupStore.accountGroup = ac
 }
 const deleteAccountGroup = async (ac) => {
+    accountGroupStore.clearMessages()
     try {
         boardLoading.value = true
         await accountGroupStore.deleteAccountGroup(ac.id)
-        snackbar.add({
-            type: "success",
-            text: accountGroupStore.successMessage
-        })
+        if (accountGroupStore.successMessage) {
+            snackbar.add({
+                type: "success",
+                text: accountGroupStore.successMessage
+            })
+        } else {
+            snackbar.add({
+                type: "error",
+                text: accountGroupStore.errorMessage
+            })
+        }
     } finally {
         boardLoading.value = false
     }
@@ -40,7 +48,7 @@ const boardLoading = ref(false)
 
 </script>
 <template>
-    <LayoutBoards title="Accounts List" class="w-full" :loading="accountGroupStore.isLoading.list">
+    <LayoutBoards title="Accounts List" class="w-full" :loading="accountGroupStore.isLoading">
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="accountGroupStore.list" :actions="actions" @edit-row="setEdit" @delete-row="deleteAccountGroup" />
         </div>

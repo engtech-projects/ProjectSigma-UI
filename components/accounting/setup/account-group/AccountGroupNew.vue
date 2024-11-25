@@ -14,11 +14,14 @@ const handleSubmit = async () => {
         boardLoading.value = true
         await accountGroupStore.createAccountGroup()
         if (accountGroupStore.errorMessage !== "") {
+            boardLoading.value = false
             snackbar.add({
                 type: "error",
                 text: accountGroupStore.errorMessage
             })
         } else {
+            boardLoading.value = false
+            accountGroupStore.reset()
             emit("saved")
             snackbar.add({
                 type: "success",

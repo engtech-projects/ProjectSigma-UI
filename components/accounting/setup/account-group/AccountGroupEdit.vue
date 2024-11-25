@@ -12,14 +12,16 @@ const emit = defineEmits(["saved"])
 const handleSubmit = async () => {
     try {
         boardLoading.value = true
-        await accountGroupStore.createAccountGroup()
+        await accountGroupStore.editAccountGroup()
         if (accountGroupStore.errorMessage !== "") {
+            boardLoading.value = false
             snackbar.add({
                 type: "error",
                 text: accountGroupStore.errorMessage
             })
         } else {
             emit("saved")
+            boardLoading.value = false
             snackbar.add({
                 type: "success",
                 text: accountGroupStore.successMessage
