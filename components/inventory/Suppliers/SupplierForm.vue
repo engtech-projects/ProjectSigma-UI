@@ -58,7 +58,6 @@ const storeRequestForm = async () => {
                 type: "success",
                 text: mainStore.successMessage
             })
-            mainStore.$reset()
         }
     } catch (error) {
         snackbar.add({

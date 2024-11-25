@@ -287,6 +287,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
             )
         },
         reloadResources () {
+            const backup = this.approvalList.list
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
@@ -301,6 +302,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
                 callFunctions.push(this.getApprovedSuppliers)
             }
             this.$reset()
+            this.approvalList.list = backup
             callFunctions.forEach((element) => {
                 element()
             })
