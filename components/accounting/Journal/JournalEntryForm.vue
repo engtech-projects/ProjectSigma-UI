@@ -2,7 +2,7 @@
 import { useJournalStore } from "@/stores/accounting/journals/journal"
 const journalStore = useJournalStore()
 const { journal } = storeToRefs(journalStore)
-
+const snackbar = useSnackbar()
 defineProps({
     fillable: {
         type: Boolean,
@@ -32,11 +32,32 @@ const removeDetails = (index) => {
     journal.value.details.splice(index, 1)
 }
 
+const createJournalEntry = async () => {
+    try {
+        await journalStore.addJournal()
+        if (journal.value.successMessage) {
+            snackbar.add({
+                type: "success",
+                text: journal.value.successMessage
+            })
+        } else {
+            snackbar.add({
+                type: "error",
+                text: journal.value.errorMessage
+            })
+        }
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: journal.value.errorMessage
+        })
+    }
+}
 </script>
 <template>
-    <LayoutBoards title="Journal Entry Form" class="w-90">
+    <LayoutBoards title="Journal Entry Form" class="w-90" :loading="journal.isLoading">
         <div>
-            <form>
+            <form @submit.prevent="createJournalEntry">
                 <div class="flex flex-col gap-16 pt-8 sticky">
                     <h1 class="text-2xl text-center font-bold">
                         JOURNAL ENTRY FORM
@@ -113,7 +134,10 @@ const removeDetails = (index) => {
                             <AccountingJournalDetailItem
                                 v-for="(_detail, idx) in journal.details"
                                 :key="'detail'+idx"
-                                v-model="journal.details[idx]"
+                                v-model:details="journal.details[idx]"
+                                v-model:total-debit="journal.total_debit"
+                                v-model:total-credit="journal.total_credit"
+                                v-model:entry-balance="journal.entry_balance"
                                 :index="idx"
                                 @delete-item="removeDetails(idx)"
                             />
@@ -121,6 +145,39 @@ const removeDetails = (index) => {
                         <span v-if="journal.details.length === 0" class="block text-center text-gray-600">
                             No entries yet.
                         </span>
+                    </div>
+                    <div class="w-full">
+                        <div class="flex justify-end p-4 bg-gray-100 rounded-lg">
+                            <div class="flex gap-8">
+                                <div>
+                                    <label class="text-xs italic">Total Debit</label>
+                                    <input
+                                        v-model="journal.total_debit"
+                                        type="number"
+                                        class="w-full rounded-lg h-9 text-sm bg-white"
+                                        disabled
+                                    >
+                                </div>
+                                <div>
+                                    <label class="text-xs italic">Total Credit</label>
+                                    <input
+                                        v-model="journal.total_credit"
+                                        type="number"
+                                        class="w-full rounded-lg h-9 text-sm bg-white"
+                                        disabled
+                                    >
+                                </div>
+                                <div>
+                                    <label class="text-xs italic">Balance</label>
+                                    <input
+                                        v-model="journal.entry_balance"
+                                        type="number"
+                                        class="w-full rounded-lg h-9 text-sm bg-white"
+                                        disabled
+                                    >
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="flex justify-end">
                         <div class="flex gap-2">

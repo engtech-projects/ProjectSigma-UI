@@ -275,7 +275,7 @@ export const useAccountingEnumStore = defineStore("accountingEnums", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.particularGroupsEnum.list = response._data.data.data
+                            this.particularGroupsEnum.list = response._data.data
                             this.particularGroupsEnum.isLoaded = true
                         }
                     },

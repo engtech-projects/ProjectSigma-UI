@@ -36,7 +36,8 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             stakeholder_id: null,
             request_date: null,
             total: 0,
-            descripton: "",
+            total_vat_amount: 0,
+            description: "",
             approvals: [],
             details: [],
             stakeholderInformation: {},
@@ -254,24 +255,6 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 return error
             }
         },
-        reloadResources () {
-            const backup = this.paymentRequest.approvals
-            const callFunctions = []
-            if (this.allRequests.isLoaded) {
-                callFunctions.push(this.getAllRequests)
-            }
-            if (this.myRequests.isLoaded) {
-                callFunctions.push(this.getMyRequests)
-            }
-            if (this.myApprovals.isLoaded) {
-                callFunctions.push(this.getMyApprovals)
-            }
-            this.$reset()
-            this.paymentRequest.approvals = backup
-            callFunctions.forEach((element) => {
-                element()
-            })
-        },
         generatePrNo () {
             return "PR-" + randomInt(100001, 999999) + "-" + randomInt(1000, 9999)
         },
@@ -323,6 +306,24 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                     },
                 }
             )
+        },
+        reloadResources () {
+            const backup = this.paymentRequest.approvals
+            const callFunctions = []
+            if (this.allRequests.isLoaded) {
+                callFunctions.push(this.getAllRequests)
+            }
+            if (this.myRequests.isLoaded) {
+                callFunctions.push(this.getMyRequests)
+            }
+            if (this.myApprovals.isLoaded) {
+                callFunctions.push(this.getMyApprovals)
+            }
+            this.$reset()
+            this.paymentRequest.approvals = backup
+            callFunctions.forEach((element) => {
+                element()
+            })
         },
     },
 })

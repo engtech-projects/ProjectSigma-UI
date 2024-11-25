@@ -36,7 +36,7 @@ const actions = {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="myApprovals.list"
+                :datas="myApprovals.list ?? []"
                 @show-table="showInformation"
             />
             <div class="flex justify-center mx-auto">

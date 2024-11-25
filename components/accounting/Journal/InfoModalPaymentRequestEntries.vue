@@ -19,17 +19,23 @@ const generateJournal = async (data) => {
     journal.value.details = data.details
     journal.value.details = data.details.map(detail => ({
         ...detail,
-        debit: detail.cost,
+        debit: parseFloat(detail.amount) + parseFloat(detail.total_vat_amount),
         credit: 0,
-        remarks: detail.particulars,
         vat: parseInt(detail.vat ?? 0),
         stakeholder_id: detail.stakeholder_id,
-        stakeholder_type: trimStakeholdableType(detail.stakeholder.stakeholdable_type)
+        stakeholder_type: trimStakeholdableType(detail.stakeholder.stakeholdable_type),
+        stakeholderInformation: detail.stakeholder,
+        description: detail.particulars
     }))
     journal.value.stakeholder_id = data.stakeholder_id
     journal.value.journal_date = data.date_filed
     journal.value.reference_no = data.prf_no
+    journal.value.payment_request_id = data.id
+    journal.value.description = data.description
     journal.value.remarks = data.description
+    journal.value.total_debit = data.total - data.vat
+    journal.value.total_credit = 0
+    journal.value.entry_balance = data.total
     showModal.value = false
 }
 const trimStakeholdableType = (type) => {
@@ -99,6 +105,9 @@ const boardLoading = ref(false)
                                         Vat
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Total Vat Amount
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Amount
                                     </th>
                                 </tr>
@@ -118,6 +127,11 @@ const boardLoading = ref(false)
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
                                             {{ detail?.vat }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">
+                                            {{ detail?.total_vat_amount }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
