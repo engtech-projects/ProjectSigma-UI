@@ -15,7 +15,7 @@ const route = useRoute()
 const validKey = ref(false)
 if (route.query.key) {
     validKey.value = true
-    await mainStore.getOne(route.query.key)
+    await mainStore.editOne(route.query.key)
     editRequest.value.form = editRequest.value.details
 } else {
     validKey.value = false
