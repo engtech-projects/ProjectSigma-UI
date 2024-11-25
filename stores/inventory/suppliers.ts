@@ -204,6 +204,23 @@ export const useSupplierStore = defineStore("SupplierStore", {
                 "/api/request-supplier/resource/" + id,
                 {
                     method: "GET",
+                    params: this.createRequest.params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.createRequest.details = response._data.data
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async editOne (id: number) {
+            return await useInventoryApiO(
+                "/api/request-supplier/resource/" + id,
+                {
+                    method: "GET",
                     params: this.editRequest.params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {

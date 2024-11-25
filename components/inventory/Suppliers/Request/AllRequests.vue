@@ -16,6 +16,20 @@ const headers = [
     { name: "Request By", id: "filled_by" },
     { name: "Request at", id: "filled_date" },
 ]
+const actions = {
+    showTable: true,
+    edit: false,
+    delete: false,
+}
+const showInformation = (data) => {
+    navigateTo({
+        path: "/inventory/suppliers/request-details",
+        query: {
+            key: data.id
+        },
+        replace: true
+    })
+}
 const changePaginate = (newParams) => {
     allRequests.value.params.page = newParams.page ?? ""
 }
@@ -25,7 +39,9 @@ const changePaginate = (newParams) => {
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
+                :actions="actions"
                 :datas="allRequests.list ?? []"
+                @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
