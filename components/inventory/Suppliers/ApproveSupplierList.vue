@@ -19,7 +19,7 @@ const headers = [
 
 const editInformation = (data) => {
     navigateTo({
-        path: "/inventory/bom/request-details",
+        path: "/inventory/suppliers/suppliers-edit",
         query: {
             key: data.id
         },
