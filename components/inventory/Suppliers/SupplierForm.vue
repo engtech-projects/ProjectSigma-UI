@@ -11,26 +11,66 @@ approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
 
 const snackbar = useSnackbar()
 
-const storeRequest = async () => {
-    await mainStore.storeRequest()
-    if (mainStore.errorMessage !== "") {
+const storeRequestForm = async () => {
+    try {
+        const formData = new FormData()
+        form.value.approvals = approvalList.value.list
+        formData.append("supplier_code", form.value.supplier_code)
+        formData.append("company_name", form.value.company_name)
+        formData.append("company_address", form.value.company_address)
+        formData.append("company_email", form.value.company_email)
+        formData.append("contact_person_name", form.value.contact_person_name)
+        formData.append("contact_person_number", form.value.contact_person_number)
+        formData.append("contact_person_designation", form.value.contact_person_designation)
+        formData.append("type_of_ownership", form.value.type_of_ownership)
+        formData.append("nature_of_business", form.value.nature_of_business)
+        formData.append("products_services", form.value.products_services)
+        formData.append("classification", form.value.classification)
+        formData.append("terms_and_conditions", form.value.terms_and_conditions)
+        formData.append("filled_by", form.value.filled_by)
+        formData.append("filled_designation", form.value.filled_designation)
+        formData.append("filled_date", form.value.filled_date)
+        formData.append("requirements_complete", form.value.requirements_complete)
+        formData.append("remarks", form.value.remarks)
+        formData.append("company_contact_number", String(form.value.company_contact_number))
+        formData.append("contact_person_number", String(form.value.contact_person_number))
+        formData.append("tin", String(form.value.tin))
+        formData.append("tin", String(form.value.tin))
+        form.value.approvals.forEach((item, index) => {
+            formData.append(`approvals[${index}][type]`, item.type)
+            formData.append(`approvals[${index}][user_id]`, item.user_id)
+            formData.append(`approvals[${index}][status]`, item.status)
+            formData.append(`approvals[${index}][date_approved]`, item.date_approved)
+            formData.append(`approvals[${index}][remarks]`, item.remarks)
+        })
+        form.value.attachments.forEach((item, index) => {
+            formData.append(`attachments[${index}][attachment_name]`, item.attachment_name)
+            formData.append(`attachments[${index}][file]`, item.file)
+        })
+        await mainStore.storeRequest(formData)
+        if (mainStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: mainStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: mainStore.successMessage
+            })
+        }
+    } catch (error) {
         snackbar.add({
             type: "error",
             text: mainStore.errorMessage
         })
-    } else {
-        snackbar.add({
-            type: "success",
-            text: mainStore.successMessage
-        })
-        mainStore.$reset()
     }
 }
 
 const handleDocumentUpload = (event, data) => {
     try {
         const file = event.target.files[0]
-        data.value = file
+        data.file = file
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -42,8 +82,8 @@ const handleDocumentUpload = (event, data) => {
 const addAttachment = () => {
     form.value.attachments.push(
         {
-            type: null,
-            value: null,
+            attachment_name: null,
+            file: null,
         }
     )
 }
@@ -53,7 +93,7 @@ const removeAttachment = (index) => {
 </script>
 <template>
     <div class="text-gray-500 p-2">
-        <form @submit.prevent="storeRequest">
+        <form @submit.prevent="storeRequestForm">
             <div class="flex flex-col gap-4 pt-4 w-full">
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="w-full flex justify-end">
@@ -77,7 +117,7 @@ const removeAttachment = (index) => {
                     </div>
                     <LayoutFormPsSelect
                         v-model="form.type_of_ownership"
-                        :options-list="['SINGLE PROPRIETORSHIP', 'PARTNERSHIP', 'CORPORATION']"
+                        :options-list="['Single Proprietorship', 'Partnership', 'Corporation']"
                         class="w-full"
                         title="Type of Ownership"
                     />
@@ -94,7 +134,14 @@ const removeAttachment = (index) => {
                         />
                         <LayoutFormPsNumberInput v-model="form.tin" class="w-full" title="TIN" />
                     </div>
-                    <LayoutFormPsTextArea v-model="form.terms_and_conditions" class="w-full" title="Terms and Conditions" />
+                    <div>
+                        <label
+                            class="block mb-1 text-sm font-medium text-gray-900"
+                        >
+                            Terms and Conditions
+                        </label>
+                        <InventoryCommonFormPsTextAreaCommon v-model="form.terms_and_conditions" class="w-full block mb-1 text-sm font-medium text-gray-900" />
+                    </div>
                     <div class="w-full">
                         <p class="font-bold">
                             I/We hereby certify that the information furnished are in all respect true and correct.  It is agreed that ECDC may inquire into the accuracy of the information submitted.  It is further agreed that these information shall remain the property of ECDC whether or not the accreditation applied for is granted
@@ -116,7 +163,7 @@ const removeAttachment = (index) => {
                             <div class="flex flex-col gap-4">
                                 <div class="flex flex-row gap-4 justify-center items-center">
                                     <LayoutFormPsSelect
-                                        v-model="form.attachments[itemIndex].type"
+                                        v-model="form.attachments[itemIndex].attachment_name"
                                         :options-list="[
                                             'BANK DETAILS',
                                             'CERTIFICATE OF REGISTRATION WITH SEC/DTI REGISTRATION',
@@ -131,7 +178,7 @@ const removeAttachment = (index) => {
                                         ]"
                                         class="w-full"
                                     />
-                                    <LayoutFormPsTextInput v-show="form.attachments[itemIndex].type == 'OTHERS'" v-model="form.attachments[itemIndex].other_type" class="w-full" />
+                                    <LayoutFormPsTextInput v-show="form.attachments[itemIndex].attachment_name == 'OTHERS'" v-model="form.attachments[itemIndex].other_type" class="w-full" />
                                     <div class="w-full">
                                         <input
                                             class="w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -156,7 +203,12 @@ const removeAttachment = (index) => {
                         </div>
                     </div>
                     <div class="w-full">
-                        <LayoutFormPsTextInput v-model="form.requirements_complete" title="Requirements Complete" />
+                        <LayoutFormPsSelect
+                            v-model="form.requirements_complete"
+                            :options-list="['Yes', 'No']"
+                            class="w-full"
+                            title="Requirements Complete"
+                        />
                     </div>
                     <div class="w-full">
                         <LayoutFormPsTextArea v-model="form.remarks" title="Remarks" />

@@ -15,6 +15,7 @@ export interface BOMForm {
     assignment_type: string,
     effectivity: string,
     details: any,
+    approvals: any,
 }
 export const useBOMStore = defineStore("BOMStore", {
     state: () => ({
@@ -280,6 +281,7 @@ export const useBOMStore = defineStore("BOMStore", {
             )
         },
         reloadResources () {
+            const backup = this.bomRequest.formDepartment.approvals
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
@@ -291,6 +293,7 @@ export const useBOMStore = defineStore("BOMStore", {
                 callFunctions.push(this.getMyApprovals)
             }
             this.$reset()
+            this.bomRequest.formDepartment.approvals = backup
             callFunctions.forEach((element) => {
                 element()
             })

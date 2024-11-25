@@ -8,8 +8,6 @@ onMounted(() => {
         mainStore.getMyRequests()
     }
 })
-const infoModalData = ref({})
-const showInfoModal = ref(false)
 const showInformation = (data) => {
     navigateTo({
         path: "/inventory/bom/request-details",
@@ -42,7 +40,7 @@ const changePaginate = (newParams) => {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="myRequests.myRequests ?? []"
+                :datas="myRequests.list ?? []"
                 @show-table="showInformation"
             />
         </div>
@@ -50,8 +48,4 @@ const changePaginate = (newParams) => {
             <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
-    <InventoryItemProfileInfoModal
-        v-model:show-modal="showInfoModal"
-        :data="infoModalData"
-    />
 </template>

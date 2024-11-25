@@ -3,7 +3,7 @@ import { defineStore } from "pinia"
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
 export const DENIED = "Denied"
-export const APPROVALS = "Supplier Approvals"
+export const APPROVALS = "Supplier Accreditation"
 
 export const REQ_STATUS = [
     APPROVED,
@@ -29,13 +29,14 @@ export interface SupplierForm {
     filled_designation: string,
     filled_date: string,
     attachments: any,
+    approvals: any,
     requirements_complete: string,
     remarks: string,
 }
 export interface Attachments {
-    type: String,
+    attachment_name: String,
     other_type: String,
-    value: any,
+    file: any,
 }
 export const useSupplierStore = defineStore("SupplierStore", {
     state: () => ({
@@ -54,6 +55,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
             isLoading: false,
             isLoaded: false,
             form: {
+                approvals: [],
                 attachments: [] as Array<Attachments>,
             } as SupplierForm,
             params: {},
@@ -103,7 +105,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
     actions: {
         async getAllRequests () {
             await useInventoryApi(
-                "/api/request-supplier/resource",
+                "/api/request-supplier/all-request",
                 {
                     method: "GET",
                     params: this.allRequests.params,
@@ -113,13 +115,13 @@ export const useSupplierStore = defineStore("SupplierStore", {
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,
                                 last_page: response._data.data.links.last,
                             }
+                            this.allRequests.isLoaded = true
                         }
                     },
                 }
@@ -177,12 +179,12 @@ export const useSupplierStore = defineStore("SupplierStore", {
                 }
             )
         },
-        async storeRequest () {
+        async storeRequest (formData : FormData) {
             await useInventoryApiO(
                 "/api/request-supplier/resource",
                 {
                     method: "POST",
-                    body: this.createRequest.form,
+                    body: formData,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -285,6 +287,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
             )
         },
         reloadResources () {
+            const backup = this.approvalList.list
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
@@ -299,6 +302,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
                 callFunctions.push(this.getApprovedSuppliers)
             }
             this.$reset()
+            this.approvalList.list = backup
             callFunctions.forEach((element) => {
                 element()
             })

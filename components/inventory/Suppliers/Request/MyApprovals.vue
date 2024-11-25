@@ -8,8 +8,6 @@ onMounted(() => {
         mainStore.getMyApprovals()
     }
 })
-const infoModalData = ref({})
-const showInfoModal = ref(false)
 const showInformation = (data) => {
     navigateTo({
         path: "/inventory/bom/request-details",
@@ -41,7 +39,7 @@ const changePaginate = (newParams) => {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="myApprovals.myApprovals ?? []"
+                :datas="myApprovals.list ?? []"
                 @show-table="showInformation"
             />
         </div>
@@ -49,8 +47,4 @@ const changePaginate = (newParams) => {
             <CustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
-    <InventoryItemProfileInfoModal
-        v-model:show-modal="showInfoModal"
-        :data="infoModalData"
-    />
 </template>
