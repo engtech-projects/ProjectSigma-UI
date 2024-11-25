@@ -57,39 +57,37 @@ const sync = async () => {
                 </button>
             </div>
             <div class="flex flex-col gap-8">
-                <sync-group name="HRMS" url="/api/hrms/all" api="accounting">
-                    <sync-item
+                <AccountingSyncGroup name="HRMS" url="/api/hrms/all" api="accounting">
+                    <AccountingSyncItem
                         name="Employees"
                         url="/api/hrms/employee"
                         api="accounting"
                     />
-                    <sync-item
+                    <AccountingSyncItem
                         name="Users"
                         url="/api/hrms/users"
                         api="accounting"
                     />
-                    <sync-item
+                    <AccountingSyncItem
                         name="Departments"
                         url="/api/hrms/department"
                         api="accounting"
                     />
-                </sync-group>
-
-                <sync-group name="PROJECT" url="/api/project/all" api="accounting">
-                    <sync-item
+                </AccountingSyncGroup>
+                <AccountingSyncGroup name="PROJECT" url="/api/project/all" api="accounting">
+                    <AccountingSyncItem
                         name="Projects"
                         url="/api/project/project"
                         api="accounting"
                     />
-                </sync-group>
-
-                <sync-group name="INVENTORY" url="/api/inventory/all" api="accounting">
-                    <sync-item
+                </AccountingSyncGroup>
+                <AccountingSyncGroup name="INVENTORY" url="/api/inventory/all" api="accounting">
+                    <AccountingSyncItem
                         name="Suppliers"
                         url="/api/inventory/supplier"
                         api="accounting"
                     />
-                </sync-group>
+                </AccountingSyncGroup>
             </div>
         </div>
     </LayoutAcessContainer>

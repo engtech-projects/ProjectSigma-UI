@@ -1,151 +1,165 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const useJournalStore = defineStore("journalStore", {
     state: () => ({
         journal: {
             id: null,
-            journal_no: null,
-            journal_date: null,
-            voucher_id: null,
+            journal_no: "",
+            journal_date: "",
+            voucher_id: "",
             status: "open",
-            period_id: null,
+            period_id: "",
             remarks: "",
             reference_no: "",
             details: []
         },
-        base: {},
-        list: [],
-        pagination: {},
-        getParams: {},
-        errorMessage: "",
-        successMessage: "",
-        isLoading: {
-            list: false,
-            show: false,
-            edit: false,
-            create: false,
-            delete: false
+        paymentRequestEntries: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
         },
-        isEdit: false
+        postedEntries: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        unpostedEntries: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        draftedEntries: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
     }),
+    getters: {},
     actions: {
-        async getJournals () {
-            this.isLoading.list = true
-            const { data, error } = await useFetch(
-                "/api/journal-entry",
+        async getPaymentRequestEntries () {
+            this.paymentRequestEntries.isLoaded = true
+            await useAccountingApi(
+                "/api/journal-entry/payment-request-entries",
                 {
-                    baseURL: config.public.ACCOUNTING_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
+                    params: this.paymentRequestEntries.params,
+                    onRequest: () => {
+                        this.paymentRequestEntries.isLoading = true
                     },
-                    params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.isLoading.list = false
-                        this.list = response._data
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
-
-        async getJournal (id:any) {
-            this.isLoading.show = true
-            const { data, error } = await useFetch(
-                "/api/journal-entry/" + id,
-                {
-                    baseURL: config.public.ACCOUNTING_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        this.isLoading.show = false
-                        this.journal = response._data
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
-
-        async createJournal () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            this.isLoading.create = true
-            await useFetch(
-                "/api/journal-entry",
-                {
-                    baseURL: config.public.ACCOUNTING_API_URL,
-                    method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    body: this.journal,
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.isLoading.create = false
-                        if (!response.ok) {
-                            this.errorMessage = response._data.message
-                        } else {
-                            this.reset()
-                            this.successMessage = "Journal entry successfully created."
+                        this.paymentRequestEntries.isLoading = false
+                        if (response.ok) {
+                            this.paymentRequestEntries.list = response._data.data.data
+                            this.paymentRequestEntries.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
                         }
                     },
                 }
             )
         },
-
-        async editJournal () {
-            this.successMessage = ""
-            this.errorMessage = ""
-            this.isLoading.edit = true
-            const { data, error } = await useAccountingApi(
-                "/api/journal-entry/" + this.journal.id,
+        async getUnpostedEntries () {
+            this.unpostedEntries.isLoaded = true
+            await useAccountingApi(
+                "/api/journal-entry/unposted-entries",
                 {
-                    method: "PATCH",
-                    body: this.journal,
-                    watch: false,
+                    method: "GET",
+                    params: this.unpostedEntries.params,
+                    onRequest: () => {
+                        this.unpostedEntries.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.unpostedEntries.isLoading = false
+                        if (response.ok) {
+                            this.unpostedEntries.list = response._data.data.data
+                            this.unpostedEntries.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
                 }
             )
-            this.isLoading.edit = false
-            if (data.value) {
-                this.getJournals()
-                this.successMessage = "Journal entry successfully updated."
-                return data
-            } else if (error.value) {
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
-
-        reset () {
-            this.journal = {
-                id: null,
-                journal_no: null,
-                journal_date: null,
-                voucher_id: null,
-                status: null,
-                period_id: null,
-                remarks: "",
-                reference_no: "",
-                details: []
-            }
-            this.successMessage = ""
-            this.errorMessage = ""
+        async getDraftedEntries () {
+            this.draftedEntries.isLoaded = true
+            await useAccountingApi(
+                "/api/journal-entry/drafted-entries",
+                {
+                    method: "GET",
+                    params: this.draftedEntries.params,
+                    onRequest: () => {
+                        this.draftedEntries.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.draftedEntries.isLoading = false
+                        if (response.ok) {
+                            this.draftedEntries.list = response._data.data.data
+                            this.draftedEntries.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getPostedEntries () {
+            this.postedEntries.isLoaded = true
+            await useAccountingApi(
+                "/api/journal-entry/posted-entries",
+                {
+                    method: "GET",
+                    params: this.postedEntries.params,
+                    onRequest: () => {
+                        this.postedEntries.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.postedEntries.isLoading = false
+                        if (response.ok) {
+                            this.postedEntries.list = response._data.data.data
+                            this.postedEntries.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async generateJournalNumber () {
+            await useAccountingApi(
+                "/api/journal-entry/generate-journal-number",
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.journal.journal_no = response._data.data
+                        }
+                    },
+                }
+            )
         },
     },
 })

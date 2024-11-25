@@ -45,6 +45,15 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         },
         successMessage: "",
         errorMessage: "",
+        particularGroups: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         vat: null,
         list: [],
         pagination: {},
@@ -62,7 +71,6 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
     }),
     getters: {},
     actions: {
-
         async getAllRequests () {
             this.allRequests.isLoaded = true
             await useAccountingApi(

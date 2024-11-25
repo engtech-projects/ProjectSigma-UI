@@ -1,54 +1,54 @@
+<script setup>
+import { useJournalStore } from "@/stores/accounting/journals/journal"
+const journalStore = useJournalStore()
+</script>
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.accounting_journal_group,
+            AccessibilityTypes.ACCOUNTING_JOURNAL_ENTRY,
         ])"
     >
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <AccountingJournalentryCreate v-if="action==='create'" />
-                <AccountingJournalentryEdit v-if="action==='edit'" @view-details="receiveAction('view')" />
-                <AccountingJournalentryDetails v-if="action==='view'" @edit="receiveAction('edit')" @create="receiveAction('create')" />
-            </div>
-            <AccountingJournalentryList @view-details="receiveAction('view')" />
+        <div class="flex flex-col gap-4">
+            <AccountingCommonTabsMainContainer class="w-full">
+                <template #tab-titles>
+                    <AccountingCommonTabsTabTitle
+                        title="Posted Journals"
+                        target-id="postedJournals"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        title="Unposted Journals"
+                        target-id="unpostedJournals"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        title="Draft Journals"
+                        target-id="draftJournals"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        title="PRF Journal Entries"
+                        target-id="paymentRequestJournals"
+                    />
+                </template>
+                <template #tab-containers>
+                    <AccountingCommonTabsTabContainer id="postedJournals">
+                        <AccountingJournalPostedList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="unpostedJournals">
+                        <AccountingJournalUnpostedList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="draftJournals">
+                        <AccountingJournalDraftedList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="paymentRequestJournals">
+                        <AccountingJournalPaymentRequestList />
+                    </AccountingCommonTabsTabContainer>
+                </template>
+            </AccountingCommonTabsMainContainer>
+        </div>
+        <div class="w-full">
+            <AccountingJournalEntryForm
+                v-show="journalStore.journal.journal_no"
+                :fillable="true"
+            />
         </div>
     </LayoutAcessContainer>
 </template>
-
-<script lang="ts" setup>
-
-import { useStakeHolderStore } from "~/stores/accounting/setup/stakeholder"
-import { useJournalStore } from "~/stores/accounting/journals/journal"
-import { useBookStore } from "~/stores/accounting/setup/book"
-import { useAccountGroupStore } from "~/stores/accounting/setup/accountgroups"
-
-const journalStore = useJournalStore()
-journalStore.getJournals()
-
-const action = ref("create")
-const stakeholderStore = useStakeHolderStore()
-stakeholderStore.getStakeholders()
-
-const bookStore = useBookStore()
-await bookStore.getBooks()
-
-const accountGroup = useAccountGroupStore()
-accountGroup.showAccountGroup(bookStore.disbursement.id)
-
-if (useRoute().query.details) {
-    const id = useRoute().query.details
-    action.value = "view"
-    journalStore.getJournal(id)
-}
-
-if (useRoute().query.edit) {
-    const id = useRoute().query.edit
-    action.value = "edit"
-    await journalStore.getJournal(id)
-}
-
-const receiveAction = (ac) => {
-    action.value = ac
-}
-
-</script>
