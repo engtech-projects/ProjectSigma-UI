@@ -689,7 +689,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNT_GROUPS,
                     ])"
-                    linkarea="/accounting/account-groups"
+                    linkarea="/accounting/setup/account-groups"
                     icon="iconoir:commodity"
                     single-nav-title="Account Group"
                 />
