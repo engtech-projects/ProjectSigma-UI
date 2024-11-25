@@ -8,15 +8,6 @@ onMounted(() => {
         mainStore.getMyApprovals()
     }
 })
-const showInformation = (data) => {
-    navigateTo({
-        path: "/inventory/bom/request-details",
-        query: {
-            key: data.id
-        }
-    })
-}
-
 const headers = [
     { name: "Company Name", id: "company_name" },
     { name: "Company Address", id: "company_address" },
@@ -24,11 +15,6 @@ const headers = [
     { name: "Request By", id: "filled_by" },
     { name: "Request at", id: "filled_date" },
 ]
-
-const actions = {
-    showTable: true,
-}
-
 const changePaginate = (newParams) => {
     myApprovals.value.params.page = newParams.page ?? ""
 }
@@ -38,9 +24,7 @@ const changePaginate = (newParams) => {
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
-                :actions="actions"
                 :datas="myApprovals.list ?? []"
-                @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
