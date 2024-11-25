@@ -5,6 +5,9 @@
                 {{ upperFirst(props.title) }}
             </h1>
             <div class="flex gap-4">
+                <span class="text-xs hover:underline cursor-pointer" @click.prevent="addType">
+                    + ADD TYPE
+                </span>
                 <Icon v-if="collapse" name="iconoir:nav-arrow-down" class="cursor-pointer" />
                 <Icon v-else name="iconoir:nav-arrow-right" class="cursor-pointer" />
             </div>
@@ -38,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-const emit = defineEmits(["addAccount"])
+const emit = defineEmits(["addAccount", "addAccountType"])
 const props = defineProps({
     title: {
         type: String,
@@ -49,6 +52,10 @@ const props = defineProps({
         default: null
     },
 })
+const addType = () => {
+    collapse.value = false
+    emit("addAccountType", props.title)
+}
 const collapse = ref(true)
 </script>
 
