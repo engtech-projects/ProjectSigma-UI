@@ -43,6 +43,25 @@ export interface Departments {
     created_at: String,
     updated_at: String,
 }
+export interface ParticularGroups {
+    id: Number,
+    name: String,
+    created_at: String,
+    updated_at: String,
+}
+export interface JournalAccount {
+    id: Number,
+    account_number: String,
+    account_name: String,
+    account_description: String,
+    bank_reconciliation: Boolean,
+    is_active: Boolean,
+    statement: String,
+    details: Array<any>,
+    deleted_at: String,
+    created_at: String,
+    updated_at: String,
+}
 export const useAccountingEnumStore = defineStore("accountingEnums", {
     state: () => ({
         test: true,
@@ -111,6 +130,22 @@ export const useAccountingEnumStore = defineStore("accountingEnums", {
             },
             successMessage: "",
             errorMessage: "",
+        },
+        particularGroupsEnum: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as ParticularGroups[],
+            params: {
+                key: "",
+            },
+        },
+        journalAccountEnum: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as JournalAccount[],
+            params: {
+                key: "",
+            },
         },
     }),
     actions: {
@@ -228,5 +263,43 @@ export const useAccountingEnumStore = defineStore("accountingEnums", {
                 }
             )
         },
+        async searchParticularGroups () {
+            this.particularGroupsEnum.isLoaded = true
+            await useAccountingApi(
+                "/api/search-particular-groups",
+                {
+                    method: "GET",
+                    params: this.particularGroupsEnum.params,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.particularGroupsEnum.list = response._data.data.data
+                            this.particularGroupsEnum.isLoaded = true
+                        }
+                    },
+                }
+            )
+        },
+        async searchJournalAccounts () {
+            this.journalAccountEnum.isLoaded = true
+            await useAccountingApi(
+                "/api/search-journal-accounts",
+                {
+                    method: "GET",
+                    params: this.journalAccountEnum.params,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.journalAccountEnum.list = response._data.data.data
+                            this.journalAccountEnum.isLoaded = true
+                        }
+                    },
+                }
+            )
+        }
     },
 })

@@ -1,0 +1,139 @@
+<script setup>
+import { useJournalStore } from "@/stores/accounting/journals/journal"
+const journalStore = useJournalStore()
+const { journal } = storeToRefs(journalStore)
+
+defineProps({
+    fillable: {
+        type: Boolean,
+        required: false,
+        default: false
+    }
+})
+
+const details = ref({
+    account_id: null,
+    debit: 0,
+    credit: 0,
+    remarks: ""
+})
+
+const addDetails = () => {
+    details.value = {
+        account_id: null,
+        debit: 0,
+        credit: 0,
+        remarks: ""
+    }
+    journal.value.details.push(details.value)
+}
+
+const removeDetails = (index) => {
+    journal.value.details.splice(index, 1)
+}
+
+</script>
+<template>
+    <LayoutBoards title="Journal Entry Form" class="w-90">
+        <div>
+            <form>
+                <div class="flex flex-col gap-16 pt-8 sticky">
+                    <h1 class="text-2xl text-center font-bold">
+                        JOURNAL ENTRY FORM
+                    </h1>
+                    <div class="w-full">
+                        <div class="flex gap-2">
+                            <div class="w-full">
+                                <label
+                                    for="journal_no"
+                                    class="text-xs italic"
+                                >Journal Number</label>
+                                <input
+                                    id="journal_no"
+                                    v-model="journal.journal_no"
+                                    type="text"
+                                    class="w-full rounded-lg"
+                                    required
+                                >
+                            </div>
+                            <div class="w-full">
+                                <label
+                                    for="reference_no"
+                                    class="text-xs italic"
+                                >Reference Number</label>
+                                <input
+                                    id="reference_no"
+                                    v-model="journal.reference_no"
+                                    type="text"
+                                    class="w-full rounded-lg"
+                                    required
+                                >
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    for="date"
+                                    class="text-xs italic"
+                                >Date</label>
+                                <input
+                                    id="date"
+                                    v-model="journal.journal_date"
+                                    type="date"
+                                    class="w-full rounded-lg"
+                                    required
+                                >
+                            </div>
+                            <div>
+                                <label
+                                    for="remarks"
+                                    class="text-xs italic"
+                                >Remarks</label>
+                                <textarea
+                                    id="remarks"
+                                    v-model="journal.remarks"
+                                    class="w-full rounded-lg"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full">
+                        <div class="flex justify-between">
+                            <h2 class="text-xl font-bold text-center">
+                                JOURNAL ENTRY DETAILS
+                            </h2>
+                            <button
+                                class="text-white p-2 px-4 bg-teal-600 content-center mt-5 rounded-md w-fit"
+                                @click.prevent="addDetails"
+                            >
+                                <Icon name="fa:plus-circle" />
+                            </button>
+                        </div>
+                        <div v-show="journal.details.length > 0" class="flex flex-col bg-gray-100 rounded-lg gap-2">
+                            <AccountingJournalDetailItem
+                                v-for="(_detail, idx) in journal.details"
+                                :key="'detail'+idx"
+                                v-model="journal.details[idx]"
+                                :index="idx"
+                                @delete-item="removeDetails(idx)"
+                            />
+                        </div>
+                        <span v-if="journal.details.length === 0" class="block text-center text-gray-600">
+                            No entries yet.
+                        </span>
+                    </div>
+                    <div class="flex justify-end">
+                        <div class="flex gap-2">
+                            <button
+                                type="submit"
+                                class="text-white p-2 bg-teal-600 content-center rounded-md w-fit"
+                            >
+                                Create Journal Entry
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </LayoutBoards>
+</template>
