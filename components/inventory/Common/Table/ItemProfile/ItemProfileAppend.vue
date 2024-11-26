@@ -16,7 +16,6 @@ const itemProfile = defineModel("itemProfile", { required: true, type: Object, d
                 v-model="itemProfile.item_code"
                 :item-profile="itemProfile"
                 title="Item Code"
-                :is-standard="true"
             />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
