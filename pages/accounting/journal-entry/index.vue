@@ -16,14 +16,6 @@ const journalStore = useJournalStore()
                         target-id="postedJournals"
                     />
                     <AccountingCommonTabsTabTitle
-                        title="Unposted Journals"
-                        target-id="unpostedJournals"
-                    />
-                    <AccountingCommonTabsTabTitle
-                        title="Draft Journals"
-                        target-id="draftJournals"
-                    />
-                    <AccountingCommonTabsTabTitle
                         title="PRF Journal Entries"
                         target-id="paymentRequestJournals"
                     />
@@ -31,12 +23,6 @@ const journalStore = useJournalStore()
                 <template #tab-containers>
                     <AccountingCommonTabsTabContainer id="postedJournals">
                         <AccountingJournalPostedList />
-                    </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="unpostedJournals">
-                        <AccountingJournalUnpostedList />
-                    </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="draftJournals">
-                        <AccountingJournalDraftedList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="paymentRequestJournals">
                         <AccountingJournalPaymentRequestList />

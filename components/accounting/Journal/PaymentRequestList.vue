@@ -42,7 +42,7 @@ const actions = {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="paymentRequestEntries.list"
+                :datas="paymentRequestEntries.list ?? []"
                 @show-table="showInformation"
             />
             <div class="flex justify-center mx-auto">

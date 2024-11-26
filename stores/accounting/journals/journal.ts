@@ -3,6 +3,8 @@ import { defineStore } from "pinia"
 export const useJournalStore = defineStore("journalStore", {
     state: () => ({
         journal: {
+            isLoading: false,
+            isLoaded: false,
             id: null,
             journal_no: "",
             journal_date: "",
@@ -11,7 +13,9 @@ export const useJournalStore = defineStore("journalStore", {
             period_id: "",
             remarks: "",
             reference_no: "",
-            details: []
+            details: [],
+            errorMessage: "",
+            successMessage: "",
         },
         paymentRequestEntries: {
             isLoading: false,
@@ -52,6 +56,35 @@ export const useJournalStore = defineStore("journalStore", {
     }),
     getters: {},
     actions: {
+        async addJournal () {
+            this.journal.successMessage = ""
+            this.journal.errorMessage = ""
+            await useAccountingApiO(
+                "/api/journal-entry/resource",
+                {
+                    method: "POST",
+                    body: this.journal,
+                    watch: false,
+                    onRequest: () => {
+                        this.journal.isLoading = true
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.journal.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.journal.isLoading = false
+                        if (response.ok) {
+                            this.reloadResources()
+                            this.journal.successMessage = response._data.message
+                        } else {
+                            this.journal.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getPaymentRequestEntries () {
             this.paymentRequestEntries.isLoaded = true
             await useAccountingApi(
@@ -160,6 +193,25 @@ export const useJournalStore = defineStore("journalStore", {
                     },
                 }
             )
+        },
+        reloadResources () {
+            const callFunctions = []
+            if (this.paymentRequestEntries.isLoaded) {
+                callFunctions.push(this.getPaymentRequestEntries)
+            }
+            if (this.unpostedEntries.isLoaded) {
+                callFunctions.push(this.getUnpostedEntries)
+            }
+            if (this.draftedEntries.isLoaded) {
+                callFunctions.push(this.getDraftedEntries)
+            }
+            if (this.postedEntries.isLoaded) {
+                callFunctions.push(this.getPostedEntries)
+            }
+            this.$reset()
+            callFunctions.forEach((element) => {
+                element()
+            })
         },
     },
 })
