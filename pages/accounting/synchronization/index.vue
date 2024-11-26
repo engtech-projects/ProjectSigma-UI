@@ -7,7 +7,7 @@ const loading = ref(false)
 const sync = async () => {
     try {
         loading.value = true
-        dataSyncStore.url = "/api/sync-all"
+        dataSyncStore.url = "/api/sync/all"
         dataSyncStore.api = "accounting"
         await dataSyncStore.sync()
         if (dataSyncStore.errorMessage !== "") {
@@ -57,34 +57,34 @@ const sync = async () => {
                 </button>
             </div>
             <div class="flex flex-col gap-8">
-                <AccountingSyncGroup name="HRMS" url="/api/hrms/all" api="accounting">
+                <AccountingSyncGroup name="HRMS" url="/api/sync/hrms/all" api="accounting">
                     <AccountingSyncItem
                         name="Employees"
-                        url="/api/hrms/employee"
+                        url="/api/sync/hrms/employee"
                         api="accounting"
                     />
                     <AccountingSyncItem
                         name="Users"
-                        url="/api/hrms/users"
+                        url="/api/sync/hrms/users"
                         api="accounting"
                     />
                     <AccountingSyncItem
                         name="Departments"
-                        url="/api/hrms/department"
+                        url="/api/sync/hrms/department"
                         api="accounting"
                     />
                 </AccountingSyncGroup>
-                <AccountingSyncGroup name="PROJECT" url="/api/project/all" api="accounting">
+                <AccountingSyncGroup name="PROJECT" url="/api/sync/project/all" api="accounting">
                     <AccountingSyncItem
                         name="Projects"
-                        url="/api/project/project"
+                        url="/api/sync/project/project"
                         api="accounting"
                     />
                 </AccountingSyncGroup>
-                <AccountingSyncGroup name="INVENTORY" url="/api/inventory/all" api="accounting">
+                <AccountingSyncGroup name="INVENTORY" url="/api/sync/inventory/all" api="accounting">
                     <AccountingSyncItem
                         name="Suppliers"
-                        url="/api/inventory/supplier"
+                        url="/api/sync/inventory/supplier"
                         api="accounting"
                     />
                 </AccountingSyncGroup>
