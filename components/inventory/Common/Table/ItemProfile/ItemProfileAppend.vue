@@ -23,32 +23,32 @@ const itemProfile = defineModel("itemProfile", { required: true, type: Object, d
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-row">
-                <InventoryCommonFormPsTextInput v-model="itemProfile.thickness_val" title="Thickness" />
+                <InventoryCommonFormPsTextInput v-model="itemProfile.thickness" title="Thickness" />
             </div>
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-row">
-                <InventoryCommonFormPsTextInput v-model="itemProfile.length_val" title="Length" />
+                <InventoryCommonFormPsTextInput v-model="itemProfile.length" title="Length" />
             </div>
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-row">
-                <InventoryCommonFormPsTextInput v-model="itemProfile.width_val" title="Width" />
+                <InventoryCommonFormPsTextInput v-model="itemProfile.width" title="Width" />
             </div>
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-row">
-                <InventoryCommonFormPsTextInput v-model="itemProfile.height_val" title="Height" />
+                <InventoryCommonFormPsTextInput v-model="itemProfile.height" title="Height" />
             </div>
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-row">
-                <InventoryCommonFormPsTextInput v-model="itemProfile.outside_diameter_val" title="Outside Diameter" />
+                <InventoryCommonFormPsTextInput v-model="itemProfile.outside_diameter" title="Outside Diameter" />
             </div>
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-row">
-                <InventoryCommonFormPsTextInput v-model="itemProfile.inside_diameter_val" title="Inside Diameter" />
+                <InventoryCommonFormPsTextInput v-model="itemProfile.inside_diameter" title="Inside Diameter" />
             </div>
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">

@@ -46,22 +46,22 @@ const showSuggest = (object:any) => {
     const itemDescription = props.isStandard ? String(itemProfile.item_description).slice(0, 3) : String(itemProfile.item_description.value).slice(0, 3)
     const listObj = {
         thickness: {
-            value: props.isStandard ? itemProfile.thickness_val : itemProfile.thickness_val.value,
+            value: props.isStandard ? itemProfile.thickness : itemProfile.thickness.value,
         },
         length: {
-            value: props.isStandard ? itemProfile.length_val : itemProfile.length_val.value,
+            value: props.isStandard ? itemProfile.length : itemProfile.length.value,
         },
         width: {
-            value: props.isStandard ? itemProfile.width_val : itemProfile.width_val.value,
+            value: props.isStandard ? itemProfile.width : itemProfile.width.value,
         },
         height: {
-            value: props.isStandard ? itemProfile.height_val : itemProfile.height_val.value,
+            value: props.isStandard ? itemProfile.height : itemProfile.height.value,
         },
         outside: {
-            value: props.isStandard ? itemProfile.outside_diameter_val : itemProfile.outside_diameter_val.value,
+            value: props.isStandard ? itemProfile.outside_diameter : itemProfile.outside_diameter.value,
         },
         inside: {
-            value: props.isStandard ? itemProfile.inside_diameter_val : itemProfile.inside_diameter_val.value,
+            value: props.isStandard ? itemProfile.inside_diameter : itemProfile.inside_diameter.value,
         },
         angle: {
             value: props.isStandard ? itemProfile.angle : itemProfile.angle.value,

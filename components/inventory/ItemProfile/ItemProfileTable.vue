@@ -20,12 +20,12 @@ const getOne = () => {
             id: null,
             item_code: "",
             item_description: "",
-            thickness_val: "",
-            length_val: "",
-            width_val: "",
-            height_val: "",
-            outside_diameter_val: "",
-            inside_diameter_val: "",
+            thickness: "",
+            length: "",
+            width: "",
+            height: "",
+            outside_diameter: "",
+            inside_diameter: "",
             angle: "",
             size: "",
             volume: "",
@@ -166,22 +166,22 @@ const doStoreItemProfile = async () => {
                                 {{ dataValue.item_description }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.thickness_val }}
+                                {{ dataValue.thickness }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.length_val }}
+                                {{ dataValue.length }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.width_val }}
+                                {{ dataValue.width }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.height_val }}
+                                {{ dataValue.height }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.outside_diameter_val }}
+                                {{ dataValue.outside_diameter }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.inside_diameter_val }}
+                                {{ dataValue.inside_diameter }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.angle }}

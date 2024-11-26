@@ -46,11 +46,11 @@ defineProps({
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-col gap-2">
-                <div v-if="data.thickness_val.value">
-                    {{ data.thickness_val.value }}
+                <div v-if="data.thickness.value">
+                    {{ data.thickness.value }}
                 </div>
-                <div v-if="data.thickness_val.error" class="text-xs font-bold text-red-700">
-                    {{ data.thickness_val.error }}
+                <div v-if="data.thickness.error" class="text-xs font-bold text-red-700">
+                    {{ data.thickness.error }}
                 </div>
             </div>
         </td>
@@ -66,11 +66,11 @@ defineProps({
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-col gap-2">
-                <div v-if="data.length_val.value">
-                    {{ data.length_val.value }}
+                <div v-if="data.length.value">
+                    {{ data.length.value }}
                 </div>
-                <div v-if="data.length_val.error" class="text-xs font-bold text-red-700">
-                    {{ data.length_val.error }}
+                <div v-if="data.length.error" class="text-xs font-bold text-red-700">
+                    {{ data.length.error }}
                 </div>
             </div>
         </td>
@@ -86,11 +86,11 @@ defineProps({
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-col gap-2">
-                <div v-if="data.width_val.value">
-                    {{ data.width_val.value }}
+                <div v-if="data.width.value">
+                    {{ data.width.value }}
                 </div>
-                <div v-if="data.width_val.error" class="text-xs font-bold text-red-700">
-                    {{ data.width_val.error }}
+                <div v-if="data.width.error" class="text-xs font-bold text-red-700">
+                    {{ data.width.error }}
                 </div>
             </div>
         </td>
@@ -106,11 +106,11 @@ defineProps({
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-col gap-2">
-                <div v-if="data.height_val.value">
-                    {{ data.height_val.value }}
+                <div v-if="data.height.value">
+                    {{ data.height.value }}
                 </div>
-                <div v-if="data.height_val.error" class="text-xs font-bold text-red-700">
-                    {{ data.height_val.error }}
+                <div v-if="data.height.error" class="text-xs font-bold text-red-700">
+                    {{ data.height.error }}
                 </div>
             </div>
         </td>
@@ -126,11 +126,11 @@ defineProps({
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-col gap-2">
-                <div v-if="data.outside_diameter_val.value">
-                    {{ data.outside_diameter_val.value }}
+                <div v-if="data.outside_diameter.value">
+                    {{ data.outside_diameter.value }}
                 </div>
-                <div v-if="data.outside_diameter_val.error" class="text-xs font-bold text-red-700">
-                    {{ data.outside_diameter_val.error }}
+                <div v-if="data.outside_diameter.error" class="text-xs font-bold text-red-700">
+                    {{ data.outside_diameter.error }}
                 </div>
             </div>
         </td>
@@ -146,11 +146,11 @@ defineProps({
         </td>
         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="flex flex-col gap-2">
-                <div v-if="data.inside_diameter_val.value">
-                    {{ data.inside_diameter_val.value }}
+                <div v-if="data.inside_diameter.value">
+                    {{ data.inside_diameter.value }}
                 </div>
-                <div v-if="data.inside_diameter_val.error" class="text-xs font-bold text-red-700">
-                    {{ data.inside_diameter_val.error }}
+                <div v-if="data.inside_diameter.error" class="text-xs font-bold text-red-700">
+                    {{ data.inside_diameter.error }}
                 </div>
             </div>
         </td>

@@ -116,27 +116,27 @@ const denyRequest = async (id: any) => {
                                     {{ dataValue.item_description }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ dataValue.thickness_val }}
+                                    {{ dataValue.thickness }}
                                     {{ getType(dataValue.thickness_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ dataValue.length_val }}
+                                    {{ dataValue.length }}
                                     {{ getType(dataValue.length_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ dataValue.width_val }}
+                                    {{ dataValue.width }}
                                     {{ getType(dataValue.width_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ dataValue.height_val }}
+                                    {{ dataValue.height }}
                                     {{ getType(dataValue.height_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ dataValue.outside_diameter_val }}
+                                    {{ dataValue.outside_diameter }}
                                     {{ getType(dataValue.outside_diameter_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ dataValue.inside_diameter_val }}
+                                    {{ dataValue.inside_diameter }}
                                     {{ getType(dataValue.inside_diameter_uom) }}
                                 </td>
                                 <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">

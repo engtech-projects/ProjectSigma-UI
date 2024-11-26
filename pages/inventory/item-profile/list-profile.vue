@@ -11,12 +11,12 @@ main.getItemProfile()
 
 const headers = [
     { name: "Item Description", id: "item_description" },
-    { name: "Thickness", id: "thickness_val" },
-    { name: "Length", id: "length_val" },
-    { name: "Width", id: "width_val" },
-    { name: "Height", id: "height_val" },
-    { name: "Outside Diameter", id: "outside_diameter_val" },
-    { name: "Inside Diameter", id: "inside_diameter_val" },
+    { name: "Thickness", id: "thickness" },
+    { name: "Length", id: "length" },
+    { name: "Width", id: "width" },
+    { name: "Height", id: "height" },
+    { name: "Outside Diameter", id: "outside_diameter" },
+    { name: "Inside Diameter", id: "inside_diameter" },
     { name: "Volume", id: "volume_val" },
     { name: "Specification", id: "specification" },
     { name: "Grade", id: "grade" },
