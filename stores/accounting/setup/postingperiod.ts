@@ -26,11 +26,11 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data
+                        this.list = response._data.data.data
                         this.pagination = {
-                            first_page: response._data.first_page_url,
-                            pages: response._data.links,
-                            last_page: response._data.last_page_url,
+                            first_page: response._data.data.links.first,
+                            pages: response._data.data.meta.links,
+                            last_page: response._data.data.links.last,
                         }
                     },
                 }
@@ -68,7 +68,7 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/posting-period/" + this.postingPeriod.period_id,
+                "/api/posting-period/" + this.postingPeriod.id,
                 {
                     method: "PATCH",
                     body: this.postingPeriod,

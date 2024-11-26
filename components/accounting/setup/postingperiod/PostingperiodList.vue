@@ -4,8 +4,9 @@ import { usePostingPeriodStore } from "@/stores/accounting/setup/postingperiod"
 
 const postingPeriodStore = usePostingPeriodStore()
 
-const { list: postingPeriodList, getParams, pagination, errorMessage, successMessage } = storeToRefs(postingPeriodStore)
-
+const { list: postingPeriodList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(postingPeriodStore)
+const boardLoading = ref(false)
+const snackbar = useSnackbar()
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
     postingPeriodStore.getPostingPeriods()
@@ -17,11 +18,40 @@ const headers = [
     { name: "Status", id: "status", style: "text-left" }
 ]
 
+const actions = {
+    edit: true,
+    delete: true
+}
+
+const setEdit = (period) => {
+    isEdit.value = true
+    postingPeriodStore.postingPeriod = period
+}
+const deletePeriod = async (period) => {
+    try {
+        boardLoading.value = true
+        await postingPeriodStore.deletePostingPeriod(period.id)
+        snackbar.add({
+            type: "success",
+            text: postingPeriodStore.successMessage
+        })
+    } finally {
+        boardLoading.value = false
+    }
+}
+
 </script>
 <template>
     <LayoutBoards title="Posting Period List" class="w-full" :loading="postingPeriodStore.isLoading">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="postingPeriodList" class="!text-left" />
+            <LayoutPsTable
+                :header-columns="headers"
+                :datas="postingPeriodList"
+                :actions="actions"
+                class="!text-left"
+                @edit-row="setEdit"
+                @delete-row="deletePeriod"
+            />
         </div>
         <div class="flex justify-center mx-auto my-8">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
