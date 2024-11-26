@@ -1,8 +1,4 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { useJournalStore } from "@/stores/accounting/journals/journal"
-
-const { journal } = storeToRefs(useJournalStore())
 defineProps({
     index: {
         type: Number,
@@ -11,23 +7,6 @@ defineProps({
 })
 const details = defineModel("details", { required: true, type: Object })
 const emit = defineEmits("delete-item")
-const totalDebit = defineModel("totalDebit", { required: true, type: Number })
-const totalCredit = defineModel("totalCredit", { required: true, type: Number })
-const entryBalance = defineModel("entryBalance", { required: true, type: Number })
-
-const setCreditDebit = () => {
-    let sumDebit = 0
-    let sumCredit = 0
-
-    journal.value.details.forEach((detail) => {
-        sumDebit += Number(detail.debit || 0)
-        sumCredit += Number(detail.credit || 0)
-    })
-
-    totalDebit.value = sumDebit
-    totalCredit.value = sumCredit
-    entryBalance.value = sumDebit - sumCredit
-}
 
 </script>
 <template>
@@ -69,7 +48,6 @@ const setCreditDebit = () => {
                 type="number"
                 step=".01"
                 class="w-full rounded-lg h-9 text-sm bg-gray-100"
-                @change="setCreditDebit()"
             >
         </div>
         <div class="flex-1">
@@ -83,7 +61,6 @@ const setCreditDebit = () => {
                 type="number"
                 step=".01"
                 class="w-full rounded-lg h-9 text-sm bg-gray-100"
-                @change="setCreditDebit()"
             >
         </div>
         <div class="flex-1">

@@ -1,6 +1,4 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { useJournalStore } from "@/stores/accounting/journals/journal"
 
 defineProps({
     entryData: {
@@ -15,56 +13,7 @@ defineProps({
     }
 })
 
-const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
-
-const journalStore = useJournalStore()
-const { remarks } = storeToRefs(journalStore)
-
-const snackbar = useSnackbar()
-const boardLoading = ref(false)
-
-const closeViewModal = () => {
-    showModal.value = false
-}
-
-const approvedRequest = async (id) => {
-    try {
-        boardLoading.value = true
-        await journalStore.approveApprovalForm(id)
-        snackbar.add({
-            type: "success",
-            text: journalStore.successMessage
-        })
-        closeViewModal()
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
-
-const denyRequest = async (id) => {
-    try {
-        boardLoading.value = true
-        await journalStore.denyApprovalForm(id)
-        snackbar.add({
-            type: "success",
-            text: journalStore.successMessage
-        })
-        closeViewModal()
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
 </script>
 
 <template>
@@ -92,17 +41,17 @@ const denyRequest = async (id) => {
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light">Created by: </span>
-                    {{ entryData?.created_by_user }}
+                    {{ entryData?.created_by_user ?? "-" }}
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light">Journal Date: </span>
-                    {{ entryData?.journal_date }}
+                    {{ entryData?.date_filed }}
                 </div>
             </div>
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light">Description: </span>
-                    {{ entryData?.description }}
+                    {{ entryData?.payment_request?.description }}
                 </div>
             </div>
             <div class="p-2 border border-gray-200 rounded-lg">
@@ -132,12 +81,12 @@ const denyRequest = async (id) => {
                                 <tr v-for="detail in entryData?.details" :key="detail.id">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ detail?.account?.name }}
+                                            {{ detail?.account?.account_name }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ detail?.subsidiary?.name }}
+                                            {{ detail?.stakeholder?.name }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -155,19 +104,6 @@ const denyRequest = async (id) => {
                         </table>
                     </div>
                 </div>
-            </div>
-            <div class="w-full">
-                <LayoutApprovalsListView :approvals="entryData?.approvals" />
-            </div>
-        </template>
-        <template #footer>
-            <div v-if="entryData?.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end relative">
-                <HrmsCommonApprovalDenyButton
-                    v-model:deny-remarks="remarks"
-                    :request-id="entryData.id"
-                    @approve="approvedRequest"
-                    @deny="denyRequest"
-                />
             </div>
         </template>
     </PsModal>
