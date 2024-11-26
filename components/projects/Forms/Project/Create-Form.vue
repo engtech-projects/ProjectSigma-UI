@@ -87,7 +87,7 @@ const addProject = async () => {
                             >Contract Name</label>
                             <input
                                 id="contractName"
-                                v-model="project.contract_name"
+                                v-model="project.name"
                                 type="text"
                                 class="w-full rounded-lg"
                             >
@@ -100,7 +100,7 @@ const addProject = async () => {
                         >Contract Location</label>
                         <input
                             id="contractLocation"
-                            v-model="project.contract_location"
+                            v-model="project.location"
                             type="text"
                             class="w-full rounded-lg"
                         >
@@ -113,7 +113,7 @@ const addProject = async () => {
                             >Contract Amount</label>
                             <input
                                 id="contractAmount"
-                                v-model="project.contract_amount"
+                                v-model="project.amount"
                                 type="number"
                                 class="w-full rounded-lg"
                             >
@@ -125,7 +125,7 @@ const addProject = async () => {
                             >Contract Duration</label>
                             <input
                                 id="contractDuration"
-                                v-model="project.contract_duration"
+                                v-model="project.duration"
                                 type="text"
                                 class="w-full rounded-lg"
                             >
@@ -163,7 +163,7 @@ const addProject = async () => {
                             >Date of NOA</label>
                             <input
                                 id="dateOfNoa"
-                                v-model="project.date_of_noa"
+                                v-model="project.noa_date"
                                 type="date"
                                 class="w-full rounded-lg"
                             >
@@ -177,7 +177,7 @@ const addProject = async () => {
                             >Date of Contract</label>
                             <input
                                 id="dateOfContract"
-                                v-model="project.date_of_contract"
+                                v-model="project.contract_date"
                                 type="date"
                                 class="w-full rounded-lg"
                             >
@@ -189,7 +189,7 @@ const addProject = async () => {
                             >Date of NTP</label>
                             <input
                                 id="dateOfNtp"
-                                v-model="project.date_of_ntp"
+                                v-model="project.ntp_date"
                                 type="date"
                                 class="w-full rounded-lg"
                             >
@@ -214,7 +214,7 @@ const addProject = async () => {
                         type="submit"
                         class="flex-1 text-white p-2 rounded bg-teal-600 content-center mt-5"
                     >
-                        Add Project
+                        Save as Draft
                     </button>
                 </div>
             </form>

@@ -734,16 +734,32 @@ const config = useRuntimeConfig()
                 ])"
                 linkarea="/project-monitoring"
                 icon="ic:baseline-space-dashboard"
-                single-nav-title="Projects Dashboard"
+                single-nav-title="Dashboard"
             />
-            <LayoutNavSingle
+            <LayoutNavGroup
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.project_monitoring_projects,
                 ])"
-                linkarea="/project-monitoring/projects"
-                icon="material-symbols:business-center"
-                single-nav-title="Projects"
-            />
+                icon="iconoir:credit-cards"
+                title="Projects"
+            >
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.project_monitoring_projects,
+                    ])"
+                    linkarea="/project-monitoring/projects"
+                    icon="material-symbols:business-center"
+                    single-nav-title="List of Projects"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.project_monitoring_projects,
+                    ])"
+                    linkarea="/project-monitoring/projects/create"
+                    icon="material-symbols:business-center"
+                    single-nav-title="New Project"
+                />
+            </LayoutNavGroup>
         </LayoutNavModuleGroup>
     </div>
 </template>

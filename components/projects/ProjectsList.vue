@@ -4,7 +4,7 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projects = useProjectStore()
 
-const { list: projectList, isEdit, information: project, getParams, pagination, errorMessage, successMessage } = storeToRefs(projects)
+const { list: projectList, pagination, errorMessage, successMessage } = storeToRefs(projects)
 
 const setEdit = (dept) => {
     isEdit.value = true
@@ -29,8 +29,8 @@ const changePaginate = (newParams) => {
 
 const headers = [
     { name: "Contract ID", id: "contract_id" },
-    { name: "Contract Name", id: "contract_name" },
-    { name: "Contract Location", id: "contract_location" },
+    { name: "Name", id: "name" },
+    { name: "Location", id: "location" },
 ]
 const actions = {
     edit: true,
@@ -42,9 +42,9 @@ const boardLoading = ref(false)
 
 </script>
 <template>
-    <LayoutBoards title="Project Lists" class="w-full flex flex-col" :loading="projects.isLoading">
+    <LayoutBoards title="Projects" class="w-full flex flex-col" :loading="projects.isLoading">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable
+            <ProjectsLayoutListView
                 :header-columns="headers"
                 :datas="projectList"
                 :actions="actions"

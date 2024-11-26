@@ -6,20 +6,19 @@ interface Employee {
 }
 interface Project {
     id: null | number,
-    contract_name: null | String,
-    contract_id: null | String
-    contract_location: null | String
-    contract_amount: null | number,
-    contract_duration: null | String
-    project_code: null | String
-    project_identifier: null | String
-    implementing_office: null | String
-    nature_of_work: null | String
-    date_of_noa: null | String
-    date_of_contract: null | String
-    date_of_ntp: null | String
-    license: null | String
-    employees: Array<Employee>
+    name: null | String,
+    contract_id: null | String,
+    location: null | String,
+    amount: null | number,
+    duration: null | String,
+    code: null | String,
+    parent_project_id: null | number,
+    nature_of_work: null | String,
+    noa_date: null | String,
+    contract_date: null | String,
+    ntp_date: null | String,
+    license: null | String,
+    employees: Array<Employee>,
 }
 
 export const useProjectStore = defineStore("projects", {
@@ -28,18 +27,17 @@ export const useProjectStore = defineStore("projects", {
         information:
         {
             id: null,
-            contract_name: null,
+            name: null,
             contract_id: null,
-            contract_location: null,
-            contract_amount: 0,
-            contract_duration: null,
-            project_code: null,
-            project_identifier: null,
-            implementing_office: null,
+            location: null,
+            amount: 0,
+            duration: null,
+            code: null,
+            parent_project_id: null,
             nature_of_work: null,
-            date_of_noa: null,
-            date_of_contract: null,
-            date_of_ntp: null,
+            noa_date: null,
+            contract_date: null,
+            ntp_date: null,
             license: null,
             employees: []
         } as Project,
@@ -90,7 +88,7 @@ export const useProjectStore = defineStore("projects", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.data
+                        this.list = response._data
                         this.pagination = {
                             first_page: response._data.links.first,
                             pages: response._data.meta.links,
@@ -186,44 +184,6 @@ export const useProjectStore = defineStore("projects", {
                 this.errorMessage = error.value.data.message
                 return error
             }
-        },
-        async projectMemberList (id: any) {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApiO(
-                "api/project-monitoring/project-member-list/" + id,
-                {
-                    method: "GET",
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.information.employees = response._data.data
-                        }
-                    },
-                }
-            )
-        },
-        async attachEmployee (projectId: number | null, employeeIds: number[]) {
-            this.successMessage = ""
-            this.errorMessage = ""
-            await useHRMSApi(
-                `/api/project-monitoring/attach-employee/${projectId}`,
-                {
-                    method: "PUT",
-                    body: { employee_id: employeeIds },
-                    watch: false,
-                    onResponseError: ({ response }) => {
-                        this.errorMessage = response._data.message || "Failed to attach employee."
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.getProjectInformation(projectId)
-                            this.projectMemberList(projectId)
-                            this.successMessage = response._data.message || "Employee attached successfully."
-                        }
-                    },
-                }
-            )
         },
 
     },

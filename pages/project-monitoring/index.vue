@@ -7,7 +7,7 @@
         <div
             class="w-full"
         >
-            Projects Dashboard
+            Dashboard
         </div>
     </LayoutAcessContainer>
 </template>
