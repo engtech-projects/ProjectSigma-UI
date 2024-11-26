@@ -53,6 +53,15 @@ const createJournalEntry = async () => {
         })
     }
 }
+journal.value.total_debit = computed(() => {
+    return journal.value.details.reduce((acc, item) => acc + parseFloat(item.debit), 0)
+})
+journal.value.total_credit = computed(() => {
+    return journal.value.details.reduce((acc, item) => acc + parseFloat(item.credit), 0)
+})
+journal.value.entry_balance = computed(() => {
+    return journal.value.total_debit - journal.value.total_credit
+})
 </script>
 <template>
     <LayoutBoards title="Journal Entry Form" class="w-90" :loading="journal.isLoading">
@@ -135,9 +144,6 @@ const createJournalEntry = async () => {
                                 v-for="(_detail, idx) in journal.details"
                                 :key="'detail'+idx"
                                 v-model:details="journal.details[idx]"
-                                v-model:total-debit="journal.total_debit"
-                                v-model:total-credit="journal.total_credit"
-                                v-model:entry-balance="journal.entry_balance"
                                 :index="idx"
                                 @delete-item="removeDetails(idx)"
                             />
@@ -152,7 +158,7 @@ const createJournalEntry = async () => {
                                 <div>
                                     <label class="text-xs italic">Total Debit</label>
                                     <input
-                                        v-model="journal.total_debit"
+                                        :value="journal.total_debit"
                                         type="number"
                                         class="w-full rounded-lg h-9 text-sm bg-white"
                                         disabled
@@ -161,7 +167,7 @@ const createJournalEntry = async () => {
                                 <div>
                                     <label class="text-xs italic">Total Credit</label>
                                     <input
-                                        v-model="journal.total_credit"
+                                        :value="journal.total_credit"
                                         type="number"
                                         class="w-full rounded-lg h-9 text-sm bg-white"
                                         disabled
@@ -170,7 +176,7 @@ const createJournalEntry = async () => {
                                 <div>
                                     <label class="text-xs italic">Balance</label>
                                     <input
-                                        v-model="journal.entry_balance"
+                                        :value="journal.entry_balance"
                                         type="number"
                                         class="w-full rounded-lg h-9 text-sm bg-white"
                                         disabled
