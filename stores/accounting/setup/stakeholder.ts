@@ -17,6 +17,7 @@ export const useStakeHolderStore = defineStore("stakeholderStore", {
     actions: {
         async getStakeholders () {
             this.isLoading = true
+            this.getParams.type = "payee"
             const { data, error } = await useAccountingApi(
                 "/api/stakeholders",
                 {

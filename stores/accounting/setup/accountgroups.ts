@@ -83,12 +83,8 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
         async editAccountGroup () {
             this.successMessage = ""
             this.errorMessage = ""
-            this.accountGroup.account_id = []
-            this.accountGroup.accounts.forEach((element) => {
-                this.accountGroup.account_id.push(element.account_id)
-            })
             const { data, error } = await useAccountingApi(
-                "/api/account-group/" + this.accountGroup.account_group_id,
+                "/api/account-group/" + this.accountGroup.id,
                 {
                     method: "PATCH",
                     body: this.accountGroup,
@@ -105,7 +101,8 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
             }
         },
 
-        async deleteAccountType (id: number) {
+        async deleteAccountGroup (id: number) {
+            this.isLoading = true
             const { data, error } = await useAccountingApi(
                 "/api/account-group/" + id,
                 {
@@ -113,7 +110,12 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
                     body: this.accountGroup,
                     watch: false,
                     onResponse: ({ response }) => {
-                        this.successMessage = response._data.message
+                        this.isLoading = false
+                        if (response._data.success) {
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
                     },
                 }
             )
@@ -122,16 +124,20 @@ export const useAccountGroupStore = defineStore("accountGroupStore", {
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
-                this.errorMessage = "Error"
+                this.errorMessage = "Something went wrong"
                 return error
             }
+        },
+
+        clearMessages () {
+            this.errorMessage = ""
+            this.successMessage = ""
         },
 
         reset () {
             this.accountGroup = {
                 id: null,
                 name: null,
-                accounts: []
             }
             this.successMessage = ""
             this.errorMessage = ""
