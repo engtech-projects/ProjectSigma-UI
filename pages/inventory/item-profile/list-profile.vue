@@ -17,10 +17,16 @@ const headers = [
     { name: "Height", id: "height" },
     { name: "Outside Diameter", id: "outside_diameter" },
     { name: "Inside Diameter", id: "inside_diameter" },
-    { name: "Volume", id: "volume_val" },
-    { name: "Specification", id: "specification" },
+    { name: "Angle", id: "angle" },
+    { name: "Size", id: "size" },
+    { name: "Volume", id: "volume" },
+    { name: "Weight", id: "weight" },
     { name: "Grade", id: "grade" },
+    { name: "Volts", id: "volts" },
+    { name: "Plates", id: "plates" },
+    { name: "Part Number", id: "part_number" },
     { name: "Color", id: "color" },
+    { name: "Specification", id: "specification" },
     { name: "UOM", id: "uom" },
     { name: "Item Group", id: "item_group" },
     { name: "Sub Item Group", id: "sub_item_group" },
@@ -45,7 +51,7 @@ const changePaginate = (newParams) => {
                 <InventoryItemProfileList
                     title="Item Profile List"
                     :header-columns="headers"
-                    :data="itemDetails.list"
+                    :datas="itemDetails.list"
                 />
             </div>
             <div class="flex justify-end mx-auto">
