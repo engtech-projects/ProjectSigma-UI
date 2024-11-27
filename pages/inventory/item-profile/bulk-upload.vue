@@ -35,25 +35,49 @@ const headers = [
 const snackbar = useSnackbar()
 
 const BulkUpload = async (event) => {
-    const file = event.target.files[0]
-    const formData = new FormData()
-    formData.append("file", file)
-    await main.doBulkUpload(formData)
-}
-const storeBulkUpload = async () => {
-    main.listProcess.data = main.listProcess.data.filter(data => data.isCheck === true)
-    await main.storeBulkUpload()
-    if (main.errorMessage !== "") {
+    try {
+        const file = event.target.files[0]
+        const formData = new FormData()
+        formData.append("file", file)
+        await main.doBulkUpload(formData)
+        if (main.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: main.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: main.successMessage
+            })
+        }
+    } catch (error) {
         snackbar.add({
             type: "error",
             text: main.errorMessage
         })
-    } else {
+    }
+}
+const storeBulkUpload = async () => {
+    try {
+        main.listProcess.data = main.listProcess.data.filter(data => data.isCheck === true)
+        await main.storeBulkUpload()
+        if (main.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: main.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: main.successMessage
+            })
+        }
+    } catch (error) {
         snackbar.add({
-            type: "success",
-            text: main.successMessage
+            type: "error",
+            text: main.errorMessage
         })
-        main.$reset()
     }
 }
 </script>

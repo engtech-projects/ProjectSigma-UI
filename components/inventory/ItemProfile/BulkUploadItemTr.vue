@@ -28,7 +28,7 @@ defineProps({
             <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
                 <InventoryCommonFormPsTextInputSelect
                     v-model="data.item_code"
-                    :item-profile="data"
+                    :item-profile="dataItem[index]"
                     title="Item Code"
                     :is-standard="false"
                 />
