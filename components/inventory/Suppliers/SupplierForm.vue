@@ -165,8 +165,8 @@ const removeAttachment = (index) => {
                     <div class="w-full flex flex-row gap-4">
                         <LayoutFormPsTextInput v-model="form.filled_by" class="w-full" title="Filled By" />
                         <LayoutFormPsTextInput v-model="form.filled_designation" class="w-full" title="Filled Designation" />
+                        <LayoutFormPsDateInput v-model="form.filled_date" class="w-full" title="Filled Date" />
                     </div>
-                    <LayoutFormPsDateInput v-model="form.filled_date" class="w-full" title="Filled Date" />
                     <div class="flex flex-col full gap-2">
                         <div class="flex full gap-2">
                             <label class="block mb-1 text-sm font-medium text-gray-900">Attachments:</label>
