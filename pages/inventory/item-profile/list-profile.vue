@@ -11,16 +11,22 @@ main.getItemProfile()
 
 const headers = [
     { name: "Item Description", id: "item_description" },
-    { name: "Thickness", id: "thickness_val" },
-    { name: "Length", id: "length_val" },
-    { name: "Width", id: "width_val" },
-    { name: "Height", id: "height_val" },
-    { name: "Outside Diameter", id: "outside_diameter_val" },
-    { name: "Inside Diameter", id: "inside_diameter_val" },
-    { name: "Volume", id: "volume_val" },
-    { name: "Specification", id: "specification" },
+    { name: "Thickness", id: "thickness" },
+    { name: "Length", id: "length" },
+    { name: "Width", id: "width" },
+    { name: "Height", id: "height" },
+    { name: "Outside Diameter", id: "outside_diameter" },
+    { name: "Inside Diameter", id: "inside_diameter" },
+    { name: "Angle", id: "angle" },
+    { name: "Size", id: "size" },
+    { name: "Volume", id: "volume" },
+    { name: "Weight", id: "weight" },
     { name: "Grade", id: "grade" },
+    { name: "Volts", id: "volts" },
+    { name: "Plates", id: "plates" },
+    { name: "Part Number", id: "part_number" },
     { name: "Color", id: "color" },
+    { name: "Specification", id: "specification" },
     { name: "UOM", id: "uom" },
     { name: "Item Group", id: "item_group" },
     { name: "Sub Item Group", id: "sub_item_group" },
@@ -45,7 +51,7 @@ const changePaginate = (newParams) => {
                 <InventoryItemProfileList
                     title="Item Profile List"
                     :header-columns="headers"
-                    :data="itemDetails.list"
+                    :datas="itemDetails.list"
                 />
             </div>
             <div class="flex justify-end mx-auto">

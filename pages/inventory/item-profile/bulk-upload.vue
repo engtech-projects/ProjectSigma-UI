@@ -7,26 +7,25 @@ useHead({
 
 const main = useItemBulkProfileStore()
 const { isLoading } = storeToRefs(main)
-
+const config = useRuntimeConfig()
 const headers = [
     { name: "Item Description", id: "item_description" },
-    { name: "Thickness", id: "thickness_val" },
-    { name: "Thickness UOM", id: "thickness_uom" },
-    { name: "Length", id: "length_val" },
-    { name: "Length UOM", id: "length_uom" },
-    { name: "Width", id: "width_val" },
-    { name: "Width UOM", id: "width_uom" },
-    { name: "Height", id: "height_val" },
-    { name: "Height UOM", id: "height_uom" },
-    { name: "Outside Diameter", id: "outside_diameter_val" },
-    { name: "Outside Diameter UOM", id: "outside_diameter_uom" },
-    { name: "Inside Diameter", id: "inside_diameter_val" },
-    { name: "Inside Diameter UOM", id: "inside_diameter_uom" },
-    { name: "Volume", id: "volume_val" },
-    { name: "Volume UOM", id: "volume_uom" },
-    { name: "Specification", id: "specification" },
+    { name: "Thickness", id: "thickness" },
+    { name: "Length", id: "length" },
+    { name: "Width", id: "width" },
+    { name: "Height", id: "height" },
+    { name: "Outside Diameter", id: "outside_diameter" },
+    { name: "Inside Diameter", id: "inside_diameter" },
+    { name: "Angle", id: "angle" },
+    { name: "Size", id: "size" },
+    { name: "Volume", id: "volume" },
+    { name: "Weight", id: "weight" },
     { name: "Grade", id: "grade" },
+    { name: "Volts", id: "volts" },
+    { name: "Plates", id: "plates" },
+    { name: "Part Number", id: "part_number" },
     { name: "Color", id: "color" },
+    { name: "Specification", id: "specification" },
     { name: "UOM", id: "uom" },
     { name: "Item Group", id: "item_group" },
     { name: "Sub Item Group", id: "sub_item_group" },
@@ -65,21 +64,32 @@ const storeBulkUpload = async () => {
         ])"
     >
         <div class="flex flex-col gap-8 bg-white border border-gray-200 rounded-lg shadow-md p-4">
-            <div class="flex justify-between items-center mt-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mt-4">
                 <div>
                     <h1 class="text-xl font-bold uppercase">
                         Bulk Upload
                     </h1>
                 </div>
-                <div class="w-full max-w-sm">
-                    <label class="hover:text-green-600 hover:bg-gray-100 hover:border-green-600 w-full block mb-2 text-sm font-medium text-gray-100 text-center bg-green-600 px-2 py-3 cursor-pointer border rounded" for="bulk_upload_file">Upload CSV or Excel file</label>
-                    <input
-                        id="bulk_upload_file"
-                        class="hidden text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none "
-                        type="file"
-                        accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                        @change="BulkUpload"
-                    >
+                <div class="flex flex-row gap-4 w-full max-w-lg">
+                    <div class="w-full max-w-sm">
+                        <a target="_blank" :href="config.public.INVENTORY_API_URL + '/storage/public/downloadables/itemprofile.csv'" class="hover:text-green-600 hover:bg-gray-100 hover:border-green-600 w-full block mb-2 text-sm font-medium text-gray-100 text-center bg-green-600 px-2 py-3 cursor-pointer border rounded">
+                            <Icon name="mage:file-download-fill" class="h-5 w-5 lg:h-5 lg:w-5" />
+                            Download Template
+                        </a>
+                    </div>
+                    <div class="w-full">
+                        <label class="block hover:text-green-600 hover:bg-gray-100 hover:border-green-600 w-full mb-2 text-sm font-medium text-gray-100 text-center bg-green-600 px-2 py-3 cursor-pointer border rounded" for="bulk_upload_file">
+                            <Icon name="i-ic:round-upload-file" class="h-5 w-5 lg:h-5 lg:w-5" />
+                            Upload CSV / Excel File
+                        </label>
+                        <input
+                            id="bulk_upload_file"
+                            class="hidden text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none "
+                            type="file"
+                            accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            @change="BulkUpload"
+                        >
+                    </div>
                 </div>
             </div>
             <LayoutLoadingContainer class="w-full" :loading="isLoading">
