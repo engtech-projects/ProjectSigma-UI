@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 const profileStore = useItemProfileStore()
-const { newItemProfile, formItemProfile, addItemProfile, uom, uomVolume, uomLength, uomWeight, uomArea, uomForce, uomDimension, uomCustom } = storeToRefs(profileStore)
+const { newItemProfile, formItemProfile, addItemProfile, uom } = storeToRefs(profileStore)
 defineProps({
     actions: {
         type: Object,
@@ -10,37 +10,6 @@ defineProps({
     },
 })
 const snackbar = useSnackbar()
-const getType = (id:number) => {
-    if (uom.value.length >= 1) {
-        const symbol = uom.value.map((data: any) => {
-            return data.id === id ? data.symbol : null
-        }).filter((num:any): num is number => num !== null)
-        return symbol ? symbol[0] : null
-    }
-    return null
-}
-const AllTypes = ref({
-    allType: uom,
-    lengthType: uomLength,
-    weightType: uomWeight,
-    volumeType: uomVolume,
-    areaType: uomArea,
-    forceType: uomForce,
-    dimensionType: uomDimension,
-    customType: uomCustom,
-})
-const inventoryTypes = ref(
-    [
-        {
-            id: "Inventoriable",
-            name: "Inventoriable",
-        },
-        {
-            id: "Non-Inventoriable",
-            name: "Non-Inventoriable",
-        },
-    ]
-)
 const doAddItemProfile = (item: any, id: number) => {
     newItemProfile.value.push(item)
     addItemProfile.value.splice(id, 1)
@@ -51,23 +20,22 @@ const getOne = () => {
             id: null,
             item_code: "",
             item_description: "",
-            thickness_val: null,
-            thickness_uom: null,
-            length_val: null,
-            length_uom: null,
-            width_val: null,
-            width_uom: null,
-            height_val: null,
-            height_uom: null,
-            outside_diameter_val: null,
-            outside_diameter_uom: null,
-            inside_diameter_val: null,
-            inside_diameter_uom: null,
-            specification: "",
-            volume: null,
-            volume_uom: null,
+            thickness: "",
+            length: "",
+            width: "",
+            height: "",
+            outside_diameter: "",
+            inside_diameter: "",
+            angle: "",
+            size: "",
+            volume: "",
+            weight: "",
             grade: "",
+            volts: "",
+            plates: "",
+            part_number: "",
             color: "",
+            specification: "",
             uom: null,
             uom_group_id: "",
             item_group: "",
@@ -157,10 +125,16 @@ const doStoreItemProfile = async () => {
                         <InventoryCommonTableItemTh title="Height" />
                         <InventoryCommonTableItemTh title="Outside diameter" />
                         <InventoryCommonTableItemTh title="Inside diameter" />
+                        <InventoryCommonTableItemTh title="Angle" />
+                        <InventoryCommonTableItemTh title="Size" />
                         <InventoryCommonTableItemTh title="Volume" />
-                        <InventoryCommonTableItemTh title="Specification" />
+                        <InventoryCommonTableItemTh title="Weight" />
                         <InventoryCommonTableItemTh title="Grade" />
+                        <InventoryCommonTableItemTh title="Volts" />
+                        <InventoryCommonTableItemTh title="Plates" />
+                        <InventoryCommonTableItemTh title="Part Number" />
                         <InventoryCommonTableItemTh title="Color" />
+                        <InventoryCommonTableItemTh title="Specification" />
                         <InventoryCommonTableItemTh title="UOM" />
                         <InventoryCommonTableItemTh title="Item Group" />
                         <InventoryCommonTableItemTh title="Sub Item Group" />
@@ -172,9 +146,6 @@ const doStoreItemProfile = async () => {
                     <template v-for="(itemProfile, index) in addItemProfile" :key="itemProfile">
                         <InventoryCommonTableItemProfileAppend
                             v-model:itemProfile="addItemProfile[index]"
-                            :index="index"
-                            :inventory-types="inventoryTypes"
-                            :uom-types="AllTypes"
                             @add-item="doAddItemProfile"
                             @remove-item="removeAppendItemProfile"
                         />
@@ -183,9 +154,6 @@ const doStoreItemProfile = async () => {
                         <template v-if="dataValue.is_edit">
                             <InventoryCommonTableItemProfileEdit
                                 v-model:itemProfile="newItemProfile[index]"
-                                :index="index"
-                                :inventory-types="inventoryTypes"
-                                :uom-types="AllTypes"
                                 @do-edit-item="doEditItem(dataValue, index)"
                                 @do-hide-edit-item="hideEditItem(index)"
                             />
@@ -198,41 +166,52 @@ const doStoreItemProfile = async () => {
                                 {{ dataValue.item_description }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.thickness_val }}
-                                {{ getType(dataValue.thickness_uom) }}
+                                {{ dataValue.thickness }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.length_val }}
-                                {{ getType(dataValue.length_uom) }}
+                                {{ dataValue.length }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.width_val }}
-                                {{ getType(dataValue.width_uom) }}
+                                {{ dataValue.width }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.height_val }}
-                                {{ getType(dataValue.height_uom) }}
+                                {{ dataValue.height }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.outside_diameter_val }}
-                                {{ getType(dataValue.outside_diameter_uom) }}
+                                {{ dataValue.outside_diameter }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.inside_diameter_val }}
-                                {{ getType(dataValue.inside_diameter_uom) }}
+                                {{ dataValue.inside_diameter }}
+                            </td>
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                {{ dataValue.angle }}
+                            </td>
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                {{ dataValue.size }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.volume }}
-                                {{ getType(dataValue.volume_uom) }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
-                                {{ dataValue.specification }}
+                                {{ dataValue.weight }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.grade }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                {{ dataValue.volts }}
+                            </td>
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                {{ dataValue.plates }}
+                            </td>
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                {{ dataValue.part_number }}
+                            </td>
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ dataValue.color }}
+                            </td>
+                            <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                {{ dataValue.specification }}
                             </td>
                             <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                 {{ getTypeUOM(dataValue.uom) }}
