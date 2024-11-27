@@ -162,9 +162,11 @@ const removeAttachment = (index) => {
                             Any information/document found to be false and incorrect shall be sufficient ground for disapproval of this application for accreditation.
                         </p>
                     </div>
-                    <LayoutFormPsTextInput v-model="form.filled_by" class="w-full" title="Filled By" />
-                    <LayoutFormPsTextInput v-model="form.filled_designation" class="w-full" title="Filled Designation" />
-                    <LayoutFormPsDateInput v-model="form.filled_date" class="w-full" title="Filled Date" />
+                    <div class="w-full flex flex-row gap-4">
+                        <LayoutFormPsTextInput v-model="form.filled_by" class="w-full" title="Filled By" />
+                        <LayoutFormPsTextInput v-model="form.filled_designation" class="w-full" title="Filled Designation" />
+                        <LayoutFormPsDateInput v-model="form.filled_date" class="w-full" title="Filled Date" />
+                    </div>
                     <div class="flex flex-col full gap-2">
                         <div class="flex full gap-2">
                             <label class="block mb-1 text-sm font-medium text-gray-900">Attachments:</label>
@@ -221,7 +223,12 @@ const removeAttachment = (index) => {
                         />
                     </div>
                     <div class="w-full">
-                        <LayoutFormPsTextArea v-model="form.remarks" title="Remarks" />
+                        <label
+                            class="block mb-1 text-sm font-medium text-gray-900"
+                        >
+                            Remarks
+                        </label>
+                        <InventoryCommonFormPsTextAreaCommon v-model="form.remarks" title="Remarks" />
                     </div>
                 </div>
                 <div class="flex w-full">
