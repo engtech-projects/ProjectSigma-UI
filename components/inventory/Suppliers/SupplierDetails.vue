@@ -26,6 +26,7 @@ const { data: userData } = useAuth()
 const main = useSupplierStore()
 const snackbar = useSnackbar()
 const { remarks } = storeToRefs(main)
+const config = useRuntimeConfig()
 
 const approvedRequest = async (id:number) => {
     try {
@@ -163,9 +164,15 @@ const denyRequest = async (id:any) => {
                                     {{ datas.remarks ? datas.remarks : "" }}
                                 </td>
                                 <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                    <div v-for="dataValue, index in datas.uploads" :key="index" class="flex flex-col gap-4">
-                                        <div class="flex flex-row gap-2 justify-center items-center">
-                                            <LayoutFormPsButton button-icon="i-material-symbols-light:download" button-title="Download" /> {{ dataValue.attachment_name }}
+                                    <div v-for="dataValue, index in datas.uploads" :key="index" class="flex flex-col gap-10">
+                                        <div class="flex flex-row gap-2 justify-start items-center">
+                                            <a target="_blank" :href="config.public.INVENTORY_API_URL + dataValue.file_location" class="hover:text-green-600 max-w-sm hover:bg-gray-100 hover:border-green-600 block mb-2 text-sm font-medium text-gray-100 text-center bg-green-600 px-2 py-3 cursor-pointer border rounded">
+                                                <Icon name="mage:file-download-fill" class="h-5 w-5 lg:h-5 lg:w-5" />
+                                                Download
+                                            </a>
+                                            <div>
+                                                {{ dataValue.attachment_name }}
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
