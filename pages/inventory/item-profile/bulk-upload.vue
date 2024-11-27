@@ -72,7 +72,7 @@ const storeBulkUpload = async () => {
                 </div>
                 <div class="flex flex-row gap-4 w-full max-w-lg">
                     <div class="w-full max-w-sm">
-                        <a target="_blank" :href="config.public.INVENTORY_API_URL + '/storage/public/downloadables/itemprofile.csv'" class="hover:text-green-600 hover:bg-gray-100 hover:border-green-600 w-full block mb-2 text-sm font-medium text-gray-100 text-center bg-green-600 px-2 py-3 cursor-pointer border rounded">
+                        <a target="_blank" :href="config.public.INVENTORY_API_URL + '/downloadables/ITEMPROFILE.csv'" class="hover:text-green-600 hover:bg-gray-100 hover:border-green-600 w-full block mb-2 text-sm font-medium text-gray-100 text-center bg-green-600 px-2 py-3 cursor-pointer border rounded">
                             <Icon name="mage:file-download-fill" class="h-5 w-5 lg:h-5 lg:w-5" />
                             Download Template
                         </a>
