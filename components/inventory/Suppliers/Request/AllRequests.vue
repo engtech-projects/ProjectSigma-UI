@@ -21,10 +21,9 @@ const actions = {
     edit: false,
     delete: false,
 }
-
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/bom/request-details",
+        path: "/inventory/suppliers/request-details",
         query: {
             key: data.id
         },

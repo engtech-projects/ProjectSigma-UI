@@ -2,7 +2,7 @@
 import { useSupplierStore, APPROVALS } from "@/stores/inventory/suppliers"
 import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 const mainStore = useSupplierStore()
-const { approvalList } = storeToRefs(mainStore)
+const { approvalList, editRequest } = storeToRefs(mainStore)
 
 const form = defineModel({ required: true, type: Object })
 
@@ -10,6 +10,16 @@ const approvals = useApprovalStore()
 approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
 
 const snackbar = useSnackbar()
+
+const route = useRoute()
+const validKey = ref(false)
+if (route.query.key) {
+    validKey.value = true
+    await mainStore.editOne(route.query.key)
+    editRequest.value.form = editRequest.value.details
+} else {
+    validKey.value = false
+}
 
 const storeRequestForm = async () => {
     try {

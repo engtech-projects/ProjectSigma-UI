@@ -8,6 +8,18 @@ onMounted(() => {
         mainStore.getMyRequests()
     }
 })
+const headers = [
+    { name: "Company Name", id: "company_name" },
+    { name: "Company Address", id: "company_address" },
+    { name: "Contact Person", id: "contact_person_number" },
+    { name: "Request By", id: "filled_by" },
+    { name: "Request at", id: "filled_date" },
+]
+const actions = {
+    showTable: true,
+    edit: false,
+    delete: false,
+}
 const showInformation = (data) => {
     navigateTo({
         path: "/inventory/bom/request-details",
@@ -17,19 +29,6 @@ const showInformation = (data) => {
         replace: true
     })
 }
-
-const headers = [
-    { name: "Company Name", id: "company_name" },
-    { name: "Company Address", id: "company_address" },
-    { name: "Contact Person", id: "contact_person_number" },
-    { name: "Request By", id: "filled_by" },
-    { name: "Request at", id: "filled_date" },
-]
-
-const actions = {
-    showTable: true,
-}
-
 const changePaginate = (newParams) => {
     myRequests.value.params.page = newParams.page ?? ""
 }

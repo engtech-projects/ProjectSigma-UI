@@ -54,6 +54,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
         editRequest: {
             isLoading: false,
             isLoaded: false,
+            details: {},
             form: {
                 approvals: [],
                 attachments: [] as Array<Attachments>,
@@ -203,10 +204,27 @@ export const useSupplierStore = defineStore("SupplierStore", {
                 "/api/request-supplier/resource/" + id,
                 {
                     method: "GET",
-                    params: this.createRequest.details.params,
+                    params: this.createRequest.params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.createRequest.details.list = response._data.data
+                            this.createRequest.details = response._data.data
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async editOne (id: number) {
+            return await useInventoryApiO(
+                "/api/request-supplier/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.editRequest.params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.editRequest.details = response._data.data
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)
@@ -229,7 +247,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
                         this.approvedSuppliers.isLoading = false
                         if (response.ok) {
                             this.approvedSuppliers.isLoaded = true
-                            this.approvedSuppliers.list = response._data.data
+                            this.approvedSuppliers.list = response._data.data.data
                             this.approvedSuppliers.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,

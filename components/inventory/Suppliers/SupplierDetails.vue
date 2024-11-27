@@ -16,8 +16,8 @@ defineProps({
         type: Array<HeaderColumn>,
         required: true,
     },
-    data: {
-        type: Array<any>,
+    datas: {
+        type: Object,
         required: true,
     },
 })
@@ -92,16 +92,6 @@ const denyRequest = async (id:any) => {
                         {{ title }}
                     </h3>
                 </div>
-                <div>
-                    <p v-if="title" class="pl-4 text-md text-gray-900">
-                        Assignment : {{ data.department }}
-                    </p>
-                </div>
-                <div>
-                    <p v-if="title" class="pl-4 text-md text-gray-900">
-                        Year : {{ data.effectivity }}
-                    </p>
-                </div>
             </div>
             <LayoutPrint>
                 <div id="itemDetails">
@@ -115,36 +105,86 @@ const denyRequest = async (id:any) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="dataValue, index in data.item_summary" :key="index" class="bg-white border-b">
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.item_summary }}
-                                    </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.unit ? dataValue.unit : "" }}
-                                    </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.price ? dataValue.price : 0 }}
-                                    </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.quantity ? dataValue.quantity : 0 }}
-                                    </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.amount ? dataValue.amount : 0 }}
-                                    </td>
-                                </tr>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.supplier_code }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.company_name }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.company_address }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.company_contact_number }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.company_email }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.contact_person_name }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.contact_person_number }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.contact_person_designation }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.type_of_ownership }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.nature_of_business }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.products_services }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.classification }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.tin }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.terms_and_conditions }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.filled_by }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.filled_designation }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.filled_date }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.requirements_complete }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.remarks ? datas.remarks : "" }}
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <div v-for="dataValue, index in datas.uploads" :key="index" class="flex flex-col gap-4">
+                                        <div class="flex flex-row gap-2 justify-center items-center">
+                                            <LayoutFormPsButton button-icon="i-material-symbols-light:download" button-title="Download" /> {{ dataValue.attachment_name }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    {{ datas.request_status }}
+                                </td>
                             </tbody>
                         </table>
                     </div>
                     <div id="approvals" class="w-full">
-                        <LayoutApprovalsListView :approvals="data.approvals" />
+                        <LayoutApprovalsListView :approvals="datas.approvals" />
                     </div>
                 </div>
             </LayoutPrint>
             <div id="footer">
-                <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+                <div v-if="datas.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
                     <HrmsCommonApprovalDenyButton
                         v-model:deny-remarks="remarks"
-                        :request-id="data.id"
+                        :request-id="datas.id"
                         @approve="approvedRequest"
                         @deny="denyRequest"
                     />

@@ -13,6 +13,8 @@ const { editRequest } = storeToRefs(mainStore)
         ])"
         class="w-full"
     >
-        <InventorySuppliersSupplierForm v-model="editRequest.form" />
+        <LayoutBoards title="EDIT SUPPLIER ACCREDITATION FORM" class="w-full" :loading="editRequest.isLoading">
+            <InventorySuppliersSupplierForm v-model="editRequest.form" />
+        </LayoutBoards>
     </LayoutAcessContainer>
 </template>
