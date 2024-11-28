@@ -526,6 +526,14 @@ const config = useRuntimeConfig()
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Unit Of Measurement"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        'AdminOnly',
+                    ])"
+                    linkarea="/inventory/setup/synchronization"
+                    icon="iconoir:user-square"
+                    single-nav-title="Synchronization"
+                />
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
