@@ -44,6 +44,15 @@ export const useJournalStore = defineStore("journalStore", {
             errorMessage: "",
             successMessage: "",
         },
+        forVoucherEntries: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         draftedEntries: {
             isLoading: false,
             isLoaded: false,
@@ -181,6 +190,30 @@ export const useJournalStore = defineStore("journalStore", {
                 }
             )
         },
+        async getForVoucherEntries () {
+            this.forVoucherEntries.isLoaded = true
+            await useAccountingApi(
+                "/api/journal-entry/for-voucher-entries",
+                {
+                    method: "GET",
+                    params: this.forVoucherEntries.params,
+                    onRequest: () => {
+                        this.forVoucherEntries.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.forVoucherEntries.isLoading = false
+                        if (response.ok) {
+                            this.forVoucherEntries.list = response._data.data.data
+                            this.forVoucherEntries.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
         async generateJournalNumber () {
             await useAccountingApi(
                 "/api/journal-entry/generate-journal-number",
@@ -198,12 +231,6 @@ export const useJournalStore = defineStore("journalStore", {
             const callFunctions = []
             if (this.paymentRequestEntries.isLoaded) {
                 callFunctions.push(this.getPaymentRequestEntries)
-            }
-            if (this.unpostedEntries.isLoaded) {
-                callFunctions.push(this.getUnpostedEntries)
-            }
-            if (this.draftedEntries.isLoaded) {
-                callFunctions.push(this.getDraftedEntries)
             }
             if (this.postedEntries.isLoaded) {
                 callFunctions.push(this.getPostedEntries)

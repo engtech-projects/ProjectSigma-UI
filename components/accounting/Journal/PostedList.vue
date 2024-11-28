@@ -27,7 +27,7 @@ const headers = [
     { name: "Journal No.", id: "journal_no" },
     { name: "Reference No.", id: "reference_no" },
     { name: "Payee", id: "payment_request.stakeholder.name" },
-    { name: "Amount", id: "payment_request.stakeholder.total" },
+    { name: "Amount", id: "payment_request.total" },
     { name: "Date Posted", id: "date_filed" },
     { name: "Status", id: "status" },
 ]
