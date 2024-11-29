@@ -63,6 +63,8 @@ const showEdit = () => {
                 </div>
             </div>
         </div>
+    </LayoutPrint>
+    <LayoutPrint print-button-title="Print Draft">
         <div class="relative overflow-x-auto shadow-md">
             <HrmsPayrollSalaryChargingTable :payroll-request="payrollDraft" />
         </div>
