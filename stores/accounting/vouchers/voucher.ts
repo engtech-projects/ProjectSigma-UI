@@ -2,7 +2,27 @@ import { defineStore } from "pinia"
 
 export const useVoucherStore = defineStore("voucherStore", {
     state: () => ({
-        voucher: {
+        voucherDisbursement: {
+            isLoading: false,
+            isLoaded: false,
+            stakeholder_id: null,
+            voucher_no: null,
+            account_id: null,
+            particulars: "",
+            net_amount: 0,
+            amount_in_words: null,
+            date_encoded: null,
+            voucher_date: null,
+            check_no: null,
+            details: [],
+            reference_no: null,
+            approvals: [],
+            errorMessage: "",
+            successMessage: "",
+        },
+        voucherCash: {
+            isLoading: false,
+            isLoaded: false,
             stakeholder_id: null,
             book_id: null,
             voucher_no: "",
@@ -20,313 +40,428 @@ export const useVoucherStore = defineStore("voucherStore", {
             reference_no: null,
             status: "pending",
             form_id: null,
+            approvals: [],
+            errorMessage: "",
+            successMessage: "",
         },
-        voucherClone: null,
-        filter: {
-            name: null,
-            value: ""
+        allCashVouchers: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
         },
-        formTypes: [],
-        list: [],
-        vlist: [],
-        pagination: {},
-        vpagination: {},
-        params: {},
-        vparams: {},
+        myCashVouchers: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        myCashApprovals: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        allDisbursementVouchers: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        myDisbursementVouchers: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        myDisbursementApprovals: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         errorMessage: "",
         successMessage: "",
-        isLoading: {
-            list: false,
-            create: false,
-            show: false,
-            edit: false,
-            delete: false
-        },
-        isEdit: false
+        isEdit: false,
+        remarks: ""
     }),
-    getters: {
-        filteredList () {
-            if (this.filter.value.length > 0 && this.filter.name.length > 0) {
-                return this.list.filter(v => v[this.filter.name].toString().toLowerCase().includes(this.filter.value.toString().toLowerCase()))
-            }
-            return this.list
-        }
-    },
+    getters: {},
     actions: {
-        async getVouchers () {
-            this.isLoading.list = true
-            const { data, error } = await useAccountingApi(
-                "/api/voucher",
-                {
-                    method: "GET",
-                    params: this.params,
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.isLoading.list = false
-                        this.list = response._data.data
-                        this.pagination = {
-                            first_page: response._data.links.first,
-                            pages: response._data.meta.links,
-                            last_page: response._data.links.last,
-                        }
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
-
-        async getForVouchering () {
-            this.isLoading.list = true
-            const { data, error } = await useAccountingApi(
-                "/api/voucher",
-                {
-                    method: "GET",
-                    params: this.vparams,
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.isLoading.list = false
-                        this.vlist = response._data.data
-                        this.vpagination = {
-                            first_page: response._data.links.first,
-                            pages: response._data.meta.links,
-                            last_page: response._data.links.last,
-                        }
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
-
-        async createVoucher () {
-            this.isLoading.create = true
-            this.successMessage = ""
-            this.errorMessage = ""
+        async getAllCashVouchers () {
+            this.allCashVouchers.isLoaded = true
             await useAccountingApi(
-                "/api/voucher",
+                "/api/vouchers/cash/all-list",
+                {
+                    method: "GET",
+                    params: this.allCashVouchers.params,
+                    onRequest: () => {
+                        this.allCashVouchers.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.allCashVouchers.isLoading = false
+                        if (response.ok) {
+                            this.allCashVouchers.list = response._data.data.data
+                            this.allCashVouchers.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getMyCashVouchers () {
+            this.myCashVouchers.isLoaded = true
+            await useAccountingApi(
+                "/api/vouchers/cash/my-requests",
+                {
+                    method: "GET",
+                    params: this.myCashVouchers.params,
+                    onRequest: () => {
+                        this.myCashVouchers.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.myCashVouchers.isLoading = false
+                        if (response.ok) {
+                            this.myCashVouchers.list = response._data.data.data
+                            this.myCashVouchers.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getMyCashApprovals () {
+            this.myCashApprovals.isLoaded = true
+            await useAccountingApi(
+                "/api/vouchers/cash/my-approvals",
+                {
+                    method: "GET",
+                    params: this.myCashApprovals.params,
+                    onRequest: () => {
+                        this.myCashApprovals.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.myCashApprovals.isLoading = false
+                        if (response.ok) {
+                            this.myCashApprovals.list = response._data.data.data
+                            this.myCashApprovals.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getAllDisbursementVouchers () {
+            this.allDisbursementVouchers.isLoaded = true
+            await useAccountingApi(
+                "/api/vouchers/disbursement/all-list",
+                {
+                    method: "GET",
+                    params: this.allDisbursementVouchers.params,
+                    onRequest: () => {
+                        this.allDisbursementVouchers.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.allDisbursementVouchers.isLoading = false
+                        if (response.ok) {
+                            this.allDisbursementVouchers.list = response._data.data.data
+                            this.allDisbursementVouchers.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getMyDisbursementVouchers () {
+            this.myDisbursementVouchers.isLoaded = true
+            await useAccountingApi(
+                "/api/vouchers/disbursement/my-requests",
+                {
+                    method: "GET",
+                    params: this.myDisbursementVouchers.params,
+                    onRequest: () => {
+                        this.myDisbursementVouchers.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.myDisbursementVouchers.isLoading = false
+                        if (response.ok) {
+                            this.myDisbursementVouchers.list = response._data.data.data
+                            this.myDisbursementVouchers.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getMyDisbursementApprovals () {
+            this.myDisbursementApprovals.isLoaded = true
+            await useAccountingApi(
+                "/api/vouchers/disbursement/my-approvals",
+                {
+                    method: "GET",
+                    params: this.myDisbursementApprovals.params,
+                    onRequest: () => {
+                        this.myDisbursementApprovals.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.myDisbursementApprovals.isLoading = false
+                        if (response.ok) {
+                            this.myDisbursementApprovals.list = response._data.data.data
+                            this.myDisbursementApprovals.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async addVoucherDisbursement () {
+            await useAccountingApiO(
+                "/api/vouchers/disbursement/create-voucher",
                 {
                     method: "POST",
-                    body: this.voucher,
+                    body: this.voucherDisbursement,
                     watch: false,
-                    onResponse: ({ response }) => {
-                        this.isLoading.create = false
-                        this.voucher = response._data
-                        if (!response.ok) {
-                            this.errorMessage = response._data.message
+                    onRequest: () => {
+                        this.voucherDisbursement.isLoading = true
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.voucherDisbursement.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.voucherDisbursement.isLoading = false
+                        if (response.ok) {
+                            this.reloadResourcesDisbursement()
+                            this.voucherDisbursement.successMessage = response._data.message
                         } else {
-                            this.successMessage = "New voucher successfully created."
-                            this.getVouchers()
+                            this.voucherDisbursement.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
             )
         },
-
-        async editVoucher () {
-            const v = this.voucherClone ? this.voucherClone : this.voucher
-            this.isLoading.edit = false
-            this.successMessage = ""
-            this.errorMessage = ""
-            const { data, error } = await useAccountingApi(
-                "/api/voucher/" + this.voucher.id,
+        async addVoucherCash () {
+            await useAccountingApiO(
+                "/api/vouchers/cash",
                 {
-                    method: "PATCH",
-                    body: v,
+                    method: "POST",
+                    body: this.voucherCash,
                     watch: false,
+                    onRequest: () => {
+                        this.voucherCash.isLoading = true
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.voucherCash.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.voucherCash.isLoading = false
+                        if (response.ok) {
+                            this.reloadResourcesCash()
+                            this.voucherCash.successMessage = response._data.message
+                        } else {
+                            this.voucherCash.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.isLoading.edit = false
-                this.voucherClone = null
-                this.getVouchers()
-                this.successMessage = "Voucher successfully updated."
-                return data
-            } else if (error.value) {
-                this.isLoading.edit = false
-                this.errorMessage = error.value.data.message
-                return error
-            }
         },
-
-        async generateVoucherNumber (code:String) {
-            this.isLoading.create = true
-            this.successMessage = ""
-            this.errorMessage = ""
+        async generateDisbursementVoucherNo () {
             await useAccountingApi(
-                "/api/voucher/number/" + code,
+                "/api/vouchers/disbursement/generate-number",
                 {
                     method: "GET",
-                    watch: false,
                     onResponse: ({ response }) => {
-                        this.isLoading.create = false
-                        if (!response.ok) {
-                            this.errorMessage = response._data.message
+                        if (response.ok) {
+                            this.voucherDisbursement.voucher_no = response._data.data
+                        }
+                    },
+                }
+            )
+        },
+        async generateCashVoucherNo () {
+            await useAccountingApi(
+                "/api/vouchers/cash/generate-number",
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.voucherCash.voucher_no = response._data.data
+                        }
+                    },
+                }
+            )
+        },
+        reloadResourcesCash () {
+            const backup = this.voucherCash.approvals
+            const callFunctions = []
+            if (this.allCashVouchers.isLoaded) {
+                callFunctions.push(this.getAllCashVouchers)
+            }
+            if (this.myCashVouchers.isLoaded) {
+                callFunctions.push(this.getMyCashVouchers)
+            }
+            if (this.myCashApprovals.isLoaded) {
+                callFunctions.push(this.getMyCashApprovals)
+            }
+            this.$reset()
+            this.voucherCash.approvals = backup
+            callFunctions.forEach((element) => {
+                element()
+            })
+        },
+        reloadResourcesDisbursement () {
+            const backup = this.voucherDisbursement.approvals
+            const callFunctions = []
+            if (this.allDisbursementVouchers.isLoaded) {
+                callFunctions.push(this.getAllDisbursementVouchers)
+            }
+            if (this.myDisbursementVouchers.isLoaded) {
+                callFunctions.push(this.getMyDisbursementVouchers)
+            }
+            if (this.myDisbursementApprovals.isLoaded) {
+                callFunctions.push(this.getMyDisbursementApprovals)
+            }
+            this.$reset()
+            this.voucherDisbursement.approvals = backup
+            callFunctions.forEach((element) => {
+                element()
+            })
+        },
+        async approveCashVoucher (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAccountingApiO(
+                "/api/approvals/approve/ACCOUNTING_CASH_VOUCHER/" + id,
+                {
+                    method: "POST",
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.reloadResourcesCash()
+                            return response._data
                         } else {
-                            this.voucher.voucher_no = response._data.voucher_no
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
             )
         },
-
-        async showVoucher (id: any) {
-            this.isLoading.show = true
-            const { data, error } = await useAccountingApi(
-                "/api/voucher/" + id,
+        async denyCashVoucher (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAccountingApiO(
+                "/api/approvals/disapprove/ACCOUNTING_CASH_VOUCHER/" + id,
                 {
-                    method: "GET",
-                    params: this.getParams,
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.isLoading.show = false
-                        this.voucher = response._data
-                        this.pagination = {
-                            first_page: response._data.first_page_url,
-                            pages: response._data.links,
-                            last_page: response._data.last_page_url,
+                    method: "POST",
+                    body: { remarks: this.remarks },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.reloadResourcesCash()
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
-
-        async getFormTypes () {
-            const { data, error } = await useAccountingApi(
-                "/api/form-types",
+        async approveDisbursementVoucher (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAccountingApiO(
+                "/api/approvals/approve/ACCOUNTING_DISBURSEMENT_VOUCHER/" + id,
                 {
-                    method: "GET",
-                    params: this.getParams,
-                    watch: false,
-                    onResponse: ({ response }) => {
-                        this.formTypes = response._data.forms
+                    method: "POST",
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.reloadResourcesDisbursement()
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
-
-        async editForm (id:any, type:any) {
-            this.isLoading.edit = false
+        async denyDisbursementVoucher (id: number) {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useAccountingApi(
-                "/api/form/" + type + "/" + id,
+            await useAccountingApiO(
+                "/api/approvals/disapprove/ACCOUNTING_DISBURSEMENT_VOUCHER/" + id,
                 {
-                    method: "PATCH",
-                    body: this.voucher,
-                    watch: false,
+                    method: "POST",
+                    body: { remarks: this.remarks },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.reloadResourcesDisbursement()
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
                 }
             )
-            if (data.value) {
-                this.isLoading.edit = false
-                this.getVouchers()
-                this.successMessage = "Voucher successfully updated."
-                return data
-            } else if (error.value) {
-                this.isLoading.edit = false
-                this.errorMessage = error.value.data.message
-                return error
-            }
-        },
-
-        async approve () {
-            this.voucher.date_encoded = dateToString(new Date(this.voucher.date_encoded))
-            this.voucher.voucher_date = dateToString(new Date(this.voucher.voucher_date))
-            const ddata = JSON.parse(JSON.stringify(this.voucher))
-            ddata.status = "approved"
-            this.isLoading.show = true
-            this.successMessage = ""
-            this.errorMessage = ""
-            const { data, error } = await useAccountingApi(
-                "/api/voucher/" + this.voucher.id,
-                {
-                    method: "PATCH",
-                    body: ddata,
-                    watch: false,
-                }
-            )
-            if (data.value) {
-                this.isLoading.show = false
-                this.getVouchers()
-                this.voucher.status = "approved"
-                this.successMessage = "Voucher has been approved"
-                return data
-            } else if (error.value) {
-                this.isLoading.show = false
-                this.errorMessage = error.value.data.message
-                return error
-            }
-        },
-
-        async updateVoucherStatus (type: String, id: any) {
-            this.isLoading.show = true
-            this.successMessage = ""
-            this.errorMessage = ""
-            const { data, error } = await useAccountingApi(
-                "/api/voucher/" + type + "/" + id,
-                {
-                    method: "PUT",
-                    body: { id },
-                    watch: false,
-                }
-            )
-            if (data.value) {
-                this.isLoading.show = false
-                this.getVouchers()
-                this.successMessage = "Voucher has been " + type
-                return data
-            } else if (error.value) {
-                this.isLoading.show = false
-                this.errorMessage = error.value.data.message
-                return error
-            }
-        },
-
-        async reject () {
-            this.voucher.status = "rejected"
-            this.isLoading.show = true
-            await this.editVoucher()
-            this.isLoading.show = false
-        },
-
-        reset () {
-            this.voucher = {
-                stakeholder_id: null,
-                book_id: null,
-                voucher_no: "",
-                account_id: null,
-                particulars: "",
-                net_amount: 0,
-                amount_in_words: null,
-                date_encoded: null,
-                voucher_date: null,
-                created_by: 1,
-                check_no: null,
-                form_type: null,
-                reference_no: null,
-                details: [],
-                form: {},
-                status: "pending",
-                form_id: null,
-            }
-            this.successMessage = ""
-            this.errorMessage = ""
         },
     },
 })

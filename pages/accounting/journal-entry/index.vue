@@ -9,15 +9,20 @@ const journalStore = useJournalStore()
         ])"
     >
         <div class="flex flex-col gap-4">
+            <div>
+                <p class="text-gray-900 text-xl font-semibold">
+                    Journal Entry
+                </p>
+            </div>
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
-                        title="Posted Journals"
-                        target-id="postedJournals"
-                    />
-                    <AccountingCommonTabsTabTitle
                         title="PRF Journal Entries"
                         target-id="paymentRequestJournals"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        title="Posted Journals"
+                        target-id="postedJournals"
                     />
                 </template>
                 <template #tab-containers>
