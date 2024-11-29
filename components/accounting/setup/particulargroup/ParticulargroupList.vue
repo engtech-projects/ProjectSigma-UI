@@ -1,22 +1,22 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useBookStore } from "@/stores/accounting/setup/book"
+import { useParticularGroupStore } from "@/stores/accounting/setup/particulargroup"
 
-const bookStore = useBookStore()
+const particularGroupStore = useParticularGroupStore()
 
-const { list: bookList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(bookStore)
+const { list: pGroupList, isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(particularGroupStore)
 
-const setEdit = (book) => {
+const setEdit = (pg) => {
     isEdit.value = true
-    bookStore.book = book
+    particularGroupStore.particularGroup = pg
 }
-const deleteBook = async (book) => {
+const deleteParticularGroup = async (pg) => {
     try {
         boardLoading.value = true
-        await bookStore.deleteBook(book.id)
+        await particularGroupStore.deleteParticularGroup(pg.id)
         snackbar.add({
             type: "success",
-            text: bookStore.successMessage
+            text: particularGroupStore.successMessage
         })
     } finally {
         boardLoading.value = false
@@ -25,12 +25,12 @@ const deleteBook = async (book) => {
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
-    bookStore.getBooks()
+    particularGroupStore.getParticularGroups()
 }
 
 const headers = [
     { name: "Name", id: "name", style: "text-left" },
-    { name: "Code", id: "code", style: "text-left" },
+    { name: "Description", id: "description", style: "text-left" },
 ]
 const actions = {
     edit: true,
@@ -42,11 +42,11 @@ const boardLoading = ref(false)
 
 </script>
 <template>
-    <LayoutBoards title="Books List" class="w-full" :loading="bookStore.isLoading.list">
+    <LayoutBoards title="Particular Group List" class="w-full" :loading="particularGroupStore.isLoading">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="bookList" :actions="actions" @edit-row="setEdit" @delete-row="deleteBook" />
+            <LayoutPsTable :header-columns="headers" :datas="pGroupList" :actions="actions" @edit-row="setEdit" @delete-row="deleteParticularGroup" />
         </div>
-        <div class="flex justify-center mx-auto">
+        <div v-if="pGroupList.length" class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
         <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">

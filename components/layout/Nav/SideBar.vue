@@ -704,6 +704,15 @@ const config = useRuntimeConfig()
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_GROUP,
+                    ])"
+                    linkarea="/accounting/setup/particular-groups"
+                    icon="iconoir:drone"
+                    single-nav-title="Particular Group"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_POSTING_PERIODS,
                     ])"
                     linkarea="/accounting/posting-period"
