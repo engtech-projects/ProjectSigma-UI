@@ -1,17 +1,12 @@
 <script setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-
-const projects = useProjectStore()
-projects.getProject()
-
 useHead({
-    title: "Projects",
+    title: "Employee Work Locations",
 })
 </script>
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_project_members,
+            AccessibilityTypes.HRMS_LOCATION_EMPLOYEES,
         ])"
     >
         <div

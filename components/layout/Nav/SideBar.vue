@@ -165,11 +165,11 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_project_members,
+                    AccessibilityTypes.HRMS_LOCATION_EMPLOYEES,
                 ])"
                 linkarea="/hrms/project"
                 icon="material-symbols:construction"
-                single-nav-title="Project Members"
+                single-nav-title="Employee Work Locations"
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([

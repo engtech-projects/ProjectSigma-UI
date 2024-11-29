@@ -1,38 +1,8 @@
 <script setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-
-const projects = useProjectStore()
-const { information } = storeToRefs(projects)
-const projId = ref()
-const selectedEmployees = ref([])
-
-watch(projId, async (newValue, oldValue) => {
-    if (oldValue !== newValue) {
-        await projects.getProjectInformation(newValue)
-        await projects.projectMemberList(newValue)
-        selectedEmployees.value = information.value.employees.project_members_ids
-    }
-})
-const boardLoading = ref(false)
-
 </script>
 <template>
-    <LayoutBoards title="Assign Employee to Project" class="w-full md:w-1/4" :loading="boardLoading">
-        <div class="text-gray-500 px-2">
-            <form @submit.prevent="attach">
-                <div class="pt-2">
-                    <HrmsCommonProjectSelector v-model="projId" :use-hrms-id="false" />
-                </div>
-                <HrmsCommonMultipleEmployeeSelector v-model="selectedEmployees" />
-                <div class="max-w-full flex flex-row-reverse mt-5">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Assign Employee
-                    </button>
-                </div>
-            </form>
-        </div>
-    </LayoutBoards>
     <LayoutBoards v-if="information" title="Project Information" class="w-full md:w-3/4" :loading="boardLoading">
+        
         <div class="w-full m-2 flex justify-between">
             <p class="text-3xl font-light">
                 {{ information.project_identifier }} <span class="text-sm font-thin">Code : <span class="text-cyan-700">{{ information.project_code }}</span> </span>
