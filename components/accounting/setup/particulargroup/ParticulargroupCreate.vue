@@ -43,11 +43,11 @@ const handleSubmit = async () => {
                 <div class="flex flex-col gap-2">
                     <div>
                         <label
-                            for="book_name"
+                            for="particular_group_name"
                             class="text-xs italic"
                         >Particular Group Name</label>
                         <input
-                            id="bookName"
+                            id="particularGroupName"
                             v-model="particularGroupStore.particularGroup.name"
                             type="text"
                             class="w-full rounded-lg"
