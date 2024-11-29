@@ -1,4 +1,5 @@
 <script setup>
+
 useHead({
     title: "Approvals",
 })
@@ -6,7 +7,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_setup_approvals,
+            AccessibilityTypes.ACCOUNTING_SETUP_APPROVALS,
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">

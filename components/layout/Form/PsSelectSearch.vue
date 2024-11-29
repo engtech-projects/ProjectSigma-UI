@@ -38,7 +38,7 @@ function selectOption (option: any) {
     forFocusOut.value.focus()
 }
 function clearSelection () {
-    result.value = {}
+    result.value = ""
 }
 function clearSearchQuery () {
     searchInput.value = ""
