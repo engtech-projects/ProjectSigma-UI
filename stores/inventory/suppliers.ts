@@ -99,6 +99,24 @@ export const useSupplierStore = defineStore("SupplierStore", {
             errorMessage: "",
             successMessage: "",
         },
+        companyNameList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+        },
+        contactPersonList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+        },
+        supplierCodeList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+        },
         errorMessage: "",
         successMessage: "",
         remarks: "",
@@ -127,6 +145,33 @@ export const useSupplierStore = defineStore("SupplierStore", {
                     },
                 }
             )
+        },
+        async fetchSelector (request:any, api:string) {
+            request.isLoading = true
+            const { data, error } = await useInventoryApi(
+                api,
+                {
+                    method: "GET",
+                    params: request.params,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        request.isLoading = false
+                        request.successMessage = response._data.message
+                        if (response._data.success) {
+                            request.successMessage = response._data.message
+                            request.list = response._data.data
+                        }
+                        if (!response._data.success) {
+                            request.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
         },
         async getMyRequests () {
             await useInventoryApi(
