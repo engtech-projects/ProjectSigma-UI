@@ -64,7 +64,7 @@ journal.value.entry_balance = computed(() => {
 })
 </script>
 <template>
-    <LayoutBoards title="Journal Entry Form" class="w-90" :loading="journal.isLoading">
+    <LayoutBoards title="" class="w-90" :loading="journal.isLoading">
         <div>
             <form @submit.prevent="createJournalEntry">
                 <div class="flex flex-col gap-16 pt-8 sticky">
@@ -90,11 +90,12 @@ journal.value.entry_balance = computed(() => {
                                 <label
                                     for="reference_no"
                                     class="text-xs italic"
-                                >Reference Number</label>
+                                >Reference Number (PRF-No)</label>
                                 <input
                                     id="reference_no"
                                     v-model="journal.reference_no"
                                     type="text"
+                                    disabled
                                     class="w-full rounded-lg"
                                     required
                                 >
@@ -105,10 +106,10 @@ journal.value.entry_balance = computed(() => {
                                 <label
                                     for="date"
                                     class="text-xs italic"
-                                >Date</label>
+                                >Entry Date:</label>
                                 <input
                                     id="date"
-                                    v-model="journal.journal_date"
+                                    v-model="journal.entry_date"
                                     type="date"
                                     class="w-full rounded-lg"
                                     required

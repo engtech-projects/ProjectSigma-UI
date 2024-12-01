@@ -1,12 +1,12 @@
 <script setup>
 import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
-import { useApprovalStore, APPROVAL_DISBURSEMENT_VOUCHER } from "@/stores/hrms/setup/approvals"
+import { useApprovalStore, APPROVAL_CASH_VOUCHER } from "@/stores/hrms/setup/approvals"
 const voucherStore = useVoucherStore()
-const { voucherDisbursement } = storeToRefs(voucherStore)
+const { voucherCash } = storeToRefs(voucherStore)
 const snackbar = useSnackbar()
 const approvals = useApprovalStore()
 
-voucherDisbursement.value.approvals = await approvals.getApprovalByName(APPROVAL_DISBURSEMENT_VOUCHER)
+voucherCash.value.approvals = await approvals.getApprovalByName(APPROVAL_CASH_VOUCHER)
 defineProps({
     fillable: {
         type: Boolean,
@@ -16,48 +16,48 @@ defineProps({
 })
 const addVoucherRequest = async () => {
     try {
-        await voucherStore.addVoucherDisbursement()
-        if (voucherDisbursement.value.successMessage) {
+        await voucherStore.addVoucherCash()
+        if (voucherCash.value.successMessage) {
             snackbar.add({
                 type: "success",
-                text: voucherDisbursement.value.successMessage
+                text: voucherCash.value.successMessage
             })
         } else {
             snackbar.add({
                 type: "error",
-                text: voucherDisbursement.value.errorMessage
+                text: voucherCash.value.errorMessage
             })
         }
     } catch {
         snackbar.add({
             type: "error",
-            text: voucherDisbursement.value.errorMessage
+            text: voucherCash.value.errorMessage
         })
     }
 }
 const removeDetails = (index) => {
-    voucherDisbursement.value.details.splice(index, 1)
+    voucherCash.value.details.splice(index, 1)
 }
-voucherDisbursement.value.total_vat_amount = computed(() => {
-    return voucherDisbursement.value.details.reduce((acc, item) => acc + parseFloat(item.total_vat_amount), 0)
+voucherCash.value.total_vat_amount = computed(() => {
+    return voucherCash.value.details.reduce((acc, item) => acc + parseFloat(item.total_vat_amount), 0)
 })
-voucherDisbursement.value.total = computed(() => {
-    return voucherDisbursement.value.details.reduce((acc, item) => acc + parseFloat(item.amount), 0)
+voucherCash.value.total = computed(() => {
+    return voucherCash.value.details.reduce((acc, item) => acc + parseFloat(item.amount), 0)
 })
-voucherDisbursement.value.total_debit = computed(() => {
-    return voucherDisbursement.value.details.reduce((acc, item) => acc + parseFloat(item.debit), 0)
+voucherCash.value.total_debit = computed(() => {
+    return voucherCash.value.details.reduce((acc, item) => acc + parseFloat(item.debit), 0)
 })
-voucherDisbursement.value.total_credit = computed(() => {
-    return voucherDisbursement.value.details.reduce((acc, item) => acc + parseFloat(item.credit), 0)
+voucherCash.value.total_credit = computed(() => {
+    return voucherCash.value.details.reduce((acc, item) => acc + parseFloat(item.credit), 0)
 })
 </script>
 <template>
-    <LayoutBoards title="Disbursement Voucher Form" :loading="voucherDisbursement.isLoading" class="w-90">
+    <LayoutBoards title="" :loading="voucherCash.isLoading" class="w-90">
         <div>
             <form @submit.prevent="addVoucherRequest">
                 <div class="flex flex-col gap-16 pt-8 sticky">
                     <h1 class="text-2xl text-center font-bold">
-                        DISBURSEMENT VOUCHER FORM
+                        CASH VOUCHER FORM
                     </h1>
                     <div class="w-full">
                         <div class="flex gap-2">
@@ -68,11 +68,18 @@ voucherDisbursement.value.total_credit = computed(() => {
                                 >DV Number</label>
                                 <input
                                     id="dv"
-                                    v-model="voucherDisbursement.voucher_no"
+                                    v-model="voucherCash.voucher_no"
                                     type="text"
                                     class="w-full rounded-lg"
                                     required
                                 >
+                                <label
+                                    for="dv"
+                                    class="text-xs italic"
+                                >Voucher Type</label>
+                                <p>
+                                    Disbursement
+                                </p>
                             </div>
                             <div class="w-full">
                                 <div>
@@ -82,12 +89,21 @@ voucherDisbursement.value.total_credit = computed(() => {
                                     >Total Amount</label>
                                     <input
                                         id="total"
-                                        v-model="voucherDisbursement.net_amount"
+                                        v-model="voucherCash.net_amount"
                                         type="number"
                                         disabled
                                         class="w-full rounded-lg"
                                         required
                                     >
+                                </div>
+                                <div>
+                                    <label
+                                        for="total"
+                                        class="text-xs italic"
+                                    >Check No.</label>
+                                    <p>
+                                        {{ voucherCash.amount_in_words }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="w-full">
@@ -98,11 +114,20 @@ voucherDisbursement.value.total_credit = computed(() => {
                                     >Date</label>
                                     <input
                                         id="date"
-                                        v-model="voucherDisbursement.voucher_date"
+                                        v-model="voucherCash.voucher_date"
                                         type="date"
                                         class="w-full rounded-lg"
                                         required
                                     >
+                                </div>
+                                <div>
+                                    <label
+                                        for="dv"
+                                        class="text-xs italic"
+                                    >Date Encoded</label>
+                                    <p class="py-2">
+                                        {{ voucherCash.date_encoded }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -113,17 +138,21 @@ voucherDisbursement.value.total_credit = computed(() => {
                                     class="text-xs italic"
                                 >Payee</label>
                                 <p>
-                                    {{ voucherDisbursement.stakeholderInformation.name }}
+                                    {{ voucherCash.stakeholderInformation.name }}
                                 </p>
                             </div>
                             <div>
                                 <label
-                                    for="dv"
+                                    for="total"
                                     class="text-xs italic"
-                                >Voucher Type</label>
-                                <p>
-                                    Disbursement
-                                </p>
+                                >Check No.</label>
+                                <input
+                                    id="total"
+                                    v-model="voucherCash.check_no"
+                                    type="text"
+                                    class="w-full rounded-lg"
+                                    required
+                                >
                             </div>
                         </div>
                         <div>
@@ -134,7 +163,7 @@ voucherDisbursement.value.total_credit = computed(() => {
                                 >Particulars/Description</label>
                                 <textarea
                                     id="description"
-                                    v-model="voucherDisbursement.particulars"
+                                    v-model="voucherCash.particulars"
                                     class="w-full rounded-lg"
                                 />
                             </div>
@@ -146,11 +175,11 @@ voucherDisbursement.value.total_credit = computed(() => {
                                 DISBURSEMENT VOUCHER DETAILS
                             </h2>
                         </div>
-                        <div v-show="voucherDisbursement.details.length > 0" class="flex flex-col bg-gray-100 rounded-lg gap-2">
-                            <AccountingVoucherDisbursementDetailItem
-                                v-for="(_detail, idx) in voucherDisbursement.details"
+                        <div v-show="voucherCash.details.length > 0" class="flex flex-col bg-gray-100 rounded-lg gap-2">
+                            <AccountingVoucherCashDetailItem
+                                v-for="(_detail, idx) in voucherCash.details"
                                 :key="'detail'+idx"
-                                v-model="voucherDisbursement.details[idx]"
+                                v-model="voucherCash.details[idx]"
                                 :index="idx"
                                 @delete-item="removeDetails(idx)"
                             />
@@ -166,15 +195,15 @@ voucherDisbursement.value.total_credit = computed(() => {
                                 </div>
                                 <div class="flex flex-col">
                                     <span class="text-xs text-gray-500">Total Debit</span>
-                                    <span class="font-medium text-right">{{ voucherDisbursement.total_debit }}</span>
+                                    <span class="font-medium text-right">{{ voucherCash.total_debit }}</span>
                                 </div>
                                 <div class="flex flex-col">
                                     <span class="text-xs text-gray-500">Total Credit</span>
-                                    <span class="font-medium text-right">{{ voucherDisbursement.total_credit }}</span>
+                                    <span class="font-medium text-right">{{ voucherCash.total_credit }}</span>
                                 </div>
                             </div>
                         </div>
-                        <span v-if="voucherDisbursement.details.length === 0" class="block text-center text-gray-600">
+                        <span v-if="voucherCash.details.length === 0" class="block text-center text-gray-600">
                             No entries yet.
                         </span>
                     </div>
@@ -183,9 +212,9 @@ voucherDisbursement.value.total_credit = computed(() => {
                         <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Approvals</label>
                         <div>
                             <AccountingSetupApprovalsList
-                                v-for="(approv, apr) in voucherDisbursement.approvals"
+                                v-for="(approv, apr) in voucherCash.approvals"
                                 :key="'hrmsetupapprovallist'+apr"
-                                v-model="voucherDisbursement.approvals[apr]"
+                                v-model="voucherCash.approvals[apr]"
                             />
                         </div>
                     </div>

@@ -10,6 +10,11 @@ const voucherStore = useVoucherStore()
         ])"
     >
         <div class="flex flex-col gap-4">
+            <div class="w-full">
+                <p class="text-xl">
+                    Disbursement Voucher
+                </p>
+            </div>
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
@@ -25,7 +30,7 @@ const voucherStore = useVoucherStore()
                         target-id="myRequestList"
                     />
                     <AccountingCommonTabsTabTitle
-                        title="For Voucher"
+                        title="For Disbursement Voucher"
                         target-id="forVoucher"
                     />
                 </template>
@@ -49,6 +54,11 @@ const voucherStore = useVoucherStore()
                     v-if="voucherStore.voucherDisbursement.reference_no"
                     :fillable="true"
                 />
+                <div v-else class="w-full py-2">
+                    <p class="text-center text-gray-300">
+                        No Disbursement Vouchers transactions yet.
+                    </p>
+                </div>
             </div>
         </div>
     </LayoutAcessContainer>

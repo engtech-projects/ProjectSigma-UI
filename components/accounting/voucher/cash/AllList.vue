@@ -3,13 +3,13 @@ import { storeToRefs } from "pinia"
 import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
 
 const voucherStore = useVoucherStore()
-const { myDisbursementApprovals } = storeToRefs(voucherStore)
+const { allCashVouchers } = storeToRefs(voucherStore)
 
 const requestData = ref(null)
 const showInformationModal = ref(false)
 onMounted(() => {
-    if (!myDisbursementApprovals.value.isLoaded) {
-        voucherStore.getMyDisbursementApprovals()
+    if (!allCashVouchers.value.isLoaded) {
+        voucherStore.getAllCashVouchers()
     }
 })
 const showInformation = (data) => {
@@ -17,10 +17,10 @@ const showInformation = (data) => {
     showInformationModal.value = true
 }
 const changePaginate = (newParams) => {
-    myDisbursementApprovals.value.params.page = newParams.page ?? ""
+    allCashVouchers.value.params.page = newParams.page ?? ""
 }
 const headers = [
-    { name: "DV Number", id: "voucher_no" },
+    { name: "CV Number", id: "voucher_no" },
     { name: "Payee", id: "journal_entry.payment_request.stakeholder.name" },
     { name: "Amount", id: "journal_entry.payment_request.total" },
     { name: "Created At", id: "date_filed" },
@@ -31,22 +31,22 @@ const actions = {
 }
 </script>
 <template>
-    <LayoutBoards class="w-full" :loading="myDisbursementApprovals.isLoading">
+    <LayoutBoards class="w-full" :loading="allCashVouchers.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="myDisbursementApprovals.list ?? []"
+                :datas="allCashVouchers.list ?? []"
                 @show-table="showInformation"
             />
             <div class="flex justify-center mx-auto">
-                <CustomPagination :links="myDisbursementApprovals.pagination" @change-params="changePaginate" />
+                <CustomPagination :links="allCashVouchers.pagination" @change-params="changePaginate" />
             </div>
         </div>
     </LayoutBoards>
-    <AccountingVoucherDisbursementInfoModal
+    <AccountingVoucherCashInfoModal
         v-model:showModal="showInformationModal"
         :fillable="false"
-        :payment-data="requestData"
+        :voucher-data="requestData"
     />
 </template>

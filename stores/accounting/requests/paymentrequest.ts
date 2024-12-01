@@ -173,25 +173,6 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 }
             )
         },
-        async getPaymentRequest (id:any) {
-            this.isLoading.show = true
-            const { data, error } = await useAccountingApi(
-                "/api/payment-request/" + id,
-                {
-                    method: "GET",
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        this.isLoading.show = false
-                        this.paymentRequest = response._data.data
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
         async getVat () {
             this.isLoading.show = true
             const { data, error } = await useAccountingApi(
@@ -255,8 +236,18 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 return error
             }
         },
-        generatePrNo () {
-            return "PR-" + randomInt(100001, 999999) + "-" + randomInt(1000, 9999)
+        async generatePrNo () {
+            await useAccountingApi(
+                "/api/npo/generate-prf-no",
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.paymentRequest.prf_no = response._data.data
+                        }
+                    },
+                }
+            )
         },
         async approveApprovalForm (id: number) {
             this.successMessage = ""

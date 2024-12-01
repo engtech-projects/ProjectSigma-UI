@@ -8,6 +8,9 @@ const approvals = useApprovalStore()
 await paymentRequestStore.getVat()
 
 paymentRequest.value.approvals = await approvals.getApprovalByName(APPROVAL_PAYMENT_REQUEST_NPO)
+onMounted(() => {
+    paymentRequestStore.generatePrNo()
+})
 defineProps({
     fillable: {
         type: Boolean,

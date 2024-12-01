@@ -9,23 +9,30 @@ const journalStore = useJournalStore()
         ])"
     >
         <div class="flex flex-col gap-4">
-            <div>
-                <p class="text-gray-900 text-xl font-semibold">
+            <div class="w-full">
+                <p class="text-xl">
                     Journal Entry
                 </p>
             </div>
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
-                        title="PRF Journal Entries"
-                        target-id="paymentRequestJournals"
+                        title="Open Journals"
+                        target-id="openJournals"
                     />
                     <AccountingCommonTabsTabTitle
                         title="Posted Journals"
                         target-id="postedJournals"
                     />
+                    <AccountingCommonTabsTabTitle
+                        title="PRF Journal Entries"
+                        target-id="paymentRequestJournals"
+                    />
                 </template>
                 <template #tab-containers>
+                    <AccountingCommonTabsTabContainer id="openJournals">
+                        <AccountingJournalOpenList />
+                    </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="postedJournals">
                         <AccountingJournalPostedList />
                     </AccountingCommonTabsTabContainer>
@@ -37,9 +44,14 @@ const journalStore = useJournalStore()
         </div>
         <div class="w-full">
             <AccountingJournalEntryForm
-                v-show="journalStore.journal.journal_no"
+                v-if="journalStore.journal.journal_no"
                 :fillable="true"
             />
+            <div v-else class="w-full py-2">
+                <p class="text-center text-gray-300">
+                    No PRF Journal Entries transactions yet.
+                </p>
+            </div>
         </div>
     </LayoutAcessContainer>
 </template>
