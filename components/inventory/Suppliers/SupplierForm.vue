@@ -128,12 +128,7 @@ const storeRequestForm = async () => {
                         <LayoutFormPsNumberInput v-model="form.contact_person_number" class="w-full" title="Contact Person Number" />
                         <LayoutFormPsTextInput v-model="form.contact_person_designation" class="w-full" title="Contact Person Designation" />
                     </div>
-                    <LayoutFormPsSelect
-                        v-model="form.type_of_ownership"
-                        :options-list="['Single Proprietorship', 'Partnership', 'Corporation']"
-                        class="w-full"
-                        title="Type of Ownership"
-                    />
+                    <InventorySuppliersSupplierTypeOfOwnership v-model="form.type_of_ownership" />
                     <div class="flex flex-row items-center gap-4">
                         <LayoutFormPsTextInput v-model="form.nature_of_business" class="w-full" title="Nature of Business" />
                         <LayoutFormPsTextInput v-model="form.products_services" class="w-full" title="Products/Services" />
@@ -174,11 +169,11 @@ const storeRequestForm = async () => {
                         <div class="flex full gap-2">
                             <label class="block mb-1 text-sm font-medium text-gray-900">Attachments:</label>
                         </div>
-                        <template v-for="data, itemIndex in form.attachments" :key="data">
+                        <template v-for="data, itemIndex in form.uploads" :key="data">
                             <div class="flex flex-col gap-4">
                                 <div class="flex flex-row gap-4 justify-center items-center">
                                     <LayoutFormPsSelect
-                                        v-model="form.attachments[itemIndex].attachment_name"
+                                        v-model="form.uploads[itemIndex].attachment_name"
                                         :options-list="[
                                             'BANK DETAILS',
                                             'CERTIFICATE OF REGISTRATION WITH SEC/DTI REGISTRATION',

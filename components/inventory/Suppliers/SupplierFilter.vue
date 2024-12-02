@@ -7,12 +7,7 @@ const state = defineModel("state", { type: Object, required: true })
             <LayoutFormPsTextInput v-model="state.params.company_name" class="w-full" title="Company Name" />
         </div>
         <div>
-            <LayoutFormPsSelect
-                v-model="state.params.type_of_ownership"
-                :options-list="['Single Proprietorship', 'Partnership', 'Corporation']"
-                class="w-full"
-                title="Type of Ownership"
-            />
+            <InventorySuppliersSupplierTypeOfOwnership v-model="state.params.type_of_ownership" />
         </div>
         <div>
             <LayoutFormPsTextInput v-model="state.params.contact_person_name" class="w-full" title="Contact Person Name" />
