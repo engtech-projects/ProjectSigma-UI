@@ -7,8 +7,8 @@ export const useJournalStore = defineStore("journalStore", {
             isLoaded: false,
             id: null,
             journal_no: "",
-            journal_date: "",
             voucher_id: "",
+            entry_date: "",
             status: "open",
             period_id: "",
             remarks: "",
@@ -35,7 +35,7 @@ export const useJournalStore = defineStore("journalStore", {
             errorMessage: "",
             successMessage: "",
         },
-        unpostedEntries: {
+        openEntries: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -44,7 +44,16 @@ export const useJournalStore = defineStore("journalStore", {
             errorMessage: "",
             successMessage: "",
         },
-        forVoucherEntries: {
+        forDisbursementVoucherEntries: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        forCashVoucherEntries: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -118,45 +127,21 @@ export const useJournalStore = defineStore("journalStore", {
                 }
             )
         },
-        async getUnpostedEntries () {
-            this.unpostedEntries.isLoaded = true
+        async getOpenEntries () {
+            this.openEntries.isLoaded = true
             await useAccountingApi(
-                "/api/journal-entry/unposted-entries",
+                "/api/journal-entry/open-entries",
                 {
                     method: "GET",
-                    params: this.unpostedEntries.params,
+                    params: this.openEntries.params,
                     onRequest: () => {
-                        this.unpostedEntries.isLoading = true
+                        this.openEntries.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.unpostedEntries.isLoading = false
+                        this.openEntries.isLoading = false
                         if (response.ok) {
-                            this.unpostedEntries.list = response._data.data.data
-                            this.unpostedEntries.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
-                            }
-                        }
-                    },
-                }
-            )
-        },
-        async getDraftedEntries () {
-            this.draftedEntries.isLoaded = true
-            await useAccountingApi(
-                "/api/journal-entry/drafted-entries",
-                {
-                    method: "GET",
-                    params: this.draftedEntries.params,
-                    onRequest: () => {
-                        this.draftedEntries.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.draftedEntries.isLoading = false
-                        if (response.ok) {
-                            this.draftedEntries.list = response._data.data.data
-                            this.draftedEntries.pagination = {
+                            this.openEntries.list = response._data.data.data
+                            this.openEntries.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,
                                 last_page: response._data.data.links.last,
@@ -190,21 +175,47 @@ export const useJournalStore = defineStore("journalStore", {
                 }
             )
         },
-        async getForVoucherEntries () {
-            this.forVoucherEntries.isLoaded = true
+
+        // Disbursement Fetch For voucher entries
+        async getForDisbursementVoucherEntries () {
+            this.forDisbursementVoucherEntries.isLoaded = true
             await useAccountingApi(
-                "/api/journal-entry/for-voucher-entries",
+                "/api/journal-entry/for-voucher-entries-disbursement",
                 {
                     method: "GET",
-                    params: this.forVoucherEntries.params,
+                    params: this.forDisbursementVoucherEntries.params,
                     onRequest: () => {
-                        this.forVoucherEntries.isLoading = true
+                        this.forDisbursementVoucherEntries.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.forVoucherEntries.isLoading = false
+                        this.forDisbursementVoucherEntries.isLoading = false
                         if (response.ok) {
-                            this.forVoucherEntries.list = response._data.data.data
-                            this.forVoucherEntries.pagination = {
+                            this.forDisbursementVoucherEntries.list = response._data.data.data
+                            this.forDisbursementVoucherEntries.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getForCashVoucherEntries () {
+            this.forCashVoucherEntries.isLoaded = true
+            await useAccountingApi(
+                "/api/journal-entry/for-voucher-entries-cash",
+                {
+                    method: "GET",
+                    params: this.forCashVoucherEntries.params,
+                    onRequest: () => {
+                        this.forCashVoucherEntries.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.forCashVoucherEntries.isLoading = false
+                        if (response.ok) {
+                            this.forCashVoucherEntries.list = response._data.data.data
+                            this.forCashVoucherEntries.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,
                                 last_page: response._data.data.links.last,
@@ -234,6 +245,12 @@ export const useJournalStore = defineStore("journalStore", {
             }
             if (this.postedEntries.isLoaded) {
                 callFunctions.push(this.getPostedEntries)
+            }
+            if (this.forDisbursementVoucherEntries.isLoaded) {
+                callFunctions.push(this.getForDisbursementVoucherEntries)
+            }
+            if (this.forCashVoucherEntries.isLoaded) {
+                callFunctions.push(this.getForCashVoucherEntries)
             }
             this.$reset()
             callFunctions.forEach((element) => {

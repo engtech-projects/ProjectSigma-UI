@@ -3,14 +3,14 @@ import { storeToRefs } from "pinia"
 import { useJournalStore } from "@/stores/accounting/journals/journal"
 
 const journalStore = useJournalStore()
-const { forVoucherEntries } = storeToRefs(journalStore)
+const { forDisbursementVoucherEntries } = storeToRefs(journalStore)
 
 const entryData = ref(null)
 const showInformationModal = ref(false)
 
 onMounted(() => {
-    if (!forVoucherEntries.value.isLoaded) {
-        journalStore.getForVoucherEntries()
+    if (!forDisbursementVoucherEntries.value.isLoaded) {
+        journalStore.getForDisbursementVoucherEntries()
     }
 })
 
@@ -20,16 +20,16 @@ const showInformation = (data) => {
 }
 
 const changePaginate = (newParams) => {
-    forVoucherEntries.value.params.page = newParams.page ?? ""
+    forDisbursementVoucherEntries.value.params.page = newParams.page ?? ""
 }
 
 const headers = [
     { name: "Journal No.", id: "journal_no" },
-    { name: "Reference No.", id: "reference_no" },
+    { name: "Reference No (PRF-no)", id: "reference_no" },
     { name: "Payee", id: "payment_request.stakeholder.name" },
     { name: "Amount", id: "payment_request.total" },
     { name: "Date Posted", id: "date_filed" },
-    { name: "Status", id: "voucher_status" },
+    { name: "Status", id: "status" },
 ]
 
 const actions = {
@@ -38,16 +38,16 @@ const actions = {
 </script>
 
 <template>
-    <LayoutBoards class="w-full" :loading="forVoucherEntries.isLoading">
+    <LayoutBoards class="w-full" :loading="forDisbursementVoucherEntries.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="forVoucherEntries.list ?? []"
+                :datas="forDisbursementVoucherEntries.list ?? []"
                 @show-table="showInformation"
             />
             <div class="flex justify-center mx-auto">
-                <CustomPagination :links="forVoucherEntries.pagination" @change-params="changePaginate" />
+                <CustomPagination :links="forDisbursementVoucherEntries.pagination" @change-params="changePaginate" />
             </div>
         </div>
     </LayoutBoards>
@@ -55,5 +55,6 @@ const actions = {
         v-model:showModal="showInformationModal"
         :fillable="false"
         :entry-data="entryData"
+        :type="entryData?.status"
     />
 </template>

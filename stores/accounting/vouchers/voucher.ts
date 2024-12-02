@@ -7,7 +7,6 @@ export const useVoucherStore = defineStore("voucherStore", {
             isLoaded: false,
             stakeholder_id: null,
             voucher_no: null,
-            account_id: null,
             particulars: "",
             net_amount: 0,
             amount_in_words: null,
@@ -26,7 +25,6 @@ export const useVoucherStore = defineStore("voucherStore", {
             stakeholder_id: null,
             book_id: null,
             voucher_no: "",
-            account_id: null,
             particulars: "",
             net_amount: 0,
             amount_in_words: null,
@@ -278,7 +276,7 @@ export const useVoucherStore = defineStore("voucherStore", {
         },
         async addVoucherCash () {
             await useAccountingApiO(
-                "/api/vouchers/cash",
+                "/api/vouchers/cash/create-voucher",
                 {
                     method: "POST",
                     body: this.voucherCash,
@@ -369,7 +367,7 @@ export const useVoucherStore = defineStore("voucherStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApiO(
-                "/api/approvals/approve/ACCOUNTING_CASH_VOUCHER/" + id,
+                "/api/approvals/approve/ACCOUNTING_CASH_REQUEST/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -393,7 +391,7 @@ export const useVoucherStore = defineStore("voucherStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApiO(
-                "/api/approvals/disapprove/ACCOUNTING_CASH_VOUCHER/" + id,
+                "/api/approvals/disapprove/ACCOUNTING_CASH_REQUEST/" + id,
                 {
                     method: "POST",
                     body: { remarks: this.remarks },
@@ -418,7 +416,7 @@ export const useVoucherStore = defineStore("voucherStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApiO(
-                "/api/approvals/approve/ACCOUNTING_DISBURSEMENT_VOUCHER/" + id,
+                "/api/approvals/approve/ACCOUNTING_DISBURSEMENT_REQUEST/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -442,7 +440,7 @@ export const useVoucherStore = defineStore("voucherStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApiO(
-                "/api/approvals/disapprove/ACCOUNTING_DISBURSEMENT_VOUCHER/" + id,
+                "/api/approvals/disapprove/ACCOUNTING_DISBURSEMENT_REQUEST/" + id,
                 {
                     method: "POST",
                     body: { remarks: this.remarks },

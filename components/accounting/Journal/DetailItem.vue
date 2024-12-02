@@ -45,6 +45,7 @@ const emit = defineEmits("delete-item")
             <input
                 id="debit"
                 v-model="details.debit"
+                :disabled="details.credit != 0"
                 type="number"
                 step=".01"
                 class="w-full rounded-lg h-9 text-sm bg-gray-100"
@@ -58,6 +59,7 @@ const emit = defineEmits("delete-item")
             <input
                 id="credit"
                 v-model="details.credit"
+                :disabled="details.debit != 0"
                 type="number"
                 step=".01"
                 class="w-full rounded-lg h-9 text-sm bg-gray-100"

@@ -16,6 +16,6 @@ defineProps({
 
 <template>
     <div v-show="fillable">
-        <AccountingVoucherDisbursementCreateForm />
+        <AccountingVoucherCashCreateForm />
     </div>
 </template>

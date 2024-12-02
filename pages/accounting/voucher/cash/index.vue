@@ -1,3 +1,8 @@
+<script setup>
+import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
+
+const voucherStore = useVoucherStore()
+</script>
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
@@ -5,8 +10,8 @@
         ])"
     >
         <div class="flex flex-col gap-4">
-            <div>
-                <p class="text-gray-900 text-xl font-semibold">
+            <div class="w-full">
+                <p class="text-xl">
                     Cash Voucher
                 </p>
             </div>
@@ -21,22 +26,40 @@
                         target-id="forApproval"
                     />
                     <AccountingCommonTabsTabTitle
-                        title="For Release"
-                        target-id="forRelease"
+                        title="My Request List"
+                        target-id="myRequestList"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        title="For Cash Voucher"
+                        target-id="forVoucher"
                     />
                 </template>
                 <template #tab-containers>
                     <AccountingCommonTabsTabContainer id="allList">
                         <AccountingVoucherCashAllList />
                     </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="forApproval">
-                        <AccountingVoucherCashForApprovalList />
+                    <AccountingCommonTabsTabContainer id="forVoucher">
+                        <AccountingVoucherCashForVoucherList />
                     </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="forRelease">
-                        <AccountingVoucherCashForReleaseList />
+                    <AccountingCommonTabsTabContainer id="forApproval">
+                        <AccountingVoucherCashApprovalList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="myRequestList">
+                        <AccountingVoucherCashMyRequestList />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
+            <div class="w-full">
+                <AccountingVoucherCashCreateForm
+                    v-if="voucherStore.voucherCash.voucher_no"
+                    :fillable="true"
+                />
+                <div v-else class="w-full py-2">
+                    <p class="text-center text-gray-300">
+                        No Cash Vouchers transactions yet.
+                    </p>
+                </div>
+            </div>
         </div>
     </LayoutAcessContainer>
 </template>
