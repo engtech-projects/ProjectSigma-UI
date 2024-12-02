@@ -1,31 +1,10 @@
 <script setup>
-import { useSupplierStore } from "@/stores/inventory/suppliers"
-const mainStore = useSupplierStore()
-const { companyNameList, contactPersonList, supplierCodeList } = storeToRefs(mainStore)
-
 const state = defineModel("state", { type: Object, required: true })
-
-onMounted(() => {
-    if (!companyNameList.value.isLoaded) {
-        mainStore.fetchSelector(companyNameList.value, "/api/request-supplier/company-name")
-    }
-    if (!contactPersonList.value.isLoaded) {
-        mainStore.fetchSelector(contactPersonList.value, "/api/request-supplier/contact-person")
-    }
-    if (!supplierCodeList.value.isLoaded) {
-        mainStore.fetchSelector(supplierCodeList.value, "/api/request-supplier/supplier-code")
-    }
-})
 </script>
 <template>
     <div class="flex flex-row gap-4 p-2 items-center">
         <div>
-            <label
-                class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
-            >
-                Company Name
-            </label>
-            <LayoutFormPsSelectSearch v-model:result="state.params" v-model:search-input="companyNameList.key" :search-list="companyNameList.list" title="company_name" placeholder="Search Company Name" />
+            <LayoutFormPsTextInput v-model="state.params.company_name" class="w-full" title="Company Name" />
         </div>
         <div>
             <LayoutFormPsSelect
@@ -36,20 +15,10 @@ onMounted(() => {
             />
         </div>
         <div>
-            <label
-                class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
-            >
-                Contact Person Name
-            </label>
-            <LayoutFormPsSelectSearch v-model:result="state.params" v-model:search-input="contactPersonList.key" :search-list="contactPersonList.list" title="contact_person_name" placeholder="Search Contact Person Name" />
+            <LayoutFormPsTextInput v-model="state.params.contact_person_name" class="w-full" title="Contact Person Name" />
         </div>
         <div>
-            <label
-                class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
-            >
-                Supplier Code
-            </label>
-            <LayoutFormPsSelectSearch v-model:result="state.params" v-model:search-input="supplierCodeList.key" :search-list="supplierCodeList.list" title="supplier_code" placeholder="Search Supplier Code" />
+            <LayoutFormPsTextInput v-model="state.params.supplier_code" class="w-full" title="Supplier Code" />
         </div>
     </div>
 </template>

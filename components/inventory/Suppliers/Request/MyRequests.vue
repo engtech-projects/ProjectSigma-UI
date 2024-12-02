@@ -2,19 +2,10 @@
 import { storeToRefs } from "pinia"
 import { useSupplierStore } from "@/stores/inventory/suppliers"
 const mainStore = useSupplierStore()
-const { myRequests, companyNameList, contactPersonList, supplierCodeList } = storeToRefs(mainStore)
+const { myRequests } = storeToRefs(mainStore)
 onMounted(() => {
     if (!myRequests.value.isLoaded) {
         mainStore.getMyRequests()
-    }
-    if (!companyNameList.value.isLoaded) {
-        mainStore.fetchSelector(companyNameList.value, "/api/request-supplier/company-name")
-    }
-    if (!contactPersonList.value.isLoaded) {
-        mainStore.fetchSelector(contactPersonList.value, "/api/request-supplier/contact-person")
-    }
-    if (!supplierCodeList.value.isLoaded) {
-        mainStore.fetchSelector(supplierCodeList.value, "/api/request-supplier/supplier-code")
     }
 })
 const headers = [
