@@ -3,10 +3,19 @@ import { storeToRefs } from "pinia"
 import { useSupplierStore } from "@/stores/inventory/suppliers"
 
 const mainStore = useSupplierStore()
-const { allRequests } = storeToRefs(mainStore)
+const { allRequests, companyNameList, contactPersonList, supplierCodeList } = storeToRefs(mainStore)
 onMounted(() => {
     if (!allRequests.isLoaded) {
         mainStore.getAllRequests()
+    }
+    if (!companyNameList.value.isLoaded) {
+        mainStore.fetchSelector(companyNameList.value, "/api/request-supplier/company-name")
+    }
+    if (!contactPersonList.value.isLoaded) {
+        mainStore.fetchSelector(contactPersonList.value, "/api/request-supplier/contact-person")
+    }
+    if (!supplierCodeList.value.isLoaded) {
+        mainStore.fetchSelector(supplierCodeList.value, "/api/request-supplier/supplier-code")
     }
 })
 const headers = [
@@ -36,6 +45,9 @@ const changePaginate = (newParams) => {
 </script>
 <template>
     <LayoutLoadingContainer class="w-full" :loading="allRequests.isLoading">
+        <div class="flex flex-row gap-4 p-2 items-center">
+            <InventorySuppliersSupplierFilter v-model:state="allRequests" />
+        </div>
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
