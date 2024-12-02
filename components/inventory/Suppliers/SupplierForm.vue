@@ -23,17 +23,17 @@ if (route.query.key) {
     validKey.value = false
 }
 
-// const handleDocumentUpload = (event, data) => {
-//     try {
-//         const file = event.target.files[0]
-//         data.file = file
-//     } catch (error) {
-//         snackbar.add({
-//             type: "error",
-//             text: error
-//         })
-//     }
-// }
+const handleDocumentUpload = (event, data) => {
+    try {
+        const file = event.target.files[0]
+        data.file = file
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error
+        })
+    }
+}
 
 const addAttachment = () => {
     form.value.attachments.push(
@@ -43,9 +43,9 @@ const addAttachment = () => {
         }
     )
 }
-// const removeAttachment = (index) => {
-//     form.value.attachments.splice(index, 1)
-// }
+const removeAttachment = (index) => {
+    form.value.attachments.splice(index, 1)
+}
 
 const storeRequestForm = async () => {
     try {
