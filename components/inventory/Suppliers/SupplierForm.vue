@@ -10,15 +10,38 @@ const approvals = useApprovalStore()
 approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
 
 const snackbar = useSnackbar()
-
 const route = useRoute()
 const validKey = ref(false)
 if (route.query.key) {
-    validKey.value = true
     await mainStore.editOne(route.query.key)
     editRequest.value.form = editRequest.value.details
+    validKey.value = true
 } else {
     validKey.value = false
+}
+
+const handleDocumentUpload = (event, data) => {
+    try {
+        const file = event.target.files[0]
+        data.file = file
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error
+        })
+    }
+}
+
+const addAttachment = () => {
+    form.value.attachments.push(
+        {
+            attachment_name: null,
+            file: null,
+        }
+    )
+}
+const removeAttachment = (index) => {
+    form.value.attachments.splice(index, 1)
 }
 
 const storeRequestForm = async () => {
@@ -53,10 +76,14 @@ const storeRequestForm = async () => {
             formData.append(`approvals[${index}][date_approved]`, item.date_approved)
             formData.append(`approvals[${index}][remarks]`, item.remarks)
         })
-        form.value.attachments.forEach((item, index) => {
-            formData.append(`attachments[${index}][attachment_name]`, item.attachment_name)
-            formData.append(`attachments[${index}][file]`, item.file)
-        })
+
+        if (validKey.value) {
+            form.value.attachments.forEach((item, index) => {
+                formData.append(`attachments[${index}][attachment_name]`, item.attachment_name)
+                formData.append(`attachments[${index}][file]`, item.file)
+            })
+        }
+
         await mainStore.storeRequest(formData)
         if (mainStore.errorMessage !== "") {
             snackbar.add({
@@ -75,30 +102,6 @@ const storeRequestForm = async () => {
             text: mainStore.errorMessage
         })
     }
-}
-
-const handleDocumentUpload = (event, data) => {
-    try {
-        const file = event.target.files[0]
-        data.file = file
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error
-        })
-    }
-}
-
-const addAttachment = () => {
-    form.value.attachments.push(
-        {
-            attachment_name: null,
-            file: null,
-        }
-    )
-}
-const removeAttachment = (index) => {
-    form.value.attachments.splice(index, 1)
 }
 </script>
 <template>
@@ -167,7 +170,7 @@ const removeAttachment = (index) => {
                         <LayoutFormPsTextInput v-model="form.filled_designation" class="w-full" title="Filled Designation" />
                         <LayoutFormPsDateInput v-model="form.filled_date" class="w-full" title="Filled Date" />
                     </div>
-                    <div class="flex flex-col full gap-2">
+                    <div v-show="validKey.value" class="flex flex-col full gap-2">
                         <div class="flex full gap-2">
                             <label class="block mb-1 text-sm font-medium text-gray-900">Attachments:</label>
                         </div>
