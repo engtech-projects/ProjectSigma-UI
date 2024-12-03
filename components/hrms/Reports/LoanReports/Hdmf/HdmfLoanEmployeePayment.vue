@@ -31,7 +31,7 @@ watch(() => hdmfEmployeeLoan.value.params.month_year, (newValue) => {
 })
 </script>
 <template>
-    <LayoutBoards title="SSS Employee Loans" :loading="hdmfEmployeeLoan.isLoading">
+    <LayoutBoards title="HDMF MPL LOAN PAYMENT" :loading="hdmfEmployeeLoan.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
             <LayoutFormPsMonthYearInput v-model="hdmfEmployeeLoan.params.month_year" class="w-full" title="Month Year" required />
             <LayoutFormPsDateInput v-model="hdmfEmployeeLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
