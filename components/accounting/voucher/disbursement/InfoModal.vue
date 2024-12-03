@@ -81,10 +81,6 @@ const denyRequest = async (id) => {
                     <span class="text-gray-900">{{ voucherData?.voucher_no }}</span>
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light">Check No: </span>
-                    {{ voucherData?.check_no }}
-                </div>
-                <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light">Amount: </span>
                     {{ voucherData?.net_amount }}
                 </div>

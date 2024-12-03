@@ -4,7 +4,7 @@ import { useSupplierStore } from "@/stores/inventory/suppliers"
 const mainStore = useSupplierStore()
 const { approvedSuppliers } = storeToRefs(mainStore)
 onMounted(() => {
-    if (!approvedSuppliers.isLoaded) {
+    if (!approvedSuppliers.value.isLoaded) {
         mainStore.getApprovedSuppliers()
     }
 })
@@ -36,6 +36,9 @@ const actions = {
 </script>
 <template>
     <div class="h-full w-full">
+        <div class="flex flex-row gap-4 p-2 items-center">
+            <InventorySuppliersSupplierFilter v-model:state="approvedSuppliers" />
+        </div>
         <div id="itemDetails">
             <LayoutPsTable
                 :header-columns="headers"

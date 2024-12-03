@@ -284,7 +284,6 @@ export const useSupplierStore = defineStore("SupplierStore", {
                 {
                     method: "GET",
                     params: this.approvedSuppliers.params,
-                    watch: false,
                     onRequest: () => {
                         this.approvedSuppliers.isLoading = true
                     },

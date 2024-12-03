@@ -60,9 +60,6 @@ const addDetails = () => {
     }
     paymentRequest.value.details.push(details.value)
 }
-onMounted(() => {
-    paymentRequest.value.prf_no = paymentRequestStore.generatePrNo()
-})
 paymentRequest.value.total_vat_amount = computed(() => {
     return paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.total_vat_amount), 0)
 })
