@@ -10,7 +10,7 @@ const { locationMembers } = storeToRefs(workLocationStore)
 <template>
     <LayoutBoards title="Work Location Employees" class="w-full" :loading="locationMembers.isLoading">
         <div class="text-gray-500 px-2">
-            <div class="pt-2">
+            <div class="pt-2 w-full">
                 <input
                     id="unassigned"
                     v-model="locationMembers.params.unassigned"
@@ -19,9 +19,11 @@ const { locationMembers } = storeToRefs(workLocationStore)
                     :true-value="1"
                     :false-value="0"
                 >
-                <label for="unassigned">Unassigned</label>
+                <label for="unassigned">Show Unassigned</label>
+            </div>
+            <div class="pt-2 w-full">
                 <HrmsCommonDepartmentProjectSelector
-                    v-show="!locationMembers.params.unassigned"
+                    v-show="locationMembers.params.unassigned === 0"
                     v-model:select-type="locationMembers.params.type"
                     v-model:department-id="locationMembers.params.department_id"
                     v-model:project-id="locationMembers.params.project_id"
