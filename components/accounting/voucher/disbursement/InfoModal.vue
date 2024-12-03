@@ -90,7 +90,7 @@ const denyRequest = async (id) => {
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light">Status: </span>
-                    {{ voucherData?.status }}
+                    {{ voucherData?.request_status }}
                 </div>
             </div>
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">

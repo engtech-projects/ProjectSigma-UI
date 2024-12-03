@@ -261,9 +261,9 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
+                        if (response._data.success) {
                             this.reloadResources()
+                            this.successMessage = response._data.message
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -287,8 +287,8 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResources()
+                            this.successMessage = response._data.message
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -315,6 +315,23 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             callFunctions.forEach((element) => {
                 element()
             })
+        },
+
+        async getOne (id: number) {
+            return await useAccountingApi(
+                "api/payment-request/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
         },
     },
 })
