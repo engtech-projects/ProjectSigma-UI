@@ -21,8 +21,16 @@ const journalStore = useJournalStore()
                         target-id="openJournals"
                     />
                     <AccountingCommonTabsTabTitle
+                        title="Void Journals"
+                        target-id="voidJournals"
+                    />
+                    <AccountingCommonTabsTabTitle
                         title="Posted Journals"
                         target-id="postedJournals"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        title="Unposted Journals"
+                        target-id="unpostedJournals"
                     />
                     <AccountingCommonTabsTabTitle
                         title="PRF Journal Entries"
@@ -33,8 +41,14 @@ const journalStore = useJournalStore()
                     <AccountingCommonTabsTabContainer id="openJournals">
                         <AccountingJournalOpenList />
                     </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="voidJournals">
+                        <AccountingJournalVoidList />
+                    </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="postedJournals">
                         <AccountingJournalPostedList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="unpostedJournals">
+                        <AccountingJournalUnPosted />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="paymentRequestJournals">
                         <AccountingJournalPaymentRequestList />

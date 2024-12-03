@@ -35,7 +35,25 @@ export const useJournalStore = defineStore("journalStore", {
             errorMessage: "",
             successMessage: "",
         },
+        unpostedEntries: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         openEntries: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        voidEntries: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -151,6 +169,30 @@ export const useJournalStore = defineStore("journalStore", {
                 }
             )
         },
+        async getVoidEntries () {
+            this.voidEntries.isLoaded = true
+            await useAccountingApi(
+                "/api/journal-entry/void-entries",
+                {
+                    method: "GET",
+                    params: this.voidEntries.params,
+                    onRequest: () => {
+                        this.voidEntries.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.voidEntries.isLoading = false
+                        if (response.ok) {
+                            this.voidEntries.list = response._data.data.data
+                            this.voidEntries.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
         async getPostedEntries () {
             this.postedEntries.isLoaded = true
             await useAccountingApi(
@@ -166,6 +208,30 @@ export const useJournalStore = defineStore("journalStore", {
                         if (response.ok) {
                             this.postedEntries.list = response._data.data.data
                             this.postedEntries.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getUnpostedEntries () {
+            this.unpostedEntries.isLoaded = true
+            await useAccountingApi(
+                "/api/journal-entry/unposted-entries",
+                {
+                    method: "GET",
+                    params: this.unpostedEntries.params,
+                    onRequest: () => {
+                        this.unpostedEntries.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.unpostedEntries.isLoading = false
+                        if (response.ok) {
+                            this.unpostedEntries.list = response._data.data.data
+                            this.unpostedEntries.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,
                                 last_page: response._data.data.links.last,

@@ -47,6 +47,6 @@ const actions = {
     <AccountingVoucherDisbursementInfoModal
         v-model:showModal="showInformationModal"
         :fillable="false"
-        :payment-data="requestData"
+        :voucher-data="requestData"
     />
 </template>
