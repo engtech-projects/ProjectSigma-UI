@@ -1,10 +1,12 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
+import { USER_ADMINISTRATOR } from "@/stores/hrms/setup/users"
 const employee = useEmployeeInfo()
 const snackbar = useSnackbar()
-
-const { information: employeeInformation, editable } = storeToRefs(employee)
+const { data: userData } = useAuth()
+const { information: employeeInformation, editable: editMode } = storeToRefs(employee)
+const editable = computed(() => editMode.value && userData.value?.type === USER_ADMINISTRATOR)
 
 const updateInternalWorkExperience = async (id, params) => {
     // boardLoading.value = true
