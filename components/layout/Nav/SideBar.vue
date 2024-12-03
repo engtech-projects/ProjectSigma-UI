@@ -167,7 +167,7 @@ const config = useRuntimeConfig()
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.HRMS_LOCATION_EMPLOYEES,
                 ])"
-                linkarea="/hrms/project"
+                linkarea="/hrms/work-locations"
                 icon="material-symbols:construction"
                 single-nav-title="Employee Work Locations"
             />

@@ -2,13 +2,20 @@ import { defineStore } from "pinia"
 
 export const useWorkLocationEmployees = defineStore("WorkLocations", {
     state: () => ({
-        employeeList: {
+        locationMembers: {
             isLoading: false,
             isLoaded: false,
-            data: [],
-            params: {
+            info: {
+                id: null,
+                name: "",
                 type: "",
-                id: "",
+            },
+            employees: [],
+            params: {
+                unassigned: 0,
+                type: "",
+                project_id: "",
+                department_id: "",
             },
             pagination: {},
             errorMessage: "",
@@ -21,14 +28,15 @@ export const useWorkLocationEmployees = defineStore("WorkLocations", {
                 "/api/employee/location-employees",
                 {
                     method: "GET",
-                    params: this.employeeList.params,
+                    params: this.locationMembers.params,
                     onRequest: () => {
-                        this.employeeList.isLoading = true
+                        this.locationMembers.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.employeeList.isLoading = false
+                        this.locationMembers.isLoading = false
                         if (response.ok) {
-                            this.employeeList.data = response._data.data.data
+                            this.locationMembers.info = response._data.data.location_information
+                            this.locationMembers.employees = response._data.data.employees
                         }
                     },
                 }
@@ -36,7 +44,7 @@ export const useWorkLocationEmployees = defineStore("WorkLocations", {
         },
         reloadResources () {
             const callFunctions = []
-            if (this.employeeList.isLoaded) {
+            if (this.locationMembers.isLoaded) {
                 callFunctions.push(this.getLocationEmployees)
             }
             this.$reset()

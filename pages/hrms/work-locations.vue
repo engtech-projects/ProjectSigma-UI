@@ -12,7 +12,7 @@ useHead({
         <div
             class="md:flex gap-2"
         >
-            <HrmsProjectAssign />
+            <HrmsWorkLocationsAssignmentMembers />
         </div>
     </LayoutAcessContainer>
 </template>
