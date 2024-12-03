@@ -12,7 +12,6 @@ approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
 const snackbar = useSnackbar()
 const route = useRoute()
 const validKey = ref(false)
-const config = useRuntimeConfig()
 
 if (route.query.key) {
     await mainStore.editOne(route.query.key)
@@ -22,31 +21,6 @@ if (route.query.key) {
 } else {
     validKey.value = false
 }
-
-const handleDocumentUpload = (event, data) => {
-    try {
-        const file = event.target.files[0]
-        data.file = file
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error
-        })
-    }
-}
-
-const addAttachment = () => {
-    form.value.attachments.push(
-        {
-            attachment_name: null,
-            file: null,
-        }
-    )
-}
-const removeAttachment = (index) => {
-    form.value.attachments.splice(index, 1)
-}
-
 const storeRequestForm = async () => {
     try {
         const formData = new FormData()
@@ -81,13 +55,10 @@ const storeRequestForm = async () => {
         })
 
         if (validKey.value) {
-            form.value.attachments.forEach((item, index) => {
-                formData.append(`attachments[${index}][attachment_name]`, item.attachment_name)
-                formData.append(`attachments[${index}][file]`, item.file)
-            })
+            await mainStore.updateSupplierRequest(route.query.key, formData)
+        } else {
+            await mainStore.storeRequest(formData)
         }
-
-        await mainStore.storeRequest(formData)
         if (mainStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -106,6 +77,7 @@ const storeRequestForm = async () => {
         })
     }
 }
+
 </script>
 <template>
     <div class="text-gray-500 p-2">
@@ -168,67 +140,8 @@ const storeRequestForm = async () => {
                         <LayoutFormPsTextInput v-model="form.filled_designation" class="w-full" title="Filled Designation" />
                         <LayoutFormPsDateInput v-model="form.filled_date" class="w-full" title="Filled Date" />
                     </div>
-                    <div v-show="validKey" class="flex flex-col full gap-2">
-                        <div class="flex full gap-2">
-                            <label class="block mb-1 text-sm font-medium text-gray-900">Attachments:</label>
-                        </div>
-                        <template v-for="data, itemIndex in form.uploads" :key="data">
-                            <div class="flex flex-col gap-4">
-                                <div class="flex flex-row gap-2 justify-start items-center">
-                                    <div>
-                                        {{ form.uploads[itemIndex].attachment_name }}
-                                    </div>
-                                    <div class="flex flex-row justify-center items-center gap-2">
-                                        <a target="_blank" :href="config.public.INVENTORY_API_URL + form.uploads[itemIndex].file_location" class="block text-sm font-medium text-gray-100 text-center cursor-pointer border rounded">
-                                            <Icon name="mage:file-download-fill" class="hover:border-green-600 bg-green-600 h-8 w-8 p-1" />
-                                        </a>
-                                        <div class="flex cursor-pointer">
-                                            <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" @click="removeAttachment(itemIndex)" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                        <template v-for="data, itemIndex in form.attachments" :key="data">
-                            <div class="flex flex-row gap-4 justify-center items-center">
-                                <LayoutFormPsSelect
-                                    v-model="form.uploads[itemIndex].attachment_name"
-                                    :options-list="[
-                                        'BANK DETAILS',
-                                        'CERTIFICATE OF REGISTRATION WITH SEC/DTI REGISTRATION',
-                                        'CITY/MUNICIPAL PERMIT',
-                                        'BIR 2303 CERTIFICATE OF REGISTRATION',
-                                        'CERTIFICATE OF PRODUCT/MSDS',
-                                        'CERTIFICATE OF DELEARSHIP/DISTRIBUTORSHIP',
-                                        'DENR PERMITS',
-                                        'TRADE TEST RESULTS',
-                                        'PRICE LIST/QUOTATION',
-                                        'OTHERS',
-                                    ]"
-                                    class="w-full"
-                                />
-                                <LayoutFormPsTextInput v-show="form.attachments[itemIndex].attachment_name == 'OTHERS'" v-model="form.attachments[itemIndex].other_type" class="w-full" />
-                                <div class="w-full">
-                                    <input
-                                        class="w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                        aria-describedby="file_input_help"
-                                        type="file"
-                                        accept=".doc, .docx, .pdf"
-                                        placeholder="Please Specify Attachment Type"
-                                        required
-                                        @change="handleDocumentUpload($event, form.attachments[itemIndex])"
-                                    >
-                                </div>
-                                <div class="flex">
-                                    <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" @click="removeAttachment(itemIndex)" />
-                                </div>
-                            </div>
-                        </template>
-                        <div>
-                            <button type="button" class="px-3 py-1 bg-green-600 text-white text-xs font-bold" @click="addAttachment">
-                                Add
-                            </button>
-                        </div>
+                    <div v-if="validKey" class="flex flex-col full gap-2">
+                        <InventorySuppliersSupplierAttachment v-model="form" />
                     </div>
                     <div class="w-full">
                         <LayoutFormPsSelect

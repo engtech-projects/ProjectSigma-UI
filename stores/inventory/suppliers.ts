@@ -29,6 +29,7 @@ export interface SupplierForm {
     filled_designation: string,
     filled_date: string,
     attachments: any,
+    uploads: any,
     approvals: any,
     requirements_complete: string,
     remarks: string,
@@ -37,6 +38,7 @@ export interface Attachments {
     attachment_name: String,
     other_type: String,
     file: any,
+    request_supplier_id: Number,
 }
 export const useSupplierStore = defineStore("SupplierStore", {
     state: () => ({
@@ -58,6 +60,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
             form: {
                 approvals: [],
                 attachments: [] as Array<Attachments>,
+                uploads: [] as Array<Attachments>,
             } as SupplierForm,
             params: {},
             pagination: {},
@@ -236,6 +239,44 @@ export const useSupplierStore = defineStore("SupplierStore", {
                         if (response.ok) {
                             this.reloadResources()
                             this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async deleteAttachment (id : any) {
+            await useInventoryApiO(
+                "/api/request-supplier/uploads/" + id,
+                {
+                    method: "DELETE",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            if (response._data.data) {
+                                this.editRequest.form.uploads = response._data.data
+                            }
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async updateAttachments (formData: FormData) {
+            return await useInventoryApiO(
+                "/api/request-supplier/uploads",
+                {
+                    method: "PUT",
+                    body: formData,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
