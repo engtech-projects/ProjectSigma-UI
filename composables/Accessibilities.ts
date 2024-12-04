@@ -7,7 +7,7 @@ export enum AccessibilityTypes {
     hrms_dashboard = "hrms:dashboard",
     hrms_announcement = "hrms:announcement",
     hrms_event_calendar = "hrms:event calendar",
-    hrms_project_members = "hrms:project members",
+    HRMS_LOCATION_EMPLOYEES = "hrms:location employees",
     hrms_hmo = "hrms:hmo",
     hrms_reports_group = "hrms:reports_",
     hrms_reports_sssemployeeremittance = "hrms:reports_sss employee remittance",

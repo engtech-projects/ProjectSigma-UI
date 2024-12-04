@@ -2,6 +2,7 @@
 useHead({
     title: "Personal Action Notice",
 })
+const compId = useId()
 </script>
 <template>
     <LayoutAcessContainer
@@ -24,31 +25,31 @@ useHead({
                                     AccessibilityTypes.hrms_employee_pan_all_request,
                                 ])"
                                 title="All List"
-                                target-id="allListPAN"
+                                :target-id="compId + '1'"
                             />
                             <HrmsCommonTabsTabTitle
                                 v-if="useCheckAccessibility([
                                     AccessibilityTypes.hrms_employee_pan_my_request,
                                 ])"
                                 title="My Requests"
-                                target-id="myRequestsPAN"
+                                :target-id="compId + '2'"
                             />
                             <HrmsCommonTabsTabTitle
                                 v-if="useCheckAccessibility([
                                     AccessibilityTypes.hrms_employee_pan_approval,
                                 ])"
                                 title="My Approvals"
-                                target-id="myApprovalsPAN"
+                                :target-id="compId + '3'"
                             />
                         </template>
                         <template #tab-containers>
-                            <HrmsCommonTabsTabContainer id="allListPAN">
+                            <HrmsCommonTabsTabContainer :id="compId + '1'">
                                 <HrmsEmployeePanAllPanList />
                             </HrmsCommonTabsTabContainer>
-                            <HrmsCommonTabsTabContainer id="myRequestsPAN">
+                            <HrmsCommonTabsTabContainer :id="compId + '2'">
                                 <HrmsEmployeePanMyPanList />
                             </HrmsCommonTabsTabContainer>
-                            <HrmsCommonTabsTabContainer id="myApprovalsPAN">
+                            <HrmsCommonTabsTabContainer :id="compId + '3'">
                                 <HrmsEmployeePanApprovalList />
                             </HrmsCommonTabsTabContainer>
                         </template>

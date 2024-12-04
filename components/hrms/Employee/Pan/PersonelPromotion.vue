@@ -18,36 +18,46 @@ const pan = usePersonelActionNotice()
         </td>
     </tr>
     <tr class="border border-slate-300 p-2">
-        <td colspan="2">
+        <td colspan="2" class="border border-slate-300">
             <div class="m-2">
                 <label
                     class="flex text-sm text-black-700 dark:text-white"
-                >OLD EMPLOYMENT STATUS: </label>
+                >
+                    OLD EMPLOYMENT STATUS:
+                </label>
                 <p>{{ employee.information?.current_employment?.employment_status }}</p>
             </div>
         </td>
-        <td colspan="2" class="border border-slate-300 p-2">
-            <label
-                class="flex text-sm text-black-700 dark:text-white"
-            >NEW EMPLOYMENT STATUS: </label>
-            <HrmsCommonEmploymentStatusSelector v-model="pan.personelActionNotice.employment_status" />
+        <td colspan="2" class="border border-slate-300">
+            <div class="m-2">
+                <label
+                    class="flex text-sm text-black-700 dark:text-white"
+                >
+                    NEW EMPLOYMENT STATUS:
+                </label>
+                <HrmsCommonEmploymentStatusSelector v-model="pan.personelActionNotice.employment_status" />
+            </div>
         </td>
     </tr>
     <tr class="border border-slate-300 p-2">
-        <td colspan="2">
-            <div class="m-2 slate-300 p-2">
+        <td colspan="2" class="border border-slate-300">
+            <div class="m-2">
                 <label
                     class="flex text-sm text-black-700 dark:text-white"
-                >OLD POSITION: </label>
+                >
+                    OLD POSITION:
+                </label>
                 <p>{{ employee.information?.current_employment?.position.name }}</p>
             </div>
         </td>
-        <td colspan="2" class="border border-slate-300 p-2">
+        <td colspan="2" class="border border-slate-300">
             <div class="m-2">
                 <label
                     for="PromotionPosition"
                     class="flex text-sm text-black-700 dark:text-white"
-                >NEW POSITION : </label>
+                >
+                    NEW POSITION :
+                </label>
                 <HrmsCommonPositionSelector
                     id="PromotionPosition"
                     v-model="pan.personelActionNotice.designation_position"
@@ -56,23 +66,27 @@ const pan = usePersonelActionNotice()
         </td>
     </tr>
     <tr class="border border-slate-300 p-2">
-        <td colspan="2" class="border border-slate-300 p-2">
+        <td colspan="2" class="border border-slate-300">
             <div class="m-2">
                 <label
                     for="PromotionSalaryGrade"
                     class="flex text-sm text-black-700 dark:text-white"
-                >OLD SALARY GRADE: </label>
+                >
+                    OLD SALARY GRADE:
+                </label>
                 <template v-if="employee.information.current_employment">
                     <p>Salary Grade {{ employee.information.current_employment.employee_salarygrade.salary_grade_level.salary_grade_level }} - Step {{ employee.information.current_employment.employee_salarygrade.step_name }}</p>
                 </template>
             </div>
         </td>
-        <td colspan="2" class="border border-slate-300 p-2">
+        <td colspan="2" class="border border-slate-300">
             <div class="m-2">
                 <label
                     for="PromotionSalaryGrade"
                     class="flex text-sm text-black-700 dark:text-white"
-                >NEW SALARY GRADE : </label>
+                >
+                    NEW SALARY GRADE :
+                </label>
                 <HrmsCommonSalaryGradeSelector
                     id="PromotionSalaryGrade"
                     v-model="pan.personelActionNotice.salary_grades"
@@ -81,16 +95,24 @@ const pan = usePersonelActionNotice()
         </td>
     </tr>
     <tr class="border border-slate-300 p-2">
-        <td colspan="2" class="border border-slate-300 p-2">
+        <td colspan="2" class="border border-slate-300">
             <div class="m-2">
                 <label
                     for="PromotionSalaryType"
                     class="flex text-sm text-black-700 dark:text-white"
-                >SALARY TYPE: </label>
+                >
+                    OLD SALARY TYPE:
+                </label>
+                <p>{{ employee.information?.current_employment?.salary_type }}</p>
             </div>
         </td>
-        <td colspan="2" class="border border-slate-300 p-2">
+        <td colspan="2" class="border border-slate-300">
             <div class="m-2">
+                <label
+                    class="flex text-sm text-black-700 dark:text-white"
+                >
+                    NEW SALARY TYPE:
+                </label>
                 <HrmsCommonEmploymentSalaryTypeSelector v-model="pan.personelActionNotice.salary_type" />
             </div>
         </td>

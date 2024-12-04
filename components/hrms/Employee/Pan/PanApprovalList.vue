@@ -4,7 +4,7 @@ import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
 
 pan.getPanApprovals()
-const { approvalPanList } = storeToRefs(pan)
+const { myApprovals } = storeToRefs(pan)
 const headers = [
     { name: "REQUEST TYPE", id: "type" },
     { name: "DATE REQUESTED", id: "request_created_at" },
@@ -21,6 +21,9 @@ const showInformation = (data) => {
     infoModalData.value = data
     showInfoModal.value = true
 }
+const changePaginate = (newParams) => {
+    myApprovals.value.params.page = newParams.page ?? ""
+}
 
 </script>
 <template>
@@ -29,8 +32,15 @@ const showInformation = (data) => {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="approvalPanList"
+                :datas="myApprovals.list"
                 @show-table="showInformation"
+            />
+        </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination
+                v-if="myApprovals.list.length"
+                :links="myApprovals.pagination"
+                @change-params="changePaginate"
             />
         </div>
         <HrmsEmployeePanInfoModal
