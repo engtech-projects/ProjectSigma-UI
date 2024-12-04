@@ -141,7 +141,7 @@ const storeRequestForm = async () => {
                         <LayoutFormPsDateInput v-model="form.filled_date" class="w-full" title="Filled Date" />
                     </div>
                     <div v-if="validKey" class="flex flex-col full gap-2">
-                        <InventorySuppliersSupplierAttachment v-model="form" />
+                        <InventorySuppliersSupplierAttachment />
                     </div>
                     <div class="w-full">
                         <LayoutFormPsSelect
