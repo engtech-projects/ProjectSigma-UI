@@ -26,7 +26,11 @@ const storeRequestForm = async () => {
         if (validKey.value) {
             await mainStore.updateSupplierRequest(route.query.key)
         } else {
-            await mainStore.storeRequest(formData)
+            form.value.company_contact_number = form.value.company_contact_number.toString()
+            form.value.contact_person_number = form.value.contact_person_number.toString()
+            form.value.tin = form.value.tin.toString()
+            form.value.approvals = approvalList.value.list
+            await mainStore.storeRequest()
         }
         if (mainStore.errorMessage !== "") {
             snackbar.add({
