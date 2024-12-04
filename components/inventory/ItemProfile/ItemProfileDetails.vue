@@ -63,7 +63,6 @@ const approvedRequest = async (id:number) => {
             profileStore.$reset()
             navigateTo({
                 path: "/inventory/item-profile/new-profile",
-                replace: true
             })
         }
     } catch (error) {
@@ -92,7 +91,6 @@ const denyRequest = async (id:any) => {
             profileStore.$reset()
             navigateTo({
                 path: "/inventory/item-profile/new-profile",
-                replace: true
             })
         }
     } catch (error) {
