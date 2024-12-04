@@ -55,7 +55,7 @@ const icons = {
     RequestBOM: "i-carbon:request-quote",
     ACCOUNTING_PAYMENT_REQUEST: "iconoir:credit-card-2",
     ACCOUNTING_DISBURSEMENT_REQUEST: "material-symbols:dynamic-form-outline-rounded",
-    ACCOUNTING_CAH_REQUEST: "iconoir:money-square"
+    ACCOUNTING_CASH_REQUEST: "iconoir:money-square"
 
 }
 // const possibleLocations = {
