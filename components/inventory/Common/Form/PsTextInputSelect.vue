@@ -91,11 +91,8 @@ const showSuggest = (object:any) => {
     if (itemDescription.length >= 3) {
         Object.values(listObj).map((val:any) => {
             if (suggestItemCode.length < 3) {
-                if (val.value) {
+                if (val.value !== "" && val.value !== null) {
                     const code = `${itemDescription}${val.value}`
-                    suggestItemCode.push(code.toUpperCase().replace(/\s+/g, ""))
-                } else {
-                    const code = `${itemDescription}${val}`
                     suggestItemCode.push(code.toUpperCase().replace(/\s+/g, ""))
                 }
             }
