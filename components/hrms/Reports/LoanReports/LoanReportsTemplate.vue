@@ -72,6 +72,14 @@ await generateReportstore.getLoanCategoryList()
                 v-show="!['SSS LOAN', 'HDMF MPL LOAN', 'HDMF MPL', 'COOP LOAN'].includes(loanReportOption.loan_type)
                     && loanReportOption.report_type === 'summary-with-group'"
             />
+            <HrmsReportsHdmfCalamityLoanEmployee
+                v-show="loanReportOption.loan_type === 'CALAMITY LOAN'
+                    && loanReportOption.report_type === 'employee'"
+            />
+            <HrmsReportsHdmfCalamityLoanGroup
+                v-show="loanReportOption.loan_type === 'CALAMITY LOAN'
+                    && loanReportOption.report_type === 'summary-with-group'"
+            />
         </div>
     </LayoutBoards>
 </template>
