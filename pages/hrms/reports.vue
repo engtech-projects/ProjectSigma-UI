@@ -79,18 +79,6 @@ const selectedReport = ref("")
                         HDMF Employee Remittance
                     </option>
                     <option
-                        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_pagibigcalamityloan])"
-                        value="Report19"
-                    >
-                        HDMF Calamity Employee Loan
-                    </option>
-                    <option
-                        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_pagibigcalamityloan])"
-                        value="Report20"
-                    >
-                        HDMF Calamity Group Loan
-                    </option>
-                    <option
                         v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_loanreports])"
                         value="Report4"
                     >

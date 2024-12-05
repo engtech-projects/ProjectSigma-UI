@@ -30,7 +30,7 @@ const totalPagibigEmployerGroupRemittance = () => {
 }
 const pagibigTotalGroupContribution = () => {
     return pagibigGroupRemittance.value.list.reduce((accumulator, current) => {
-        return accumulator + current.total_pagibig_contribution
+        return accumulator + current.total_contribution
     }, 0)
 }
 watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
@@ -158,7 +158,7 @@ watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
                                 {{ useFormatCurrency(reportData.pagibig_employer_contribution) }}
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.total_pagibig_contribution) }}
+                                {{ useFormatCurrency(reportData.total_contribution) }}
                             </td>
                         </tr>
                         <tr>
