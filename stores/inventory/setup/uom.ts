@@ -8,7 +8,6 @@ export const UOM_CUSTOM = "Custom"
 export const useUOM = defineStore("UOM", {
     state: () => ({
         isEdit: false,
-        isStandard: false,
         uom: {
             id: null,
             name: "",
@@ -17,54 +16,44 @@ export const useUOM = defineStore("UOM", {
             is_standard: null,
         },
         list: [],
+        isLoading: false,
         isLoaded: false,
         pagination: {},
-        getParams: {},
+        getParams: {
+            filter: "custom"
+        },
         errorMessage: "",
         successMessage: "",
     }),
     actions: {
-        typeUOM () {
-            if (this.isStandard) {
-                this.getParams = {
-                    filter: "standard",
-                }
-            } else {
-                this.getParams = {
-                    filter: "custom",
-                }
-            }
-        },
         async getUOM () {
-            this.typeUOM()
-            const { data, error } = await useFetch(
+            await useInventoryApiO(
                 "/api/uom/resource?standard",
                 {
-                    baseURL: config.public.INVENTORY_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
+                    onRequest: () => {
+                        this.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.isLoading = false
                         if (response.ok) {
                             this.isLoaded = true
                             this.list = response._data.data.data
+                            if (this.getParams.filter === "custom") {
+                                this.list.sort((a, b) => a.name.localeCompare(b.name))
+                            }
                             this.pagination = {
                                 first_page: response._data.data.first_page_url,
                                 pages: response._data.data.links,
                                 last_page: response._data.data.last_page_url,
                             }
+                        } else {
+                            this.errorMessage = response._data.message
                         }
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
         async addUOM () {
             this.successMessage = ""
@@ -82,7 +71,6 @@ export const useUOM = defineStore("UOM", {
                         id: this.uom.id,
                         name: this.uom.name,
                         symbol: this.uom.symbol,
-                        // is_standard: this.isStandard,
                     },
                     watch: false,
                     onResponse: ({ response }) => {
