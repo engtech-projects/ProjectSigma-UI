@@ -230,12 +230,12 @@ export const useSupplierStore = defineStore("SupplierStore", {
                 }
             )
         },
-        async storeRequest (formData : FormData) {
+        async storeRequest () {
             await useInventoryApiO(
                 "/api/request-supplier/resource",
                 {
                     method: "POST",
-                    body: formData,
+                    body: this.createRequest.form,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -289,6 +289,32 @@ export const useSupplierStore = defineStore("SupplierStore", {
                             this.successMessage = response._data.message
                             this.attachments.data = response._data.data
                             this.attachments.isLoaded = true
+                            return response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async updateSupplierRequest (id: number) {
+            return await useInventoryApiO(
+                "/api/request-supplier/resource/" + id,
+                {
+                    method: "PUT",
+                    onRequest: () => {
+                        this.editRequest.isLoading = true
+                    },
+                    body: this.editRequest.form,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.editRequest.isLoading = false
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.editRequest.details = response._data.data
+                            this.attachments.data = response._data.data.uploads
+                            this.editRequest.isLoaded = true
                             return response._data.data
                         } else {
                             this.errorMessage = response._data.message

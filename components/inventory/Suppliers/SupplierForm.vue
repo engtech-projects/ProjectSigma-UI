@@ -23,41 +23,14 @@ if (route.query.key) {
 }
 const storeRequestForm = async () => {
     try {
-        const formData = new FormData()
-        form.value.approvals = approvalList.value.list
-        formData.append("supplier_code", form.value.supplier_code)
-        formData.append("company_name", form.value.company_name)
-        formData.append("company_address", form.value.company_address)
-        formData.append("company_email", form.value.company_email)
-        formData.append("contact_person_name", form.value.contact_person_name)
-        formData.append("contact_person_number", form.value.contact_person_number)
-        formData.append("contact_person_designation", form.value.contact_person_designation)
-        formData.append("type_of_ownership", form.value.type_of_ownership)
-        formData.append("nature_of_business", form.value.nature_of_business)
-        formData.append("products_services", form.value.products_services)
-        formData.append("classification", form.value.classification)
-        formData.append("terms_and_conditions", form.value.terms_and_conditions)
-        formData.append("filled_by", form.value.filled_by)
-        formData.append("filled_designation", form.value.filled_designation)
-        formData.append("filled_date", form.value.filled_date)
-        formData.append("requirements_complete", form.value.requirements_complete)
-        formData.append("remarks", form.value.remarks)
-        formData.append("company_contact_number", String(form.value.company_contact_number))
-        formData.append("contact_person_number", String(form.value.contact_person_number))
-        formData.append("tin", String(form.value.tin))
-        formData.append("tin", String(form.value.tin))
-        form.value.approvals.forEach((item, index) => {
-            formData.append(`approvals[${index}][type]`, item.type)
-            formData.append(`approvals[${index}][user_id]`, item.user_id)
-            formData.append(`approvals[${index}][status]`, item.status)
-            formData.append(`approvals[${index}][date_approved]`, item.date_approved)
-            formData.append(`approvals[${index}][remarks]`, item.remarks)
-        })
-
         if (validKey.value) {
-            await mainStore.updateSupplierRequest(route.query.key, formData)
+            await mainStore.updateSupplierRequest(route.query.key)
         } else {
-            await mainStore.storeRequest(formData)
+            form.value.company_contact_number = form.value.company_contact_number.toString()
+            form.value.contact_person_number = form.value.contact_person_number.toString()
+            form.value.tin = form.value.tin.toString()
+            form.value.approvals = approvalList.value.list
+            await mainStore.storeRequest()
         }
         if (mainStore.errorMessage !== "") {
             snackbar.add({
@@ -73,7 +46,7 @@ const storeRequestForm = async () => {
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: mainStore.errorMessage
+            text: error
         })
     }
 }
