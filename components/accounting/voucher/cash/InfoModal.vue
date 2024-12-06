@@ -16,7 +16,7 @@ defineProps({
 })
 const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
-const printPreview = ref(true)
+const printPreview = ref(false)
 
 const voucherStore = useVoucherStore()
 const { remarks } = storeToRefs(voucherStore)

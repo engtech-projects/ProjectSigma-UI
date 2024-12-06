@@ -162,19 +162,19 @@ const totalVat = computed(() => {
                         <FormSignatory
                             label="REQUESTED BY"
                             :signatory="{
-                                name: 'RITCHE CAPILITAN DALAUTA',
-                                title: 'Director'
+                                name: props.data.created_by_user,
+                                title: ''
                             }"
                         />
                         <FormSignatory
                             label="APPROVED BY"
                             :signatories="[
                                 {
-                                    name: 'RITCHE CAPILITAN DALAUTA',
+                                    name: 'RITCHE C. DALAUTA',
                                     title: 'Director'
                                 },
                                 {
-                                    name: 'ANGEL ABRAU',
+                                    name: 'ANGEL A. ABRAU',
                                     title: 'President'
                                 }
                             ]"
@@ -183,7 +183,7 @@ const totalVat = computed(() => {
                             label="RECEIVED BY"
                             :signatory="{
                                 name: '',
-                                title: 'Accounting Head'
+                                title: ''
                             }"
                         />
                     </HrmsReportsSignaturesRow>

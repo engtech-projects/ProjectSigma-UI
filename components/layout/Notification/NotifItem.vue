@@ -113,11 +113,9 @@ const openModalNotification = async () => {
             break
         case "ACCOUNTING_DISBURSEMENT_REQUEST":
             modalData.value = await voucherStore.getOne(prop.notification.data.metadata.id, "disbursement")
-            console.log(modalData.value.data.data)
             break
         case "ACCOUNTING_CASH_REQUEST":
             modalData.value = await voucherStore.getOne(prop.notification.data.metadata.id, "cash")
-            console.log(modalData.value.data.data)
             break
         default:
             break

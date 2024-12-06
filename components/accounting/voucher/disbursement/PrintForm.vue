@@ -152,14 +152,14 @@ const totalCredit = computed(() => {
                         <FormSignatory
                             label="PREPARED BY"
                             :signatory="{
-                                name: 'RITCHE CAPILITAN DALAUTA',
+                                name: 'VEJOICE M. BUTCON',
                                 title: 'Accounting Specialist'
                             }"
                         />
                         <FormSignatory
                             label="REVIEWED BY"
                             :signatory="{
-                                name: '',
+                                name: 'DARREN GRACE P. ROSAL',
                                 title: 'Accounting Section Head'
                             }"
                         />
@@ -167,11 +167,7 @@ const totalCredit = computed(() => {
                             label="APPROVED BY"
                             :signatories="[
                                 {
-                                    name: 'RITCHE CAPILITAN DALAUTA',
-                                    title: 'Director'
-                                },
-                                {
-                                    name: 'ANGEL ABRAU',
+                                    name: 'ANGEL A. ABRAU',
                                     title: 'President'
                                 }
                             ]"
