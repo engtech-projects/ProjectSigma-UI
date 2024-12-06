@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useEnumsStore } from "@/stores/hrms/enum"
-const enums = useEnumsStore()
+import { useHrmsEnumsStore } from "@/stores/hrms/enum"
+const enums = useHrmsEnumsStore()
 const { departmentEnum } = storeToRefs(enums)
 onMounted(() => {
     if (!departmentEnum.value.isLoaded) {

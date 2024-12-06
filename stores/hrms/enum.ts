@@ -51,7 +51,7 @@ export interface Employee {
     department: any,
     project: any,
 }
-export const useEnumsStore = defineStore("enums", {
+export const useHrmsEnumsStore = defineStore("enums", {
     state: () => ({
         positionEnum: {
             isLoading: false,
@@ -82,6 +82,9 @@ export const useEnumsStore = defineStore("enums", {
             isLoaded: false,
             list: [] as Project[],
             params: {},
+            localFilter: {
+                project_code: "",
+            },
             successMessage: "",
             errorMessage: "",
         },
@@ -173,6 +176,11 @@ export const useEnumsStore = defineStore("enums", {
         headByPosition (state: any): any {
             return (positionName: any) => state.userEmployeeHeadsEnum.list.find((user: any) => {
                 return user.employee.current_position === positionName
+            })
+        },
+        filteredProjectsList (state) : any[] {
+            return state.projectEnum.list.filter((project:any) => {
+                return project.project_code.toLowerCase().includes(state.projectEnum.localFilter.project_code.toLowerCase())
             })
         }
     },
