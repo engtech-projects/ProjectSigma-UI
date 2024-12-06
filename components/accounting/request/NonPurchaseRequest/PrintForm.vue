@@ -147,17 +147,6 @@ const totalVat = computed(() => {
                             No entries yet.
                         </span>
                     </div>
-                    <!-- <div class="flex gap-24">
-                        <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                            REQUESTED BY:
-                        </span>
-                        <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                            APPROVED BY:
-                        </span>
-                        <span class="border-b-2 border-black pb-16 font-bold flex-1">
-                            RECEIVED BY:
-                        </span>
-                    </div> -->
                     <HrmsReportsSignaturesRow>
                         <FormSignatory
                             label="REQUESTED BY"
