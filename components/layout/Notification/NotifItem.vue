@@ -11,6 +11,7 @@ import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowan
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 import { useBOMStore } from "@/stores/inventory/bom"
+import { useSupplierStore } from "@/stores/inventory/suppliers"
 import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
 import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
 
@@ -27,6 +28,7 @@ const genAllowanceStore = useGenerateAllowanceStore()
 const genPayrollStore = useGeneratePayrollStore()
 const itemProfileStore = useItemProfileStore()
 const BOMStore = useBOMStore()
+const SupplierStore = useSupplierStore()
 const PaymentRequestStore = usePaymentRequestStore()
 const voucherStore = useVoucherStore()
 // INVENTORY STORES
@@ -107,6 +109,9 @@ const openModalNotification = async () => {
             break
         case "RequestBOM":
             modalData.value = await BOMStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "RequestSupplier":
+            modalData.value = await SupplierStore.getOne(prop.notification.data.metadata.id)
             break
         case "ACCOUNTING_PAYMENT_REQUEST":
             modalData.value = await PaymentRequestStore.getOne(prop.notification.data.metadata.id)
@@ -258,6 +263,12 @@ watch(showModal, (newValue, oldValue) => {
         </template>
         <template v-if=" prop.notification.data.type === 'RequestBOM'">
             <InventoryBomInfoModal
+                v-model:showModal="showModal"
+                :data="modalData.data"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'RequestSupplier'">
+            <InventorySuppliersInfoModal
                 v-model:showModal="showModal"
                 :data="modalData.data"
             />

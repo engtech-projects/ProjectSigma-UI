@@ -3,8 +3,7 @@ import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
 pan.myPanRequest()
-const { myPanList, myRequestPagination: pagination, getParamsMyList } = storeToRefs(pan)
-const boardLoading = ref(false)
+const { myRequests } = storeToRefs(pan)
 
 const headers = [
     { name: "REQUEST TYPE", id: "type" },
@@ -17,7 +16,7 @@ const actions = {
     showTable: true,
 }
 const changePaginate = (newParams) => {
-    getParamsMyList.value.page = newParams.page ?? ""
+    myRequests.value.params.page = newParams.page ?? ""
 }
 const infoModalData = ref({})
 const showInfoModal = ref(false)
@@ -27,19 +26,19 @@ const showInformation = (data) => {
 }
 </script>
 <template>
-    <LayoutBoards class="w-full" :loading="boardLoading">
+    <LayoutBoards class="w-full" :loading="myRequests.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="myPanList"
+                :datas="myRequests.list"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination
-                v-if="myPanList.length"
-                :links="pagination"
+                v-if="myRequests.list.length"
+                :links="myRequests.pagination"
                 @change-params="changePaginate"
             />
         </div>

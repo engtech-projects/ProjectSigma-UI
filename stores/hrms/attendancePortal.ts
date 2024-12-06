@@ -73,6 +73,18 @@ export const useAttendancePortal = defineStore("attendancePortal", {
         ipAddress: null,
         errorMessage: "",
         successMessage: "",
+        newAttendanceLog: {
+            isLoading: false,
+            data: {
+                employee_id: null as null | Number,
+                log_type: null as null | String,
+                assignment_type: null as null | Number,
+                department_id: null as null | Number,
+                project_id: null as null | Number,
+            },
+            successMessage: "",
+            errorMessage: "",
+        }
     }),
     getters: {
         faceNames (state) {
@@ -238,14 +250,18 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 "/api/attendance/facial",
                 {
                     method: "POST",
-                    body: this.attendancePortalParams,
+                    body: this.newAttendanceLog.data,
+                    onRequest: () => {
+                        this.newAttendanceLog.isLoading = true
+                    },
                     onResponse: ({ response }: any) => {
+                        this.newAttendanceLog.isLoading = false
                         if (response.ok) {
                             this.lastSuccessLogEmployee = response._data.data
-                            this.successMessage = response._data.message
+                            this.newAttendanceLog.successMessage = response._data.message
                             return response._data
                         } else {
-                            this.errorMessage = response._data.message
+                            this.newAttendanceLog.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },

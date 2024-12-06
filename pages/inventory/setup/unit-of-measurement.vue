@@ -2,16 +2,16 @@
 import { useUOM } from "@/stores/inventory/setup/uom"
 
 const main = useUOM()
-const { isEdit, isStandard } = storeToRefs(main)
+const { isEdit, getParams } = storeToRefs(main)
 useHead({
     title: "Unit of Measurement",
 })
-const standard = async (type) => {
+const changeType = (type) => {
     main.list = []
-    isStandard.value = type
-    await main.getUOM()
+    getParams.value.filter = type
+    main.getUOM()
 }
-standard(false)
+main.getUOM()
 </script>
 <template>
     <LayoutAcessContainer
@@ -20,27 +20,29 @@ standard(false)
         ])"
     >
         <div class="flex flex-col mt-10 md:mt-0 md:flex-row gap-4">
-            <InventorySetupUnitOfMeasurementAddForm v-show="!isEdit" />
-            <InventorySetupUnitOfMeasurementEditForm v-show="isEdit" />
+            <div>
+                <InventorySetupUnitOfMeasurementAddForm v-show="!isEdit" />
+                <InventorySetupUnitOfMeasurementEditForm v-show="isEdit" />
+            </div>
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         title="Custom UOM"
                         target-id="customUOMList"
-                        @click="standard(false)"
+                        @click="changeType('custom')"
                     />
                     <HrmsCommonTabsTabTitle
                         title="Standard UOM"
                         target-id="standardUOMList"
-                        @click="standard(true)"
+                        @click="changeType('standard')"
                     />
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer id="customUOMList">
-                        <InventorySetupUnitOfMeasurementListCustomTable />
+                        <InventorySetupUnitOfMeasurementUOMTable />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="standardUOMList">
-                        <InventorySetupUnitOfMeasurementListStandardTable />
+                        <InventorySetupUnitOfMeasurementUOMTable />
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>

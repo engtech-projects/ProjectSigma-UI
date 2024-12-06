@@ -1,41 +1,41 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { hdmfEmployeeLoan } = storeToRefs(generateReportstore)
+const { coopGroupSummaryLoan } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        await generateReportstore.getHdmfEmployeeLoan()
+        await generateReportstore.getCoopGroupSummaryLoan()
         snackbar.add({
             type: "success",
-            text: hdmfEmployeeLoan.value.successMessage
+            text: coopGroupSummaryLoan.value.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: hdmfEmployeeLoan.value.errorMessage || "something went wrong."
+            text: coopGroupSummaryLoan.value.errorMessage || "something went wrong."
         })
     }
 }
-const pagibigTotal = () => {
-    return hdmfEmployeeLoan.value.list.reduce((accumulator, current) => {
+const totalCoop = () => {
+    return coopGroupSummaryLoan.value.list.reduce((accumulator, current) => {
         return accumulator + current.total_payments
     }, 0)
 }
-watch(() => hdmfEmployeeLoan.value.params.month_year, (newValue) => {
+watch(() => coopGroupSummaryLoan.value.params.month_year, (newValue) => {
     if (newValue) {
-        hdmfEmployeeLoan.value.params.filter_month = newValue.month + 1
-        hdmfEmployeeLoan.value.params.filter_year = newValue.year
+        coopGroupSummaryLoan.value.params.filter_month = newValue.month + 1
+        coopGroupSummaryLoan.value.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards title="HDMF MPL LOAN PAYMENT" :loading="hdmfEmployeeLoan.isLoading">
+    <LayoutBoards title="HDMF Loan Payment (Group)" :loading="coopGroupSummaryLoan.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="hdmfEmployeeLoan.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="hdmfEmployeeLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="hdmfEmployeeLoan.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="coopGroupSummaryLoan.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="coopGroupSummaryLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="coopGroupSummaryLoan.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -89,72 +89,77 @@ watch(() => hdmfEmployeeLoan.value.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        HDMF MPL LOAN PAYMENT
+                        HDMF MPL LOAN PAYMENT (GROUP)
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(hdmfEmployeeLoan.params.filter_month) }} {{ hdmfEmployeeLoan.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(coopGroupSummaryLoan.params.filter_month) }} {{ coopGroupSummaryLoan.params.filter_year }}</span>
                     </span>
+                </div>
+                <div>
+                    <p class="font-bold text-lg">
+                        SUMMARY
+                    </p>
                 </div>
                 <table class="printTable border border-gray-500 mb-20">
                     <thead class="text-black text-md">
-                        <tr class="py-4">
-                            <th rowspan="3" class="py-4 border-gray-500">
-                                PAGIBIG ID / RTN
+                        <tr class="py-2">
+                            <th class="border-gray-500">
+                                NO.
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
-                                APPLICATION NO
-                            </th>
-                            <th rowspan="3" class="border border-gray-500">
+                            <th class="border border-gray-500">
                                 LAST NAME
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
+                            <th class="border border-gray-500">
                                 FIRST NAME
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
+                            <th class="border border-gray-500">
                                 NAME EXT
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
-                                MIDDLE NAME
+                            <th class="border border-gray-500">
+                                MID NAME
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
+                            <th class="border border-gray-500">
                                 LOAN TYPE
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
+                            <th class="border border-gray-500">
+                                PROJECT ID
+                            </th>
+                            <th class="border border-gray-500">
                                 AMOUNT
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                PERCOV
+                                TOTAL
                             </th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in hdmfEmployeeLoan.list" :key="'hdmfemployeeloanpayment' + index" class="h-2">
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.employee_pagibig_no }}
+                        <tr v-for="reportData, index in coopGroupSummaryLoan.list" :key="'coopemployeesummarygroup' + index" class="h-2">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center font-bold">
+                                {{ index + 1 }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                -
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <td class="border border-gray-500 h-8 px-2 text-sm">
                                 {{ reportData.last_name }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <td class="border border-gray-500 h-8 px-2 text-sm">
                                 {{ reportData.first_name }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <td class="border border-gray-500 h-8 px-2 text-sm">
                                 {{ reportData.suffix_name }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <td class="border border-gray-500 h-8 px-2 text-sm">
                                 {{ reportData.middle_name }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <td class="border border-gray-500 h-8 px-2 text-sm">
                                 {{ reportData.loan_type }}
                             </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.total_payments }}
+                            <td class="border border-gray-500 h-8 px-2 text-sm">
+                                {{ reportData.payroll_record.charging_name }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.percov }}
+                                {{ reportData.amount }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                {{ useFormatCurrency(reportData.total_payments) }}
                             </td>
                         </tr>
                         <tr>
@@ -162,7 +167,7 @@ watch(() => hdmfEmployeeLoan.value.params.month_year, (newValue) => {
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(pagibigTotal()) }}
+                                {{ useFormatCurrency(totalCoop()) }}
                             </td>
                         </tr>
                     </tbody>

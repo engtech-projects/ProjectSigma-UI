@@ -65,17 +65,19 @@ await generateReportstore.getLoanCategoryList()
                     && loanReportOption.report_type === 'employee'"
             />
             <HrmsReportsLoanReportsDefaultReportEmployee
-                v-show="loanReportOption.loan_type !== 'COOP LOAN'
-                    && (loanReportOption.loan_type !== 'HDMF MPL LOAN'
-                        || loanReportOption.loan_type !== 'HDMF MPL')
-                    && loanReportOption.loan_type !== 'SSS LOAN'
+                v-show="!['SSS LOAN', 'HDMF MPL LOAN', 'HDMF MPL', 'COOP LOAN'].includes(loanReportOption.loan_type)
                     && loanReportOption.report_type === 'employee'"
             />
             <HrmsReportsLoanReportsDefaultReportGroup
-                v-show="loanReportOption.loan_type !== 'COOP LOAN'
-                    && (loanReportOption.loan_type !== 'HDMF MPL LOAN'
-                        || loanReportOption.loan_type !== 'HDMF MPL')
-                    && loanReportOption.loan_type !== 'SSS LOAN'
+                v-show="!['SSS LOAN', 'HDMF MPL LOAN', 'HDMF MPL', 'COOP LOAN'].includes(loanReportOption.loan_type)
+                    && loanReportOption.report_type === 'summary-with-group'"
+            />
+            <HrmsReportsHdmfCalamityLoanEmployee
+                v-show="loanReportOption.loan_type === 'CALAMITY LOAN'
+                    && loanReportOption.report_type === 'employee'"
+            />
+            <HrmsReportsHdmfCalamityLoanGroup
+                v-show="loanReportOption.loan_type === 'CALAMITY LOAN'
                     && loanReportOption.report_type === 'summary-with-group'"
             />
         </div>

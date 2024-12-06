@@ -1,41 +1,41 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { hdmfEmployeeLoan } = storeToRefs(generateReportstore)
+const { hdmfCalamityEmployeeLoan } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        await generateReportstore.getHdmfEmployeeLoan()
+        await generateReportstore.getHdmfCalamityEmployeeLoan()
         snackbar.add({
             type: "success",
-            text: hdmfEmployeeLoan.value.successMessage
+            text: hdmfCalamityEmployeeLoan.value.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: hdmfEmployeeLoan.value.errorMessage || "something went wrong."
+            text: hdmfCalamityEmployeeLoan.value.errorMessage || "something went wrong."
         })
     }
 }
-const pagibigTotal = () => {
-    return hdmfEmployeeLoan.value.list.reduce((accumulator, current) => {
+const totalHdmfCalamity = () => {
+    return hdmfCalamityEmployeeLoan.value.list.reduce((accumulator, current) => {
         return accumulator + current.total_payments
     }, 0)
 }
-watch(() => hdmfEmployeeLoan.value.params.month_year, (newValue) => {
+watch(() => hdmfCalamityEmployeeLoan.value.params.month_year, (newValue) => {
     if (newValue) {
-        hdmfEmployeeLoan.value.params.filter_month = newValue.month + 1
-        hdmfEmployeeLoan.value.params.filter_year = newValue.year
+        hdmfCalamityEmployeeLoan.value.params.filter_month = newValue.month + 1
+        hdmfCalamityEmployeeLoan.value.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards title="HDMF MPL LOAN PAYMENT" :loading="hdmfEmployeeLoan.isLoading">
+    <LayoutBoards title="HDMF CALAMITY Loan Payments" :loading="hdmfCalamityEmployeeLoan.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="hdmfEmployeeLoan.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="hdmfEmployeeLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="hdmfEmployeeLoan.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="hdmfCalamityEmployeeLoan.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="hdmfCalamityEmployeeLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="hdmfCalamityEmployeeLoan.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -89,10 +89,10 @@ watch(() => hdmfEmployeeLoan.value.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        HDMF MPL LOAN PAYMENT
+                        HDMF CALAMITY LOAN PAYMENTS
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(hdmfEmployeeLoan.params.filter_month) }} {{ hdmfEmployeeLoan.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(hdmfCalamityEmployeeLoan.params.filter_month) }} {{ hdmfCalamityEmployeeLoan.params.filter_year }}</span>
                     </span>
                 </div>
                 <table class="printTable border border-gray-500 mb-20">
@@ -100,9 +100,6 @@ watch(() => hdmfEmployeeLoan.value.params.month_year, (newValue) => {
                         <tr class="py-4">
                             <th rowspan="3" class="py-4 border-gray-500">
                                 PAGIBIG ID / RTN
-                            </th>
-                            <th rowspan="3" class="border border-gray-500">
-                                APPLICATION NO
                             </th>
                             <th rowspan="3" class="border border-gray-500">
                                 LAST NAME
@@ -120,15 +117,15 @@ watch(() => hdmfEmployeeLoan.value.params.month_year, (newValue) => {
                                 LOAN TYPE
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                AMOUNT
+                                PROJECT ID
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                PERCOV
+                                AMOUNT
                             </th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in hdmfEmployeeLoan.list" :key="'hdmfemployeeloanpayment' + index" class="h-2">
+                        <tr v-for="reportData, index in hdmfCalamityEmployeeLoan.list" :key="'hdmfCalamityEmployeeLoan' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.employee_pagibig_no }}
                             </td>
@@ -158,11 +155,11 @@ watch(() => hdmfEmployeeLoan.value.params.month_year, (newValue) => {
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="8" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                            <td colspan="7" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(pagibigTotal()) }}
+                                {{ useFormatCurrency(totalHdmfCalamity()) }}
                             </td>
                         </tr>
                     </tbody>

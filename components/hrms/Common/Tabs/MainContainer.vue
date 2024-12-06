@@ -1,11 +1,14 @@
+<script setup>
+const compId = useId()
+</script>
 <template>
     <LayoutBoards class="w-full">
         <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
-            <ul id="default-tab" class="flex flex-wrap -mb-px text-sm font-medium text-center" data-tabs-toggle="#default-tab-content" role="tablist">
+            <ul id="default-tab" class="flex flex-wrap -mb-px text-sm font-medium text-center" :data-tabs-toggle="'#' + compId + '-tab-content'" role="tablist">
                 <slot name="tab-titles" />
             </ul>
         </div>
-        <div id="default-tab-content">
+        <div :id="compId + '-tab-content'">
             <slot name="tab-containers" />
         </div>
     </LayoutBoards>

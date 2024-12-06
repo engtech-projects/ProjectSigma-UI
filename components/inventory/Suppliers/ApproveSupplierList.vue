@@ -23,7 +23,6 @@ const editInformation = (data) => {
         query: {
             key: data.id
         },
-        replace: true
     })
 }
 

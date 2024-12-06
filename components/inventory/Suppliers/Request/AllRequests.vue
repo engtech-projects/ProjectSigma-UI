@@ -27,7 +27,6 @@ const showInformation = (data) => {
         query: {
             key: data.id
         },
-        replace: true
     })
 }
 const changePaginate = (newParams) => {
