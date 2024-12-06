@@ -376,8 +376,8 @@ export const useVoucherStore = defineStore("voucherStore", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResourcesCash()
+                            this.successMessage = response._data.message
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -401,8 +401,8 @@ export const useVoucherStore = defineStore("voucherStore", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResourcesCash()
+                            this.successMessage = response._data.message
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -425,8 +425,8 @@ export const useVoucherStore = defineStore("voucherStore", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResourcesDisbursement()
+                            this.successMessage = response._data.message
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -455,6 +455,22 @@ export const useVoucherStore = defineStore("voucherStore", {
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getOne (id: number, type: String) {
+            return await useAccountingApi(
+                "api/vouchers/" + type + "/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
                             throw new Error(response._data.message)
                         }
                     },
