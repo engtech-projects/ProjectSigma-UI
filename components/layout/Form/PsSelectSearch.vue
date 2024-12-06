@@ -19,6 +19,7 @@ const props = defineProps({
 })
 const forFocusOut = ref()
 const result = defineModel("result", { type: Object, required: true })
+const resultId = defineModel("resultId", { type: Number, required: false })
 const searchInput = defineModel("searchInput", { type: String, required: true })
 const showDD = ref(false)
 let toggleTimeout: any = null
@@ -35,10 +36,12 @@ const closeDD = () => {
 }
 function selectOption (option: any) {
     result.value = option
+    resultId.value = option.id
     forFocusOut.value.focus()
 }
 function clearSelection () {
-    result.value = ""
+    result.value = {}
+    resultId.value = null
 }
 function clearSearchQuery () {
     searchInput.value = ""
