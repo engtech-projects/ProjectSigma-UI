@@ -755,7 +755,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.project_monitoring_projects,
+                    AccessibilityTypes.ADMIN_ONLY,
                 ])"
                 linkarea="/project-monitoring/projects"
                 icon="material-symbols:business-center"

@@ -1,6 +1,7 @@
 import { USER_ADMINISTRATOR } from "@/stores/hrms/setup/users"
 const { data: userData } = useAuth()
 export enum AccessibilityTypes {
+    ADMIN_ONLY = "Admin Only Access",
     admin = "AdminOnly",
     hrms_group = "hrms:",
     // STANDALONES

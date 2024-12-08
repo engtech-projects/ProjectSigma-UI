@@ -14,6 +14,6 @@ defineProps({
         <slot />
     </div>
     <div v-else>
-        <UnauthorizeAccess />
+        <LayoutBackOrHome message="You are not authorized to access this page." />
     </div>
 </template>
