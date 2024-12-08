@@ -11,12 +11,12 @@ definePageMeta({
 })
 
 const attendancePortal = useAttendancePortal()
-const { attendancePortalParams, attendanceSession } = storeToRefs(attendancePortal)
+const { newAttendanceLog, attendanceSession } = storeToRefs(attendancePortal)
 
 attendancePortal.getAllEmployeePattern()
 attendancePortal.getTodayAttendanceLogs()
 await attendancePortal.checkSession()
-attendancePortalParams.value.log_type = CATEGORY_TIME_IN
+newAttendanceLog.value.log_type = CATEGORY_TIME_IN
 const detectionPaused = ref(false)
 onMounted(() => {
     if (attendanceSession.value.assignment_count === 1) {
@@ -27,7 +27,7 @@ onMounted(() => {
             event.code === "Space" ||
             event.keyCode === 32
         ) {
-            attendancePortalParams.value.log_type = (attendancePortalParams.value.log_type === CATEGORY_TIME_IN) ? CATEGORY_TIME_OUT : CATEGORY_TIME_IN
+            newAttendanceLog.value.data.log_type = (newAttendanceLog.value.data.log_type === CATEGORY_TIME_IN) ? CATEGORY_TIME_OUT : CATEGORY_TIME_IN
         }
         if (detectionPaused.value) {
             allAssignments.value.forEach((_element, index) => {
@@ -53,19 +53,19 @@ const allAssignments = computed(() => {
 const selectAssignment = (index) => {
     detectionPaused.value = false
     if (allAssignments.value[index].department_name) {
-        attendancePortalParams.value.assignment_type = "Department"
-        attendancePortalParams.value.department_id = allAssignments.value[index].id
+        newAttendanceLog.value.data.assignment_type = "Department"
+        newAttendanceLog.value.data.department_id = allAssignments.value[index].id
         attendanceSession.value.currentName = "Employee's Work Location"
     } else {
-        attendancePortalParams.value.assignment_type = "Project"
-        attendancePortalParams.value.project_id = allAssignments.value[index].id
+        newAttendanceLog.value.data.assignment_type = "Project"
+        newAttendanceLog.value.data.project_id = allAssignments.value[index].id
         attendanceSession.value.currentName = allAssignments.value[index].project_code
     }
 }
 const resetAssignment = () => {
-    attendancePortalParams.value.assignment_type = null
-    attendancePortalParams.value.department_id = null
-    attendancePortalParams.value.project_id = null
+    newAttendanceLog.value.data.assignment_type = null
+    newAttendanceLog.value.data.department_id = null
+    newAttendanceLog.value.data.project_id = null
     attendanceSession.value.currentName = ""
 }
 </script>
@@ -110,7 +110,7 @@ const resetAssignment = () => {
                             <div class="md:flex gap-2 space-x-2 p-2 pb-0 justify-center">
                                 <input
                                     id="Time-in"
-                                    v-model="attendancePortalParams.log_type"
+                                    v-model="newAttendanceLog.data.log_type"
                                     class=""
                                     type="radio"
                                     value="In"
@@ -118,7 +118,7 @@ const resetAssignment = () => {
                                 <label for="Time-in" class="mr-4 text-xs text-gray-900 dark:text-gray-300">TIME IN</label>
                                 <input
                                     id="time-out"
-                                    v-model="attendancePortalParams.log_type"
+                                    v-model="newAttendanceLog.data.log_type"
                                     class=""
                                     type="radio"
                                     value="Out"

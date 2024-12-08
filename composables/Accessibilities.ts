@@ -1,13 +1,14 @@
 import { USER_ADMINISTRATOR } from "@/stores/hrms/setup/users"
 const { data: userData } = useAuth()
 export enum AccessibilityTypes {
+    ADMIN_ONLY = "Admin Only Access",
     admin = "AdminOnly",
     hrms_group = "hrms:",
     // STANDALONES
     hrms_dashboard = "hrms:dashboard",
     hrms_announcement = "hrms:announcement",
     hrms_event_calendar = "hrms:event calendar",
-    hrms_project_members = "hrms:project members",
+    HRMS_LOCATION_EMPLOYEES = "hrms:location employees",
     hrms_hmo = "hrms:hmo",
     hrms_reports_group = "hrms:reports_",
     hrms_reports_sssemployeeremittance = "hrms:reports_sss employee remittance",
@@ -158,6 +159,7 @@ export enum AccessibilityTypes {
     ACCOUNTING_SETUP_CHART_OF_ACCOUNTS = "accounting:setup_chart of accounts",
     ACCOUNTING_SETUP_STAKEHOLDERS = "accounting:setup_stakeholders",
     ACCOUNTING_SETUP_SYNCHRONIZATION = "accounting:setup_synchronization",
+    ACCOUNTING_SETUP_PARTICULAR_GROUP = "accounting:setup_particular group",
 
     // Accounting Request
     ACCOUNTING_REQUEST_GROUP = "accounting:request_",

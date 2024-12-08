@@ -5,9 +5,9 @@
                 {{ upperFirst(props.title) }}
             </h1>
             <div class="flex gap-4">
-                <span class="text-xs hover:underline cursor-pointer" @click.prevent="addType">
-                    + ADD TYPE
-                </span>
+                <button class="text-xs p-2 rounded-sm block bg-green-500 hover:bg-green-600 active:bg-green-500 text-white" @click.prevent="addType">
+                    ADD TYPE
+                </button>
                 <Icon v-if="collapse" name="iconoir:nav-arrow-down" class="cursor-pointer" />
                 <Icon v-else name="iconoir:nav-arrow-right" class="cursor-pointer" />
             </div>

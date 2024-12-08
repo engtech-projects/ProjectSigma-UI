@@ -91,12 +91,20 @@ defineProps({
                             {{ panData.work_location }}
                         </dd>
                     </div>
-                    <div class="bg-gray-50 px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <div v-if="panData.work_location === 'Office'" class="bg-gray-50 px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                         <dt class="text-sm font-medium text-gray-500">
                             Department
                         </dt>
                         <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            {{ panData.department?.department_name }}
+                            {{ panData.department_name }}
+                        </dd>
+                    </div>
+                    <div v-else class="bg-gray-50 px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">
+                            Project(s)
+                        </dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {{ panData.project_names }}
                         </dd>
                     </div>
                 </template>
@@ -148,6 +156,14 @@ defineProps({
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         {{ panData.created_by_user_name }}
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Requested On
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ panData.created_at_human }}
                     </dd>
                 </div>
                 <LayoutApprovalsListView :approvals="panData.approvals" />

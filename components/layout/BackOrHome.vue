@@ -24,7 +24,7 @@ const goBackOrHome = () => {
             <span class="text-blue-600 underline cursor-pointer" @click="goBackOrHome">
                 Here
             </span>
-            to go {{ router.options.history.state.back ? 'back' : "to homepage" }}
+            to go {{ router.options.history.state.back ? 'back to previous page' : "to homepage" }}
         </p>
     </div>
 </template>

@@ -103,17 +103,29 @@ const updateInternalWorkExperience = async (id, params) => {
                     <tr>
                         <td class="border border-slate-300 p-1">
                             <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Work Location</label>
-                            <HrmsCommonEmploymentWorkLocationSelector v-if="editable" v-model="emprecord.work_location" />
-                            <p v-else class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-normal dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <p class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-normal dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 {{ emprecord.work_location }}
                             </p>
                         </td>
                         <td class="border border-slate-300 p-1">
-                            <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Department</label>
-                            <HrmsCommonDepartmentSelector v-if="editable" v-model="emprecord.department_id" />
-                            <p v-else class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-normal dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                "{{ emprecord.employee_department?.department_name }}"
-                            </p>
+                            <template v-if="emprecord.work_location == 'Office'">
+                                <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Department</label>
+                                <HrmsCommonDepartmentSelector v-if="editable" v-model="emprecord.department_id" />
+                                <p v-else class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-normal dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    "{{ emprecord.department_name }}"
+                                </p>
+                            </template>
+                            <template v-else>
+                                <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Project(s)</label>
+                                <template v-if="editable">
+                                    <template v-for="_proj, projInd in emprecord.project_ids" :key="'proj_'+projInd+''">
+                                        <HrmsCommonProjectSelector v-model="emprecord.projects[projInd]" />
+                                    </template>
+                                </template>
+                                <p v-else class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-normal dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    "{{ emprecord.project_names }}"
+                                </p>
+                            </template>
                         </td>
                         <td class="border border-slate-300 p-1">
                             <label class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">Salary Type</label>

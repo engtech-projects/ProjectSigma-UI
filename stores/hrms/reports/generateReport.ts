@@ -116,6 +116,30 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
+        hdmfCalamityEmployeeLoan: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "CALAMITY LOAN",
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        hdmfCalamityGroupSummaryLoan: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                loan_type: "CALAMITY LOAN",
+                charging_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
         pagibigEmployeeRemitanceList: {
             isLoading: false,
             isLoaded: false,
@@ -398,6 +422,56 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.coopEmployeeLoan.isLoaded = true
                             this.coopEmployeeLoan.list = response._data.data
                             this.coopEmployeeLoan.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getHdmfCalamityEmployeeLoan () {
+            await useHRMSApiO(
+                "/api/reports/hdmf-calamity-group-summary-loans",
+                {
+                    method: "GET",
+                    params: this.hdmfCalamityEmployeeLoan.params,
+                    onRequest: () => {
+                        this.hdmfCalamityEmployeeLoan.isLoading = true
+                        this.hdmfCalamityEmployeeLoan.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.hdmfCalamityEmployeeLoan.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.hdmfCalamityEmployeeLoan.isLoading = false
+                        if (response.ok) {
+                            this.hdmfCalamityEmployeeLoan.isLoaded = true
+                            this.hdmfCalamityEmployeeLoan.list = response._data.data
+                            this.hdmfCalamityEmployeeLoan.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getHdmfCalamityGroupSummaryLoan () {
+            await useHRMSApiO(
+                "/api/reports/hdmf-calamity-employee-loans",
+                {
+                    method: "GET",
+                    params: this.hdmfCalamityGroupSummaryLoan.params,
+                    onRequest: () => {
+                        this.hdmfCalamityGroupSummaryLoan.isLoading = true
+                        this.hdmfCalamityGroupSummaryLoan.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.hdmfCalamityGroupSummaryLoan.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.hdmfCalamityGroupSummaryLoan.isLoading = false
+                        if (response.ok) {
+                            this.hdmfCalamityGroupSummaryLoan.isLoaded = true
+                            this.hdmfCalamityGroupSummaryLoan.list = response._data.data
+                            this.hdmfCalamityGroupSummaryLoan.successMessage = response._data.message
                         }
                     },
                 }

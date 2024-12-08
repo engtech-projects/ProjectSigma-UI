@@ -10,54 +10,28 @@ const approvals = useApprovalStore()
 approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
 
 const snackbar = useSnackbar()
-
 const route = useRoute()
 const validKey = ref(false)
+
 if (route.query.key) {
-    validKey.value = true
     await mainStore.editOne(route.query.key)
     editRequest.value.form = editRequest.value.details
+    editRequest.value.form.attachments = []
+    validKey.value = true
 } else {
     validKey.value = false
 }
-
 const storeRequestForm = async () => {
     try {
-        const formData = new FormData()
-        form.value.approvals = approvalList.value.list
-        formData.append("supplier_code", form.value.supplier_code)
-        formData.append("company_name", form.value.company_name)
-        formData.append("company_address", form.value.company_address)
-        formData.append("company_email", form.value.company_email)
-        formData.append("contact_person_name", form.value.contact_person_name)
-        formData.append("contact_person_number", form.value.contact_person_number)
-        formData.append("contact_person_designation", form.value.contact_person_designation)
-        formData.append("type_of_ownership", form.value.type_of_ownership)
-        formData.append("nature_of_business", form.value.nature_of_business)
-        formData.append("products_services", form.value.products_services)
-        formData.append("classification", form.value.classification)
-        formData.append("terms_and_conditions", form.value.terms_and_conditions)
-        formData.append("filled_by", form.value.filled_by)
-        formData.append("filled_designation", form.value.filled_designation)
-        formData.append("filled_date", form.value.filled_date)
-        formData.append("requirements_complete", form.value.requirements_complete)
-        formData.append("remarks", form.value.remarks)
-        formData.append("company_contact_number", String(form.value.company_contact_number))
-        formData.append("contact_person_number", String(form.value.contact_person_number))
-        formData.append("tin", String(form.value.tin))
-        formData.append("tin", String(form.value.tin))
-        form.value.approvals.forEach((item, index) => {
-            formData.append(`approvals[${index}][type]`, item.type)
-            formData.append(`approvals[${index}][user_id]`, item.user_id)
-            formData.append(`approvals[${index}][status]`, item.status)
-            formData.append(`approvals[${index}][date_approved]`, item.date_approved)
-            formData.append(`approvals[${index}][remarks]`, item.remarks)
-        })
-        form.value.attachments.forEach((item, index) => {
-            formData.append(`attachments[${index}][attachment_name]`, item.attachment_name)
-            formData.append(`attachments[${index}][file]`, item.file)
-        })
-        await mainStore.storeRequest(formData)
+        if (validKey.value) {
+            await mainStore.updateSupplierRequest(route.query.key)
+        } else {
+            form.value.company_contact_number = form.value.company_contact_number.toString()
+            form.value.contact_person_number = form.value.contact_person_number.toString()
+            form.value.tin = form.value.tin.toString()
+            form.value.approvals = approvalList.value.list
+            await mainStore.storeRequest()
+        }
         if (mainStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -72,34 +46,11 @@ const storeRequestForm = async () => {
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: mainStore.errorMessage
-        })
-    }
-}
-
-const handleDocumentUpload = (event, data) => {
-    try {
-        const file = event.target.files[0]
-        data.file = file
-    } catch (error) {
-        snackbar.add({
-            type: "error",
             text: error
         })
     }
 }
 
-const addAttachment = () => {
-    form.value.attachments.push(
-        {
-            attachment_name: null,
-            file: null,
-        }
-    )
-}
-const removeAttachment = (index) => {
-    form.value.attachments.splice(index, 1)
-}
 </script>
 <template>
     <div class="text-gray-500 p-2">
@@ -125,12 +76,7 @@ const removeAttachment = (index) => {
                         <LayoutFormPsNumberInput v-model="form.contact_person_number" class="w-full" title="Contact Person Number" />
                         <LayoutFormPsTextInput v-model="form.contact_person_designation" class="w-full" title="Contact Person Designation" />
                     </div>
-                    <LayoutFormPsSelect
-                        v-model="form.type_of_ownership"
-                        :options-list="['Single Proprietorship', 'Partnership', 'Corporation']"
-                        class="w-full"
-                        title="Type of Ownership"
-                    />
+                    <InventorySuppliersSupplierTypeOfOwnership v-model="form.type_of_ownership" />
                     <div class="flex flex-row items-center gap-4">
                         <LayoutFormPsTextInput v-model="form.nature_of_business" class="w-full" title="Nature of Business" />
                         <LayoutFormPsTextInput v-model="form.products_services" class="w-full" title="Products/Services" />
@@ -162,55 +108,13 @@ const removeAttachment = (index) => {
                             Any information/document found to be false and incorrect shall be sufficient ground for disapproval of this application for accreditation.
                         </p>
                     </div>
-                    <LayoutFormPsTextInput v-model="form.filled_by" class="w-full" title="Filled By" />
-                    <LayoutFormPsTextInput v-model="form.filled_designation" class="w-full" title="Filled Designation" />
-                    <LayoutFormPsDateInput v-model="form.filled_date" class="w-full" title="Filled Date" />
-                    <div class="flex flex-col full gap-2">
-                        <div class="flex full gap-2">
-                            <label class="block mb-1 text-sm font-medium text-gray-900">Attachments:</label>
-                        </div>
-                        <template v-for="data, itemIndex in form.attachments" :key="data">
-                            <div class="flex flex-col gap-4">
-                                <div class="flex flex-row gap-4 justify-center items-center">
-                                    <LayoutFormPsSelect
-                                        v-model="form.attachments[itemIndex].attachment_name"
-                                        :options-list="[
-                                            'BANK DETAILS',
-                                            'CERTIFICATE OF REGISTRATION WITH SEC/DTI REGISTRATION',
-                                            'CITY/MUNICIPAL PERMIT',
-                                            'BIR 2303 CERTIFICATE OF REGISTRATION',
-                                            'CERTIFICATE OF PRODUCT/MSDS',
-                                            'CERTIFICATE OF DELEARSHIP/DISTRIBUTORSHIP',
-                                            'DENR PERMITS',
-                                            'TRADE TEST RESULTS',
-                                            'PRICE LIST/QUOTATION',
-                                            'OTHERS',
-                                        ]"
-                                        class="w-full"
-                                    />
-                                    <LayoutFormPsTextInput v-show="form.attachments[itemIndex].attachment_name == 'OTHERS'" v-model="form.attachments[itemIndex].other_type" class="w-full" />
-                                    <div class="w-full">
-                                        <input
-                                            class="w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                            aria-describedby="file_input_help"
-                                            type="file"
-                                            accept=".doc, .docx, .pdf"
-                                            placeholder="Please Specify Attachment Type"
-                                            required
-                                            @change="handleDocumentUpload($event, form.attachments[itemIndex])"
-                                        >
-                                    </div>
-                                    <div class="flex">
-                                        <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" @click="removeAttachment(itemIndex)" />
-                                    </div>
-                                </div>
-                            </div>
-                        </template>
-                        <div>
-                            <button type="button" class="px-3 py-1 bg-green-600 text-white text-xs font-bold" @click="addAttachment">
-                                Add
-                            </button>
-                        </div>
+                    <div class="w-full flex flex-row gap-4">
+                        <LayoutFormPsTextInput v-model="form.filled_by" class="w-full" title="Filled By" />
+                        <LayoutFormPsTextInput v-model="form.filled_designation" class="w-full" title="Filled Designation" />
+                        <LayoutFormPsDateInput v-model="form.filled_date" class="w-full" title="Filled Date" />
+                    </div>
+                    <div v-if="validKey" class="flex flex-col full gap-2">
+                        <InventorySuppliersSupplierAttachment />
                     </div>
                     <div class="w-full">
                         <LayoutFormPsSelect
@@ -221,7 +125,12 @@ const removeAttachment = (index) => {
                         />
                     </div>
                     <div class="w-full">
-                        <LayoutFormPsTextArea v-model="form.remarks" title="Remarks" />
+                        <label
+                            class="block mb-1 text-sm font-medium text-gray-900"
+                        >
+                            Remarks
+                        </label>
+                        <InventoryCommonFormPsTextAreaCommon v-model="form.remarks" title="Remarks" />
                     </div>
                 </div>
                 <div class="flex w-full">

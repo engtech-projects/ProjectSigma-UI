@@ -3,8 +3,7 @@ import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
 pan.getAllPan()
-const { allPanList, allPagination: pagination, getParams } = storeToRefs(pan)
-const boardLoading = ref(false)
+const { allRequests } = storeToRefs(pan)
 
 const headers = [
     { name: "REQUEST TYPE", id: "type" },
@@ -16,7 +15,7 @@ const actions = {
     showTable: true,
 }
 const changePaginate = (newParams) => {
-    getParams.value.page = newParams.page ?? ""
+    allRequests.value.params.page = newParams.page ?? ""
 }
 const infoModalData = ref({})
 const showInfoModal = ref(false)
@@ -26,20 +25,20 @@ const showInformation = (data) => {
 }
 </script>
 <template>
-    <LayoutBoards title="" class="w-full" :loading="boardLoading">
-        <LayoutFormPsTextInput v-model="getParams.employee" title="Search Employee/Applicant Name" />
+    <LayoutBoards title="" class="w-full" :loading="allRequests.isLoading">
+        <LayoutFormPsTextInput v-model="allRequests.params.employee" title="Search Employee/Applicant Name" />
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="allPanList"
+                :datas="allRequests.list"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination
-                v-if="allPanList.length"
-                :links="pagination"
+                v-if="allRequests.list.length"
+                :links="allRequests.pagination"
                 @change-params="changePaginate"
             />
         </div>

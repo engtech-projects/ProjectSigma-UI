@@ -54,46 +54,46 @@ const deactivate = (id:number) => {
                                     {{ data.item_description }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.thickness.full }}
+                                    {{ data.thickness }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.length.full }}
+                                    {{ data.length }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.width.full }}
+                                    {{ data.width }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.height.full }}
+                                    {{ data.height }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.outside_diameter.full }}
+                                    {{ data.outside_diameter }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.inside_diameter.full }}
+                                    {{ data.inside_diameter }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.angle.full }}
+                                    {{ data.angle }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.size.full }}
+                                    {{ data.size }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.volume.full }}
+                                    {{ data.volume }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.weight.full }}
+                                    {{ data.weight }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ data.grade }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.volts.full }}
+                                    {{ data.volts }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.plates.full }}
+                                    {{ data.plates }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
-                                    {{ data.part_number.full }}
+                                    {{ data.part_number }}
                                 </td>
                                 <td class="text-sm px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-start">
                                     {{ data.color }}

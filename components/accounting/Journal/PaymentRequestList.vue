@@ -27,7 +27,7 @@ const headers = [
     { name: "PRF Number", id: "prf_no" },
     { name: "Payee", id: "stakeholder.name" },
     { name: "Amount", id: "total" },
-    { name: "Created At", id: "created_at" },
+    { name: "PRF Date Created", id: "date_filed" },
     { name: "Status", id: "request_status" },
 ]
 

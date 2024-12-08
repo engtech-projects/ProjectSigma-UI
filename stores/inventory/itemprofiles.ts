@@ -394,7 +394,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
         },
         async getOne (id: number) {
             return await useInventoryApiO(
-                "/api/item-profile/new-request/resource/" + id,
+                "/api/payment-request/" + id,
                 {
                     method: "GET",
                     params: this.getParams,

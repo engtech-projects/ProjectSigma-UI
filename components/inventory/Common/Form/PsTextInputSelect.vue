@@ -69,8 +69,8 @@ const showSuggest = (object:any) => {
         size: {
             value: props.isStandard ? itemProfile.size : itemProfile.size.value,
         },
-        volume_val: {
-            value: props.isStandard ? itemProfile.volume_val : itemProfile.volume_val.value,
+        volume: {
+            value: props.isStandard ? itemProfile.volume : itemProfile.volume.value,
         },
         grade: {
             value: props.isStandard ? itemProfile.grade : itemProfile.grade.value,
@@ -91,7 +91,7 @@ const showSuggest = (object:any) => {
     if (itemDescription.length >= 3) {
         Object.values(listObj).map((val:any) => {
             if (suggestItemCode.length < 3) {
-                if (val.value) {
+                if (val.value !== "" && val.value !== null) {
                     const code = `${itemDescription}${val.value}`
                     suggestItemCode.push(code.toUpperCase().replace(/\s+/g, ""))
                 }

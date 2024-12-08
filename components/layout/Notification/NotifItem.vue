@@ -11,6 +11,9 @@ import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowan
 import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 import { useBOMStore } from "@/stores/inventory/bom"
+import { useSupplierStore } from "@/stores/inventory/suppliers"
+import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
+import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
 
 // HRMS STORES
 const notifStore = useNotificationsStore()
@@ -25,6 +28,9 @@ const genAllowanceStore = useGenerateAllowanceStore()
 const genPayrollStore = useGeneratePayrollStore()
 const itemProfileStore = useItemProfileStore()
 const BOMStore = useBOMStore()
+const SupplierStore = useSupplierStore()
+const PaymentRequestStore = usePaymentRequestStore()
+const voucherStore = useVoucherStore()
 // INVENTORY STORES
 // ACCOUNTING STORES
 // PROJECTS STORES
@@ -49,6 +55,10 @@ const icons = {
     GeneratePayroll: "carbon:money",
     RequestItemProfiling: "material-symbols:inventory-2-outline",
     RequestBOM: "i-carbon:request-quote",
+    ACCOUNTING_PAYMENT_REQUEST: "iconoir:credit-card-2",
+    ACCOUNTING_DISBURSEMENT_REQUEST: "material-symbols:dynamic-form-outline-rounded",
+    ACCOUNTING_CASH_REQUEST: "iconoir:money-square"
+
 }
 // const possibleLocations = {
 //     LeaveRequest: "/hrms/leave",
@@ -99,6 +109,18 @@ const openModalNotification = async () => {
             break
         case "RequestBOM":
             modalData.value = await BOMStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "RequestSupplier":
+            modalData.value = await SupplierStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "ACCOUNTING_PAYMENT_REQUEST":
+            modalData.value = await PaymentRequestStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "ACCOUNTING_DISBURSEMENT_REQUEST":
+            modalData.value = await voucherStore.getOne(prop.notification.data.metadata.id, "disbursement")
+            break
+        case "ACCOUNTING_CASH_REQUEST":
+            modalData.value = await voucherStore.getOne(prop.notification.data.metadata.id, "cash")
             break
         default:
             break
@@ -243,6 +265,30 @@ watch(showModal, (newValue, oldValue) => {
             <InventoryBomInfoModal
                 v-model:showModal="showModal"
                 :data="modalData.data"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'RequestSupplier'">
+            <InventorySuppliersInfoModal
+                v-model:showModal="showModal"
+                :data="modalData.data"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'ACCOUNTING_PAYMENT_REQUEST'">
+            <AccountingRequestNonPurchaseRequestInfoModal
+                v-model:showModal="showModal"
+                :payment-data="modalData.data.data"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'ACCOUNTING_DISBURSEMENT_REQUEST'">
+            <AccountingVoucherDisbursementInfoModal
+                v-model:showModal="showModal"
+                :voucher-data="modalData.data.data"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'ACCOUNTING_CASH_REQUEST'">
+            <AccountingVoucherCashInfoModal
+                v-model:showModal="showModal"
+                :voucher-data="modalData.data.data"
             />
         </template>
     </div>
