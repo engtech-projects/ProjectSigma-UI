@@ -165,11 +165,11 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_project_members,
+                    AccessibilityTypes.HRMS_LOCATION_EMPLOYEES,
                 ])"
-                linkarea="/hrms/project"
+                linkarea="/hrms/work-locations"
                 icon="material-symbols:construction"
-                single-nav-title="Project Members"
+                single-nav-title="Employee Work Locations"
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
@@ -526,6 +526,14 @@ const config = useRuntimeConfig()
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Unit Of Measurement"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        'AdminOnly',
+                    ])"
+                    linkarea="/inventory/setup/synchronization"
+                    icon="iconoir:user-square"
+                    single-nav-title="Synchronization"
+                />
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
@@ -696,6 +704,15 @@ const config = useRuntimeConfig()
                 <LayoutNavSingle
                     v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_PARTICULAR_GROUP,
+                    ])"
+                    linkarea="/accounting/setup/particular-groups"
+                    icon="iconoir:drone"
+                    single-nav-title="Particular Group"
+                />
+                <LayoutNavSingle
+                    v-show="config.public.APP_ENV == 'local'"
+                    v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_POSTING_PERIODS,
                     ])"
                     linkarea="/accounting/setup/posting-period"
@@ -738,7 +755,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.project_monitoring_projects,
+                    AccessibilityTypes.ADMIN_ONLY,
                 ])"
                 linkarea="/project-monitoring/projects"
                 icon="material-symbols:business-center"

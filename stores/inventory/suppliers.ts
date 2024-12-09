@@ -28,7 +28,6 @@ export interface SupplierForm {
     filled_by: string,
     filled_designation: string,
     filled_date: string,
-    attachments: any,
     approvals: any,
     requirements_complete: string,
     remarks: string,
@@ -37,6 +36,7 @@ export interface Attachments {
     attachment_name: String,
     other_type: String,
     file: any,
+    request_supplier_id: Number,
 }
 export const useSupplierStore = defineStore("SupplierStore", {
     state: () => ({
@@ -45,18 +45,24 @@ export const useSupplierStore = defineStore("SupplierStore", {
             isLoaded: false,
             list: [],
             details: {},
-            form: {
-                attachments: [] as Array<Attachments>,
-            } as SupplierForm,
+            form: {} as SupplierForm,
+            params: {},
+            pagination: {},
+        },
+        attachments: {
+            isLoading: false,
+            isLoaded: false,
+            data: {},
+            form: {} as Attachments,
             params: {},
             pagination: {},
         },
         editRequest: {
             isLoading: false,
             isLoaded: false,
+            details: {},
             form: {
                 approvals: [],
-                attachments: [] as Array<Attachments>,
             } as SupplierForm,
             params: {},
             pagination: {},
@@ -98,6 +104,24 @@ export const useSupplierStore = defineStore("SupplierStore", {
             errorMessage: "",
             successMessage: "",
         },
+        companyNameList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+        },
+        contactPersonList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+        },
+        supplierCodeList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+        },
         errorMessage: "",
         successMessage: "",
         remarks: "",
@@ -126,6 +150,33 @@ export const useSupplierStore = defineStore("SupplierStore", {
                     },
                 }
             )
+        },
+        async fetchSelector (request:any, api:string) {
+            request.isLoading = true
+            const { data, error } = await useInventoryApi(
+                api,
+                {
+                    method: "GET",
+                    params: request.params,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        request.isLoading = false
+                        request.successMessage = response._data.message
+                        if (response._data.success) {
+                            request.successMessage = response._data.message
+                            request.list = response._data.data
+                        }
+                        if (!response._data.success) {
+                            request.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
         },
         async getMyRequests () {
             await useInventoryApi(
@@ -179,12 +230,12 @@ export const useSupplierStore = defineStore("SupplierStore", {
                 }
             )
         },
-        async storeRequest (formData : FormData) {
+        async storeRequest () {
             await useInventoryApiO(
                 "/api/request-supplier/resource",
                 {
                     method: "POST",
-                    body: formData,
+                    body: this.createRequest.form,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -198,15 +249,112 @@ export const useSupplierStore = defineStore("SupplierStore", {
                 }
             )
         },
+        async deleteAttachment (id : any) {
+            await useInventoryApiO(
+                "/api/request-supplier/uploads/" + id,
+                {
+                    method: "DELETE",
+                    onRequest: () => {
+                        this.attachments.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.attachments.isLoading = false
+                        if (response.ok) {
+                            if (response._data.data) {
+                                this.attachments.data = response._data.data
+                                this.attachments.isLoaded = true
+                            }
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async updateAttachments (formData: FormData) {
+            return await useInventoryApiO(
+                "/api/request-supplier/uploads",
+                {
+                    method: "POST",
+                    onRequest: () => {
+                        this.attachments.isLoading = true
+                    },
+                    body: formData,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.attachments.isLoading = false
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.attachments.data = response._data.data
+                            this.attachments.isLoaded = true
+                            return response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async updateSupplierRequest (id: number) {
+            return await useInventoryApiO(
+                "/api/request-supplier/resource/" + id,
+                {
+                    method: "PUT",
+                    onRequest: () => {
+                        this.editRequest.isLoading = true
+                    },
+                    body: this.editRequest.form,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.editRequest.isLoading = false
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.editRequest.details = response._data.data
+                            this.attachments.data = response._data.data.uploads
+                            this.editRequest.isLoaded = true
+                            return response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getOne (id: number) {
             return await useInventoryApiO(
                 "/api/request-supplier/resource/" + id,
                 {
                     method: "GET",
-                    params: this.createRequest.details.params,
+                    params: this.createRequest.params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.createRequest.details.list = response._data.data
+                            this.createRequest.details = response._data.data
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async editOne (id: number) {
+            return await useInventoryApiO(
+                "/api/request-supplier/resource/" + id,
+                {
+                    method: "GET",
+                    onRequest: () => {
+                        this.attachments.isLoading = true
+                    },
+                    params: this.editRequest.params,
+                    onResponse: ({ response }: any) => {
+                        this.attachments.isLoading = false
+                        if (response.ok) {
+                            this.editRequest.details = response._data.data
+                            this.attachments.data = response._data.data.uploads
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)
@@ -221,7 +369,6 @@ export const useSupplierStore = defineStore("SupplierStore", {
                 {
                     method: "GET",
                     params: this.approvedSuppliers.params,
-                    watch: false,
                     onRequest: () => {
                         this.approvedSuppliers.isLoading = true
                     },
@@ -229,7 +376,7 @@ export const useSupplierStore = defineStore("SupplierStore", {
                         this.approvedSuppliers.isLoading = false
                         if (response.ok) {
                             this.approvedSuppliers.isLoaded = true
-                            this.approvedSuppliers.list = response._data.data
+                            this.approvedSuppliers.list = response._data.data.data
                             this.approvedSuppliers.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,

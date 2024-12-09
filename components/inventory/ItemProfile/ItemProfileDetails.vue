@@ -35,18 +35,6 @@ const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const { remarks, uom } = storeToRefs(profileStore)
-
-const getType = (id:number) => {
-    if (uom.value.length >= 1) {
-        const symbol = uom.value.map((data: any) => {
-            return data.id === id ? data.symbol : null
-        }).filter((num:any): num is number => num !== null)
-
-        return symbol ? symbol[0] : null
-    }
-    return null
-}
-
 const getTypeUOM = (id:number) => {
     if (uom.value.length >= 1) {
         const symbol = uom.value.map((data: any) => {
@@ -75,7 +63,6 @@ const approvedRequest = async (id:number) => {
             profileStore.$reset()
             navigateTo({
                 path: "/inventory/item-profile/new-profile",
-                replace: true
             })
         }
     } catch (error) {
@@ -104,7 +91,6 @@ const denyRequest = async (id:any) => {
             profileStore.$reset()
             navigateTo({
                 path: "/inventory/item-profile/new-profile",
-                replace: true
             })
         }
     } catch (error) {
@@ -143,13 +129,19 @@ const denyRequest = async (id:any) => {
                                     <InventoryCommonTableItemTh title="Height" />
                                     <InventoryCommonTableItemTh title="Outside diameter" />
                                     <InventoryCommonTableItemTh title="Inside diameter" />
+                                    <InventoryCommonTableItemTh title="Angle" />
+                                    <InventoryCommonTableItemTh title="Size" />
                                     <InventoryCommonTableItemTh title="Volume" />
-                                    <InventoryCommonTableItemTh title="Specification" />
+                                    <InventoryCommonTableItemTh title="Weight" />
                                     <InventoryCommonTableItemTh title="Grade" />
+                                    <InventoryCommonTableItemTh title="Volts" />
+                                    <InventoryCommonTableItemTh title="Plates" />
+                                    <InventoryCommonTableItemTh title="Part Number" />
                                     <InventoryCommonTableItemTh title="Color" />
+                                    <InventoryCommonTableItemTh title="Specification" />
                                     <InventoryCommonTableItemTh title="UOM" />
-                                    <InventoryCommonTableItemTh title="Sub Item Group" />
                                     <InventoryCommonTableItemTh title="Item Group" />
+                                    <InventoryCommonTableItemTh title="Sub Item Group" />
                                     <InventoryCommonTableItemTh title="Inventory Type" />
                                 </tr>
                             </thead>
@@ -165,56 +157,67 @@ const denyRequest = async (id:any) => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                         {{ dataValue.item_description }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.thickness_val }}
-                                        {{ getType(dataValue.thickness_uom) }}
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.thickness }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.length_val }}
-                                        {{ getType(dataValue.length_uom) }}
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.length }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.width_val }}
-                                        {{ getType(dataValue.width_uom) }}
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.width }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.height_val }}
-                                        {{ getType(dataValue.height_uom) }}
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.height }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.outside_diameter_val }}
-                                        {{ getType(dataValue.outside_diameter_uom) }}
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.outside_diameter }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.inside_diameter_val }}
-                                        {{ getType(dataValue.inside_diameter_uom) }}
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.inside_diameter }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.angle }}
+                                    </td>
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.size }}
+                                    </td>
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                         {{ dataValue.volume }}
-                                        {{ getType(dataValue.volume_uom) }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.specification }}
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.weight }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                         {{ dataValue.grade }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.volts }}
+                                    </td>
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.plates }}
+                                    </td>
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.part_number }}
+                                    </td>
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                         {{ dataValue.color }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.specification }}
+                                    </td>
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                         {{ getTypeUOM(dataValue.uom) }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.sub_item_group }}
-                                    </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                         {{ dataValue.item_group }}
                                     </td>
-                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-center">
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
+                                        {{ dataValue.sub_item_group }}
+                                    </td>
+                                    <td class="px-2 font-medium text-gray-900 whitespace-nowrap text-start">
                                         {{ dataValue.inventory_type }}
                                     </td>
                                 </tr>

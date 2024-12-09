@@ -21,14 +21,12 @@ const actions = {
     edit: false,
     delete: false,
 }
-
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/bom/request-details",
+        path: "/inventory/suppliers/request-details",
         query: {
             key: data.id
         },
-        replace: true
     })
 }
 const changePaginate = (newParams) => {
@@ -37,6 +35,9 @@ const changePaginate = (newParams) => {
 </script>
 <template>
     <LayoutLoadingContainer class="w-full" :loading="allRequests.isLoading">
+        <div class="flex flex-row gap-4 p-2 items-center">
+            <InventorySuppliersSupplierFilter v-model:state="allRequests" />
+        </div>
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"

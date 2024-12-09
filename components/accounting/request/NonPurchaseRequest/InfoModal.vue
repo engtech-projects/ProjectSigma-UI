@@ -16,6 +16,7 @@ defineProps({
 })
 const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
+const printPreview = ref(false)
 
 const paymentRequestStore = usePaymentRequestStore()
 const { remarks } = storeToRefs(paymentRequestStore)
@@ -64,99 +65,126 @@ const denyRequest = async (id) => {
         boardLoading.value = false
     }
 }
-
+watch(showModal, (newVal) => {
+    if (!newVal) {
+        printPreview.value = false
+    }
+})
 </script>
 
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
         <template #body>
-            <div class="grid gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-4xl">Payment Request</span>
-                </div>
-            </div>
-            <div class="grid md:grid-cols-3 gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light">PRF Number: </span>
-                    <span class="text-gray-900">{{ paymentData?.prf_no }}</span>
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light">Payee: </span>
-                    {{ paymentData?.stakeholder?.name }}
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light">Amount: </span>
-                    {{ paymentData?.total }}
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light">Status: </span>
-                    {{ paymentData?.request_status }}
-                </div>
-            </div>
-            <div class="grid md:grid-cols-3 gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light">Prepared by: </span>
-                    {{ paymentData?.created_by_user }}
-                </div>
-                <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light">Prepared on: </span>
-                    {{ paymentData?.date_filed }}
-                </div>
-            </div>
-            <div class="p-2 border border-gray-200 rounded-lg">
-                <h2 class="text-xl text-gray-800 tex-center font-bold p-2">
-                    Payment Request Details
-                </h2>
-                <div class="overflow-x-auto">
-                    <div class="min-w-full overflow-hidden overflow-x-auto align-middle shadow sm:rounded-lg">
-                        <table class="min-w-full divide-y border border-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Particulars
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Project/Section Code
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Vat
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Amount
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr v-for="detail in paymentData?.details" :key="detail.id">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            {{ detail?.particulars }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            {{ detail?.stakeholder.name }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            {{ detail?.vat }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            {{ detail?.amount }}
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <div v-if="!printPreview" class="px-4">
+                <div class="grid gap-2 md:justify-between">
+                    <div class="p-2 flex gap-2">
+                        <span class="text-gray-900 text-4xl">Payment Request</span>
                     </div>
                 </div>
+                <div class="grid md:grid-cols-3 gap-2 md:justify-between">
+                    <div class="p-2 flex gap-2">
+                        <span class="text-teal-600 text-light">PRF Number: </span>
+                        <span class="text-gray-900">{{ paymentData?.prf_no }}</span>
+                    </div>
+                    <div class="p-2 flex gap-2">
+                        <span class="text-teal-600 text-light">Payee: </span>
+                        {{ paymentData?.stakeholder?.name }}
+                    </div>
+                    <div class="p-2 flex gap-2">
+                        <span class="text-teal-600 text-light">Amount: </span>
+                        {{ useFormatCurrency(paymentData?.total) }}
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-3 gap-2 md:justify-between">
+                    <div class="p-2 flex gap-2">
+                        <span class="text-teal-600 text-light">Prepared by: </span>
+                        {{ paymentData?.created_by_user }}
+                    </div>
+                    <div class="p-2 flex gap-2">
+                        <span class="text-teal-600 text-light">Prepared on: </span>
+                        {{ paymentData?.date_filed }}
+                    </div>
+                    <div class="p-2 flex gap-2">
+                        <span class="text-teal-600 text-light">Status: </span>
+                        {{ paymentData?.request_status }}
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-1 gap-2 md:justify-between">
+                    <div class="p-2 flex gap-2">
+                        <span class="text-teal-600 text-light">Description/Remarks: </span>
+                    </div>
+                    <div class="p-2 flex gap-2">
+                        <p>
+                            {{ paymentData?.description }}
+                        </p>
+                    </div>
+                </div>
+                <div class="p-2 border border-gray-200 rounded-lg">
+                    <h2 class="text-xl text-gray-800 tex-center font-bold p-2">
+                        Payment Request Details
+                    </h2>
+                    <div class="overflow-x-auto">
+                        <div class="min-w-full overflow-hidden overflow-x-auto align-middle shadow sm:rounded-lg">
+                            <table class="min-w-full divide-y border border-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
+                                            Particulars
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
+                                            Project/Section Code
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
+                                            Cost
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
+                                            Total Vat
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
+                                            Total Amount
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr v-for="detail in paymentData?.details" :key="detail.id">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-600">
+                                                {{ detail?.particulars }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-600">
+                                                {{ detail?.stakeholder.name }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-600">
+                                                {{ useFormatCurrency(detail?.cost) }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-600">
+                                                {{ useFormatCurrency(detail?.total_vat_amount) }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-600">
+                                                {{ useFormatCurrency(detail?.amount) }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full">
+                    <LayoutApprovalsListView :approvals="paymentData?.approvals" />
+                </div>
             </div>
-            <div class="w-full">
-                <LayoutApprovalsListView :approvals="paymentData?.approvals" />
-            </div>
+            <LayoutPrint v-else>
+                <AccountingRequestNonPurchaseRequestPrintForm :data="paymentData" />
+            </LayoutPrint>
         </template>
         <template #footer>
             <div v-if="paymentData?.next_approval?.user_id === userData.id" class="flex gap-2 p-2 justify-end relative">
@@ -166,6 +194,16 @@ const denyRequest = async (id) => {
                     @approve="approvedRequest"
                     @deny="denyRequest"
                 />
+            </div>
+            <div v-else class="flex gap-2 justify-end w-full p-8">
+                <button v-if="!printPreview" class="flex items-center gap-1 justify-center bg-gray-600 p-2 hover:bg-gray-900 text-white rounded-md w-32 text-sm" @click="printPreview=true">
+                    <Icon name="iconoir:printing-page" />
+                    Print Preview
+                </button>
+                <button v-else class="flex items-center gap-1 justify-center bg-orange-600 p-2 hover:bg-orange-900 text-white rounded-md w-32 text-sm" @click="printPreview=false">
+                    <Icon name="iconoir:printing-page" />
+                    Hide Preview
+                </button>
             </div>
         </template>
     </PsModal>

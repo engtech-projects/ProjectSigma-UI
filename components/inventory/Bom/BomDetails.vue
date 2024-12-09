@@ -43,7 +43,6 @@ const approvedRequest = async (id:number) => {
             main.$reset()
             navigateTo({
                 path: "/inventory/bom",
-                replace: true
             })
         }
     } catch (error) {
@@ -69,7 +68,6 @@ const denyRequest = async (id:any) => {
             main.$reset()
             navigateTo({
                 path: "/inventory/bom",
-                replace: true
             })
         }
     } catch (error) {

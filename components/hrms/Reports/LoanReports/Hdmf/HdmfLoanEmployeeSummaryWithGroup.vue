@@ -31,7 +31,7 @@ watch(() => hdmfGroupSummaryLoan.value.params.month_year, (newValue) => {
 })
 </script>
 <template>
-    <LayoutBoards title="HDMF Loan Payment (Group)" :loading="hdmfGroupSummaryLoan.isLoading">
+    <LayoutBoards title="HDMF MPL LOAN PAYMENT" :loading="hdmfGroupSummaryLoan.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
             <LayoutFormPsMonthYearInput v-model="hdmfGroupSummaryLoan.params.month_year" class="w-full" title="Month Year" required />
             <LayoutFormPsDateInput v-model="hdmfGroupSummaryLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
@@ -89,7 +89,7 @@ watch(() => hdmfGroupSummaryLoan.value.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        HDMF MPL LOAN PAYMENT (GROUP)
+                        HDMF MPL LOAN PAYMENT
                     </span>
                     <span class="text-xl text-black text-left">
                         FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(hdmfGroupSummaryLoan.params.filter_month) }} {{ hdmfGroupSummaryLoan.params.filter_year }}</span>
@@ -156,7 +156,7 @@ watch(() => hdmfGroupSummaryLoan.value.params.month_year, (newValue) => {
                                 {{ reportData.payroll_record.charging_name }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ useFormatCurrency(reportData.total_amount) }}
+                                {{ useFormatCurrency(reportData.total_payments) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ useFormatCurrency(reportData.total_group_amount) }}

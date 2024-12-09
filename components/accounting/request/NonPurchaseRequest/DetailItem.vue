@@ -22,11 +22,11 @@ const setVat = () => {
 }
 const compute = () => {
     if (isGetTotal.value) {
-        model.value.vatAmount = parseFloat((model.value.cost * (model.value.vat / 100)).toFixed(2)) || 0
-        model.value.amount = model.value.cost + model.value.vatAmount
+        model.value.total_vat_amount = parseFloat((model.value.cost * (model.value.vat / 100)).toFixed(2)) || 0
+        model.value.amount = model.value.cost + model.value.total_vat_amount
     } else {
         model.value.cost = parseFloat((model.value.amount / (model.value.vat / 100 + 1)).toFixed(2)) || 0
-        model.value.vatAmount = (model.value.cost * (model.value.vat / 100)).toFixed(2)
+        model.value.total_vat_amount = (model.value.cost * (model.value.vat / 100)).toFixed(2)
     }
 }
 
@@ -97,7 +97,7 @@ const compute = () => {
             >Vat Amount</label>
             <input
                 id="vat"
-                :value="model.vatAmount"
+                :value="model.total_vat_amount"
                 min="0"
                 max="100"
                 type="number"
@@ -120,6 +120,16 @@ const compute = () => {
                 class="w-full rounded-lg h-9 text-sm bg-gray-100"
                 @change="setTotal()"
             >
+        </div>
+        <div class="flex-1">
+            <label
+                for="particular_group"
+                class="text-xs italic"
+            >Equipment No./Code</label>
+            <AccountingCommonSelectParticularGroup
+                v-model:particular-group-info="model.particularGroupInfo"
+                class="w-full"
+            />
         </div>
         <div>
             <button

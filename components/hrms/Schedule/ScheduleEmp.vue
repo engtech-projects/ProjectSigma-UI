@@ -219,19 +219,15 @@ async function handleSubmit () {
 const employeeInfo = useEmployeeInfo()
 employeeInfo.getEmployeeList()
 const employee = ref({})
-const employeeList = computed(() => {
-    const list = []
-    employeeInfo.employeeList.forEach((emp) => {
-        emp.fullName = emp.family_name + ", " + emp.first_name
-        list.push(emp)
-    })
-    return list
-})
-
+watch(
+    employee,
+    () => {
+        selectEmployee(employee.value)
+    },
+    { deep: true }
+)
 function selectEmployee (emp) {
-    employee.value = emp
-    newEvent.value.employee_id = emp.id
-    newEvent.value.employee = emp
+    newEvent.value.employee_id = emp
     loadEvents()
 }
 
@@ -282,7 +278,7 @@ watch(errorMessage, (msg) => {
                 >
             </div>
             <div class="p-4 flex flex-col gap-4" :class="isEdit? 'border-t-8 border-green-500 rounded-md' : ''">
-                <AccountingSelectSearch :options="employeeList" title="fullName" opid="id" :selected-id="employee.id" @select="selectEmployee" />
+                <HrmsCommonEmployeeSelector v-model="employee" title="Employee Name" name="Employee Name" />
             </div>
 
             <div class="p-4">

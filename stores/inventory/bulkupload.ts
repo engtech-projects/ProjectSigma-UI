@@ -18,13 +18,17 @@ export const useItemBulkProfileStore = defineStore("itemBulkProfiles", {
     }),
     actions: {
         async doBulkUpload (formData: any) {
-            await useInventoryApi(
+            await useInventoryApiO(
                 "/api/item-profile/bulk-upload",
                 {
                     method: "POST",
                     body: formData,
                     onRequest: () => {
                         this.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
                     },
                     onResponse: ({ response }) => {
                         this.isLoading = false
@@ -37,6 +41,8 @@ export const useItemBulkProfileStore = defineStore("itemBulkProfiles", {
                                 data.item_code = ""
                                 return data
                             })
+                            this.errorMessage = ""
+                            this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

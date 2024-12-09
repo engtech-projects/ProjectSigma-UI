@@ -64,7 +64,9 @@ pan.personelActionNotice.eligible_for_rehire = "No"
                 <label
                     for="small-input"
                     class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white"
-                >Last Day Worked:</label>
+                >
+                    Last Day Worked:
+                </label>
                 <input
                     id="small-input"
                     v-model="pan.personelActionNotice.last_day_worked"

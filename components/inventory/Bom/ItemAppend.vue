@@ -30,12 +30,14 @@ const watchUnitChange = (thisItem:any) => {
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryBomItemSelector
                 v-model="item.item_id"
+                class="min-w-[200px]"
             />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryBomItemUomSelector
                 :id="compId"
                 v-model="item.uom_id"
+                class="min-w-[200px]"
                 @watch-item="watchUnitChange"
             />
         </td>

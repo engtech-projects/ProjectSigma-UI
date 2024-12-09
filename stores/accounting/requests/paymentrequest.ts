@@ -36,7 +36,8 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             stakeholder_id: null,
             request_date: null,
             total: 0,
-            descripton: "",
+            total_vat_amount: 0,
+            description: "",
             approvals: [],
             details: [],
             stakeholderInformation: {},
@@ -172,25 +173,6 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 }
             )
         },
-        async getPaymentRequest (id:any) {
-            this.isLoading.show = true
-            const { data, error } = await useAccountingApi(
-                "/api/payment-request/" + id,
-                {
-                    method: "GET",
-                    params: this.getParams,
-                    onResponse: ({ response }) => {
-                        this.isLoading.show = false
-                        this.paymentRequest = response._data.data
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
         async getVat () {
             this.isLoading.show = true
             const { data, error } = await useAccountingApi(
@@ -254,26 +236,18 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 return error
             }
         },
-        reloadResources () {
-            const backup = this.paymentRequest.approvals
-            const callFunctions = []
-            if (this.allRequests.isLoaded) {
-                callFunctions.push(this.getAllRequests)
-            }
-            if (this.myRequests.isLoaded) {
-                callFunctions.push(this.getMyRequests)
-            }
-            if (this.myApprovals.isLoaded) {
-                callFunctions.push(this.getMyApprovals)
-            }
-            this.$reset()
-            this.paymentRequest.approvals = backup
-            callFunctions.forEach((element) => {
-                element()
-            })
-        },
-        generatePrNo () {
-            return "PR-" + randomInt(100001, 999999) + "-" + randomInt(1000, 9999)
+        async generatePrNo () {
+            await useAccountingApi(
+                "/api/npo/generate-prf-no",
+                {
+                    method: "GET",
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.paymentRequest.prf_no = response._data.data
+                        }
+                    },
+                }
+            )
         },
         async approveApprovalForm (id: number) {
             this.successMessage = ""
@@ -287,9 +261,9 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.successMessage = response._data.message
+                        if (response._data.success) {
                             this.reloadResources()
+                            this.successMessage = response._data.message
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
@@ -313,11 +287,46 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                     },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
                             this.reloadResources()
+                            this.successMessage = response._data.message
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        reloadResources () {
+            const backup = this.paymentRequest.approvals
+            const callFunctions = []
+            if (this.allRequests.isLoaded) {
+                callFunctions.push(this.getAllRequests)
+            }
+            if (this.myRequests.isLoaded) {
+                callFunctions.push(this.getMyRequests)
+            }
+            if (this.myApprovals.isLoaded) {
+                callFunctions.push(this.getMyApprovals)
+            }
+            this.$reset()
+            this.paymentRequest.approvals = backup
+            callFunctions.forEach((element) => {
+                element()
+            })
+        },
+
+        async getOne (id: number) {
+            return await useAccountingApi(
+                "api/payment-request/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
                             throw new Error(response._data.message)
                         }
                     },

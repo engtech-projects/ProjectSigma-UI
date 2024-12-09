@@ -12,6 +12,14 @@ defineProps({
             Charging
         </div>
     </div>
+    <div class="border-t border-gray-200">
+        <div class="flex justify-between p-2">
+            <div class="text-md leading-6 font-medium text-gray-900" />
+            <div class="text-md leading-6 font-medium text-gray-900">
+                Period Covered: <strong>{{ useFormatDateRange(payrollRequest.cutoff_start, payrollRequest.cutoff_end) }}</strong>
+            </div>
+        </div>
+    </div>
     <div>
         <div class="relative overflow-x-auto shadow-md">
             <table class="w-full text-sm text-center text-gray-50 pb-4">

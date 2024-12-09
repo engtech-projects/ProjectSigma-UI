@@ -3,7 +3,7 @@ import * as faceapi from "face-api.js"
 import { useAttendancePortal } from "~/stores/hrms/attendancePortal"
 const attendancePortal = useAttendancePortal()
 const { attendanceSession } = storeToRefs(attendancePortal)
-const { errorMessage, successMessage } = storeToRefs(attendancePortal)
+const { newAttendanceLog } = storeToRefs(attendancePortal)
 const MODEL_URL = "/faceapimodels"
 const currentDetectedFace = ref(null)
 const currentDetectionId = ref(null)
@@ -86,7 +86,7 @@ const findFaceOwner = () => {
 }
 const processEmployee = (employeeID) => {
     drawDetectionBoxOnCanvas(attendancePortal.faceNames[employeeID])
-    attendancePortal.attendancePortalParams.employee_id = employeeID
+    attendancePortal.newAttendanceLog.data.employee_id = employeeID
     if (employeeID === currentDetectionId.value) {
         detectionTimer.value--
     } else {
@@ -106,13 +106,14 @@ const drawDetectionBoxOnCanvas = (name) => {
     drawBox.draw(canvas)
 }
 const saveEmployeeAttendanceLog = async (employeeID) => {
+    if (newAttendanceLog.value.isLoading) { return }
     try {
         metaMessage.value = "Saving..."
         await attendancePortal.saveAttendanceLog()
-        successMessage.value = "Successfully Logged " + attendancePortal.attendancePortalParams.log_type
+        newAttendanceLog.value.successMessage = "Successfully Logged " + attendancePortal.newAttendanceLog.data.log_type
         attendancePortal.getTodayAttendanceLogs()
         lastIDlog.value = employeeID
-        lastLogType.value = attendancePortal.attendancePortalParams.log_type
+        lastLogType.value = attendancePortal.newAttendanceLog.data.log_type
     } finally {
         setTimeout(() => {
             detectionTimer.value = 4
@@ -133,8 +134,8 @@ const resetMessages = () => {
     clearTimeout(timeout)
     timeout = setTimeout(() => {
         attendancePortal.lastSuccessLogEmployee = null
-        successMessage.value = ""
-        errorMessage.value = ""
+        newAttendanceLog.value.successMessage = ""
+        newAttendanceLog.value.errorMessage = ""
         metaMessage.value = ""
     }, 5000)
 }
@@ -154,11 +155,11 @@ const resetMessages = () => {
                 <p v-if="detectionTimer <= 3 && detectionTimer > 0">
                     TIMER: {{ detectionTimer >= 0 ? detectionTimer.toFixed(0) : 0 }}
                 </p>
-                <p v-else-if="successMessage" class="text-green-500">
-                    {{ successMessage }}
+                <p v-else-if="newAttendanceLog.successMessage" class="text-green-500">
+                    {{ newAttendanceLog.successMessage }}
                 </p>
-                <p v-else-if="errorMessage" class="text-red-600">
-                    {{ errorMessage }}
+                <p v-else-if="newAttendanceLog.errorMessage" class="text-red-600">
+                    {{ newAttendanceLog.errorMessage }}
                 </p>
                 <p v-else>
                     {{ metaMessage !== "" ? metaMessage : "..." }}

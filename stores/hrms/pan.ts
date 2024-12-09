@@ -23,12 +23,12 @@ export interface PersonelActionNotice {
     employee_id: Number,
     company_id_num: null | String,
     section_department_id: null | Number,
+    projects: Array<Number>
     designation_position: Number,
     hire_source: String,
     work_location: String,
     employment_status: String,
     comments: String,
-    department: Array<Department>
     type_of_termination: String,
     reasons_for_termination: String,
     eligible_for_rehire: String,
@@ -54,7 +54,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             employee_id: null as null | Number,
             company_id_num: null as null | String,
             section_department_id: null as null | Number,
-            department: [] as Array<Department>,
+            projects: [] as Array<Number>,
             designation_position: null as Number | null,
             hire_source: null as String | null,
             work_location: null as String | null,
@@ -81,6 +81,27 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             employee: "",
         },
         getParamsMyList: {},
+        allRequests: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        myApprovals: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        myRequests: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
     }),
     actions: {
         async savePan () {
@@ -144,14 +165,18 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 "/api/pan/resource",
                 {
                     method: "GET",
-                    params: this.getParams,
+                    params: this.allRequests.params,
+                    onRequest: () => {
+                        this.allRequests.isLoading = true
+                    },
                     onResponse: ({ response }) => {
+                        this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allPanList = response._data.data.data ?? []
-                            this.allPagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                            this.allRequests.list = response._data.data.data ?? []
+                            this.allRequests.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -168,9 +193,15 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 "/api/pan/my-approvals",
                 {
                     method: "GET",
+                    params: this.myApprovals.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.approvalPanList = response._data.data ?? []
+                            this.myApprovals.list = response._data.data.data ?? []
+                            this.myApprovals.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -186,15 +217,14 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 "/api/pan/my-request",
                 {
                     method: "GET",
-                    params: this.getParamsMyList,
+                    params: this.myRequests.params,
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.successMessage = response._data.message
-                            this.myPanList = response._data.data.data ?? []
-                            this.myRequestPagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                            this.myRequests.list = response._data.data.data ?? []
+                            this.myRequests.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message

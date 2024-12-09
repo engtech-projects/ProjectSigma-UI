@@ -8,6 +8,9 @@ const approvals = useApprovalStore()
 await paymentRequestStore.getVat()
 
 paymentRequest.value.approvals = await approvals.getApprovalByName(APPROVAL_PAYMENT_REQUEST_NPO)
+onMounted(() => {
+    paymentRequestStore.generatePrNo()
+})
 defineProps({
     fillable: {
         type: Boolean,
@@ -57,11 +60,8 @@ const addDetails = () => {
     }
     paymentRequest.value.details.push(details.value)
 }
-onMounted(() => {
-    paymentRequest.value.prf_no = paymentRequestStore.generatePrNo()
-})
-const totalVat = computed(() => {
-    return paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.vatAmount), 0)
+paymentRequest.value.total_vat_amount = computed(() => {
+    return paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.total_vat_amount), 0)
 })
 paymentRequest.value.total = computed(() => {
     return paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.amount), 0)
@@ -108,10 +108,10 @@ paymentRequest.value.total = computed(() => {
                                 <label
                                     for="total"
                                     class="text-xs italic"
-                                >Total Vat ({{ vat }} %)</label>
+                                >Total Vat</label>
                                 <input
                                     id="total"
-                                    :value="totalVat"
+                                    v-model="paymentRequest.total_vat_amount"
                                     disabled
                                     type="number"
                                     class="w-full rounded-lg"

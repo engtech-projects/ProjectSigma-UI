@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useEnumsStore } from "@/stores/hrms/enum"
-const enums = useEnumsStore()
+import { useHrmsEnumsStore } from "@/stores/hrms/enum"
+const enums = useHrmsEnumsStore()
 const { projectEnum } = storeToRefs(enums)
 onMounted(() => {
     if (!projectEnum.value.isLoaded) {
@@ -12,21 +12,16 @@ defineProps({
     showAll: { type: Boolean, default: false },
     useHrmsId: { type: Boolean, default: true },
 })
+const testData = ref({})
 </script>
 <template>
-    <select
-        v-model="model"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        required
-    >
-        <option :value="null" disabled selected>
-            Choose Project
-        </option>
-        <option v-if="showAll" :value="null">
-            All
-        </option>
-        <option v-for="data, index in projectEnum.list" :key="index" :value="useHrmsId ? data.id : data.project_monitoring_id">
-            {{ data.project_code ?? data.projects.project_code }} - {{ data.contract_name ?? data.projects.contract_name }}
-        </option>
-    </select>
+    <LayoutFormPsSelectSearch
+        v-model:result="testData"
+        v-model:result-id="model"
+        v-model:search-input="projectEnum.localFilter.project_code"
+        :search-list="enums.filteredProjectsList"
+        :loading="projectEnum.isLoading"
+        title="project_code"
+        placeholder="Search Project"
+    />
 </template>
