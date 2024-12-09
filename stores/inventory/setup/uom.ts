@@ -44,9 +44,9 @@ export const useUOM = defineStore("UOM", {
                                 this.list.sort((a, b) => a.name.localeCompare(b.name))
                             }
                             this.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
