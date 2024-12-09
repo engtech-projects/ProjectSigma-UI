@@ -73,14 +73,14 @@ const employeePosition = computed(() => {
                     draggable="false"
                     class="w-full bg-transparent m-auto"
                     :src="information.digital_signature.base64"
-                    alt="profile pic"
+                    alt="Digital Signature ALT TEXT"
                 >
                 <img
                     v-else
                     draggable="false"
                     class="w-full bg-transparent m-auto"
                     src="/signature_example.png"
-                    alt="profile pic"
+                    alt="Digital Signature ALT TEXT"
                 >
             </p>
         </div>
