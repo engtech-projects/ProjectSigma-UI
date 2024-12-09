@@ -52,9 +52,9 @@ export const useUOM = defineStore("UOM", {
                             this.isLoaded = true
                             this.list = response._data.data.data
                             this.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         }
                     },
