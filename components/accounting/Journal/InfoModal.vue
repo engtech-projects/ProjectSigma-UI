@@ -135,9 +135,6 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
                                         STATUS
                                     </th>
                                     <th scope="col" class="px-6 text-bold py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
-                                        MONTH
-                                    </th>
-                                    <th scope="col" class="px-6 text-bold py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
                                         REMARKS
                                     </th>
                                     <th scope="col" class="px-6 text-bold py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
@@ -145,9 +142,6 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
                                     </th>
                                     <th scope="col" class="px-6 text-bold py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
                                         BALANCE
-                                    </th>
-                                    <th scope="col" class="px-6 text-bold py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
-                                        MMR
                                     </th>
                                 </tr>
                             </thead>
@@ -240,17 +234,17 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-700">
-                                            {{ detail?.debit ?? "-" }}
+                                            {{ useFormatCurrency(detail?.debit) ?? "-" }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-700">
-                                            {{ detail?.credit ?? "-" }}
+                                            {{ useFormatCurrency(detail?.credit) ?? "-" }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div v-if="i === 0" class="text-sm text-gray-700">
-                                            {{ detail?.net_amount ?? "-" }}
+                                            {{ useFormatCurrency(detail?.net_amount) ?? "-" }}
                                         </div>
                                         <div v-else class="text-sm text-gray-700">
                                             -
@@ -271,7 +265,17 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-700">
+                                            {{ detail?.remarks ?? "-" }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-700">
                                             {{ detail?.particular_group ?? "-" }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-700">
+                                            {{ detail?.balance ?? "-" }}
                                         </div>
                                     </td>
                                 </tr>
