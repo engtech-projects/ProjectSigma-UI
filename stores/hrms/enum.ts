@@ -148,7 +148,7 @@ export const useHrmsEnumsStore = defineStore("enums", {
                         state.allEmployeeEnum.localFilters.multi.filterType === "Project" &&
                         (
                             !state.allEmployeeEnum.localFilters.multi.filterData ||
-                            employee.project?.id === state.allEmployeeEnum.localFilters.multi.filterData
+                            employee.current_employment?.projects?.some((project:any) => project.id === state.allEmployeeEnum.localFilters.multi.filterData)
                         )
                     ) ||
                     (
