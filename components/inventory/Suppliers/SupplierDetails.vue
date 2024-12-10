@@ -38,7 +38,7 @@ const approvedRequest = async (id:number) => {
             })
             main.$reset()
             navigateTo({
-                path: "/inventory/bom",
+                path: "/inventory/suppliers",
             })
         }
     } catch (error) {
@@ -63,7 +63,7 @@ const denyRequest = async (id:any) => {
             })
             main.$reset()
             navigateTo({
-                path: "/inventory/bom",
+                path: "/inventory/suppliers",
             })
         }
     } catch (error) {
