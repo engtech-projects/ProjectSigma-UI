@@ -4,12 +4,26 @@ useHead({
     title: "Warehouse",
 })
 const warehouseStore = useWarehouseStore()
-const { stocks } = storeToRefs(warehouseStore)
+const { stocks, logs } = storeToRefs(warehouseStore)
 
-const headers = [
+const headersStocks = [
     { name: "Item Code", id: "item_code" },
     { name: "Stocks", id: "stocks" },
 ]
+const headersLogs = [
+    { name: "Transaction Date", id: "created_at" },
+    { name: "Transaction Type", id: "transaction_type" },
+    { name: "Item Code", id: "item_code" },
+]
+
+const showInformation = (data) => {
+    entryData.value = data
+    showInformationModal.value = true
+}
+
+const actions = {
+    showTable: true,
+}
 </script>
 <template>
     <LayoutAcessContainer
@@ -40,10 +54,18 @@ const headers = [
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="Stocks">
-                    <InventoryWarehouseTable :header-columns="headers" title="Stocks" :data="stocks.data" />
+                    <LayoutPsTable
+                        :header-columns="headersStocks"
+                        :actions="actions"
+                        :datas="stocks.list ?? []"
+                        @show-table="showInformation"
+                    />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="Logs">
-                    <InventoryWarehouseTableLogs title="Logs" />
+                    <LayoutPsTable
+                        :header-columns="headersLogs"
+                        :datas="logs.list ?? []"
+                    />
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>
