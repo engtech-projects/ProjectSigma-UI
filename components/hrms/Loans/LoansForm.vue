@@ -9,14 +9,14 @@ const employeeSearched = () => {
     createData.value.data.employee_id = employeeStore.information.id
 }
 const deptProj = computed(() => {
-    if (employeeStore.information.employee_internal.length > 0) {
-        return employeeStore.information.employee_internal[0].employee_department.department_name
+    if (employeeStore.information.current_employment) {
+        return employeeStore.information.current_employment.work_location === "Office" ? employeeStore.information.current_employment.department_name : employeeStore.information.current_employment.project_names
     }
 })
 const position = computed(() => {
-    if (employeeStore.information.employee_internal.length > 0) {
-        if (employeeStore.information.employee_internal[0].position) {
-            return employeeStore.information.employee_internal[0].position.name
+    if (employeeStore.information.current_employment) {
+        if (employeeStore.information.current_employment.position) {
+            return employeeStore.information.current_employment.position.name
         }
     }
     return "NONE"
