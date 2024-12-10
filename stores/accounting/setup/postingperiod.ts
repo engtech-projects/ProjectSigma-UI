@@ -3,10 +3,10 @@ import { defineStore } from "pinia"
 export const usePostingPeriodStore = defineStore("postingPeriodStore", {
     state: () => ({
         postingPeriod: {
-            period_id: null,
+            id: null,
+            posting_period_id: null,
             period_start: null,
             period_end: null,
-            status: "open"
         },
         list: [],
         pagination: {},
@@ -46,7 +46,7 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/posting-period",
+                "/api/periods",
                 {
                     method: "POST",
                     body: this.postingPeriod,
@@ -109,10 +109,10 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
 
         reset () {
             this.postingPeriod = {
-                period_id: null,
+                id: null,
+                posting_period_id: null,
                 period_start: null,
                 period_end: null,
-                status: "active"
             }
             this.successMessage = ""
             this.errorMessage = ""

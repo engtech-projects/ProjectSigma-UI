@@ -1,10 +1,8 @@
 <script setup>
-import { storeToRefs } from "pinia"
 import { usePostingPeriodStore } from "@/stores/accounting/setup/postingperiod"
 
 const postingPeriodStore = usePostingPeriodStore()
 postingPeriodStore.getPostingPeriods()
-const { isEdit } = storeToRefs(postingPeriodStore)
 
 useHead({
     title: "Posting Period",
@@ -18,12 +16,7 @@ useHead({
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">
-            <AccountingSetupPostingperiodCreate
-                v-show="!isEdit"
-                class="flex-1"
-            />
-            <AccountingSetupPostingperiodEdit v-show="isEdit" class="flex-1" />
-            <AccountingSetupPostingperiodList class="flex-2" />
+            <AccountingSetupPostingperiodList class="flex-1" />
         </div>
     </LayoutAcessContainer>
 </template>

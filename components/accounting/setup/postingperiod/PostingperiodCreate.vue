@@ -2,13 +2,13 @@
 import { storeToRefs } from "pinia"
 import { usePostingPeriodStore } from "@/stores/accounting/setup/postingperiod"
 import PsDateInput from "~/components/layout/Form/PsDateInput.vue"
-import PsSelect from "~/components/layout/Form/PsSelect.vue"
 
 const postingPeriodStore = usePostingPeriodStore()
 const { postingPeriod, errorMessage, successMessage } = storeToRefs(postingPeriodStore)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
+const emit = defineEmits(["saved"])
 
 const handleSubmit = async () => {
     try {
@@ -33,13 +33,14 @@ const handleSubmit = async () => {
             text: postingPeriodStore.errorMessage
         })
     } finally {
+        emit("saved")
         boardLoading.value = false
         postingPeriodStore.clearMessages()
     }
 }
 </script>
 <template>
-    <LayoutBoards title="Posting Period" :loading="boardLoading">
+    <LayoutBoards title="Posting Period" class="shadow-0" :loading="boardLoading">
         <div class="text-gray-500">
             <form class="p-2" @submit.prevent="handleSubmit">
                 <div class="flex flex-col py-3">
@@ -53,14 +54,6 @@ const handleSubmit = async () => {
                         title="Period End"
                         required
                     />
-                    <div class="px-2 pt-1">
-                        <PsSelect
-                            v-model="postingPeriod.status"
-                            title="Status"
-                            required
-                            :options-list="['open', 'closed']"
-                        />
-                    </div>
                 </div>
                 <div class="flex justify-end">
                     <button
