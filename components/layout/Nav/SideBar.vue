@@ -715,7 +715,7 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_POSTING_PERIODS,
                     ])"
-                    linkarea="/accounting/posting-period"
+                    linkarea="/accounting/setup/posting-period"
                     icon="iconoir:notes"
                     single-nav-title="Posting Period"
                 />
