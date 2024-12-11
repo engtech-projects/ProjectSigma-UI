@@ -18,6 +18,7 @@ const emit = defineEmits("delete-item")
             >Account</label>
             <AccountingCommonSelectJournalAccounts
                 v-model:journal-account-info="details.journalAccountInfo"
+                v-model:account-id="details.account_id"
                 class="w-full min-w-[300px]"
             />
         </div>
@@ -34,7 +35,7 @@ const emit = defineEmits("delete-item")
                 :filter-options="['project', 'department', 'employee']"
             />
             <p v-else>
-                {{ details.stakeholder.name }}
+                {{ details.stakeholder?.name }}
             </p>
         </div>
         <div class="flex-1">
