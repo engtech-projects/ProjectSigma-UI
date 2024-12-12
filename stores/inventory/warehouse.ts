@@ -15,12 +15,11 @@ export interface WarehousePss {
 export const useWarehouseStore = defineStore("warehouseStore", {
     state: () => ({
         stocks: {
-            data: [
-                {
-                    item_code: "Lorem",
-                    stocks: "Lorem",
-                }
-            ],
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
         },
         logs: {
             isLoading: false,
@@ -41,6 +40,13 @@ export const useWarehouseStore = defineStore("warehouseStore", {
             isLoading: false,
             isLoaded: false,
             inWarehouse: false
+        },
+        itemHistory: {
+            list: [],
+            isLoading: false,
+            isLoaded: false,
+            params: {},
+            pagination: {},
         },
         warehousePssForm: {},
         params: {},
@@ -122,14 +128,55 @@ export const useWarehouseStore = defineStore("warehouseStore", {
                 "/api/warehouse/logs/" + id,
                 {
                     method: "GET",
-                    watch: false,
+                    params: this.logs.params,
                     onRequest: () => {
                         this.logs.isLoading = true
                     },
                     onResponse: ({ response }) => {
                         this.logs.isLoading = false
                         if (response.ok) {
-                            this.logs.list = response._data.warehouse
+                            this.logs.list = response._data.warehouse.transaction_items
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async fetchWarehouseStocks (id: any) {
+            await useInventoryApi(
+                "/api/warehouse/stocks/" + id,
+                {
+                    method: "GET",
+                    params: this.stocks.params,
+                    onRequest: () => {
+                        this.stocks.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.stocks.isLoading = false
+                        if (response.ok) {
+                            this.stocks.list = response._data.data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getItemHistory (id: any) {
+            return await useInventoryApi(
+                "/api/warehouse/item/" + id,
+                {
+                    method: "GET",
+                    onRequest: () => {
+                        this.itemHistory.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.itemHistory.isLoading = false
+                        if (response.ok) {
+                            this.itemHistory.list = response._data.data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

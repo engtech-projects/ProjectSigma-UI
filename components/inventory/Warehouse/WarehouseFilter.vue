@@ -47,6 +47,8 @@ const filterWarehouse = async () => {
     isSet.value = true
     mainPss.value = []
     await warehouseStore.fetchWarehouseDetails(wareHouseId.value)
+    await warehouseStore.fetchWarehouseLogs(wareHouseId.value)
+    await warehouseStore.fetchWarehouseStocks(wareHouseId.value)
     if (warehouseStore.errorMessage !== "") {
         snackbar.add({
             type: "error",

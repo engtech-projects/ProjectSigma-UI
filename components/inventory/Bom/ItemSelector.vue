@@ -90,10 +90,10 @@ const handleInput = () => {
                         <span
                             v-for="option, i in itemEnum.list"
                             :key="i"
-                            class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
+                            class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b text-left"
                             @click="selectOption(option)"
                         >
-                            {{ option.item_summary }}
+                            {{ "[" + option.item_code + "] " + option.item_summary }}
                         </span>
                     </div>
                     <div v-else class="px-4">

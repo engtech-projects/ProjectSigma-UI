@@ -559,6 +559,12 @@ const config = useRuntimeConfig()
                 icon="streamline:money-cash-coins-stack-accounting-billing-payment-stack-cash-coins-currency-money-finance"
                 single-nav-title="Department BOM"
             />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([AccessibilityTypes.admin])"
+                linkarea="/inventory/request-stocks"
+                icon="material-symbols-light:fact-check-rounded"
+                single-nav-title="Request Stocks"
+            />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.inventory_procurement_group
