@@ -143,8 +143,6 @@ export const useTermsStore = defineStore("termsStore", {
                 account_id: null,
                 description: null
             }
-            this.successMessage = ""
-            this.errorMessage = ""
         },
     },
 })

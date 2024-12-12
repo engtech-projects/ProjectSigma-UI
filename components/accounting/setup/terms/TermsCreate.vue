@@ -1,14 +1,13 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useTermsStore } from "@/stores/accounting/setup/terms"
-import { useAccountStore } from "@/stores/accounting/setup/account"
 
-const accountStore = useAccountStore()
 const termsStore = useTermsStore()
 const { errorMessage, successMessage } = storeToRefs(termsStore)
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
+const account = ref({})
 
 const handleSubmit = async () => {
     try {
@@ -36,6 +35,7 @@ const handleSubmit = async () => {
     } finally {
         boardLoading.value = false
         termsStore.clearMessages()
+        account.value = {}
     }
 }
 const formatTermName = (name) => {
@@ -61,19 +61,11 @@ const formatTermName = (name) => {
                         >
                     </div>
                     <div>
-                        <label
-                            for="term_account"
-                            class="text-xs italic"
-                        >Account</label>
-                        <select
-                            id="termAccount"
-                            v-model="termsStore.term.account_id"
-                            class="w-full rounded-lg"
-                        >
-                            <option v-for="a in accountStore.list" :key="a.id" :value="a.id">
-                                {{ a.account_name }}
-                            </option>
-                        </select>
+                        <AccountingCommonSelectJournalAccounts
+                            v-model:journal-account-info="account"
+                            v-model:account-id="termsStore.term.account_id"
+                            class="w-full min-w-[300px]"
+                        />
                     </div>
                     <div>
                         <label
