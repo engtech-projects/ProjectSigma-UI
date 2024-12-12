@@ -1,8 +1,8 @@
 <script setup>
-import { useSupplierStore, APPROVALS } from "@/stores/inventory/suppliers"
+import { useRequestStockStore, APPROVALS } from "@/stores/inventory/requeststock"
 import { useApprovalStore } from "@/stores/hrms/setup/approvals"
-const mainStore = useSupplierStore()
-const { approvalList, editRequest } = storeToRefs(mainStore)
+const mainStore = useRequestStockStore()
+const { approvalList } = storeToRefs(mainStore)
 
 const form = defineModel({ required: true, type: Object })
 
@@ -10,28 +10,11 @@ const approvals = useApprovalStore()
 approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
 
 const snackbar = useSnackbar()
-const route = useRoute()
-const validKey = ref(false)
 
-if (route.query.key) {
-    await mainStore.editOne(route.query.key)
-    editRequest.value.form = editRequest.value.details
-    editRequest.value.form.attachments = []
-    validKey.value = true
-} else {
-    validKey.value = false
-}
 const storeRequestForm = async () => {
     try {
-        if (validKey.value) {
-            await mainStore.updateSupplierRequest(route.query.key)
-        } else {
-            form.value.company_contact_number = form.value.company_contact_number.toString()
-            form.value.contact_person_number = form.value.contact_person_number.toString()
-            form.value.tin = form.value.tin.toString()
-            form.value.approvals = approvalList.value.list
-            await mainStore.storeRequest()
-        }
+        form.value.approvals = approvalList.value.list
+        await mainStore.storeRequest()
         if (mainStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -51,80 +34,41 @@ const storeRequestForm = async () => {
     }
 }
 
+const headers = [
+    { name: "Quantity", id: "quantity" },
+    { name: "Unit", id: "unit" },
+    { name: "SKU", id: "sku" },
+    { name: "Item Description", id: "item_description" },
+    { name: "Specification", id: "specification" },
+    { name: "Preferred Brand", id: "preferred_brand" },
+    { name: "Reason For Requests", id: "reason_for_requests" },
+    { name: "Turn Over (IF AVAILABLE)", id: "turn_over" },
+]
+
 </script>
 <template>
     <div class="text-gray-500 p-2">
         <form @submit.prevent="storeRequestForm">
             <div class="flex flex-col gap-4 pt-4 w-full">
                 <div class="flex flex-col gap-4 mb-5">
-                    <div class="w-full flex justify-end">
-                        <LayoutFormPsTextInput v-model="form.supplier_code" :required="true" title="Supplier Code" />
-                    </div>
-                    <div class="w-full">
-                        <p class="font-bold">
-                            Please accomplish this form completely and submit the required documents listed below.  The information given would serve as basis for accreditation.
-                        </p>
-                    </div>
-                    <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Company Name" />
-                    <LayoutFormPsTextInput v-model="form.company_address" :required="true" class="w-full" title="Company Address" />
-                    <div class="flex flex-row items-center gap-4">
-                        <LayoutFormPsNumberInput v-model="form.company_contact_number" :required="true" class="w-full" title="Contact Number" />
-                        <LayoutFormPsEmailInput v-model="form.company_email" :required="true" class="w-full" title="Company Email" />
-                    </div>
-                    <div class="flex flex-row items-center gap-4">
-                        <LayoutFormPsTextInput v-model="form.contact_person_name" :required="true" class="w-full" title="Contact Person Name" />
-                        <LayoutFormPsNumberInput v-model="form.contact_person_number" :required="true" class="w-full" title="Contact Person Number" />
-                        <LayoutFormPsTextInput v-model="form.contact_person_designation" :required="true" class="w-full" title="Contact Person Designation" />
-                    </div>
-                    <InventorySuppliersSupplierTypeOfOwnership v-model="form.type_of_ownership" />
-                    <div class="flex flex-row items-center gap-4">
-                        <LayoutFormPsTextInput v-model="form.nature_of_business" :required="true" class="w-full" title="Nature of Business" />
-                        <LayoutFormPsTextInput v-model="form.products_services" :required="true" class="w-full" title="Products/Services" />
-                    </div>
-                    <div class="flex flex-row items-center gap-4">
-                        <LayoutFormPsSelect
-                            v-model="form.classification"
-                            :required="true"
-                            :options-list="['VAT', 'NON-VAT']"
-                            class="w-full"
-                            title="Classification"
-                        />
-                        <LayoutFormPsNumberInput v-model="form.tin" :required="true" class="w-full" title="TIN" />
+                    <div class="flex flex-row justify-between gap-4">
+                        <div class="w-full flex flex-col gap-2">
+                            <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Request To" />
+                            <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Office/Project" />
+                            <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Project Address" />
+                        </div>
+                        <div class="w-full flex flex-col gap-2">
+                            <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Deliver To" />
+                            <LayoutFormPsDateInput v-model="form.filled_date" :required="true" class="w-full" title="Date Needed" />
+                        </div>
                     </div>
                     <div>
-                        <label
-                            class="block mb-1 text-sm font-medium text-gray-900"
-                        >
-                            Terms and Conditions
-                        </label>
-                        <InventoryCommonFormPsTextAreaCommon v-model="form.terms_and_conditions" :required="true" class="w-full block mb-1 text-sm font-medium text-gray-900" />
+                        <InventoryRequestStockItemTable title="Item List" :header-columns="headers" :data-columns="form.list" />
                     </div>
-                    <div class="w-full">
-                        <p class="font-bold">
-                            I/We hereby certify that the information furnished are in all respect true and correct.  It is agreed that ECDC may inquire into the accuracy of the information submitted.  It is further agreed that these information shall remain the property of ECDC whether or not the accreditation applied for is granted
-                        </p>
-                    </div>
-                    <div class="w-full">
-                        <p class="font-bold">
-                            Any information/document found to be false and incorrect shall be sufficient ground for disapproval of this application for accreditation.
-                        </p>
-                    </div>
-                    <div class="w-full flex flex-row gap-4">
-                        <LayoutFormPsTextInput v-model="form.filled_by" :required="true" class="w-full" title="Filled By" />
-                        <LayoutFormPsTextInput v-model="form.filled_designation" :required="true" class="w-full" title="Filled Designation" />
-                        <LayoutFormPsDateInput v-model="form.filled_date" :required="true" class="w-full" title="Filled Date" />
-                    </div>
-                    <div v-if="validKey" class="flex flex-col full gap-2">
-                        <InventorySuppliersSupplierAttachment />
-                    </div>
-                    <div class="w-full">
-                        <LayoutFormPsSelect
-                            v-model="form.requirements_complete"
-                            :required="true"
-                            :options-list="['Yes', 'No']"
-                            class="w-full"
-                            title="Requirements Complete"
-                        />
+                    <div class="flex flex-row gap-4">
+                        <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Conso Period" />
+                        <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Contact Number" />
+                        <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="SMR" />
                     </div>
                     <div class="w-full">
                         <label
@@ -140,7 +84,7 @@ const storeRequestForm = async () => {
                         <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white"> Approval:</label>
                         <HrmsSetupApprovalsList
                             v-for="(approv, apr) in approvalList.list"
-                            :key="'hrmsetupapprovallist' + apr"
+                            :key="'hrmsetupapprovallist' + approv"
                             v-model="approvalList.list[apr]"
                         />
                     </div>

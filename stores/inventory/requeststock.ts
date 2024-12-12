@@ -1,5 +1,14 @@
 import { defineStore } from "pinia"
 
+export const APPROVED = "Approved"
+export const PENDING = "Pending"
+export const DENIED = "Denied"
+export const APPROVALS = "Request Stocks"
+export const REQ_STATUS = [
+    APPROVED,
+    PENDING,
+    DENIED,
+]
 export interface RsDetails {
     office_project: String,
     equipment_no: String,
@@ -12,13 +21,13 @@ export interface RsDetails {
     smr: String,
 }
 export interface RsList {
-    qty: String,
+    quantity: String,
     unit: String,
     sku: String,
     item_description: String,
     specification: String,
     preferred_brand: String,
-    reason_for_request: String,
+    reason_for_requests: String,
     turn_over: String,
 }
 
@@ -32,6 +41,15 @@ export const useRequestStockStore = defineStore("requestStockStore", {
             details: [] as Array<RsList>,
             params: {},
             pagination: {},
+        },
+        approvalList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
         },
         errorMessage: "",
         successMessage: "",
@@ -72,6 +90,25 @@ export const useRequestStockStore = defineStore("requestStockStore", {
                         this.requestStock.isLoading = false
                         if (response.ok) {
                             this.requestStock.details = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async storeRequest () {
+            await useInventoryApiO(
+                "/api/request-supplier/resource",
+                {
+                    method: "POST",
+                    body: this.requestStock.form,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        if (response.ok) {
+                            this.reloadResources()
+                            this.successMessage = response._data.message
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
