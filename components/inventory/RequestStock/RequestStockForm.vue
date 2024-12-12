@@ -53,22 +53,22 @@ const headers = [
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="flex flex-row justify-between gap-4">
                         <div class="w-full flex flex-col gap-2">
-                            <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Request To" />
-                            <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Office/Project" />
-                            <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Project Address" />
+                            <LayoutFormPsTextInput v-model="form.request_to" :required="true" class="w-full" title="Request To" />
+                            <LayoutFormPsTextInput v-model="form.office_project" :required="true" class="w-full" title="Office/Project" />
+                            <LayoutFormPsTextInput v-model="form.project_address" :required="true" class="w-full" title="Project Address" />
                         </div>
                         <div class="w-full flex flex-col gap-2">
-                            <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Deliver To" />
-                            <LayoutFormPsDateInput v-model="form.filled_date" :required="true" class="w-full" title="Date Needed" />
+                            <LayoutFormPsTextInput v-model="form.deliver_to" :required="true" class="w-full" title="Deliver To" />
+                            <LayoutFormPsDateInput v-model="form.date_needed" :required="true" class="w-full" title="Date Needed" />
                         </div>
                     </div>
                     <div>
                         <InventoryRequestStockItemTable title="Item List" :header-columns="headers" :data-columns="form.list" />
                     </div>
                     <div class="flex flex-row gap-4">
-                        <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Conso Period" />
-                        <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Contact Number" />
-                        <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="SMR" />
+                        <LayoutFormPsTextInput v-model="form.conso_period" :required="true" class="w-full" title="Conso Period" />
+                        <LayoutFormPsTextInput v-model="form.contact_number" :required="true" class="w-full" title="Contact Number" />
+                        <LayoutFormPsTextInput v-model="form.smr" :required="true" class="w-full" title="SMR" />
                     </div>
                     <div class="w-full">
                         <label

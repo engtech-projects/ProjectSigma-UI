@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useSupplierStore } from "@/stores/inventory/suppliers"
-const mainStore = useSupplierStore()
+import { useRequestStockStore } from "@/stores/inventory/requeststock"
+const mainStore = useRequestStockStore()
 const { myRequests } = storeToRefs(mainStore)
 onMounted(() => {
     if (!myRequests.value.isLoaded) {
@@ -9,11 +9,10 @@ onMounted(() => {
     }
 })
 const headers = [
-    { name: "Company Name", id: "company_name" },
-    { name: "Company Address", id: "company_address" },
-    { name: "Contact Person", id: "contact_person_number" },
-    { name: "Request By", id: "filled_by" },
-    { name: "Request at", id: "filled_date" },
+    { name: "Office/Project", id: "office_project" },
+    { name: "Project Address", id: "project_address" },
+    { name: "Date Needed", id: "date_needed" },
+    { name: "Deliver To", id: "deliver_to" },
 ]
 const actions = {
     showTable: true,
@@ -34,9 +33,6 @@ const changePaginate = (newParams) => {
 </script>
 <template>
     <LayoutLoadingContainer class="w-full" :loading="myRequests.isLoading">
-        <div class="flex flex-row gap-4 p-2 items-center">
-            <InventorySuppliersSupplierFilter v-model:state="myRequests" />
-        </div>
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
