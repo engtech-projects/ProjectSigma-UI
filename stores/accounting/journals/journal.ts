@@ -306,8 +306,14 @@ export const useJournalStore = defineStore("journalStore", {
         },
         reloadResources () {
             const callFunctions = []
+            if (this.openEntries.isLoaded) {
+                callFunctions.push(this.getOpenEntries)
+            }
             if (this.paymentRequestEntries.isLoaded) {
                 callFunctions.push(this.getPaymentRequestEntries)
+            }
+            if (this.voidEntries.isLoaded) {
+                callFunctions.push(this.getVoidEntries)
             }
             if (this.postedEntries.isLoaded) {
                 callFunctions.push(this.getPostedEntries)
