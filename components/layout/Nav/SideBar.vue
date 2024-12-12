@@ -749,6 +749,14 @@ const config = useRuntimeConfig()
                     icon="iconoir:user-square"
                     single-nav-title="Synchronization"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_TERMS,
+                    ])"
+                    linkarea="/accounting/setup/terms"
+                    icon="iconoir:database-script-minus"
+                    single-nav-title="Terms"
+                />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
