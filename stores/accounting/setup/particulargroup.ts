@@ -111,6 +111,7 @@ export const useParticularGroupStore = defineStore("particularGroupStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
+                        this.getParticularGroups()
                         if (response._data.success) {
                             this.successMessage = response._data.message
                         } else {

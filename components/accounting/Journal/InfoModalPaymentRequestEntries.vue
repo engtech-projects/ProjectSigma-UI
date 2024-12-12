@@ -16,17 +16,17 @@ defineProps({
 })
 const generateJournal = async (data) => {
     await journalStore.generateJournalNumber()
-    journal.value.details = data.details
     journal.value.details = data.details.map(detail => ({
         ...detail,
-        debit: parseFloat(detail.amount) + parseFloat(detail.total_vat_amount),
-        credit: 0,
+        debit: (data.type === "prf" || (data.type === "payroll" && detail.account_notation_type === "debit")) ? parseFloat(detail.amount) + parseFloat(detail.total_vat_amount) : 0,
+        credit: (data.type === "payroll" && detail.account_notation_type === "credit") ? parseFloat(detail.amount) + parseFloat(detail.total_vat_amount) : 0,
         vat: parseInt(detail.vat ?? 0),
         stakeholder_id: detail.stakeholder_id,
-        stakeholder_type: trimStakeholdableType(detail.stakeholder.stakeholdable_type),
+        stakeholder_type: trimStakeholdableType(detail?.stakeholder?.stakeholdable_type),
         stakeholderInformation: detail.stakeholder,
         description: detail.particulars
     }))
+
     journal.value.stakeholder_id = data.stakeholder_id
     journal.value.journal_date = data.date_filed
     journal.value.reference_no = data.prf_no
@@ -36,7 +36,10 @@ const generateJournal = async (data) => {
     showModal.value = false
 }
 const trimStakeholdableType = (type) => {
-    return type.replace("App\\Models\\Stakeholders\\", "")
+    if (type) {
+        return type.replace("App\\Models\\Stakeholders\\", "")
+    }
+    return null
 }
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 const boardLoading = ref(false)
@@ -118,7 +121,7 @@ const boardLoading = ref(false)
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ detail?.stakeholder.name }}
+                                            {{ detail?.stakeholder?.name }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">

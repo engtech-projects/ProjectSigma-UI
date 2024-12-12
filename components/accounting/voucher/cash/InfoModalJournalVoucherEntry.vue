@@ -25,7 +25,7 @@ const generateVoucher = async (data) => {
     voucherCash.value.amount_in_words = useAmountInWords(data.payment_request.total)
     voucherCash.value.details = data.details
     voucherCash.value.journal_entry_id = data.id
-    voucherCash.value.reference_no = data.voucher?.voucher_no
+    voucherCash.value.reference_no = data.reference_no
     showModal.value = false
 }
 

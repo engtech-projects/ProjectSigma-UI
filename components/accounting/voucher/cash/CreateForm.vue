@@ -124,9 +124,9 @@ voucherCash.value.total_credit = computed(() => {
                                     <label
                                         for="dv"
                                         class="text-xs italic"
-                                    >Date Encoded</label>
+                                    >Refference No.</label>
                                     <p class="py-2">
-                                        {{ voucherCash.date_encoded }}
+                                        {{ voucherCash.reference_no }}
                                     </p>
                                 </div>
                             </div>

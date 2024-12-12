@@ -58,37 +58,38 @@ const storeRequestForm = async () => {
             <div class="flex flex-col gap-4 pt-4 w-full">
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="w-full flex justify-end">
-                        <LayoutFormPsTextInput v-model="form.supplier_code" title="Supplier Code" />
+                        <LayoutFormPsTextInput v-model="form.supplier_code" :required="true" title="Supplier Code" />
                     </div>
                     <div class="w-full">
                         <p class="font-bold">
                             Please accomplish this form completely and submit the required documents listed below.  The information given would serve as basis for accreditation.
                         </p>
                     </div>
-                    <LayoutFormPsTextInput v-model="form.company_name" class="w-full" title="Company Name" />
-                    <LayoutFormPsTextInput v-model="form.company_address" class="w-full" title="Company Address" />
+                    <LayoutFormPsTextInput v-model="form.company_name" :required="true" class="w-full" title="Company Name" />
+                    <LayoutFormPsTextInput v-model="form.company_address" :required="true" class="w-full" title="Company Address" />
                     <div class="flex flex-row items-center gap-4">
-                        <LayoutFormPsNumberInput v-model="form.company_contact_number" class="w-full" title="Contact Number" />
-                        <LayoutFormPsEmailInput v-model="form.company_email" class="w-full" title="Company Email" />
+                        <LayoutFormPsNumberInput v-model="form.company_contact_number" :required="true" class="w-full" title="Contact Number" />
+                        <LayoutFormPsEmailInput v-model="form.company_email" :required="true" class="w-full" title="Company Email" />
                     </div>
                     <div class="flex flex-row items-center gap-4">
-                        <LayoutFormPsTextInput v-model="form.contact_person_name" class="w-full" title="Contact Person Name" />
-                        <LayoutFormPsNumberInput v-model="form.contact_person_number" class="w-full" title="Contact Person Number" />
-                        <LayoutFormPsTextInput v-model="form.contact_person_designation" class="w-full" title="Contact Person Designation" />
+                        <LayoutFormPsTextInput v-model="form.contact_person_name" :required="true" class="w-full" title="Contact Person Name" />
+                        <LayoutFormPsNumberInput v-model="form.contact_person_number" :required="true" class="w-full" title="Contact Person Number" />
+                        <LayoutFormPsTextInput v-model="form.contact_person_designation" :required="true" class="w-full" title="Contact Person Designation" />
                     </div>
                     <InventorySuppliersSupplierTypeOfOwnership v-model="form.type_of_ownership" />
                     <div class="flex flex-row items-center gap-4">
-                        <LayoutFormPsTextInput v-model="form.nature_of_business" class="w-full" title="Nature of Business" />
-                        <LayoutFormPsTextInput v-model="form.products_services" class="w-full" title="Products/Services" />
+                        <LayoutFormPsTextInput v-model="form.nature_of_business" :required="true" class="w-full" title="Nature of Business" />
+                        <LayoutFormPsTextInput v-model="form.products_services" :required="true" class="w-full" title="Products/Services" />
                     </div>
                     <div class="flex flex-row items-center gap-4">
                         <LayoutFormPsSelect
                             v-model="form.classification"
+                            :required="true"
                             :options-list="['VAT', 'NON-VAT']"
                             class="w-full"
                             title="Classification"
                         />
-                        <LayoutFormPsNumberInput v-model="form.tin" class="w-full" title="TIN" />
+                        <LayoutFormPsNumberInput v-model="form.tin" :required="true" class="w-full" title="TIN" />
                     </div>
                     <div>
                         <label
@@ -96,7 +97,7 @@ const storeRequestForm = async () => {
                         >
                             Terms and Conditions
                         </label>
-                        <InventoryCommonFormPsTextAreaCommon v-model="form.terms_and_conditions" class="w-full block mb-1 text-sm font-medium text-gray-900" />
+                        <InventoryCommonFormPsTextAreaCommon v-model="form.terms_and_conditions" :required="true" class="w-full block mb-1 text-sm font-medium text-gray-900" />
                     </div>
                     <div class="w-full">
                         <p class="font-bold">
@@ -109,9 +110,9 @@ const storeRequestForm = async () => {
                         </p>
                     </div>
                     <div class="w-full flex flex-row gap-4">
-                        <LayoutFormPsTextInput v-model="form.filled_by" class="w-full" title="Filled By" />
-                        <LayoutFormPsTextInput v-model="form.filled_designation" class="w-full" title="Filled Designation" />
-                        <LayoutFormPsDateInput v-model="form.filled_date" class="w-full" title="Filled Date" />
+                        <LayoutFormPsTextInput v-model="form.filled_by" :required="true" class="w-full" title="Filled By" />
+                        <LayoutFormPsTextInput v-model="form.filled_designation" :required="true" class="w-full" title="Filled Designation" />
+                        <LayoutFormPsDateInput v-model="form.filled_date" :required="true" class="w-full" title="Filled Date" />
                     </div>
                     <div v-if="validKey" class="flex flex-col full gap-2">
                         <InventorySuppliersSupplierAttachment />
@@ -119,6 +120,7 @@ const storeRequestForm = async () => {
                     <div class="w-full">
                         <LayoutFormPsSelect
                             v-model="form.requirements_complete"
+                            :required="true"
                             :options-list="['Yes', 'No']"
                             class="w-full"
                             title="Requirements Complete"

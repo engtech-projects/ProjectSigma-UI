@@ -21,6 +21,7 @@ const changePaginate = (newParams) => {
 }
 const headers = [
     { name: "DV Number", id: "voucher_no" },
+    { name: "Journal Voucher Number", id: "journal_entry.journal_no" },
     { name: "Payee", id: "journal_entry.payment_request.stakeholder.name" },
     { name: "Amount", id: "journal_entry.payment_request.total" },
     { name: "Created At", id: "date_filed" },
