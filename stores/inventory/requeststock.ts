@@ -22,9 +22,9 @@ export interface RsList {
     turn_over: String,
 }
 
-export const useRS = defineStore("rsStore", {
+export const useRequestStockStore = defineStore("requestStockStore", {
     state: () => ({
-        rs: {
+        requestStock: {
             isLoading: false,
             isLoaded: false,
             list: [] as Array<RsList>,
@@ -40,17 +40,17 @@ export const useRS = defineStore("rsStore", {
     actions: {
         async fetchRs () {
             await useInventoryApi(
-                "/api/rs/resource",
+                "/api/request-stock/resource",
                 {
                     method: "GET",
-                    params: this.rs.params,
+                    params: this.requestStock.params,
                     onRequest: () => {
-                        this.rs.isLoading = true
+                        this.requestStock.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.rs.isLoading = false
+                        this.requestStock.isLoading = false
                         if (response.ok) {
-                            this.rs.list = response._data.data
+                            this.requestStock.list = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -66,12 +66,12 @@ export const useRS = defineStore("rsStore", {
                     method: "GET",
                     watch: false,
                     onRequest: () => {
-                        this.rs.isLoading = true
+                        this.requestStock.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.rs.isLoading = false
+                        this.requestStock.isLoading = false
                         if (response.ok) {
-                            this.rs.details = response._data.data
+                            this.requestStock.details = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

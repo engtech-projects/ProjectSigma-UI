@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useBOMStore } from "@/stores/inventory/bom"
-
 interface HeaderColumn {
     name: string,
     id: string,
@@ -21,8 +19,6 @@ defineProps({
         required: true,
     },
 })
-
-const main = useBOMStore()
 </script>
 <template>
     <div
