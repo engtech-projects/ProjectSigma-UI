@@ -42,6 +42,14 @@ await generateReportstore.getLoanCategoryList()
             </div>
         </div>
         <div class="p-2">
+            <HrmsReportsLoanReportsDefaultReportEmployee
+                v-show="!['SSS LOAN', 'HDMF MPL LOAN', 'HDMF MPL', 'COOP LOAN', 'CALAMITY LOAN'].includes(loanReportOption.loan_type)
+                    && loanReportOption.report_type === 'employee'"
+            />
+            <HrmsReportsLoanReportsDefaultReportGroup
+                v-show="!['SSS LOAN', 'HDMF MPL LOAN', 'HDMF MPL', 'COOP LOAN', 'CALAMITY LOAN'].includes(loanReportOption.loan_type)
+                    && loanReportOption.report_type === 'summary-with-group'"
+            />
             <HrmsReportsLoanReportsSssLoanEmployeePayment
                 v-show="loanReportOption.loan_type === 'SSS LOAN'
                     && loanReportOption.report_type === 'employee'"
@@ -64,19 +72,11 @@ await generateReportstore.getLoanCategoryList()
                 v-show="loanReportOption.loan_type === 'COOP LOAN'
                     && loanReportOption.report_type === 'employee'"
             />
-            <HrmsReportsLoanReportsDefaultReportEmployee
-                v-show="!['SSS LOAN', 'HDMF MPL LOAN', 'HDMF MPL', 'COOP LOAN'].includes(loanReportOption.loan_type)
-                    && loanReportOption.report_type === 'employee'"
-            />
-            <HrmsReportsLoanReportsDefaultReportGroup
-                v-show="!['SSS LOAN', 'HDMF MPL LOAN', 'HDMF MPL', 'COOP LOAN'].includes(loanReportOption.loan_type)
-                    && loanReportOption.report_type === 'summary-with-group'"
-            />
-            <HrmsReportsHdmfCalamityLoanEmployee
+            <HrmsReportsLoanReportsHdmfCalamityLoanEmployee
                 v-show="loanReportOption.loan_type === 'CALAMITY LOAN'
                     && loanReportOption.report_type === 'employee'"
             />
-            <HrmsReportsHdmfCalamityLoanGroup
+            <HrmsReportsLoanReportsHdmfCalamityLoanGroup
                 v-show="loanReportOption.loan_type === 'CALAMITY LOAN'
                     && loanReportOption.report_type === 'summary-with-group'"
             />
