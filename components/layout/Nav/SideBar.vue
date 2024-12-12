@@ -614,15 +614,23 @@ const config = useRuntimeConfig()
                     ])"
                     linkarea="/accounting/request/non-purchase-order"
                     icon="iconoir:credit-card-2"
-                    single-nav-title="Payment Request (Non-Purchase Order)"
+                    single-nav-title="Non-purchase Order"
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER,
+                        AccessibilityTypes.ACCOUNTING_REQUEST_PURCHASE_ORDER,
                     ])"
                     linkarea="/accounting/request/purchase-order"
                     icon="iconoir:credit-card-2"
-                    single-nav-title="Payment Request (Purchase Order)"
+                    single-nav-title="Purchase Order"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_REQUEST_PRE_PAYROLL_AUDIT,
+                    ])"
+                    linkarea="/accounting/request/payroll-request"
+                    icon="iconoir:credit-card-2"
+                    single-nav-title="Payroll"
                 />
             </LayoutNavGroup>
             <LayoutNavGroup
@@ -725,7 +733,7 @@ const config = useRuntimeConfig()
                     ])"
                     linkarea="/accounting/setup/stakeholder"
                     icon="iconoir:user-square"
-                    single-nav-title="Stakeholders"
+                    single-nav-title="Payees"
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
