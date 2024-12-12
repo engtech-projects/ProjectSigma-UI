@@ -348,6 +348,9 @@ export const useVoucherStore = defineStore("voucherStore", {
         reloadResourcesDisbursement () {
             const backup = this.voucherDisbursement.approvals
             const callFunctions = []
+            if (this.myDisbursementApprovals.isLoaded) {
+                callFunctions.push(this.getMyDisbursementApprovals)
+            }
             if (this.allDisbursementVouchers.isLoaded) {
                 callFunctions.push(this.getAllDisbursementVouchers)
             }

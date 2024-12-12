@@ -18,7 +18,7 @@ const generateJournal = async (data) => {
     await journalStore.generateJournalNumber()
     journal.value.details = data.details.map(detail => ({
         ...detail,
-        debit: (data.type === "payroll" && detail.account_notation_type === "debit") ? parseFloat(detail.amount) + parseFloat(detail.total_vat_amount) : 0,
+        debit: (data.type === "prf" || (data.type === "payroll" && detail.account_notation_type === "debit")) ? parseFloat(detail.amount) + parseFloat(detail.total_vat_amount) : 0,
         credit: (data.type === "payroll" && detail.account_notation_type === "credit") ? parseFloat(detail.amount) + parseFloat(detail.total_vat_amount) : 0,
         vat: parseInt(detail.vat ?? 0),
         stakeholder_id: detail.stakeholder_id,
