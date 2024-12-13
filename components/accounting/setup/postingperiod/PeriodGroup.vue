@@ -1,20 +1,12 @@
 <script lang="ts" setup>
-import { usePostingPeriodStore } from "@/stores/accounting/setup/postingperiod"
-const postingPeriodStore = usePostingPeriodStore()
 const props = defineProps({
     data: {
         type: Object,
         default: null
     }
 })
-const emit = defineEmits(["addPeriod"])
 const collapse = ref(false)
 
-const addPeriod = () => {
-    collapse.value = false
-    postingPeriodStore.postingPeriod.posting_period_id = props.data.id
-    emit("addPeriod")
-}
 onMounted(() => {
     collapse.value = props.data.status.toLowerCase() === "open"
 })
@@ -30,9 +22,6 @@ onMounted(() => {
                 {{ data.status.toUpperCase() }}
             </span>
             <div class="text-right col-span-4 h-fit">
-                <button v-if="data.status.toLowerCase()==='open'" class="text-xs bg-green-500 px-3 py-[2px] hover:bg-green-600 active:bg-green-500 rounded-lg text-white mr-4" @click.prevent="addPeriod">
-                    + Add Period
-                </button>
                 <button>
                     <Icon v-show="collapse" name="iconamoon:arrow-down-2-duotone" class="text-2xl text-slate-700" />
                     <Icon v-show="!collapse" name="iconamoon:arrow-right-2-duotone" class="text-2xl cursor-pointer text-slate-700" />
