@@ -3,11 +3,6 @@
 import { usePostingPeriodStore } from "@/stores/accounting/setup/postingperiod"
 
 const postingPeriodStore = usePostingPeriodStore()
-const showModal = ref(false)
-const addPeriod = () => {
-    showModal.value = true
-}
-
 const changePaginate = (newParams) => {
     postingPeriodStore.getParams.page = newParams.page ?? ""
     postingPeriodStore.getPostingPeriods()
@@ -27,14 +22,5 @@ const changePaginate = (newParams) => {
         <div class="flex justify-center mx-auto my-4">
             <CustomPagination :links="postingPeriodStore.pagination" @change-params="changePaginate" />
         </div>
-        <ModalContainer
-            :local="showModal"
-            :show="true"
-            size="modal-sm"
-            :header="true"
-            @hide="showModal=false"
-        >
-            <AccountingSetupPostingperiodCreate @saved="showModal=false" />
-        </ModalContainer>
     </LayoutBoards>
 </template>
