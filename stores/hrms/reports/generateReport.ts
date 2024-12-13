@@ -796,7 +796,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
         },
         async getOtherDeductionReport () {
             await useHRMSApiO(
-                "/api/reports/default-loan-employee",
+                "/api/reports/other-deductions/get",
                 {
                     method: "GET",
                     params: this.otherDeductionReports.reportResult.params,

@@ -6,7 +6,7 @@ const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        await generateReportstore.getCoopGroupSummaryLoan()
+        await generateReportstore.getOtherDeductionReport()
         snackbar.add({
             type: "success",
             text: coopGroupSummaryLoan.value.successMessage

@@ -6,7 +6,7 @@ const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        await generateReportstore.getDefaultPaymentGroupReport()
+        await generateReportstore.getOtherDeductionReport()
         snackbar.add({
             type: "success",
             text: otherDeductionReports.value.reportResult.successMessage
