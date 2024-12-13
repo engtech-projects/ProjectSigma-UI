@@ -160,6 +160,7 @@ export enum AccessibilityTypes {
     ACCOUNTING_SETUP_STAKEHOLDERS = "accounting:setup_stakeholders",
     ACCOUNTING_SETUP_SYNCHRONIZATION = "accounting:setup_synchronization",
     ACCOUNTING_SETUP_PARTICULAR_GROUP = "accounting:setup_particular group",
+    ACCOUNTING_SETUP_TERMS = "accounting:setup_terms",
 
     // Accounting Request
     ACCOUNTING_REQUEST_GROUP = "accounting:request_",
