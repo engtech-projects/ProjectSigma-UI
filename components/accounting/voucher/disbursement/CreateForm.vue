@@ -106,7 +106,7 @@ voucherDisbursement.value.total_credit = computed(() => {
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-4">
+                        <div class="grid grid-cols-3 gap-4">
                             <div>
                                 <label
                                     for="payee"
@@ -123,6 +123,15 @@ voucherDisbursement.value.total_credit = computed(() => {
                                 >Voucher Type</label>
                                 <p>
                                     Disbursement
+                                </p>
+                            </div>
+                            <div>
+                                <label
+                                    for="dv"
+                                    class="text-xs italic"
+                                >Referrence No</label>
+                                <p>
+                                    {{ voucherDisbursement.reference_no }}
                                 </p>
                             </div>
                         </div>

@@ -3,10 +3,10 @@ import { defineStore } from "pinia"
 export const usePostingPeriodStore = defineStore("postingPeriodStore", {
     state: () => ({
         postingPeriod: {
-            period_id: null,
+            id: null,
+            posting_period_id: null,
             period_start: null,
             period_end: null,
-            status: "open"
         },
         list: [],
         pagination: {},
@@ -26,11 +26,11 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data
+                        this.list = response._data.data.data
                         this.pagination = {
-                            first_page: response._data.first_page_url,
-                            pages: response._data.links,
-                            last_page: response._data.last_page_url,
+                            first_page: response._data.data.links.first,
+                            pages: response._data.data.meta.links,
+                            last_page: response._data.data.links.last,
                         }
                     },
                 }
@@ -46,7 +46,7 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/posting-period",
+                "/api/periods",
                 {
                     method: "POST",
                     body: this.postingPeriod,
@@ -68,7 +68,7 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/posting-period/" + this.postingPeriod.period_id,
+                "/api/posting-period/" + this.postingPeriod.id,
                 {
                     method: "PATCH",
                     body: this.postingPeriod,
@@ -109,10 +109,10 @@ export const usePostingPeriodStore = defineStore("postingPeriodStore", {
 
         reset () {
             this.postingPeriod = {
-                period_id: null,
+                id: null,
+                posting_period_id: null,
                 period_start: null,
                 period_end: null,
-                status: "active"
             }
             this.successMessage = ""
             this.errorMessage = ""

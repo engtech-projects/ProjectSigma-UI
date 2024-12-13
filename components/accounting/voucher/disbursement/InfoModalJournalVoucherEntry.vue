@@ -162,7 +162,7 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
                                         BALANCE
                                     </th>
                                     <th scope="col" class="px-6 text-bold py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
-                                        MMR
+                                        MRR
                                     </th>
                                 </tr>
                             </thead>

@@ -25,7 +25,7 @@ const changePaginate = (newParams) => {
 
 const headers = [
     { name: "Journal No.", id: "journal_no" },
-    { name: "Reference No (PRF-no)", id: "reference_no" },
+    { name: "Reference No (PRF-no)", id: "payment_request.prf_no" },
     { name: "Payee", id: "payment_request.stakeholder.name" },
     { name: "Amount", id: "payment_request.total" },
     { name: "Date Posted", id: "date_filed" },
