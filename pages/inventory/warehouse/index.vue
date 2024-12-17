@@ -7,18 +7,17 @@ const warehouseStore = useWarehouseStore()
 const { stocks, logs } = storeToRefs(warehouseStore)
 
 const headersStocks = [
-    { name: "Item Code", id: "item_code" },
-    { name: "Stocks", id: "stocks" },
+    { name: "Item Code", id: "item_codename" },
+    { name: "Stocks", id: "quantity" },
 ]
 const headersLogs = [
     { name: "Transaction Date", id: "created_at" },
     { name: "Transaction Type", id: "transaction_type" },
-    { name: "Item Code", id: "item_code" },
+    { name: "Item Code", id: "item_codename" },
 ]
 
 const showInformation = (data) => {
     entryData.value = data
-    showInformationModal.value = true
 }
 
 const actions = {
