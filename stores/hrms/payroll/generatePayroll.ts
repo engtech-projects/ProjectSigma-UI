@@ -363,7 +363,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             )
         },
         reloadResources () {
-            const backup = this.generateParams.approvals
+            const backup = this.generateParams
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
@@ -375,7 +375,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                 callFunctions.push(this.getMyApprovals)
             }
             this.$reset()
-            this.generateParams.approvals = backup
+            this.generateParams = backup
             callFunctions.forEach((element) => {
                 element()
             })
