@@ -7,11 +7,7 @@ const { payrollMyRequestList: myRequests } = storeToRefs(payrollRequestStore)
 
 const requestData = ref(null)
 const showInformationModal = ref(false)
-onMounted(() => {
-    if (!myRequests.value.isLoaded) {
-        payrollRequestStore.getMyRequests()
-    }
-})
+await payrollRequestStore.getMyRequests()
 const showInformation = (data) => {
     requestData.value = data
     showInformationModal.value = true

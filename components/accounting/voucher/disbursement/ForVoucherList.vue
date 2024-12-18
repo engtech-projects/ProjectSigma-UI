@@ -8,12 +8,7 @@ const { forDisbursementVoucherEntries } = storeToRefs(journalStore)
 const entryData = ref(null)
 const showInformationModal = ref(false)
 
-onMounted(() => {
-    if (!forDisbursementVoucherEntries.value.isLoaded) {
-        journalStore.getForDisbursementVoucherEntries()
-    }
-})
-
+await journalStore.getForDisbursementVoucherEntries()
 const showInformation = (data) => {
     entryData.value = data
     showInformationModal.value = true
