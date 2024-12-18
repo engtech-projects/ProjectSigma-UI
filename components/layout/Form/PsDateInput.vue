@@ -22,7 +22,7 @@ defineProps({
 })
 </script>
 <template>
-    <div class="PsDateInput w-full p-2">
+    <div class="PsDateInput w-full">
         <label
             :for="compId"
             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
