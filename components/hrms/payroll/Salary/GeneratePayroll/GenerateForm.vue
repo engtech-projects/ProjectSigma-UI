@@ -28,26 +28,36 @@ const submitForm = async () => {
         boardLoading.value = false
     }
 }
+const showAdvance = ref(false)
 </script>
 <template>
     <LayoutBoards title="" class="w-full" :loading="boardLoading">
         <div class="mt-5 mb-6 p-2">
             <form @submit.prevent="submitForm">
                 <HrmsCommonDetailedMultipleEmployeeSelector v-model="generateParams.employee_ids" title="Employee Name" name="Employee Name" />
-                <div class="mt-5 mb-5">
+                <div class="flex flex-col gap-2 mt-2">
                     <div class="w-full flex gap-2 md:flex-row flex-col">
                         <LayoutFormPsDateInput v-model="generateParams.cutoff_start" class="w-full" title="Cut-off Date (Start)" required />
                         <LayoutFormPsDateInput v-model="generateParams.cutoff_end" class="w-full" title="Cut-off Date (End)" required />
                         <LayoutFormPsDateInput v-model="generateParams.payroll_date" class="w-full" title="Payroll Date" required />
                     </div>
-                    <div class="flex-1 p-2">
-                        <HrmsCommonDepartmentProjectSelector
-                            v-model:select-type="generateParams.group_type"
-                            v-model:department-id="generateParams.department_id"
-                            v-model:project-id="generateParams.project_id"
-                            title="Department/Project Charge"
-                            required
-                        />
+                    <div class="w-full flex gap-2 md:flex-row flex-col">
+                        <div class="flex-1">
+                            <HrmsCommonDepartmentProjectSelector
+                                v-model:select-type="generateParams.group_type"
+                                v-model:department-id="generateParams.department_id"
+                                v-model:project-id="generateParams.project_id"
+                                title="Department/Project Charge"
+                                required
+                            />
+                        </div>
+                        <div class="w-1/3 flex ">
+                            <div class="flex items-center">
+                                <input id="showAdvance" v-model="showAdvance" type="checkbox" :true-value="true" :false-value="false">
+                                <label for="showAdvance">Show Advance</label>
+                            </div>
+                            <LayoutFormPsNumberInput v-show="showAdvance" v-model="generateParams.advance_days" title="Advance Days" class="w-full" />
+                        </div>
                     </div>
                 </div>
                 <div class="grid grid-cols-3 divide-x pb-4">

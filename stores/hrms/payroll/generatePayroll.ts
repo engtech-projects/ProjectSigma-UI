@@ -55,6 +55,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             payroll_date: "",
             cutoff_start: "",
             cutoff_end: "",
+            advance_days: 0,
             deduct_sss: 0,
             deduct_philhealth: 0,
             deduct_pagibig: 0,
@@ -217,9 +218,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                             this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         }
                     },
@@ -241,9 +242,9 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                             this.myRequests.isLoaded = true
                             this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             throw new Error(response._data.message)
@@ -265,7 +266,12 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.isLoaded = true
-                            this.myApprovals.list = response._data.data
+                            this.myApprovals.list = response._data.data.data
+                            this.myApprovals.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
                         } else {
                             throw new Error(response._data.message)
                         }
