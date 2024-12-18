@@ -7,11 +7,7 @@ const { myCashApprovals } = storeToRefs(voucherStore)
 
 const requestData = ref(null)
 const showInformationModal = ref(false)
-onMounted(() => {
-    if (!myCashApprovals.value.isLoaded) {
-        voucherStore.getMyCashApprovals()
-    }
-})
+await voucherStore.getMyCashApprovals()
 const showInformation = (data) => {
     requestData.value = data
     showInformationModal.value = true

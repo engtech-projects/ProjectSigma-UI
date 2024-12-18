@@ -7,11 +7,7 @@ const { allDisbursementVouchers } = storeToRefs(voucherStore)
 
 const requestData = ref(null)
 const showInformationModal = ref(false)
-onMounted(() => {
-    if (!allDisbursementVouchers.value.isLoaded) {
-        voucherStore.getAllDisbursementVouchers()
-    }
-})
+await voucherStore.getAllDisbursementVouchers()
 const showInformation = (data) => {
     requestData.value = data
     showInformationModal.value = true

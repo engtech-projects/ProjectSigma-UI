@@ -8,11 +8,7 @@ const { paymentRequestEntries } = storeToRefs(journalStore)
 const entryData = ref(null)
 const showInformationModal = ref(false)
 
-onMounted(() => {
-    if (!paymentRequestEntries.value.isLoaded) {
-        journalStore.getPaymentRequestEntries()
-    }
-})
+await journalStore.getPaymentRequestEntries()
 
 const showInformation = (data) => {
     entryData.value = data
