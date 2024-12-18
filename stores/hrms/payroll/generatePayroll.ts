@@ -55,6 +55,7 @@ export const useGeneratePayrollStore = defineStore("GeneratePayrolls", {
             payroll_date: "",
             cutoff_start: "",
             cutoff_end: "",
+            advance_days: 0,
             deduct_sss: 0,
             deduct_philhealth: 0,
             deduct_pagibig: 0,
