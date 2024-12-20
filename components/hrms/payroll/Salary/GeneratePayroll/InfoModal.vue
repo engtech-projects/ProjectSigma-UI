@@ -74,11 +74,20 @@ const denyRequest = async (id : any) => {
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light font-medium">Cutoff End: </span> {{ data.cutoff_end }}
                 </div>
+                <div v-if="data.advance_days > 0" class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium">Advance Days: </span> {{ data.advance_days }}
+                </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light font-medium">Payroll Type: </span> {{ data.payroll_type }}
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light font-medium">Release Type: </span> {{ data.release_type }}
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium">Prepared by: </span> {{ data.created_by }}
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium">Prepared on: </span> {{ data.created_at_human }}
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light font-medium">Request Status: </span> {{ data.request_status }}
