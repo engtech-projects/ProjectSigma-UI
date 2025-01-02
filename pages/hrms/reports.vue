@@ -85,6 +85,12 @@ const selectedReport = ref("")
                         Loan Reports
                     </option>
                     <option
+                        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_loanreports])"
+                        value="Report5"
+                    >
+                        Other Deductions Reports
+                    </option>
+                    <option
                         v-if="useCheckAccessibility(['AdminOnly'])"
                         value="Report15"
                     >
