@@ -1,5 +1,4 @@
 import { defineStore } from "pinia"
-
 export const useVoucherStore = defineStore("voucherStore", {
     state: () => ({
         voucherDisbursement: {
@@ -339,6 +338,9 @@ export const useVoucherStore = defineStore("voucherStore", {
             if (this.myCashApprovals.isLoaded) {
                 callFunctions.push(this.getMyCashApprovals)
             }
+            if (this.myCashApprovals.isLoaded) {
+                callFunctions.push(this.getMyCashApprovals)
+            }
             this.$reset()
             this.voucherCash.approvals = backup
             callFunctions.forEach((element) => {
@@ -356,9 +358,6 @@ export const useVoucherStore = defineStore("voucherStore", {
             }
             if (this.myDisbursementVouchers.isLoaded) {
                 callFunctions.push(this.getMyDisbursementVouchers)
-            }
-            if (this.myDisbursementApprovals.isLoaded) {
-                callFunctions.push(this.getMyDisbursementApprovals)
             }
             this.$reset()
             this.voucherDisbursement.approvals = backup
@@ -458,22 +457,6 @@ export const useVoucherStore = defineStore("voucherStore", {
                             return response._data
                         } else {
                             this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getOne (id: number, type: String) {
-            return await useAccountingApi(
-                "api/vouchers/" + type + "/resource/" + id,
-                {
-                    method: "GET",
-                    params: this.getParams,
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            return response._data.data
-                        } else {
                             throw new Error(response._data.message)
                         }
                     },
