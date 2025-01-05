@@ -1,7 +1,9 @@
 <script setup>
 import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
+import { useJournalStore } from "~/stores/accounting/journals/journal"
 import { useApprovalStore, APPROVAL_CASH_VOUCHER } from "@/stores/hrms/setup/approvals"
 const voucherStore = useVoucherStore()
+const journalStore = useJournalStore()
 const { voucherCash } = storeToRefs(voucherStore)
 const snackbar = useSnackbar()
 const approvals = useApprovalStore()
@@ -17,6 +19,7 @@ defineProps({
 const addVoucherRequest = async () => {
     try {
         await voucherStore.addVoucherCash()
+        await journalStore.getForCashVoucherEntries()
         if (voucherCash.value.successMessage) {
             snackbar.add({
                 type: "success",
