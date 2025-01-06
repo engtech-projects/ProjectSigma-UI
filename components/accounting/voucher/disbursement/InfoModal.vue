@@ -17,6 +17,11 @@ defineProps({
 const { data: userData } = useAuth()
 const showModal = defineModel("showModal", { required: false, type: Boolean })
 const printPreview = ref(false)
+const ribbonTypes = ref({
+    pending: "warning",
+    approved: "success",
+    denied: "error"
+})
 
 const voucherStore = useVoucherStore()
 const { remarks } = storeToRefs(voucherStore)
@@ -77,11 +82,10 @@ const denyRequest = async (id) => {
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
         <template #body>
+            <AccountingStatusRibbon :type="ribbonTypes[voucherData?.request_status.toLowerCase()]" position="top-left" :status="voucherData?.request_status" class="z-30" />
             <div v-if="!printPreview" class="px-4">
-                <div class="grid gap-2 md:justify-between">
-                    <div class="p-2 flex gap-2">
-                        <span class="text-gray-900 text-4xl">Disbursement Voucher</span>
-                    </div>
+                <div class="p-2 py-4 flex gap-2 w-full">
+                    <span class="text-gray-900 text-4xl text-center w-full block">Disbursement Voucher</span>
                 </div>
                 <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                     <div class="p-2 flex gap-2">
