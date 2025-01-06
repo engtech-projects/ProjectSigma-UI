@@ -2,6 +2,7 @@
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { EmployeeTenureshipList } = storeToRefs(generateReportstore)
+
 </script>
 <template>
     <div class="flex flex-col">
@@ -43,7 +44,7 @@ const { EmployeeTenureshipList } = storeToRefs(generateReportstore)
                         {{ index + 1 }}
                     </td>
                     <td class="border border-gray-500 = h-8 px-2 text-sm">
-                        {{ reportData.name }}
+                        {{ reportData.employee_name }}
                     </td>
                     <td class="border border-gray-500 = h-8 px-2 text-sm text-center">
                         {{ reportData.date_hired }}
