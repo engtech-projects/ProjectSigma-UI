@@ -20,6 +20,12 @@ defineProps({
         default: false
     }
 })
+const ribbonTypes = ref({
+    open: "info",
+    unposted: "warning",
+    posted: "success",
+    void: "error"
+})
 const generateVoucher = async (data) => {
     await voucherStore.generateDisbursementVoucherNo()
     voucherDisbursement.value.stakeholder_id = data.payment_request.stakeholder_id
@@ -39,10 +45,9 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
         <template #body>
-            <div class="grid gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-4xl">Journal Entry ({{ type }})</span>
-                </div>
+            <AccountingStatusRibbon :type="ribbonTypes[entryData?.status.toLowerCase()]" position="top-left" :status="entryData?.status" class="z-30" />
+            <div class="p-2 py-4 flex gap-2 w-full mb-4">
+                <span class="text-gray-900 text-4xl text-center w-full block flex-1">Journal Entry ({{ type }})</span>
             </div>
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">

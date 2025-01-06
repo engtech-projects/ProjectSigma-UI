@@ -26,8 +26,8 @@ const totalCredit = computed(() => {
 
 <template>
     <div id="toPrint" class="bg-white left-0 top-0 w-screen min-h-[1000px] max-w-[100%] p-12">
-        <div class="flex flex-col gap-10 pb-24 pt-8 relative">
-            <AccountingCommonEvenparHeader class="mb-16" />
+        <div class="flex flex-col gap-10 pb-24 pt-8 relative border-2 border-black min-h-[1200px]">
+            <AccountingCommonEvenparHeader class="mb-16 border-b-2 border-teal-500 pb-2" />
             <h1 class="text-2xl text-center font-bold">
                 CASH VOUCHER
             </h1>
