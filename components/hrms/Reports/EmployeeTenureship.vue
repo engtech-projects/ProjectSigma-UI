@@ -2,7 +2,7 @@
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { EmployeeTenureshipList } = storeToRefs(generateReportstore)
-
+await generateReportstore.getEmployeeTenureshipList()
 </script>
 <template>
     <div class="flex flex-col">
@@ -21,10 +21,10 @@ const { EmployeeTenureshipList } = storeToRefs(generateReportstore)
         <table class="printTable border border-gray-500 mb-20">
             <thead class="text-blue-600 text-md">
                 <tr class="py-4">
-                    <th rowspan="2" class="py-4 border-gray-500 border-2">
+                    <th rowspan="2" class="py-4 border-gray-500 border">
                         NO.
                     </th>
-                    <th rowspan="2" class="py-4 border-gray-500 border-2">
+                    <th rowspan="2" class="py-4 border-gray-500 border">
                         NAME
                     </th>
                     <th class="border border-gray-500">
