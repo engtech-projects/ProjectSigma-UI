@@ -1,0 +1,66 @@
+<script setup>
+import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
+const generateReportstore = useGenerateReportStore()
+const { EmployeeTenureshipList } = storeToRefs(generateReportstore)
+</script>
+<template>
+    <div class="flex flex-col">
+        <div class="header flex flex-col  mb-8">
+            <div class="flex gap-4">
+                <span class="flex-1 font-bold text-2xl">
+                    Employee Tenureship
+                </span>
+            </div>
+            <div class="flex gap-4">
+                <span class="text-xl flex-1">
+                    APRIL
+                </span>
+            </div>
+        </div>
+        <table class="printTable border border-gray-500 mb-20">
+            <thead class="text-blue-600 text-md">
+                <tr class="py-4">
+                    <th rowspan="2" class="py-4 border-gray-500 border-2">
+                        NO.
+                    </th>
+                    <th rowspan="2" class="py-4 border-gray-500 border-2">
+                        NAME
+                    </th>
+                    <th class="border border-gray-500">
+                        DATE HIRED
+                    </th>
+                    <th class="border border-gray-500">
+                        DESIGNATION
+                    </th>
+                    <th class="border border-gray-500">
+                        TERNURE (ECDC)
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="text-sm">
+                <tr v-for="reportData, index in EmployeeTenureshipList.list" :key="'EmployeeTenureship' + index" class="h-2">
+                    <td class="border border-gray-500 = h-8 px-2 text-sm text-center">
+                        {{ index + 1 }}
+                    </td>
+                    <td class="border border-gray-500 = h-8 px-2 text-sm">
+                        {{ reportData.name }}
+                    </td>
+                    <td class="border border-gray-500 = h-8 px-2 text-sm text-center">
+                        {{ reportData.date_hired }}
+                    </td>
+                    <td class="border border-gray-500 = h-8 px-2 text-sm text-right">
+                        {{ reportData.designation }}
+                    </td>
+                    <td class="border border-gray-500 = h-8 px-2 text-sm text-right">
+                        {{ reportData.ternure_ecdc }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+<style scoped>
+    .flex-5 {
+        flex: 5;
+    }
+</style>

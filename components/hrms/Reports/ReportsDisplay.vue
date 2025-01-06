@@ -44,6 +44,9 @@ defineProps({
         <HrmsReportsSalaryMonitoring
             v-show="selectedReport==='Report15'"
         />
+        <HrmsReportsSalaryMonitoring
+            v-show="selectedReport==='Report19'"
+        />
     </div>
 </template>
 <style scoped>

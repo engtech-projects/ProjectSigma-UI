@@ -114,6 +114,12 @@ const selectedReport = ref("")
                     >
                         Employee Logs
                     </option>
+                    <option
+                        v-if="useCheckAccessibility(['AdminOnly'])"
+                        value="Report19"
+                    >
+                        Employee Tenureship
+                    </option>
                 </select>
             </div>
             <div class="py-2">
