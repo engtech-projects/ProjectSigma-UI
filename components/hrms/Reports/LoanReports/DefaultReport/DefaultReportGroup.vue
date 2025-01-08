@@ -1,42 +1,41 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { defaultPaymentGroupReport, loanReportOption } = storeToRefs(generateReportstore)
+const { loanReports } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        defaultPaymentGroupReport.value.params.loan_type = loanReportOption.value.loan_type
-        await generateReportstore.getDefaultPaymentGroupReport()
+        await generateReportstore.getLoanReport()
         snackbar.add({
             type: "success",
-            text: defaultPaymentGroupReport.value.successMessage
+            text: loanReports.value.reportResult.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: defaultPaymentGroupReport.value.errorMessage || "something went wrong."
+            text: loanReports.value.reportResult.errorMessage || "something went wrong."
         })
     }
 }
 const totalDefaultAmount = () => {
-    return defaultPaymentGroupReport.value.list.reduce((accumulator, current) => {
+    return loanReports.value.reportResult.list.reduce((accumulator, current) => {
         return accumulator + current.total_group_amount
     }, 0)
 }
-watch(() => defaultPaymentGroupReport.value.params.month_year, (newValue) => {
+watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
     if (newValue) {
-        defaultPaymentGroupReport.value.params.filter_month = newValue.month + 1
-        defaultPaymentGroupReport.value.params.filter_year = newValue.year
+        loanReports.value.reportResult.params.filter_month = newValue.month + 1
+        loanReports.value.reportResult.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards :title="loanReportOption.loan_type + ' Report (GROUP)'" :loading="defaultPaymentGroupReport.isLoading">
+    <LayoutBoards :title="loanReports.reportResult.params.loan_type + ' PAYMENT'" :loading="loanReports.reportResult.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="defaultPaymentGroupReport.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="defaultPaymentGroupReport.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="defaultPaymentGroupReport.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="loanReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -90,10 +89,10 @@ watch(() => defaultPaymentGroupReport.value.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        {{ loanReportOption.loan_type }} REPORT (GROUP)
+                        {{ loanReports.reportResult.params.loan_type }} PAYMENT
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(defaultPaymentGroupReport.params.filter_month) }} {{ defaultPaymentGroupReport.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(loanReports.reportResult.params.filter_month) }} {{ loanReports.reportResult.params.filter_year }}</span>
                     </span>
                 </div>
                 <div>
@@ -119,9 +118,9 @@ watch(() => defaultPaymentGroupReport.value.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in defaultPaymentGroupReport.list" :key="'defaultreportgroup' + index" class="h-2">
+                        <tr v-for="reportData, index in loanReports.reportResult.list" :key="'defaultreportgroup' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.employee_fullname }}
+                                {{ reportData.fullname }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.payroll_record.charging_name }}

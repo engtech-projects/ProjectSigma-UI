@@ -1,41 +1,41 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { sssGroupSummaryLoan } = storeToRefs(generateReportstore)
+const { loanReports } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        await generateReportstore.getSssGroupLoan()
+        await generateReportstore.getLoanReport()
         snackbar.add({
             type: "success",
-            text: sssGroupSummaryLoan.value.successMessage
+            text: loanReports.value.reportResult.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: sssGroupSummaryLoan.value.errorMessage || "something went wrong."
+            text: loanReports.value.reportResult.errorMessage || "something went wrong."
         })
     }
 }
 const sssTotal = () => {
-    return sssGroupSummaryLoan.value.list.reduce((accumulator, current) => {
+    return loanReports.value.reportResult.list.reduce((accumulator, current) => {
         return accumulator + current.total_group_amount
     }, 0)
 }
-watch(() => sssGroupSummaryLoan.value.params.month_year, (newValue) => {
+watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
     if (newValue) {
-        sssGroupSummaryLoan.value.params.filter_month = newValue.month + 1
-        sssGroupSummaryLoan.value.params.filter_year = newValue.year
+        loanReports.value.reportResult.params.filter_month = newValue.month + 1
+        loanReports.value.reportResult.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards title="SSS Loan Payment (Group)" :loading="sssGroupSummaryLoan.isLoading">
+    <LayoutBoards title="SSS LOAN PAYMENT" :loading="loanReports.reportResult.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="sssGroupSummaryLoan.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="sssGroupSummaryLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="sssGroupSummaryLoan.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="loanReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -89,10 +89,10 @@ watch(() => sssGroupSummaryLoan.value.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        SSS LOAN PAYMENT (GROUP)
+                        SSS LOAN PAYMENT
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(sssGroupSummaryLoan.params.filter_month) }} {{ sssGroupSummaryLoan.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(loanReports.reportResult.params.filter_month) }} {{ loanReports.reportResult.params.filter_year }}</span>
                     </span>
                 </div>
                 <div>
@@ -121,12 +121,12 @@ watch(() => sssGroupSummaryLoan.value.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in sssGroupSummaryLoan.list" :key="'sssemployeeremitance' + index" class="h-2">
+                        <tr v-for="reportData, index in loanReports.reportResult.list" :key="'sssemployeeremitance' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center font-bold">
                                 {{ index + 1 }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm">
-                                {{ reportData.employee_name }}
+                                {{ reportData.fullname }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm">
                                 {{ reportData.payroll_record.charging_name }}

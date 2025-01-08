@@ -31,7 +31,7 @@ watch(() => otherDeductionReports.value.reportResult.params.month_year, (newValu
 })
 </script>
 <template>
-    <LayoutBoards :title="otherDeductionReports.reportResult.params.loan_type + ' Report (GROUP)'" :loading="otherDeductionReports.reportResult.isLoading">
+    <LayoutBoards :title="otherDeductionReports.reportResult.params.loan_type + ' PAYMENT'" :loading="otherDeductionReports.reportResult.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
             <LayoutFormPsMonthYearInput v-model="otherDeductionReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
             <LayoutFormPsDateInput v-model="otherDeductionReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
@@ -112,7 +112,7 @@ watch(() => otherDeductionReports.value.reportResult.params.month_year, (newValu
                     <tbody class="text-sm">
                         <tr v-for="reportData, index in otherDeductionReports.reportResult.list" :key="'defaultreportgroup' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.employee_fullname }}
+                                {{ reportData.fullname }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.payroll_record.charging_name }}

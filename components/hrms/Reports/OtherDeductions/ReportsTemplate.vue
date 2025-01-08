@@ -41,22 +41,22 @@ await generateReportstore.getOtherDeductionsCategoryList()
             </div>
         </div>
         <div class="p-2">
-            <HrmsReportsOtherDeductionsDefaultReportEmployeeReport
-                v-show="!['MP2'].includes(otherDeductionReports.reportResult.params.loan_type)
-                    && otherDeductionReports.reportResult.params.report_type === 'employee'"
-            />
-            <HrmsReportsOtherDeductionsDefaultReportGroupReport
-                v-show="!['MP2'].includes(otherDeductionReports.reportResult.params.loan_type)
-                    && otherDeductionReports.reportResult.params.report_type === 'summary-with-group'"
-            />
-            <HrmsReportsOtherDeductionsMp2EmployeeReport
-                v-show="otherDeductionReports.reportResult.params.loan_type === 'MP2'
-                    && otherDeductionReports.reportResult.params.report_type === 'employee'"
-            />
-            <HrmsReportsOtherDeductionsMp2GroupReport
-                v-show="otherDeductionReports.reportResult.params.loan_type === 'MP2'
-                    && otherDeductionReports.reportResult.params.report_type === 'summary-with-group'"
-            />
+            <template v-if="otherDeductionReports.reportResult.params.report_type === 'employee'">
+                <HrmsReportsOtherDeductionsDefaultReportEmployeeReport
+                    v-show="!['MP2'].includes(otherDeductionReports.reportResult.params.loan_type)"
+                />
+                <HrmsReportsOtherDeductionsMp2EmployeeReport
+                    v-show="otherDeductionReports.reportResult.params.loan_type === 'MP2'"
+                />
+            </template>
+            <template v-else>
+                <HrmsReportsOtherDeductionsDefaultReportGroupReport
+                    v-show="!['MP2'].includes(otherDeductionReports.reportResult.params.loan_type)"
+                />
+                <HrmsReportsOtherDeductionsMp2GroupReport
+                    v-show="otherDeductionReports.reportResult.params.loan_type === 'MP2'"
+                />
+            </template>
         </div>
     </LayoutBoards>
 </template>

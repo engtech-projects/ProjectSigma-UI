@@ -1,41 +1,41 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { coopGroupSummaryLoan } = storeToRefs(generateReportstore)
+const { loanReports } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        await generateReportstore.getCoopGroupSummaryLoan()
+        await generateReportstore.getLoanReport()
         snackbar.add({
             type: "success",
-            text: coopGroupSummaryLoan.value.successMessage
+            text: loanReports.value.reportResult.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: coopGroupSummaryLoan.value.errorMessage || "something went wrong."
+            text: loanReports.value.reportResult.errorMessage || "something went wrong."
         })
     }
 }
 const totalCoop = () => {
-    return coopGroupSummaryLoan.value.list.reduce((accumulator, current) => {
+    return loanReports.value.reportResult.list.reduce((accumulator, current) => {
         return accumulator + current.total_payments
     }, 0)
 }
-watch(() => coopGroupSummaryLoan.value.params.month_year, (newValue) => {
+watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
     if (newValue) {
-        coopGroupSummaryLoan.value.params.filter_month = newValue.month + 1
-        coopGroupSummaryLoan.value.params.filter_year = newValue.year
+        loanReports.value.reportResult.params.filter_month = newValue.month + 1
+        loanReports.value.reportResult.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards title="HDMF Loan Payment (Group)" :loading="coopGroupSummaryLoan.isLoading">
+    <LayoutBoards title="COOP LOAN PAYMENT" :loading="loanReports.reportResult.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="coopGroupSummaryLoan.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="coopGroupSummaryLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="coopGroupSummaryLoan.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="loanReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -89,10 +89,10 @@ watch(() => coopGroupSummaryLoan.value.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        HDMF MPL LOAN PAYMENT (GROUP)
+                        COOP LOAN PAYMENT
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(coopGroupSummaryLoan.params.filter_month) }} {{ coopGroupSummaryLoan.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(loanReports.reportResult.params.filter_month) }} {{ loanReports.reportResult.params.filter_year }}</span>
                     </span>
                 </div>
                 <div>
@@ -133,7 +133,7 @@ watch(() => coopGroupSummaryLoan.value.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in coopGroupSummaryLoan.list" :key="'coopemployeesummarygroup' + index" class="h-2">
+                        <tr v-for="reportData, index in loanReports.reportResult.list" :key="'coopemployeeloanpayment' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center font-bold">
                                 {{ index + 1 }}
                             </td>

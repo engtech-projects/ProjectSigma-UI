@@ -31,7 +31,7 @@ watch(() => otherDeductionReports.value.reportResult.params.month_year, (newValu
 })
 </script>
 <template>
-    <LayoutBoards :title="otherDeductionReports.reportResult.params.loan_type + ' Report (EMPLOYEE)'" :loading="otherDeductionReports.reportResult.isLoading">
+    <LayoutBoards :title="otherDeductionReports.reportResult.params.loan_type + ' PAYMENT'" :loading="otherDeductionReports.reportResult.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
             <LayoutFormPsMonthYearInput v-model="otherDeductionReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
             <LayoutFormPsDateInput v-model="otherDeductionReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
@@ -81,7 +81,7 @@ watch(() => otherDeductionReports.value.reportResult.params.month_year, (newValu
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        {{ otherDeductionReports.reportResult.params.loan_type }} REPORT (EMPLOYEE)
+                        {{ otherDeductionReports.reportResult.params.loan_type }} PAYMENTS
                     </span>
                     <span class="text-xl text-black text-left">
                         FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(otherDeductionReports.reportResult.params.filter_month) }} {{ otherDeductionReports.reportResult.params.filter_year }}</span>
@@ -104,7 +104,7 @@ watch(() => otherDeductionReports.value.reportResult.params.month_year, (newValu
                     <tbody class="text-sm">
                         <tr v-for="reportData, index in otherDeductionReports.reportResult.list" :key="'defaultreportemployee' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.employee_fullname }}
+                                {{ reportData.fullname }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.loan_type }}

@@ -31,7 +31,7 @@ watch(() => coopGroupSummaryLoan.value.params.month_year, (newValue) => {
 })
 </script>
 <template>
-    <LayoutBoards title="MP2 Payments (Group)" :loading="coopGroupSummaryLoan.isLoading">
+    <LayoutBoards title="MP2 Payments" :loading="coopGroupSummaryLoan.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
             <LayoutFormPsMonthYearInput v-model="coopGroupSummaryLoan.params.month_year" class="w-full" title="Month Year" required />
             <LayoutFormPsDateInput v-model="coopGroupSummaryLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
