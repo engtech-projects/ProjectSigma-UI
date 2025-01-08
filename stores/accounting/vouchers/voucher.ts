@@ -41,6 +41,15 @@ export const useVoucherStore = defineStore("voucherStore", {
             errorMessage: "",
             successMessage: "",
         },
+        cashClearingVoucher: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         allCashVouchers: {
             isLoading: false,
             isLoaded: false,
@@ -102,6 +111,30 @@ export const useVoucherStore = defineStore("voucherStore", {
     }),
     getters: {},
     actions: {
+        async getClearingVouchers () {
+            this.cashClearingVoucher.isLoaded = true
+            await useAccountingApi(
+                "/api/vouchers/cash/get-clearing-vouchers",
+                {
+                    method: "GET",
+                    params: this.cashClearingVoucher.params,
+                    onRequest: () => {
+                        this.cashClearingVoucher.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.cashClearingVoucher.isLoading = false
+                        if (response.ok) {
+                            this.cashClearingVoucher.list = response._data.data.data
+                            this.cashClearingVoucher.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
         async getAllCashVouchers () {
             this.allCashVouchers.isLoaded = true
             await useAccountingApi(
