@@ -1,5 +1,5 @@
 <template>
-    <div class="box">
+    <div class="box z-[999]">
         <div class="ribbon" :class="`before:border-${ribbonColor}-600 ribbon-${props.position}`">
             <span :class="`bg-${ribbonColor}-500`">{{ upperFirst(props.status) }}</span>
         </div>
