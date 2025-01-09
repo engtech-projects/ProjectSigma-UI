@@ -118,12 +118,12 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in loanReports.reportResult.list" :key="'defaultreportgroup' + index" class="h-2">
+                        <tr v-for="reportData, key, index in loanReports.reportResult.list" :key="'defaultreportgroup' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.fullname }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.payroll_record.charging_name }}
+                                {{ key }} {{ index }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ useFormatCurrency(reportData.total_amount) }}
