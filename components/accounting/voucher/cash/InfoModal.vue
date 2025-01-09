@@ -98,7 +98,7 @@ watch(showModal, (newVal) => {
                     </div>
                     <div class="p-2 flex gap-2">
                         <span class="text-teal-600 text-light">Amount: </span>
-                        {{ voucherData?.net_amount }}
+                        {{ formatToCurrency(voucherData?.net_amount) }}
                     </div>
                     <div class="p-2 flex gap-2">
                         <span class="text-teal-600 text-light">Status: </span>
@@ -152,12 +152,12 @@ watch(showModal, (newVal) => {
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900">
-                                                {{ detail?.debit }}
+                                                {{ formatToCurrency(detail?.debit) }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900">
-                                                {{ detail?.credit }}
+                                                {{ formatToCurrency(detail?.credit) }}
                                             </div>
                                         </td>
                                     </tr>
