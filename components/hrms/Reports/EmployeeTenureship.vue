@@ -6,16 +6,30 @@ await generateReportstore.getEmployeeTenureshipList()
 </script>
 <template>
     <div class="flex flex-col">
-        <div class="header flex flex-col  mb-8">
+        <div class="header flex flex-col mt-10 mb-8">
             <div class="flex gap-4">
                 <span class="flex-1 font-bold text-2xl">
                     Employee Tenureship
                 </span>
             </div>
-            <div class="flex gap-4">
-                <span class="text-xl flex-1">
-                    APRIL
+            <div class="flex gap-4 flex-row items-center max-w-sm">
+                <span class="text-md flex-1">
+                    CATEGORY
                 </span>
+                <select
+                    v-model="EmployeeTenureshipList.params.type"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                >
+                    <option value="all" selected>
+                        All
+                    </option>
+                    <option value="Project">
+                        Project
+                    </option>
+                    <option value="Department">
+                        Department
+                    </option>
+                </select>
             </div>
         </div>
         <table class="printTable border border-gray-500 mb-20">
