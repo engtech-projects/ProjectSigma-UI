@@ -3,6 +3,22 @@ import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { otherDeductionReports } = storeToRefs(generateReportstore)
 await generateReportstore.getOtherDeductionsCategoryList()
+watch(
+    () => otherDeductionReports.value.reportResult.params.report_type,
+    (newValue, oldValue) => {
+        if (newValue !== oldValue) {
+            otherDeductionReports.value.reportResult.list = []
+        }
+    }
+)
+watch(
+    () => otherDeductionReports.value.reportResult.params.loan_type,
+    (newValue, oldValue) => {
+        if (newValue !== oldValue) {
+            otherDeductionReports.value.reportResult.list = []
+        }
+    }
+)
 </script>
 <template>
     <LayoutBoards title="Other Deductions Reports">

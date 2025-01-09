@@ -1,15 +1,19 @@
 import { defineStore } from "pinia"
-export const LOAN_HDMF_MPL = "Daily"
-export const LOAN_HDMF_MPL_LOAN = "Daily"
-export const LOAN_COOP = "Weekly"
-export const LOAN_SSS = "Semi-Monthly"
-export const LOAN_CALAMITY = "Monthly"
+export const LOAN_HDMF_MPL = "HDMF MPL"
+export const LOAN_HDMF_MPL_LOAN = "HDMF MPL LOAN"
+export const LOAN_COOP = "COOP LOAN"
+export const LOAN_SSS = "SSS LOAN"
+export const LOAN_CALAMITY = "HDMF CALAMITY LOAN"
 export const LOAN_REPORTS = [
     LOAN_HDMF_MPL,
     LOAN_HDMF_MPL_LOAN,
     LOAN_COOP,
     LOAN_SSS,
     LOAN_CALAMITY,
+]
+export const OD_MP2 = "MP2"
+export const OD_REPORTS = [
+    OD_MP2,
 ]
 export const useGenerateReportStore = defineStore("GenerateReport", {
     state: () => ({

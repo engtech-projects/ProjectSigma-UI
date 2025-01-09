@@ -102,6 +102,9 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                                 PAGIBIG ID / RTN
                             </th>
                             <th rowspan="3" class="border border-gray-500">
+                                APPLICATION NO
+                            </th>
+                            <th rowspan="3" class="border border-gray-500">
                                 LAST NAME
                             </th>
                             <th rowspan="3" class="border border-gray-500">
@@ -117,17 +120,17 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                                 LOAN TYPE
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                PROJECT ID
+                                AMOUNT
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                AMOUNT
+                                PERCOV
                             </th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
                         <tr v-for="reportData, index in loanReports.reportResult.list" :key="'hdmfCalamityEmployeeLoan' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.employee_pagibig_no }}
+                                {{ reportData.pagibig_id }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 -

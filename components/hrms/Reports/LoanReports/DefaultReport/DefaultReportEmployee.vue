@@ -99,6 +99,9 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                     <thead class="text-black text-md">
                         <tr class="py-4">
                             <th rowspan="3" class="border border-gray-500">
+                                NO.
+                            </th>
+                            <th rowspan="3" class="border border-gray-500">
                                 FULL NAME
                             </th>
                             <th rowspan="3" class="border border-gray-500">
@@ -111,6 +114,9 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                     </thead>
                     <tbody class="text-sm">
                         <tr v-for="reportData, index in loanReports.reportResult.list" :key="'defaultreportemployee' + index" class="h-2">
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                {{ index + 1 }}
+                            </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.fullname }}
                             </td>

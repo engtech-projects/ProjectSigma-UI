@@ -11,7 +11,22 @@ import {
 const generateReportstore = useGenerateReportStore()
 const { loanReports } = storeToRefs(generateReportstore)
 await generateReportstore.getLoanCategoryList()
-
+watch(
+    () => loanReports.value.reportResult.params.report_type,
+    (newValue, oldValue) => {
+        if (newValue !== oldValue) {
+            loanReports.value.reportResult.list = []
+        }
+    }
+)
+watch(
+    () => loanReports.value.reportResult.params.loan_type,
+    (newValue, oldValue) => {
+        if (newValue !== oldValue) {
+            loanReports.value.reportResult.list = []
+        }
+    }
+)
 </script>
 <template>
     <LayoutBoards title="Loan Reports">

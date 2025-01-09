@@ -102,7 +102,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                                 NO.
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                NAME OF EMPLOYEE
+                                FULLNAME
                             </th>
                             <th rowspan="3" class="border border-gray-500">
                                 SSS NO.
@@ -124,7 +124,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                                 {{ reportData.fullname }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.employee_sss_id }}
+                                {{ reportData.sss_no }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 -

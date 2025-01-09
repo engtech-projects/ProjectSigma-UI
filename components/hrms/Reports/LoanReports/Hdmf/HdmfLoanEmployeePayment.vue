@@ -130,7 +130,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                     <tbody class="text-sm">
                         <tr v-for="reportData, index in loanReports.reportResult.list" :key="'hdmfemployeeloanpayment' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.employee_pagibig_no }}
+                                {{ reportData.pagibig_id }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 -
