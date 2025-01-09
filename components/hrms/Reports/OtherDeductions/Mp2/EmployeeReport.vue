@@ -160,13 +160,7 @@ watch(() => coopEmployeeLoan.value.params.month_year, (newValue) => {
                                 {{ reportData.middle_name }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                -
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                -
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ useFormatCurrency(reportData.amount) }}
+                                {{ reportData.percov }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 -

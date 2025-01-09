@@ -151,7 +151,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                                 {{ reportData.loan_type }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.total_payments }}
+                                {{ useFormatCurrency(reportData.total_payments) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.percov }}
