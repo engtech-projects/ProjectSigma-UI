@@ -31,7 +31,7 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
         <template #body>
-            <AccountingStatusRibbon :type="ribbonTypes[entryData?.status.toLowerCase()]" position="top-left" :status="entryData?.status" class="z-30" />
+            <AccountingStatusRibbon :type="ribbonTypes[entryData?.status.toLowerCase()]" position="top-left" :status="entryData?.status" class="z-[999]" />
             <div class="p-2 py-4 flex gap-2 w-full mb-4">
                 <span class="text-gray-900 text-4xl text-center w-full block flex-1">Journal Entry ({{ type }})</span>
             </div>
