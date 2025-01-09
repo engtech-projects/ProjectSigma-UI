@@ -114,7 +114,7 @@ const totalCredit = computed(() => {
                                         {{ ae.account?.account_number }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
-                                        {{ ae.account.account_name }}
+                                        {{ ae.accoun?.account_name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
                                         Stakeholder name here...
