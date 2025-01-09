@@ -41,7 +41,22 @@ export const useVoucherStore = defineStore("voucherStore", {
             errorMessage: "",
             successMessage: "",
         },
+        cashReceivedForm: {
+            voucher_id: null,
+            received_by: null,
+            receipt_no: null,
+            date_received: null
+        },
         cashClearingVoucher: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        cashClearedVoucher: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -126,6 +141,30 @@ export const useVoucherStore = defineStore("voucherStore", {
                         if (response.ok) {
                             this.cashClearingVoucher.list = response._data.data.data
                             this.cashClearingVoucher.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getClearedVouchers () {
+            this.cashClearedVoucher.isLoaded = true
+            await useAccountingApi(
+                "/api/vouchers/cash/get-cleared-vouchers",
+                {
+                    method: "GET",
+                    params: this.cashClearedVoucher.params,
+                    onRequest: () => {
+                        this.cashClearedVoucher.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.cashClearedVoucher.isLoading = false
+                        if (response.ok) {
+                            this.cashClearedVoucher.list = response._data.data.data
+                            this.cashClearedVoucher.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,
                                 last_page: response._data.data.links.last,
@@ -487,6 +526,30 @@ export const useVoucherStore = defineStore("voucherStore", {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.reloadResourcesDisbursement()
+                            return response._data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async cashReceived () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAccountingApiO(
+                "/api/vouchers/cash/received",
+                {
+                    method: "POST",
+                    body: this.cashReceivedForm,
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
                             return response._data
                         } else {
                             this.errorMessage = response._data.message

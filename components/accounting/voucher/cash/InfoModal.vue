@@ -36,7 +36,7 @@ const closeViewModal = () => {
 const approvedRequest = async (id) => {
     try {
         boardLoading.value = true
-        await voucherStore.approveDisbursementVoucher(id)
+        await voucherStore.approveCashVoucher(id)
         snackbar.add({
             type: "success",
             text: voucherStore.successMessage
@@ -55,7 +55,7 @@ const approvedRequest = async (id) => {
 const denyRequest = async (id) => {
     try {
         boardLoading.value = true
-        await voucherStore.denyDisbursementVoucher(id)
+        await voucherStore.denyCashVoucher(id)
         snackbar.add({
             type: "success",
             text: voucherStore.successMessage
@@ -168,6 +168,11 @@ watch(showModal, (newVal) => {
                 </div>
                 <div class="w-full">
                     <LayoutApprovalsListView :approvals="voucherData?.approvals" />
+                </div>
+                <div v-if="voucherData?.request_status.toLowerCase() === 'approved' && !voucherData?.received_by && !received_date">
+                    <div class="w-full">
+                        <AccountingVoucherCashReceivedForm :voucher-id="voucherData?.id" />
+                    </div>
                 </div>
             </div>
             <LayoutPrint v-else>
