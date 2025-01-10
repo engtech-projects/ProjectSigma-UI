@@ -147,8 +147,8 @@ export enum AccessibilityTypes {
     inventory_procurement_my_approvals = "inventory:procurement_suppliers_my approvals",
     inventory_procurement_edit = "inventory:procurement_suppliers_edit",
 
+    // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",
-    // Accounting Setup
     ACCOUNTING_SETUP_GROUP = "accounting:setup_",
     ACCOUNTING_SETUP_APPROVALS = "accounting:setup_approvals",
     ACCOUNTING_SETUP_ACCOUNTS = "accounting:setup_accounts",
@@ -162,18 +162,18 @@ export enum AccessibilityTypes {
     ACCOUNTING_SETUP_PARTICULAR_GROUP = "accounting:setup_particular group",
     ACCOUNTING_SETUP_TERMS = "accounting:setup_terms",
 
-    // Accounting Request
+    // ACCOUNTING REQUEST
     ACCOUNTING_REQUEST_GROUP = "accounting:request_",
     ACCOUNTING_REQUEST_PURCHASE_ORDER = "accounting:request_purchase order",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER = "accounting:request_non purchase order",
     ACCOUNTING_REQUEST_PRE_PAYROLL_AUDIT = "accounting:request_pre payroll audit",
 
-    // Accounting Voucher
+    // ACCOUNTING VOUCHERS
     ACCOUNTING_VOUCHER_GROUP = "accounting:voucher_",
     ACCOUNTING_VOUCHER_DISBURSEMENT = "accounting:voucher_disbursement",
     ACCOUNTING_VOUCHER_CASH = "accounting:voucher_cash",
 
-    // Accounting Journal
+    // ACCOUNTING JOURNAL ENTRY
     ACCOUNTING_JOURNAL_ENTRY = "accounting:journal_journal entry",
 
     // PROJECT MONITORING
