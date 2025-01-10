@@ -67,38 +67,38 @@ watch(
         <div class="p-2">
             <template v-if="loanReports.reportResult.params.report_type === 'employee'">
                 <HrmsReportsLoanReportsDefaultReportEmployee
-                    v-show="!LOAN_REPORTS.includes(loanReports.reportResult.params.loan_type)"
+                    v-if="!LOAN_REPORTS.includes(loanReports.reportResult.params.loan_type)"
                 />
                 <HrmsReportsLoanReportsSssLoanEmployeePayment
-                    v-show="loanReports.reportResult.params.loan_type === LOAN_SSS"
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_SSS"
                 />
                 <HrmsReportsLoanReportsHdmfLoanEmployeePayment
-                    v-show="loanReports.reportResult.params.loan_type === LOAN_HDMF_MPL
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_HDMF_MPL
                         || loanReports.reportResult.params.loan_type === LOAN_HDMF_MPL_LOAN"
                 />
                 <HrmsReportsLoanReportsCoopLoanEmployeePayment
-                    v-show="loanReports.reportResult.params.loan_type === LOAN_COOP"
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_COOP"
                 />
                 <HrmsReportsLoanReportsHdmfCalamityLoanEmployee
-                    v-show="loanReports.reportResult.params.loan_type === LOAN_CALAMITY"
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_CALAMITY"
                 />
             </template>
             <template v-else>
                 <HrmsReportsLoanReportsDefaultReportGroup
-                    v-show="!LOAN_REPORTS.includes(loanReports.reportResult.params.loan_type)"
+                    v-if="!LOAN_REPORTS.includes(loanReports.reportResult.params.loan_type)"
                 />
                 <HrmsReportsLoanReportsSssLoanEmployeeSummaryWithGroup
-                    v-show="loanReports.reportResult.params.loan_type === LOAN_SSS"
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_SSS"
                 />
                 <HrmsReportsLoanReportsHdmfLoanEmployeeSummaryWithGroup
-                    v-show="loanReports.reportResult.params.loan_type === LOAN_HDMF_MPL
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_HDMF_MPL
                         || loanReports.reportResult.params.loan_type === LOAN_HDMF_MPL_LOAN"
                 />
                 <HrmsReportsLoanReportsCoopLoanEmployeeSummaryWithGroup
-                    v-show="loanReports.reportResult.params.loan_type === LOAN_COOP"
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_COOP"
                 />
                 <HrmsReportsLoanReportsHdmfCalamityLoanGroup
-                    v-show="loanReports.reportResult.params.loan_type === LOAN_CALAMITY"
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_CALAMITY"
                 />
             </template>
         </div>

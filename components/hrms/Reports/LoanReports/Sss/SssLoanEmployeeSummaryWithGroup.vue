@@ -18,9 +18,16 @@ const generateReport = async () => {
         })
     }
 }
-const sssTotal = () => {
-    return loanReports.value.reportResult.list.reduce((accumulator, current) => {
-        return accumulator + current.total_group_amount
+const totalEmployeeAmount = () => {
+    return Object.values(loanReports.value.reportResult.list).reduce((accumulator, currentGroup) => {
+        return accumulator + currentGroup.summary.overall_total_payments
+    }, 0)
+}
+const totalOverallAmount = () => {
+    return Object.values(loanReports.value.reportResult.list).reduce((accumulator, currentGroup) => {
+        return accumulator + currentGroup.data.reduce((accumulator, currentEmployee) => {
+            return accumulator + currentEmployee.total_payments
+        }, 0)
     }, 0)
 }
 watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
@@ -110,40 +117,47 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                                 FULLNAME
                             </th>
                             <th class="border border-gray-500">
-                                PROJECT ID
+                                PROJECT/OFFICE ID
                             </th>
                             <th class="border border-gray-500">
                                 AMOUNT
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                TOTAL
+                                PROJECT/OFFICE TOTAL
                             </th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in loanReports.reportResult.list" :key="'sssemployeeremitance' + index" class="h-2">
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center font-bold">
-                                {{ index + 1 }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm">
-                                {{ reportData.fullname }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm">
-                                {{ reportData.payroll_record.charging_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ useFormatCurrency(reportData.total_amount) }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ useFormatCurrency(reportData.total_group_amount) }}
-                            </td>
-                        </tr>
+                        <template v-for="groupData, groupName, groupIndex in loanReports.reportResult.list" :key="'defaultreportProject' + groupIndex">
+                            <tr v-for="employeeData, employeeIndex in groupData.data" :key="'defaultreportProjectEmployee' + employeeIndex" class="h-2">
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ employeeIndex + groupIndex + 1 }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ employeeData.fullname }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ groupName }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ useFormatCurrency(employeeData.total_payments) }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    <template v-if="employeeIndex === groupData.data.length - 1">
+                                        {{ useFormatCurrency(groupData.summary.overall_total_payments) }}
+                                    </template>
+                                </td>
+                            </tr>
+                        </template>
                         <tr>
-                            <td colspan="4" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                            <td colspan="3" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(sssTotal()) }}
+                                {{ useFormatCurrency(totalEmployeeAmount()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                                {{ useFormatCurrency(totalOverallAmount()) }}
                             </td>
                         </tr>
                     </tbody>
