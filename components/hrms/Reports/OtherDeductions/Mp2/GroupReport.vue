@@ -18,9 +18,16 @@ const generateReport = async () => {
         })
     }
 }
-const totalCoop = () => {
-    return otherDeductionReports.value.reportResult.list.reduce((accumulator, current) => {
-        return accumulator + current.total_payments
+const totalEmployeeAmount = () => {
+    return Object.values(otherDeductionReports.value.reportResult.list).reduce((accumulator, currentGroup) => {
+        return accumulator + currentGroup.summary.overall_total_payments
+    }, 0)
+}
+const totalOverallAmount = () => {
+    return Object.values(otherDeductionReports.value.reportResult.list).reduce((accumulator, currentGroup) => {
+        return accumulator + currentGroup.data.reduce((accumulator, currentEmployee) => {
+            return accumulator + currentEmployee.total_payments
+        }, 0)
     }, 0)
 }
 watch(() => otherDeductionReports.value.reportResult.params.month_year, (newValue) => {
@@ -130,41 +137,45 @@ watch(() => otherDeductionReports.value.reportResult.params.month_year, (newValu
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in otherDeductionReports.reportResult.list" :key="'coopemployeesummarygroup' + index" class="h-2">
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center font-bold">
-                                {{ index + 1 }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm">
-                                {{ reportData.last_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm">
-                                {{ reportData.first_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm">
-                                {{ reportData.suffix_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm">
-                                {{ reportData.middle_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm">
-                                {{ reportData.payroll_record.charging_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ useFormatCurrency(reportData.amount) }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ useFormatCurrency(reportData.total_payments) }}
-                            </td>
-                        </tr>
+                        <template v-for="groupData, groupName, groupIndex in otherDeductionReports.reportResult.list" :key="'mp2reportProject' + groupIndex">
+                            <tr v-for="employeeData, employeeIndex in groupData.data" :key="'mp2reportProjectEmployee' + employeeIndex" class="h-2">
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ Object.values(otherDeductionReports.reportResult.list).slice(0, groupIndex).reduce((acc, curr) => acc + curr.data.length, 0) + employeeIndex + 1 }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm">
+                                    {{ employeeData.last_name }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm">
+                                    {{ employeeData.first_name }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm">
+                                    {{ employeeData.suffix_name }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm">
+                                    {{ employeeData.middle_name }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ groupName }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ useFormatCurrency(employeeData.total_payments) }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    <template v-if="employeeIndex === groupData.data.length - 1">
+                                        {{ useFormatCurrency(groupData.summary.overall_total_payments) }}
+                                    </template>
+                                </td>
+                            </tr>
+                        </template>
                         <tr>
-                            <td colspan="6" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                            <td colspan="3" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(totalCoop()) }}
+                                {{ useFormatCurrency(totalEmployeeAmount()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(totalCoop()) }}
+                                {{ useFormatCurrency(totalOverallAmount()) }}
                             </td>
                         </tr>
                     </tbody>
