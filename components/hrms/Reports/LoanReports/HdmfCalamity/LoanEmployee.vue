@@ -18,7 +18,7 @@ const generateReport = async () => {
         })
     }
 }
-const pagibigTotal = () => {
+const totalHdmfCalamity = () => {
     return loanReports.value.reportResult.list.reduce((accumulator, current) => {
         return accumulator + current.total_payments
     }, 0)
@@ -31,7 +31,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
 })
 </script>
 <template>
-    <LayoutBoards title="HDMF MPL LOAN PAYMENT" :loading="loanReports.reportResult.isLoading">
+    <LayoutBoards title="HDMF CALAMITY LOAN PAYMENT" :loading="loanReports.reportResult.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
             <LayoutFormPsMonthYearInput v-model="loanReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
             <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
@@ -89,7 +89,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        HDMF MPL LOAN PAYMENT
+                        HDMF CALAMITY LOAN PAYMENTS
                     </span>
                     <span class="text-xl text-black text-left">
                         FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(loanReports.reportResult.params.filter_month) }} {{ loanReports.reportResult.params.filter_year }}</span>
@@ -128,7 +128,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in loanReports.reportResult.list" :key="'hdmfemployeeloanpayment' + index" class="h-2">
+                        <tr v-for="reportData, index in loanReports.reportResult.list" :key="'hdmfCalamityEmployeeLoan' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.pagibig_id }}
                             </td>
@@ -158,11 +158,11 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="8" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                            <td colspan="7" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(pagibigTotal()) }}
+                                {{ useFormatCurrency(totalHdmfCalamity()) }}
                             </td>
                         </tr>
                     </tbody>

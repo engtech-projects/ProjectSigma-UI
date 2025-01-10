@@ -18,9 +18,16 @@ const generateReport = async () => {
         })
     }
 }
-const pagibigTotal = () => {
-    return loanReports.value.reportResult.list.reduce((accumulator, current) => {
-        return accumulator + current.total_payments
+const totalEmployeeAmount = () => {
+    return Object.values(loanReports.value.reportResult.list).reduce((accumulator, currentGroup) => {
+        return accumulator + currentGroup.summary.overall_total_payments
+    }, 0)
+}
+const totalOverallAmount = () => {
+    return Object.values(loanReports.value.reportResult.list).reduce((accumulator, currentGroup) => {
+        return accumulator + currentGroup.data.reduce((accumulator, currentEmployee) => {
+            return accumulator + currentEmployee.total_payments
+        }, 0)
     }, 0)
 }
 watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
@@ -31,7 +38,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
 })
 </script>
 <template>
-    <LayoutBoards title="HDMF MPL LOAN PAYMENT" :loading="loanReports.reportResult.isLoading">
+    <LayoutBoards title="HDMF CALAMITY LOAN PAYMENT" :loading="loanReports.reportResult.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
             <LayoutFormPsMonthYearInput v-model="loanReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
             <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
@@ -89,80 +96,92 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        HDMF MPL LOAN PAYMENT
+                        HDMF CALAMITY LOAN PAYMENT
                     </span>
                     <span class="text-xl text-black text-left">
                         FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(loanReports.reportResult.params.filter_month) }} {{ loanReports.reportResult.params.filter_year }}</span>
                     </span>
                 </div>
+                <div>
+                    <p class="font-bold text-lg">
+                        SUMMARY
+                    </p>
+                </div>
                 <table class="printTable border border-gray-500 mb-20">
                     <thead class="text-black text-md">
-                        <tr class="py-4">
-                            <th rowspan="3" class="py-4 border-gray-500">
-                                PAGIBIG ID / RTN
+                        <tr class="py-2">
+                            <th class="border-gray-500">
+                                NO.
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
-                                APPLICATION NO
-                            </th>
-                            <th rowspan="3" class="border border-gray-500">
+                            <th class="border border-gray-500">
                                 LAST NAME
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
+                            <th class="border border-gray-500">
                                 FIRST NAME
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
+                            <th class="border border-gray-500">
                                 NAME EXT
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
-                                MIDDLE NAME
+                            <th class="border border-gray-500">
+                                MID NAME
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
+                            <th class="border border-gray-500">
                                 LOAN TYPE
                             </th>
-                            <th rowspan="3" class="border border-gray-500">
+                            <th class="border border-gray-500">
+                                PROJECT/OFFICE ID
+                            </th>
+                            <th class="border border-gray-500">
                                 AMOUNT
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                PERCOV
+                                PROJECT/OFFICE TOTAL
                             </th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in loanReports.reportResult.list" :key="'hdmfemployeeloanpayment' + index" class="h-2">
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.pagibig_id }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                -
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.last_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.first_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.suffix_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.middle_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.loan_type }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ useFormatCurrency(reportData.total_payments) }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.percov }}
-                            </td>
-                        </tr>
+                        <template v-for="groupData, groupName, groupIndex in loanReports.reportResult.list" :key="'defaultreportProject' + groupIndex">
+                            <tr v-for="employeeData, employeeIndex in groupData.data" :key="'defaultreportProjectEmployee' + employeeIndex" class="h-2">
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ Object.values(loanReports.reportResult.list).slice(0, groupIndex).reduce((acc, curr) => acc + curr.data.length, 0) + employeeIndex + 1 }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ employeeData.last_name }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ employeeData.first_name }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ employeeData.suffix }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ employeeData.middle_name }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ employeeData.loan_type }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ groupName }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    {{ useFormatCurrency(employeeData.total_payments) }}
+                                </td>
+                                <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                    <template v-if="employeeIndex === groupData.data.length - 1">
+                                        {{ useFormatCurrency(groupData.summary.overall_total_payments) }}
+                                    </template>
+                                </td>
+                            </tr>
+                        </template>
                         <tr>
-                            <td colspan="8" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                            <td colspan="3" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(pagibigTotal()) }}
+                                {{ useFormatCurrency(totalEmployeeAmount()) }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
+                                {{ useFormatCurrency(totalOverallAmount()) }}
                             </td>
                         </tr>
                     </tbody>

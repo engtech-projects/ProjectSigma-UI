@@ -1,41 +1,41 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { hdmfCalamityEmployeeLoan } = storeToRefs(generateReportstore)
+const { otherDeductionReports } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        await generateReportstore.getHdmfCalamityEmployeeLoan()
+        await generateReportstore.getOtherDeductionReport()
         snackbar.add({
             type: "success",
-            text: hdmfCalamityEmployeeLoan.value.successMessage
+            text: otherDeductionReports.value.reportResult.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: hdmfCalamityEmployeeLoan.value.errorMessage || "something went wrong."
+            text: otherDeductionReports.value.reportResult.errorMessage || "something went wrong."
         })
     }
 }
-const totalHdmfCalamity = () => {
-    return hdmfCalamityEmployeeLoan.value.list.reduce((accumulator, current) => {
+const totalDefaultAmount = () => {
+    return otherDeductionReports.value.reportResult.list.reduce((accumulator, current) => {
         return accumulator + current.total_payments
     }, 0)
 }
-watch(() => hdmfCalamityEmployeeLoan.value.params.month_year, (newValue) => {
+watch(() => otherDeductionReports.value.reportResult.params.month_year, (newValue) => {
     if (newValue) {
-        hdmfCalamityEmployeeLoan.value.params.filter_month = newValue.month + 1
-        hdmfCalamityEmployeeLoan.value.params.filter_year = newValue.year
+        otherDeductionReports.value.reportResult.params.filter_month = newValue.month + 1
+        otherDeductionReports.value.reportResult.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards title="HDMF CALAMITY Loan Payments" :loading="hdmfCalamityEmployeeLoan.isLoading">
+    <LayoutBoards :title="otherDeductionReports.reportResult.params.loan_type + ' PAYMENT'" :loading="otherDeductionReports.reportResult.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="hdmfCalamityEmployeeLoan.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="hdmfCalamityEmployeeLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="hdmfCalamityEmployeeLoan.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="otherDeductionReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="otherDeductionReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="otherDeductionReports.reportResult.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -46,14 +46,6 @@ watch(() => hdmfCalamityEmployeeLoan.value.params.month_year, (newValue) => {
         <LayoutPrint>
             <div class="flex flex-col">
                 <div class="header flex flex-col  mb-8">
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Employer ID:
-                        </span>
-                        <span class="text-md font-bold flex-5">
-                            80-0191406-1-000
-                        </span>
-                    </div>
                     <div class="flex gap-4">
                         <span class="text-md flex-1">
                             Employer Name:
@@ -89,35 +81,23 @@ watch(() => hdmfCalamityEmployeeLoan.value.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        HDMF CALAMITY LOAN PAYMENTS
+                        {{ otherDeductionReports.reportResult.params.loan_type }} PAYMENTS
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(hdmfCalamityEmployeeLoan.params.filter_month) }} {{ hdmfCalamityEmployeeLoan.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(otherDeductionReports.reportResult.params.filter_month) }} {{ otherDeductionReports.reportResult.params.filter_year }}</span>
                     </span>
                 </div>
                 <table class="printTable border border-gray-500 mb-20">
                     <thead class="text-black text-md">
                         <tr class="py-4">
-                            <th rowspan="3" class="py-4 border-gray-500">
-                                PAGIBIG ID / RTN
+                            <th rowspan="3" class="border border-gray-500">
+                                NO.
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                LAST NAME
-                            </th>
-                            <th rowspan="3" class="border border-gray-500">
-                                FIRST NAME
-                            </th>
-                            <th rowspan="3" class="border border-gray-500">
-                                NAME EXT
-                            </th>
-                            <th rowspan="3" class="border border-gray-500">
-                                MIDDLE NAME
+                                FULL NAME
                             </th>
                             <th rowspan="3" class="border border-gray-500">
                                 LOAN TYPE
-                            </th>
-                            <th rowspan="3" class="border border-gray-500">
-                                PROJECT ID
                             </th>
                             <th rowspan="3" class="border border-gray-500">
                                 AMOUNT
@@ -125,41 +105,26 @@ watch(() => hdmfCalamityEmployeeLoan.value.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in hdmfCalamityEmployeeLoan.list" :key="'hdmfCalamityEmployeeLoan' + index" class="h-2">
+                        <tr v-for="reportData, index in otherDeductionReports.reportResult.list" :key="'defaultreportemployee' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.employee_pagibig_no }}
+                                {{ index + 1 }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                -
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.last_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.first_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.suffix_name }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.middle_name }}
+                                {{ reportData.fullname }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.loan_type }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.total_payments }}
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.percov }}
+                                {{ useFormatCurrency(reportData.total_payments) }}
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="7" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
+                            <td colspan="2" class="border border-gray-500 h-8 px-2 font-bold text-sm text-left">
                                 TOTAL AMOUNT DUE
                             </td>
                             <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(totalHdmfCalamity()) }}
+                                {{ useFormatCurrency(totalDefaultAmount()) }}
                             </td>
                         </tr>
                     </tbody>

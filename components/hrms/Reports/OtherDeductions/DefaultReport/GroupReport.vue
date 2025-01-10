@@ -1,48 +1,48 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { loanReports } = storeToRefs(generateReportstore)
+const { otherDeductionReports } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        await generateReportstore.getLoanReport()
+        await generateReportstore.getOtherDeductionReport()
         snackbar.add({
             type: "success",
-            text: loanReports.value.reportResult.successMessage
+            text: otherDeductionReports.value.reportResult.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: loanReports.value.reportResult.errorMessage || "something went wrong."
+            text: otherDeductionReports.value.reportResult.errorMessage || "something went wrong."
         })
     }
 }
 const totalEmployeeAmount = () => {
-    return Object.values(loanReports.value.reportResult.list).reduce((accumulator, currentGroup) => {
+    return Object.values(otherDeductionReports.value.reportResult.list).reduce((accumulator, currentGroup) => {
         return accumulator + currentGroup.summary.overall_total_payments
     }, 0)
 }
 const totalOverallAmount = () => {
-    return Object.values(loanReports.value.reportResult.list).reduce((accumulator, currentGroup) => {
+    return Object.values(otherDeductionReports.value.reportResult.list).reduce((accumulator, currentGroup) => {
         return accumulator + currentGroup.data.reduce((accumulator, currentEmployee) => {
             return accumulator + currentEmployee.total_payments
         }, 0)
     }, 0)
 }
-watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
+watch(() => otherDeductionReports.value.reportResult.params.month_year, (newValue) => {
     if (newValue) {
-        loanReports.value.reportResult.params.filter_month = newValue.month + 1
-        loanReports.value.reportResult.params.filter_year = newValue.year
+        otherDeductionReports.value.reportResult.params.filter_month = newValue.month + 1
+        otherDeductionReports.value.reportResult.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards :title="loanReports.reportResult.params.loan_type + ' PAYMENT'" :loading="loanReports.reportResult.isLoading">
+    <LayoutBoards :title="otherDeductionReports.reportResult.params.loan_type + ' PAYMENT'" :loading="otherDeductionReports.reportResult.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="loanReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="otherDeductionReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="otherDeductionReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="otherDeductionReports.reportResult.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -53,14 +53,6 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
         <LayoutPrint>
             <div class="flex flex-col">
                 <div class="header flex flex-col  mb-8">
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Employer ID:
-                        </span>
-                        <span class="text-md font-bold flex-5">
-                            80-0191406-1-000
-                        </span>
-                    </div>
                     <div class="flex gap-4">
                         <span class="text-md flex-1">
                             Employer Name:
@@ -96,10 +88,10 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                 </div>
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        {{ loanReports.reportResult.params.loan_type }} PAYMENT
+                        {{ otherDeductionReports.reportResult.params.loan_type }} REPORT (GROUP)
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(loanReports.reportResult.params.filter_month) }} {{ loanReports.reportResult.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(otherDeductionReports.reportResult.params.filter_month) }} {{ otherDeductionReports.reportResult.params.filter_year }}</span>
                     </span>
                 </div>
                 <div>
@@ -111,30 +103,27 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                     <thead class="text-black text-md">
                         <tr class="py-2">
                             <th rowspan="3" class="border border-gray-500">
-                                NO.
+                                FULL NAME
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                FULLNAME
-                            </th>
-                            <th rowspan="3" class="border border-gray-500">
-                                PROJECT/OFFICE
+                                EMPLOYEE/GROUP
                             </th>
                             <th rowspan="3" class="border border-gray-500">
                                 AMOUNT
                             </th>
                             <th rowspan="3" class="border border-gray-500">
-                                PROJECT/OFFICE TOTAL
+                                TOTAL
                             </th>
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <template v-for="groupData, groupName, groupIndex in loanReports.reportResult.list" :key="'defaultreportProject' + groupIndex">
+                        <template v-for="groupData, groupName, groupIndex in otherDeductionReports.reportResult.list" :key="'defaultreportProject' + groupIndex">
                             <tr v-for="employeeData, employeeIndex in groupData.data" :key="'defaultreportProjectEmployee' + employeeIndex" class="h-2">
                                 <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                    {{ Object.values(loanReports.reportResult.list).slice(0, groupIndex).reduce((acc, curr) => acc + curr.data.length, 0) + employeeIndex + 1 }}
+                                    {{ Object.values(otherDeductionReports.reportResult.list).slice(0, groupIndex).reduce((acc, curr) => acc + curr.data.length, 0) + employeeIndex + 1 }}
                                 </td>
                                 <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                    {{ employeeData.fullname }}
+                                    {{ employeeData.employee.fullname_last }}
                                 </td>
                                 <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                     {{ groupName }}

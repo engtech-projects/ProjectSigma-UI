@@ -20,6 +20,9 @@ defineProps({
         <HrmsReportsLoanReportsTemplate
             v-show="selectedReport==='Report4'"
         />
+        <HrmsReportsOtherDeductionsReportsTemplate
+            v-show="selectedReport==='Report5'"
+        />
         <HrmsReportsPhicRemittanceSummary
             v-show="selectedReport==='Report6'"
         />

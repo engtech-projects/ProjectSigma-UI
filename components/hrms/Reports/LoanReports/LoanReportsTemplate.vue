@@ -1,9 +1,32 @@
 <script setup>
-import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
+import {
+    useGenerateReportStore,
+    LOAN_REPORTS,
+    LOAN_HDMF_MPL,
+    LOAN_HDMF_MPL_LOAN,
+    LOAN_COOP,
+    LOAN_SSS,
+    LOAN_CALAMITY
+} from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { loanReportOption, loanCategoryList } = storeToRefs(generateReportstore)
+const { loanReports } = storeToRefs(generateReportstore)
 await generateReportstore.getLoanCategoryList()
-
+watch(
+    () => loanReports.value.reportResult.params.report_type,
+    (newValue, oldValue) => {
+        if (newValue !== oldValue) {
+            loanReports.value.reportResult.list = []
+        }
+    }
+)
+watch(
+    () => loanReports.value.reportResult.params.loan_type,
+    (newValue, oldValue) => {
+        if (newValue !== oldValue) {
+            loanReports.value.reportResult.list = []
+        }
+    }
+)
 </script>
 <template>
     <LayoutBoards title="Loan Reports">
@@ -13,13 +36,13 @@ await generateReportstore.getLoanCategoryList()
                     Loan Type:
                 </span>
                 <select
-                    v-model="loanReportOption.loan_type"
+                    v-model="loanReports.reportResult.params.loan_type"
                     class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                     <option value="" disabled selected>
                         -Select-
                     </option>
-                    <option v-for="category in loanCategoryList.list" :key="category.id" :value="category.name">
+                    <option v-for="category in loanReports.categoryList.list" :key="category.id" :value="category.name">
                         {{ category.name }}
                     </option>
                 </select>
@@ -29,7 +52,7 @@ await generateReportstore.getLoanCategoryList()
                     Report Type:
                 </span>
                 <select
-                    v-model="loanReportOption.report_type"
+                    v-model="loanReports.reportResult.params.report_type"
                     class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
                     <option value="employee">
@@ -42,44 +65,42 @@ await generateReportstore.getLoanCategoryList()
             </div>
         </div>
         <div class="p-2">
-            <HrmsReportsLoanReportsSssLoanEmployeePayment
-                v-show="loanReportOption.loan_type === 'SSS LOAN'
-                    && loanReportOption.report_type === 'employee'"
-            />
-            <HrmsReportsLoanReportsSssLoanEmployeeSummaryWithGroup
-                v-show="loanReportOption.loan_type === 'SSS LOAN'
-                    && loanReportOption.report_type === 'summary-with-group'"
-            />
-            <HrmsReportsLoanReportsHdmfLoanEmployeePayment
-                v-show="loanReportOption.loan_type === 'HDMF MPL LOAN'
-                    || loanReportOption.loan_type === 'HDMF MPL'
-                    && loanReportOption.report_type === 'employee'"
-            />
-            <HrmsReportsLoanReportsHdmfLoanEmployeeSummaryWithGroup
-                v-show="loanReportOption.loan_type === 'HDMF MPL LOAN'
-                    || loanReportOption.loan_type === 'HDMF MPL'
-                    && loanReportOption.report_type === 'summary-with-group'"
-            />
-            <HrmsReportsLoanReportsCoopLoanEmployeePayment
-                v-show="loanReportOption.loan_type === 'COOP LOAN'
-                    && loanReportOption.report_type === 'employee'"
-            />
-            <HrmsReportsLoanReportsDefaultReportEmployee
-                v-show="!['SSS LOAN', 'HDMF MPL LOAN', 'HDMF MPL', 'COOP LOAN'].includes(loanReportOption.loan_type)
-                    && loanReportOption.report_type === 'employee'"
-            />
-            <HrmsReportsLoanReportsDefaultReportGroup
-                v-show="!['SSS LOAN', 'HDMF MPL LOAN', 'HDMF MPL', 'COOP LOAN'].includes(loanReportOption.loan_type)
-                    && loanReportOption.report_type === 'summary-with-group'"
-            />
-            <HrmsReportsHdmfCalamityLoanEmployee
-                v-show="loanReportOption.loan_type === 'CALAMITY LOAN'
-                    && loanReportOption.report_type === 'employee'"
-            />
-            <HrmsReportsHdmfCalamityLoanGroup
-                v-show="loanReportOption.loan_type === 'CALAMITY LOAN'
-                    && loanReportOption.report_type === 'summary-with-group'"
-            />
+            <template v-if="loanReports.reportResult.params.report_type === 'employee'">
+                <HrmsReportsLoanReportsDefaultReportEmployee
+                    v-if="!LOAN_REPORTS.includes(loanReports.reportResult.params.loan_type)"
+                />
+                <HrmsReportsLoanReportsSssLoanEmployeePayment
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_SSS"
+                />
+                <HrmsReportsLoanReportsHdmfLoanEmployeePayment
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_HDMF_MPL
+                        || loanReports.reportResult.params.loan_type === LOAN_HDMF_MPL_LOAN"
+                />
+                <HrmsReportsLoanReportsCoopLoanEmployeePayment
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_COOP"
+                />
+                <HrmsReportsLoanReportsHdmfCalamityLoanEmployee
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_CALAMITY"
+                />
+            </template>
+            <template v-else>
+                <HrmsReportsLoanReportsDefaultReportGroup
+                    v-if="!LOAN_REPORTS.includes(loanReports.reportResult.params.loan_type)"
+                />
+                <HrmsReportsLoanReportsSssLoanEmployeeSummaryWithGroup
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_SSS"
+                />
+                <HrmsReportsLoanReportsHdmfLoanEmployeeSummaryWithGroup
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_HDMF_MPL
+                        || loanReports.reportResult.params.loan_type === LOAN_HDMF_MPL_LOAN"
+                />
+                <HrmsReportsLoanReportsCoopLoanEmployeeSummaryWithGroup
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_COOP"
+                />
+                <HrmsReportsLoanReportsHdmfCalamityLoanGroup
+                    v-if="loanReports.reportResult.params.loan_type === LOAN_CALAMITY"
+                />
+            </template>
         </div>
     </LayoutBoards>
 </template>
