@@ -17,12 +17,12 @@ const received = async () => {
         await voucher.cashReceived()
         snackbar.add({
             type: "success",
-            text: voucher.value.successMessage
+            text: voucher.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: voucher.value.errorMessage
+            text: voucher.errorMessage
         })
     }
 }

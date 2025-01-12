@@ -30,12 +30,12 @@ const voucherStore = useVoucherStore()
                         target-id="myRequestList"
                     />
                     <AccountingCommonTabsTabTitle
-                        title="For Clearing/Settling Cash Vouchers"
-                        target-id="forClearing"
+                        title="Cleared/Settled"
+                        target-id="cleared"
                     />
                     <AccountingCommonTabsTabTitle
-                        title="Cleared/Settled Cash Vouchers"
-                        target-id="cleared"
+                        title="For Clearing/Settling"
+                        target-id="forClearing"
                     />
                     <AccountingCommonTabsTabTitle
                         title="For Cash Voucher"
@@ -52,11 +52,11 @@ const voucherStore = useVoucherStore()
                     <AccountingCommonTabsTabContainer id="myRequestList">
                         <AccountingVoucherCashMyRequestList />
                     </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="forClearing">
-                        <AccountingVoucherCashClearingList />
-                    </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="cleared">
                         <AccountingVoucherCashClearedList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="forClearing">
+                        <AccountingVoucherCashClearingList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="forVoucher">
                         <AccountingVoucherCashForVoucherList />
