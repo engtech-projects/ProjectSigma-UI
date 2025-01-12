@@ -1,12 +1,13 @@
 <script setup>
-import { storeToRefs } from "pinia"
 import { useAccountStore } from "@/stores/accounting/setup/account"
 import { useAccountTypeStore } from "@/stores/accounting/setup/accounttype"
+import { useReportGroupStore } from "@/stores/accounting/setup/reportgroup"
 
 const accountStore = useAccountStore()
 const accountTypeStore = useAccountTypeStore()
+const reportGroupStore = useReportGroupStore()
 accountTypeStore.getAccountTypes()
-const { isEdit } = storeToRefs(accountStore)
+reportGroupStore.getReportGroups()
 accountStore.getAccounts()
 
 useHead({

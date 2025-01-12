@@ -1,50 +1,35 @@
 import { defineStore } from "pinia"
 
-export const useAccountStore = defineStore("useAccountStore", {
+export const useReportGroupStore = defineStore("reportGroupStore", {
     state: () => ({
-        account: {
+        reportGroup: {
             id: null,
-            account_number: null,
-            account_name: null,
-            account_type_id: null,
-            account_description: null,
-            report_group_id: null,
-            bank_reconciliation: "yes",
-            is_active: 1,
-            statement: null,
+            name: null,
+            description: null
         },
         list: [],
-        chart: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
-        isLoading: {
-            list: false,
-            chart: false,
-            show: false,
-            edit: false,
-            delete: false
-        },
+        isLoading: false,
         isEdit: false
     }),
-
     actions: {
-        async getAccounts () {
-            this.isLoading.list = true
+        async getReportGroups () {
+            this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/accounts",
+                "/api/report-group",
                 {
                     method: "GET",
                     params: this.getParams,
-                    watch: false,
                     onResponse: ({ response }) => {
-                        this.isLoading.list = false
-                        this.list = response._data.data.data
+                        this.isLoading = false
+                        this.list = response._data.data
                         this.pagination = {
-                            first_page: response._data.data.links.first,
-                            pages: response._data.data.meta.links,
-                            last_page: response._data.data.links.last,
+                            first_page: response._data.first_page_url,
+                            pages: response._data.links,
+                            last_page: response._data.last_page_url,
                         }
                     },
                 }
@@ -56,17 +41,14 @@ export const useAccountStore = defineStore("useAccountStore", {
             }
         },
 
-        async getChart () {
-            this.isLoading.chart = true
+        async showAccountGroup (id:any) {
             const { data, error } = await useAccountingApi(
-                "/api/chart-of-accounts",
+                "/api/account-group/" + id,
                 {
                     method: "GET",
                     params: this.getParams,
-                    watch: false,
                     onResponse: ({ response }) => {
-                        this.isLoading.chart = false
-                        this.chart = response._data.data
+                        this.accountGroup = response._data
                     },
                 }
             )
@@ -77,21 +59,21 @@ export const useAccountStore = defineStore("useAccountStore", {
             }
         },
 
-        async createAccount () {
+        async createAccountGroup () {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/accounts",
+                "/api/account-group",
                 {
                     method: "POST",
-                    body: this.account,
+                    body: this.accountGroup,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getAccounts()
-                            this.reset()
+                            this.getReportGroups()
+                            // this.reset()
                             this.successMessage = response._data.message
                         }
                     },
@@ -99,19 +81,19 @@ export const useAccountStore = defineStore("useAccountStore", {
             )
         },
 
-        async editAccount () {
+        async editAccountGroup () {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/accounts/" + this.account.id,
+                "/api/account-group/" + this.accountGroup.id,
                 {
-                    method: "PUT",
-                    body: this.account,
+                    method: "PATCH",
+                    body: this.accountGroup,
                     watch: false,
                 }
             )
             if (data.value) {
-                this.getAccounts()
+                this.getReportGroups()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -120,23 +102,30 @@ export const useAccountStore = defineStore("useAccountStore", {
             }
         },
 
-        async deleteAccount (id) {
-            this.successMessage = ""
-            this.errorMessage = ""
+        async deleteAccountGroup (id: number) {
+            this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/accounts/" + id,
+                "/api/account-group/" + id,
                 {
                     method: "DELETE",
-                    body: this.account,
+                    body: this.accountGroup,
                     watch: false,
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        if (response._data.success) {
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
+                    },
                 }
             )
             if (data.value) {
-                this.getAccounts()
+                this.getReportGroups()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
-                this.errorMessage = error.value.data.message
+                this.errorMessage = "Something went wrong"
                 return error
             }
         },
@@ -147,15 +136,9 @@ export const useAccountStore = defineStore("useAccountStore", {
         },
 
         reset () {
-            this.account = {
+            this.accountGroup = {
                 id: null,
-                account_number: null,
-                account_name: null,
-                account_type_id: null,
-                account_description: null,
-                bank_reconciliation: "yes",
-                is_active: 1,
-                statement: null,
+                name: null,
             }
             this.successMessage = ""
             this.errorMessage = ""
