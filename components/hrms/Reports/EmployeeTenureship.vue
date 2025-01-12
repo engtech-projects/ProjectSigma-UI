@@ -3,6 +3,7 @@ import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { EmployeeTenureshipList } = storeToRefs(generateReportstore)
 await generateReportstore.getEmployeeTenureshipList()
+const grouptype = ref(null)
 </script>
 <template>
     <div class="flex flex-col">
@@ -13,23 +14,12 @@ await generateReportstore.getEmployeeTenureshipList()
                 </span>
             </div>
             <div class="flex gap-4 flex-row items-center max-w-sm">
-                <span class="text-md flex-1">
-                    CATEGORY
-                </span>
-                <select
-                    v-model="EmployeeTenureshipList.params.type"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                >
-                    <option value="all" selected>
-                        All
-                    </option>
-                    <option value="Project">
-                        Project
-                    </option>
-                    <option value="Department">
-                        Department
-                    </option>
-                </select>
+                <HrmsCommonDepartmentProjectSelector
+                    v-model:select-type="grouptype"
+                    v-model:department-id="EmployeeTenureshipList.params.department_id"
+                    v-model:project-id="EmployeeTenureshipList.params.project_id"
+                    title="Category"
+                />
             </div>
         </div>
         <table class="printTable border border-gray-500 mb-20">
