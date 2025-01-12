@@ -152,7 +152,7 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <tr v-for="(detail, i) in entryData?.details" :key="detail.id">
+                                <tr v-for="detail in entryData?.details" :key="detail.id">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-700">
                                             {{ detail?.journal_type ?? "-" }}
@@ -170,7 +170,7 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-700">
-                                            {{ detail?.voucher_date ?? "-" }}
+                                            {{ detail?.voucher?.date_encoded ?? "-" }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -249,11 +249,8 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div v-if="i === 0" class="text-sm text-gray-700">
-                                            {{ useFormatCurrency(detail?.net_amount) ?? "-" }}
-                                        </div>
-                                        <div v-else class="text-sm text-gray-700">
-                                            -
+                                        <div class="text-sm text-gray-700">
+                                            {{ useFormatCurrency(entryData?.payment_request?.total) ?? "-" }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -262,16 +259,13 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div v-if="i === 0" class="text-sm text-gray-700">
-                                            {{ detail?.status ?? "-" }}
-                                        </div>
-                                        <div v-else class="text-sm text-gray-700">
-                                            -
+                                        <div class="text-sm text-gray-700">
+                                            {{ entryData?.status ?? "-" }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-700">
-                                            {{ detail?.remarks ?? "-" }}
+                                            {{ entryData?.remarks ?? "-" }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
