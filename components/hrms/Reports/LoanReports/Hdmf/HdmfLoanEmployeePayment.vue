@@ -51,7 +51,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                             Employer ID:
                         </span>
                         <span class="text-md font-bold flex-5">
-                            80-0191406-1-000
+                            209658570002
                         </span>
                     </div>
                     <div class="flex gap-4">
