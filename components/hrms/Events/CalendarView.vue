@@ -126,7 +126,7 @@ export default {
                     method: "GET",
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.eventsList = response._data.data.data
+                            this.eventsList = response._data.data
                             this.loadEvents(this.eventsList)
                         } else {
                             this.errorMessage = response._data.message
