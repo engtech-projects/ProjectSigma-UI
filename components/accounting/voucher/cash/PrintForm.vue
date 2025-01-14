@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { data: userData } = useAuth()
 const props = defineProps({
     data: {
         type: Object,
@@ -26,59 +27,53 @@ const totalCredit = computed(() => {
 
 <template>
     <div id="toPrint" class="bg-white left-0 top-0 w-screen min-h-[1000px] max-w-[100%] p-12">
-        <div class="flex flex-col gap-10 pb-24 pt-8 relative border-2 border-black min-h-[1200px]">
-            <AccountingCommonEvenparHeader class="mb-16 border-b-2 border-teal-500 pb-2" />
-            <h1 class="text-2xl text-center font-bold">
-                CASH VOUCHER
+        <div class="flex flex-col gap-2 pb-24 pt-8 relative border-2 border-black min-h-[1200px]">
+            <AccountingCommonEvenparHeader class="pb-2" />
+            <h1 class="text-2xl text-center font-bold text-block border-b-2 pb-2 border-black">
+                DISBURSEMENT VOUCHER/CASH VOUCHER
             </h1>
             <div class="flex flex-col gap-2">
                 <div class="flex justify-end gap-4 mb-4">
                     <h3 class="font-bold">
-                        REFERENCE:
+                        REFERENCE NO.
                     </h3>
-                    <span class="border-b border-gray-800">
+                    <span class="border-b-2 border-gray-800">
                         {{ props.data?.reference_no }}
+                    </span>
+                </div>
+                <div class="flex justify-end gap-4 mb-4 mr-[330px]">
+                    <h3 class="font-bold text-2xl">
+                        Check No.
+                    </h3>
+                    <span class="border-b-2 border-gray-800">
+                        {{ props.data?.check_no }}
                     </span>
                 </div>
                 <table class="border border-black">
                     <tbody>
                         <tr>
-                            <td class="withBg border border-black pl-2 py-1 text-sm bg-blue-300">
+                            <td class="withBg border border-black pl-2 py-2 text-sm bg-blue-300">
                                 PAYEE :
                             </td>
                             <td class="border border-black pl-2 py-1 text-sm">
                                 {{ data.stakeholder_id }}
                             </td>
-                            <td class="withBg border border-black pl-2 py-1 text-sm bg-blue-300">
-                                ENCODED DATE :
+                            <td class="withBg border border-black pl-2 py-2 text-sm bg-blue-300">
+                                DATE :
                             </td>
                             <td class="border border-black pl-2 py-1 text-sm">
                                 {{ dateToString(new Date(data.date_encoded)) }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="withBg border border-black pl-2 py-1 text-sm bg-blue-300">
+                            <td class="withBg border border-black pl-2 py-2 text-sm bg-blue-300">
                                 PARTICULARS :
                             </td>
                             <td class="border border-black pl-2 py-1 text-sm">
                                 {{ data.particulars }}
                             </td>
-                            <td class="withBg border border-black pl-2 py-1 text-sm bg-blue-300">
-                                ENTRY DATE :
-                            </td>
-                            <td class="border border-black pl-2 py-1 text-sm">
-                                {{ dateToString(new Date(data.voucher_date)) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="withBg border border-black pl-2 py-1 text-sm bg-blue-300">
-                                AMOUNT IN WORDS :
-                            </td>
-                            <td class="border border-black pl-2 py-1 text-sm">
-                                {{ amountToWords(data.net_amount) }}
-                            </td>
-                            <td class="withBg border border-black pl-2 py-1 text-sm bg-blue-300">
-                                ENCODED DATE :
+                            <td class="withBg border border-black pl-2 py-2 text-sm bg-blue-300">
+                                AMOUNT
                             </td>
                             <td class="border border-black pl-2 py-1 text-sm">
                                 {{ formatToCurrency(data.net_amount) }}
@@ -89,26 +84,26 @@ const totalCredit = computed(() => {
             </div>
             <div class="flex flex-col gap-4 h-full">
                 <div class="flex flex-col">
-                    <h2 class="text-xl text-center font-bold my-4">
+                    <h2 class="text-2xl text-center font-bold my-4 mb-6">
                         ACCOUNTING ENTRIES
                     </h2>
                     <div class="flex-1 mb-16">
                         <table v-if="props.data.details.length > 0" class="w-full">
                             <thead>
                                 <tr>
-                                    <th class="border-2 border-gray-800 text-sm">
+                                    <th class="border border-gray-800 font-normal text-sm">
                                         ACCOUNT CODE
                                     </th>
-                                    <th class="border-2 border-gray-800 text-sm w-1/3">
+                                    <th class="border border-gray-800 font-normal text-sm w-1/3">
                                         ACCOUNT NAME
                                     </th>
-                                    <th class="border-2 border-gray-800 text-sm">
+                                    <th class="border border-gray-800 font-normal text-sm">
                                         PROJECT/SECTION CODE
                                     </th>
-                                    <th class="border-2 border-gray-800 text-sm w-24">
+                                    <th class="border border-gray-800 font-normal text-sm w-24">
                                         DEBIT
                                     </th>
-                                    <th class="border-2 border-black border-b-gray-800 text-sm w-24">
+                                    <th class="border border-black border-b-gray-800 font-normal text-sm w-24">
                                         CREDIT
                                     </th>
                                 </tr>
@@ -119,26 +114,26 @@ const totalCredit = computed(() => {
                                         {{ ae.account?.account_number }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
-                                        {{ ae.account.account_name }}
+                                        {{ ae.accoun?.account_name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
                                         {{ ae.stakeholder?.stakeholder_name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800  text-sm">
-                                        {{ formatToCurrency(ae.debit) }}
+                                        {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "" }}
                                     </td>
-                                    <td class="border-2 px-4 py-1 font-bold border-gray-800 border-y-gray-800 text-sm">
-                                        {{ formatToCurrency(ae.credit) }}
+                                    <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-sm">
+                                        {{ ae.credit > 0 ? formatToCurrency(ae.credit) : "" }}
                                     </td>
                                 </tr>
                                 <tr class="border-none">
-                                    <td colspan="3" class="font-bold py-2 px-4 text-right pr-24">
+                                    <td colspan="3" class="py-2 px-4 text-right pr-24">
                                         TOTAL
                                     </td>
-                                    <td class="border-b-2 border-black font-bold py-2 px-4">
+                                    <td class="border-b-2 border-black py-2 px-4">
                                         {{ formatToCurrency(totalDebit) }}
                                     </td>
-                                    <td class="border-b-2 border-black font-bold py-2 px-4">
+                                    <td class="border-b-2 border-black py-2 px-4">
                                         {{ formatToCurrency(totalCredit) }}
                                     </td>
                                 </tr>
@@ -152,7 +147,7 @@ const totalCredit = computed(() => {
                         <FormSignatory
                             label="PREPARED BY"
                             :signatory="{
-                                name: 'VEJOICE M. BUTCON',
+                                name: userData.employee.fullname_last,
                                 title: 'Accounting Specialist'
                             }"
                         />
@@ -173,6 +168,31 @@ const totalCredit = computed(() => {
                             ]"
                         />
                     </HrmsReportsSignaturesRow>
+                    <span class="block mt-16 ml-4 mb-14">
+                        Received the amount from Evenpar Construction and Development Corporation the payment of the above.
+                    </span>
+                    <div class="flex mb-20">
+                        <div class="flex-1" />
+                        <div class="flex-1">
+                            <span class="w-full block border-t-2 border-black text-center">Received by</span>
+                        </div>
+                        <div class="flex-1" />
+                        <div class="flex-1">
+                            <span class="w-full block border-t-2 border-black text-center">Date</span>
+                        </div>
+                        <div class="flex-1" />
+                    </div>
+                    <div class="flex flex-col ml-4">
+                        <span class="text-md uppercase">
+                            PUROK 1, POBLACION 8, BUENAVISTA, AGUSAN DEL NORTE
+                        </span>
+                        <i class="text-green-500 underline">
+                            Evenparconstruction.com
+                        </i>
+                        <span class="text-md">
+                            09209745316
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
