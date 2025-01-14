@@ -52,48 +52,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
         </form>
         <LayoutPrint>
             <div class="flex flex-col">
-                <div class="header flex flex-col  mb-8">
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Employer ID:
-                        </span>
-                        <span class="text-md font-bold flex-5">
-                            80-0191406-1-000
-                        </span>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Employer Name:
-                        </span>
-                        <span class="text-md font-bold flex-5">
-                            EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
-                        </span>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Address:
-                        </span>
-                        <span class="text-md font-bold flex-5">
-                            P-1 POBLACION 1 BUENAVISTA AGUSAN DEL NORTE
-                        </span>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Contact No:
-                        </span>
-                        <span class="text-md font-bold flex-5">
-                            09395096694
-                        </span>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Email Address:
-                        </span>
-                        <span class="text-md font-bold flex-5 underline">
-                            evenparcorporation@gmail.com
-                        </span>
-                    </div>
-                </div>
+                <HrmsReportsLoanReportsReportHeader />
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
                         {{ loanReports.reportResult.params.loan_type }} PAYMENT
