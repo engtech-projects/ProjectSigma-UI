@@ -167,6 +167,7 @@ watch(showModal, (newVal) => {
                     </div>
                 </div>
                 <div class="w-full">
+                    <AccountingSignatureProgress :total-steps="4" :current-step="3" class="my-8" />
                     <LayoutApprovalsListView :approvals="voucherData?.approvals" />
                 </div>
             </div>
