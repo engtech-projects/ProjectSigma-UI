@@ -27,12 +27,16 @@ defineProps({
         </div>
         <div class="grid md:grid-cols-3 gap-2 md:justify-between">
             <div class="p-2 flex gap-2">
-                <span class="text-teal-600 text-light">Status: </span>
-                {{ paymentData?.request_status }}
+                <span class="text-teal-600 text-light">Prepared by: </span>
+                {{ paymentData?.created_by_user }}
             </div>
             <div class="p-2 flex gap-2">
-                <span class="text-teal-600 text-light">Description/Remarks: </span>
-                {{ paymentData?.description }}
+                <span class="text-teal-600 text-light">Prepared on: </span>
+                {{ paymentData?.date_filed }}
+            </div>
+            <div class="p-2 flex gap-2">
+                <span class="text-teal-600 text-light">Status: </span>
+                {{ paymentData?.request_status }}
             </div>
         </div>
         <div class="p-2 border border-gray-200 rounded-lg">
