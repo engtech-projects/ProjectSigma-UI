@@ -52,7 +52,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
         </form>
         <LayoutPrint>
             <div class="flex flex-col">
-                <HrmsReportsLoanReportsHdmfCalamityReportHeader/>
+                <HrmsReportsLoanReportsHdmfReportHeader />
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
                         HDMF CALAMITY LOAN PAYMENT
