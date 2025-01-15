@@ -45,7 +45,7 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
         </form>
         <LayoutPrint>
             <div class="flex flex-col">
-                <HrmsReportsLoanReportsHdmfReportHeader />
+                <HrmsReportsLoanReportsReportHeader />
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
                         {{ loanReports.reportResult.params.loan_type }} PAYMENT
