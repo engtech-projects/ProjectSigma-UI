@@ -82,6 +82,7 @@ journal.value.entry_balance = computed(() => {
                                     id="journal_no"
                                     v-model="journal.journal_no"
                                     type="text"
+                                    disabled
                                     class="w-full rounded-lg"
                                     required
                                 >
