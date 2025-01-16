@@ -36,22 +36,27 @@ const selectedType = ref(props.selectedType)
             <AccountingCommonSelectStakeholderDepartmentSelector
                 v-show="selectedType === 'department'"
                 v-model:departmentInfo="stakeholderInfo"
+                :select-type="selectedType"
             />
             <AccountingCommonSelectStakeholderProjectsSelector
                 v-show="selectedType === 'project'"
                 v-model:projectInfo="stakeholderInfo"
+                :select-type="selectedType"
             />
             <AccountingCommonSelectStakeholderSupplierSelector
                 v-show="selectedType === 'supplier'"
                 v-model:supplierInfo="stakeholderInfo"
+                :select-type="selectedType"
             />
             <AccountingCommonSelectStakeholderEmployeeSelector
                 v-show="selectedType === 'employee'"
                 v-model:employeeInfo="stakeholderInfo"
+                :select-type="selectedType"
             />
             <AccountingCommonSelectStakeholderPayeeSelector
                 v-show="selectedType === 'payee'"
                 v-model:payeeInfo="stakeholderInfo"
+                :select-type="selectedType"
             />
         </div>
     </div>

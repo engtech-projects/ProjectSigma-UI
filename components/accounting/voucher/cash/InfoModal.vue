@@ -104,7 +104,7 @@ watch(showModal, (newVal) => {
                             <AccountingCommonInfoModalTemplateCashVoucherInfo :voucher-data="voucherData" />
                         </AccountingCommonTabsTabContainer>
                         <AccountingCommonTabsTabContainer id="journalEntryInfo">
-                            <AccountingCommonInfoModalTemplateJournalEntryInfo :entry-data="voucherData?.journal_entry" />
+                            <AccountingCommonInfoModalTemplateJournalEntryVoucher :entry-data="voucherData?.journal_entry" />
                         </AccountingCommonTabsTabContainer>
                         <AccountingCommonTabsTabContainer id="paymentRequestInfo">
                             <AccountingCommonInfoModalTemplatePaymentRequestInfo :payment-data="voucherData?.payment_request" />
