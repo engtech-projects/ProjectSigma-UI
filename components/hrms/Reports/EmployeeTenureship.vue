@@ -2,8 +2,10 @@
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { EmployeeTenureshipList } = storeToRefs(generateReportstore)
-await generateReportstore.getEmployeeTenureshipList()
 const grouptype = ref(null)
+watch(EmployeeTenureshipList.value.params, async () => {
+    await generateReportstore.getEmployeeTenureshipList()
+})
 </script>
 <template>
     <div class="flex flex-col">

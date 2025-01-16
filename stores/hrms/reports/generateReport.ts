@@ -263,7 +263,10 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                department_id: null,
+                project_id: null,
+            },
             pagination: {},
             errorMessage: null,
             successMessage: null,
