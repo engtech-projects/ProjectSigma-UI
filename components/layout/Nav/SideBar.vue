@@ -599,7 +599,6 @@ const config = useRuntimeConfig()
                 single-nav-title="Journal Entry"
             />
             <LayoutNavSingle
-                v-show="config.public.APP_ENV == 'local'"
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.ACCOUNTING_SETUP_CHART_OF_ACCOUNTS,
                 ])"
@@ -671,7 +670,6 @@ const config = useRuntimeConfig()
                 title="Setup"
             >
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_APPROVALS,
                     ])"
@@ -680,7 +678,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Approvals"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNT_TYPES,
                     ])"
@@ -689,7 +686,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Account"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNT_TYPES,
                     ])"
@@ -698,7 +694,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Account Type"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_BOOK_OF_ACCOUNTS,
                     ])"
@@ -707,7 +702,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Book of Accounts"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNT_GROUPS,
                     ])"
@@ -716,7 +710,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Account Group"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_PARTICULAR_GROUP,
                     ])"
@@ -725,7 +718,6 @@ const config = useRuntimeConfig()
                     single-nav-title="Particular Group"
                 />
                 <LayoutNavSingle
-                    v-show="config.public.APP_ENV == 'local'"
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_SETUP_POSTING_PERIODS,
                     ])"
