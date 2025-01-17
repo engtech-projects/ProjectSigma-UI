@@ -266,10 +266,14 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             params: {
                 department_id: null,
                 project_id: null,
+                grouptype: null,
             },
             pagination: {},
             errorMessage: null,
             successMessage: null,
+        },
+        administrativeReportOption: {
+            report_type: "",
         },
     }),
     getters: {},
