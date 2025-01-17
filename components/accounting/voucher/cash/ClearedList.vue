@@ -1,24 +1,25 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
+import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
 
-const paymentRequestStore = usePaymentRequestStore()
-const { myRequests } = storeToRefs(paymentRequestStore)
+const voucherStore = useVoucherStore()
+const { cashClearedVoucher } = storeToRefs(voucherStore)
 
 const requestData = ref(null)
 const showInformationModal = ref(false)
-await paymentRequestStore.getMyRequests()
+await voucherStore.getClearedVouchers()
 const showInformation = (data) => {
     requestData.value = data
     showInformationModal.value = true
 }
 const changePaginate = (newParams) => {
-    myRequests.value.params.page = newParams.page ?? ""
+    cashClearedVoucher.value.params.page = newParams.page ?? ""
 }
 const headers = [
-    { name: "PRF Number", id: "prf_no" },
-    { name: "Payee", id: "stakeholder.name" },
-    { name: "Amount", id: "total" },
+    { name: "CV Number", id: "voucher_no" },
+    { name: "Journal Voucher Number", id: "journal_entry.journal_no" },
+    { name: "Payee", id: "journal_entry.payment_request.stakeholder.name" },
+    { name: "Amount", id: "journal_entry.payment_request.total" },
     { name: "Created At", id: "date_filed" },
     { name: "Status", id: "request_status" },
 ]
@@ -27,22 +28,22 @@ const actions = {
 }
 </script>
 <template>
-    <LayoutBoards class="w-full" :loading="myRequests.isLoading">
+    <LayoutBoards class="w-full" :loading="cashClearedVoucher.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="myRequests.list ?? []"
+                :datas="cashClearedVoucher.list ?? []"
                 @show-table="showInformation"
             />
             <div class="flex justify-center mx-auto">
-                <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
+                <CustomPagination :links="cashClearedVoucher.pagination" @change-params="changePaginate" />
             </div>
         </div>
     </LayoutBoards>
-    <AccountingRequestNonPurchaseRequestInfoModal
+    <AccountingVoucherCashInfoModal
         v-model:showModal="showInformationModal"
         :fillable="false"
-        :payment-data="requestData"
+        :voucher-data="requestData"
     />
 </template>

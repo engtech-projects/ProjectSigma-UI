@@ -30,6 +30,9 @@
                         <h3 class="w-full text-xs px-8 py-1 border flex-3 md:flex-4 h-full">
                             {{ upperFirst(act.account_name) }}
                         </h3>
+                        <h3 class="w-full text-xs px-8 py-1 border flex-3 md:flex-4 h-full">
+                            {{ upperFirst(act.report_group?.name ?? "(No Report Group)") }}
+                        </h3>
                         <h3 class="w-full text-xs px-8 py-1 border flex-2 md:flex-1 h-full">
                             {{ upperFirst(act.account_type?.balance_type) + " ( " + act.account_type?.notation + " ) " }}
                         </h3>

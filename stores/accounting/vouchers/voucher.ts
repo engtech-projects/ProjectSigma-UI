@@ -1,5 +1,4 @@
 import { defineStore } from "pinia"
-
 export const useVoucherStore = defineStore("voucherStore", {
     state: () => ({
         voucherDisbursement: {
@@ -39,6 +38,30 @@ export const useVoucherStore = defineStore("voucherStore", {
             status: "pending",
             form_id: null,
             approvals: [],
+            errorMessage: "",
+            successMessage: "",
+        },
+        cashReceivedForm: {
+            voucher_id: null,
+            received_by: null,
+            receipt_no: null,
+            date_received: null
+        },
+        cashClearingVoucher: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        cashClearedVoucher: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
             errorMessage: "",
             successMessage: "",
         },
@@ -103,6 +126,54 @@ export const useVoucherStore = defineStore("voucherStore", {
     }),
     getters: {},
     actions: {
+        async getClearingVouchers () {
+            this.cashClearingVoucher.isLoaded = true
+            await useAccountingApi(
+                "/api/vouchers/cash/get-clearing-vouchers",
+                {
+                    method: "GET",
+                    params: this.cashClearingVoucher.params,
+                    onRequest: () => {
+                        this.cashClearingVoucher.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.cashClearingVoucher.isLoading = false
+                        if (response.ok) {
+                            this.cashClearingVoucher.list = response._data.data.data
+                            this.cashClearingVoucher.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getClearedVouchers () {
+            this.cashClearedVoucher.isLoaded = true
+            await useAccountingApi(
+                "/api/vouchers/cash/get-cleared-vouchers",
+                {
+                    method: "GET",
+                    params: this.cashClearedVoucher.params,
+                    onRequest: () => {
+                        this.cashClearedVoucher.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.cashClearedVoucher.isLoading = false
+                        if (response.ok) {
+                            this.cashClearedVoucher.list = response._data.data.data
+                            this.cashClearedVoucher.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
         async getAllCashVouchers () {
             this.allCashVouchers.isLoaded = true
             await useAccountingApi(
@@ -339,6 +410,9 @@ export const useVoucherStore = defineStore("voucherStore", {
             if (this.myCashApprovals.isLoaded) {
                 callFunctions.push(this.getMyCashApprovals)
             }
+            if (this.myCashApprovals.isLoaded) {
+                callFunctions.push(this.getMyCashApprovals)
+            }
             this.$reset()
             this.voucherCash.approvals = backup
             callFunctions.forEach((element) => {
@@ -356,9 +430,6 @@ export const useVoucherStore = defineStore("voucherStore", {
             }
             if (this.myDisbursementVouchers.isLoaded) {
                 callFunctions.push(this.getMyDisbursementVouchers)
-            }
-            if (this.myDisbursementApprovals.isLoaded) {
-                callFunctions.push(this.getMyDisbursementApprovals)
             }
             this.$reset()
             this.voucherDisbursement.approvals = backup
@@ -464,16 +535,24 @@ export const useVoucherStore = defineStore("voucherStore", {
                 }
             )
         },
-        async getOne (id: number, type: String) {
-            return await useAccountingApi(
-                "api/vouchers/" + type + "/resource/" + id,
+        async cashReceived () {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useAccountingApiO(
+                "/api/vouchers/cash/received",
                 {
-                    method: "GET",
-                    params: this.getParams,
+                    method: "POST",
+                    body: this.cashReceivedForm,
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            return response._data.data
+                            this.successMessage = response._data.message
+                            return response._data
                         } else {
+                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },

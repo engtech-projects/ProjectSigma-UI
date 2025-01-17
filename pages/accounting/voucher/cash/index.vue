@@ -30,6 +30,14 @@ const voucherStore = useVoucherStore()
                         target-id="myRequestList"
                     />
                     <AccountingCommonTabsTabTitle
+                        title="Cleared/Settled"
+                        target-id="cleared"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        title="For Clearing/Settling"
+                        target-id="forClearing"
+                    />
+                    <AccountingCommonTabsTabTitle
                         title="For Cash Voucher"
                         target-id="forVoucher"
                     />
@@ -38,14 +46,20 @@ const voucherStore = useVoucherStore()
                     <AccountingCommonTabsTabContainer id="allList">
                         <AccountingVoucherCashAllList />
                     </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="forVoucher">
-                        <AccountingVoucherCashForVoucherList />
-                    </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="forApproval">
                         <AccountingVoucherCashApprovalList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="myRequestList">
                         <AccountingVoucherCashMyRequestList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="cleared">
+                        <AccountingVoucherCashClearedList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="forClearing">
+                        <AccountingVoucherCashClearingList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="forVoucher">
+                        <AccountingVoucherCashForVoucherList />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>

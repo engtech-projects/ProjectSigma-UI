@@ -2,17 +2,20 @@
 import { useAccountingEnumStore } from "~/stores/accounting/enums/enum"
 const enums = useAccountingEnumStore()
 const { usersEnum } = storeToRefs(enums)
-onMounted(() => {
-    if (!usersEnum.value.isLoaded) {
-        enums.getUsersEnums()
-    }
-})
-const userInfo = defineModel("userInfo", { required: false, type: Object, default: {} })
-defineProps({
+const props = defineProps({
     stakeholderId: { type: Boolean, default: true },
+    selectType: { type: String, default: "" },
 })
+
+const userInfo = defineModel("userInfo", { required: false, type: Object, default: {} })
+
 watch(userInfo, (newValue) => {
     userInfo.value = newValue
+})
+watch(() => props.selectType, (newValue) => {
+    if (!usersEnum.value.isLoaded && newValue === "user") {
+        enums.getUsersEnums()
+    }
 })
 </script>
 <template>

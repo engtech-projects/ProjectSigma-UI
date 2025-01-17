@@ -46,7 +46,11 @@ const approvedRequest = async (id) => {
         boardLoading.value = false
     }
 }
-
+const ribbonTypes = ref({
+    pending: "warning",
+    approved: "success",
+    denied: "error"
+})
 const denyRequest = async (id) => {
     try {
         boardLoading.value = true
@@ -75,11 +79,10 @@ watch(showModal, (newVal) => {
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
         <template #body>
+            <AccountingStatusRibbon :type="ribbonTypes[paymentData?.request_status.toLowerCase()]" position="top-left" :status="paymentData?.request_status" class="z-30" />
             <div v-if="!printPreview" class="px-4">
-                <div class="grid gap-2 md:justify-between">
-                    <div class="p-2 flex gap-2">
-                        <span class="text-gray-900 text-4xl">Payroll Request Form</span>
-                    </div>
+                <div class="p-2 py-4 flex gap-2 w-full mb-4">
+                    <span class="text-gray-900 text-4xl text-center w-full block flex-1">Payroll Request Form</span>
                 </div>
                 <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                     <div class="p-2 flex gap-2">
@@ -195,16 +198,7 @@ watch(showModal, (newVal) => {
                     @deny="denyRequest"
                 />
             </div>
-            <div v-else class="flex gap-2 justify-end w-full p-8">
-                <button v-if="!printPreview" class="flex items-center gap-1 justify-center bg-gray-600 p-2 hover:bg-gray-900 text-white rounded-md w-32 text-sm" @click="printPreview=true">
-                    <Icon name="iconoir:printing-page" />
-                    Print Preview
-                </button>
-                <button v-else class="flex items-center gap-1 justify-center bg-orange-600 p-2 hover:bg-orange-900 text-white rounded-md w-32 text-sm" @click="printPreview=false">
-                    <Icon name="iconoir:printing-page" />
-                    Hide Preview
-                </button>
-            </div>
+            <AccountingCommonButtonPrintPreview v-else v-model:print-preview="printPreview" />
         </template>
     </PsModal>
 </template>

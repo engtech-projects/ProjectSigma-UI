@@ -15,6 +15,12 @@ defineProps({
         default: false
     }
 })
+const ribbonTypes = ref({
+    open: "info",
+    unposted: "warning",
+    posted: "success",
+    void: "error"
+})
 const generateVoucher = async (data) => {
     await voucherStore.generateCashVoucherNo()
     voucherCash.value.stakeholder_id = data.payment_request.stakeholder_id
@@ -23,7 +29,11 @@ const generateVoucher = async (data) => {
     voucherCash.value.stakeholderInformation = data.payment_request.stakeholder
     voucherCash.value.net_amount = data.payment_request.total
     voucherCash.value.amount_in_words = useAmountInWords(data.payment_request.total)
-    voucherCash.value.details = data.details
+    voucherCash.value.details = data.details.map(detail => ({
+        ...detail,
+        debit: detail.credit,
+        credit: detail.debit
+    }))
     voucherCash.value.journal_entry_id = data.id
     voucherCash.value.reference_no = data.reference_no
     showModal.value = false
@@ -35,10 +45,9 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
 <template>
     <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="">
         <template #body>
-            <div class="grid gap-2 md:justify-between">
-                <div class="p-2 flex gap-2">
-                    <span class="text-gray-900 text-4xl">Journal Entry</span>
-                </div>
+            <AccountingStatusRibbon :type="ribbonTypes[entryData?.status.toLowerCase()]" position="top-left" :status="entryData?.status" class="z-30" />
+            <div class="p-2 py-4 flex gap-2 w-full mb-4">
+                <span class="text-gray-900 text-4xl text-center w-full block flex-1">Journal Entry</span>
             </div>
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">
