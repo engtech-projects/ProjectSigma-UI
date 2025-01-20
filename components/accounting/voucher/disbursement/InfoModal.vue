@@ -162,6 +162,7 @@ const denyRequest = async (id) => {
                         </div>
                     </div>
                 </div>
+                <AccountingCommonStepperSignatureProgress class="my-8" :signatories="voucherData?.step_approval" />
                 <div class="w-full">
                     <LayoutApprovalsListView :approvals="voucherData?.approvals" />
                 </div>

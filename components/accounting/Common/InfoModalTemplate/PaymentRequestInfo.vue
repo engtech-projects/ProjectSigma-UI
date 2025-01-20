@@ -4,6 +4,10 @@ defineProps({
         type: Object,
         default: null
     },
+    signatories: {
+        type: Object,
+        default: null
+    }
 })
 </script>
 <template>
@@ -94,6 +98,7 @@ defineProps({
                 </div>
             </div>
         </div>
+        <AccountingCommonStepperSignatureProgress class="my-8" :signatories="signatories" />
         <div class="w-full">
             <LayoutApprovalsListView :approvals="paymentData?.approvals" />
         </div>
