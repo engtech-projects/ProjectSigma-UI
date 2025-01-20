@@ -33,6 +33,7 @@ const generateJournal = async (data) => {
     journal.value.payment_request_id = data.id
     journal.value.description = data.description
     journal.value.remarks = data.description
+    journal.value.total = parseFloat(data.total) + parseFloat(data.total_vat_amount)
     showModal.value = false
 }
 const trimStakeholdableType = (type) => {
