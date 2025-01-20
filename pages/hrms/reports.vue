@@ -118,7 +118,7 @@ const selectedReport = ref("")
                         v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_administrativereports])"
                         value="Report19"
                     >
-                        Employee Tenureship
+                        Administrative Reports
                     </option>
                 </select>
             </div>
