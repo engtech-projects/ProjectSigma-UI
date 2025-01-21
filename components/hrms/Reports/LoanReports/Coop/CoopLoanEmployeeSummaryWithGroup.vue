@@ -102,7 +102,6 @@ watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
                         <template v-for="groupData, groupName, groupIndex in loanReports.reportResult.list" :key="'defaultreportProject' + groupIndex">
                             <tr v-for="employeeData, employeeIndex in groupData.data" :key="'defaultreportProjectEmployee' + employeeIndex" class="h-2">
                                 <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-
                                     {{ Object.values(loanReports.reportResult.list).slice(0, groupIndex).reduce((acc, curr) => acc + curr.data.length, 0) + employeeIndex + 1 }}
                                 </td>
                                 <td class="border border-gray-500 h-8 px-2 text-sm text-center">
