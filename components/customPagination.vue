@@ -20,7 +20,16 @@ const setParams = (link) => {
             href="#"
             @click.prevent="setParams(links.first_page)"
         >
-            <Icon name="ep:d-arrow-left" class="h-5 w-5 lg:h-5 lg:w-5" />
+            <div
+                :class="{
+                    'bg-green-500 text-white': index + 1 <= currStep,
+                    'bg-gray-300 text-gray-700': index + 1 > currStep,
+                    'bg-yellow-300 text-gray-700': index + 1 === currStep + 1
+                }"
+                class="w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold transition-colors duration-300 z-10"
+            >
+                <Icon name="iconamoon:check-bold" class="h-4 w-4" />
+            </div>
         </a>
         <div class="flex items-center space-x-1">
             <template

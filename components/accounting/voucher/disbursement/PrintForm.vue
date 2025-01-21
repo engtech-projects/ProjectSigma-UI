@@ -117,7 +117,7 @@ const totalCredit = computed(() => {
                                         {{ ae.account?.account_name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
-                                        Stakeholder name here...
+                                        {{ ae.stakeholder?.stakeholder_name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800  text-sm">
                                         {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "" }}

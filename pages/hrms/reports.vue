@@ -114,6 +114,12 @@ const selectedReport = ref("")
                     >
                         Employee Logs
                     </option>
+                    <option
+                        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_administrativereports])"
+                        value="Report19"
+                    >
+                        Administrative Reports
+                    </option>
                 </select>
             </div>
             <div class="py-2">

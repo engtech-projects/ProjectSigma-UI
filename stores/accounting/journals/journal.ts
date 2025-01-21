@@ -12,6 +12,7 @@ export const useJournalStore = defineStore("journalStore", {
             status: "open",
             period_id: "",
             remarks: "",
+            total: 0,
             reference_no: "",
             details: [],
             errorMessage: "",
