@@ -101,13 +101,13 @@ watch(showModal, (newVal) => {
                     </template>
                     <template #tab-containers>
                         <AccountingCommonTabsTabContainer id="voucherInfo">
-                            <AccountingCommonInfoModalTemplateCashVoucherInfo :voucher-data="voucherData" />
+                            <AccountingCommonInfoModalTemplateCashVoucherInfo :voucher-data="voucherData" :signatories="voucherData?.step_approval" />
                         </AccountingCommonTabsTabContainer>
                         <AccountingCommonTabsTabContainer id="journalEntryInfo">
-                            <AccountingCommonInfoModalTemplateJournalEntryVoucher :entry-data="voucherData?.journal_entry" />
+                            <AccountingCommonInfoModalTemplateJournalEntryInfo :entry-data="voucherData?.journal_entry" />
                         </AccountingCommonTabsTabContainer>
                         <AccountingCommonTabsTabContainer id="paymentRequestInfo">
-                            <AccountingCommonInfoModalTemplatePaymentRequestInfo :payment-data="voucherData?.payment_request" />
+                            <AccountingCommonInfoModalTemplatePaymentRequestInfo :payment-data="voucherData?.journal_entry?.payment_request" :signatories="voucherData?.step_approval" />
                         </AccountingCommonTabsTabContainer>
                     </template>
                 </AccountingCommonTabsMainContainer>
