@@ -34,6 +34,13 @@ const generateVoucher = async (data) => {
     voucherDisbursement.value.net_amount = data.payment_request.total
     voucherDisbursement.value.amount_in_words = useAmountInWords(data.payment_request.total)
     voucherDisbursement.value.details = data.details
+    voucherDisbursement.value.details = data.details.map(detail => ({
+        ...detail,
+        debit: detail.credit,
+        credit: detail.debit,
+        description: detail.particulars,
+        stakeholder_id: detail.stakeholder ? detail.stakeholder.id : null
+    }))
     voucherDisbursement.value.journal_entry_id = data.id
     voucherDisbursement.value.reference_no = data.journal_no
     showModal.value = false

@@ -11,9 +11,16 @@ const model = defineModel({ required: true, type: Object })
 <template>
     <div class="flex gap-2">
         <div class="w-full grid grid-cols-5 gap-2 bg-white p-3 rounded-lg shadow-sm">
-            <div class="flex flex-col">
-                <span class="text-xs text-gray-500">Account</span>
-                <span class="font-medium">{{ model.account?.account_name }}</span>
+            <div class="flex-1">
+                <label
+                    for="account"
+                    class="text-xs italic"
+                >Account</label>
+                <AccountingCommonSelectJournalAccounts
+                    v-model:journal-account-info="model.journalAccountInfo"
+                    v-model:account-id="model.account_id"
+                    class="w-full min-w-[300px]"
+                />
             </div>
             <div class="flex flex-col">
                 <span class="text-xs text-gray-500">Description</span>

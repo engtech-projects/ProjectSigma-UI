@@ -261,6 +261,22 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
+        EmployeeTenureshipList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                department_id: null,
+                project_id: null,
+                grouptype: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        administrativeReportOption: {
+            report_type: "",
+        },
     }),
     getters: {},
     actions: {
@@ -337,6 +353,31 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.philhealthRemittanceSummaryList.isLoaded = true
                             this.philhealthRemittanceSummaryList.list = response._data.data
                             this.philhealthRemittanceSummaryList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getEmployeeTenureshipList () {
+            await useHRMSApiO(
+                "/api/reports/employee-tenureship-list",
+                {
+                    method: "GET",
+                    params: this.EmployeeTenureshipList.params,
+                    onRequest: () => {
+                        this.EmployeeTenureshipList.isLoading = true
+                        this.EmployeeTenureshipList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.EmployeeTenureshipList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.EmployeeTenureshipList.isLoading = false
+                        if (response.ok) {
+                            this.EmployeeTenureshipList.isLoaded = true
+                            this.EmployeeTenureshipList.list = response._data.data
+                            this.EmployeeTenureshipList.successMessage = response._data.message
                         }
                     },
                 }

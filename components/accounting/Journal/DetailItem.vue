@@ -3,6 +3,14 @@ defineProps({
     index: {
         type: Number,
         required: true
+    },
+    totalDebit: {
+        type: Number,
+        required: true
+    },
+    itemCount: {
+        type: Number,
+        required: true
     }
 })
 const details = defineModel("details", { required: true, type: Object })
@@ -28,15 +36,11 @@ const emit = defineEmits("delete-item")
                 class="text-xs italic"
             >Project/Department</label>
             <AccountingCommonSelectStakeHolder
-                v-if="!details.id"
                 v-model:stakeholder-info="details.stakeholderInformation"
                 class="w-full"
                 :selected-id="details.stakeholder_id"
                 :filter-options="['project', 'department', 'employee']"
             />
-            <p v-else>
-                {{ details.stakeholder?.name }}
-            </p>
         </div>
         <div class="flex-1">
             <label
@@ -65,6 +69,9 @@ const emit = defineEmits("delete-item")
                 step=".01"
                 class="w-full rounded-lg h-9 text-sm bg-gray-100"
             >
+            <p v-if="(index === itemCount - 1) && details.debit === 0" class="text-italic text-xs text-blue-500 cursor-pointer" @click="details.credit = totalDebit">
+                max : {{ totalDebit }}
+            </p>
         </div>
         <div class="flex-1">
             <label
