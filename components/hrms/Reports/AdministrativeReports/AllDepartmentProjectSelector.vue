@@ -23,11 +23,11 @@ watch(selectType, () => {
         >
             {{ title }}
         </label>
-        <div class="flex flex-row">
-            <div class="w-1/3">
+        <div class="flex flex-row gap-4">
+            <div class="w-full">
                 <select
                     v-model="selectType"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
                 >
                     <option value="" selected>
                         Select Type
@@ -43,7 +43,7 @@ watch(selectType, () => {
                     </option>
                 </select>
             </div>
-            <div class="w-2/3">
+            <div class="w-auto">
                 <template v-if="selectType === 'Department'">
                     <HrmsCommonDepartmentSelector
                         v-model="departmentId"

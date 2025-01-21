@@ -8,7 +8,7 @@ watch(EmployeeTenureshipList.value.params, async () => {
 </script>
 <template>
     <div class="flex flex-col">
-        <div class="header flex flex-col mb-8">
+        <div class="header flex flex-col mb-8 gap-4">
             <div class="flex gap-4 flex-row items-center max-w-sm">
                 <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
                     v-model:select-type="EmployeeTenureshipList.params.group_type"
