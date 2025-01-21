@@ -94,28 +94,28 @@ const totalCredit = computed(() => {
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">
-                                        {{ detail?.debit ? formatToCurrency(detail.debit) : "" }}
+                                        {{ detail?.debit > 0 ? formatToCurrency(detail.debit) : "" }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">
-                                        {{ detail?.credit ? formatToCurrency(detail.credit) : "" }}
+                                        {{ detail?.credit > 0 ? formatToCurrency(detail.credit) : "" }}
                                     </div>
                                 </td>
                             </tr>
                             <tr class="bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap" colspan="2">
-                                    <div class="text-sm text-gray-900 font-bold">
+                                    <div class="text-sm font-bold text-gray-900">
                                         TOTAL
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
+                                    <div class="text-sm font-bold text-gray-900">
                                         {{ formatToCurrency(totalDebit) }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
+                                    <div class="text-sm font-bold text-gray-900">
                                         {{ formatToCurrency(totalCredit) }}
                                     </div>
                                 </td>

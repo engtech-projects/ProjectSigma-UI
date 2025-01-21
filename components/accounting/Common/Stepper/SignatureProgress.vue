@@ -60,7 +60,7 @@ const currStep = computed(() => {
     let curr = 0
     let step = 0
     for (const i in props.signatories) {
-        const details = props.signatories[i].details
+        const details = props.signatories[i].details ? props.signatories[i].details : props.signatories[i].data
         details.forEach((d) => {
             if (d.status.toLowerCase() !== "approved") {
                 curr = step
