@@ -266,9 +266,24 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             isLoaded: false,
             list: [],
             params: {
+                report_type: "EMPLOYEE TENURESHIP",
                 department_id: null,
                 project_id: null,
-                grouptype: null,
+                group_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        EmployeeMasterList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                report_type: "EMPLOYEE MASTERLIST",
+                department_id: null,
+                project_id: null,
+                group_type: null,
             },
             pagination: {},
             errorMessage: null,
@@ -360,7 +375,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
         },
         async getEmployeeTenureshipList () {
             await useHRMSApiO(
-                "/api/reports/employee-tenureship-list",
+                "/api/reports/administrative",
                 {
                     method: "GET",
                     params: this.EmployeeTenureshipList.params,
@@ -378,6 +393,31 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.EmployeeTenureshipList.isLoaded = true
                             this.EmployeeTenureshipList.list = response._data.data
                             this.EmployeeTenureshipList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getEmployeeMasterList () {
+            await useHRMSApiO(
+                "/api/reports/administrative",
+                {
+                    method: "GET",
+                    params: this.EmployeeMasterList.params,
+                    onRequest: () => {
+                        this.EmployeeMasterList.isLoading = true
+                        this.EmployeeMasterList.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.EmployeeMasterList.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.EmployeeMasterList.isLoading = false
+                        if (response.ok) {
+                            this.EmployeeMasterList.isLoaded = true
+                            this.EmployeeMasterList.list = response._data.data
+                            this.EmployeeMasterList.successMessage = response._data.message
                         }
                     },
                 }
