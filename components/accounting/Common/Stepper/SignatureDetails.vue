@@ -39,7 +39,7 @@
                         {{ props.title }}
                     </td>
                     <td class="px-2 py-1 text-gray-400 text-xs">
-                        Riche Capilitan Dalauta
+                        {{ sig.name }}
                     </td>
                     <td class="px-2 py-1 text-gray-400 text-xs">
                         {{ sig.status }}

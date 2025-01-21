@@ -57,13 +57,18 @@ const props = defineProps({
 })
 const popupIndex = ref<number | null>(null)
 const currStep = computed(() => {
-    // let step = 0
-    // props.signatories.forEach((s) => {
-    //     if (s.status.toLowerCase() === "approved") {
-    //         step++
-    //     }
-    // })
-    return 1
+    let curr = 0
+    let step = 0
+    for (const i in props.signatories) {
+        const details = props.signatories[i].details
+        details.forEach((d) => {
+            if (d.status.toLowerCase() !== "approved") {
+                curr = step
+            }
+        })
+        step = step + 1
+    }
+    return curr === 0 ? step : curr
 })
 const approvals = computed(() => {
     const arr = []
@@ -80,9 +85,6 @@ const showPopup = (index: number) => {
 const hidePopup = () => {
     popupIndex.value = null
 }
-onMounted(() => {
-    console.log(props.signatories)
-})
 </script>
 
   <style scoped>

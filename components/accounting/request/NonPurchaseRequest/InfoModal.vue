@@ -181,6 +181,7 @@ watch(showModal, (newVal) => {
                         </div>
                     </div>
                 </div>
+                <AccountingCommonStepperSignatureProgress class="my-12" :signatories="paymentData?.step_approval" />
                 <div class="w-full">
                     <LayoutApprovalsListView :approvals="paymentData?.approvals" />
                 </div>
