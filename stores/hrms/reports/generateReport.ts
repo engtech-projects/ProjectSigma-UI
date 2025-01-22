@@ -51,7 +51,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                 report_type: null,
                 department_id: null,
                 project_id: null,
-                group_type: null,
+                group_type: "All",
             },
             pagination: {},
             errorMessage: null,
