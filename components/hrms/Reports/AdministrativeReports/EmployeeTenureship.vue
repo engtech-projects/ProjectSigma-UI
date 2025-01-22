@@ -1,9 +1,11 @@
 <script setup>
-import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
+import { useGenerateReportStore, EMPLOYEE_TENURESHIP } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { EmployeeTenureshipList, administrativeReportOption } = storeToRefs(generateReportstore)
-watch(EmployeeTenureshipList.value.params, async () => {
-    await generateReportstore.getEmployeeTenureshipList()
+const { administrativeReports } = storeToRefs(generateReportstore)
+watch(administrativeReports.value.params, async () => {
+    if (administrativeReports.value.params.report_type === EMPLOYEE_TENURESHIP) {
+        await generateReportstore.getAdministrativeReport()
+    }
 })
 </script>
 <template>
@@ -11,22 +13,15 @@ watch(EmployeeTenureshipList.value.params, async () => {
         <div class="header flex flex-col mb-8 gap-4">
             <div class="flex gap-4 flex-row items-center max-w-sm">
                 <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
-                    v-model:select-type="EmployeeTenureshipList.params.group_type"
-                    v-model:department-id="EmployeeTenureshipList.params.department_id"
-                    v-model:project-id="EmployeeTenureshipList.params.project_id"
+                    v-model:select-type="administrativeReports.params.group_type"
+                    v-model:department-id="administrativeReports.params.department_id"
+                    v-model:project-id="administrativeReports.params.project_id"
                     title="Category"
                 />
             </div>
         </div>
         <LayoutPrint>
-            <div class="title flex flex-col justify-center gap-1 mb-12">
-                <span v-show="administrativeReportOption.report_type === 'employee-tenureship'" class="text-2xl font-bold text-black text-left">
-                    Employee Tenureship Report
-                </span>
-                <span v-show="administrativeReportOption.report_type === 'employee-masterlist'" class="text-2xl font-bold text-black text-left">
-                    Employee Masterlist Report
-                </span>
-            </div>
+            <HrmsReportsAdministrativeReportsAdministrativeHeader />
             <table class="printTable border border-gray-500 mb-20">
                 <thead class="text-blue-600 text-md">
                     <tr class="py-4">
@@ -48,7 +43,7 @@ watch(EmployeeTenureshipList.value.params, async () => {
                     </tr>
                 </thead>
                 <tbody class="text-sm">
-                    <tr v-for="reportData, index in EmployeeTenureshipList.list" :key="'EmployeeTenureship' + index" class="h-2">
+                    <tr v-for="reportData, index in administrativeReports.list" :key="'EmployeeTenureship' + index" class="h-2">
                         <td class="border border-gray-500 = h-8 px-2 text-sm text-center">
                             {{ index + 1 }}
                         </td>

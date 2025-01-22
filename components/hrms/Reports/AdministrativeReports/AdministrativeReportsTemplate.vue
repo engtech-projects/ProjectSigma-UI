@@ -1,7 +1,17 @@
 <script setup>
-import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
+import {
+    useGenerateReportStore,
+    EMPLOYEE_MASTERLIST,
+    EMPLOYEE_NEWHIRE,
+    EMPLOYEE_TENURESHIP
+} from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { administrativeReportOption } = storeToRefs(generateReportstore)
+const { administrativeReports } = storeToRefs(generateReportstore)
+watch(administrativeReports.value.params, (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+        administrativeReports.value.list = []
+    }
+})
 </script>
 <template>
     <LayoutBoards title="Administrative Reports">
@@ -11,16 +21,16 @@ const { administrativeReportOption } = storeToRefs(generateReportstore)
                     Report Type:
                 </span>
                 <select
-                    v-model="administrativeReportOption.report_type"
+                    v-model="administrativeReports.params.report_type"
                     class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 >
-                    <option value="employee-tenureship">
+                    <option :value="EMPLOYEE_TENURESHIP">
                         Employee Tenureship
                     </option>
-                    <option value="employee-masterlist">
+                    <option :value="EMPLOYEE_MASTERLIST">
                         Employee Masterlist
                     </option>
-                    <option value="employee-newhires">
+                    <option :value="EMPLOYEE_NEWHIRE">
                         Employee New Hires
                     </option>
                 </select>
@@ -28,13 +38,13 @@ const { administrativeReportOption } = storeToRefs(generateReportstore)
         </div>
         <div class="p-2">
             <HrmsReportsAdministrativeReportsEmployeeTenureship
-                v-show="administrativeReportOption.report_type === 'employee-tenureship'"
+                v-show="administrativeReports.params.report_type === EMPLOYEE_TENURESHIP"
             />
             <HrmsReportsAdministrativeReportsEmployeeMasterList
-                v-show="administrativeReportOption.report_type === 'employee-masterlist'"
+                v-show="administrativeReports.params.report_type === EMPLOYEE_MASTERLIST"
             />
             <HrmsReportsAdministrativeReportsEmployeeNewHire
-                v-show="administrativeReportOption.report_type === 'employee-newhires'"
+                v-show="administrativeReports.params.report_type === EMPLOYEE_NEWHIRE"
             />
         </div>
     </LayoutBoards>
