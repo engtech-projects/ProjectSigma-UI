@@ -114,7 +114,7 @@ export const useAccountingEnumStore = defineStore("accountingEnums", {
             isLoaded: false,
             list: [] as Projects[],
             params: {
-                type: "projects",
+                type: "project",
                 key: "",
             },
             successMessage: "",
