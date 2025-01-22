@@ -1,9 +1,27 @@
 <script setup>
-defineProps({
+const props = defineProps({
     voucherData: {
         type: Object,
         default: null
     },
+    signatories: {
+        type: Array,
+        default: null
+    }
+})
+const totalDebit = computed(() => {
+    let total = 0
+    props.voucherData?.details.forEach((d) => {
+        total += parseFloat(d?.debit)
+    })
+    return total
+})
+const totalCredit = computed(() => {
+    let total = 0
+    props.voucherData?.details.forEach((d) => {
+        total += parseFloat(d?.credit)
+    })
+    return total
 })
 </script>
 <template>
@@ -76,12 +94,29 @@ defineProps({
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">
-                                        {{ detail?.debit }}
+                                        {{ detail?.debit > 0 ? formatToCurrency(detail.debit) : "" }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">
-                                        {{ detail?.credit }}
+                                        {{ detail?.credit > 0 ? formatToCurrency(detail.credit) : "" }}
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap" colspan="2">
+                                    <div class="text-sm font-bold text-gray-900">
+                                        TOTAL
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-bold text-gray-900">
+                                        {{ formatToCurrency(totalDebit) }}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-bold text-gray-900">
+                                        {{ formatToCurrency(totalCredit) }}
                                     </div>
                                 </td>
                             </tr>
@@ -90,6 +125,7 @@ defineProps({
                 </div>
             </div>
         </div>
+        <AccountingCommonStepperSignatureProgress class="my-8" :signatories="signatories" />
         <div class="w-full">
             <LayoutApprovalsListView :approvals="voucherData?.approvals" />
         </div>
