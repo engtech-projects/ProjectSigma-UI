@@ -4,6 +4,9 @@ export const LOAN_HDMF_MPL_LOAN = "HDMF MPL LOAN"
 export const LOAN_COOP = "COOP LOAN"
 export const LOAN_SSS = "SSS LOAN"
 export const LOAN_CALAMITY = "HDMF CALAMITY LOAN"
+export const EMPLOYEE_MASTERLIST = "EMPLOYEE MASTERLIST"
+export const EMPLOYEE_NEWHIRE = "EMPLOYEE NEWHIRE"
+export const EMPLOYEE_TENURESHIP = "EMPLOYEE TENURESHIP"
 export const LOAN_REPORTS = [
     LOAN_HDMF_MPL,
     LOAN_HDMF_MPL_LOAN,
@@ -39,6 +42,20 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                 errorMessage: null,
                 successMessage: null,
             },
+        },
+        administrativeReports: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                report_type: null,
+                department_id: null,
+                project_id: null,
+                group_type: null,
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
         },
         otherDeductionReports: {
             categoryList: {
@@ -261,37 +278,6 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
-        EmployeeTenureshipList: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {
-                report_type: "EMPLOYEE TENURESHIP",
-                department_id: null,
-                project_id: null,
-                group_type: null,
-            },
-            pagination: {},
-            errorMessage: null,
-            successMessage: null,
-        },
-        EmployeeMasterList: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {
-                report_type: "EMPLOYEE MASTERLIST",
-                department_id: null,
-                project_id: null,
-                group_type: null,
-            },
-            pagination: {},
-            errorMessage: null,
-            successMessage: null,
-        },
-        administrativeReportOption: {
-            report_type: "",
-        },
     }),
     getters: {},
     actions: {
@@ -373,51 +359,26 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                 }
             )
         },
-        async getEmployeeTenureshipList () {
+        async getAdministrativeReport () {
             await useHRMSApiO(
                 "/api/reports/administrative",
                 {
                     method: "GET",
-                    params: this.EmployeeTenureshipList.params,
+                    params: this.administrativeReports.params,
                     onRequest: () => {
-                        this.EmployeeTenureshipList.isLoading = true
-                        this.EmployeeTenureshipList.list = []
+                        this.administrativeReports.isLoading = true
+                        this.administrativeReports.list = []
                     },
                     onResponseError: ({ response } : any) => {
-                        this.EmployeeTenureshipList.errorMessage = response._data.message
+                        this.administrativeReports.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
-                        this.EmployeeTenureshipList.isLoading = false
+                        this.administrativeReports.isLoading = false
                         if (response.ok) {
-                            this.EmployeeTenureshipList.isLoaded = true
-                            this.EmployeeTenureshipList.list = response._data.data
-                            this.EmployeeTenureshipList.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        async getEmployeeMasterList () {
-            await useHRMSApiO(
-                "/api/reports/administrative",
-                {
-                    method: "GET",
-                    params: this.EmployeeMasterList.params,
-                    onRequest: () => {
-                        this.EmployeeMasterList.isLoading = true
-                        this.EmployeeMasterList.list = []
-                    },
-                    onResponseError: ({ response } : any) => {
-                        this.EmployeeMasterList.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response } : any) => {
-                        this.EmployeeMasterList.isLoading = false
-                        if (response.ok) {
-                            this.EmployeeMasterList.isLoaded = true
-                            this.EmployeeMasterList.list = response._data.data
-                            this.EmployeeMasterList.successMessage = response._data.message
+                            this.administrativeReports.isLoaded = true
+                            this.administrativeReports.list = response._data.data
+                            this.administrativeReports.successMessage = response._data.message
                         }
                     },
                 }
@@ -674,31 +635,6 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.hdmfEmployeeLoan.isLoaded = true
                             this.hdmfEmployeeLoan.list = response._data.data
                             this.hdmfEmployeeLoan.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        async getSssEmployeeLoan () {
-            await useHRMSApiO(
-                "/api/reports/sss-employee-loans",
-                {
-                    method: "GET",
-                    params: this.sssEmployeeLoanList.params,
-                    onRequest: () => {
-                        this.sssEmployeeLoanList.isLoading = true
-                        this.sssEmployeeLoanList.list = []
-                    },
-                    onResponseError: ({ response } : any) => {
-                        this.sssEmployeeLoanList.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response } : any) => {
-                        this.sssEmployeeLoanList.isLoading = false
-                        if (response.ok) {
-                            this.sssEmployeeLoanList.isLoaded = true
-                            this.sssEmployeeLoanList.list = response._data.data
-                            this.sssEmployeeLoanList.successMessage = response._data.message
                         }
                     },
                 }

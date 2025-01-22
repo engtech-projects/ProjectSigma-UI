@@ -1,9 +1,11 @@
 <script setup>
-import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
+import { useGenerateReportStore, EMPLOYEE_MASTERLIST } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { EmployeeMasterList, administrativeReportOption } = storeToRefs(generateReportstore)
-watch(EmployeeMasterList.value.params, async () => {
-    await generateReportstore.getEmployeeMasterList()
+const { administrativeReports } = storeToRefs(generateReportstore)
+watch(administrativeReports.value.params, async () => {
+    if (administrativeReports.value.params.report_type === EMPLOYEE_MASTERLIST) {
+        await generateReportstore.getAdministrativeReport()
+    }
 })
 const headers = [
     { name: "Employee ID", id: "employee_id" },
@@ -52,22 +54,15 @@ const headers = [
         <div class="header flex flex-col mb-8">
             <div class="flex gap-4 flex-row items-center max-w-sm">
                 <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
-                    v-model:select-type="EmployeeMasterList.params.group_type"
-                    v-model:department-id="EmployeeMasterList.params.department_id"
-                    v-model:project-id="EmployeeMasterList.params.project_id"
+                    v-model:select-type="administrativeReports.params.group_type"
+                    v-model:department-id="administrativeReports.params.department_id"
+                    v-model:project-id="administrativeReports.params.project_id"
                     title="Category"
                 />
             </div>
         </div>
         <LayoutPrint>
-            <div class="title flex flex-col justify-center gap-1 mb-12">
-                <span v-show="administrativeReportOption.report_type === 'employee-tenureship'" class="text-2xl font-bold text-black text-left">
-                    Employee Tenureship Report
-                </span>
-                <span v-show="administrativeReportOption.report_type === 'employee-masterlist'" class="text-2xl font-bold text-black text-left">
-                    Employee Masterlist Report
-                </span>
-            </div>
+            <HrmsReportsAdministrativeReportsAdministrativeHeader />
             <table class="printTable table-auto w-full border-collapse border border-gray-500 mb-20">
                 <thead class="text-blue-600 text-md">
                     <tr class="py-4">
@@ -81,7 +76,7 @@ const headers = [
                         </th>
                     </tr>
                 </thead>
-                <tr v-for="dataValue, index in EmployeeMasterList.list" :key="'EmployeeMasterList' + index" class="h-2">
+                <tr v-for="dataValue, index in administrativeReports.list" :key="'EmployeeMasterList' + index" class="h-2">
                     <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                         {{ dataValue.employee_id }}
                     </td>
