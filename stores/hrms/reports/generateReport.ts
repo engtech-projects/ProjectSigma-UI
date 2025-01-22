@@ -291,6 +291,20 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             errorMessage: null,
             successMessage: null,
         },
+        EmployeeNewHire: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                report_type: "EMPLOYEE NEWHIRE",
+                department_id: null,
+                project_id: null,
+                group_type: "All",
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
         administrativeReportOption: {
             report_type: "",
         },
@@ -420,6 +434,31 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.EmployeeMasterList.isLoaded = true
                             this.EmployeeMasterList.list = response._data.data
                             this.EmployeeMasterList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getEmployeeNewHire () {
+            await useHRMSApiO(
+                "/api/reports/administrative",
+                {
+                    method: "GET",
+                    params: this.EmployeeNewHire.params,
+                    onRequest: () => {
+                        this.EmployeeNewHire.isLoading = true
+                        this.EmployeeNewHire.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.EmployeeNewHire.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.EmployeeNewHire.isLoading = false
+                        if (response.ok) {
+                            this.EmployeeNewHire.isLoaded = true
+                            this.EmployeeNewHire.list = response._data.data
+                            this.EmployeeNewHire.successMessage = response._data.message
                         }
                     },
                 }
@@ -676,31 +715,6 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.hdmfEmployeeLoan.isLoaded = true
                             this.hdmfEmployeeLoan.list = response._data.data
                             this.hdmfEmployeeLoan.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        async getSssEmployeeLoan () {
-            await useHRMSApiO(
-                "/api/reports/sss-employee-loans",
-                {
-                    method: "GET",
-                    params: this.sssEmployeeLoanList.params,
-                    onRequest: () => {
-                        this.sssEmployeeLoanList.isLoading = true
-                        this.sssEmployeeLoanList.list = []
-                    },
-                    onResponseError: ({ response } : any) => {
-                        this.sssEmployeeLoanList.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response } : any) => {
-                        this.sssEmployeeLoanList.isLoading = false
-                        if (response.ok) {
-                            this.sssEmployeeLoanList.isLoaded = true
-                            this.sssEmployeeLoanList.list = response._data.data
-                            this.sssEmployeeLoanList.successMessage = response._data.message
                         }
                     },
                 }

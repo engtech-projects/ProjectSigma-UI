@@ -20,6 +20,9 @@ const { administrativeReportOption } = storeToRefs(generateReportstore)
                     <option value="employee-masterlist">
                         Employee Masterlist
                     </option>
+                    <option value="employee-newhires">
+                        Employee New Hires
+                    </option>
                 </select>
             </div>
         </div>
@@ -29,6 +32,9 @@ const { administrativeReportOption } = storeToRefs(generateReportstore)
             />
             <HrmsReportsAdministrativeReportsEmployeeMasterList
                 v-show="administrativeReportOption.report_type === 'employee-masterlist'"
+            />
+            <HrmsReportsAdministrativeReportsEmployeeNewHire
+                v-show="administrativeReportOption.report_type === 'employee-newhires'"
             />
         </div>
     </LayoutBoards>
