@@ -51,21 +51,22 @@ const setType = (thisItem) => {
                 <Icon name="mdi:plus" class="h-5 w-5 text-white" />
             </button>
         </div>
-        <div class="flex flex-row gap-4">
-            <div v-for="item, index in list" :key="index" class="w-full">
+        <div class="flex flex-col gap-4">
+            <div v-for="item, index in list" :key="index" class="w-full flex flex-row">
                 <select
                     v-model="item.type"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
+                    class="block py-2.5 px-0 w-1/3 text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-cyan-600 peer"
                     @change="setType(item)"
                 >
                     <template v-for="itemTypes in types" :key="itemTypes.id">
-                        <option v-show="itemTypes.show">
+                        <option v-show="itemTypes.show" :value="itemTypes.id">
                             {{ itemTypes.name }}
                         </option>
                     </template>
                 </select>
                 <LayoutFormPsTextInput
                     v-model="item.value"
+                    class="w-2/3"
                     title=""
                 />
             </div>

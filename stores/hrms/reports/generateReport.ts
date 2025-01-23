@@ -47,7 +47,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            // itemFilters: [],
+            itemFilters: [],
             filters: [],
             headers: [],
             params: {

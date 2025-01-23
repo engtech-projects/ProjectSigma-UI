@@ -76,7 +76,7 @@ administrativeReports.value.headers = [
     { name: "Spouse's Date of Birth", id: "spouse_date_of_birth", show: true },
     { name: "Spouse's Occupation", id: "spouse_occupation", show: true },
     { name: "Date of Marriage", id: "date_of_marriage", show: true },
-    { name: "Children (Name and Birthday)", id: "child", show: true },
+    { name: "Children (Name and Birthday)", id: "children_summary", show: true },
     { name: "Person to Contact Name", id: "contact_person", show: true },
     { name: "Person to Contact Address", id: "contact_person_address", show: true },
     { name: "Person to Contact Number", id: "contact_person_contact_no", show: true },
@@ -90,7 +90,15 @@ administrativeReports.value.headers = [
     { name: "TIN", id: "tin_number", show: true },
     { name: "Current Work Location (Department name/ Project Code)", id: "work_location", show: true },
     { name: "Current Position", id: "current_position_name", show: true },
+    { name: "Salary Grade", id: "salary_grade", show: true },
 ]
+const filteredList = computed(() => {
+    return administrativeReports.value.list.filter(
+        listItem => administrativeReports.value.itemFilters.some(
+            filter => listItem[filter.type]?.toLowerCase().includes(filter.value?.toLowerCase())
+        )
+    )
+})
 </script>
 <template>
     <div class="flex flex-col">
@@ -120,7 +128,7 @@ administrativeReports.value.headers = [
                         </th>
                     </tr>
                 </thead>
-                <tr v-for="dataValue, index in administrativeReports.list" :key="'EmployeeMasterList' + index" class="h-2">
+                <tr v-for="dataValue, index in filteredList" :key="'EmployeeMasterList' + index" class="h-2">
                     <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                         {{ dataValue.employee_id }}
                     </td>
@@ -197,11 +205,7 @@ administrativeReports.value.headers = [
                         {{ dataValue.date_of_marriage }}
                     </td>
                     <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                        <template v-for="childDataValue, childDataIndex in dataValue.child" :key="'childList' + childDataIndex">
-                            <p>
-                                {{ childDataValue.name + childDataValue.date_of_birth }}
-                            </p>
-                        </template>
+                        {{ dataValue.children_summary }}
                     </td>
                     <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                         {{ dataValue.contact_person }}
