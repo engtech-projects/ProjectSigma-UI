@@ -8,6 +8,7 @@ watch(administrativeReports.value.params, async () => {
     }
 })
 const headers = [
+    { name: "NO", id: "" },
     { name: "Employee ID", id: "employee_id" },
     { name: "Name", id: "fullname" },
     { name: "Designation", id: "designation" },
