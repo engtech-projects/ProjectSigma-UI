@@ -47,6 +47,9 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             isLoading: false,
             isLoaded: false,
             list: [],
+            // itemFilters: [],
+            filters: [],
+            headers: [],
             params: {
                 report_type: null,
                 department_id: null,
@@ -279,7 +282,14 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             successMessage: null,
         },
     }),
-    getters: {},
+    getters: {
+        filterMasterListReport (state) {
+            const masterList = {} as any
+            if (state.administrativeReports.list.length <= 0) {
+                return masterList
+            }
+        }
+    },
     actions: {
         // REMITTANCE REPORTS
         // PHILHEALTH REMITTANCE
