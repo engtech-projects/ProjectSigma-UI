@@ -10,6 +10,10 @@ const addFilter = () => {
     })
 }
 
+const removeFilter = (index) => {
+    list.value.splice(index, 1)
+}
+
 const setType = (thisItem) => {
     const data = types.value
     data.forEach((item) => {
@@ -69,6 +73,9 @@ const setType = (thisItem) => {
                     class="w-2/3"
                     title=""
                 />
+                <button class="ml-2 px-3 py-1 bg-red-600 text-white text-xs font-bold" @click="removeFilter(index)">
+                    -
+                </button>
             </div>
         </div>
     </div>
