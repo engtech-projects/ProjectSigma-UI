@@ -1,5 +1,12 @@
 import { defineStore } from "pinia"
 
+export enum StakeholderTypes {
+    PROJECT = "project",
+    EMPLOYEE = "employee",
+    SUPPLIER = "supplier",
+    DEPARTMENT = "department",
+    PAYEE = "payee",
+}
 export interface Supplier {
     name: String,
     stakeholdable_type: String,
@@ -70,7 +77,7 @@ export const useAccountingEnumStore = defineStore("accountingEnums", {
             isLoaded: false,
             list: [] as Supplier[],
             params: {
-                type: "supplier",
+                type: StakeholderTypes.SUPPLIER,
                 key: "",
             },
             successMessage: "",
@@ -81,7 +88,7 @@ export const useAccountingEnumStore = defineStore("accountingEnums", {
             isLoaded: false,
             list: [] as Payees[],
             params: {
-                type: "payee",
+                type: StakeholderTypes.PAYEE,
                 key: "",
             },
             successMessage: "",
@@ -92,7 +99,7 @@ export const useAccountingEnumStore = defineStore("accountingEnums", {
             isLoaded: false,
             list: [] as Employee[],
             params: {
-                type: "employee",
+                type: StakeholderTypes.EMPLOYEE,
                 key: "",
             },
             successMessage: "",
@@ -114,7 +121,7 @@ export const useAccountingEnumStore = defineStore("accountingEnums", {
             isLoaded: false,
             list: [] as Projects[],
             params: {
-                type: "projects",
+                type: StakeholderTypes.PROJECT,
                 key: "",
             },
             successMessage: "",
@@ -125,7 +132,7 @@ export const useAccountingEnumStore = defineStore("accountingEnums", {
             isLoaded: false,
             list: [] as Departments[],
             params: {
-                type: "department",
+                type: StakeholderTypes.DEPARTMENT,
                 key: "",
             },
             successMessage: "",

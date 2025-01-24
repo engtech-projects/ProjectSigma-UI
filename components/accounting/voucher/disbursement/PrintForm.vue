@@ -22,18 +22,17 @@ const totalCredit = computed(() => {
     })
     return total
 })
-
 </script>
 
 <template>
     <div id="toPrint" class="bg-white left-0 top-0 w-screen min-h-[1000px] max-w-[100%] p-12">
         <div class="flex flex-col gap-2 pb-24 pt-8 relative border-2 border-black min-h-[1200px]">
-            <AccountingCommonEvenparHeader class="pb-2" />
-            <h1 class="text-2xl text-center font-bold text-block border-b-2 pb-2 border-black">
-                DISBURSEMENT VOUCHER/CASH VOUCHER
+            <AccountingCommonEvenparHeader class="pb-4 border-b-4 border-green-400 mb-16" />
+            <h1 id="headText" class="text-2xl text-center font-bold text-block border-b-2 pb-2 border-black">
+                DISBURSEMENT VOUCHER
             </h1>
             <div class="flex flex-col gap-2">
-                <div class="flex justify-end gap-4 mb-4">
+                <div class="flex justify-end gap-4 mb-4 my-4">
                     <h3 class="font-bold">
                         REFERENCE NO.
                     </h3>
@@ -41,39 +40,45 @@ const totalCredit = computed(() => {
                         {{ props.data?.reference_no }}
                     </span>
                 </div>
-                <div class="flex justify-end gap-4 mb-4 mr-[330px]">
-                    <h3 class="font-bold text-2xl">
-                        Check No.
-                    </h3>
-                    <span class="border-b-2 border-gray-800 block" :class="!props.data.check_no ? 'w-32':''">
-                        {{ props.data?.check_no }}
-                    </span>
-                </div>
                 <table class="border border-black">
                     <tbody>
                         <tr>
-                            <td class="withBg border border-black pl-2 py-2 text-sm bg-blue-300">
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
                                 PAYEE :
                             </td>
                             <td class="border border-black pl-2 py-1 text-sm">
-                                {{ data.stakeholder_id }}
+                                {{ data.payment_request?.stakeholder?.name }}
                             </td>
-                            <td class="withBg border border-black pl-2 py-2 text-sm bg-blue-300">
-                                DATE :
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
+                                ENCODED DATE :
                             </td>
                             <td class="border border-black pl-2 py-1 text-sm">
                                 {{ dateToString(new Date(data.date_encoded)) }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="withBg border border-black pl-2 py-2 text-sm bg-blue-300">
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
                                 PARTICULARS :
                             </td>
                             <td class="border border-black pl-2 py-1 text-sm">
                                 {{ data.particulars }}
                             </td>
-                            <td class="withBg border border-black pl-2 py-2 text-sm bg-blue-300">
-                                AMOUNT
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
+                                ENTRY DATE :
+                            </td>
+                            <td class="border border-black pl-2 py-1 text-sm">
+                                {{ dateToString(new Date(data.voucher_date)) }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
+                                AMOUNT IN WORDS :
+                            </td>
+                            <td class="border border-black pl-2 py-1 text-sm">
+                                {{ data.amount_in_words }}
+                            </td>
+                            <td class="border border-black pl-2 py-1 text-sm bg-blue-300">
+                                NET AMOUNT
                             </td>
                             <td class="border border-black pl-2 py-1 text-sm">
                                 {{ formatToCurrency(data.net_amount) }}
@@ -117,7 +122,7 @@ const totalCredit = computed(() => {
                                         {{ ae.account?.account_name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
-                                        {{ ae.stakeholder?.stakeholder_name }}
+                                        {{ ae.account?.stakeholder?.name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800  text-sm">
                                         {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "" }}
@@ -168,31 +173,6 @@ const totalCredit = computed(() => {
                             ]"
                         />
                     </HrmsReportsSignaturesRow>
-                    <span class="block mt-16 ml-4 mb-14">
-                        Received the amount from Evenpar Construction and Development Corporation the payment of the above.
-                    </span>
-                    <div class="flex mb-20">
-                        <div class="flex-1" />
-                        <div class="flex-1">
-                            <span class="w-full block border-t-2 border-black text-center">Received by</span>
-                        </div>
-                        <div class="flex-1" />
-                        <div class="flex-1">
-                            <span class="w-full block border-t-2 border-black text-center">Date</span>
-                        </div>
-                        <div class="flex-1" />
-                    </div>
-                    <div class="flex flex-col ml-4">
-                        <span class="text-md uppercase">
-                            PUROK 1, POBLACION 8, BUENAVISTA, AGUSAN DEL NORTE
-                        </span>
-                        <i class="text-green-500 underline">
-                            Evenparconstruction.com
-                        </i>
-                        <span class="text-md">
-                            09209745316
-                        </span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -205,5 +185,13 @@ const totalCredit = computed(() => {
 }
 .flex-3 {
     flex: 3;
+}
+@media print {
+    #headText {
+        padding-top: 170px
+    }
+    #header {
+        padding-top: 60px;
+    }
 }
 </style>

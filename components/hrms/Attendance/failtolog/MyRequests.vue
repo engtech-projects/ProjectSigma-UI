@@ -9,6 +9,8 @@ const { myRequests } = storeToRefs(failtologs)
 const headers = [
     { name: "Date", id: "date_human" },
     { name: "Time", id: "time_human" },
+    { name: "Employee", id: "employee.fullname_last" },
+    { name: "Charging", id: "charging_designation" },
     { name: "Log Type", id: "log_type" },
     { name: "Reason", id: "reason" },
 ]

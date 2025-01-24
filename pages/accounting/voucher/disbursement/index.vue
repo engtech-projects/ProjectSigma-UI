@@ -54,11 +54,6 @@ const voucherStore = useVoucherStore()
                     v-if="voucherStore.voucherDisbursement.reference_no"
                     :fillable="true"
                 />
-                <div v-else class="w-full py-2">
-                    <p class="text-center text-gray-300">
-                        No Disbursement Vouchers transactions yet.
-                    </p>
-                </div>
             </div>
         </div>
     </LayoutAcessContainer>
