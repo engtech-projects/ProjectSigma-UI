@@ -1,9 +1,9 @@
 <script setup>
-import { useGenerateReportStore, EMPLOYEE_NEWHIRE } from "@/stores/hrms/reports/generateReport"
+import { useGenerateReportStore, EMPLOYEE_LEAVES } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
 watch(administrativeReports.value.params, async () => {
-    if (administrativeReports.value.params.report_type === EMPLOYEE_NEWHIRE) {
+    if (administrativeReports.value.params.report_type === EMPLOYEE_LEAVES) {
         await generateReportstore.getAdministrativeReport()
     }
 })
