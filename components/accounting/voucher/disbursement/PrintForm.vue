@@ -206,4 +206,9 @@ const totalCredit = computed(() => {
 .flex-3 {
     flex: 3;
 }
+@media print {
+    #toPrint {
+        margin-top: 100px;
+    }
+}
 </style>
