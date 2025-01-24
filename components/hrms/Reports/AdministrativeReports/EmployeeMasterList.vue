@@ -7,58 +7,110 @@ watch(administrativeReports.value.params, async () => {
         await generateReportstore.getAdministrativeReport()
     }
 })
-const headers = [
-    { name: "Employee ID", id: "employee_id" },
-    { name: "Date Hired", id: "date_hired" },
-    { name: "Last Name", id: "family_name" },
-    { name: "First Name", id: "first_name" },
-    { name: "Middle Name", id: "middle_name" },
-    { name: "Suffix", id: "name_suffix" },
-    { name: "Nickname", id: "nick_name" },
-    { name: "Present Address", id: "present_address" },
-    { name: "Permanent Address", id: "permanent_address" },
-    { name: "Cellphone", id: "mobile_number" },
-    { name: "Date of Birth", id: "date_of_birth" },
-    { name: "Place of Birth", id: "place_of_birth" },
-    { name: "Citizenship", id: "citizenship" },
-    { name: "Blood Type", id: "blood_type" },
-    { name: "Gender", id: "gender" },
-    { name: "Religion", id: "religion" },
-    { name: "Civil Status", id: "civil_status" },
-    { name: "Height", id: "height" },
-    { name: "Weight", id: "weight" },
-    { name: "Father's Name", id: "father" },
-    { name: "Mother's Name", id: "mother" },
-    { name: "Name of Spouse", id: "spouse" },
-    { name: "Spouse's Date of Birth", id: "spouse_date_of_birth" },
-    { name: "Spouse's Occupation", id: "spouse_occupation" },
-    { name: "Date of Marriage", id: "date_of_marriage" },
-    { name: "Children (Name and Birthday)", id: "child" },
-    { name: "Person to Contact Name", id: "contact_person" },
-    { name: "Person to Contact Address", id: "contact_person_address" },
-    { name: "Person to Contact Number", id: "contact_person_contact_no" },
-    { name: "Person to Contact Relationship", id: "contact_person_relationship" },
-    { name: "Primary Education", id: "employee_education_elementary" },
-    { name: "Secondary Education", id: "employee_education_secondary" },
-    { name: "Tertiary Education", id: "employee_education_college" },
-    { name: "SSS #", id: "sss_number" },
-    { name: "Philhealth #", id: "phic_number" },
-    { name: "Pag-ibig #", id: "pagibig_number" },
-    { name: "TIN", id: "tin_number" },
-    { name: "Current Work Location (Department name/ Project Code)", id: "work_location" },
-    { name: "Current Position", id: "current_position_name" },
+administrativeReports.value.filters = [
+    {
+        employee_id: null,
+        date_hired: null,
+        family_name: null,
+        first_name: null,
+        middle_name: null,
+        name_suffix: null,
+        nick_name: null,
+        present_address: null,
+        permanent_address: null,
+        mobile_number: null,
+        date_of_birth: null,
+        place_of_birth: null,
+        citizenship: null,
+        blood_type: null,
+        gender: null,
+        religion: null,
+        civil_status: null,
+        height: null,
+        weight: null,
+        father: null,
+        mother: null,
+        spouse: null,
+        spouse_date_of_birth: null,
+        spouse_occupation: null,
+        date_of_marriage: null,
+        child: null,
+        contact_person: null,
+        contact_person_address: null,
+        contact_person_contact_no: null,
+        contact_person_relationship: null,
+        employee_education_elementary: null,
+        employee_education_secondary: null,
+        employee_education_college: null,
+        sss_number: null,
+        phic_number: null,
+        pagibig_number: null,
+        tin_number: null,
+        work_location: null,
+        current_position_name: null,
+    }
 ]
+administrativeReports.value.headers = [
+    { name: "Employee ID", id: "employee_id", show: true },
+    { name: "Date Hired", id: "date_hired", show: true },
+    { name: "Last Name", id: "family_name", show: true },
+    { name: "First Name", id: "first_name", show: true },
+    { name: "Middle Name", id: "middle_name", show: true },
+    { name: "Suffix", id: "name_suffix", show: true },
+    { name: "Nickname", id: "nick_name", show: true },
+    { name: "Present Address", id: "present_address", show: true },
+    { name: "Permanent Address", id: "permanent_address", show: true },
+    { name: "Cellphone", id: "mobile_number", show: true },
+    { name: "Date of Birth", id: "date_of_birth", show: true },
+    { name: "Place of Birth", id: "place_of_birth", show: true },
+    { name: "Citizenship", id: "citizenship", show: true },
+    { name: "Blood Type", id: "blood_type", show: true },
+    { name: "Gender", id: "gender", show: true },
+    { name: "Religion", id: "religion", show: true },
+    { name: "Civil Status", id: "civil_status", show: true },
+    { name: "Height", id: "height", show: true },
+    { name: "Weight", id: "weight", show: true },
+    { name: "Father's Name", id: "father", show: true },
+    { name: "Mother's Name", id: "mother", show: true },
+    { name: "Name of Spouse", id: "spouse", show: true },
+    { name: "Spouse's Date of Birth", id: "spouse_date_of_birth", show: true },
+    { name: "Spouse's Occupation", id: "spouse_occupation", show: true },
+    { name: "Date of Marriage", id: "date_of_marriage", show: true },
+    { name: "Children (Name and Birthday)", id: "children_summary", show: true },
+    { name: "Person to Contact Name", id: "contact_person", show: true },
+    { name: "Person to Contact Address", id: "contact_person_address", show: true },
+    { name: "Person to Contact Number", id: "contact_person_contact_no", show: true },
+    { name: "Person to Contact Relationship", id: "contact_person_relationship", show: true },
+    { name: "Primary Education", id: "employee_education_elementary", show: true },
+    { name: "Secondary Education", id: "employee_education_secondary", show: true },
+    { name: "Tertiary Education", id: "employee_education_college", show: true },
+    { name: "SSS #", id: "sss_number", show: true },
+    { name: "Philhealth #", id: "phic_number", show: true },
+    { name: "Pag-ibig #", id: "pagibig_number", show: true },
+    { name: "TIN", id: "tin_number", show: true },
+    { name: "Current Work Location (Department name/ Project Code)", id: "work_location", show: true },
+    { name: "Current Position", id: "current_position_name", show: true },
+    { name: "Salary Grade", id: "salary_grade", show: true },
+]
+const filteredList = computed(() => {
+    return administrativeReports.value.list.filter(
+        listItem => administrativeReports.value.itemFilters.some(
+            filter => listItem[filter.type]?.toLowerCase().includes(filter.value?.toLowerCase())
+        )
+    )
+})
 </script>
 <template>
     <div class="flex flex-col">
         <div class="header flex flex-col mb-8">
-            <div class="flex gap-4 flex-row items-center max-w-sm">
+            <div class="w-full flex gap-4 flex-row items-center">
                 <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
                     v-model:select-type="administrativeReports.params.group_type"
                     v-model:department-id="administrativeReports.params.department_id"
                     v-model:project-id="administrativeReports.params.project_id"
                     title="Category"
                 />
+                <HrmsReportsAdministrativeReportsDynamicFilter :list="administrativeReports.itemFilters" :types="administrativeReports.headers" />
             </div>
         </div>
         <LayoutPrint>
@@ -67,7 +119,7 @@ const headers = [
                 <thead class="text-blue-600 text-md">
                     <tr class="py-4">
                         <th
-                            v-for="header in headers"
+                            v-for="header in administrativeReports.headers"
                             :key="header.name+'headerRow'"
                             class="px-2 py-4 border-gray-500 border"
                             :class="header.style ?? ''"
@@ -76,7 +128,7 @@ const headers = [
                         </th>
                     </tr>
                 </thead>
-                <tr v-for="dataValue, index in administrativeReports.list" :key="'EmployeeMasterList' + index" class="h-2">
+                <tr v-for="dataValue, index in filteredList" :key="'EmployeeMasterList' + index" class="h-2">
                     <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                         {{ dataValue.employee_id }}
                     </td>
@@ -153,11 +205,7 @@ const headers = [
                         {{ dataValue.date_of_marriage }}
                     </td>
                     <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                        <template v-for="childDataValue, childDataIndex in dataValue.child" :key="'childList' + childDataIndex">
-                            <p>
-                                {{ childDataValue.name + childDataValue.date_of_birth }}
-                            </p>
-                        </template>
+                        {{ dataValue.children_summary }}
                     </td>
                     <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                         {{ dataValue.contact_person }}
