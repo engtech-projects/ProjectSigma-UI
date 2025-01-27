@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia"
 import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
 
-defineProps({
+const props = defineProps({
     paymentData: {
         type: Object,
         required: false,
@@ -69,6 +69,23 @@ const denyRequest = async (id) => {
         boardLoading.value = false
     }
 }
+const totalCost = computed(() => {
+    let total = 0
+    props.paymentData?.details?.forEach((d) => {
+        total += parseFloat(d?.cost)
+    })
+    return total
+})
+const totalVatAmount = computed(() => {
+    let total = 0
+    props.paymentData?.details?.forEach((d) => {
+        total += parseFloat(d?.total_vat_amount)
+    })
+    return total
+})
+const totalAmount = computed(() => {
+    return totalCost.value + totalVatAmount.value
+})
 watch(showModal, (newVal) => {
     if (!newVal) {
         printPreview.value = false
@@ -173,6 +190,28 @@ watch(showModal, (newVal) => {
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-600">
                                                 {{ useFormatCurrency(detail?.amount) }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap" colspan="2">
+                                            <div class="text-sm text-gray-600 font-bold">
+                                                TOTAL
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-600 font-bold">
+                                                {{ useFormatCurrency(totalCost) }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-600 font-bold">
+                                                {{ useFormatCurrency(totalVatAmount) }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-600 font-bold">
+                                                {{ useFormatCurrency(totalAmount) }}
                                             </div>
                                         </td>
                                     </tr>
