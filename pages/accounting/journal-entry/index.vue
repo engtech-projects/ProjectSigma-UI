@@ -33,6 +33,27 @@ const journalStore = useJournalStore()
                         target-id="unpostedJournals"
                     />
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES,
+                        ])"
+                        title="For Payment Journal Entry"
+                        target-id="forPaymentJournalEntry"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_JOURNAL_ENTRY_CASH_ENTRIES,
+                        ])"
+                        title="Cash"
+                        target-id="treasuryJournalEntry"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_JOURNAL_ENTRY_DISBURSEMENT_ENTRIES,
+                        ])"
+                        title="Disbursement"
+                        target-id="disbursementJournalEntry"
+                    />
+                    <AccountingCommonTabsTabTitle
                         title="PRF Journal Entries"
                         target-id="paymentRequestJournals"
                     />
@@ -49,6 +70,15 @@ const journalStore = useJournalStore()
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="unpostedJournals">
                         <AccountingJournalUnPosted />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="forPaymentJournalEntry">
+                        <AccountingJournalForPaymentEntry />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="treasuryJournalEntry">
+                        <AccountingJournalCashJournalEntry />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="disbursementJournalEntry">
+                        <AccountingJournalDisbursementJournalEntry />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="paymentRequestJournals">
                         <AccountingJournalPaymentRequestList />
