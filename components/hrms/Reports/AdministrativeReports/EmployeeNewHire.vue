@@ -34,41 +34,43 @@ const headers = [
             </div>
         </div>
         <LayoutPrint>
-            <HrmsReportsAdministrativeReportsAdministrativeHeader />
-            <table class="printTable table-auto w-full border-collapse border border-gray-500 mb-20">
-                <thead class="text-blue-600 text-md">
-                    <tr class="py-4">
-                        <th
-                            v-for="header in headers"
-                            :key="header.name+'headerRow'"
-                            class="px-2 py-4 border-gray-500 border"
-                            :class="header.style ?? ''"
-                        >
-                            {{ header.name }}
-                        </th>
+            <LayoutLoadingContainer :loading="administrativeReports.isLoading">
+                <HrmsReportsAdministrativeReportsAdministrativeHeader />
+                <table class="printTable table-auto w-full border-collapse border border-gray-500 mb-20">
+                    <thead class="text-blue-600 text-md">
+                        <tr class="py-4">
+                            <th
+                                v-for="header in headers"
+                                :key="header.name+'headerRow'"
+                                class="px-2 py-4 border-gray-500 border"
+                                :class="header.style ?? ''"
+                            >
+                                {{ header.name }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tr v-for="dataValue, index in administrativeReports.list" :key="'EmployeeNewHire' + index" class="h-2">
+                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                            {{ index + 1 }}
+                        </td>
+                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                            {{ dataValue.employee_id }}
+                        </td>
+                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                            {{ dataValue.fullname }}
+                        </td>
+                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                            {{ dataValue.designation }}
+                        </td>
+                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                            {{ dataValue.section }}
+                        </td>
+                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                            {{ dataValue.date_hired }}
+                        </td>
                     </tr>
-                </thead>
-                <tr v-for="dataValue, index in administrativeReports.list" :key="'EmployeeNewHire' + index" class="h-2">
-                    <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                        {{ index + 1 }}
-                    </td>
-                    <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                        {{ dataValue.employee_id }}
-                    </td>
-                    <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                        {{ dataValue.fullname }}
-                    </td>
-                    <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                        {{ dataValue.designation }}
-                    </td>
-                    <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                        {{ dataValue.section }}
-                    </td>
-                    <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                        {{ dataValue.date_hired }}
-                    </td>
-                </tr>
-            </table>
+                </table>
+            </LayoutLoadingContainer>
         </LayoutPrint>
     </div>
 </template>
