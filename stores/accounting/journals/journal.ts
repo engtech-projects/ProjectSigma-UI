@@ -12,6 +12,7 @@ export const useJournalStore = defineStore("journalStore", {
             status: "open",
             period_id: "",
             remarks: "",
+            total: 0,
             reference_no: "",
             details: [],
             errorMessage: "",
@@ -45,6 +46,33 @@ export const useJournalStore = defineStore("journalStore", {
             successMessage: "",
         },
         openEntries: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        forPaymentEntries: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        disbursementEntries: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        cashEntries: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -160,6 +188,78 @@ export const useJournalStore = defineStore("journalStore", {
                         if (response.ok) {
                             this.openEntries.list = response._data.data.data
                             this.openEntries.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getCashJournalEntries () {
+            this.cashEntries.isLoaded = true
+            await useAccountingApi(
+                "/api/journal-entry/cash-entries",
+                {
+                    method: "GET",
+                    params: this.cashEntries.params,
+                    onRequest: () => {
+                        this.cashEntries.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.cashEntries.isLoading = false
+                        if (response.ok) {
+                            this.cashEntries.list = response._data.data.data
+                            this.cashEntries.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getDisbursementJournalEntries () {
+            this.disbursementEntries.isLoaded = true
+            await useAccountingApi(
+                "/api/journal-entry/disbursement-entries",
+                {
+                    method: "GET",
+                    params: this.disbursementEntries.params,
+                    onRequest: () => {
+                        this.disbursementEntries.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.disbursementEntries.isLoading = false
+                        if (response.ok) {
+                            this.disbursementEntries.list = response._data.data.data
+                            this.disbursementEntries.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getForPaymentJournalEntries () {
+            this.forPaymentEntries.isLoaded = true
+            await useAccountingApi(
+                "/api/journal-entry/for-payment-entries",
+                {
+                    method: "GET",
+                    params: this.forPaymentEntries.params,
+                    onRequest: () => {
+                        this.forPaymentEntries.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.forPaymentEntries.isLoading = false
+                        if (response.ok) {
+                            this.forPaymentEntries.list = response._data.data.data
+                            this.forPaymentEntries.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,
                                 last_page: response._data.data.links.last,

@@ -2,9 +2,11 @@
 import { storeToRefs } from "pinia"
 import { useAccountStore } from "@/stores/accounting/setup/account"
 import { useAccountTypeStore } from "@/stores/accounting/setup/accounttype"
+import { useReportGroupStore } from "@/stores/accounting/setup/reportgroup"
 
 const accountStore = useAccountStore()
 const accountTypeStore = useAccountTypeStore()
+const reportGroupStore = useReportGroupStore()
 const { account, errorMessage, successMessage } = storeToRefs(accountStore)
 
 const snackbar = useSnackbar()
@@ -80,6 +82,17 @@ const cancelEdit = () => {
                         <select id="accountType" v-model="account.account_type_id" class="w-full rounded-lg" required>
                             <option v-for="at, i in accountTypeStore.list" :key="i" :value="at.id">
                                 {{ upperFirst(at.account_type) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                            for="account_type"
+                            class="text-xs italic"
+                        >Report Group</label>
+                        <select id="accountType" v-model="account.report_group_id" class="w-full rounded-lg" required>
+                            <option v-for="rg, i in reportGroupStore.list" :key="i" :value="rg.id">
+                                {{ upperFirst(rg.name) }}
                             </option>
                         </select>
                     </div>

@@ -28,7 +28,7 @@ const totalCredit = computed(() => {
     <div id="toPrint" class="bg-white left-0 top-0 w-screen min-h-[1000px] max-w-[100%] p-12">
         <div class="flex flex-col gap-2 pb-24 pt-8 relative border-2 border-black min-h-[1200px]">
             <AccountingCommonEvenparHeader class="pb-4 border-b-4 border-green-400 mb-16" />
-            <h1 class="text-2xl text-center font-bold text-block border-b-2 pb-2 border-black">
+            <h1 id="headText" class="text-2xl text-center font-bold text-block border-b-2 pb-2 border-black">
                 DISBURSEMENT VOUCHER
             </h1>
             <div class="flex flex-col gap-2">
@@ -185,5 +185,13 @@ const totalCredit = computed(() => {
 }
 .flex-3 {
     flex: 3;
+}
+@media print {
+    #headText {
+        padding-top: 170px
+    }
+    #header {
+        padding-top: 60px;
+    }
 }
 </style>

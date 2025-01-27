@@ -68,11 +68,6 @@ const voucherStore = useVoucherStore()
                     v-if="voucherStore.voucherCash.voucher_no"
                     :fillable="true"
                 />
-                <div v-else class="w-full py-2">
-                    <p class="text-center text-gray-300">
-                        No Cash Vouchers transactions yet.
-                    </p>
-                </div>
             </div>
         </div>
     </LayoutAcessContainer>
