@@ -152,7 +152,7 @@ const totalCredit = computed(() => {
                         <FormSignatory
                             label="PREPARED BY"
                             :signatory="{
-                                name: userData?.employee.fullname_last,
+                                name: userData?.employee?.fullname_last,
                                 title: 'Accounting Specialist'
                             }"
                         />
