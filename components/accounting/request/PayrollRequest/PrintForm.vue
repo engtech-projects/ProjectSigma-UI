@@ -159,7 +159,7 @@ const totalVat = computed(() => {
                             label="APPROVED BY"
                             :signatories="[
                                 {
-                                    name: 'RITCHE C. DALAUTA',
+                                    name: 'RICHE C. DALAUTA',
                                     title: 'Director'
                                 },
                                 {
