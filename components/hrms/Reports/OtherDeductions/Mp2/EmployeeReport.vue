@@ -1,7 +1,7 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { coopEmployeeLoan } = storeToRefs(generateReportstore)
+const { otherDeductionReports } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
@@ -9,33 +9,33 @@ const generateReport = async () => {
         await generateReportstore.getOtherDeductionReport()
         snackbar.add({
             type: "success",
-            text: coopEmployeeLoan.value.successMessage
+            text: otherDeductionReports.value.reportResult.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: coopEmployeeLoan.value.errorMessage || "something went wrong."
+            text: otherDeductionReports.value.reportResult.errorMessage || "something went wrong."
         })
     }
 }
 const totalCoop = () => {
-    return coopEmployeeLoan.value.list.reduce((accumulator, current) => {
+    return otherDeductionReports.value.reportResult.list.reduce((accumulator, current) => {
         return accumulator + current.total_payments
     }, 0)
 }
-watch(() => coopEmployeeLoan.value.params.month_year, (newValue) => {
+watch(() => otherDeductionReports.value.reportResult.params.month_year, (newValue) => {
     if (newValue) {
-        coopEmployeeLoan.value.params.filter_month = newValue.month + 1
-        coopEmployeeLoan.value.params.filter_year = newValue.year
+        otherDeductionReports.value.reportResult.params.filter_month = newValue.month + 1
+        otherDeductionReports.value.reportResult.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards title="MP2 Payments" :loading="coopEmployeeLoan.isLoading">
+    <LayoutBoards title="MP2 Payments" :loading="otherDeductionReports.reportResult.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="coopEmployeeLoan.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="coopEmployeeLoan.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="coopEmployeeLoan.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="otherDeductionReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="otherDeductionReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="otherDeductionReports.reportResult.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -92,7 +92,7 @@ watch(() => coopEmployeeLoan.value.params.month_year, (newValue) => {
                         MP2 PAYMENTS
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(coopEmployeeLoan.params.filter_month) }} {{ coopEmployeeLoan.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(otherDeductionReports.reportResult.params.filter_month) }} {{ otherDeductionReports.reportResult.params.filter_year }}</span>
                     </span>
                 </div>
                 <table class="printTable border border-gray-500 mb-20">
@@ -137,7 +137,7 @@ watch(() => coopEmployeeLoan.value.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in coopEmployeeLoan.list" :key="'coopemployeeloanpayment' + index" class="h-2">
+                        <tr v-for="reportData, index in otherDeductionReports.reportResult.list" :key="'coopemployeeloanpayment' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 {{ reportData.employee_pagibig_no }}
                             </td>
@@ -160,13 +160,7 @@ watch(() => coopEmployeeLoan.value.params.month_year, (newValue) => {
                                 {{ reportData.middle_name }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                -
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                -
-                            </td>
-                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ useFormatCurrency(reportData.amount) }}
+                                {{ reportData.percov }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                                 -

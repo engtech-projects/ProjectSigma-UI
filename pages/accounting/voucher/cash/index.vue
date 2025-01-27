@@ -30,6 +30,14 @@ const voucherStore = useVoucherStore()
                         target-id="myRequestList"
                     />
                     <AccountingCommonTabsTabTitle
+                        title="Cleared/Settled"
+                        target-id="cleared"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        title="For Clearing/Settling"
+                        target-id="forClearing"
+                    />
+                    <AccountingCommonTabsTabTitle
                         title="For Cash Voucher"
                         target-id="forVoucher"
                     />
@@ -38,14 +46,20 @@ const voucherStore = useVoucherStore()
                     <AccountingCommonTabsTabContainer id="allList">
                         <AccountingVoucherCashAllList />
                     </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="forVoucher">
-                        <AccountingVoucherCashForVoucherList />
-                    </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="forApproval">
                         <AccountingVoucherCashApprovalList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="myRequestList">
                         <AccountingVoucherCashMyRequestList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="cleared">
+                        <AccountingVoucherCashClearedList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="forClearing">
+                        <AccountingVoucherCashClearingList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="forVoucher">
+                        <AccountingVoucherCashForVoucherList />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
@@ -54,11 +68,6 @@ const voucherStore = useVoucherStore()
                     v-if="voucherStore.voucherCash.voucher_no"
                     :fillable="true"
                 />
-                <div v-else class="w-full py-2">
-                    <p class="text-center text-gray-300">
-                        No Cash Vouchers transactions yet.
-                    </p>
-                </div>
             </div>
         </div>
     </LayoutAcessContainer>

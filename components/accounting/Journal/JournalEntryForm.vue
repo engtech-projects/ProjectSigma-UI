@@ -82,6 +82,7 @@ journal.value.entry_balance = computed(() => {
                                     id="journal_no"
                                     v-model="journal.journal_no"
                                     type="text"
+                                    disabled
                                     class="w-full rounded-lg"
                                     required
                                 >
@@ -145,7 +146,9 @@ journal.value.entry_balance = computed(() => {
                                 v-for="(_detail, idx) in journal.details"
                                 :key="'detail'+idx"
                                 v-model:details="journal.details[idx]"
+                                :total-debit="journal.total"
                                 :index="idx"
+                                :item-count="journal.details.length"
                                 @delete-item="removeDetails(idx)"
                             />
                         </div>

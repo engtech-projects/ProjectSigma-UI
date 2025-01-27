@@ -29,7 +29,12 @@ const generateVoucher = async (data) => {
     voucherCash.value.stakeholderInformation = data.payment_request.stakeholder
     voucherCash.value.net_amount = data.payment_request.total
     voucherCash.value.amount_in_words = useAmountInWords(data.payment_request.total)
-    voucherCash.value.details = data.details
+    voucherCash.value.details = data.details.map(detail => ({
+        ...detail,
+        debit: detail.credit,
+        credit: detail.debit,
+        stakeholder_id: detail.stakeholder ? detail.stakeholder.id : null
+    }))
     voucherCash.value.journal_entry_id = data.id
     voucherCash.value.reference_no = data.reference_no
     showModal.value = false

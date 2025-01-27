@@ -8,6 +8,7 @@ export const useAccountStore = defineStore("useAccountStore", {
             account_name: null,
             account_type_id: null,
             account_description: null,
+            report_group_id: null,
             bank_reconciliation: "yes",
             is_active: 1,
             statement: null,

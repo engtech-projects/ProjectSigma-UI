@@ -68,7 +68,7 @@ voucherCash.value.total_credit = computed(() => {
                                 <label
                                     for="dv"
                                     class="text-xs italic"
-                                >DV Number</label>
+                                >CV Number</label>
                                 <input
                                     id="dv"
                                     v-model="voucherCash.voucher_no"
@@ -81,7 +81,7 @@ voucherCash.value.total_credit = computed(() => {
                                     class="text-xs italic"
                                 >Voucher Type</label>
                                 <p>
-                                    Disbursement
+                                    Cash Voucher
                                 </p>
                             </div>
                             <div class="w-full">
@@ -175,7 +175,7 @@ voucherCash.value.total_credit = computed(() => {
                     <div class="w-full">
                         <div class="flex justify-between">
                             <h2 class="text-xl font-bold text-center">
-                                DISBURSEMENT VOUCHER DETAILS
+                                CASH VOUCHER DETAILS
                             </h2>
                         </div>
                         <div v-show="voucherCash.details.length > 0" class="flex flex-col bg-gray-100 rounded-lg gap-2">

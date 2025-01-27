@@ -1,42 +1,41 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { defaultPaymentReport, loanReportOption } = storeToRefs(generateReportstore)
+const { loanReports } = storeToRefs(generateReportstore)
 const snackbar = useSnackbar()
 
 const generateReport = async () => {
     try {
-        defaultPaymentReport.value.params.loan_type = loanReportOption.value.loan_type
-        await generateReportstore.getDefaultPaymentReport()
+        await generateReportstore.getLoanReport()
         snackbar.add({
             type: "success",
-            text: defaultPaymentReport.value.successMessage
+            text: loanReports.value.reportResult.successMessage
         })
     } catch {
         snackbar.add({
             type: "error",
-            text: defaultPaymentReport.value.errorMessage || "something went wrong."
+            text: loanReports.value.reportResult.errorMessage || "something went wrong."
         })
     }
 }
 const totalDefaultAmount = () => {
-    return defaultPaymentReport.value.list.reduce((accumulator, current) => {
+    return loanReports.value.reportResult.list.reduce((accumulator, current) => {
         return accumulator + current.total_payments
     }, 0)
 }
-watch(() => defaultPaymentReport.value.params.month_year, (newValue) => {
+watch(() => loanReports.value.reportResult.params.month_year, (newValue) => {
     if (newValue) {
-        defaultPaymentReport.value.params.filter_month = newValue.month + 1
-        defaultPaymentReport.value.params.filter_year = newValue.year
+        loanReports.value.reportResult.params.filter_month = newValue.month + 1
+        loanReports.value.reportResult.params.filter_year = newValue.year
     }
 })
 </script>
 <template>
-    <LayoutBoards :title="loanReportOption.loan_type + ' Report (EMPLOYEE)'" :loading="defaultPaymentReport.isLoading">
+    <LayoutBoards :title="loanReports.reportResult.params.loan_type + ' PAYMENT'" :loading="loanReports.reportResult.isLoading">
         <form class="md:grid grid-cols-4 gap-4 mt-5 mb-16" @submit.prevent="generateReport">
-            <LayoutFormPsMonthYearInput v-model="defaultPaymentReport.params.month_year" class="w-full" title="Month Year" required />
-            <LayoutFormPsDateInput v-model="defaultPaymentReport.params.cutoff_start" class="w-full" title="Payroll Start" required />
-            <LayoutFormPsDateInput v-model="defaultPaymentReport.params.cutoff_end" class="w-full" title="Payroll End" required />
+            <LayoutFormPsMonthYearInput v-model="loanReports.reportResult.params.month_year" class="w-full" title="Month Year" required />
+            <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_start" class="w-full" title="Payroll Start" required />
+            <LayoutFormPsDateInput v-model="loanReports.reportResult.params.cutoff_end" class="w-full" title="Payroll End" required />
             <button
                 type="submit"
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -46,59 +45,21 @@ watch(() => defaultPaymentReport.value.params.month_year, (newValue) => {
         </form>
         <LayoutPrint>
             <div class="flex flex-col">
-                <div class="header flex flex-col  mb-8">
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Employer ID:
-                        </span>
-                        <span class="text-md font-bold flex-5">
-                            80-0191406-1-000
-                        </span>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Employer Name:
-                        </span>
-                        <span class="text-md font-bold flex-5">
-                            EVENPAR CONSTRUCTION AND DEVELOPMENT CORPORATION
-                        </span>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Address:
-                        </span>
-                        <span class="text-md font-bold flex-5">
-                            P-1 POBLACION 1 BUENAVISTA AGUSAN DEL NORTE
-                        </span>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Contact No:
-                        </span>
-                        <span class="text-md font-bold flex-5">
-                            09395096694
-                        </span>
-                    </div>
-                    <div class="flex gap-4">
-                        <span class="text-md flex-1">
-                            Email Address:
-                        </span>
-                        <span class="text-md font-bold flex-5 underline">
-                            evenparcorporation@gmail.com
-                        </span>
-                    </div>
-                </div>
+                <HrmsReportsLoanReportsReportHeader />
                 <div class="title flex flex-col justify-center gap-1 mb-12">
                     <span class="text-2xl font-bold text-black text-left">
-                        {{ loanReportOption.loan_type }} REPORT (EMPLOYEE)
+                        {{ loanReports.reportResult.params.loan_type }} PAYMENT
                     </span>
                     <span class="text-xl text-black text-left">
-                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(defaultPaymentReport.params.filter_month) }} {{ defaultPaymentReport.params.filter_year }}</span>
+                        FOR THE APPLICABLE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(loanReports.reportResult.params.filter_month) }} {{ loanReports.reportResult.params.filter_year }}</span>
                     </span>
                 </div>
                 <table class="printTable border border-gray-500 mb-20">
                     <thead class="text-black text-md">
                         <tr class="py-4">
+                            <th rowspan="3" class="border border-gray-500">
+                                NO.
+                            </th>
                             <th rowspan="3" class="border border-gray-500">
                                 FULL NAME
                             </th>
@@ -111,15 +72,18 @@ watch(() => defaultPaymentReport.value.params.month_year, (newValue) => {
                         </tr>
                     </thead>
                     <tbody class="text-sm">
-                        <tr v-for="reportData, index in defaultPaymentReport.list" :key="'defaultreportemployee' + index" class="h-2">
+                        <tr v-for="reportData, index in loanReports.reportResult.list" :key="'defaultreportemployee' + index" class="h-2">
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.employee_fullname }}
+                                {{ index + 1 }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ loanReportOption.loan_type }}
+                                {{ reportData.fullname }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                                {{ reportData.total_payments }}
+                                {{ reportData.loan_type }}
+                            </td>
+                            <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                                {{ useFormatCurrency(reportData.total_payments) }}
                             </td>
                         </tr>
                         <tr>

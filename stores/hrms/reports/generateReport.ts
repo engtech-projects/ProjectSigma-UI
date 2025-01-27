@@ -1,4 +1,23 @@
 import { defineStore } from "pinia"
+export const LOAN_HDMF_MPL = "HDMF MPL"
+export const LOAN_HDMF_MPL_LOAN = "HDMF MPL LOAN"
+export const LOAN_COOP = "COOP LOAN"
+export const LOAN_SSS = "SSS LOAN"
+export const LOAN_CALAMITY = "HDMF CALAMITY LOAN"
+export const EMPLOYEE_MASTERLIST = "EMPLOYEE MASTERLIST"
+export const EMPLOYEE_NEWHIRE = "EMPLOYEE NEWHIRE"
+export const EMPLOYEE_TENURESHIP = "EMPLOYEE TENURESHIP"
+export const LOAN_REPORTS = [
+    LOAN_HDMF_MPL,
+    LOAN_HDMF_MPL_LOAN,
+    LOAN_COOP,
+    LOAN_SSS,
+    LOAN_CALAMITY,
+]
+export const OD_MP2 = "MP2"
+export const OD_REPORTS = [
+    OD_MP2,
+]
 export const useGenerateReportStore = defineStore("GenerateReport", {
     state: () => ({
         loanReports: {
@@ -11,6 +30,35 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                 errorMessage: null,
                 successMessage: null,
             },
+            reportResult: {
+                isLoading: false,
+                isLoaded: false,
+                list: [],
+                params: {
+                    loan_type: "",
+                    charging_type: null,
+                },
+                pagination: {},
+                errorMessage: null,
+                successMessage: null,
+            },
+        },
+        administrativeReports: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            itemFilters: [],
+            filters: [],
+            headers: [],
+            params: {
+                report_type: null,
+                department_id: null,
+                project_id: null,
+                group_type: "All",
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
         },
         otherDeductionReports: {
             categoryList: {
@@ -27,27 +75,13 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                 isLoaded: false,
                 list: [],
                 params: {
-                    loan_type: "COOP LOANS",
+                    loan_type: "",
                     charging_type: null,
                 },
                 pagination: {},
                 errorMessage: null,
                 successMessage: null,
             },
-        },
-        loanReportOption: {
-            group_type: "",
-            report_type: "",
-            loan_type: "",
-        },
-        loanCategoryList: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {},
-            pagination: {},
-            errorMessage: null,
-            successMessage: null,
         },
         defaultPaymentReport: {
             isLoading: false,
@@ -72,18 +106,6 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             isLoaded: false,
             list: [],
             params: {
-                charging_type: null,
-            },
-            pagination: {},
-            errorMessage: null,
-            successMessage: null,
-        },
-        sssEmployeeLoanList: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {
-                loan_type: "SSS LOAN",
                 charging_type: null,
             },
             pagination: {},
@@ -260,7 +282,14 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             successMessage: null,
         },
     }),
-    getters: {},
+    getters: {
+        filterMasterListReport (state) {
+            const masterList = {} as any
+            if (state.administrativeReports.list.length <= 0) {
+                return masterList
+            }
+        }
+    },
     actions: {
         // REMITTANCE REPORTS
         // PHILHEALTH REMITTANCE
@@ -335,6 +364,31 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.philhealthRemittanceSummaryList.isLoaded = true
                             this.philhealthRemittanceSummaryList.list = response._data.data
                             this.philhealthRemittanceSummaryList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getAdministrativeReport () {
+            await useHRMSApiO(
+                "/api/reports/administrative",
+                {
+                    method: "GET",
+                    params: this.administrativeReports.params,
+                    onRequest: () => {
+                        this.administrativeReports.isLoading = true
+                        this.administrativeReports.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.administrativeReports.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.administrativeReports.isLoading = false
+                        if (response.ok) {
+                            this.administrativeReports.isLoaded = true
+                            this.administrativeReports.list = response._data.data
+                            this.administrativeReports.successMessage = response._data.message
                         }
                     },
                 }
@@ -494,26 +548,53 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                 }
             )
         },
-        // LOAN REPORTS
+        /*
+        * OTHER DEDUCTION REPORTS
+        */
         async getLoanCategoryList () {
             await useHRMSApiO(
                 "/api/reports/loans/category-list",
                 {
                     method: "GET",
                     onRequest: () => {
-                        this.loanCategoryList.isLoading = true
-                        this.loanCategoryList.list = []
+                        this.loanReports.categoryList.isLoading = true
+                        this.loanReports.categoryList.list = []
                     },
                     onResponseError: ({ response } : any) => {
-                        this.loanCategoryList.errorMessage = response._data.message
+                        this.loanReports.categoryList.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response } : any) => {
-                        this.loanCategoryList.isLoading = false
+                        this.loanReports.categoryList.isLoading = false
                         if (response.ok) {
-                            this.loanCategoryList.isLoaded = true
-                            this.loanCategoryList.list = response._data.data
-                            this.loanCategoryList.successMessage = response._data.message
+                            this.loanReports.categoryList.isLoaded = true
+                            this.loanReports.categoryList.list = response._data.data
+                            this.loanReports.categoryList.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getLoanReport () {
+            await useHRMSApiO(
+                "/api/reports/loans/get",
+                {
+                    method: "GET",
+                    params: this.loanReports.reportResult.params,
+                    onRequest: () => {
+                        this.loanReports.reportResult.isLoading = true
+                        this.loanReports.reportResult.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.loanReports.reportResult.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.loanReports.reportResult.isLoading = false
+                        if (response.ok) {
+                            this.loanReports.reportResult.isLoaded = true
+                            this.loanReports.reportResult.list = response._data.data
+                            this.loanReports.reportResult.successMessage = response._data.message
                         }
                     },
                 }
@@ -564,31 +645,6 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.hdmfEmployeeLoan.isLoaded = true
                             this.hdmfEmployeeLoan.list = response._data.data
                             this.hdmfEmployeeLoan.successMessage = response._data.message
-                        }
-                    },
-                }
-            )
-        },
-        async getSssEmployeeLoan () {
-            await useHRMSApiO(
-                "/api/reports/sss-employee-loans",
-                {
-                    method: "GET",
-                    params: this.sssEmployeeLoanList.params,
-                    onRequest: () => {
-                        this.sssEmployeeLoanList.isLoading = true
-                        this.sssEmployeeLoanList.list = []
-                    },
-                    onResponseError: ({ response } : any) => {
-                        this.sssEmployeeLoanList.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response } : any) => {
-                        this.sssEmployeeLoanList.isLoading = false
-                        if (response.ok) {
-                            this.sssEmployeeLoanList.isLoaded = true
-                            this.sssEmployeeLoanList.list = response._data.data
-                            this.sssEmployeeLoanList.successMessage = response._data.message
                         }
                     },
                 }
@@ -769,7 +825,9 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                 }
             )
         },
-        // OTHER DEDUCTION REPORTS
+        /*
+        * OTHER DEDUCTION REPORTS
+        */
         async getOtherDeductionsCategoryList () {
             await useHRMSApiO(
                 "/api/reports/other-deductions/category-list",
