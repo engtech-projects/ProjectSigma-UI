@@ -22,6 +22,18 @@ const totalCredit = computed(() => {
     })
     return total
 })
+const approvals = computed(() => {
+    const sigs: any[] = []
+    props.data.approvals.forEach((d) => {
+        const data = {
+            name: d?.employee_name,
+            title: d?.employee_position,
+            signature: d?.employee_signature
+        }
+        sigs.push(data)
+    })
+    return sigs
+})
 </script>
 
 <template>
@@ -152,25 +164,20 @@ const totalCredit = computed(() => {
                         <FormSignatory
                             label="PREPARED BY"
                             :signatory="{
-                                name: userData?.employee?.fullname_last,
-                                title: 'Accounting Specialist'
+                                name: props.data.payment_request?.created_by_user,
+                                title: ''
                             }"
                         />
                         <FormSignatory
                             label="REVIEWED BY"
                             :signatory="{
-                                name: 'DARREN GRACE P. ROSAL',
-                                title: 'Accounting Section Head'
+                                name: userData?.employee?.fullname_last,
+                                title: 'Accounting Specialist'
                             }"
                         />
                         <FormSignatory
                             label="APPROVED BY"
-                            :signatories="[
-                                {
-                                    name: 'ANGEL A. ABRAU',
-                                    title: 'President'
-                                }
-                            ]"
+                            :signatories="approvals"
                         />
                     </HrmsReportsSignaturesRow>
                 </div>
