@@ -93,12 +93,11 @@ administrativeReports.value.headers = [
     { name: "Salary Grade", id: "salary_grade", show: true },
 ]
 const filteredList = computed(() => {
-    const newList = administrativeReports.value.list.filter(
+    return administrativeReports.value.list.filter(
         listItem => administrativeReports.value.itemFilters.some(
-            filter => listItem[filter.type]?.toLowerCase().includes(filter.value?.toLowerCase())) || administrativeReports.value.itemFilters.length > 0)
-    const withValueFilter = administrativeReports.value.itemFilters.every(item => item.type !== null && item.value !== null)
-    const withFilter = administrativeReports.value.itemFilters.length > 0
-    return !withFilter ? administrativeReports.value.list : (withValueFilter ? newList : administrativeReports.value.list)
+            filter => listItem[filter.type]?.toLowerCase().includes(filter.value?.toLowerCase())
+        ) || administrativeReports.value.itemFilters.length <= 0
+    )
 })
 </script>
 <template>
