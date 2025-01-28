@@ -95,17 +95,15 @@ administrativeReports.value.headers = [
 const filteredList = computed(() => {
     const newList = administrativeReports.value.list.filter(
         listItem => administrativeReports.value.itemFilters.some(
-            filter => listItem[filter.type]?.toLowerCase().includes(filter.value?.toLowerCase())
-        )
-    )
+            filter => listItem[filter.type]?.toLowerCase().includes(filter.value?.toLowerCase())) || administrativeReports.value.itemFilters.length > 0)
     const withValueFilter = administrativeReports.value.itemFilters.every(item => item.type !== null && item.value !== null)
     const withFilter = administrativeReports.value.itemFilters.length > 0
     return !withFilter ? administrativeReports.value.list : (withValueFilter ? newList : administrativeReports.value.list)
 })
 </script>
 <template>
-    <div class="flex flex-col">
-        <div class="header flex flex-col mb-8">
+    <div class="w-full flex flex-col">
+        <div class="w-full header flex flex-col mb-8">
             <div class="w-full flex gap-4 flex-row items-center">
                 <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
                     v-model:select-type="administrativeReports.params.group_type"
@@ -117,57 +115,81 @@ const filteredList = computed(() => {
             </div>
         </div>
         <LayoutPrint>
-            <LayoutLoadingContainer :loading="administrativeReports.isLoading">
+            <LayoutLoadingContainer class="relative w-full" :loading="administrativeReports.isLoading">
                 <HrmsReportsAdministrativeReportsAdministrativeHeader />
-                <table class="printTable table-auto w-full border-collapse border border-gray-500 mb-20">
-                    <thead class="text-blue-600 text-md">
-                        <tr class="py-4">
+                <table class="w-full table-auto border-collapse border border-gray-500 mb-20">
+                    <thead class="w-full text-blue-600 text-md">
+                        <tr class="w-full py-4">
                             <th
                                 v-for="header in administrativeReports.headers"
                                 :key="header.name+'headerRow'"
-                                class="px-2 py-4 border-gray-500 border"
+                                class="w-full px-4 border-gray-500 border"
                                 :class="header.style ?? ''"
                             >
-                                {{ header.name }}
+                                <div class="w-full min-w-max p-4">
+                                    {{ header.name }}
+                                </div>
                             </th>
                         </tr>
                     </thead>
                     <tr v-for="dataValue, index in filteredList" :key="'EmployeeMasterList' + index" class="h-2">
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.employee_id }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.employee_id }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.date_hired }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.date_hired }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.family_name }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.family_name }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.first_name }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.first_name }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.middle_name }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.middle_name }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.name_suffix }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.name_suffix }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.nick_name }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.nick_name }}
+                            </div>
+                        </td>
+                        <td class="border border-gray-500 h-8 py-1 text-sm text-center">
+                            <div class="w-full min-w-max p-4">
+                                {{ dataValue.present_address }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.present_address }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.permanent_address }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.permanent_address }}
-                        </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.mobile_number }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.mobile_number }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                             {{ dataValue.date_of_birth }}
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.place_of_birth }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.place_of_birth }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                             {{ dataValue.citizenship }}
@@ -179,7 +201,9 @@ const filteredList = computed(() => {
                             {{ dataValue.gender }}
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.religion }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.religion }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                             {{ dataValue.civil_status }}
@@ -191,13 +215,19 @@ const filteredList = computed(() => {
                             {{ dataValue.weight }}
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.father }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.father }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.mother }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.mother }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.spouse }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.spouse }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                             {{ dataValue.spouse_date_of_birth }}
@@ -209,13 +239,17 @@ const filteredList = computed(() => {
                             {{ dataValue.date_of_marriage }}
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.children_summary }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.children_summary }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                             {{ dataValue.contact_person }}
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.contact_person_address }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.contact_person_address }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                             {{ dataValue.contact_person_contact_no }}
@@ -248,7 +282,9 @@ const filteredList = computed(() => {
                             {{ dataValue.work_location }}
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.current_position_name }}
+                            <div class="w-full min-w-max p-4 ">
+                                {{ dataValue.current_position_name }}
+                            </div>
                         </td>
                     </tr>
                 </table>
