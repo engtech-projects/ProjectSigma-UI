@@ -70,6 +70,6 @@ defineProps({
         </div>
     </div>
     <div>
-        <LayoutApprovalsListView :approvals="leaveData.approvals" />
+        <LayoutApprovalsListView :approvals="leaveData.approvals" :is-approved="leaveData.request_status.toLowerCase() === 'approved'" />
     </div>
 </template>
