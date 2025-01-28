@@ -17,16 +17,9 @@ defineProps({
                     {{ apprv.type }}
                 </li>
                 <li class="w-full p-2 text-left">
-                    <template v-if="apprv.employee">
-                        {{ apprv.employee?.fullname_first }}
-                        <br>
-                        {{ apprv.employee?.current_position }}
-                    </template>
-                    <template v-else>
-                        {{ apprv.fullname_first }}
-                        <br>
-                        {{ apprv.current_position }}
-                    </template>
+                    {{ apprv.employee_name ?? apprv.user_name }}
+                    <br>
+                    {{ apprv.employee_position ?? '' }}
                 </li>
                 <li class="w-full p-2 text-center">
                     <template v-if="apprv.status === 'Approved'">
