@@ -1,5 +1,5 @@
 <template>
-    <div id="header" class="flex px-8 gap-4 items-center justify-between mb-8">
+    <div id="header" class="flex px-4 gap-4 items-center justify-between mb-8">
         <div class="flex flex-col gap-4">
             <div class="flex gap-4 items-center">
                 <img src="/evenpar.jpg" class="relative h-[70px]" alt="">
@@ -27,7 +27,7 @@
     #header {
         top: 0;
         position: fixed;
-        width: 90%;
+        width:90%;
         margin-top: 24px;
     }
 }
