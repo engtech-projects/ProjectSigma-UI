@@ -189,7 +189,7 @@ paymentRequest.value.total = computed(() => {
                         <HrmsCommonRequestedBy />
                         <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Approvals</label>
                         <div>
-                            <AccountingSetupApprovalsList
+                            <HrmsSetupApprovalsList
                                 v-for="(approv, apr) in paymentRequest.approvals"
                                 :key="'hrmsetupapprovallist'+apr"
                                 v-model="paymentRequest.approvals[apr]"

@@ -103,7 +103,7 @@ defineProps({
                     <HrmsCommonRequestedBy disabled />
                     <label class="block text-sm font-medium text-gray-900 dark:text-white">Approvals</label>
                     <div>
-                        <AccountingSetupApprovalsList
+                        <HrmsSetupApprovalsList
                             v-for="(approv, apr) in paymentData?.approvals"
                             :key="'hrmsetupapprovallist'+apr"
                         />
