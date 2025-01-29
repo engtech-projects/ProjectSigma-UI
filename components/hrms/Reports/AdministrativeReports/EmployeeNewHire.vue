@@ -13,7 +13,7 @@ const headers = [
 </script>
 <template>
     <div class="flex flex-col">
-        <div class="w-max mb-12">
+        <div class="flex flex-row gap-4 w-max mb-12">
             <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
                 v-model:select-type="administrativeReports.params.group_type"
                 v-model:department-id="administrativeReports.params.department_id"

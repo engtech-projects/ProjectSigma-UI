@@ -125,10 +125,8 @@ const filteredList = computed(() => {
                     </thead>
                     <tr v-for="dataValue, index in filteredList" :key="'EmployeeMasterList' + index" class="h-2">
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            <div class="w-full relative">
-                                <div class="block m-0 p-0 after:absolute after:h-12">
-                                    {{ dataValue.employee_id }} {{ dataValue.employee_id }} {{ dataValue.employee_id }} {{ dataValue.employee_id }}
-                                </div>
+                            <div class="min-w-max max-h-20 relative">
+                                {{ dataValue.employee_id }} {{ dataValue.employee_id }} {{ dataValue.employee_id }} {{ dataValue.employee_id }}
                             </div>
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">

@@ -3,18 +3,37 @@ import { useGenerateReportStore, EMPLOYEE_TENURESHIP, EMPLOYEE_NEWHIRE, EMPLOYEE
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
 const compId = useId()
+const snackbar = useSnackbar()
 const generate = async () => {
-    if (administrativeReports.value.params.report_type === EMPLOYEE_TENURESHIP) {
-        await generateReportstore.getAdministrativeReport()
-    }
-    if (administrativeReports.value.params.report_type === EMPLOYEE_NEWHIRE) {
-        await generateReportstore.getAdministrativeReport()
-    }
-    if (administrativeReports.value.params.report_type === EMPLOYEE_LEAVES) {
-        await generateReportstore.getAdministrativeReport()
-    }
-    if (administrativeReports.value.params.report_type === EMPLOYEE_MASTERLIST) {
-        await generateReportstore.getAdministrativeReport()
+    try {
+        if (administrativeReports.value.params.report_type === EMPLOYEE_TENURESHIP) {
+            await generateReportstore.getAdministrativeReport()
+        }
+        if (administrativeReports.value.params.report_type === EMPLOYEE_NEWHIRE) {
+            await generateReportstore.getAdministrativeReport()
+        }
+        if (administrativeReports.value.params.report_type === EMPLOYEE_LEAVES) {
+            await generateReportstore.getAdministrativeReport()
+        }
+        if (administrativeReports.value.params.report_type === EMPLOYEE_MASTERLIST) {
+            await generateReportstore.getAdministrativeReport()
+        }
+        if (administrativeReports.value.errorMessage !== "" && administrativeReports.value.errorMessage !== null) {
+            snackbar.add({
+                type: "error",
+                text: administrativeReports.value.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: administrativeReports.value.successMessage
+            })
+        }
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: administrativeReports.value.errorMessage
+        })
     }
 }
 </script>
