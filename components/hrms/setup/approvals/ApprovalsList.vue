@@ -16,7 +16,7 @@ const model = defineModel({ required: true, type: Object })
             <div v-else-if="model.selector_type === 'head'">
                 <HrmsCommonUserHeadsSelector v-model="model.user_id" />
             </div>
-            <div v-else-if="model.employee_name">
+            <div v-else-if="model.selector_type === 'specific'">
                 <span class="font-semibold">{{ model.employee_name }}</span>
                 <br>
                 <span class="text-sm">{{ model.employee_position }}</span>
