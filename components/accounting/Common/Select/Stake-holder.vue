@@ -3,7 +3,7 @@ const props = defineProps({
     selectedType: {
         type: String,
         required: false,
-        default: "employee",
+        default: "",
     },
     selectedId: {
         type: String,
@@ -27,6 +27,9 @@ const selectedType = ref(props.selectedType)
                 name="type"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
             >
+                <option value="">
+                    -Select Type-
+                </option>
                 <option v-for="option in props.filterOptions" :key="option" :value="option">
                     {{ option.charAt(0).toUpperCase() + option.slice(1) }}
                 </option>

@@ -194,7 +194,7 @@ voucherDisbursement.value.total_credit = computed(() => {
                         <HrmsCommonRequestedBy />
                         <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Approvals</label>
                         <div>
-                            <AccountingSetupApprovalsList
+                            <HrmsSetupApprovalsList
                                 v-for="(approv, apr) in voucherDisbursement.approvals"
                                 :key="'hrmsetupapprovallist'+apr"
                                 v-model="voucherDisbursement.approvals[apr]"

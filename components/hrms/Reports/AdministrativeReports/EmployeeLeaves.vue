@@ -1,9 +1,9 @@
 <script setup>
-import { useGenerateReportStore, EMPLOYEE_NEWHIRE } from "@/stores/hrms/reports/generateReport"
+import { useGenerateReportStore, EMPLOYEE_LEAVES } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
 watch(administrativeReports.value.params, async () => {
-    if (administrativeReports.value.params.report_type === EMPLOYEE_NEWHIRE) {
+    if (administrativeReports.value.params.report_type === EMPLOYEE_LEAVES) {
         await generateReportstore.getAdministrativeReport()
     }
 })
@@ -13,7 +13,7 @@ const headers = [
     { name: "Name", id: "fullname" },
     { name: "Designation", id: "designation" },
     { name: "Section", id: "section" },
-    { name: "Date Hired", id: "date_hired" },
+    { name: "Total Days Leaves", id: "total_days_leaves" },
 ]
 </script>
 <template>
@@ -32,10 +32,16 @@ const headers = [
                     </div>
                 </div>
             </div>
+            <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
+                v-model:select-type="administrativeReports.params.group_type"
+                v-model:department-id="administrativeReports.params.department_id"
+                v-model:project-id="administrativeReports.params.project_id"
+                title="Category"
+            />
         </div>
         <LayoutPrint>
+            <HrmsReportsAdministrativeReportsAdministrativeHeader />
             <LayoutLoadingContainer :loading="administrativeReports.isLoading">
-                <HrmsReportsAdministrativeReportsAdministrativeHeader />
                 <table class="printTable table-auto w-full border-collapse border border-gray-500 mb-20">
                     <thead class="text-blue-600 text-md">
                         <tr class="py-4">
@@ -66,7 +72,7 @@ const headers = [
                             {{ dataValue.section }}
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.date_hired }}
+                            {{ dataValue.total_days_leaves }}
                         </td>
                     </tr>
                 </table>
