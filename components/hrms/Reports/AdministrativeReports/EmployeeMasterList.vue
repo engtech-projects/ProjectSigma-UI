@@ -1,12 +1,7 @@
 <script setup>
-import { useGenerateReportStore, EMPLOYEE_MASTERLIST } from "@/stores/hrms/reports/generateReport"
+import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
-watch(administrativeReports.value.params, async () => {
-    if (administrativeReports.value.params.report_type === EMPLOYEE_MASTERLIST) {
-        await generateReportstore.getAdministrativeReport()
-    }
-})
 administrativeReports.value.filters = [
     {
         employee_id: null,
@@ -102,68 +97,67 @@ const filteredList = computed(() => {
 </script>
 <template>
     <div class="w-full flex flex-col">
-        <div class="w-full header flex flex-col mb-8">
-            <div class="w-full flex gap-4 flex-row items-center">
-                <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
-                    v-model:select-type="administrativeReports.params.group_type"
-                    v-model:department-id="administrativeReports.params.department_id"
-                    v-model:project-id="administrativeReports.params.project_id"
-                    title="Category"
-                />
-                <HrmsReportsAdministrativeReportsDynamicFilter :list="administrativeReports.itemFilters" :types="administrativeReports.headers" />
-            </div>
+        <div class="w-full flex gap-4 flex-row items-center mb-12">
+            <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
+                v-model:select-type="administrativeReports.params.group_type"
+                v-model:department-id="administrativeReports.params.department_id"
+                v-model:project-id="administrativeReports.params.project_id"
+                title="Category:"
+            />
+            <HrmsReportsAdministrativeReportsDynamicFilter :list="administrativeReports.itemFilters" :types="administrativeReports.headers" />
         </div>
         <LayoutPrint>
             <LayoutLoadingContainer class="relative w-full" :loading="administrativeReports.isLoading">
-                <HrmsReportsAdministrativeReportsAdministrativeHeader />
                 <table class="w-full table-auto border-collapse border border-gray-500 mb-20">
                     <thead class="w-full text-blue-600 text-md">
-                        <tr class="w-full py-4">
+                        <tr class="w-full">
                             <th
                                 v-for="header in administrativeReports.headers"
                                 :key="header.name+'headerRow'"
-                                class="w-full px-4 border-gray-500 border"
+                                class="w-full p-3 border-gray-500 border"
                                 :class="header.style ?? ''"
                             >
-                                <div class="w-full min-w-max p-4">
+                                <div class="w-full min-w-max">
                                     {{ header.name }}
                                 </div>
                             </th>
                         </tr>
                     </thead>
                     <tr v-for="dataValue, index in filteredList" :key="'EmployeeMasterList' + index" class="h-2">
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
-                                {{ dataValue.employee_id }}
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full relative">
+                                <div class="block m-0 p-0 after:absolute after:h-12">
+                                    {{ dataValue.employee_id }} {{ dataValue.employee_id }} {{ dataValue.employee_id }} {{ dataValue.employee_id }}
+                                </div>
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.date_hired }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.family_name }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.first_name }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.middle_name }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.name_suffix }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.nick_name }}
                             </div>
                         </td>
@@ -172,117 +166,122 @@ const filteredList = computed(() => {
                                 {{ dataValue.present_address }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.permanent_address }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.mobile_number }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.date_of_birth }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.place_of_birth }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.citizenship }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.blood_type }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.gender }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.religion }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.civil_status }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.height }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.weight }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.father }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.mother }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.spouse }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.spouse_date_of_birth }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.spouse_occupation }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.date_of_marriage }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.children_summary }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.contact_person }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.contact_person_address }}
                             </div>
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.contact_person_contact_no }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.contact_person_relationship }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.employee_education_elementary }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.employee_education_secondary }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.employee_education_college }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.sss_number }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.phic_number }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.pagibig_number }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.tin_number }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.work_location }}
                         </td>
-                        <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            <div class="w-full min-w-max p-4 ">
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.current_position_name }}
+                            </div>
+                        </td>
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            <div class="w-full min-w-max">
+                                {{ dataValue.salary_grade }}
                             </div>
                         </td>
                     </tr>
