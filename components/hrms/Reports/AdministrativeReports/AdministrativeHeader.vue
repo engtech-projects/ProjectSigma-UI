@@ -9,7 +9,7 @@ const compId = useId()
         <div class="flex">
             <HrmsReportsAdministrativeReportsReportTypeFilter />
         </div>
-        <div class="flex flex-row items-center gap-4">
+        <div class="flex flex-row items-end gap-4">
             <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
                 v-model:select-type="administrativeReports.params.group_type"
                 v-model:department-id="administrativeReports.params.department_id"
