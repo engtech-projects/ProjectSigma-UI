@@ -120,7 +120,7 @@ const filteredList = computed(() => {
                     </thead>
                     <tr v-for="dataValue, index in filteredList" :key="'EmployeeMasterList' + index" class="h-2">
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            <div class="min-w-max max-h-20 relative">
+                            <div class="w-full min-w-max">
                                 {{ dataValue.employee_id }} {{ dataValue.employee_id }} {{ dataValue.employee_id }} {{ dataValue.employee_id }}
                             </div>
                         </td>
@@ -170,7 +170,9 @@ const filteredList = computed(() => {
                             </div>
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            {{ dataValue.date_of_birth }}
+                            <div class="w-full min-w-max">
+                                {{ dataValue.date_of_birth }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             <div class="w-full min-w-max">
@@ -216,13 +218,19 @@ const filteredList = computed(() => {
                             </div>
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            {{ dataValue.spouse_date_of_birth }}
+                            <div class="w-full min-w-max">
+                                {{ dataValue.spouse_date_of_birth }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            {{ dataValue.spouse_occupation }}
+                            <div class="w-full min-w-max">
+                                {{ dataValue.spouse_occupation }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            {{ dataValue.date_of_marriage }}
+                            <div class="w-full min-w-max">
+                                {{ dataValue.date_of_marriage }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             <div class="w-full min-w-max">
@@ -253,16 +261,24 @@ const filteredList = computed(() => {
                             {{ dataValue.employee_education_college }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            {{ dataValue.sss_number }}
+                            <div class="w-full min-w-max">
+                                {{ dataValue.sss_number }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            {{ dataValue.phic_number }}
+                            <div class="w-full min-w-max">
+                                {{ dataValue.phic_number }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            {{ dataValue.pagibig_number }}
+                            <div class="w-full min-w-max">
+                                {{ dataValue.pagibig_number }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            {{ dataValue.tin_number }}
+                            <div class="w-full min-w-max">
+                                {{ dataValue.tin_number }}
+                            </div>
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.work_location }}
