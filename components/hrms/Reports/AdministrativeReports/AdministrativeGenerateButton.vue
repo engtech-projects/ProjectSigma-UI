@@ -1,23 +1,12 @@
 <script lang="ts" setup>
-import { useGenerateReportStore, EMPLOYEE_TENURESHIP, EMPLOYEE_NEWHIRE, EMPLOYEE_LEAVES, EMPLOYEE_MASTERLIST } from "@/stores/hrms/reports/generateReport"
+import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
 const compId = useId()
 const snackbar = useSnackbar()
 const generate = async () => {
     try {
-        if (administrativeReports.value.params.report_type === EMPLOYEE_TENURESHIP) {
-            await generateReportstore.getAdministrativeReport()
-        }
-        if (administrativeReports.value.params.report_type === EMPLOYEE_NEWHIRE) {
-            await generateReportstore.getAdministrativeReport()
-        }
-        if (administrativeReports.value.params.report_type === EMPLOYEE_LEAVES) {
-            await generateReportstore.getAdministrativeReport()
-        }
-        if (administrativeReports.value.params.report_type === EMPLOYEE_MASTERLIST) {
-            await generateReportstore.getAdministrativeReport()
-        }
+        await generateReportstore.getAdministrativeReport()
         if (administrativeReports.value.errorMessage !== "" && administrativeReports.value.errorMessage !== null) {
             snackbar.add({
                 type: "error",
