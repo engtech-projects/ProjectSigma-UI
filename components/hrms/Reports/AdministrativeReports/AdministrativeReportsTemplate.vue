@@ -16,31 +16,8 @@ watch(administrativeReports.value.params, (newValue, oldValue) => {
 </script>
 <template>
     <LayoutBoards title="Administrative Reports">
-        <div class="flex flex-row gap-4 p-2">
-            <div class="w-full">
-                <span class="text-lg">
-                    Report Type:
-                </span>
-                <select
-                    v-model="administrativeReports.params.report_type"
-                    class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                >
-                    <option :value="EMPLOYEE_TENURESHIP">
-                        Employee Tenureship
-                    </option>
-                    <option :value="EMPLOYEE_MASTERLIST">
-                        Employee Masterlist
-                    </option>
-                    <option :value="EMPLOYEE_NEWHIRE">
-                        Employee New Hires
-                    </option>
-                    <option :value="EMPLOYEE_LEAVES">
-                        Employee Leaves
-                    </option>
-                </select>
-            </div>
-        </div>
         <div class="p-2">
+            <HrmsReportsAdministrativeReportsAdministrativeHeader />
             <HrmsReportsAdministrativeReportsEmployeeTenureship
                 v-show="administrativeReports.params.report_type === EMPLOYEE_TENURESHIP"
             />
