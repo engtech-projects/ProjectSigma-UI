@@ -388,11 +388,13 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                         this.administrativeReports.isLoading = false
                         if (response.ok) {
                             const tempParams = this.administrativeReports.params
+                            const tempHeaders = this.administrativeReports.headers
                             this.$reset()
                             this.administrativeReports.isLoaded = true
                             this.administrativeReports.list = response._data.data
                             this.administrativeReports.successMessage = response._data.message
                             this.administrativeReports.params = tempParams
+                            this.administrativeReports.headers = tempHeaders
                         }
                     },
                 }
