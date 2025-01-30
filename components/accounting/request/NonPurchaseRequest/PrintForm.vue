@@ -48,14 +48,6 @@ const totalVat = computed(() => {
             <div class="flex flex-col justify-between border-2 border-gray-800 min-h-[900px] py-10">
                 <div class="flex flex-col gap-4 h-full">
                     <div class="flex flex-col gap-2 mb-10">
-                        <div class="flex justify-end gap-4 mb-4">
-                            <h3 class="font-bold">
-                                PRF NO.
-                            </h3>
-                            <span class="border-b border-gray-800">
-                                {{ props.data?.prf_no }}
-                            </span>
-                        </div>
                         <div class="flex gap-24">
                             <div class="flex flex-between flex-2 gap-6">
                                 <div class="flex justify-between flex-1">
@@ -137,9 +129,16 @@ const totalVat = computed(() => {
                                         <td class="border px-4 py-1 border-gray-800  text-sm">
                                             {{ formatToCurrency(ae.total_vat_amount) }}
                                         </td>
-                                        <td class="border-2 px-4 py-1 font-bold border-gray-800 border-y-gray-800 text-sm">
+                                        <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-sm">
                                             {{ formatToCurrency(ae.amount) }}
                                         </td>
+                                    </tr>
+                                    <tr v-for="j in (15 - props.data.details.length) " :key="j" class="hover:bg-gray-100 cursor-pointer h-8">
+                                        <td class="border px-4 py-1 border-gray-800 text-sm relative" />
+                                        <td class="border px-4 py-1 border-gray-800 text-sm" />
+                                        <td class="border px-4 py-1 border-gray-800 text-sm" />
+                                        <td class="border px-4 py-1 border-gray-800  text-sm" />
+                                        <td class="border px-4 py-1 font-bold border-gray-800 border-y-gray-800 text-sm" />
                                     </tr>
                                     <tr class="border-2 border-black">
                                         <td />
