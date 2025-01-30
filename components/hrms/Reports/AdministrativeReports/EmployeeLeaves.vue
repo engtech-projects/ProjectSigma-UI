@@ -13,16 +13,6 @@ const headers = [
 </script>
 <template>
     <div class="flex flex-col">
-        <div class="header flex flex-col">
-            <div class="w-max flex flex-row gap-4 mb-12">
-                <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
-                    v-model:select-type="administrativeReports.params.group_type"
-                    v-model:department-id="administrativeReports.params.department_id"
-                    v-model:project-id="administrativeReports.params.project_id"
-                    title="Category:"
-                />
-            </div>
-        </div>
         <LayoutPrint>
             <LayoutLoadingContainer :loading="administrativeReports.isLoading">
                 <table class="printTable table-auto w-full border-collapse border border-gray-500 mb-20">

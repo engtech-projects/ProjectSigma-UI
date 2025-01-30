@@ -98,12 +98,6 @@ const filteredList = computed(() => {
 <template>
     <div class="w-full flex flex-col">
         <div class="w-full flex gap-4 flex-row items-center mb-12">
-            <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
-                v-model:select-type="administrativeReports.params.group_type"
-                v-model:department-id="administrativeReports.params.department_id"
-                v-model:project-id="administrativeReports.params.project_id"
-                title="Category:"
-            />
             <HrmsReportsAdministrativeReportsDynamicFilter :list="administrativeReports.itemFilters" :types="administrativeReports.headers" />
         </div>
         <LayoutPrint>

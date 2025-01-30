@@ -5,14 +5,6 @@ const { administrativeReports } = storeToRefs(generateReportstore)
 </script>
 <template>
     <div class="flex flex-col">
-        <div class="w-max mb-12">
-            <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
-                v-model:select-type="administrativeReports.params.group_type"
-                v-model:department-id="administrativeReports.params.department_id"
-                v-model:project-id="administrativeReports.params.project_id"
-                title="Category:"
-            />
-        </div>
         <LayoutPrint>
             <LayoutLoadingContainer :loading="administrativeReports.isLoading">
                 <table class="printTable border border-gray-500 mb-20">
