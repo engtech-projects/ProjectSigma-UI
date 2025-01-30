@@ -133,7 +133,7 @@ const totalVat = computed(() => {
                                             {{ formatToCurrency(ae.amount) }}
                                         </td>
                                     </tr>
-                                    <tr v-for="j in (10 - props.data.details.length) " :key="j" class="hover:bg-gray-100 cursor-pointer h-8">
+                                    <tr v-for="j in (15 - props.data.details.length) " :key="j" class="hover:bg-gray-100 cursor-pointer h-8">
                                         <td class="border px-4 py-1 border-gray-800 text-sm relative" />
                                         <td class="border px-4 py-1 border-gray-800 text-sm" />
                                         <td class="border px-4 py-1 border-gray-800 text-sm" />
