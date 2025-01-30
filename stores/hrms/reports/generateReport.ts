@@ -387,9 +387,12 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                     onResponse: ({ response } : any) => {
                         this.administrativeReports.isLoading = false
                         if (response.ok) {
+                            const tempParams = this.administrativeReports.params
+                            this.$reset()
                             this.administrativeReports.isLoaded = true
                             this.administrativeReports.list = response._data.data
                             this.administrativeReports.successMessage = response._data.message
+                            this.administrativeReports.params = tempParams
                         }
                     },
                 }
