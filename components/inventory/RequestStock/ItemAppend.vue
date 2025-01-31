@@ -12,22 +12,9 @@ const doRemoveItem = (item:any) => {
 const item = defineModel("item", { required: true, type: Object, default: null })
 const compId = useId()
 
-// const watchUnitChange = (thisItem:any) => {
-//     if (item.value.conversion) {
-//         const baseValue = parseFloat(item.value.quantity) / parseFloat(item.value.conversion)
-//         item.value.conversion = thisItem.conversion
-//         item.value.quantity = baseValue * item.value.conversion
-//     }
-//     item.value.conversion = thisItem.conversion
-// }
 </script>
 <template>
     <tr class="border-b-2 border-gray-300">
-        <!-- <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-            <InventoryBomItemSelector
-                v-model="item.item_id"
-            />
-        </td> -->
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <input
                 :id="compId"
@@ -89,12 +76,6 @@ const compId = useId()
             >
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-            <!-- <input
-                :id="compId"
-                v-model="item.is_approved"
-                type="text"
-                class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
-            > -->
         </td>
         <td class="flex flex-row justify-center items-center px-2 font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="cancel-control">
