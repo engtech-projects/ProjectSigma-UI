@@ -28,6 +28,9 @@ const actions = {
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="allRequests.isLoading">
+        <div class="w-1/3 flex">
+            <LayoutFormPsTextInput v-model="allRequests.params.key" title="PRF Number / Payee" class="w-full" />
+        </div>
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
