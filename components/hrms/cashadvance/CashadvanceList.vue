@@ -12,13 +12,13 @@ onMounted(() => {
 })
 const headers = [
     { text: "Employee Name", value: "employee.fullname_first" },
-    { text: "Cash Advance Amount", value: "amount" },
+    { text: "Cash Advance Amount", value: "amount_formatted" },
     { text: "Terms", value: "terms_of_payment" },
-    { text: "Installment Deduction", value: "installment_deduction" },
+    { text: "Installment Deduction", value: "installment_deduction_formatted" },
     { text: "Deduction Date start", value: "deduction_date_start" },
     { text: "Purpose", value: "purpose" },
-    { text: "Balance", value: "balance" },
-    { text: "Total Paid", value: "total_paid" },
+    { text: "Balance", value: "remaining_balance_formatted" },
+    { text: "Total Paid", value: "total_paid_formatted" },
     { text: "Status", value: "request_status" },
     { text: "Action", value: "actions" },
 ]
