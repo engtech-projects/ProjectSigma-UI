@@ -37,7 +37,7 @@
                         12-12-2024
                     </td>
                     <td class="text-[8px] p-[1px] text-center border border-gray-500">
-                        1 of 1
+                        {{ page.currentPage }} of {{ page.totalPages }}
                     </td>
                 </tr>
             </tbody>
@@ -47,7 +47,7 @@
 
 <script lang="ts" setup>
 defineProps({
-    data: {
+    page: {
         type: Object,
         default: null
     }

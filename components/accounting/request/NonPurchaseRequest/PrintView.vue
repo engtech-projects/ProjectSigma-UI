@@ -9,7 +9,7 @@ const props = defineProps({
 
 const totalCost = computed(() => {
     let total = 0
-    props.data.details.forEach((d:Number) => {
+    detailsData.value.forEach((d:Number) => {
         total += parseFloat(d?.cost)
     })
     return total
@@ -17,7 +17,7 @@ const totalCost = computed(() => {
 
 const approvals = computed(() => {
     const sigs: any[] = []
-    props.data.approvals.forEach((d) => {
+    props.data.approvals.forEach((d: { employee_name: any; employee_position: any; employee_signature: any }) => {
         const data = {
             name: d?.employee_name,
             title: d?.employee_position,
@@ -30,26 +30,45 @@ const approvals = computed(() => {
 
 const totalVat = computed(() => {
     let total = 0
-    props.data.details.forEach((d:Number) => {
+    detailsData.value.forEach((d:Number) => {
         total += parseFloat(d?.total_vat_amount)
     })
     return total
 })
 
+const detailsData = computed(() => {
+    return props.data.details
+})
+
+const numPages = computed(() => {
+    const pages = chunkArray(detailsData.value, 15)
+    return pages
+})
+
+function chunkArray (array: string | any[], chunkSize: number) {
+    const result = []
+    for (let i = 0; i < array.length; i += chunkSize) {
+        result.push(array.slice(i, i + chunkSize))
+    }
+    return result
+}
+
+const extraRows = computed(() => {
+    return detailsData.value.length > 15 ? 0 : 15 - detailsData.value.length
+})
+
 </script>
 
 <template>
-    <div id="toPrint" class="bg-white left-0 top-0 w-screen min-h-[1000px] max-w-[100%] p-4 flex flex-col gap-4">
-        <div class="header">
-            <AccountingCommonEvenparHeader />
-        </div>
-        <div class="content">
-            <h1 id="headText" class="text-2xl text-center font-bold mb-8">
+    <div class="flex flex-col gap-4 h-full p-4">
+        <div v-for="page,i in numPages" :key="i" class="flex flex-col min-h-[1000px] gap-10 min-w-[800px]">
+            <AccountingCommonEvenparHeader :page="{currentPage: i+1, totalPages: numPages.length}" />
+            <h1 v-if="i === 0" id="headText" class="text-2xl text-center font-bold mb-6">
                 PAYMENT REQUEST FORM
             </h1>
-            <div class="flex flex-col justify-between border-2 border-gray-800 min-h-[600px] py-6">
+            <div class="flex flex-col justify-between border-2 border-gray-800 flex-1 py-6 w-[800px]">
                 <div class="flex flex-col gap-4 h-full">
-                    <div class="flex flex-col gap-2 mb-10">
+                    <div v-if="i === 0" class="flex flex-col gap-2 mb-10">
                         <div class="flex gap-24 !text-xs">
                             <div class="flex flex-between flex-2 gap-6">
                                 <div class="flex justify-between flex-1 items-center">
@@ -118,7 +137,7 @@ const totalVat = computed(() => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="ae,i in props.data.details" :key="i" class="hover:bg-gray-100 cursor-pointer">
+                                    <tr v-for="ae,i in page" :key="i" class="hover:bg-gray-100 cursor-pointer">
                                         <td class="border px-4 py-1 border-gray-800 text-xs relative">
                                             {{ ae.particulars }}
                                         </td>
@@ -135,14 +154,14 @@ const totalVat = computed(() => {
                                             {{ formatToCurrency(ae.amount) }}
                                         </td>
                                     </tr>
-                                    <tr v-for="j in (10 - props.data.details.length) " :key="j" class="hover:bg-gray-100 cursor-pointer h-6">
+                                    <tr v-for="j in extraRows" :key="j" class="hover:bg-gray-100 cursor-pointer h-6">
                                         <td class="border px-4 py-1 border-gray-800 text-xs relative" />
                                         <td class="border px-4 py-1 border-gray-800 text-xs" />
                                         <td class="border px-4 py-1 border-gray-800 text-xs" />
                                         <td class="border px-4 py-1 border-gray-800  text-xs" />
                                         <td class="border px-4 py-1 font-bold border-gray-800 border-y-gray-800 text-xs" />
                                     </tr>
-                                    <tr class="border-2 border-black">
+                                    <tr v-if="i === numPages.length - 1" class="border-2 border-black">
                                         <td />
                                         <td class="text-center border-2 border-black font-bold py-1">
                                             TOTAL
@@ -165,8 +184,7 @@ const totalVat = computed(() => {
                         </div>
                     </div>
                 </div>
-
-                <HrmsReportsSignaturesRow>
+                <div class="flex justify-around">
                     <FormSignatory
                         label="REQUESTED BY"
                         :signatory="{
@@ -185,7 +203,7 @@ const totalVat = computed(() => {
                             title: ''
                         }"
                     />
-                </HrmsReportsSignaturesRow>
+                </div>
             </div>
         </div>
     </div>
@@ -198,13 +216,15 @@ const totalVat = computed(() => {
 .flex-3 {
     flex: 3;
 }
-@page {
-    size: A4;
-    padding: 24px;
-}
 @media print {
-    #headText {
-        padding-top: 120px
+    .page-break {
+    page-break-before: always; /* Ensures content starts on a new page */
+    break-before: page; /* Modern browsers */
     }
+}
+@page {
+    size: letter;
+    padding: 16px;
+    width: 100%!important;
 }
 </style>
