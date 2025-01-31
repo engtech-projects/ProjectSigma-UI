@@ -1,28 +1,12 @@
 <script setup>
-import { useGenerateReportStore, EMPLOYEE_TENURESHIP } from "@/stores/hrms/reports/generateReport"
+import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
-watch(administrativeReports.value.params, async () => {
-    if (administrativeReports.value.params.report_type === EMPLOYEE_TENURESHIP) {
-        await generateReportstore.getAdministrativeReport()
-    }
-})
 </script>
 <template>
     <div class="flex flex-col">
-        <div class="header flex flex-col mb-8 gap-4">
-            <div class="flex gap-4 flex-row items-center max-w-sm">
-                <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
-                    v-model:select-type="administrativeReports.params.group_type"
-                    v-model:department-id="administrativeReports.params.department_id"
-                    v-model:project-id="administrativeReports.params.project_id"
-                    title="Category"
-                />
-            </div>
-        </div>
         <LayoutPrint>
             <LayoutLoadingContainer :loading="administrativeReports.isLoading">
-                <HrmsReportsAdministrativeReportsAdministrativeHeader />
                 <table class="printTable border border-gray-500 mb-20">
                     <thead class="text-blue-600 text-md">
                         <tr class="py-4">
