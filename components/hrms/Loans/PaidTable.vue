@@ -11,8 +11,8 @@ const headers = [
     { text: "Employee Name", value: "employee.fullname_first" },
     { text: "Date Filed", value: "date_filed" },
     { text: "Loan Name", value: "name" },
-    { text: "Amount Loaned", value: "amount" },
-    { text: "Deduction", value: "installment_deduction" },
+    { text: "Amount Loaned", value: "amount_formatted" },
+    { text: "Deduction", value: "installment_deduction_formatted" },
     { text: "Action", value: "actions" },
 ]
 

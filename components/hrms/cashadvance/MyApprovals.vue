@@ -27,13 +27,13 @@ const newPayment = ref({
 })
 const headers = [
     { name: "Employee Name", id: "employee.fullname_first" },
-    { name: "Cash Advance Amount", id: "amount" },
+    { name: "Cash Advance Amount", id: "amount_formatted" },
     { name: "Terms", id: "terms_of_payment" },
-    { name: "Installment Deduction", id: "installment_deduction" },
+    { name: "Installment Deduction", id: "installment_deduction_formatted" },
     { name: "Deduction Date start", id: "deduction_date_start" },
     { name: "Purpose", id: "purpose" },
-    { name: "Balance", id: "balance" },
-    { name: "Total Paid", id: "total_paid" },
+    { name: "Balance", id: "remaining_balance_formatted" },
+    { name: "Total Paid", id: "total_paid_formatted" },
     { name: "Status", id: "request_status" },
 ]
 const actions = {

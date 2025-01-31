@@ -11,9 +11,9 @@ const headers = [
     { text: "Employee Name", value: "employee.fullname_first" },
     { text: "Date Filed", value: "date_filed" },
     { text: "Deduction Name", value: "otherdeduction_name" },
-    { text: "Amount to Deduct", value: "amount" },
+    { text: "Amount to Deduct", value: "amount_formatted" },
     { text: "Term", value: "terms_of_payment" },
-    { text: "Monthly Deduction", value: "installment_deduction" },
+    { text: "Monthly Deduction", value: "installment_deduction_formatted" },
     { text: "Action", value: "actions" },
 ]
 
