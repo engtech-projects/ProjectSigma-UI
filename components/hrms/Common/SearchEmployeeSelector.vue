@@ -13,9 +13,13 @@ const model = defineModel({ required: false, type: Number, default: null })
 const employeeSearch = useEmployeeSearch()
 const { employeesAll } = storeToRefs(employeeSearch)
 onMounted(() => {
-    if (!employeesAll.value.isLoaded) {
+    if (employeesAll.value.loadCount <= 0) {
         employeeSearch.searchEmployees()
     }
+    employeesAll.value.loadCount++
+})
+onUnmounted(() => {
+    employeesAll.value.loadCount--
 })
 const employeeId = ref<EmployeeInformation>({} as EmployeeInformation)
 watch(employeeId, (newValue) => {
