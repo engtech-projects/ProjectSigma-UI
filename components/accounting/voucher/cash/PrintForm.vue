@@ -160,11 +160,11 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                     <td class="border px-4 py-1 border-gray-800 text-xs">
                                         {{ ae?.stakeholder?.name }}
                                     </td>
-                                    <td class="border px-4 py-1 border-gray-800  text-xs">
-                                        {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "" }}
+                                    <td class="border px-4 py-1 border-gray-800  text-xs text-right">
+                                        {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "-" }}
                                     </td>
-                                    <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs">
-                                        {{ ae.credit > 0 ? formatToCurrency(ae.credit) : "" }}
+                                    <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs text-right">
+                                        {{ ae.credit > 0 ? formatToCurrency(ae.credit) : "-" }}
                                     </td>
                                 </tr>
                                 <tr v-for="i in extraRows" :key="i" class="hover:bg-gray-100 cursor-pointer h-6">
