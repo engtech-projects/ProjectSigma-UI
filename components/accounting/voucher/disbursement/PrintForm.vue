@@ -152,7 +152,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                         {{ ae.account?.account_name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-xs">
-                                        {{ ae.account?.stakeholder?.name }}
+                                        {{ ae?.stakeholder?.name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800  text-xs">
                                         {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "" }}
