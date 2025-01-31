@@ -267,12 +267,12 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-700">
-                                            {{ detail?.debit ?? "-" }}
+                                            {{ detail?.debit > 0 ? formatToCurrency(detail?.debit) : "-" }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-700">
-                                            {{ detail?.credit ?? "-" }}
+                                            {{ detail?.credit > 0 ? formatToCurrency(detail?.credit) : "-" }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
