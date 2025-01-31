@@ -19,7 +19,7 @@ defineProps({
 })
 </script>
 <template>
-    <div class="flex flex-col gap-8 !text-sm justify-between">
+    <div class="flex flex-col gap-8 !text-xs justify-between">
         <span class="">{{ label }} :</span>
         <div class="flex gap-8 flex-1">
             <!-- <img v-if="signature" :src="signature" class="w-48 h-48 object-cover rounded-md"> -->
