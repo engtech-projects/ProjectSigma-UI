@@ -17,21 +17,21 @@ defineProps({
     },
 })
 const addItem = () => {
-    requestStock.value.details.push(
+    requestStock.value.items.push(
         {
             quantity: "",
             unit: "",
-            sku: "",
-            item_description: "",
+            item_id: "",
             specification: "",
             preferred_brand: "",
-            reason_for_requests: "",
-            turn_over: "",
+            reason: "",
+            location: "",
+            location_qty: "",
         }
     )
 }
 const removeItem = (id: number) => {
-    requestStock.value.details.splice(id, 1)
+    requestStock.value.items.splice(id, 1)
 }
 </script>
 <template>
@@ -61,9 +61,9 @@ const removeItem = (id: number) => {
                                 </button>
                             </td>
                         </tr>
-                        <template v-for="(item, index) in requestStock.details" :key="index">
-                            <InventoryBomItemAppend
-                                v-model:item="requestStock.details[index]"
+                        <template v-for="(item, index) in requestStock.items" :key="index">
+                            <InventoryRequestStockItemAppend
+                                v-model:item="requestStock.items[index]"
                                 :index="index"
                                 @remove-item="removeItem"
                             />

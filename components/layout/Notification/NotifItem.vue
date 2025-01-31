@@ -12,6 +12,7 @@ import { useGeneratePayrollStore } from "@/stores/hrms/payroll/generatePayroll"
 import { useItemProfileStore } from "@/stores/inventory/itemprofiles"
 import { useBOMStore } from "@/stores/inventory/bom"
 import { useSupplierStore } from "@/stores/inventory/suppliers"
+import { useRequestStockStore } from "@/stores/inventory/requeststock"
 import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
 import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
 
@@ -29,6 +30,7 @@ const genPayrollStore = useGeneratePayrollStore()
 const itemProfileStore = useItemProfileStore()
 const BOMStore = useBOMStore()
 const SupplierStore = useSupplierStore()
+const RequestStockStore = useRequestStockStore()
 const PaymentRequestStore = usePaymentRequestStore()
 const voucherStore = useVoucherStore()
 // INVENTORY STORES
@@ -55,6 +57,7 @@ const icons = {
     GeneratePayroll: "carbon:money",
     RequestItemProfiling: "material-symbols:inventory-2-outline",
     RequestBOM: "i-carbon:request-quote",
+    RequestStock: "i-carbon:request-quote",
     ACCOUNTING_PAYMENT_REQUEST: "iconoir:credit-card-2",
     ACCOUNTING_DISBURSEMENT_REQUEST: "material-symbols:dynamic-form-outline-rounded",
     ACCOUNTING_CASH_REQUEST: "iconoir:money-square"
@@ -112,6 +115,9 @@ const openModalNotification = async () => {
             break
         case "RequestSupplier":
             modalData.value = await SupplierStore.getOne(prop.notification.data.metadata.id)
+            break
+        case "RequestStock":
+            modalData.value = await RequestStockStore.getOne(prop.notification.data.metadata.id)
             break
         case "ACCOUNTING_PAYMENT_REQUEST":
             modalData.value = await PaymentRequestStore.getOne(prop.notification.data.metadata.id)
@@ -268,6 +274,12 @@ watch(showModal, (newValue, oldValue) => {
             />
         </template>
         <template v-if=" prop.notification.data.type === 'RequestSupplier'">
+            <InventorySuppliersInfoModal
+                v-model:showModal="showModal"
+                :data="modalData.data"
+            />
+        </template>
+        <template v-if=" prop.notification.data.type === 'RequestStock'">
             <InventorySuppliersInfoModal
                 v-model:showModal="showModal"
                 :data="modalData.data"
