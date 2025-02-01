@@ -33,6 +33,9 @@ const actions = {
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="myCashVouchers.isLoading">
+        <div class="w-1/3 flex">
+            <LayoutFormPsTextInput v-model="myCashVouchers.params.key" title="CV Number/Journal Voucher Number" class="w-full" />
+        </div>
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"

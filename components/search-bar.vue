@@ -7,9 +7,13 @@ const employee = useEmployeeInfo()
 const employeeSearch = useEmployeeSearch()
 const { employeesAll } = storeToRefs(employeeSearch)
 onMounted(() => {
-    if (!employeesAll.value.isLoaded) {
+    if (employeesAll.value.loadCount <= 0) {
         employeeSearch.searchEmployees()
     }
+    employeesAll.value.loadCount++
+})
+onUnmounted(() => {
+    employeesAll.value.loadCount--
 })
 const employeeInfo = ref<EmployeeInformation>({} as EmployeeInformation)
 const emit = defineEmits(["searchChanged"])

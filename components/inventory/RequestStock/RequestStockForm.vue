@@ -1,8 +1,10 @@
 <script setup>
 import { useRequestStockStore, APPROVALS } from "@/stores/inventory/requeststock"
 import { useApprovalStore } from "@/stores/hrms/setup/approvals"
+
 const mainStore = useRequestStockStore()
 const { approvalList } = storeToRefs(mainStore)
+mainStore.fetchRs()
 
 const form = defineModel({ required: true, type: Object })
 
@@ -13,36 +15,47 @@ const snackbar = useSnackbar()
 
 const storeRequestForm = async () => {
     try {
+        form.value.items = mainStore.requestStock.items
+
+        if (!form.value.items || form.value.items.length === 0) {
+            snackbar.add({
+                type: "error",
+                text: "Please add items before submitting the request.",
+            })
+            return
+        }
+
         form.value.approvals = approvalList.value.list
         await mainStore.storeRequest()
+
         if (mainStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",
-                text: mainStore.errorMessage
+                text: mainStore.errorMessage,
             })
         } else {
             snackbar.add({
                 type: "success",
-                text: mainStore.successMessage
+                text: mainStore.successMessage,
             })
         }
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: error
+            text: error.message || error,
         })
     }
 }
-
 const headers = [
-    { name: "Quantity", id: "quantity" },
-    { name: "Unit", id: "unit" },
-    { name: "SKU", id: "sku" },
-    { name: "Item Description", id: "item_description" },
+    { name: "QTY", id: "quantity" },
+    { name: "UNIT", id: "unit" },
+    { name: "Item Description", id: "item_id" },
     { name: "Specification", id: "specification" },
     { name: "Preferred Brand", id: "preferred_brand" },
-    { name: "Reason For Requests", id: "reason_for_requests" },
-    { name: "Turn Over (IF AVAILABLE)", id: "turn_over" },
+    { name: "Reason For Request", id: "reason" },
+    { name: "Location of Item (IF AVAILABLE)", id: "location" },
+    { name: "QTY", id: "location_qty" },
+    { name: "Approve/Reject", id: "is_approved" },
 ]
 
 </script>
@@ -53,30 +66,86 @@ const headers = [
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="flex flex-row justify-between gap-4">
                         <div class="w-full flex flex-col gap-2">
-                            <LayoutFormPsTextInput v-model="form.request_to" :required="true" class="w-full" title="Request To" />
-                            <LayoutFormPsTextInput v-model="form.office_project" :required="true" class="w-full" title="Office/Project" />
-                            <LayoutFormPsTextInput v-model="form.project_address" :required="true" class="w-full" title="Project Address" />
+                            <div class="w-full flex flex-cols-2 gap-2">
+                                <InventoryWarehouseSelector
+                                    v-model="form.warehouse_id"
+                                />
+                            </div>
+                            <LayoutFormPsTextInput v-model="form.request_for" :required="true" class="w-full" title="Request For" />
+                            <div class="w-full flex gap-2">
+                                <div class="w-full">
+                                    <label
+                                        class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        Office/Project
+                                    </label>
+                                    <HrmsCommonProjectSelector v-model="form.office_project" />
+                                </div>
+                                <div class="w-full">
+                                    <LayoutFormPsTextInput v-model="form.office_project_address" :required="true" class="w-full" title="Address" />
+                                </div>
+                            </div>
                         </div>
                         <div class="w-full flex flex-col gap-2">
-                            <LayoutFormPsTextInput v-model="form.deliver_to" :required="true" class="w-full" title="Deliver To" />
+                            <!-- <div class="w-full">
+                                <label
+                                    for="reference_no"
+                                    class="text-sm italic"
+                                >Reference No.</label>
+                                <input
+                                    id="reference_no"
+                                    type="text"
+                                    disabled
+                                    class="w-full rounded-lg"
+                                    :value="referenceNo"
+                                >
+                            </div> -->
+                            <LayoutFormPsDateInput v-model="form.date_prepared" :required="true" class="w-full" title="Date Prepared" />
                             <LayoutFormPsDateInput v-model="form.date_needed" :required="true" class="w-full" title="Date Needed" />
+                            <LayoutFormPsTextInput v-model="form.equipment_no" :required="true" class="w-full" title="Equipment No." />
                         </div>
                     </div>
                     <div>
-                        <InventoryRequestStockItemTable title="Item List" :header-columns="headers" :data-columns="form.list" />
+                        <InventoryRequestStockItemTable title="Item List" :header-columns="headers" :data-columns="form.items" />
                     </div>
-                    <div class="flex flex-row gap-4">
-                        <LayoutFormPsTextInput v-model="form.conso_period" :required="true" class="w-full" title="Conso Period" />
-                        <LayoutFormPsTextInput v-model="form.contact_number" :required="true" class="w-full" title="Contact Number" />
-                        <LayoutFormPsTextInput v-model="form.smr" :required="true" class="w-full" title="SMR" />
-                    </div>
-                    <div class="w-full">
-                        <label
-                            class="block mb-1 text-sm font-medium text-gray-900"
-                        >
-                            Remarks
-                        </label>
-                        <InventoryCommonFormPsTextAreaCommon v-model="form.remarks" title="Remarks" />
+                    <div class="flex flex-row justify-between gap-4">
+                        <div class="w-full flex flex-col gap-2">
+                            <LayoutFormPsTextInput v-model="form.type_of_request" :required="false" class="w-full" title="Type of Request" />
+                            <LayoutFormPsNumberInput v-model="form.contact_no" :required="false" class="w-full" title="Contact Number" />
+                        </div>
+                        <div class="w-full flex flex-col gap-2">
+                            <div class="w-full">
+                                <label
+                                    class="block mb-1 text-sm font-medium text-gray-900"
+                                >
+                                    Remarks
+                                </label>
+                                <InventoryCommonFormPsTextAreaCommon v-model="form.remarks" title="Remarks" />
+                            </div>
+                        </div>
+                        <div class="w-full flex flex-col gap-2">
+                            <label
+                                class="block mb-1 text-sm font-medium text-gray-900"
+                            >
+                                Equipment SMR
+                            </label>
+                            <div class="flex">
+                                <div class="w-1/2 pr-2">
+                                    <LayoutFormPsTextInput v-model="form.current_smr" :required="false" class="w-full" title="Current SMR" />
+                                </div>
+                                <div class="w-1/2 pl-2">
+                                    <LayoutFormPsTextInput v-model="form.unused_smr" :required="false" class="w-full" title="Unused SMR" />
+                                </div>
+                            </div>
+                            <div class="flex mt-2">
+                                <div class="w-1/2 pr-2">
+                                    <LayoutFormPsTextInput v-model="form.previous_smr" :required="false" class="w-full" title="Previous SMR" />
+                                </div>
+                                <div class="w-1/2 pl-2">
+                                    <LayoutFormPsTextInput v-model="form.next_smr" :required="false" class="w-full" title="Next SMR" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="flex w-full">

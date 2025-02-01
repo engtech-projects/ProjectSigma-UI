@@ -26,7 +26,7 @@ export const useEmployeeSearch = defineStore("employeeSearchStore", {
             }
         },
         employeesAll: {
-            isLoaded: false,
+            loadCount: 0,
             isLoading: false,
             list: [] as EmployeeSearch[],
             params: {
@@ -39,7 +39,6 @@ export const useEmployeeSearch = defineStore("employeeSearchStore", {
     },
     actions: {
         async searchEmployees () {
-            this.employeesAll.isLoaded = true
             await useHRMSApi(
                 "/api/employee/search",
                 {
