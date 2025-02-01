@@ -137,7 +137,7 @@ const extraRows = computed(() => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="ae,i in page" :key="i" class="hover:bg-gray-100 cursor-pointer">
+                                    <tr v-for="ae, index in page" :key="index" class="hover:bg-gray-100 cursor-pointer">
                                         <td class="border px-4 py-1 border-gray-800 text-xs relative">
                                             {{ ae.particulars }}
                                         </td>
@@ -145,13 +145,13 @@ const extraRows = computed(() => {
                                             {{ ae.stakeholder?.name }}
                                         </td>
                                         <td class="border px-4 py-1 border-gray-800 text-xs">
-                                            {{ formatToCurrency(ae.cost) }}
+                                            {{ ae.cost > 0 ? formatToCurrency(ae.cost) : "-" }}
                                         </td>
                                         <td class="border px-4 py-1 border-gray-800  text-xs">
-                                            {{ formatToCurrency(ae.total_vat_amount) }}
+                                            {{ ae.total_vat_amount > 0 ? formatToCurrency(ae.total_vat_amount) : "-" }}
                                         </td>
                                         <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs">
-                                            {{ formatToCurrency(ae.amount) }}
+                                            {{ ae.amount > 0 ? formatToCurrency(ae.amount) : "-" }}
                                         </td>
                                     </tr>
                                     <tr v-for="j in extraRows" :key="j" class="hover:bg-gray-100 cursor-pointer h-6">
@@ -223,7 +223,7 @@ const extraRows = computed(() => {
     }
 }
 @page {
-    size: letter;
+    size: auto;
     padding: 16px;
     width: 100%!important;
 }

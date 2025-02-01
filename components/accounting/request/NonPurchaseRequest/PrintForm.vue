@@ -126,13 +126,13 @@ const totalVat = computed(() => {
                                             {{ ae.stakeholder?.name }}
                                         </td>
                                         <td class="border px-4 py-1 border-gray-800 text-xs">
-                                            {{ formatToCurrency(ae.cost) }}
+                                            {{ ae.cost > 0 ? formatToCurrency(ae.cost) : "-" }}
                                         </td>
                                         <td class="border px-4 py-1 border-gray-800  text-xs">
-                                            {{ formatToCurrency(ae.total_vat_amount) }}
+                                            {{ ae.total_vat_amount > 0 ? formatToCurrency(ae.total_vat_amount) : "-" }}
                                         </td>
                                         <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs">
-                                            {{ formatToCurrency(ae.amount) }}
+                                            {{ ae.amount > 0 ? formatToCurrency(ae.amount) : "-" }}
                                         </td>
                                     </tr>
                                     <tr v-for="j in (10 - props.data.details.length) " :key="j" class="hover:bg-gray-100 cursor-pointer h-6">
@@ -199,7 +199,7 @@ const totalVat = computed(() => {
     flex: 3;
 }
 @page {
-    size: A4;
+    size: auto;
     padding: 24px;
 }
 @media print {
