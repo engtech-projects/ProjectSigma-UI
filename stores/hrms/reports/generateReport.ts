@@ -419,6 +419,10 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                         this.administrativeReports.isLoading = true
                         this.administrativeReports.tempFile = ""
                     },
+                    onResponseError: ({ response } : any) => {
+                        this.administrativeReports.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response } : any) => {
                         this.administrativeReports.isLoading = false
                         if (response.ok) {

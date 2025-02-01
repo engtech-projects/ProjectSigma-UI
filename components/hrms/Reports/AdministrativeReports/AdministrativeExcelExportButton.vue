@@ -3,12 +3,38 @@ import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
 const compId = useId()
+const snackbar = useSnackbar()
 const downloadFile = async () => {
-    await generateReportstore.getExportAdministrativeReport()
-    const a = document.createElement("a")
-    a.href = administrativeReports.value.tempFile ? administrativeReports.value.tempFile : "#"
-    a.target = "_blank"
-    a.click()
+    try {
+        if (administrativeReports.value.params.report_type !== null) {
+            await generateReportstore.getExportAdministrativeReport()
+            if (administrativeReports.value.errorMessage !== "" && administrativeReports.value.errorMessage !== null) {
+                snackbar.add({
+                    type: "error",
+                    text: administrativeReports.value.errorMessage
+                })
+            } else {
+                const a = document.createElement("a")
+                a.href = administrativeReports.value.tempFile ? administrativeReports.value.tempFile : "#"
+                a.target = "_blank"
+                a.click()
+                snackbar.add({
+                    type: "success",
+                    text: administrativeReports.value.successMessage
+                })
+            }
+        } else {
+            snackbar.add({
+                type: "error",
+                text: "Kindly select a report type"
+            })
+        }
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: administrativeReports.value.errorMessage
+        })
+    }
 }
 </script>
 <template>
