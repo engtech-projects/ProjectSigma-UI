@@ -53,6 +53,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             itemFilters: [],
             filters: [],
             headers: [],
+            tempFile: "",
             params: {
                 report_type: null,
                 department_id: null,
@@ -414,9 +415,17 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                         Accept: "application/json"
                     },
                     watch: false,
+                    onRequest: () => {
+                        this.administrativeReports.isLoading = true
+                        this.administrativeReports.tempFile = ""
+                    },
                     onResponse: ({ response } : any) => {
-                        const blob = response.blob()
-                        return blob
+                        this.administrativeReports.isLoading = false
+                        if (response.ok) {
+                            this.administrativeReports.isLoaded = true
+                            this.administrativeReports.successMessage = response._data.message
+                            this.administrativeReports.tempFile = config.public.HRMS_API_URL + response._data.url
+                        }
                     },
                 }
             )
