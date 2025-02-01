@@ -144,7 +144,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="ae,i in page" :key="i" class="hover:bg-gray-100 cursor-pointer">
+                                <tr v-for="ae, index in page" :key="index" class="hover:bg-gray-100 cursor-pointer">
                                     <td class="border px-4 py-1 border-gray-800 text-xs relative">
                                         {{ ae.account?.account_number }}
                                     </td>
@@ -161,7 +161,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                         {{ ae.credit > 0 ? formatToCurrency(ae.credit) : "" }}
                                     </td>
                                 </tr>
-                                <tr v-for="i in extraRows" :key="i" class="hover:bg-gray-100 cursor-pointer h-6">
+                                <tr v-for="index in extraRows" :key="index" class="hover:bg-gray-100 cursor-pointer h-6">
                                     <td class="border px-4 py-1 border-gray-800 text-xs relative" />
                                     <td class="border px-4 py-1 border-gray-800 text-xs" />
                                     <td class="border px-4 py-1 border-gray-800 text-xs" />
