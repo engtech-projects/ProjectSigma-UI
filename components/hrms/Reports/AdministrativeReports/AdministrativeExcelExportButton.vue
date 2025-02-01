@@ -1,9 +1,25 @@
 <script lang="ts" setup>
-import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
-const generateReportstore = useGenerateReportStore()
 const compId = useId()
 const downloadFile = async () => {
-    await generateReportstore.getExportAdministrativeReport()
+    // const blob = await generateReportstore.getExportAdministrativeReport()
+    const config = useRuntimeConfig()
+    const { token } = useAuth()
+    const response = await fetch(config.public.HRMS_API_URL + "/api/administrative-export?report_type=EMPLOYEE MASTERLIST&group_type=All", {
+        method: "GET",
+        headers: {
+            Authorization: token.value + "",
+            Accept: "application/json"
+        },
+    })
+    const blob = await response.blob()
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = "file.xlsx"
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
 }
 </script>
 <template>

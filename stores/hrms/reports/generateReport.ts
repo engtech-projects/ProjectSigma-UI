@@ -416,6 +416,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                     watch: false,
                     onResponse: ({ response } : any) => {
                         const blob = response.blob()
+                        return blob
                     },
                 }
             )
