@@ -30,6 +30,7 @@ const compId = useId()
                 </div>
             </div>
             <HrmsReportsAdministrativeReportsAdministrativeGenerateButton />
+            <HrmsReportsAdministrativeReportsAdministrativeExcelExportButton />
         </div>
     </div>
 </template>
