@@ -17,6 +17,7 @@ const downloadFile = async () => {
                 const a = document.createElement("a")
                 a.href = administrativeReports.value.tempFile ? administrativeReports.value.tempFile : "#"
                 a.target = "_blank"
+                a.download = "master_list.xlsx"
                 a.click()
                 snackbar.add({
                     type: "success",
