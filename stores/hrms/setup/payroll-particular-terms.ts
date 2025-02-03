@@ -19,7 +19,7 @@ export const usePayrollParticularTerms = defineStore("PayrollParticularTerms", {
             isLoading: false,
             list: [],
             pagination: {},
-            params: {},
+            params: {} as any,
             successMessage: "",
         },
         createData: {
@@ -35,7 +35,7 @@ export const usePayrollParticularTerms = defineStore("PayrollParticularTerms", {
         isEdit: false,
         editData: {
             isLoading: false,
-            params: {},
+            params: {} as any,
             successMessage: "",
         },
         deleteData: {
@@ -81,6 +81,7 @@ export const usePayrollParticularTerms = defineStore("PayrollParticularTerms", {
                 onResponse: ({ response }: any) => {
                     this.createData.isLoading = false
                     if (response.ok) {
+                        this.reloadResources()
                         this.createData.successMessage = response._data.message
                     }
                 },
@@ -96,9 +97,10 @@ export const usePayrollParticularTerms = defineStore("PayrollParticularTerms", {
                 onResponseError: ({ response }: any) => {
                     throw new Error(response._data.message)
                 },
-                onResponse: ({ response }: any) => {
+                onResponse: async ({ response }: any) => {
                     this.editData.isLoading = false
                     if (response.ok) {
+                        await this.reloadResources()
                         this.editData.successMessage = response._data.message
                     }
                 },
@@ -116,11 +118,21 @@ export const usePayrollParticularTerms = defineStore("PayrollParticularTerms", {
                 onResponse: ({ response }: any) => {
                     this.deleteData.isLoading = false
                     if (response.ok) {
+                        this.reloadResources()
                         this.deleteData.successMessage = response._data.message
                     }
                 },
             })
         },
-
+        reloadResources () {
+            const callFunctions = []
+            if (this.allList.isLoaded) {
+                callFunctions.push(this.getAllList)
+            }
+            this.$reset()
+            callFunctions.forEach((element) => {
+                element()
+            })
+        }
     },
 })

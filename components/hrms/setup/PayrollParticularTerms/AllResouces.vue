@@ -24,12 +24,12 @@ const deleteLeaves = async (res) => {
         await resourceStore.sendDeleteResource(res.id)
         snackbar.add({
             type: "success",
-            text: deleteData.successMessage
+            text: deleteData.successMessage || "Successfully deleted."
         })
-    } catch {
+    } catch (e) {
         snackbar.add({
             type: "error",
-            text: deleteData.errorMessage || "Something went wrong."
+            text: e || "Something went wrong."
         })
     }
 }

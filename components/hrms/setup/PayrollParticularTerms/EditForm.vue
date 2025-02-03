@@ -11,12 +11,12 @@ const edit = async () => {
         await resourceStore.sendEditResource()
         snackbar.add({
             type: "success",
-            text: createData.successMessage
+            text: editData.successMessage || "Successfully updated."
         })
-    } catch {
+    } catch (e) {
         snackbar.add({
             type: "error",
-            text: createData.errorMessage || "Something went wrong."
+            text: e || "Something went wrong."
         })
     }
 }

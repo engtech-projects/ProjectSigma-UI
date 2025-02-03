@@ -1,64 +1,51 @@
 <script setup lang="ts">
 import { useSalaryDisbursementStore } from "@/stores/hrms/payroll/salaryDisbursement"
-
 const { data: userData } = useAuth()
-defineProps({
-    data: {
-        type: Object,
-        required: true,
-    },
+useHead({
+    title: "Payroll Summary Details",
 })
-
-const showModal = defineModel("showModal", { required: false, type: Boolean })
-
-const resourceStore = useSalaryDisbursementStore()
-
+const salaryDisbursementStore = useSalaryDisbursementStore()
+const compId = useId()
+const route = useRoute()
+const salaryDisbursement = ref()
 const snackbar = useSnackbar()
-const boardLoading = ref(false)
-
-const closeViewModal = () => {
-    showModal.value = false
-}
+onMounted(async () => {
+    if (route.query.id) {
+        salaryDisbursement.value = await salaryDisbursementStore.getOne(route.query.id)
+    }
+})
 const approvedRequest = async (id: any) => {
     try {
-        boardLoading.value = true
-        await resourceStore.approveApprovalForm(id)
+        await salaryDisbursementStore.approveApprovalForm(id)
         snackbar.add({
             type: "success",
             text: "Successfully Approved."
         })
-        closeViewModal()
     } catch (error) {
         snackbar.add({
             type: "error",
             text: error || "something went wrong."
         })
-    } finally {
-        boardLoading.value = false
     }
 }
 const denyRemarks = ref("")
 const denyRequest = async (id : any) => {
     try {
-        boardLoading.value = true
-        await resourceStore.denyApprovalForm(id, denyRemarks.value)
+        await salaryDisbursementStore.denyApprovalForm(id, denyRemarks.value)
         snackbar.add({
             type: "success",
             text: "Successfully Denied"
         })
-        closeViewModal()
     } catch (error) {
         snackbar.add({
             type: "error",
             text: error || "something went wrong."
         })
-    } finally {
-        boardLoading.value = false
     }
 }
 const submitToAccounting = async (id: any) => {
     try {
-        await resourceStore.submitToAccounting(id)
+        await salaryDisbursementStore.submitToAccounting(id)
         snackbar.add({
             type: "success",
             text: "Successfully submitted to accounting."
@@ -70,48 +57,51 @@ const submitToAccounting = async (id: any) => {
         })
     }
 }
-
 </script>
 <template>
-    <PsModal v-model:show-modal="showModal" :is-loading="boardLoading" title="Salary Disbursement Request">
-        <template #body>
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.hrms_payroll_salarydisbursement_viewpayslips,
+        ])"
+        :comp-id="compId"
+    >
+        <LayoutBackOrHome v-if="!route.query.id" message="Please select a Payroll Disbursement" />
+        <template v-if="salaryDisbursement?.data">
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Payroll Date: </span> <span class="text-gray-900">{{ data.payroll_date_human }}</span>
+                    <span class="text-teal-600 text-light font-medium">Payroll Date: </span> <span class="text-gray-900">{{ salaryDisbursement?.data.payroll_date_human }}</span>
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Payroll Type: </span> {{ data.payroll_type }}
+                    <span class="text-teal-600 text-light font-medium">Payroll Type: </span> {{ salaryDisbursement?.data.payroll_type }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Release Type: </span> {{ data.release_type }}
+                    <span class="text-teal-600 text-light font-medium">Release Type: </span> {{ salaryDisbursement?.data.release_type }}
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light font-medium">Requested By: </span>
-                    {{ data.created_by_user_name }}<br>{{ data.created_at_human }}
+                    {{ salaryDisbursement?.data.created_by_user_name }}<br>{{ salaryDisbursement?.data.created_at_human }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Request Status: </span> {{ data.request_status }}
+                    <span class="text-teal-600 text-light font-medium">Request Status: </span> {{ salaryDisbursement?.data.request_status }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Disbursement Status: </span> {{ data.disbursement_status }}
+                    <span class="text-teal-600 text-light font-medium">Disbursement Status: </span> {{ salaryDisbursement?.data.disbursement_status }}
                 </div>
             </div>
             <div class="w-full">
-                <HrmsPayrollSalaryDisbursementDetailsTable :data="data" />
+                <HrmsPayrollSalaryDisbursementDetailsTable :data="salaryDisbursement.data" />
             </div>
-        </template>
-        <template #footer>
-            <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="salaryDisbursement?.data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
                 <HrmsCommonApprovalDenyButton
                     v-model:deny-remarks="denyRemarks"
-                    :request-id="data.id"
+                    :request-id="salaryDisbursement?.data.id"
                     @approve="approvedRequest"
                     @deny="denyRequest"
                 />
             </div>
-            <div v-if="data.request_status === 'Approved'">
+            <div v-if="salaryDisbursement?.data.request_status === 'Approved'">
                 <LayoutFormPsButton button-title="Submit to Accounting" @click="submitToAccounting" />
             </div>
         </template>
-    </PsModal>
+    </LayoutAcessContainer>
 </template>

@@ -8,12 +8,12 @@ const addLeave = async () => {
         await resourceStore.sendCreateResource()
         snackbar.add({
             type: "success",
-            text: createData.successMessage
+            text: createData.successMessage || "Successfully created."
         })
-    } catch {
+    } catch (e) {
         snackbar.add({
             type: "error",
-            text: createData.errorMessage || "Something went wrong."
+            text: e || "Something went wrong."
         })
     }
 }
