@@ -86,7 +86,6 @@ administrativeReports.value.headers = [
     { name: "Current Work Location (Department name/ Project Code)", id: "work_location", show: true },
     { name: "Employment Status", id: "current_employment_status", show: true },
     { name: "Current Position", id: "current_position_name", show: true },
-    { name: "Section", id: "section", show: true },
     { name: "Salary Grade", id: "salary_grade", show: true },
 ]
 const filteredList = computed(() => {
