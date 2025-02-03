@@ -179,10 +179,10 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                         TOTAL
                                     </td>
                                     <td class="border-b-2 border-black py-2 px-4 text-xs">
-                                        {{ formatToCurrency(totalDebit) }}
+                                        {{ accountingCurrency(totalDebit) }}
                                     </td>
                                     <td class="border-b-2 border-black py-2 px-4 text-xs">
-                                        {{ formatToCurrency(totalCredit) }}
+                                        {{ accountingCurrency(totalCredit) }}
                                     </td>
                                 </tr>
                             </tbody>

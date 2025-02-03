@@ -162,17 +162,17 @@ watch(showModal, (newVal) => {
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-600">
-                                                {{ useFormatCurrency(detail?.cost) }}
+                                                {{ accountingCurrency(detail?.cost) }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-600">
-                                                {{ useFormatCurrency(detail?.total_vat_amount) }}
+                                                {{ accountingCurrency(detail?.total_vat_amount) }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-600">
-                                                {{ useFormatCurrency(detail?.amount) }}
+                                                {{ accountingCurrency(detail?.amount) }}
                                             </div>
                                         </td>
                                     </tr>

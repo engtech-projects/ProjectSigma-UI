@@ -127,17 +127,17 @@ const boardLoading = ref(false)
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ detail?.vat }}
+                                            {{ accountingCurrency(detail?.cost) }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ detail?.total_vat_amount }}
+                                            {{ accountingCurrency(detail?.total_vat_amount) }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ detail?.amount }}
+                                            {{ accountingCurrency(detail?.amount) }}
                                         </div>
                                     </td>
                                 </tr>
