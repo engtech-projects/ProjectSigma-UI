@@ -100,7 +100,7 @@ const submitToAccounting = async (id: any) => {
                 />
             </div>
             <div v-if="salaryDisbursement?.data.request_status === 'Approved'">
-                <LayoutFormPsButton button-title="Submit to Accounting" @click="submitToAccounting" />
+                <LayoutFormPsButton button-title="Submit to Accounting" @click="submitToAccounting(salaryDisbursement?.data.id)" />
             </div>
         </template>
     </LayoutAcessContainer>
