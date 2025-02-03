@@ -84,6 +84,7 @@ administrativeReports.value.headers = [
     { name: "Pag-ibig #", id: "pagibig_number", show: true },
     { name: "TIN", id: "tin_number", show: true },
     { name: "Current Work Location (Department name/ Project Code)", id: "work_location", show: true },
+    { name: "Employment Status", id: "current_employment_status", show: true },
     { name: "Current Position", id: "current_position_name", show: true },
     { name: "Section", id: "section", show: true },
     { name: "Salary Grade", id: "salary_grade", show: true },
@@ -282,6 +283,9 @@ const filteredList = computed(() => {
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             {{ dataValue.work_location }}
+                        </td>
+                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
+                            {{ dataValue.current_employment_status }}
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             <div class="w-full min-w-max">
