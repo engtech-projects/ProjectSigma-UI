@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
 const config = useRuntimeConfig()
-const { token } = useAuth()
 export const LOAN_HDMF_MPL = "HDMF MPL"
 export const LOAN_HDMF_MPL_LOAN = "HDMF MPL LOAN"
 export const LOAN_COOP = "COOP LOAN"
@@ -404,16 +403,11 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             )
         },
         async getExportAdministrativeReport () {
-            await useFetch(
+            await useHRMSApiO(
                 "/api/reports/administrative-export",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     params: this.administrativeReports.params,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     watch: false,
                     onRequest: () => {
                         this.administrativeReports.isLoading = true
@@ -426,7 +420,6 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                     onResponse: ({ response } : any) => {
                         this.administrativeReports.isLoading = false
                         if (response.ok) {
-                            this.administrativeReports.isLoaded = true
                             this.administrativeReports.successMessage = response._data.message
                             this.administrativeReports.tempFile = config.public.HRMS_API_URL + response._data.url
                         }
