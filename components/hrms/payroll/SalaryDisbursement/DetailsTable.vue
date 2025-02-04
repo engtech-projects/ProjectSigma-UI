@@ -25,7 +25,7 @@ const totalGrossPay = () => {
 }
 const totalDeductSSS = () => {
     return Object.values(props.data.summary).reduce((accumulator, current) => {
-        return accumulator + current.summary.deduct_sss_employee_contribution + current.summary.deduct_sss_employee_compensation + current.summary.deduct_sss_employee_wisp
+        return accumulator + current.summary.deduct_sss_employee_contribution + current.summary.deduct_sss_employee_compensation
     }, 0)
 }
 const totalDeductPhilhealth = () => {
