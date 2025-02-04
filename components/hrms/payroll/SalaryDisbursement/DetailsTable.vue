@@ -154,7 +154,7 @@ const uniqueLoanNameTotals = computed(() => {
             </div>
             <div class="title flex flex-col justify-center gap-1 mb-12">
                 <span class="text-md text-black text-center">
-                    FOR THE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(currentMonth() + 1) }} 2024</span>
+                    FOR THE MONTH OF <span class="text-red-600 font-bold underline">{{ useMonthName(currentMonth() + 1) }} 2025</span>
                 </span>
             </div>
             <table class="printTable border border-gray-500">
