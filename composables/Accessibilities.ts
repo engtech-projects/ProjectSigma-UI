@@ -176,9 +176,9 @@ export enum AccessibilityTypes {
 
     // ACCOUNTING JOURNAL ENTRY
     ACCOUNTING_JOURNAL_ENTRY = "accounting:journal_journal entry",
-    ACCOUNTING_JOURNAL_ENTRY_CASH_ENTRIES = "accounting:journal_journal entry_list_cash entries",
-    ACCOUNTING_JOURNAL_ENTRY_DISBURSEMENT_ENTRIES = "accounting:journal_journal entry_list_disbursement entries",
-    ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES = "accounting:journal_journal entry_list_for payement entries",
+    ACCOUNTING_JOURNAL_ENTRY_CASH_ENTRIES = "accounting:journal_list_journal entry cash entries",
+    ACCOUNTING_JOURNAL_ENTRY_DISBURSEMENT_ENTRIES = "accounting:journal_list_journal entry disbursement entries",
+    ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES = "accounting:journal_list_journal entry for payement entries",
 
     // PROJECT MONITORING
     project_monitoring_group = "project_monitoring:",
