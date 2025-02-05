@@ -438,6 +438,14 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
+                        AccessibilityTypes.hrms_setup_payrollparticularterms,
+                    ])"
+                    linkarea="/hrms/setup/payroll-particular-terms"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Payroll Particular Terms"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
                         'AdminOnly',
                     ])"
                     v-show="config.public.BULK_UPLOAD_ENABLED === 'true'"

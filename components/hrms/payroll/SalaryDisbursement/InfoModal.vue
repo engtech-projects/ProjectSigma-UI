@@ -56,6 +56,20 @@ const denyRequest = async (id : any) => {
         boardLoading.value = false
     }
 }
+const submitToAccounting = async (id: any) => {
+    try {
+        await resourceStore.submitToAccounting(id)
+        snackbar.add({
+            type: "success",
+            text: "Successfully submitted to accounting."
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    }
+}
 
 </script>
 <template>
@@ -72,7 +86,8 @@ const denyRequest = async (id : any) => {
                     <span class="text-teal-600 text-light font-medium">Release Type: </span> {{ data.release_type }}
                 </div>
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light font-medium">Requested By: </span> {{ data.created_by_user_name }}
+                    <span class="text-teal-600 text-light font-medium">Requested By: </span>
+                    {{ data.created_by_user_name }}<br>{{ data.created_at_human }}
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light font-medium">Request Status: </span> {{ data.request_status }}
@@ -93,6 +108,9 @@ const denyRequest = async (id : any) => {
                     @approve="approvedRequest"
                     @deny="denyRequest"
                 />
+            </div>
+            <div v-if="data.request_status === 'Approved'">
+                <LayoutFormPsButton button-title="Submit to Accounting" @click="submitToAccounting" />
             </div>
         </template>
     </PsModal>

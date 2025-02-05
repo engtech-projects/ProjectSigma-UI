@@ -117,6 +117,7 @@ export enum AccessibilityTypes {
     hrms_setup_with_holding_tax = "hrms:setup_withholding tax",
     hrms_setup_settings = "hrms:setup_settings",
     hrms_setup_salary_grade = "hrms:setup_salary grade",
+    hrms_setup_payrollparticularterms = "hrms:setup_payroll particular terms",
     hrms_setup_division = "hrms:setup_division",
 
     // INVENTORY
