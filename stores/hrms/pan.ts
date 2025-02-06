@@ -43,6 +43,12 @@ export interface PersonelActionNotice {
 }
 export const usePersonelActionNotice = defineStore("personelActionNotice", {
     state: () => ({
+        createData: {
+            isLoading: false,
+            errorMessage: "",
+            successMessage: "",
+            params: {},
+        },
         personelActionNotice: {
             id: null as null | Number,
             type: "" as String,
@@ -108,6 +114,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
     }),
     actions: {
         async savePan () {
+            if (this.createData.isLoading) { return }
             this.successMessage = ""
             this.errorMessage = ""
             const requestData = JSON.parse(JSON.stringify(this.personelActionNotice))
@@ -117,7 +124,16 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 {
                     method: "POST",
                     body: requestData,
+                    onRequest: () => {
+                        this.createData.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.createData.isLoading = false
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
+                        this.createData.isLoading = false
                         if (response.ok) {
                             this.reloadResources()
                             this.successMessage = response._data.message

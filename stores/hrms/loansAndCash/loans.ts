@@ -183,6 +183,7 @@ export const useLoansStore = defineStore("LoansStore", {
             })
         },
         async createResource () {
+            if (this.createData.isLoading) { return }
             const backupEmployee = this.createData.data.employee_id
             await useHRMSApiO("/api/loans/resource", {
                 method: "POST",

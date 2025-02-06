@@ -181,6 +181,7 @@ export const useOtherDeductionStore = defineStore("OtherDeductionsStore", {
             })
         },
         async createResource () {
+            if (this.createData.isLoading) { return }
             await useHRMSApiO("/api/other-deduction/resource", {
                 method: "POST",
                 body: this.createData.data,

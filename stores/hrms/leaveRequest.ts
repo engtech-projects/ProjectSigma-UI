@@ -76,6 +76,11 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
             number_of_days: null,
             with_pay: false,
         } as LeaveRequest,
+        createData: {
+            isLoading: false,
+            errorMessage: "",
+            successMessage: "",
+        },
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -89,6 +94,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
             this.successMessage = ""
         },
         async createRequest () {
+            if (this.createData.isLoading) { return }
             this.successMessage = ""
             this.errorMessage = ""
             const idBackup = this.payload.employee_id
@@ -100,7 +106,15 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 {
                     method: "POST",
                     body: requestData,
+                    onRequest: () => {
+                        this.createData.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.createData.isLoading = false
+                        this.errorMessage = response._data.message
+                    },
                     onResponse: ({ response }: any) => {
+                        this.createData.isLoading = false
                         if (response.ok) {
                             this.$reset()
                             this.successMessage = response._data.message

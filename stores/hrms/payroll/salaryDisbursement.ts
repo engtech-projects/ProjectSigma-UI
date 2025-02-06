@@ -220,6 +220,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
             )
         },
         async createRequest () {
+            if (this.createRequestData.isLoading) { return }
             await useHRMSApiO(
                 "/api/salary-disbursement/resource",
                 {

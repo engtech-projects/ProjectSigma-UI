@@ -11,6 +11,12 @@ export const REQ_STATUS = [
 export const useTravelorderStore = defineStore("travels", {
     state: () => ({
         isEdit: false,
+        createData: {
+            isLoading: false,
+            errorMessage: "",
+            successMessage: "",
+            params: {},
+        },
         travel: {
             id: null,
             name: "",
@@ -165,6 +171,7 @@ export const useTravelorderStore = defineStore("travels", {
         },
 
         async createRequest () {
+            if (this.createData.isLoading) { return }
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
@@ -172,7 +179,16 @@ export const useTravelorderStore = defineStore("travels", {
                 {
                     method: "POST",
                     body: this.travel,
+                    onRequest: () => {
+                        this.createData.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.createData.isLoading = false
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
+                        this.createData.isLoading = false
                         if (response.ok) {
                             this.$reset()
                             this.getMyApprovalRequests()
