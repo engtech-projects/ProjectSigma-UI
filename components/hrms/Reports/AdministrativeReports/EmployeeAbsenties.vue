@@ -36,7 +36,7 @@ const headers = [
                             {{ dataValue.employee_id }}
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.fullname }}
+                            {{ dataValue.employee_name }}
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
                             {{ dataValue.designation }}
