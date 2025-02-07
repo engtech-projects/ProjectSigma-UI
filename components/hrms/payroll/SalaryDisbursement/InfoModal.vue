@@ -110,7 +110,7 @@ const submitToAccounting = async (id: any) => {
                 />
             </div>
             <div v-if="data.request_status === 'Approved'">
-                <LayoutFormPsButton button-title="Submit to Accounting" @click="submitToAccounting" />
+                <LayoutFormPsButton button-title="Submit to Accounting" @click="submitToAccounting(data.id)" />
             </div>
         </template>
     </PsModal>
