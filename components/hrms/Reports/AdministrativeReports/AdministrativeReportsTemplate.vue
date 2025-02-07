@@ -4,7 +4,8 @@ import {
     EMPLOYEE_MASTERLIST,
     EMPLOYEE_NEWHIRE,
     EMPLOYEE_TENURESHIP,
-    EMPLOYEE_LEAVES
+    EMPLOYEE_LEAVES,
+    EMPLOYEE_ABSENTIES
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
@@ -29,6 +30,9 @@ watch(administrativeReports.value.params, (newValue, oldValue) => {
             />
             <HrmsReportsAdministrativeReportsEmployeeLeaves
                 v-show="administrativeReports.params.report_type === EMPLOYEE_LEAVES"
+            />
+            <HrmsReportsAdministrativeReportsEmployeeAbsenties
+                v-show="administrativeReports.params.report_type === EMPLOYEE_ABSENTIES"
             />
         </div>
     </LayoutBoards>

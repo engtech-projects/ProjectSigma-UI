@@ -45,7 +45,7 @@ const headers = [
                             {{ dataValue.section }}
                         </td>
                         <td class="border border-gray-500 h-8 py-1 px-2 text-sm text-center">
-                            {{ dataValue.total_days_leaves }}
+                            {{ dataValue.total_absents }}
                         </td>
                     </tr>
                 </table>
