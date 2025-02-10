@@ -6,30 +6,15 @@ const compId = useId()
 const snackbar = useSnackbar()
 const downloadFile = async () => {
     try {
-        if (administrativeReports.value.params.report_type !== null) {
-            await generateReportstore.getExportAdministrativeReport()
-            if (administrativeReports.value.errorMessage !== "" && administrativeReports.value.errorMessage !== null) {
-                snackbar.add({
-                    type: "error",
-                    text: administrativeReports.value.errorMessage
-                })
-            } else {
-                const a = document.createElement("a")
-                a.href = administrativeReports.value.tempFile ? administrativeReports.value.tempFile : "#"
-                a.target = "_blank"
-                a.download = "master_list.xlsx"
-                a.click()
-                snackbar.add({
-                    type: "success",
-                    text: administrativeReports.value.successMessage
-                })
-            }
-        } else {
-            snackbar.add({
-                type: "error",
-                text: "Kindly select a report type"
-            })
-        }
+        await generateReportstore.getExportAdministrativeReport()
+        const a = document.createElement("a")
+        a.href = administrativeReports.value.tempFile
+        a.target = "_blank"
+        a.click()
+        snackbar.add({
+            type: "success",
+            text: administrativeReports.value.successMessage
+        })
     } catch {
         snackbar.add({
             type: "error",
