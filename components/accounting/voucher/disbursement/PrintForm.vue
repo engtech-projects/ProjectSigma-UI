@@ -111,7 +111,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                 NET AMOUNT
                             </td>
                             <td class="border border-black pl-2 py-1 text-xs">
-                                {{ formatToCurrency(data.net_amount) }}
+                                {{ accountingCurrency(data.net_amount) }}
                             </td>
                         </tr>
                     </tbody>
@@ -155,10 +155,10 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                         {{ ae?.stakeholder?.name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800  text-xs">
-                                        {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "" }}
+                                        {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "-" }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs">
-                                        {{ ae.credit > 0 ? formatToCurrency(ae.credit) : "" }}
+                                        {{ ae.credit > 0 ? formatToCurrency(ae.credit) : "-" }}
                                     </td>
                                 </tr>
                                 <tr v-for="index in extraRows" :key="index" class="hover:bg-gray-100 cursor-pointer h-6">
@@ -173,10 +173,10 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                         TOTAL
                                     </td>
                                     <td class="border-b-2 border-black py-2 px-4 text-xs">
-                                        {{ formatToCurrency(totalDebit) }}
+                                        {{ accountingCurrency(totalDebit) }}
                                     </td>
                                     <td class="border-b-2 border-black py-2 px-4 text-xs">
-                                        {{ formatToCurrency(totalCredit) }}
+                                        {{ accountingCurrency(totalCredit) }}
                                     </td>
                                 </tr>
                             </tbody>
