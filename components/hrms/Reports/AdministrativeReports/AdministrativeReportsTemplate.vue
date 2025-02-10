@@ -31,7 +31,7 @@ watch(administrativeReports.value.params, (newValue, oldValue) => {
             <HrmsReportsAdministrativeReportsEmployeeLeaves
                 v-show="administrativeReports.params.report_type === EMPLOYEE_LEAVES"
             />
-            <HrmsReportsAdministrativeReportsEmployeeAbsenties
+            <HrmsReportsAdministrativeReportsEmployeeAbsences
                 v-show="administrativeReports.params.report_type === EMPLOYEE_ABSENCES"
             />
         </div>
