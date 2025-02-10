@@ -90,7 +90,7 @@ defineProps({
                             <div class="flex-1">
                                 <label class="text-xs italic">Amount</label>
                                 <p class="w-full rounded-lg p-2 bg-gray-100">
-                                    {{accountingCurrency(Number(ae.cost) + Number(ae.vat)) }}
+                                    {{ accountingCurrency(Number(ae.cost) + Number(ae.vat)) }}
                                 </p>
                             </div>
                         </div>
