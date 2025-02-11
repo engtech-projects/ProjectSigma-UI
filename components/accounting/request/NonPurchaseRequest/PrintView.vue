@@ -145,13 +145,13 @@ const extraRows = computed(() => {
                                             {{ ae.stakeholder?.name }}
                                         </td>
                                         <td class="border px-4 py-1 border-gray-800 text-xs">
-                                            {{ ae.cost > 0 ? formatToCurrency(ae.cost) : "-" }}
+                                            {{ accountingCurrency(ae.cost) }}
                                         </td>
                                         <td class="border px-4 py-1 border-gray-800  text-xs">
-                                            {{ ae.total_vat_amount > 0 ? formatToCurrency(ae.total_vat_amount) : "-" }}
+                                            {{ accountingCurrency(ae.total_vat_amount) }}
                                         </td>
                                         <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs">
-                                            {{ ae.amount > 0 ? formatToCurrency(ae.amount) : "-" }}
+                                            {{ accountingCurrency(ae.amount) }}
                                         </td>
                                     </tr>
                                     <tr v-for="j in extraRows" :key="j" class="hover:bg-gray-100 cursor-pointer h-6">
@@ -167,13 +167,13 @@ const extraRows = computed(() => {
                                             TOTAL
                                         </td>
                                         <td class="border-2 border-black font-bold py-1 px-4">
-                                            {{ formatToCurrency(totalCost) }}
+                                            {{ accountingCurrency(totalCost) }}
                                         </td>
                                         <td class="border-2 border-black font-bold py-1 px-4">
-                                            {{ formatToCurrency(totalVat) }}
+                                            {{ accountingCurrency(totalVat) }}
                                         </td>
                                         <td class="border-2 border-black font-bold py-1 px-4">
-                                            {{ formatToCurrency(parseFloat(props.data.total)) }}
+                                            {{ accountingCurrency(parseFloat(props.data.total)) }}
                                         </td>
                                     </tr>
                                 </tbody>

@@ -94,12 +94,12 @@ const totalCredit = computed(() => {
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">
-                                        {{ detail?.debit > 0 ? formatToCurrency(detail.debit) : "" }}
+                                        {{ accountingCurrency(detail?.debit) }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">
-                                        {{ detail?.credit > 0 ? formatToCurrency(detail.credit) : "" }}
+                                        {{ accountingCurrency(detail?.credit) }}
                                     </div>
                                 </td>
                             </tr>

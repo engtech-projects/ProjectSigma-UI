@@ -64,7 +64,7 @@ const boardLoading = ref(false)
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light">Amount: </span>
-                    {{ formatToCurrency(paymentDataEntries?.total) }}
+                    {{ paymentDataEntries?.total }}
                 </div>
             </div>
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
@@ -127,17 +127,17 @@ const boardLoading = ref(false)
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ formatToCurrency(detail?.vat) ?? 0.00 }}
+                                            {{ accountingCurrency(detail?.cost) }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ formatToCurrency(detail?.total_vat_amount) ?? 0.00 }}
+                                            {{ accountingCurrency(detail?.total_vat_amount) }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ formatToCurrency(detail?.amount) ?? 0.00 }}
+                                            {{ accountingCurrency(detail?.amount) }}
                                         </div>
                                     </td>
                                 </tr>

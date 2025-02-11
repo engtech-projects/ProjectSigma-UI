@@ -25,11 +25,11 @@ const model = defineModel({ required: true, type: Object })
             </div>
             <div class="flex flex-col">
                 <span class="text-xs text-gray-500">Debit</span>
-                <span class="font-medium text-right">{{ model.debit }}</span>
+                <span class="font-medium text-right">{{ accountingCurrency(model.debit) }}</span>
             </div>
             <div class="flex flex-col">
                 <span class="text-xs text-gray-500">Credit</span>
-                <span class="font-medium text-right">{{ model.credit }}</span>
+                <span class="font-medium text-right">{{ accountingCurrency(model.credit) }}</span>
             </div>
         </div>
     </div>
