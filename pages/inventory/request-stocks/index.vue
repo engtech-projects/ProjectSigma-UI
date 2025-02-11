@@ -8,23 +8,24 @@ useHead({
 </script>
 <template>
     <LayoutAcessContainer
-        :if-access="useCheckAccessibility([AccessibilityTypes.admin])"
+        :if-access="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_group,
+        ])"
         class="w-full"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.admin])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_forms_and_my_requests])"
                     target-id="Form"
                     title="Request Stocks FORM"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.admin])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_all_request])"
                     target-id="allRequest"
                     title="All Request"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.admin])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_my_approvals])"
                     target-id="myApprovals"
                     title="My Approvals"
                 />

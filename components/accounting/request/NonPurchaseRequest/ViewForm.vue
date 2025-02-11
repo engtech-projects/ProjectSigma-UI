@@ -30,7 +30,7 @@ defineProps({
                         <div class="w-full">
                             <label class="text-xs italic">Total Amount</label>
                             <p class="w-full rounded-lg p-2 bg-gray-100">
-                                {{ paymentData?.total }}
+                                {{ accountingCurrency(paymentData?.total) }}
                             </p>
                         </div>
                     </div>
@@ -78,19 +78,19 @@ defineProps({
                             <div class="flex-1">
                                 <label class="text-xs italic">Cost</label>
                                 <p class="w-full rounded-lg p-2 bg-gray-100">
-                                    {{ ae.cost }}
+                                    {{ accountingCurrency(ae.cost) }}
                                 </p>
                             </div>
                             <div class="flex-1">
                                 <label class="text-xs italic">Vat %</label>
                                 <p class="w-full rounded-lg p-2 bg-gray-100">
-                                    {{ ae.vat }}
+                                    {{ accountingCurrency(ae.vat) }}
                                 </p>
                             </div>
                             <div class="flex-1">
                                 <label class="text-xs italic">Amount</label>
                                 <p class="w-full rounded-lg p-2 bg-gray-100">
-                                    {{ Number(ae.cost) + Number(ae.vat) }}
+                                    {{ accountingCurrency(Number(ae.cost) + Number(ae.vat)) }}
                                 </p>
                             </div>
                         </div>

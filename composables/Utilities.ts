@@ -127,6 +127,19 @@ export const formatToCurrency = (number: Number, locale = "en-US") => {
     return formatter.format(number)
 }
 
+export const accountingCurrency = (number: Number, locale = "en-US") => {
+    const formatter = new Intl.NumberFormat(locale, {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })
+    if (!parseFloat(number)) {
+        return "-"
+    } else {
+        return formatter.format(number)
+    }
+}
+
 export const upperFirst = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1)
 }

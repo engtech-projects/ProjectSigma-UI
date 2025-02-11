@@ -27,6 +27,12 @@ export interface CashAdvance {
 
 export const useCashadvanceStore = defineStore("Cashadvances", {
     state: () => ({
+        createData: {
+            isLoading: false,
+            errorMessage: "",
+            successMessage: "",
+            params: {},
+        },
         isEdit: false,
         cashadvance: {
             id: null,
@@ -271,6 +277,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             )
         },
         async createRequest () {
+            if (this.createData.isLoading) { return }
             const backupEmployee = this.cashadvance.employee_id
             const backupApprovals = this.cashadvance.approvals
             await useHRMSApiO(
@@ -278,7 +285,16 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "POST",
                     body: this.cashadvance,
+                    onRequest: () => {
+                        this.createData.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.createData.isLoading = false
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
+                        this.createData.isLoading = false
                         if (response.ok) {
                             this.reloadResources()
                             this.successMessage = response._data.message
