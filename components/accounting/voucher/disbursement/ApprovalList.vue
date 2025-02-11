@@ -29,20 +29,26 @@ const actions = {
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="myDisbursementApprovals.isLoading">
-        <div class="w-1/3 flex">
-            <LayoutFormPsTextInput v-model="myDisbursementApprovals.params.key" title="DV Number/Journal Voucher Number" class="w-full" />
-        </div>
-        <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <LayoutPsTable
-                :header-columns="headers"
-                :actions="actions"
-                :datas="myDisbursementApprovals.list ?? []"
-                @show-table="showInformation"
-            />
-            <div class="flex justify-center mx-auto">
-                <CustomPagination :links="myDisbursementApprovals.pagination" @change-params="changePaginate" />
+        <LayoutAcessContainer
+            :if-access="useCheckAccessibility([
+                AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+            ])"
+        >
+            <div class="w-1/3 flex">
+                <LayoutFormPsTextInput v-model="myDisbursementApprovals.params.key" title="DV Number/Journal Voucher Number" class="w-full" />
             </div>
-        </div>
+            <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+                <LayoutPsTable
+                    :header-columns="headers"
+                    :actions="actions"
+                    :datas="myDisbursementApprovals.list ?? []"
+                    @show-table="showInformation"
+                />
+                <div class="flex justify-center mx-auto">
+                    <CustomPagination :links="myDisbursementApprovals.pagination" @change-params="changePaginate" />
+                </div>
+            </div>
+        </LayoutAcessContainer>
     </LayoutBoards>
     <AccountingVoucherDisbursementInfoModal
         v-model:showModal="showInformationModal"
