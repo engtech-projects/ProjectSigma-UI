@@ -6,8 +6,10 @@ export const useTermsStore = defineStore("termsStore", {
             id: null,
             name: null,
             account_id: null,
+            debit_credit: null,
             description: null
         },
+        balanceType: [],
         list: [],
         pagination: {},
         getParams: {},
@@ -131,6 +133,31 @@ export const useTermsStore = defineStore("termsStore", {
             }
         },
 
+        async getBalanceType () {
+            this.isLoading = true
+            const { data, error } = await useAccountingApi(
+                "/api/balance-type",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        this.balanceType = response._data.balance_type
+                        this.pagination = {
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
@@ -140,6 +167,7 @@ export const useTermsStore = defineStore("termsStore", {
             this.term = {
                 id: null,
                 name: null,
+                debit_credit: null,
                 account_id: null,
                 description: null
             }
