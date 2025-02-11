@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="isoCard">
         <table class="text-xs">
             <tr>
                 <th colspan="4" class="text-[8px] border border-gray-500 bg-[#dce5c8]">
@@ -46,14 +46,28 @@
 </template>
 
 <script lang="ts" setup>
+
 defineProps({
     page: {
         type: Object,
-        default: null
-    }
+        default: null,
+    },
 })
+
 </script>
 
-<style>
+<style scoped>
+/* @import url(public/css/accounting.css) */
+/* @media print {
+    @page {
+        counter-increment: page;
+    }
+    .current-page::after {
+        content: counter(page);
+    }
+    .total-pages::after {
+        content: " of " counter(pages);
+    }
+} */
 
 </style>

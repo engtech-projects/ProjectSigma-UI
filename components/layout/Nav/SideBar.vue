@@ -662,6 +662,14 @@ const config = useRuntimeConfig()
                     single-nav-title="Cash Voucher"
                 />
             </LayoutNavGroup>
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
+                ])"
+                linkarea="/accounting/reports"
+                icon="oui:app-reporting"
+                single-nav-title="Reports"
+            />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.ACCOUNTING_SETUP_GROUP,
