@@ -293,11 +293,6 @@ const filteredList = computed(() => {
                         </td>
                         <td class="border border-gray-500 h-8 px-2 text-sm text-center">
                             <div class="w-full min-w-max">
-                                {{ dataValue.section }}
-                            </div>
-                        </td>
-                        <td class="border border-gray-500 h-8 px-2 text-sm text-center">
-                            <div class="w-full min-w-max">
                                 {{ dataValue.salary_grade }}
                             </div>
                         </td>
