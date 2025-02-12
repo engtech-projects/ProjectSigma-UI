@@ -24,23 +24,30 @@ const emit = defineEmits("delete-item")
                 for="account"
                 class="text-xs italic"
             >Account</label>
-            <AccountingCommonSelectJournalAccounts
+            <!-- <AccountingCommonSelectJournalAccounts
                 v-model:journal-account-info="details.journalAccountInfo"
                 v-model:account-id="details.account_id"
                 class="w-full min-w-[300px]"
-            />
+            /> -->
+            <div class="border border-black p-2">
+                {{ details.journalAccountInfo }}
+            </div>
         </div>
         <div class="flex-1">
             <label
                 for="particulars"
                 class="text-xs italic"
             >Project/Department</label>
-            <AccountingCommonSelectStakeHolder
+            <div class="border border-black p-2">
+                {{ details.stakeholderInformation }}
+            </div>
+            <!-- <AccountingCommonSelectStakeHolder
                 v-model:stakeholder-info="details.stakeholderInformation"
+                v-model:selected-type="details.stakeholder_type"
                 class="w-full"
                 :selected-id="details.stakeholder_id"
                 :filter-options="['project', 'department', 'employee']"
-            />
+            /> -->
         </div>
         <div class="flex-1">
             <label

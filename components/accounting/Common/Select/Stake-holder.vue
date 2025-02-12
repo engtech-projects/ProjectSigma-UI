@@ -1,10 +1,5 @@
 <script setup>
 const props = defineProps({
-    selectedType: {
-        type: String,
-        required: false,
-        default: "",
-    },
     selectedId: {
         type: String,
         required: true,
@@ -16,7 +11,7 @@ const props = defineProps({
     },
 })
 const stakeholderInfo = defineModel("stakeholderInfo", { required: false, type: Object, default: {} })
-const selectedType = ref(props.selectedType)
+const selectedType = defineModel("selectedType", { required: false, type: String, default: "" })
 </script>
 <template>
     <div class="w-full flex flex-row gap-4 min-w-max">

@@ -18,7 +18,7 @@ const changePaginate = (newParams) => {
 const headers = [
     { name: "PRF Number", id: "prf_no" },
     { name: "Payee", id: "stakeholder.name" },
-    { name: "Amount", id: "total" },
+    { name: "Amount", id: "total_amount_formatted" },
     { name: "Created At", id: "date_filed" },
     { name: "Status", id: "request_status" },
 ]
@@ -28,6 +28,7 @@ const actions = {
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="allRequests.isLoading">
+<<<<<<< Updated upstream
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
                 AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_ALL,
@@ -35,6 +36,20 @@ const actions = {
         >
             <div class="w-1/3 flex">
                 <LayoutFormPsTextInput v-model="allRequests.params.key" title="PRF Number / Payee" class="w-full" />
+=======
+        <div class="w-1/3 flex">
+            <LayoutFormPsTextInput v-model="allRequests.params.key" title="PRF Number" class="w-full" />
+        </div>
+        <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+            <LayoutPsTable
+                :header-columns="headers"
+                :actions="actions"
+                :datas="allRequests.list ?? []"
+                @show-table="showInformation"
+            />
+            <div class="flex justify-center mx-auto">
+                <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
+>>>>>>> Stashed changes
             </div>
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                 <LayoutPsTable
