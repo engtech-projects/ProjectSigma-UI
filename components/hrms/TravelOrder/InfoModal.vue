@@ -91,6 +91,8 @@ const denyRequest = async (id) => {
                         <span class="text-teal-600 font-medium">Remarks
                             : </span> {{ data.remarks }}
                         <span class="text-teal-600 font-medium">Request Status: </span> {{ data.request_status }}
+                        <span class="text-teal-600 text-light font-medium"> Prepared by: </span> {{ data.created_by_user }}
+                        <span class="text-teal-600 text-light font-medium"> Prepared on: </span> {{ data.created_at_human }}
                     </div>
                 </div>
                 <div class="w-full">
