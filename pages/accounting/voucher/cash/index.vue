@@ -18,26 +18,44 @@ const voucherStore = useVoucherStore()
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_ALL,
+                        ])"
                         title="All List"
                         target-id="allList"
                     />
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_MY_APPROVAL,
+                        ])"
                         title="For Approval"
                         target-id="forApproval"
                     />
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_MY_REQUEST,
+                        ])"
                         title="My Request List"
                         target-id="myRequestList"
                     />
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_CLEARED,
+                        ])"
                         title="Cleared/Settled"
                         target-id="cleared"
                     />
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_FOR_CLEARING,
+                        ])"
                         title="For Clearing/Settling"
                         target-id="forClearing"
                     />
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_FOR_CASH_VOUCHER,
+                        ])"
                         title="For Cash Voucher"
                         target-id="forVoucher"
                     />
