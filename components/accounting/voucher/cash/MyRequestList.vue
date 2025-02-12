@@ -33,20 +33,26 @@ const actions = {
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="myCashVouchers.isLoading">
-        <div class="w-1/3 flex">
-            <LayoutFormPsTextInput v-model="myCashVouchers.params.key" title="CV Number/Journal Voucher Number" class="w-full" />
-        </div>
-        <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <LayoutPsTable
-                :header-columns="headers"
-                :actions="actions"
-                :datas="myCashVouchers.list ?? []"
-                @show-table="showInformation"
-            />
-            <div class="flex justify-center mx-auto">
-                <CustomPagination :links="myCashVouchers.pagination" @change-params="changePaginate" />
+        <LayoutAcessContainer
+            :if-access="useCheckAccessibility([
+                AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_MY_REQUEST,
+            ])"
+        >
+            <div class="w-1/3 flex">
+                <LayoutFormPsTextInput v-model="myCashVouchers.params.key" title="CV Number/Journal Voucher Number" class="w-full" />
             </div>
-        </div>
+            <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+                <LayoutPsTable
+                    :header-columns="headers"
+                    :actions="actions"
+                    :datas="myCashVouchers.list ?? []"
+                    @show-table="showInformation"
+                />
+                <div class="flex justify-center mx-auto">
+                    <CustomPagination :links="myCashVouchers.pagination" @change-params="changePaginate" />
+                </div>
+            </div>
+        </LayoutAcessContainer>
     </LayoutBoards>
     <AccountingVoucherCashInfoModal
         v-model:showModal="showInformationModal"

@@ -167,17 +167,33 @@ export enum AccessibilityTypes {
     ACCOUNTING_SETUP_SYNCHRONIZATION = "accounting:setup_synchronization",
     ACCOUNTING_SETUP_PARTICULAR_GROUP = "accounting:setup_particular group",
     ACCOUNTING_SETUP_TERMS = "accounting:setup_terms",
-
     // ACCOUNTING REQUEST
     ACCOUNTING_REQUEST_GROUP = "accounting:request_",
     ACCOUNTING_REQUEST_PURCHASE_ORDER = "accounting:request_purchase order",
+    // ACCOUNTING NON-PURCHASE ORDER
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER = "accounting:request_non purchase order",
+    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_ALL = "accounting:request_npo_all request",
+    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_REQUEST = "accounting:request_npo_my request",
+    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_APPROVAL = "accounting:request_npo_my approval",
+    // ACCOUNTING PRE PAYROLL AUDIT
     ACCOUNTING_REQUEST_PRE_PAYROLL_AUDIT = "accounting:request_pre payroll audit",
 
     // ACCOUNTING VOUCHERS
     ACCOUNTING_VOUCHER_GROUP = "accounting:voucher_",
+    // ACCOUNTING DISBURSEMENT VOUCHER
     ACCOUNTING_VOUCHER_DISBURSEMENT = "accounting:voucher_disbursement",
+    ACCOUNTING_VOUCHER_DISBURSEMENT_ALL = "accounting:voucher_disbursement_all request",
+    ACCOUNTING_VOUCHER_DISBURSEMENT_MY_REQUEST = "accounting:voucher_disbursement_my request",
+    ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL = "accounting:voucher_disbursement_my approval",
+    ACCOUNTING_VOUCHER_DISBURSEMENT_FOR_DISBURSEMENT_VOUCHER = "accounting:voucher_disbursement_for disbursement voucher",
+    // ACCOUNTING CASH VOUCHER
     ACCOUNTING_VOUCHER_CASH = "accounting:voucher_cash",
+    ACCOUNTING_VOUCHER_CASH_ALL = "accounting:voucher_cash_all request",
+    ACCOUNTING_VOUCHER_CASH_MY_REQUEST = "accounting:voucher_cash_my request",
+    ACCOUNTING_VOUCHER_CASH_MY_APPROVAL = "accounting:voucher_cash_my approval",
+    ACCOUNTING_VOUCHER_CASH_FOR_CASH_VOUCHER = "accounting:voucher_cash_for cash voucher",
+    ACCOUNTING_VOUCHER_CASH_CLEARED = "accounting:voucher_cash_cleared list",
+    ACCOUNTING_VOUCHER_CASH_FOR_CLEARING = "accounting:voucher_cash_clearing list",
 
     // ACCOUNTING JOURNAL ENTRY
     ACCOUNTING_JOURNAL_ENTRY = "accounting:journal_journal entry",
