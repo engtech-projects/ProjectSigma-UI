@@ -7,7 +7,7 @@
             'right-[-150px]': props.position === 'right'
         }"
     >
-        <table class="w-full table-auto">
+        <table v-if="signatories.data?.length > 0" class="w-full table-auto">
             <thead>
                 <tr>
                     <th class="px-2 py-1 font-semibold text-gray-800">
@@ -47,6 +47,9 @@
                 </tr>
             </tbody>
         </table>
+        <h1 v-else class="text-gray-500 font-bold text-xs text-center">
+            In Progress...
+        </h1>
     </div>
 </template>
 

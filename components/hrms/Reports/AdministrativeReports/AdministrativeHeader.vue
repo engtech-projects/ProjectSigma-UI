@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useGenerateReportStore, EMPLOYEE_NEWHIRE, EMPLOYEE_LEAVES, EMPLOYEE_ABSENCES, EMPLOYEE_ATTENDANCE, EMPLOYEE_LATES } from "@/stores/hrms/reports/generateReport"
+import { useGenerateReportStore, EMPLOYEE_NEWHIRE, EMPLOYEE_LEAVES, EMPLOYEE_MASTERLIST, EMPLOYEE_ABSENCES, EMPLOYEE_ATTENDANCE, EMPLOYEE_LATES } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
 const compId = useId()
@@ -37,7 +37,7 @@ const compId = useId()
                 </div>
             </div>
             <HrmsReportsAdministrativeReportsAdministrativeGenerateButton />
-            <HrmsReportsAdministrativeReportsAdministrativeExcelExportButton />
+            <HrmsReportsAdministrativeReportsAdministrativeExcelExportButton v-show="administrativeReports.params.report_type == EMPLOYEE_MASTERLIST" />
         </div>
     </div>
 </template>

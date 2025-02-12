@@ -10,7 +10,7 @@
 const props = defineProps({
     position: {
         type: String,
-        default: "top-right"
+        default: "top-left"
     },
     status: {
         type: String,

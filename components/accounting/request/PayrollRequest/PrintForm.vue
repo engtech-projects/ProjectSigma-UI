@@ -117,13 +117,13 @@ const totalVat = computed(() => {
                                         {{ ae.stakeholder?.stakeholder_name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
-                                        {{ ae.cost }}
+                                        {{ ae.cost > 0 ? formatToCurrency(ae.cost) : "-" }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800  text-sm">
-                                        {{ formatToCurrency(ae.total_vat_amount) }}
+                                        {{ ae.total_vat_amount > 0 ? formatToCurrency(ae.total_vat_amount) : "-" }}
                                     </td>
                                     <td class="border-2 px-4 py-1 font-bold border-gray-800 border-y-gray-800 text-sm">
-                                        {{ formatToCurrency(ae.amount) }}
+                                        {{ ae.amount > 0 ? formatToCurrency(ae.amount) : "-" }}
                                     </td>
                                 </tr>
                                 <tr class="border border-black">
@@ -159,7 +159,7 @@ const totalVat = computed(() => {
                             label="APPROVED BY"
                             :signatories="[
                                 {
-                                    name: 'RITCHE C. DALAUTA',
+                                    name: 'RICHE C. DALAUTA',
                                     title: 'Director'
                                 },
                                 {

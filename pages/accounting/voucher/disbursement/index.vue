@@ -18,18 +18,30 @@ const voucherStore = useVoucherStore()
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_ALL,
+                        ])"
                         title="All List"
                         target-id="allList"
                     />
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                        ])"
                         title="For Approval"
                         target-id="forApproval"
                     />
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_REQUEST,
+                        ])"
                         title="My Request List"
                         target-id="myRequestList"
                     />
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_FOR_DISBURSEMENT_VOUCHER,
+                        ])"
                         title="For Disbursement Voucher"
                         target-id="forVoucher"
                     />

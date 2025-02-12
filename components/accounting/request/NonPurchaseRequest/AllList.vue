@@ -28,17 +28,26 @@ const actions = {
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="allRequests.isLoading">
-        <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <LayoutPsTable
-                :header-columns="headers"
-                :actions="actions"
-                :datas="allRequests.list ?? []"
-                @show-table="showInformation"
-            />
-            <div class="flex justify-center mx-auto">
-                <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
+        <LayoutAcessContainer
+            :if-access="useCheckAccessibility([
+                AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_ALL,
+            ])"
+        >
+            <div class="w-1/3 flex">
+                <LayoutFormPsTextInput v-model="allRequests.params.key" title="PRF Number / Payee" class="w-full" />
             </div>
-        </div>
+            <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+                <LayoutPsTable
+                    :header-columns="headers"
+                    :actions="actions"
+                    :datas="allRequests.list ?? []"
+                    @show-table="showInformation"
+                />
+                <div class="flex justify-center mx-auto">
+                    <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
+                </div>
+            </div>
+        </LayoutAcessContainer>
     </LayoutBoards>
     <AccountingRequestNonPurchaseRequestInfoModal
         v-model:showModal="showInformationModal"

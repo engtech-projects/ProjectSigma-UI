@@ -220,6 +220,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
             )
         },
         async createRequest () {
+            if (this.createRequestData.isLoading) { return }
             await useHRMSApiO(
                 "/api/salary-disbursement/resource",
                 {
@@ -289,6 +290,24 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                     body: formData,
                     onResponseError: ({ response }: any) => {
                         // this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.reloadResources()
+                            // this.successMessage = response._data.message
+                            return response._data
+                        }
+                    },
+                }
+            )
+        },
+        async submitToAccounting (id: number) {
+            await useHRMSApiO(
+                "/api/salary-disbursement/submit-to-accounting/" + id,
+                {
+                    method: "POST",
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {

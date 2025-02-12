@@ -60,6 +60,7 @@ export function useHRMSApi<T> (url: string, options: AsyncDataOptions<T>|UseFetc
             Authorization: token.value + "",
             Accept: "application/json"
         },
+        dedupe: "cancel",
         onResponse (_ctx) {
             // _ctx.response._data = new myBusinessResponse(_ctx.response._data)
         },
@@ -94,6 +95,7 @@ export function useAttendancePortalApi<T> (url: string, options: AsyncDataOption
             Authorization: "Bearer " + ptoken,
             Cookie: "portal_token=" + ptoken + ";"
         },
+        dedupe: "cancel",
         onResponse (_ctx) {
             // _ctx.response._data = new myBusinessResponse(_ctx.response._data)
         },
@@ -126,7 +128,9 @@ export function useProjectsApi<T> (url: string, options: AsyncDataOptions<T>|Use
         headers: {
             Authorization: token.value + "",
             Accept: "application/json"
+
         },
+        dedupe: "cancel",
         onResponse (_ctx) {
             // _ctx.response._data = new myBusinessResponse(_ctx.response._data)
         },
@@ -155,6 +159,7 @@ export function useAccountingApi<T> (url: string, options: AsyncDataOptions<T>|U
             Authorization: token.value + "",
             Accept: "application/json"
         },
+        dedupe: "cancel",
         onResponse (_ctx) {
             // _ctx.response._data = new myBusinessResponse(_ctx.response._data)
         },
@@ -183,6 +188,7 @@ export function useInventoryApi<T> (url: string, options: AsyncDataOptions<T>|Us
             Authorization: token.value + "",
             Accept: "application/json"
         },
+        dedupe: "cancel",
         onResponse (_ctx) {
             // _ctx.response._data = new myBusinessResponse(_ctx.response._data)
         },

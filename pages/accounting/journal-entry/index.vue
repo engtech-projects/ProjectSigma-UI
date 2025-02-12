@@ -33,6 +33,27 @@ const journalStore = useJournalStore()
                         target-id="unpostedJournals"
                     />
                     <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES,
+                        ])"
+                        title="For Payment Journal Entry"
+                        target-id="forPaymentJournalEntry"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_JOURNAL_ENTRY_CASH_ENTRIES,
+                        ])"
+                        title="Cash"
+                        target-id="treasuryJournalEntry"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_JOURNAL_ENTRY_DISBURSEMENT_ENTRIES,
+                        ])"
+                        title="Disbursement"
+                        target-id="disbursementJournalEntry"
+                    />
+                    <AccountingCommonTabsTabTitle
                         title="PRF Journal Entries"
                         target-id="paymentRequestJournals"
                     />
@@ -50,6 +71,15 @@ const journalStore = useJournalStore()
                     <AccountingCommonTabsTabContainer id="unpostedJournals">
                         <AccountingJournalUnPosted />
                     </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="forPaymentJournalEntry">
+                        <AccountingJournalForPaymentEntry />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="treasuryJournalEntry">
+                        <AccountingJournalCashJournalEntry />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="disbursementJournalEntry">
+                        <AccountingJournalDisbursementJournalEntry />
+                    </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="paymentRequestJournals">
                         <AccountingJournalPaymentRequestList />
                     </AccountingCommonTabsTabContainer>
@@ -61,11 +91,6 @@ const journalStore = useJournalStore()
                 v-if="journalStore.journal.journal_no"
                 :fillable="true"
             />
-            <div v-else class="w-full py-2">
-                <p class="text-center text-gray-300">
-                    No PRF Journal Entries transactions yet.
-                </p>
-            </div>
         </div>
     </LayoutAcessContainer>
 </template>

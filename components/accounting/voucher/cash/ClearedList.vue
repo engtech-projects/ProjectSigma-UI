@@ -29,17 +29,26 @@ const actions = {
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="cashClearedVoucher.isLoading">
-        <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <LayoutPsTable
-                :header-columns="headers"
-                :actions="actions"
-                :datas="cashClearedVoucher.list ?? []"
-                @show-table="showInformation"
-            />
-            <div class="flex justify-center mx-auto">
-                <CustomPagination :links="cashClearedVoucher.pagination" @change-params="changePaginate" />
+        <LayoutAcessContainer
+            :if-access="useCheckAccessibility([
+                AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_CLEARED,
+            ])"
+        >
+            <div class="w-1/3 flex">
+                <LayoutFormPsTextInput v-model="cashClearedVoucher.params.key" title="CV Number/Journal Voucher Number" class="w-full" />
             </div>
-        </div>
+            <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+                <LayoutPsTable
+                    :header-columns="headers"
+                    :actions="actions"
+                    :datas="cashClearedVoucher.list ?? []"
+                    @show-table="showInformation"
+                />
+                <div class="flex justify-center mx-auto">
+                    <CustomPagination :links="cashClearedVoucher.pagination" @change-params="changePaginate" />
+                </div>
+            </div>
+        </LayoutAcessContainer>
     </LayoutBoards>
     <AccountingVoucherCashInfoModal
         v-model:showModal="showInformationModal"

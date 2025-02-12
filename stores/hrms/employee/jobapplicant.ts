@@ -352,6 +352,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         },
 
         async createJobapplicant () {
+            if (this.addJobApplicantRequest.isLoading) { return }
             this.successMessage = ""
             this.errorMessage = ""
             const formData = new FormData()

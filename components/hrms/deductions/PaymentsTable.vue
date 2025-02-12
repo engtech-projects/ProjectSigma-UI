@@ -10,7 +10,7 @@ onMounted(() => {
 const headers = [
     { text: "Employee Name", value: "employee.fullname_first" },
     { text: "Deduction Name", value: "otherdeduction.otherdeduction_name" },
-    { text: "Amount Paid", value: "amount_paid" },
+    { text: "Amount Paid", value: "amount_paid_formatted" },
     { text: "Date Paid", value: "date_paid_human" },
     { text: "Mode of Payment", value: "payment_type" },
 ]

@@ -32,6 +32,10 @@ export const useWarehouseStore = defineStore("warehouseStore", {
             list: [] as Array<WarehouseDetails>,
             isLoading: false,
             isLoaded: false,
+            params: {},
+            localFilter: {
+                name: "",
+            },
             inWarehouse: false
         },
         warehouseDetails: {} as WarehouseDetails,
@@ -48,6 +52,7 @@ export const useWarehouseStore = defineStore("warehouseStore", {
             params: {},
             pagination: {},
         },
+        list: [] as Array<WarehouseDetails>,
         warehousePssForm: {},
         params: {},
         isLoading: false,
@@ -194,4 +199,11 @@ export const useWarehouseStore = defineStore("warehouseStore", {
             this.fetchWarehouse()
         },
     },
+    getters: {
+        filteredwarehouseList (state): any[] {
+            return state.warehouse.list.filter((warehouse: any) => {
+                return warehouse.name.toLowerCase().includes(state.warehouse.localFilter.name.toLowerCase())
+            })
+        }
+    }
 })

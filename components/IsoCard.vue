@@ -1,0 +1,73 @@
+<template>
+    <div id="isoCard">
+        <table class="text-xs">
+            <tr>
+                <th colspan="4" class="text-[8px] border border-gray-500 bg-[#dce5c8]">
+                    DOCUMENT CODE NUMBER
+                </th>
+            </tr>
+            <tr>
+                <th colspan="4" class="border border-gray-500">
+                    FM-IMS-001-1
+                </th>
+            </tr>
+            <tr class="text-[8px] bg-[#dce5c8]">
+                <th class="border border-gray-500">
+                    ISSUE NO.
+                </th>
+                <th class="border border-gray-500">
+                    REV NO.
+                </th>
+                <th class="border border-gray-500">
+                    EFFECTIVE DATE
+                </th>
+                <th class="border border-gray-500">
+                    PAGE NO.
+                </th>
+            </tr>
+            <tbody>
+                <tr>
+                    <td class="text-[8px] p-[1px] text-center border border-gray-500">
+                        01
+                    </td>
+                    <td class="text-[8px] p-[1px] text-center border border-gray-500">
+                        00
+                    </td>
+                    <td class="text-[8px] p-[1px] text-center border border-gray-500">
+                        12-12-2024
+                    </td>
+                    <td class="text-[8px] p-[1px] text-center border border-gray-500">
+                        {{ page.currentPage }} of {{ page.totalPages }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</template>
+
+<script lang="ts" setup>
+
+defineProps({
+    page: {
+        type: Object,
+        default: null,
+    },
+})
+
+</script>
+
+<style scoped>
+/* @import url(public/css/accounting.css) */
+/* @media print {
+    @page {
+        counter-increment: page;
+    }
+    .current-page::after {
+        content: counter(page);
+    }
+    .total-pages::after {
+        content: " of " counter(pages);
+    }
+} */
+
+</style>

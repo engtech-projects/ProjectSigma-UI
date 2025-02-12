@@ -9,28 +9,37 @@ export const REQ_STATUS = [
     PENDING,
     DENIED,
 ]
+
 export interface RsDetails {
+    request_for: String,
+    warehouse_id: String,
+    warehouse_address: String,
     office_project: String,
-    equipment_no: String,
-    list: any,
-    project_address: String,
-    deliver_to: String,
+    office_project_address: String,
+    date_prepared: String,
     date_needed: String,
-    conso_period: String,
-    request_to: String,
-    contact_number: String,
-    remarks: String,
-    smr: String,
+    equipment_no: String,
+    items: any,
+    approvals: any,
 }
 export interface RsList {
+    item_id: string,
     quantity: String,
     unit: String,
-    sku: String,
     item_description: String,
     specification: String,
     preferred_brand: String,
-    reason_for_requests: String,
-    turn_over: String,
+    reason: String,
+    location: String,
+    location_qty: String,
+    is_approved: boolean,
+    type_of_request: String,
+    contact_no: String,
+    remarks: String,
+    current_smr: String,
+    previous_smr: String,
+    unused_smr: String,
+    next_smr: String,
 }
 
 export const useRequestStockStore = defineStore("requestStockStore", {
@@ -38,9 +47,16 @@ export const useRequestStockStore = defineStore("requestStockStore", {
         requestStock: {
             isLoading: false,
             isLoaded: false,
+            rsDetails: {
+                isLoading: false,
+                isLoaded: false,
+                list: [],
+                params: {},
+            },
             list: [] as Array<RsList>,
+            details: [],
             form: {} as RsDetails,
-            details: [] as Array<RsList>,
+            items: [] as Array<RsList>,
             params: {},
             pagination: {},
         },
@@ -199,10 +215,13 @@ export const useRequestStockStore = defineStore("requestStockStore", {
         },
         async storeRequest () {
             await useInventoryApiO(
-                "/api/request-supplier/resource",
+                "/api/request-stock/resource",
                 {
                     method: "POST",
-                    body: this.requestStock.form,
+                    body: {
+                        ...this.requestStock.form,
+                        details: this.requestStock.details, // Include details
+                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -211,6 +230,67 @@ export const useRequestStockStore = defineStore("requestStockStore", {
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getOne (id: number) {
+            return await useInventoryApiO(
+                "/api/request-stock/resource/" + id,
+                {
+                    method: "GET",
+                    params: this.requestStock.params,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.requestStock.details = response._data.data
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async approveApprovalForm (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useInventoryApi(
+                "/api/approvals/approve/RequestStock/" + id,
+                {
+                    method: "POST",
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
+                        }
+                    },
+                }
+            )
+        },
+        async denyApprovalForm (id: string) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const formData = new FormData()
+            formData.append("id", id)
+            formData.append("remarks", this.remarks)
+            await useInventoryApi(
+                "/api/approvals/disapprove/RequestStock/" + id,
+                {
+                    method: "POST",
+                    body: formData,
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            return response._data
                         }
                     },
                 }

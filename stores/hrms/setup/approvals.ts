@@ -239,7 +239,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                                     selector_type: approv.selector_type,
                                     date_approved: "",
                                     remarks: "",
-                                    employee: approv.employee,
+                                    employee_name: approv.employee_name,
                                 }
                             })
                         } else {
@@ -257,7 +257,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
                         selector_type: approv.selector_type,
                         date_approved: "",
                         remarks: "",
-                        employee: approv.employee,
+                        employee_name: approv.employee_name,
                     }
                 })
             }
