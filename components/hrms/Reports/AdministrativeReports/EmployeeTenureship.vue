@@ -23,7 +23,7 @@ const { administrativeReports } = storeToRefs(generateReportstore)
                                 DESIGNATION
                             </th>
                             <th class="border border-gray-500">
-                                TERNURE (ECDC)
+                                TENURE (ECDC)
                             </th>
                         </tr>
                     </thead>
@@ -42,7 +42,7 @@ const { administrativeReports } = storeToRefs(generateReportstore)
                                 {{ reportData.designation }}
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 text-sm text-right">
-                                {{ reportData.ternure_ecdc }}
+                                {{ reportData.tenure_ecdc }}
                             </td>
                         </tr>
                     </tbody>
