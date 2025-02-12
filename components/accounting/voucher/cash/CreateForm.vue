@@ -198,11 +198,11 @@ voucherCash.value.total_credit = computed(() => {
                                 </div>
                                 <div class="flex flex-col">
                                     <span class="text-xs text-gray-500">Total Debit</span>
-                                    <span class="font-medium text-right">{{ voucherCash.total_debit }}</span>
+                                    <span class="font-medium text-right">{{ accountingCurrency(voucherCash.total_debit) }}</span>
                                 </div>
                                 <div class="flex flex-col">
                                     <span class="text-xs text-gray-500">Total Credit</span>
-                                    <span class="font-medium text-right">{{ voucherCash.total_credit }}</span>
+                                    <span class="font-medium text-right">{{ accountingCurrency(voucherCash.total_credit) }}</span>
                                 </div>
                             </div>
                         </div>
@@ -214,7 +214,7 @@ voucherCash.value.total_credit = computed(() => {
                         <HrmsCommonRequestedBy />
                         <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Approvals</label>
                         <div>
-                            <AccountingSetupApprovalsList
+                            <HrmsSetupApprovalsList
                                 v-for="(approv, apr) in voucherCash.approvals"
                                 :key="'hrmsetupapprovallist'+apr"
                                 v-model="voucherCash.approvals[apr]"

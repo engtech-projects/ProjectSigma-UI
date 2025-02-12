@@ -30,7 +30,7 @@ const headers = [
     { name: "Cash Advance Purpose", id: "cashadvance.purpose" },
     { name: "Mode of Payment", id: "payment_type" },
     { name: "Date Paid", id: "date_paid_human" },
-    { name: "Total Paid", id: "amount_paid" },
+    { name: "Total Paid", id: "amount_paid_formatted" },
 ]
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""

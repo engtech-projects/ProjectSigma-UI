@@ -57,16 +57,18 @@ const selection = computed(() => {
 <template>
     <section class="bg-gray-50 dark:bg-gray-900">
         <template v-if="accessibilities.accessibilities_name">
-            <div class="grid grid-cols-1 space-y-1 p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                <label class="relative inline-flex items-center w-full cursor-pointer">
-                    <input v-model="model" type="checkbox" :value="accessibilities.id" class="sr-only peer">
-                    <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
-                    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 italic">{{ title.toUpperCase() }}</span>
-                </label>
+            <div class="flex items-center p-1">
+                <div class="grid grid-cols-1 space-y-1 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                    <label class="relative inline-flex items-center w-full cursor-pointer">
+                        <input v-model="model" type="checkbox" :value="accessibilities.id" class="sr-only peer">
+                        <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:translate-x-[-100%] peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-500 peer-checked:bg-teal-600" />
+                    </label>
+                </div>
+                <span class="items-center text-sm font-medium text-gray-900 dark:text-gray-300 italic">{{ title.toUpperCase() }}</span>
             </div>
         </template>
         <template v-else>
-            <label for="default-checkbox" class="ms-2 font-medium" :class="isFirstLevel ? 'text-md text-green-400 dark:text-green-300' : 'text-sm'">
+            <label for="default-checkbox" class="p-1 font-medium" :class="isFirstLevel ? 'text-md text-green-400 dark:text-green-300' : 'text-sm'">
                 <button v-show="selection === -1" class="my-auto" @click.prevent="selectAll()">
                     <!-- None Selected - Select All -->
                     <Icon name="ic:baseline-check-box-outline-blank" class="text-xl" />

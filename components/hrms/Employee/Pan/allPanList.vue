@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia"
 import { usePersonelActionNotice } from "@/stores/hrms/pan"
 const pan = usePersonelActionNotice()
-pan.getAllPan()
+pan.getAllRequest()
 const { allRequests } = storeToRefs(pan)
 
 const headers = [

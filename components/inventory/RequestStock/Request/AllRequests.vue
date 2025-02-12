@@ -10,10 +10,10 @@ onMounted(() => {
     }
 })
 const headers = [
-    { name: "Office/Project", id: "office_project" },
-    { name: "Project Address", id: "project_address" },
+    { name: "Reference No", id: "reference_no" },
+    { name: "Office/Project", id: "project.project_code" },
+    { name: "Project Address", id: "office_project_address" },
     { name: "Date Needed", id: "date_needed" },
-    { name: "Deliver To", id: "deliver_to" },
 ]
 const actions = {
     showTable: true,
@@ -22,7 +22,7 @@ const actions = {
 }
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/suppliers/request-details",
+        path: "/inventory/request-stocks/request-details",
         query: {
             key: data.id
         },

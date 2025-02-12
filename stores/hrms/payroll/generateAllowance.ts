@@ -196,6 +196,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
             )
         },
         async createRequest () {
+            if (this.createAllowanceRequest.isLoading) { return }
             await useHRMSApiO(
                 "/api/allowance-request/resource",
                 {

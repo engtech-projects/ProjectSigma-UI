@@ -117,6 +117,7 @@ export enum AccessibilityTypes {
     hrms_setup_with_holding_tax = "hrms:setup_withholding tax",
     hrms_setup_settings = "hrms:setup_settings",
     hrms_setup_salary_grade = "hrms:setup_salary grade",
+    hrms_setup_payrollparticularterms = "hrms:setup_payroll particular terms",
     hrms_setup_division = "hrms:setup_division",
 
     // INVENTORY
@@ -147,6 +148,10 @@ export enum AccessibilityTypes {
     inventory_procurement_forms_and_my_requests = "inventory:procurement_suppliers_form and my requests",
     inventory_procurement_my_approvals = "inventory:procurement_suppliers_my approvals",
     inventory_procurement_edit = "inventory:procurement_suppliers_edit",
+    inventory_request_stock_group = "inventory:request stock_",
+    inventory_request_stock_forms_and_my_requests = "inventory:request stock_form and my requests",
+    inventory_request_stock_all_request = "inventory:request stock_all requests",
+    inventory_request_stock_my_approvals = "inventory:request stock_my approvals",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",
@@ -176,6 +181,9 @@ export enum AccessibilityTypes {
 
     // ACCOUNTING JOURNAL ENTRY
     ACCOUNTING_JOURNAL_ENTRY = "accounting:journal_journal entry",
+    ACCOUNTING_JOURNAL_ENTRY_CASH_ENTRIES = "accounting:journal_list_journal entry cash entries",
+    ACCOUNTING_JOURNAL_ENTRY_DISBURSEMENT_ENTRIES = "accounting:journal_list_journal entry disbursement entries",
+    ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES = "accounting:journal_list_journal entry for payement entries",
 
     // PROJECT MONITORING
     project_monitoring_group = "project_monitoring:",

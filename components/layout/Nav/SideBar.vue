@@ -438,6 +438,14 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
+                        AccessibilityTypes.hrms_setup_payrollparticularterms,
+                    ])"
+                    linkarea="/hrms/setup/payroll-particular-terms"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Payroll Particular Terms"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
                         'AdminOnly',
                     ])"
                     v-show="config.public.BULK_UPLOAD_ENABLED === 'true'"
@@ -560,7 +568,7 @@ const config = useRuntimeConfig()
                 single-nav-title="Department BOM"
             />
             <LayoutNavSingle
-                v-if="useCheckAccessibility([AccessibilityTypes.admin])"
+                v-if="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_group])"
                 linkarea="/inventory/request-stocks"
                 icon="material-symbols-light:fact-check-rounded"
                 single-nav-title="Request Stocks"
@@ -662,6 +670,14 @@ const config = useRuntimeConfig()
                     single-nav-title="Cash Voucher"
                 />
             </LayoutNavGroup>
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
+                ])"
+                linkarea="/accounting/reports"
+                icon="oui:app-reporting"
+                single-nav-title="Reports"
+            />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.ACCOUNTING_SETUP_GROUP,

@@ -10,6 +10,11 @@ export const REQ_STATUS = [
 
 export const useOvertimeStore = defineStore("overtimes", {
     state: () => ({
+        createData: {
+            isLoading: false,
+            errorMessage: "",
+            successMessage: "",
+        },
         isEdit: false,
         overtime: {
             id: null,
@@ -162,6 +167,7 @@ export const useOvertimeStore = defineStore("overtimes", {
         },
 
         async createRequest () {
+            if (this.createData.isLoading) { return }
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
@@ -169,7 +175,15 @@ export const useOvertimeStore = defineStore("overtimes", {
                 {
                     method: "POST",
                     body: this.overtime,
+                    onRequest: () => {
+                        this.createData.isLoading = true
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.errorMessage = response._data.message
+                        this.createData.isLoading = false
+                    },
                     onResponse: ({ response } : any) => {
+                        this.createData.isLoading = false
                         if (response.ok) {
                             this.$reset()
                             this.getMyApprovalRequests()

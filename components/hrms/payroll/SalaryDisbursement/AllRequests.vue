@@ -28,8 +28,14 @@ const actions = {
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 const showInformation = (data) => {
-    infoModalData.value = data
-    showInfoModal.value = true
+    // infoModalData.value = data
+    // showInfoModal.value = true
+    navigateTo({
+        path: "/hrms/payroll/salary-disbursement/details",
+        query: {
+            id: data.id
+        },
+    })
 }
 
 </script>
