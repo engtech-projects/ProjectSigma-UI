@@ -85,6 +85,14 @@ const denyRequest = async (id) => {
                     <span class="text-teal-600 text-light font-medium">Charging Designation: </span> {{ data.charging_designation }}
                 </div>
             </div>
+            <div class="grid md:grid-cols-3 gap-2 md:justify-between">
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium"> Prepared by: </span> {{ data.created_by_user }}
+                </div>
+                <div class="p-2 flex gap-2">
+                    <span class="text-teal-600 text-light font-medium"> Prepared on: </span> {{ data.created_at_human }}
+                </div>
+            </div>
             <div class="w-full">
                 <LayoutApprovalsListView :approvals="data.approvals" />
             </div>
