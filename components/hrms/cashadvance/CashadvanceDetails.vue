@@ -113,6 +113,16 @@ const showMakePayment = () => {
                 <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="useFormatCurrency(data.remaining_balance)" disabled>
             </div>
         </div>
+        <div class="flex gap-4">
+            <div class="flex flex-1 flex-col gap-1">
+                <label class="font-semibold text-gray-700">Prepared by: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.created_by_user" disabled>
+            </div>
+            <div class="flex flex-1 flex-col gap-1">
+                <label class="font-semibold text-gray-700">Prepared on: </label>
+                <input type="text" class="border border-gray-200 bg-gray-100 rounded-md" :value="data.created_at_human" disabled>
+            </div>
+        </div>
         <div class="w-full">
             <LayoutApprovalsListView :approvals="data.approvals" />
         </div>
