@@ -126,7 +126,6 @@ const boardLoading = ref(false)
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-<<<<<<< Updated upstream
                                         <div class="text-sm text-gray-900">
                                             {{ accountingCurrency(detail?.cost) }}
                                         </div>
@@ -139,20 +138,6 @@ const boardLoading = ref(false)
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
                                             {{ accountingCurrency(detail?.amount) }}
-=======
-                                        <div class="text-sm text-gray-900 text-right">
-                                            {{ formatToCurrency(detail?.vat) ?? 0.00 }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900 text-right">
-                                            {{ formatToCurrency(detail?.total_vat_amount) ?? 0.00 }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900 text-right">
-                                            {{ formatToCurrency(detail?.amount) ?? 0.00 }}
->>>>>>> Stashed changes
                                         </div>
                                     </td>
                                 </tr>

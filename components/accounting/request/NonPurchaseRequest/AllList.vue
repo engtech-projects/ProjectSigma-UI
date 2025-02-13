@@ -25,10 +25,19 @@ const headers = [
 const actions = {
     showTable: true,
 }
+const ddata = computed(() => {
+    const result = []
+    allRequests.value.list.forEach((item) => {
+        item.approvals.forEach((approval) => {
+            approval.status = "Approved"
+        })
+        result.push(item)
+    })
+    return result
+})
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="allRequests.isLoading">
-<<<<<<< Updated upstream
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
                 AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_ALL,
@@ -36,26 +45,12 @@ const actions = {
         >
             <div class="w-1/3 flex">
                 <LayoutFormPsTextInput v-model="allRequests.params.key" title="PRF Number / Payee" class="w-full" />
-=======
-        <div class="w-1/3 flex">
-            <LayoutFormPsTextInput v-model="allRequests.params.key" title="PRF Number" class="w-full" />
-        </div>
-        <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <LayoutPsTable
-                :header-columns="headers"
-                :actions="actions"
-                :datas="allRequests.list ?? []"
-                @show-table="showInformation"
-            />
-            <div class="flex justify-center mx-auto">
-                <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
->>>>>>> Stashed changes
             </div>
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                 <LayoutPsTable
                     :header-columns="headers"
                     :actions="actions"
-                    :datas="allRequests.list ?? []"
+                    :datas="ddata ?? []"
                     @show-table="showInformation"
                 />
                 <div class="flex justify-center mx-auto">

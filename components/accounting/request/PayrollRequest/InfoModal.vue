@@ -161,7 +161,6 @@ watch(showModal, (newVal) => {
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-<<<<<<< Updated upstream
                                             <div class="text-sm text-gray-600">
                                                 {{ accountingCurrency(detail?.cost) }}
                                             </div>
@@ -174,20 +173,6 @@ watch(showModal, (newVal) => {
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-600">
                                                 {{ accountingCurrency(detail?.amount) }}
-=======
-                                            <div class="text-sm text-gray-600 text-right">
-                                                {{ useFormatCurrency(detail?.cost) }}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-600 text-right">
-                                                {{ useFormatCurrency(detail?.total_vat_amount) }}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-600 text-right">
-                                                {{ useFormatCurrency(detail?.amount) }}
->>>>>>> Stashed changes
                                             </div>
                                         </td>
                                     </tr>

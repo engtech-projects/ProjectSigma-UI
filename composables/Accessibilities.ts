@@ -171,7 +171,7 @@ export enum AccessibilityTypes {
     ACCOUNTING_REQUEST_GROUP = "accounting:request_",
     ACCOUNTING_REQUEST_PURCHASE_ORDER = "accounting:request_purchase order",
     // ACCOUNTING NON-PURCHASE ORDER
-    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER = "accounting:request_non purchase order",
+    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER = "accounting:request_npo_",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_ALL = "accounting:request_npo_all request",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_REQUEST = "accounting:request_npo_my request",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_APPROVAL = "accounting:request_npo_my approval",
