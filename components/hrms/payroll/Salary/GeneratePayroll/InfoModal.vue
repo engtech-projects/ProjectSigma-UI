@@ -100,10 +100,16 @@ const denyRequest = async (id : any) => {
                 <div class="w-full">
                     <LazyHrmsPayrollSalaryRequestInfoTable :payroll-request="data" />
                 </div>
+                <div style="display: none; @media print { display: block; }">
+                    <LayoutApprovalsListView :approvals="data.approvals" :is-approved="data.request_status.toLowerCase() === 'approved'" />
+                </div>
             </LayoutPrint>
             <LayoutPrint>
                 <div class="w-full">
                     <HrmsPayrollSalaryChargingTable :payroll-request="data" />
+                </div>
+                <div style="display: none; @media print { display: block; }">
+                    <LayoutApprovalsListView :approvals="data.approvals" :is-approved="data.request_status.toLowerCase() === 'approved'" />
                 </div>
             </LayoutPrint>
         </template>
