@@ -615,9 +615,7 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_ALL,
-                        AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_REQUEST,
-                        AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_APPROVAL,
+                        AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_GROUP
                     ])"
                     linkarea="/accounting/request/non-purchase-order"
                     icon="iconoir:credit-card-2"
@@ -642,17 +640,14 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT,
+                    AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_GROUP,
                 ])"
                 icon="iconoir:credit-cards"
                 title="Vouchers"
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_ALL,
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_REQUEST,
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_FOR_DISBURSEMENT_VOUCHER,
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_GROUP
                     ])"
                     linkarea="/accounting/voucher/disbursement"
                     icon="iconoir:hand-contactless"
@@ -660,12 +655,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_ALL,
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_MY_REQUEST,
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_MY_APPROVAL,
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_FOR_CASH_VOUCHER,
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_CLEARED,
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_FOR_CLEARING
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_GROUP
                     ])"
                     linkarea="/accounting/voucher/cash"
                     icon="iconoir:iconoir:cash"
