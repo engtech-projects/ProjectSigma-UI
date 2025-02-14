@@ -181,13 +181,13 @@ export enum AccessibilityTypes {
     // ACCOUNTING VOUCHERS
     ACCOUNTING_VOUCHER_GROUP = "accounting:voucher_",
     // ACCOUNTING DISBURSEMENT VOUCHER
-    ACCOUNTING_VOUCHER_DISBURSEMENT = "accounting:voucher_disbursement",
+    ACCOUNTING_VOUCHER_DISBURSEMENT = "accounting:voucher_disbursement_",
     ACCOUNTING_VOUCHER_DISBURSEMENT_ALL = "accounting:voucher_disbursement_all request",
     ACCOUNTING_VOUCHER_DISBURSEMENT_MY_REQUEST = "accounting:voucher_disbursement_my request",
     ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL = "accounting:voucher_disbursement_my approval",
     ACCOUNTING_VOUCHER_DISBURSEMENT_FOR_DISBURSEMENT_VOUCHER = "accounting:voucher_disbursement_for disbursement voucher",
     // ACCOUNTING CASH VOUCHER
-    ACCOUNTING_VOUCHER_CASH = "accounting:voucher_cash",
+    ACCOUNTING_VOUCHER_CASH = "accounting:voucher_cash_",
     ACCOUNTING_VOUCHER_CASH_ALL = "accounting:voucher_cash_all request",
     ACCOUNTING_VOUCHER_CASH_MY_REQUEST = "accounting:voucher_cash_my request",
     ACCOUNTING_VOUCHER_CASH_MY_APPROVAL = "accounting:voucher_cash_my approval",
