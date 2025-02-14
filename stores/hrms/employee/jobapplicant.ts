@@ -150,6 +150,8 @@ export interface ApplicantInformation {
     icoe_name: String,
     icoe_address: String,
     icoe_relationship: String,
+    icoe_occupation: String,
+    icoe_date_of_birth: String,
     telephone_icoe: null | String,
     workexperience: Array<JobApplicationWorkExperience>,
     education: Array<JobApplicationEducation>
@@ -199,6 +201,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             philhealth: "",
             pagibig: "",
             tin: "",
+            atm: "",
             citizenship: "",
             religion: "",
             height: "",
@@ -214,6 +217,8 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             children: [],
             icoe_name: "",
             icoe_relationship: "",
+            icoe_occupation: "",
+            icoe_date_of_birth: "",
             telephone_icoe: "",
             workexperience: [],
             education: [
@@ -387,6 +392,9 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             formData.append("sss", this.jobapplicant.sss)
             formData.append("philhealth", this.jobapplicant.philhealth)
             formData.append("pagibig", this.jobapplicant.pagibig)
+            formData.append("atm", this.jobapplicant.atm)
+            formData.append("icoe_occupation", this.jobapplicant.icoe_occupation)
+            formData.append("icoe_date_of_birth", this.jobapplicant.icoe_date_of_birth)
             formData.append("tin", this.jobapplicant.tin)
             formData.append("citizenship", this.jobapplicant.citizenship)
             formData.append("religion", this.jobapplicant.religion)
