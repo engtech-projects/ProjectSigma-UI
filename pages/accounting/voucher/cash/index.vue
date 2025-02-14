@@ -6,7 +6,12 @@ const voucherStore = useVoucherStore()
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
+            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_ALL,
+            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_MY_REQUEST,
+            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_MY_APPROVAL,
+            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_FOR_CASH_VOUCHER,
+            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_CLEARED,
+            AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_FOR_CLEARING
         ])"
     >
         <div class="flex flex-col gap-4">
