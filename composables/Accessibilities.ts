@@ -171,7 +171,7 @@ export enum AccessibilityTypes {
     ACCOUNTING_REQUEST_GROUP = "accounting:request_",
     ACCOUNTING_REQUEST_PURCHASE_ORDER = "accounting:request_purchase order",
     // ACCOUNTING NON-PURCHASE ORDER
-    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER = "accounting:request_npo_",
+    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_GROUP = "accounting:request_npo_",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_ALL = "accounting:request_npo_all request",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_REQUEST = "accounting:request_npo_my request",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_APPROVAL = "accounting:request_npo_my approval",
@@ -181,13 +181,13 @@ export enum AccessibilityTypes {
     // ACCOUNTING VOUCHERS
     ACCOUNTING_VOUCHER_GROUP = "accounting:voucher_",
     // ACCOUNTING DISBURSEMENT VOUCHER
-    ACCOUNTING_VOUCHER_DISBURSEMENT = "accounting:voucher_disbursement_",
+    ACCOUNTING_VOUCHER_DISBURSEMENT_GROUP = "accounting:voucher_disbursement_",
     ACCOUNTING_VOUCHER_DISBURSEMENT_ALL = "accounting:voucher_disbursement_all request",
     ACCOUNTING_VOUCHER_DISBURSEMENT_MY_REQUEST = "accounting:voucher_disbursement_my request",
     ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL = "accounting:voucher_disbursement_my approval",
     ACCOUNTING_VOUCHER_DISBURSEMENT_FOR_DISBURSEMENT_VOUCHER = "accounting:voucher_disbursement_for disbursement voucher",
     // ACCOUNTING CASH VOUCHER
-    ACCOUNTING_VOUCHER_CASH = "accounting:voucher_cash_",
+    ACCOUNTING_VOUCHER_CASH_GROUP = "accounting:voucher_cash_",
     ACCOUNTING_VOUCHER_CASH_ALL = "accounting:voucher_cash_all request",
     ACCOUNTING_VOUCHER_CASH_MY_REQUEST = "accounting:voucher_cash_my request",
     ACCOUNTING_VOUCHER_CASH_MY_APPROVAL = "accounting:voucher_cash_my approval",

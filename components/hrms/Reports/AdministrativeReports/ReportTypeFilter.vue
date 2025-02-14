@@ -36,7 +36,7 @@ const clearList = () => {
                 Employee Lates
             </option>
             <option :value="EMPLOYEE_ATTENDANCE">
-                Employee Presents
+                Employee Presence
             </option>
         </select>
     </div>
