@@ -90,9 +90,9 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                         if (response.ok) {
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
                             }
                         }
                     },
@@ -114,9 +114,9 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                         if (response.ok) {
                             this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
                             }
                         } else {
                             this.myRequests.errorMessage = response._data.message
@@ -142,9 +142,9 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                             this.myApprovals.list = response._data.data.data
                             this.myApprovals.successMessage = response._data.message
                             this.myApprovals.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
                             }
                         } else {
                             this.myApprovals.errorMessage = response._data.message
@@ -170,9 +170,9 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                             this.payslipReadyRecords.list = response._data.data.data
                             this.payslipReadyRecords.successMessage = response._data.message
                             this.payslipReadyRecords.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
                             }
                         } else {
                             this.payslipReadyRecords.errorMessage = response._data.message
@@ -220,6 +220,7 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
             )
         },
         async createRequest () {
+            if (this.createRequestData.isLoading) { return }
             await useHRMSApiO(
                 "/api/salary-disbursement/resource",
                 {
@@ -289,6 +290,24 @@ export const useSalaryDisbursementStore = defineStore("SalaryDisbursement", {
                     body: formData,
                     onResponseError: ({ response }: any) => {
                         // this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.reloadResources()
+                            // this.successMessage = response._data.message
+                            return response._data
+                        }
+                    },
+                }
+            )
+        },
+        async submitToAccounting (id: number) {
+            await useHRMSApiO(
+                "/api/salary-disbursement/submit-to-accounting/" + id,
+                {
+                    method: "POST",
+                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {

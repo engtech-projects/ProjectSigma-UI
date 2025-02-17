@@ -160,6 +160,7 @@ export const useFailToLogStore = defineStore("Failtologs", {
         },
 
         async createLog () {
+            if (this.createRequestData.isLoading) { return }
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(

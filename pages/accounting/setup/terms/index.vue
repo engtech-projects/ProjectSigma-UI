@@ -6,6 +6,7 @@ import { useAccountStore } from "@/stores/accounting/setup/account"
 const termsStore = useTermsStore()
 const { isEdit } = storeToRefs(termsStore)
 termsStore.getTerms()
+termsStore.getBalanceType()
 
 const accountStore = useAccountStore()
 accountStore.getAccounts()
