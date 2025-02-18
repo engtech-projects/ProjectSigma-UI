@@ -1,20 +1,26 @@
 <template>
     <div class="flex flex-col gap-4 min-h-screen">
-        <div class="flex gap-4 items-center mb-8">
-            <h1 class="text-2xl font-bold text-gray-800">
-                Reports
-            </h1>
-            <select id="accountType" v-model="reportType" class="rounded-lg w-1/4" required>
-                <template v-for="report in reports" :key="report.value">
-                    <option v-if="useCheckAccessibility(report.permissions)" :value="report.value">
-                        {{ report.name }}
-                    </option>
-                </template>
-            </select>
-        </div>
-        <LayoutPrint v-if="reportType">
-            <component :is="reportComponent" />
-        </LayoutPrint>
+        <LayoutAcessContainer
+            :if-access="useCheckAccessibility([
+                AccessibilityTypes.ACCOUNTING_REPORTS_GROUP
+            ])"
+        >
+            <div class="flex gap-4 items-center mb-8">
+                <h1 class="text-2xl font-bold text-gray-800">
+                    Reports
+                </h1>
+                <select id="accountType" v-model="reportType" class="rounded-lg w-1/4" required>
+                    <template v-for="report in reports" :key="report.value">
+                        <option v-if="useCheckAccessibility(report.permissions)" :value="report.value">
+                            {{ report.name }}
+                        </option>
+                    </template>
+                </select>
+            </div>
+            <LayoutPrint v-if="reportType">
+                <component :is="reportComponent" />
+            </LayoutPrint>
+        </LayoutAcessContainer>
     </div>
 </template>
 
