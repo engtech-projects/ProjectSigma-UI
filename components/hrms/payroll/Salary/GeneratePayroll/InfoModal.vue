@@ -101,7 +101,7 @@ const denyRequest = async (id : any) => {
                     <LazyHrmsPayrollSalaryRequestInfoTable :payroll-request="data" />
                 </div>
                 <div class="showOnPrint">
-                    <LayoutApprovalsListView v-if="data.request_status.toLowerCase() === 'approved'" :approvals="data.approvals" :is-approved="data.request_status.toLowerCase() === 'approved'" />
+                    <LayoutApprovalsListView v-if="['approved', 'denied'].includes(data.request_status.toLowerCase())" :approvals="data.approvals" :is-approved="data.request_status.toLowerCase() === 'approved'" />
                 </div>
             </LayoutPrint>
             <LayoutPrint>
@@ -109,7 +109,7 @@ const denyRequest = async (id : any) => {
                     <HrmsPayrollSalaryChargingTable :payroll-request="data" />
                 </div>
                 <div class="showOnPrint">
-                    <LayoutApprovalsListView v-if="data.request_status.toLowerCase() === 'approved'" :approvals="data.approvals" :is-approved="data.request_status.toLowerCase() === 'approved'" />
+                    <LayoutApprovalsListView v-if="['approved', 'denied'].includes(data.request_status.toLowerCase())" :approvals="data.approvals" :is-approved="data.request_status.toLowerCase() === 'approved'" />
                 </div>
             </LayoutPrint>
         </template>
