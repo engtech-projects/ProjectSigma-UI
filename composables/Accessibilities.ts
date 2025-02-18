@@ -201,6 +201,18 @@ export enum AccessibilityTypes {
     ACCOUNTING_JOURNAL_ENTRY_DISBURSEMENT_ENTRIES = "accounting:journal_list_journal entry disbursement entries",
     ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES = "accounting:journal_list_journal entry for payement entries",
 
+    // ACCOUNTING REPORTS
+    ACCOUNTING_REPORTS_GROUP = "accounting:reports_",
+    ACCOUNTING_REPORTS_BALANCE_SHEET = "accounting:reports_balance sheet",
+    ACCOUNTING_REPORTS_BOOK_BALANCE = "accounting:reports_book balance",
+    ACCOUNTING_REPORTS_EXPENSES_FOR_THE_MONTH = "accounting:reports_expenses for the month",
+    ACCOUNTING_REPORTS_INCOME_STATEMENT = "accounting:reports_income statement",
+    ACCOUNTING_REPORTS_MONTHLY_PROJECT_EXPENSES = "accounting:reports_monthly project expenses",
+    ACCOUNTING_REPORTS_MONTHLY_UNLIQUIDATED_CASH_ADVANCES = "accounting:reports_monthly unliquidated cash advances",
+    ACCOUNTING_REPORTS_STATEMENT_OF_CASH_FLOW = "accounting:reports_statement of cash flow",
+    ACCOUNTING_REPORTS_OFFICE_CODE = "accounting:reports_office code",
+    ACCOUNTING_REPORTS_OFFICE_HUMAN_RESOURCE = "accounting:reports_office human resource",
+
     // PROJECT MONITORING
     project_monitoring_group = "project_monitoring:",
     project_monitoring_dashboard = "project_monitoring:dashboard",

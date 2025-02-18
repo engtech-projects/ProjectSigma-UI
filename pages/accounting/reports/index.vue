@@ -5,9 +5,11 @@
                 Reports
             </h1>
             <select id="accountType" v-model="reportType" class="rounded-lg w-1/4" required>
-                <option v-for="report in reports" :key="report.value" :value="report.value">
-                    {{ report.name }}
-                </option>
+                <template v-for="report in reports" :key="report.value">
+                    <option v-if="useCheckAccessibility(report.permissions)" :value="report.value">
+                        {{ report.name }}
+                    </option>
+                </template>
             </select>
         </div>
         <LayoutPrint v-if="reportType">
@@ -33,46 +35,55 @@ const reports = ref([
         name: "Balance Sheet",
         value: "balance-sheet",
         component: AccountingReportsBalanceSheet,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_BALANCE_SHEET],
     },
     {
         name: "Book Balance",
         value: "book-balance",
         component: AccountingReportsBookBalance,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_BOOK_BALANCE],
     },
     {
         name: "Income Statement",
         value: "income-statement",
         component: AccountingReportsIncomeStatement,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_EXPENSES_FOR_THE_MONTH],
     },
     {
         name: "Statement of Cash Flow",
         value: "statement-of-cash-flow",
         component: AccountingReportsStatementOfCashFlow,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_INCOME_STATEMENT],
     },
     {
         name: "Office Code",
         value: "office-code",
         component: AccountingReportsOfficeCode,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_MONTHLY_PROJECT_EXPENSES],
     },
     {
         name: "Office Human Resource",
         value: "office-human-resource",
         component: AccountingReportsOfficeHumanResource,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_MONTHLY_UNLIQUIDATED_CASH_ADVANCES],
     },
     {
         name: "Monthly Project Expenses",
         value: "monthly-project-expenses",
         component: AccountingReportsMonthlyProjectExpenses,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_STATEMENT_OF_CASH_FLOW],
     },
     {
         name: "Monthly Unliquidated Cash Advances",
         value: "monthly-unliquidated-cash-advances",
         component: AccountingReportsMonthlyUnliquidatedCashAdvances,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_OFFICE_CODE],
     },
     {
         name: "Expenses for the Month",
         value: "expenses-for-the-month",
         component: AccountingReportsExpensesfortheMonth,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_OFFICE_HUMAN_RESOURCE],
     },
 ])
 const reportComponent = computed(() => {

@@ -678,7 +678,7 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ADMIN_ONLY,
+                    AccessibilityTypes.ACCOUNTING_REPORTS_GROUP,
                 ])"
                 linkarea="/accounting/reports"
                 icon="oui:app-reporting"
