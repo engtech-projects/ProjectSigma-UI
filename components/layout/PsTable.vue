@@ -76,7 +76,7 @@ const isActiveRow = (index: any) => {
                             :set="val = dataValue"
                         >
                             <template v-if="(header.id).includes('.')">
-                                <span v-for="headerid in (header.id).split('.')" :key="'templateheaderrow'+headerid" :set="val = val[headerid]" />
+                                <span v-for="headerid in (header.id).split('.')" :key="'templateheaderrow'+headerid" :set="val = val != null ? val[headerid] : null" />
                                 {{ val }}
                             </template>
                             <template v-else>
