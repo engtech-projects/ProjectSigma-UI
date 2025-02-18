@@ -50,7 +50,7 @@ const closeModal = () => {
                     </div>
                     <div class="border px-4 py-2">
                         <span class="font-semibold">Position: </span>
-                        <span>{{ manpowerData.job_title }}</span>
+                        <span>{{ manpowerData.position?.name }}</span>
                     </div>
                     <div class="border px-4 py-2">
                         <span class="font-semibold">Employment Type: </span>

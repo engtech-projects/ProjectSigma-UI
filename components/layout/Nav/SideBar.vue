@@ -438,6 +438,14 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
+                        AccessibilityTypes.hrms_setup_payrollparticularterms,
+                    ])"
+                    linkarea="/hrms/setup/payroll-particular-terms"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Payroll Particular Terms"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
                         'AdminOnly',
                     ])"
                     v-show="config.public.BULK_UPLOAD_ENABLED === 'true'"
@@ -560,7 +568,7 @@ const config = useRuntimeConfig()
                 single-nav-title="Department BOM"
             />
             <LayoutNavSingle
-                v-if="useCheckAccessibility([AccessibilityTypes.admin])"
+                v-if="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_group])"
                 linkarea="/inventory/request-stocks"
                 icon="material-symbols-light:shopping-cart-checkout-sharp"
                 single-nav-title="Request Stocks"
@@ -621,7 +629,7 @@ const config = useRuntimeConfig()
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER,
+                        AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_GROUP
                     ])"
                     linkarea="/accounting/request/non-purchase-order"
                     icon="iconoir:credit-card-2"
@@ -629,7 +637,7 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_REQUEST_PURCHASE_ORDER,
+                        AccessibilityTypes.ACCOUNTING_REQUEST_GROUP,
                     ])"
                     linkarea="/accounting/request/purchase-order"
                     icon="iconoir:credit-card-2"
@@ -646,14 +654,14 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT,
+                    AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_GROUP,
                 ])"
                 icon="iconoir:credit-cards"
                 title="Vouchers"
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT,
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_GROUP
                     ])"
                     linkarea="/accounting/voucher/disbursement"
                     icon="iconoir:hand-contactless"
@@ -661,13 +669,21 @@ const config = useRuntimeConfig()
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_CASH_GROUP
                     ])"
                     linkarea="/accounting/voucher/cash"
                     icon="iconoir:iconoir:cash"
                     single-nav-title="Cash Voucher"
                 />
             </LayoutNavGroup>
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
+                ])"
+                linkarea="/accounting/reports"
+                icon="oui:app-reporting"
+                single-nav-title="Reports"
+            />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.ACCOUNTING_SETUP_GROUP,

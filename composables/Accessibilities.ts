@@ -117,6 +117,7 @@ export enum AccessibilityTypes {
     hrms_setup_with_holding_tax = "hrms:setup_withholding tax",
     hrms_setup_settings = "hrms:setup_settings",
     hrms_setup_salary_grade = "hrms:setup_salary grade",
+    hrms_setup_payrollparticularterms = "hrms:setup_payroll particular terms",
     hrms_setup_division = "hrms:setup_division",
 
     // INVENTORY
@@ -170,7 +171,7 @@ export enum AccessibilityTypes {
     ACCOUNTING_REQUEST_GROUP = "accounting:request_",
     ACCOUNTING_REQUEST_PURCHASE_ORDER = "accounting:request_purchase order",
     // ACCOUNTING NON-PURCHASE ORDER
-    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER = "accounting:request_non purchase order",
+    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_GROUP = "accounting:request_npo_",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_ALL = "accounting:request_npo_all request",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_REQUEST = "accounting:request_npo_my request",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_APPROVAL = "accounting:request_npo_my approval",
@@ -180,13 +181,13 @@ export enum AccessibilityTypes {
     // ACCOUNTING VOUCHERS
     ACCOUNTING_VOUCHER_GROUP = "accounting:voucher_",
     // ACCOUNTING DISBURSEMENT VOUCHER
-    ACCOUNTING_VOUCHER_DISBURSEMENT = "accounting:voucher_disbursement",
+    ACCOUNTING_VOUCHER_DISBURSEMENT_GROUP = "accounting:voucher_disbursement_",
     ACCOUNTING_VOUCHER_DISBURSEMENT_ALL = "accounting:voucher_disbursement_all request",
     ACCOUNTING_VOUCHER_DISBURSEMENT_MY_REQUEST = "accounting:voucher_disbursement_my request",
     ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL = "accounting:voucher_disbursement_my approval",
     ACCOUNTING_VOUCHER_DISBURSEMENT_FOR_DISBURSEMENT_VOUCHER = "accounting:voucher_disbursement_for disbursement voucher",
     // ACCOUNTING CASH VOUCHER
-    ACCOUNTING_VOUCHER_CASH = "accounting:voucher_cash",
+    ACCOUNTING_VOUCHER_CASH_GROUP = "accounting:voucher_cash_",
     ACCOUNTING_VOUCHER_CASH_ALL = "accounting:voucher_cash_all request",
     ACCOUNTING_VOUCHER_CASH_MY_REQUEST = "accounting:voucher_cash_my request",
     ACCOUNTING_VOUCHER_CASH_MY_APPROVAL = "accounting:voucher_cash_my approval",
@@ -196,9 +197,9 @@ export enum AccessibilityTypes {
 
     // ACCOUNTING JOURNAL ENTRY
     ACCOUNTING_JOURNAL_ENTRY = "accounting:journal_journal entry",
-    ACCOUNTING_JOURNAL_ENTRY_CASH_ENTRIES = "accounting:journal_journal entry_list_cash entries",
-    ACCOUNTING_JOURNAL_ENTRY_DISBURSEMENT_ENTRIES = "accounting:journal_journal entry_list_disbursement entries",
-    ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES = "accounting:journal_journal entry_list_for payement entries",
+    ACCOUNTING_JOURNAL_ENTRY_CASH_ENTRIES = "accounting:journal_list_journal entry cash entries",
+    ACCOUNTING_JOURNAL_ENTRY_DISBURSEMENT_ENTRIES = "accounting:journal_list_journal entry disbursement entries",
+    ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES = "accounting:journal_list_journal entry for payement entries",
 
     // PROJECT MONITORING
     project_monitoring_group = "project_monitoring:",
