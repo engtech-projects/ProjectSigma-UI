@@ -562,8 +562,14 @@ const config = useRuntimeConfig()
             <LayoutNavSingle
                 v-if="useCheckAccessibility([AccessibilityTypes.admin])"
                 linkarea="/inventory/request-stocks"
-                icon="material-symbols-light:fact-check-rounded"
+                icon="material-symbols-light:shopping-cart-checkout-sharp"
                 single-nav-title="Request Stocks"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([AccessibilityTypes.admin])"
+                linkarea="/inventory/material-receiving"
+                icon="material-symbols-light:add-home-work-outline"
+                single-nav-title="Materials Receiving"
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([

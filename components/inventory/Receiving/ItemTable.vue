@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useRequestStockStore } from "@/stores/inventory/requeststock"
-const mainStore = useRequestStockStore()
-const { requestStock } = storeToRefs(mainStore)
+import { useReceivingStore } from "@/stores/inventory/receiving"
+const mainStore = useReceivingStore()
+const { receiving } = storeToRefs(mainStore)
 interface HeaderColumn {
     name: string,
     id: string,
@@ -17,25 +17,26 @@ defineProps({
     },
 })
 const addItem = () => {
-    requestStock.value.items.push(
+    receiving.value.items.push(
         {
-            quantity: "",
-            unit: "",
-            item_id: "",
+            item_code: "",
+            item_description: "",
             specification: "",
-            preferred_brand: "",
-            reason: "",
-            location: "",
-            location_qty: "",
+            actual_brand: "",
+            qty: "",
+            uom: "",
+            unit_price: "",
+            ext_price: "",
+            status: "",
+            remarks: "",
         }
     )
 }
 const removeItem = (id: number) => {
-    requestStock.value.items.splice(id, 1)
+    receiving.value.items.splice(id, 1)
 }
 </script>
 <template>
-    ITEM TABLE
     <div class="h-full w-full">
         <div id="itemDetails">
             <h5 v-if="title" class="text-xl font-medium text-gray-900 dark:text-white border-b p-2">
@@ -62,9 +63,9 @@ const removeItem = (id: number) => {
                                 </button>
                             </td>
                         </tr>
-                        <template v-for="(item, index) in requestStock.items" :key="index">
-                            <InventoryRequestStockItemAppend
-                                v-model:item="requestStock.items[index]"
+                        <template v-for="(item, index) in receiving.items" :key="index">
+                            <InventoryReceivingItemAppend
+                                v-model:item="receiving.items[index]"
                                 :index="index"
                                 @remove-item="removeItem"
                             />
