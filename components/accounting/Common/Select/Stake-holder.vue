@@ -1,10 +1,5 @@
 <script setup>
 const props = defineProps({
-    selectedType: {
-        type: String,
-        required: false,
-        default: "",
-    },
     selectedId: {
         type: String,
         required: true,
@@ -16,7 +11,7 @@ const props = defineProps({
     },
 })
 const stakeholderInfo = defineModel("stakeholderInfo", { required: false, type: Object, default: {} })
-const selectedType = ref(props.selectedType)
+const selectedType = defineModel("selectedType", { required: false, type: String, default: "" })
 </script>
 <template>
     <div class="w-full flex flex-row gap-4 min-w-max">
@@ -39,27 +34,27 @@ const selectedType = ref(props.selectedType)
             <AccountingCommonSelectStakeholderDepartmentSelector
                 v-show="selectedType === 'department'"
                 v-model:departmentInfo="stakeholderInfo"
-                :select-type="selectedType"
+                v-model:selectedType="selectedType"
             />
             <AccountingCommonSelectStakeholderProjectsSelector
                 v-show="selectedType === 'project'"
                 v-model:projectInfo="stakeholderInfo"
-                :select-type="selectedType"
+                v-model:selectedType="selectedType"
             />
             <AccountingCommonSelectStakeholderSupplierSelector
                 v-show="selectedType === 'supplier'"
                 v-model:supplierInfo="stakeholderInfo"
-                :select-type="selectedType"
+                v-model:selectedType="selectedType"
             />
             <AccountingCommonSelectStakeholderEmployeeSelector
                 v-show="selectedType === 'employee'"
                 v-model:employeeInfo="stakeholderInfo"
-                :select-type="selectedType"
+                v-model:selectedType="selectedType"
             />
             <AccountingCommonSelectStakeholderPayeeSelector
                 v-show="selectedType === 'payee'"
                 v-model:payeeInfo="stakeholderInfo"
-                :select-type="selectedType"
+                v-model:selectedType="selectedType"
             />
         </div>
     </div>

@@ -22,7 +22,7 @@ const headers = [
     { name: "Disbursement Voucher No", id: "reference_no" },
     { name: "Journal No.", id: "journal_no" },
     { name: "Payee", id: "payment_request.stakeholder.name" },
-    { name: "Amount", id: "payment_request.total" },
+    { name: "Amount", id: "total_amount_formatted" },
     { name: "Date Posted", id: "date_filed" },
     { name: "Status", id: "voucher_status" },
 ]
