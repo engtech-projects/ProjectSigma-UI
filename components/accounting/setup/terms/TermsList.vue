@@ -30,7 +30,7 @@ const changePaginate = (newParams) => {
 
 const headers = [
     { name: "Name", id: "name", style: "text-left" },
-    { name: "Description", id: "description", style: "text-left" },
+    { name: "Entry Type", id: "debit_credit", style: "text-left" },
 ]
 const actions = {
     edit: true,
