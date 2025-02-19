@@ -15,7 +15,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ACCOUNTING_SETUP_ACCOUNTS,
+            AccessibilityTypes.ACCOUNTING_SETUP_WITHHOLDING_TAX,
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">
