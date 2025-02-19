@@ -36,6 +36,14 @@ const actions = {
     edit: true,
     delete: true
 }
+const termsData = computed(() => {
+    return termsList.value.map((term) => {
+        return {
+            ...term,
+            debit_credit: term.debit_credit ? upperFirst(term.debit_credit) : null
+        }
+    })
+})
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -44,7 +52,7 @@ const boardLoading = ref(false)
 <template>
     <LayoutBoards title="Terms List" class="w-full" :loading="termsStore.isLoading">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="termsList" :actions="actions" @edit-row="setEdit" @delete-row="deleteTerm" />
+            <LayoutPsTable :header-columns="headers" :datas="termsData" :actions="actions" @edit-row="setEdit" @delete-row="deleteTerm" />
         </div>
         <div v-if="termsList.length" class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
