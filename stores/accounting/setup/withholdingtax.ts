@@ -4,14 +4,11 @@ export const useWithholdingTaxStore = defineStore("useWithholdingTaxStore", {
     state: () => ({
         withholdingTax: {
             id: null,
-            account_number: null,
-            account_name: null,
-            account_type_id: null,
-            account_description: null,
-            report_group_id: null,
-            bank_reconciliation: "yes",
-            is_active: 1,
-            statement: null,
+            account: {},
+            wtax_name: null,
+            account_id: null,
+            vat_type: null,
+            wtax_percentage: null
         },
         list: [],
         chart: [],
@@ -27,20 +24,20 @@ export const useWithholdingTaxStore = defineStore("useWithholdingTaxStore", {
             delete: false
         },
         isEdit: false
-    });
+    }),
 
     actions: {
         async getWithholdingTaxes () {
             this.isLoading.list = true
             const { data, error } = await useAccountingApi(
-                "/api/withholding-taxes",
+                "/api/withholding-tax",
                 {
                     method: "GET",
                     params: this.getParams,
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.list = response._data.data.data
+                        this.list = response._data.data
                         this.pagination = {
                             first_page: response._data.data.links.first,
                             pages: response._data.data.meta.links,
@@ -77,20 +74,20 @@ export const useWithholdingTaxStore = defineStore("useWithholdingTaxStore", {
             }
         },
 
-        async createAccount () {
+        async createWithholdingTax () {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/accounts",
+                "/api/withholding-tax",
                 {
                     method: "POST",
-                    body: this.account,
+                    body: this.withholdingTax,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getAccounts()
+                            this.getWithholdingTaxes()
                             this.reset()
                             this.successMessage = response._data.message
                         }
@@ -99,19 +96,19 @@ export const useWithholdingTaxStore = defineStore("useWithholdingTaxStore", {
             )
         },
 
-        async editAccount () {
+        async editWithholdingTax () {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/accounts/" + this.account.id,
+                "/api/withholding-tax/" + this.withholdingTax.id,
                 {
                     method: "PUT",
-                    body: this.account,
+                    body: this.withholdingTax,
                     watch: false,
                 }
             )
             if (data.value) {
-                this.getAccounts()
+                this.getWithholdingTaxes()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -120,19 +117,19 @@ export const useWithholdingTaxStore = defineStore("useWithholdingTaxStore", {
             }
         },
 
-        async deleteAccount (id) {
+        async deleteWithholdingTax (id) {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/accounts/" + id,
+                "/api/withholding-tax/" + id,
                 {
                     method: "DELETE",
-                    body: this.account,
+                    body: this.withholdingTax,
                     watch: false,
                 }
             )
             if (data.value) {
-                this.getAccounts()
+                this.getWithholdingTaxes()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -147,15 +144,13 @@ export const useWithholdingTaxStore = defineStore("useWithholdingTaxStore", {
         },
 
         reset () {
-            this.account = {
+            this.withholdingTax = {
                 id: null,
-                account_number: null,
-                account_name: null,
-                account_type_id: null,
-                account_description: null,
-                bank_reconciliation: "yes",
-                is_active: 1,
-                statement: null,
+                account: {},
+                wtax_name: null,
+                account_id: null,
+                vat_type: null,
+                wtax_percentage: null
             }
             this.successMessage = ""
             this.errorMessage = ""

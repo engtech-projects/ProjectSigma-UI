@@ -1,17 +1,14 @@
 <script setup>
 import { useAccountStore } from "@/stores/accounting/setup/account"
-import { useAccountTypeStore } from "@/stores/accounting/setup/accounttype"
-import { useReportGroupStore } from "@/stores/accounting/setup/reportgroup"
+import { useWithholdingTaxStore } from "@/stores/accounting/setup/withholdingtax"
 
 const accountStore = useAccountStore()
-const accountTypeStore = useAccountTypeStore()
-const reportGroupStore = useReportGroupStore()
-accountTypeStore.getAccountTypes()
-reportGroupStore.getReportGroups()
+const withholdingTaxStore = useWithholdingTaxStore()
+withholdingTaxStore.getWithholdingTaxes()
 accountStore.getAccounts()
 
 useHead({
-    title: "Account",
+    title: "Withholding Tax",
 })
 
 </script>
@@ -22,11 +19,11 @@ useHead({
         ])"
     >
         <div class="flex flex-col md:flex-row gap-4">
-            <AccountingSetupAccountCreate
-                v-show="!accountStore.isEdit"
+            <AccountingSetupWithholdingCreate
+                v-show="!withholdingTaxStore.isEdit"
                 class="flex-1"
             />
-            <AccountingSetupAccountEdit v-show="accountStore.isEdit" class="flex-1" />
+            <AccountingSetupWithholdingEdit v-show="withholdingTaxStore.isEdit" class="flex-1" />
             <AccountingSetupWithholdingList class="flex-2" />
         </div>
     </LayoutAcessContainer>

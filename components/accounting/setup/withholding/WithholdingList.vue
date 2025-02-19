@@ -1,23 +1,26 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useAccountStore } from "@/stores/accounting/setup/account"
-import { useAccountTypeStore } from "@/stores/accounting/setup/accounttype"
+import { useWithholdingTaxStore } from "@/stores/accounting/setup/withholdingtax"
 
-const accountStore = useAccountStore()
-const accountTypeStore = useAccountTypeStore()
-const { isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(accountStore)
+const withholdingTaxStore = useWithholdingTaxStore()
+const { isEdit, getParams, pagination, errorMessage, successMessage } = storeToRefs(withholdingTaxStore)
 
-const setEdit = (ac) => {
+const setEdit = (wt) => {
     isEdit.value = true
-    accountStore.account = ac
+    withholdingTaxStore.withholdingTax = wt
 }
-const deleteAccount = async (ac) => {
+const deleteWithholdingTax = async (wt) => {
     try {
         boardLoading.value = true
-        await accountStore.deleteAccount(ac.id)
+        await withholdingTaxStore.deleteWithholdingTax(wt.id)
         snackbar.add({
             type: "success",
-            text: accountStore.successMessage
+            text: withholdingTaxStore.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "Something went wrong"
         })
     } finally {
         boardLoading.value = false
@@ -26,36 +29,27 @@ const deleteAccount = async (ac) => {
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
-    accountStore.getAccounts()
+    withholdingTaxStore.getWithholdingTaxes()
 }
 
 const headers = [
-    { name: "Account No", id: "account_number" },
-    { name: "Account Name", id: "account_name" },
-    { name: "Account Type", id: "type_name" }
+    { name: "Name", id: "wtax_name" },
+    { name: "Vat Type", id: "vat_type" },
+    { name: "Percentage", id: "wtax_percentage" },
+    { name: "Account", id: "account.account_name" }
 ]
 const actions = {
     edit: true,
     delete: true
 }
-const acType = (id) => {
-    return accountTypeStore.list.filter(at => id === at.id)[0]?.account_type
-}
-const accountsList = computed(() => {
-    const list = clone(accountStore.list)
-    list.forEach((ac) => {
-        ac.type_name = acType(ac.account_type_id)
-    })
-    return list
-})
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 </script>
 <template>
-    <LayoutBoards title="Withholding Tax List" class="w-full" :loading="accountStore.isLoading.list">
+    <LayoutBoards title="Withholding Tax List" class="w-full" :loading="withholdingTaxStore.isLoading.list">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="accountsList" :actions="actions" @edit-row="setEdit" @delete-row="deleteAccount" />
+            <LayoutPsTable :header-columns="headers" :datas="withholdingTaxStore.list" :actions="actions" @edit-row="setEdit" @delete-row="deleteWithholdingTax" />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
