@@ -20,10 +20,10 @@ const generateJournal = async (data) => {
         debit: detail.debit,
         credit: detail.credit,
         vat: parseInt(detail.vat ?? 0),
-        stakeholder_id: detail.stakeholder_id,
+        stakeholder_id: detail.stakeholder_id ?? "",
         stakeholder_type: trimStakeholdableType(detail?.stakeholder?.stakeholdable_type),
-        stakeholderInformation: detail.stakeholder,
-        journalAccountInfo: detail?.journalAccountInfo,
+        stakeholderInformation: detail.stakeholder ?? {},
+        journalAccountInfo: detail?.journalAccountInfo ?? {},
         description: detail.particulars
     }))
 
@@ -103,7 +103,7 @@ const boardLoading = ref(false)
                                         Project/Section Code
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Vat
+                                        COST
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Total Vat Amount

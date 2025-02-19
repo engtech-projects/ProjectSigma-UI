@@ -34,27 +34,27 @@ const selectedType = defineModel("selectedType", { required: false, type: String
             <AccountingCommonSelectStakeholderDepartmentSelector
                 v-show="selectedType === 'department'"
                 v-model:departmentInfo="stakeholderInfo"
-                :select-type="selectedType"
+                v-model:selectedType="selectedType"
             />
             <AccountingCommonSelectStakeholderProjectsSelector
                 v-show="selectedType === 'project'"
                 v-model:projectInfo="stakeholderInfo"
-                :select-type="selectedType"
+                v-model:selectedType="selectedType"
             />
             <AccountingCommonSelectStakeholderSupplierSelector
                 v-show="selectedType === 'supplier'"
                 v-model:supplierInfo="stakeholderInfo"
-                :select-type="selectedType"
+                v-model:selectedType="selectedType"
             />
             <AccountingCommonSelectStakeholderEmployeeSelector
                 v-show="selectedType === 'employee'"
                 v-model:employeeInfo="stakeholderInfo"
-                :select-type="selectedType"
+                v-model:selectedType="selectedType"
             />
             <AccountingCommonSelectStakeholderPayeeSelector
                 v-show="selectedType === 'payee'"
                 v-model:payeeInfo="stakeholderInfo"
-                :select-type="selectedType"
+                v-model:selectedType="selectedType"
             />
         </div>
     </div>

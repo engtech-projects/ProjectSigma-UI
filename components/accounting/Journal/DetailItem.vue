@@ -25,25 +25,23 @@ const emit = defineEmits("delete-item")
                 class="text-xs italic"
             >Account</label>
             <AccountingCommonSelectJournalAccounts
-                v-if="!details.journalAccountInfo"
                 v-model:journal-account-info="details.journalAccountInfo"
                 v-model:account-id="details.account_id"
                 class="w-full min-w-[300px]"
             />
-            <div v-else class="border border-black p-2">
+            <!-- <div class="border border-black p-2">
                 {{ details.journalAccountInfo.account_name }}
-            </div>
+            </div> -->
         </div>
         <div class="flex-1">
             <label
                 for="particulars"
                 class="text-xs italic"
             >Project/Department</label>
-            <div v-if="details.stakeholderInformation" class="border border-black p-2">
+            <!-- <div v-if="details.stakeholderInformation" class="border border-black p-2">
                 {{ details.stakeholderInformation.name }}
-            </div>
+            </div> -->
             <AccountingCommonSelectStakeHolder
-                v-else
                 v-model:stakeholder-info="details.stakeholderInformation"
                 v-model:selected-type="details.stakeholder_type"
                 class="w-full"

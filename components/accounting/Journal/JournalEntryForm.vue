@@ -141,7 +141,7 @@ journal.value.entry_balance = computed(() => {
                                 <Icon name="fa:plus-circle" />
                             </button>
                         </div>
-                        <div v-show="journal.details.length > 0" class="flex flex-col bg-gray-100 rounded-lg gap-2">
+                        <div v-show="journalStore.journal.details.length > 0" class="flex flex-col bg-white rounded-lg gap-2">
                             <AccountingJournalDetailItem
                                 v-for="(_detail, idx) in journal.details"
                                 :key="'detail'+idx"
