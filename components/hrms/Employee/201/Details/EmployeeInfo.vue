@@ -105,11 +105,65 @@ const { information, editable } = storeToRefs(employee)
                 <td class="flex-1 space-y-2 border-slate-300 p-1">
                     <div>
                         <label for="employee_blood_type" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">BLOOD TYPE</label>
-                        <input id="employee_blood_type" v-model="information.blood_type" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
+                        <select v-if="editable" id="employee_blood_type" v-model="information.blood_type" name="bloodtype" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
+                            <option value="A+">
+                                A+
+                            </option>
+                            <option value="A-">
+                                A-
+                            </option>
+                            <option value="B+">
+                                B+
+                            </option>
+                            <option value="B-">
+                                B-
+                            </option>
+                            <option value="O+">
+                                O+
+                            </option>
+                            <option value="O">
+                                O
+                            </option>
+                            <option value="O-">
+                                O-
+                            </option>
+                            <option value="AB+">
+                                AB+
+                            </option>
+                            <option value="AB-">
+                                AB-
+                            </option>
+                        </select>
+                        <input
+                            v-else
+                            id="employee_blood_type"
+                            v-model="information.blood_type"
+                            type="text"
+                            class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            :disabled="true"
+                        >
                     </div>
                     <div>
                         <label for="employee_gender" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">GENDER</label>
-                        <input id="employee_gender" v-model="information.gender" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
+                        <select v-if="editable" id="employee_gender" v-model="information.gender" name="gender" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
+                            <option value="MALE">
+                                Male
+                            </option>
+                            <option value="FEMALE">
+                                Female
+                            </option>
+                            <option value="OTHER">
+                                Other
+                            </option>
+                        </select>
+                        <input
+                            v-else
+                            id="employee_gender"
+                            v-model="information.gender"
+                            type="text"
+                            class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            :disabled="!editable"
+                        >
                     </div>
                 </td>
             </tr>
@@ -123,7 +177,28 @@ const { information, editable } = storeToRefs(employee)
                 <td class="flex-1 space-y-2 border-slate-300 p-1">
                     <div>
                         <label for="employee_civil_status" class="block mb-2 text-[11px] font-medium text-gray-900 dark:text-white">CIVIL STATUS</label>
-                        <input id="employee_civil_status" v-model="information.civil_status" type="text" class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" :disabled="!editable">
+                        <select v-if="editable" id="employee_civil_status" v-model="information.civil_status" name="civilstatus" class="block w-full p-0 text-gray-900 border border-gray-300 rounded-md bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 focus:outline-none dark:placeholder-gray-400 text-sm">
+                            <option value="SINGLE">
+                                SINGLE
+                            </option>
+                            <option value="MARRIED">
+                                MARRIED
+                            </option>
+                            <option value="WIDOW">
+                                WIDOW
+                            </option>
+                            <option value="COMPLICATED">
+                                COMPLICATED
+                            </option>
+                        </select>
+                        <input
+                            v-else
+                            id="employee_civil_status"
+                            v-model="information.civil_status"
+                            type="text"
+                            class="block w-full p-1 text-gray-900 border border-gray-300 rounded-md bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            :disabled="!editable"
+                        >
                     </div>
                 </td>
                 <td class="border border-slate-300 p-1">
