@@ -38,7 +38,7 @@ const generateJournal = async (data) => {
 }
 const trimStakeholdableType = (type) => {
     if (type) {
-        return type.replace("App\\Models\\Stakeholders\\", "")
+        return type.replace("App\\Models\\Stakeholders\\", "").toLowerCase()
     }
     return null
 }
