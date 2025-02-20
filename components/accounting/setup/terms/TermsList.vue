@@ -30,6 +30,7 @@ const changePaginate = (newParams) => {
 
 const headers = [
     { name: "Name", id: "name", style: "text-left" },
+    { name: "Account", id: "account_name", style: "text-left" },
     { name: "Entry Type", id: "debit_credit", style: "text-left" },
 ]
 const actions = {
@@ -40,7 +41,8 @@ const termsData = computed(() => {
     return termsList.value.map((term) => {
         return {
             ...term,
-            debit_credit: term.debit_credit ? upperFirst(term.debit_credit) : null
+            debit_credit: term.debit_credit ? upperFirst(term.debit_credit) : null,
+            account_name: term.account ? term.account.account_number + " - " + term.account.account_name : null
         }
     })
 })
