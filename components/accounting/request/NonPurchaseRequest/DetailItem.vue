@@ -53,6 +53,7 @@ const compute = () => {
             >Project/Section Code</label>
             <AccountingCommonSelectStakeHolder
                 v-model:stakeholder-info="model.stakeholderInformation"
+                v-model:selected-type="model.stakeholder_type"
                 class="w-full"
                 :selected-id="model.stakeholderInformation"
                 :filter-options="['project', 'department', 'employee']"
