@@ -39,9 +39,9 @@ export const useWithholdingTaxStore = defineStore("useWithholdingTaxStore", {
                         this.isLoading.list = false
                         this.list = response._data.data
                         this.pagination = {
-                            first_page: response._data.data.links.first,
-                            pages: response._data.data.meta.links,
-                            last_page: response._data.data.links.last,
+                            first_page: response._data.first_page_url,
+                            pages: response._data.links,
+                            last_page: response._data.last_page_url,
                         }
                     },
                 }

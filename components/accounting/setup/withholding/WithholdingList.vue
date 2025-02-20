@@ -36,12 +36,21 @@ const headers = [
     { name: "Name", id: "wtax_name" },
     { name: "Vat Type", id: "vat_type" },
     { name: "Percentage", id: "wtax_percentage" },
-    { name: "Account", id: "account.account_name" }
+    { name: "Account", id: "account_label" }
 ]
 const actions = {
     edit: true,
     delete: true
 }
+
+const withholdingTaxList = computed(() => {
+    return withholdingTaxStore.list.map((wt) => {
+        return {
+            ...wt,
+            account_label: wt.account.account_number + " - " + wt.account.account_name
+        }
+    })
+})
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
@@ -49,9 +58,9 @@ const boardLoading = ref(false)
 <template>
     <LayoutBoards title="Withholding Tax List" class="w-full" :loading="withholdingTaxStore.isLoading.list">
         <div class="pb-2 text-gray-500">
-            <LayoutPsTable :header-columns="headers" :datas="withholdingTaxStore.list" :actions="actions" @edit-row="setEdit" @delete-row="deleteWithholdingTax" />
+            <LayoutPsTable :header-columns="headers" :datas="withholdingTaxList" :actions="actions" @edit-row="setEdit" @delete-row="deleteWithholdingTax" />
         </div>
-        <div class="flex justify-center mx-auto">
+        <div v-if="withholdingTaxStore.list.length" class="flex justify-center mx-auto">
             <CustomPagination :links="pagination" @change-params="changePaginate" />
         </div>
         <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
