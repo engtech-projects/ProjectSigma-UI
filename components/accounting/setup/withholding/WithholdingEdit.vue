@@ -8,9 +8,6 @@ const snackbar = useSnackbar()
 const boardLoading = ref(false)
 
 const handleSubmit = async () => {
-    if (withholdingTaxStore.withholdingTax.vat_type !== "VAT") {
-        withholdingTaxStore.withholdingTax.wtax_percentage = 0
-    }
     try {
         boardLoading.value = true
         await withholdingTaxStore.editWithholdingTax()
@@ -84,7 +81,7 @@ const cancelEdit = () => {
                             </option>
                         </select>
                     </div>
-                    <div v-if="withholdingTaxStore.withholdingTax.vat_type === 'VAT'">
+                    <div>
                         <label
                             for="percentage"
                             class="text-xs italic"
