@@ -771,6 +771,14 @@ const config = useRuntimeConfig()
                     icon="iconoir:database-script-minus"
                     single-nav-title="Terms"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_WITHHOLDING_TAX,
+                    ])"
+                    linkarea="/accounting/setup/withholding"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Withholding Tax"
+                />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
