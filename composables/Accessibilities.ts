@@ -203,9 +203,9 @@ export enum AccessibilityTypes {
     ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES = "accounting:journal_list_journal entry for payement entries",
 
     // PROJECT MONITORING
-    project_monitoring_group = "project_monitoring:",
-    project_monitoring_dashboard = "project_monitoring:dashboard",
-    project_monitoring_projects = "project_monitoring:projects",
+    project_monitoring_group = "project monitoring:",
+    project_monitoring_dashboard = "project monitoring:dashboard",
+    project_monitoring_projects = "project monitoring:projects",
 
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
