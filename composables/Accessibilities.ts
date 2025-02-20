@@ -3,6 +3,7 @@ const { data: userData } = useAuth()
 export enum AccessibilityTypes {
     ADMIN_ONLY = "Admin Only Access",
     admin = "AdminOnly",
+    SUPERADMIN = "project sigma:super admin",
     hrms_group = "hrms:",
     // STANDALONES
     hrms_dashboard = "hrms:dashboard",
@@ -208,7 +209,9 @@ export enum AccessibilityTypes {
 
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
+    allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS
     const userAccessibilites = userData.value?.accessibility_names ?? []
+    const userType = userData.value?.type ?? "employee"
     let userAllowed = false
     allowedAccessibilities.forEach((element: string) => {
         userAccessibilites.forEach((useraccess: string) => {
@@ -217,7 +220,7 @@ export function useCheckAccessibility (allowedAccessibilities: any) {
             }
         })
     })
-    if (userData.value?.type === USER_ADMINISTRATOR) {
+    if (userType === USER_ADMINISTRATOR) {
         return true
     }
     return userAllowed
