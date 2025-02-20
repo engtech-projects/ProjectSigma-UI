@@ -12,7 +12,7 @@ const headers = [
     { name: "Time", id: "time_human" },
     { name: "Description", id: "log_type" },
     { name: "Attendance Type", id: "attendance_type" },
-    { name: "Portal Location", id: "attendance_portal" },
+    { name: "Portal Location", id: "portal_name" },
 ]
 const changePaginate = (newParams) => {
     attendanceLogs.value.params.page = newParams.page ?? ""
