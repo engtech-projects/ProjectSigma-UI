@@ -12,9 +12,6 @@ const boardLoading = ref(false)
 const emit = defineEmits(["saved"])
 
 const handleSubmit = async () => {
-    if (withholdingTaxStore.withholdingTax.vat_type !== "VAT") {
-        withholdingTaxStore.withholdingTax.wtax_percentage = 0
-    }
     try {
         boardLoading.value = true
         await withholdingTaxStore.createWithholdingTax()
@@ -85,7 +82,7 @@ const handleSubmit = async () => {
                             </option>
                         </select>
                     </div>
-                    <div v-if="withholdingTaxStore.withholdingTax.vat_type === 'VAT'">
+                    <div>
                         <label
                             for="percentage"
                             class="text-xs italic"
