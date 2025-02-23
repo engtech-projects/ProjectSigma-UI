@@ -95,6 +95,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
         },
         async createRequest () {
             if (this.createData.isLoading) { return }
+            this.createData.isLoading = true
             this.successMessage = ""
             this.errorMessage = ""
             const idBackup = this.payload.employee_id
