@@ -57,6 +57,9 @@ const boardLoading = ref(false)
 </script>
 <template>
     <LayoutBoards title="Withholding Tax List" class="w-full" :loading="withholdingTaxStore.isLoading.list">
+        <div class="w-1/2 flex px-4">
+            <LayoutFormPsTextInput v-model="withholdingTaxStore.getParams.key" title="Search Withholding Tax" class="w-full" />
+        </div>
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="withholdingTaxList" :actions="actions" @edit-row="setEdit" @delete-row="deleteWithholdingTax" />
         </div>

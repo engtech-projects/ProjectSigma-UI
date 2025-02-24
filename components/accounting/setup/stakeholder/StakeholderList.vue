@@ -34,6 +34,9 @@ const stakeholdersList = computed(() => {
 </script>
 <template>
     <LayoutBoards title="Payee List" class="w-full" :loading="stakeholderStore.isLoading">
+        <div class="w-1/2 flex px-4">
+            <LayoutFormPsTextInput v-model="stakeholderStore.getParams.key" title="Search Payee" class="w-full" />
+        </div>
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="stakeholdersList" class="!text-left" />
         </div>
