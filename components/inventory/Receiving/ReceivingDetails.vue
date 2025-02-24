@@ -7,7 +7,7 @@ interface HeaderColumn {
     style: string
 }
 
-defineProps({
+const props = defineProps({
     title: {
         type: String,
         required: true,
@@ -22,14 +22,17 @@ defineProps({
     },
 })
 
-const { data: userData } = useAuth()
+const isDisabled = ref(false)
 const main = useReceivingStore()
 const snackbar = useSnackbar()
-const { remarks } = storeToRefs(main)
+const { receiving, remarks } = storeToRefs(main)
 const utils = useUtilities()
-const approvedRequest = async (id:number) => {
+
+const reactiveData = computed(() => props.data)
+
+const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
     try {
-        await main.approveApprovalForm(id)
+        await main.acceptAllItem(requestId, { remarks })
         if (main.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -41,9 +44,8 @@ const approvedRequest = async (id:number) => {
                 text: main.successMessage
             })
             main.$reset()
-            navigateTo({
-                path: "/inventory/material-receiving",
-            })
+            main.fetchReceivingDetails(props.data.id)
+            isDisabled.value = true
         }
     } catch (error) {
         snackbar.add({
@@ -52,9 +54,16 @@ const approvedRequest = async (id:number) => {
         })
     }
 }
-const denyRequest = async (id:any) => {
+const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestId: number, acceptedQty: number, remarks: string }) => {
+    if (remarks === "") {
+        snackbar.add({
+            type: "error",
+            text: "Quantity & Remarks are required."
+        })
+        return
+    }
     try {
-        await main.denyApprovalForm(id)
+        await main.acceptQtyRemarks(requestId, { acceptedQty, remarks })
         if (main.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -66,9 +75,39 @@ const denyRequest = async (id:any) => {
                 text: main.successMessage
             })
             main.$reset()
-            navigateTo({
-                path: "/inventory/material-receiving",
+            await main.fetchReceivingDetails(props.data.id)
+            isDisabled.value = true
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    }
+}
+const rejectRequest = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
+    if (remarks.trim() === "") {
+        snackbar.add({
+            type: "error",
+            text: "Remarks are required."
+        })
+        return
+    }
+    try {
+        await main.rejectItem(requestId, { remarks: remarks.trim() })
+        if (main.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: main.errorMessage
             })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: main.successMessage
+            })
+            main.$reset()
+            await main.fetchReceivingDetails(props.data.id)
+            isDisabled.value = true
         }
     } catch (error) {
         snackbar.add({
@@ -100,7 +139,7 @@ const denyRequest = async (id:any) => {
                                         Supplier:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.supplier.company_name }}
+                                        {{ data?.supplier?.company_name || '' }}
                                     </p>
                                     <p class="text-md font-bold">
                                         Reference:
@@ -142,7 +181,7 @@ const denyRequest = async (id:any) => {
                                         Project Code:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.project.project_code }}
+                                        {{ data?.project?.project_code }}
                                     </p>
                                     <p class="text-md font-bold">
                                         Equipment No.:
@@ -161,111 +200,117 @@ const denyRequest = async (id:any) => {
                         </div>
                     </div>
                 </div>
-                <div id="itemDetails">
-                    <div id="content" class="overflow-auto">
-                        <table class="table-auto w-full border-collapse">
-                            <thead>
-                                <tr class="bg-[#dbe5f1]">
-                                    <th v-for="(dataHeader, index) in headerColumns" :key="index" scope="col" class="p-2 border-b text-sm">
-                                        {{ dataHeader.name }}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="item in data.items" :key="item.id" class="bg-white border-b">
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.item_code }}
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.item_profile }}
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.specification }}
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.actual_brand }}
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.qty }}
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.uom }}
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.unit_price }}
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.ext_price }}
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        <template v-if="item.status === 'Rejected'">
-                                            <div class="flex justify-center relative group">
-                                                <Icon name="mdi:close-circle" class="h-5 w-5 text-red-700" />
-                                                <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
-                                                    Rejected
+
+                <LayoutLoadingContainer class="w-full" :loading="receiving.isLoading">
+                    <div id="itemDetails">
+                        <div id="content" class="overflow-auto">
+                            <table class="table-auto w-full border-collapse">
+                                <thead>
+                                    <tr class="bg-[#dbe5f1]">
+                                        <th v-for="(dataHeader, index) in headerColumns" :key="index" scope="col" class="p-2 border-b text-sm">
+                                            {{ dataHeader.name }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in reactiveData.items" :key="item.id" class="bg-white border-b">
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.item_code }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.item_profile }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.specification }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.actual_brand }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.qty }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.acceptedQty }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.uom }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ utils.formatCurrency(item.unit_price) }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ utils.formatCurrency(item.unit_price) }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            <template v-if="item.status === 'Rejected'">
+                                                <div class="flex justify-center relative group">
+                                                    <Icon name="mdi:close-circle" class="h-8 w-8 text-red-700" />
+                                                    <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
+                                                        Rejected
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            <template v-else-if="item.status === 'Accepted'">
+                                                <div class="flex justify-center relative group">
+                                                    <Icon name="mdi:check-circle" class="h-8 w-8 text-green-700" />
+                                                    <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
+                                                        Accepted
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.remarks }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            <InventoryCommonAcceptRejectButton
+                                                v-model:accept-remarks="remarks"
+                                                v-model:reject-remarks="remarks"
+                                                v-model:accepted-quantity="acceptedQty"
+                                                :max-quantity="item.qty"
+                                                :request-id="item.id"
+                                                :disabled="!!item.remarks"
+                                                :class="{
+                                                    'opacity-60 cursor-not-allowed pointer-events-none': !!item.remarks
+                                                }"
+                                                @accept-all="acceptAll"
+                                                @accept="acceptWithDetails"
+                                                @reject="rejectRequest"
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr class="border">
+                                        <td colspan="10">
+                                            <div class="flex justify-end p-2 py-2">
+                                                <div class="grid grid-cols-2 gap-2">
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        <strong>Total net of VAT cost:</strong>
+                                                    </p>
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        {{ utils.formatCurrency(reactiveData.total_net_of_vat_cost) }}
+                                                    </p>
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        <strong>Total Input VAT:</strong>
+                                                    </p>
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        {{ utils.formatCurrency(reactiveData.total_input_vat) }}
+                                                    </p>
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        <strong> Grand Total:</strong>
+                                                    </p>
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        {{ `₱${utils.formatCurrency(reactiveData.grand_total)}` }}
+                                                    </p>
                                                 </div>
                                             </div>
-                                        </template>
-                                        <template v-else-if="item.status === 'Accepted'">
-                                            <div class="flex justify-center relative group">
-                                                <Icon name="mdi:check-circle" class="h-5 w-5 text-green-700" />
-                                                <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
-                                                    Accepted
-                                                </div>
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            {{ item.status }}
-                                        </template>
-                                    </td>
-                                    <td class="border px-2 py-1 text-center">
-                                        {{ item.remarks }}
-                                    </td>
-                                </tr>
-                                <tr class="border">
-                                    <td colspan="10">
-                                        <div class="flex justify-end p-2 py-2">
-                                            <div class="grid grid-cols-2 gap-2">
-                                                <p v-if="title" class="text-md text-gray-900">
-                                                    <strong>Total net of VAT cost:</strong>
-                                                </p>
-                                                <p v-if="title" class="text-md text-gray-900">
-                                                    {{ utils.formatCurrency(data.total_net_of_vat_cost) }}
-                                                </p>
-                                                <p v-if="title" class="text-md text-gray-900">
-                                                    <strong>Total Input VAT:</strong>
-                                                </p>
-                                                <p v-if="title" class="text-md text-gray-900">
-                                                    {{ utils.formatCurrency(data.total_input_vat) }}
-                                                </p>
-                                                <p v-if="title" class="text-md text-gray-900">
-                                                    <strong> Grand Total:</strong>
-                                                </p>
-                                                <p v-if="title" class="text-md text-gray-900">
-                                                    {{ `₱${utils.formatCurrency(data.grand_total)}` }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div id="approvals" class="w-full mt-4">
-                        <LayoutApprovalsListView :approvals="data.approvals" />
-                    </div>
-                </div>
+                </LayoutLoadingContainer>
             </LayoutPrint>
-            <div id="footer">
-                <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
-                    <HrmsCommonApprovalDenyButton
-                        v-model:deny-remarks="remarks"
-                        :request-id="data.id"
-                        @approve="approvedRequest"
-                        @deny="denyRequest"
-                    />
-                </div>
-            </div>
         </div>
     </div>
 </template>
