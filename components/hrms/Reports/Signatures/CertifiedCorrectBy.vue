@@ -16,7 +16,7 @@ const head = computed(() => {
         <span>CERTIFIED CORRECT BY:</span>
         <div class="flex flex-col gap-1 text-center">
             <span class="font-bold underline">
-                {{ head ? head['employee']['fullname_first'] : "" }}
+                {{ head ? head['employee']['fullname_first'] : "__________________________________" }}
             </span>
             <span>
                 HEAD, HUMAN RESOURCE SECTION
