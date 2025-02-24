@@ -53,6 +53,9 @@ const boardLoading = ref(false)
 </script>
 <template>
     <LayoutBoards title="Terms List" class="w-full" :loading="termsStore.isLoading">
+        <div class="w-1/2 flex px-4">
+            <LayoutFormPsTextInput v-model="termsStore.getParams.key" title="Search Payee" class="w-full" />
+        </div>
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="termsData" :actions="actions" @edit-row="setEdit" @delete-row="deleteTerm" />
         </div>
