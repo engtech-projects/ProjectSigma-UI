@@ -29,14 +29,21 @@ const emit = defineEmits("delete-item")
                 v-model:account-id="details.account_id"
                 class="w-full min-w-[300px]"
             />
+            <!-- <div class="border border-black p-2">
+                {{ details.journalAccountInfo.account_name }}
+            </div> -->
         </div>
         <div class="flex-1">
             <label
                 for="particulars"
                 class="text-xs italic"
             >Project/Department</label>
+            <!-- <div v-if="details.stakeholderInformation" class="border border-black p-2">
+                {{ details.stakeholderInformation.name }}
+            </div> -->
             <AccountingCommonSelectStakeHolder
                 v-model:stakeholder-info="details.stakeholderInformation"
+                v-model:selected-type="details.stakeholder_type"
                 class="w-full"
                 :selected-id="details.stakeholder_id"
                 :filter-options="['project', 'department', 'employee']"

@@ -323,6 +323,17 @@ const handleResumeFileUpload = (event) => {
                 <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.weight" title="Weight" />
             </div>
         </div>
+        <div class="grid md:grid-cols-3 md:gap-6">
+            <div class="relative z-0 w-full mb-5 group">
+                <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.pagibig" title="PAGIBIG #" />
+            </div>
+            <div class="relative z-0 w-full mb-5 group">
+                <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.tin" title="TIN #" />
+            </div>
+            <div class="relative z-0 w-full mb-5 group">
+                <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.atm" title="ATM #" />
+            </div>
+        </div>
         <div class="grid md:grid-cols-2 md:gap-6">
             <div class="relative z-0 w-full mb-5 group">
                 <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.sss" title="SSS #" />
@@ -337,14 +348,6 @@ const handleResumeFileUpload = (event) => {
             </div>
             <div class="relative z-0 w-full mb-5 group">
                 <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.mother_name" title="Mother's Name" />
-            </div>
-        </div>
-        <div class="grid md:grid-cols-2 md:gap-6">
-            <div class="relative z-0 w-full mb-5 group">
-                <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.pagibig" title="PAGIBIG #" />
-            </div>
-            <div class="relative z-0 w-full mb-5 group">
-                <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.tin" title="TIN #" />
             </div>
         </div>
         <div class="grid md:grid-cols-2 md:gap-6">
@@ -438,6 +441,22 @@ const handleResumeFileUpload = (event) => {
                         <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.icoe_zip" title="ZIP" />
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-2 md:gap-6">
+            <div class="relative z-0 w-full mb-5 group">
+                <LayoutFormPsTextInputTemplate1 v-model="jobapplicant.icoe_occupation" title="Occupation" />
+            </div>
+            <div class="relative z-0 w-full mb-5 group">
+                <input
+                    id="floating_icoe_date_of_birth"
+                    v-model="jobapplicant.icoe_date_of_birth"
+                    type="date"
+                    name="floating_icoe_date_of_birth"
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    placeholder=" "
+                >
+                <label for="floating_icoe_date_of_birth" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Date of Birth</label>
             </div>
         </div>
         <div class="grid md:grid-cols-2 md:gap-6">

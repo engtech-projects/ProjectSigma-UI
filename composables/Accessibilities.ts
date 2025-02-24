@@ -3,6 +3,7 @@ const { data: userData } = useAuth()
 export enum AccessibilityTypes {
     ADMIN_ONLY = "Admin Only Access",
     admin = "AdminOnly",
+    SUPERADMIN = "project sigma:super admin",
     hrms_group = "hrms:",
     // STANDALONES
     hrms_dashboard = "hrms:dashboard",
@@ -167,11 +168,13 @@ export enum AccessibilityTypes {
     ACCOUNTING_SETUP_SYNCHRONIZATION = "accounting:setup_synchronization",
     ACCOUNTING_SETUP_PARTICULAR_GROUP = "accounting:setup_particular group",
     ACCOUNTING_SETUP_TERMS = "accounting:setup_terms",
+    ACCOUNTING_SETUP_WITHHOLDING_TAX = "accounting:setup_withholding tax",
+
     // ACCOUNTING REQUEST
     ACCOUNTING_REQUEST_GROUP = "accounting:request_",
     ACCOUNTING_REQUEST_PURCHASE_ORDER = "accounting:request_purchase order",
     // ACCOUNTING NON-PURCHASE ORDER
-    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER = "accounting:request_non purchase order",
+    ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_GROUP = "accounting:request_npo_",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_ALL = "accounting:request_npo_all request",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_REQUEST = "accounting:request_npo_my request",
     ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_MY_APPROVAL = "accounting:request_npo_my approval",
@@ -181,13 +184,13 @@ export enum AccessibilityTypes {
     // ACCOUNTING VOUCHERS
     ACCOUNTING_VOUCHER_GROUP = "accounting:voucher_",
     // ACCOUNTING DISBURSEMENT VOUCHER
-    ACCOUNTING_VOUCHER_DISBURSEMENT = "accounting:voucher_disbursement",
+    ACCOUNTING_VOUCHER_DISBURSEMENT_GROUP = "accounting:voucher_disbursement_",
     ACCOUNTING_VOUCHER_DISBURSEMENT_ALL = "accounting:voucher_disbursement_all request",
     ACCOUNTING_VOUCHER_DISBURSEMENT_MY_REQUEST = "accounting:voucher_disbursement_my request",
     ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL = "accounting:voucher_disbursement_my approval",
     ACCOUNTING_VOUCHER_DISBURSEMENT_FOR_DISBURSEMENT_VOUCHER = "accounting:voucher_disbursement_for disbursement voucher",
     // ACCOUNTING CASH VOUCHER
-    ACCOUNTING_VOUCHER_CASH = "accounting:voucher_cash",
+    ACCOUNTING_VOUCHER_CASH_GROUP = "accounting:voucher_cash_",
     ACCOUNTING_VOUCHER_CASH_ALL = "accounting:voucher_cash_all request",
     ACCOUNTING_VOUCHER_CASH_MY_REQUEST = "accounting:voucher_cash_my request",
     ACCOUNTING_VOUCHER_CASH_MY_APPROVAL = "accounting:voucher_cash_my approval",
@@ -201,14 +204,28 @@ export enum AccessibilityTypes {
     ACCOUNTING_JOURNAL_ENTRY_DISBURSEMENT_ENTRIES = "accounting:journal_list_journal entry disbursement entries",
     ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES = "accounting:journal_list_journal entry for payement entries",
 
+    // ACCOUNTING REPORTS
+    ACCOUNTING_REPORTS_GROUP = "accounting:reports_",
+    ACCOUNTING_REPORTS_BALANCE_SHEET = "accounting:reports_balance sheet",
+    ACCOUNTING_REPORTS_BOOK_BALANCE = "accounting:reports_book balance",
+    ACCOUNTING_REPORTS_EXPENSES_FOR_THE_MONTH = "accounting:reports_expenses for the month",
+    ACCOUNTING_REPORTS_INCOME_STATEMENT = "accounting:reports_income statement",
+    ACCOUNTING_REPORTS_MONTHLY_PROJECT_EXPENSES = "accounting:reports_monthly project expenses",
+    ACCOUNTING_REPORTS_MONTHLY_UNLIQUIDATED_CASH_ADVANCES = "accounting:reports_monthly unliquidated cash advances",
+    ACCOUNTING_REPORTS_STATEMENT_OF_CASH_FLOW = "accounting:reports_statement of cash flow",
+    ACCOUNTING_REPORTS_OFFICE_CODE = "accounting:reports_office code",
+    ACCOUNTING_REPORTS_OFFICE_HUMAN_RESOURCE = "accounting:reports_office human resource",
+
     // PROJECT MONITORING
-    project_monitoring_group = "project_monitoring:",
-    project_monitoring_dashboard = "project_monitoring:dashboard",
-    project_monitoring_projects = "project_monitoring:projects",
+    project_monitoring_group = "project monitoring:",
+    project_monitoring_dashboard = "project monitoring:dashboard",
+    project_monitoring_projects = "project monitoring:projects",
 
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
+    allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS
     const userAccessibilites = userData.value?.accessibility_names ?? []
+    const userType = userData.value?.type ?? "employee"
     let userAllowed = false
     allowedAccessibilities.forEach((element: string) => {
         userAccessibilites.forEach((useraccess: string) => {
@@ -217,7 +234,7 @@ export function useCheckAccessibility (allowedAccessibilities: any) {
             }
         })
     })
-    if (userData.value?.type === USER_ADMINISTRATOR) {
+    if (userType === USER_ADMINISTRATOR) {
         return true
     }
     return userAllowed

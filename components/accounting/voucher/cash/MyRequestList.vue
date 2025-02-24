@@ -23,7 +23,7 @@ const headers = [
     { name: "CV Number", id: "voucher_no" },
     { name: "Journal Voucher Number", id: "journal_entry.journal_no" },
     { name: "Payee", id: "journal_entry.payment_request.stakeholder.name" },
-    { name: "Amount", id: "journal_entry.payment_request.total" },
+    { name: "Amount", id: "journal_entry.total_amount_formatted" },
     { name: "Created At", id: "date_filed" },
     { name: "Status", id: "request_status" },
 ]

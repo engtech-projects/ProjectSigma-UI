@@ -35,6 +35,7 @@ const removeItem = (id: number) => {
 }
 </script>
 <template>
+    ITEM TABLE
     <div class="h-full w-full">
         <div id="itemDetails">
             <h5 v-if="title" class="text-xl font-medium text-gray-900 dark:text-white border-b p-2">

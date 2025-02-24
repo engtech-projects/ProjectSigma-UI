@@ -127,6 +127,7 @@ paymentRequest.value.total = computed(() => {
                                 >Payee</label>
                                 <AccountingCommonSelectStakeHolder
                                     v-model:stakeholder-info="paymentRequest.stakeholderInformation"
+                                    v-model:selected-type="paymentRequest.stakeolder_type"
                                     class="w-full"
                                     :selected-id="paymentRequest.stakeholder_id"
                                     :filter-options="['employee', 'supplier', 'payee']"

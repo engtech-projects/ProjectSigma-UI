@@ -61,9 +61,9 @@ const denyRequest = async (id) => {
 const employeeAllowanceHeaders = [
     { name: "Employee", id: "employee" },
     { name: "Employee Position", id: "employee_position" },
-    { name: "Allowance Rate", id: "allowance_rate" },
+    { name: "Allowance Rate", id: "allowance_rate_formatted" },
     { name: "Allowance Day(s)", id: "allowance_days" },
-    { name: "Allowance Amount", id: "allowance_amount" },
+    { name: "Allowance Amount", id: "allowance_amount_formatted" },
 ]
 
 </script>
