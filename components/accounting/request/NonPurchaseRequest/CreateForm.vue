@@ -166,7 +166,7 @@ paymentRequest.value.total = computed(() => {
                                     >Withholding Tax</label>
                                     <select
                                         id="withholding_tax"
-                                        v-model="paymentRequest.withHolding_tax_id"
+                                        v-model="paymentRequest.withholding_tax_id"
                                         class="w-full rounded-lg"
                                     >
                                         <option value="">
