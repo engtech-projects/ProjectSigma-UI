@@ -37,6 +37,8 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             request_date: null,
             total: 0,
             total_vat_amount: 0,
+            isWithHolingTax: true,
+            withHolding_tax_id: null,
             description: "",
             approvals: [],
             details: [],

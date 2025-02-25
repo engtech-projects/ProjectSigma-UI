@@ -10,6 +10,7 @@ export const useWithholdingTaxStore = defineStore("useWithholdingTaxStore", {
             vat_type: null,
             wtax_percentage: null
         },
+        withHoldingTaxSelectList: [],
         list: [],
         chart: [],
         pagination: {},
@@ -27,6 +28,25 @@ export const useWithholdingTaxStore = defineStore("useWithholdingTaxStore", {
     }),
 
     actions: {
+
+        async getAllWithholdingTaxes () {
+            const { data, error } = await useAccountingApi(
+                "/api/get-all-withholding-tax",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        this.withHoldingTaxSelectList = response._data.data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
         async getWithholdingTaxes () {
             this.isLoading.list = true
             const { data, error } = await useAccountingApi(
