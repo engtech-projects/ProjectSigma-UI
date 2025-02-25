@@ -129,6 +129,17 @@ watch(showModal, (newVal) => {
                         {{ paymentData?.request_status }}
                     </div>
                 </div>
+                <div v-if="paymentData?.with_holding_tax">
+                    <span class="text-teal-600 text-light">Withholding Tax Information </span>
+                    <div class="flex gap-4">
+                        <div>
+                            Percentage: {{ paymentData?.with_holding_tax.wtax_percentage }}
+                        </div>
+                        <div>
+                            Type: {{ paymentData?.with_holding_tax.vat_type }}
+                        </div>
+                    </div>
+                </div>
                 <div class="grid md:grid-cols-1 gap-2 md:justify-between">
                     <div class="p-2 flex gap-2">
                         <span class="text-teal-600 text-light">Description/Remarks: </span>
