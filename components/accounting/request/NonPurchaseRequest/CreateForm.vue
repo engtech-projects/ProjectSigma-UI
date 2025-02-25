@@ -66,6 +66,10 @@ paymentRequest.value.total_vat_amount = computed(() => {
 paymentRequest.value.total = computed(() => {
     return paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.amount), 0)
 })
+const selectStakeholder = (stakeholder) => {
+    paymentRequest.value.stakeholderInformation = stakeholder
+    paymentRequest.value.stakeholder_id = stakeholder.id
+}
 </script>
 <template>
     <LayoutBoards title="Payment Request Form (Non-Purchase)" :loading="paymentRequest.isLoading" class="w-90">
@@ -125,12 +129,19 @@ paymentRequest.value.total = computed(() => {
                                     for="payee"
                                     class="text-xs italic"
                                 >Payee</label>
-                                <AccountingCommonSelectStakeHolder
+                                <!-- <AccountingCommonSelectStakeHolder
                                     v-model:stakeholder-info="paymentRequest.stakeholderInformation"
                                     v-model:selected-type="paymentRequest.stakeolder_type"
                                     class="w-full"
                                     :selected-id="paymentRequest.stakeholder_id"
                                     :filter-options="['employee', 'supplier', 'payee']"
+                                /> -->
+                                <AccountingCommonSelectStakeholderSelect
+                                    :stakeholder-id="paymentRequest.stakeholder_id"
+                                    :stakeholder="paymentRequest.stakeholderInformation"
+                                    :style="'z-index:' + (10 + (itemCount - index))"
+                                    :select-options="['employee', 'supplier', 'payee']"
+                                    @select="selectStakeholder"
                                 />
                             </div>
                             <div>

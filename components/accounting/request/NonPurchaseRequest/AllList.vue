@@ -26,14 +26,7 @@ const actions = {
     showTable: true,
 }
 const ddata = computed(() => {
-    const result = []
-    allRequests.value.list.forEach((item) => {
-        item.approvals.forEach((approval) => {
-            approval.status = "Approved"
-        })
-        result.push(item)
-    })
-    return result
+    return allRequests.value.list ?? []
 })
 </script>
 <template>
