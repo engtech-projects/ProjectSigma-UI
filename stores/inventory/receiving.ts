@@ -39,7 +39,7 @@ export interface ReceivingItem {
     specification: string;
     actual_brand: string;
     qty: string;
-    acceptedQty: string;
+    accepted_qty: string;
     uom: string;
     unit_price: string;
     ext_price: string;
@@ -329,7 +329,7 @@ export const useReceivingStore = defineStore("receivingStore", {
             this.successMessage = ""
 
             await useInventoryApi(
-                `/api/material-receiving/item/${id}/acceptAll`,
+                `/api/material-receiving/item/${id}/accept-all`,
                 {
                     method: "PATCH",
                     body: JSON.stringify(data),
@@ -354,7 +354,7 @@ export const useReceivingStore = defineStore("receivingStore", {
             this.successMessage = ""
 
             await useInventoryApi(
-                `/api/material-receiving/item/${id}/acceptWithDetails`,
+                `/api/material-receiving/item/${id}/accept-with-details`,
                 {
                     method: "PATCH",
                     body: JSON.stringify(data),

@@ -16,7 +16,7 @@ const props = defineProps({
 })
 const rejectRemarks = ref("")
 const acceptRemarks = ref("")
-const acceptQuantity = ref(1)
+const acceptedQty = ref(1)
 const emit = defineEmits(["acceptAll", "accept", "reject"])
 
 const acceptPopoverId = computed(() => `popover-accept-${props.requestId}`)
@@ -30,7 +30,7 @@ const acceptAll = () => {
 }
 
 const acceptWithDetails = () => {
-    emit("accept", { requestId: props.requestId, acceptedQty: acceptQuantity.value, remarks: acceptRemarks.value })
+    emit("accept", { requestId: props.requestId, acceptedQty: acceptedQty.value, remarks: acceptRemarks.value })
     isDisabled.value = true
     clearRemarks()
 }
@@ -74,8 +74,8 @@ const clearRemarks = () => {
                         <div class="py-2 flex-col flex gap-2 text-white">
                             <label for="accept-quantity">Quantity</label>
                             <div class="flex gap-2">
-                                <input v-model.number="acceptQuantity" type="number" min="1" :max="maxQuantity" class="w-full p-1 text-black">
-                                <button class="bg-green-600 p-1 hover:bg-green-900 text-white rounded-sm" @click="acceptQuantity = maxQuantity">
+                                <input v-model.number="acceptedQty" type="number" min="1" :max="maxQuantity" class="w-full p-1 text-black">
+                                <button class="bg-green-600 p-1 hover:bg-green-900 text-white rounded-sm" @click="acceptedQty = maxQuantity">
                                     Max
                                 </button>
                             </div>

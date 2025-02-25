@@ -63,7 +63,7 @@ const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestI
         return
     }
     try {
-        await main.acceptQtyRemarks(requestId, { acceptedQty, remarks })
+        await main.acceptQtyRemarks(requestId, { accepted_qty: acceptedQty, remarks })
         if (main.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -230,7 +230,7 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                             {{ item.qty }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.acceptedQty }}
+                                            {{ item.accepted_qty }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.uom }}
@@ -266,7 +266,7 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                             <InventoryCommonAcceptRejectButton
                                                 v-model:accept-remarks="remarks"
                                                 v-model:reject-remarks="remarks"
-                                                v-model:accepted-quantity="acceptedQty"
+                                                v-model:accepted-qty="acceptedQty"
                                                 :max-quantity="item.qty"
                                                 :request-id="item.id"
                                                 :disabled="!!item.remarks"
