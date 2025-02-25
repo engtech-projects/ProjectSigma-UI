@@ -18,11 +18,13 @@ const headers = [
     { name: "Specification", id: "specification" },
     { name: "Actual Brand Purchase", id: "actual_brand" },
     { name: "Quantity", id: "qty" },
+    { name: "Accepted Quantity", id: "accepted_qty" },
     { name: "Unit of Measurement", id: "uom" },
     { name: "Unit Price", id: "unit_price" },
     { name: "Ext. Price", id: "ext_price" },
     { name: "Status", id: "status" },
     { name: "Remarks", id: "remarks" },
+    { name: "Action", id: "" },
 ]
 
 useHead({

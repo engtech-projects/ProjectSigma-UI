@@ -1,17 +1,6 @@
 <script setup>
-// import { useReceivingStore, APPROVALS } from "@/stores/inventory/receiving"
-// import { useApprovalStore } from "@/stores/hrms/setup/approvals"
-
-// const mainStore = useReceivingStore()
-// const { approvalList } = storeToRefs(mainStore)
-// mainStore.fetchReceivings()
 
 const form = defineModel({ required: true, type: Object })
-
-// const approvals = useApprovalStore()
-// approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
-
-// const snackbar = useSnackbar()
 
 </script>
 <template>

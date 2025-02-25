@@ -39,6 +39,7 @@ export interface ReceivingItem {
     specification: string;
     actual_brand: string;
     qty: string;
+    accepted_qty: string;
     uom: string;
     unit_price: string;
     ext_price: string;
@@ -56,6 +57,14 @@ export const useReceivingStore = defineStore("receivingStore", {
             items: [] as Array<ReceivingItem>,
             params: {},
             list: [] as Array<ReceivingDetails>,
+            pagination: {},
+        },
+        items: {
+            isLoading: false,
+            isLoaded: false,
+            details: {} as ReceivingItem,
+            list: [],
+            params: {},
             pagination: {},
         },
         allRequests: {
@@ -315,6 +324,82 @@ export const useReceivingStore = defineStore("receivingStore", {
                 }
             )
         },
+        async acceptAllItem (id: number, data: { remarks: string }) {
+            this.errorMessage = ""
+            this.successMessage = ""
+
+            await useInventoryApi(
+                `/api/material-receiving/item/${id}/accept-all`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify(data),
+                    watch: false,
+                    onRequest: () => {
+                        this.items.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async acceptQtyRemarks (id: number, data: { acceptedQty: number, remarks: string }) {
+            this.errorMessage = ""
+            this.successMessage = ""
+
+            await useInventoryApi(
+                `/api/material-receiving/item/${id}/accept-with-details`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify(data),
+                    watch: false,
+                    onRequest: () => {
+                        this.items.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async rejectItem (id: number, data: { remarks: string }) {
+            this.errorMessage = ""
+            this.successMessage = ""
+
+            await useInventoryApi(
+                `/api/material-receiving/item/${id}/reject`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify(data),
+                    watch: false,
+                    onRequest: () => {
+                        this.items.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
