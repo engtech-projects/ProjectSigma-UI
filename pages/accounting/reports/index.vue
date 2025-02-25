@@ -89,7 +89,7 @@ const reports = ref([
         name: "Expenses for the Month",
         value: "expenses-for-the-month",
         component: AccountingReportsExpensesfortheMonth,
-        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_OFFICE_HUMAN_RESOURCE],
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_EXPENSES_FOR_THE_MONTH],
     },
 ])
 const reportComponent = computed(() => {
