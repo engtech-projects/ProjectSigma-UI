@@ -1,20 +1,15 @@
 <script setup>
 import { useDashboardStatisticsStore } from "@/stores/hrms/dashboardStats"
 const stats = useDashboardStatisticsStore()
-const { monthlyLateAbsences } = storeToRefs(stats)
-onMounted(() => {
-    if (!monthlyLateAbsences.value.isLoaded) {
-        stats.getMonthlyLateAbsences()
-    }
-})
+const { monthlyLates, monthlyLateAbsences } = storeToRefs(stats)
 </script>
 <template>
     <LayoutBoards title="Lates This Month" :loading="monthlyLateAbsences.isLoading">
         <div class="grid grid-cols-3 md:grid-cols-4 justify-start gap-4 p-2 max-h-96 overflow-y-scroll">
-            <div v-if="monthlyLateAbsences.list.length <= 0">
+            <div v-if="monthlyLates.list.length <= 0">
                 No Lates found this month.
             </div>
-            <div v-for="employee, index in monthlyLateAbsences.list" :key="index" class="flex flex-col items-center">
+            <div v-for="employee, index in monthlyLates.list" :key="index" class="flex flex-col items-center">
                 <HrmsDashboardLatesItem
                     title="Generate Memo"
                     :name="employee.fullname_first"

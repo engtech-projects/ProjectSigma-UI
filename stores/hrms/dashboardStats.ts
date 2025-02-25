@@ -147,7 +147,8 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
                         this.monthlyLateAbsences.isLoading = false
                         if (response.ok) {
                             this.monthlyLateAbsences.isLoaded = true
-                            this.monthlyLateAbsences.list = response._data.data ?? []
+                            this.monthlyLates.list = response._data.data.lates ?? []
+                            this.monthlyAbsences.list = response._data.data.absence ?? []
                         }
                     },
                 }
