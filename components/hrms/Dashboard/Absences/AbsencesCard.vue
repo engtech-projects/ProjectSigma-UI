@@ -2,9 +2,12 @@
 import { useDashboardStatisticsStore } from "@/stores/hrms/dashboardStats"
 const stats = useDashboardStatisticsStore()
 const { monthlyLateAbsences, monthlyAbsences } = storeToRefs(stats)
+const reload = () => {
+    stats.getMonthlyLateAbsences()
+}
 </script>
 <template>
-    <LayoutBoards title="Absences This Month" :loading="monthlyLateAbsences.isLoading">
+    <LayoutBoardsWithReload title="Absences This Month" :loading="monthlyLateAbsences.isLoading" @reload="reload">
         <div class="grid grid-cols-3 md:grid-cols-4 justify-start gap-4 p-2 max-h-96 overflow-y-scroll">
             <div v-if="monthlyAbsences.list.length <= 0">
                 No absences found this month.
@@ -18,5 +21,5 @@ const { monthlyLateAbsences, monthlyAbsences } = storeToRefs(stats)
                 />
             </div>
         </div>
-    </LayoutBoards>
+    </LayoutBoardsWithReload>
 </template>
