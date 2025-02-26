@@ -13,14 +13,20 @@ const props = defineProps({
 const chartData = () => {
     return {
         labels: props.labels,
-        datasets: [{
-            label: props.labels,
-            data: props.data
-        }],
+        datasets: [
+            {
+                data: props.data,
+            }
+        ],
     }
 }
 const chartOptions = {
     responsive: true,
+    plugins: {
+        legend: {
+            display: false
+        }
+    }
 }
 
 </script>
