@@ -570,8 +570,14 @@ const config = useRuntimeConfig()
             <LayoutNavSingle
                 v-if="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_group])"
                 linkarea="/inventory/request-stocks"
-                icon="material-symbols-light:fact-check-rounded"
+                icon="material-symbols-light:shopping-cart-checkout-sharp"
                 single-nav-title="Request Stocks"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([AccessibilityTypes.inventory_materials_receiving_group])"
+                linkarea="/inventory/material-receiving"
+                icon="material-symbols-light:add-home-work-outline"
+                single-nav-title="Materials Receiving"
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
@@ -672,7 +678,7 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
+                    AccessibilityTypes.ACCOUNTING_REPORTS_GROUP,
                 ])"
                 linkarea="/accounting/reports"
                 icon="oui:app-reporting"
@@ -764,6 +770,14 @@ const config = useRuntimeConfig()
                     linkarea="/accounting/setup/terms"
                     icon="iconoir:database-script-minus"
                     single-nav-title="Terms"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_WITHHOLDING_TAX,
+                    ])"
+                    linkarea="/accounting/setup/withholding"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Withholding Tax"
                 />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>

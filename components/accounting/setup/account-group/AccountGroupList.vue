@@ -48,7 +48,10 @@ const boardLoading = ref(false)
 
 </script>
 <template>
-    <LayoutBoards title="Accounts List" class="w-full" :loading="accountGroupStore.isLoading">
+    <LayoutBoards title="Account Group List" class="w-full" :loading="accountGroupStore.isLoading">
+        <div class="w-1/2 flex px-4">
+            <LayoutFormPsTextInput v-model="accountGroupStore.getParams.key" title="Search Account Group" class="w-full" />
+        </div>
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="accountGroupStore.list" :actions="actions" @edit-row="setEdit" @delete-row="deleteAccountGroup" />
         </div>

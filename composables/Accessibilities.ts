@@ -153,6 +153,9 @@ export enum AccessibilityTypes {
     inventory_request_stock_forms_and_my_requests = "inventory:request stock_form and my requests",
     inventory_request_stock_all_request = "inventory:request stock_all requests",
     inventory_request_stock_my_approvals = "inventory:request stock_my approvals",
+    inventory_materials_receiving_group = "inventory:materials receiving_",
+    inventory_materials_receiving_forms_and_my_requests = "inventory:materials receiving_form and my requests",
+    inventory_materials_receiving_all_request = "inventory:materials receiving_all requests",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",
@@ -168,6 +171,8 @@ export enum AccessibilityTypes {
     ACCOUNTING_SETUP_SYNCHRONIZATION = "accounting:setup_synchronization",
     ACCOUNTING_SETUP_PARTICULAR_GROUP = "accounting:setup_particular group",
     ACCOUNTING_SETUP_TERMS = "accounting:setup_terms",
+    ACCOUNTING_SETUP_WITHHOLDING_TAX = "accounting:setup_withholding tax",
+
     // ACCOUNTING REQUEST
     ACCOUNTING_REQUEST_GROUP = "accounting:request_",
     ACCOUNTING_REQUEST_PURCHASE_ORDER = "accounting:request_purchase order",
@@ -201,6 +206,18 @@ export enum AccessibilityTypes {
     ACCOUNTING_JOURNAL_ENTRY_CASH_ENTRIES = "accounting:journal_list_journal entry cash entries",
     ACCOUNTING_JOURNAL_ENTRY_DISBURSEMENT_ENTRIES = "accounting:journal_list_journal entry disbursement entries",
     ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES = "accounting:journal_list_journal entry for payement entries",
+
+    // ACCOUNTING REPORTS
+    ACCOUNTING_REPORTS_GROUP = "accounting:reports_",
+    ACCOUNTING_REPORTS_BALANCE_SHEET = "accounting:reports_balance sheet",
+    ACCOUNTING_REPORTS_BOOK_BALANCE = "accounting:reports_book balance",
+    ACCOUNTING_REPORTS_EXPENSES_FOR_THE_MONTH = "accounting:reports_expenses for the month",
+    ACCOUNTING_REPORTS_INCOME_STATEMENT = "accounting:reports_income statement",
+    ACCOUNTING_REPORTS_MONTHLY_PROJECT_EXPENSES = "accounting:reports_monthly project expenses",
+    ACCOUNTING_REPORTS_MONTHLY_UNLIQUIDATED_CASH_ADVANCES = "accounting:reports_monthly unliquidated cash advances",
+    ACCOUNTING_REPORTS_STATEMENT_OF_CASH_FLOW = "accounting:reports_statement of cash flow",
+    ACCOUNTING_REPORTS_OFFICE_CODE = "accounting:reports_office code",
+    ACCOUNTING_REPORTS_OFFICE_HUMAN_RESOURCE = "accounting:reports_office human resource",
 
     // PROJECT MONITORING
     project_monitoring_group = "project monitoring:",

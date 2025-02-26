@@ -16,10 +16,10 @@ const changePaginate = (newParams) => {
     allRequests.value.params.page = newParams.page ?? ""
 }
 const headers = [
-    { name: "PRF Number", id: "prf_no" },
+    { name: "Payroll number", id: "prf_no" },
     { name: "Payee", id: "stakeholder.name" },
-    { name: "Amount", id: "total" },
-    { name: "Created At", id: "created_at" },
+    { name: "Amount", id: "total_amount_formatted" },
+    { name: "Date filed", id: "date_filed" },
     { name: "Status", id: "request_status" },
 ]
 const actions = {
