@@ -3,6 +3,7 @@ import { useDashboardStatisticsStore } from "@/stores/hrms/dashboardStats"
 const stats = useDashboardStatisticsStore()
 const { monthlyLateAbsences, monthlyAbsences } = storeToRefs(stats)
 const reload = () => {
+    monthlyLateAbsences.value.params.reload = true
     stats.getMonthlyLateAbsences()
 }
 </script>

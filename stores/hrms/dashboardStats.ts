@@ -53,7 +53,9 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                reload: false,
+            },
             successMessage: "",
             errorMessage: "",
         },
