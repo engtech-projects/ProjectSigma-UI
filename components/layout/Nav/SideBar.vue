@@ -574,7 +574,7 @@ const config = useRuntimeConfig()
                 single-nav-title="Request Stocks"
             />
             <LayoutNavSingle
-                v-if="useCheckAccessibility([AccessibilityTypes.admin])"
+                v-if="useCheckAccessibility([AccessibilityTypes.inventory_materials_receiving_group])"
                 linkarea="/inventory/material-receiving"
                 icon="material-symbols-light:add-home-work-outline"
                 single-nav-title="Materials Receiving"
