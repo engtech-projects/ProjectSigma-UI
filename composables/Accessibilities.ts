@@ -242,3 +242,7 @@ export function useCheckAccessibility (allowedAccessibilities: any) {
     }
     return userAllowed
 }
+
+export function useCheckIsCurrentUser (userId: any) {
+    return userData.value?.id === userId || useCheckAccessibility([AccessibilityTypes.SUPERADMIN])
+}
