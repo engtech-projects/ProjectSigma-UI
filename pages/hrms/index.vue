@@ -3,14 +3,19 @@ import { useAnnouncements } from "@/stores/hrms/announcements"
 import { useDashboardStatisticsStore } from "@/stores/hrms/dashboardStats"
 const stats = useDashboardStatisticsStore()
 const mains = useAnnouncements()
+const { monthlyLateAbsences } = storeToRefs(stats)
 mains.getactiveAll()
-
 useHead({
     title: "Dashboard",
     meta: [{ name: "description", content: "SIGMA Dashboard" }],
     bodyAttrs: {
         class: "test",
     },
+})
+onMounted(() => {
+    if (!monthlyLateAbsences.value.isLoaded) {
+        stats.getMonthlyLateAbsences()
+    }
 })
 </script>
 <template>

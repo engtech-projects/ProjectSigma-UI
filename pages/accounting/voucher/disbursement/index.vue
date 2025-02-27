@@ -6,7 +6,7 @@ const voucherStore = useVoucherStore()
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT,
+            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_GROUP,
         ])"
     >
         <div class="flex flex-col gap-4">

@@ -1,15 +1,18 @@
 <script setup>
 import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
 import { useApprovalStore, APPROVAL_PAYMENT_REQUEST_NPO } from "@/stores/hrms/setup/approvals"
+import { useWithholdingTaxStore } from "~/stores/accounting/setup/withholdingtax"
 const paymentRequestStore = usePaymentRequestStore()
 const { paymentRequest, vat } = storeToRefs(paymentRequestStore)
 const snackbar = useSnackbar()
 const approvals = useApprovalStore()
+const withHoldingTaxStore = useWithholdingTaxStore()
 await paymentRequestStore.getVat()
 
 paymentRequest.value.approvals = await approvals.getApprovalByName(APPROVAL_PAYMENT_REQUEST_NPO)
 onMounted(() => {
     paymentRequestStore.generatePrNo()
+    withHoldingTaxStore.getAllWithholdingTaxes()
 })
 defineProps({
     fillable: {
@@ -66,6 +69,10 @@ paymentRequest.value.total_vat_amount = computed(() => {
 paymentRequest.value.total = computed(() => {
     return paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.amount), 0)
 })
+const selectStakeholder = (stakeholder) => {
+    paymentRequest.value.stakeholderInformation = stakeholder
+    paymentRequest.value.stakeholder_id = stakeholder.id
+}
 </script>
 <template>
     <LayoutBoards title="Payment Request Form (Non-Purchase)" :loading="paymentRequest.isLoading" class="w-90">
@@ -125,11 +132,19 @@ paymentRequest.value.total = computed(() => {
                                     for="payee"
                                     class="text-xs italic"
                                 >Payee</label>
-                                <AccountingCommonSelectStakeHolder
+                                <!-- <AccountingCommonSelectStakeHolder
                                     v-model:stakeholder-info="paymentRequest.stakeholderInformation"
+                                    v-model:selected-type="paymentRequest.stakeolder_type"
                                     class="w-full"
                                     :selected-id="paymentRequest.stakeholder_id"
                                     :filter-options="['employee', 'supplier', 'payee']"
+                                /> -->
+                                <AccountingCommonSelectStakeholderSelect
+                                    :stakeholder-id="paymentRequest.stakeholder_id"
+                                    :stakeholder="paymentRequest.stakeholderInformation"
+                                    :style="'z-index:' + (10 + (itemCount - index))"
+                                    :select-options="['employee', 'supplier', 'payee']"
+                                    @select="selectStakeholder"
                                 />
                             </div>
                             <div>
@@ -144,6 +159,39 @@ paymentRequest.value.total = computed(() => {
                                     class="w-full rounded-lg"
                                     required
                                 >
+                            </div>
+                        </div>
+                        <div class="py-2">
+                            <div class="w-full flex gap-2 ">
+                                <label
+                                    for="description"
+                                    class="text-xs italic"
+                                >Apply With Holding Tax</label>
+                                <input id="monday" v-model="paymentRequest.isWithHolingTax" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            </div>
+                            <div v-if="paymentRequest.isWithHolingTax">
+                                <div class="w-full">
+                                    <label
+                                        for="withholding_tax"
+                                        class="text-xs italic"
+                                    >Withholding Tax</label>
+                                    <select
+                                        id="withholding_tax"
+                                        v-model="paymentRequest.withholding_tax_id"
+                                        class="w-full rounded-lg"
+                                    >
+                                        <option value="">
+                                            -Select-
+                                        </option>
+                                        <option
+                                            v-for="(wt, index) in withHoldingTaxStore.withHoldingTaxSelectList"
+                                            :key="index"
+                                            :value="index"
+                                        >
+                                            {{ wt }}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div>

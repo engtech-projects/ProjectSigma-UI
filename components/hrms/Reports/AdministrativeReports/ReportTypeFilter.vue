@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useGenerateReportStore, EMPLOYEE_MASTERLIST, EMPLOYEE_NEWHIRE, EMPLOYEE_TENURESHIP, EMPLOYEE_LEAVES, EMPLOYEE_ABSENCES } from "@/stores/hrms/reports/generateReport"
+import { useGenerateReportStore, EMPLOYEE_MASTERLIST, EMPLOYEE_NEWHIRE, EMPLOYEE_TENURESHIP, EMPLOYEE_LEAVES, EMPLOYEE_ABSENCES, EMPLOYEE_LATES, EMPLOYEE_ATTENDANCE } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
 const compId = useId()
@@ -31,6 +31,12 @@ const clearList = () => {
             </option>
             <option :value="EMPLOYEE_ABSENCES">
                 Employee Absenties
+            </option>
+            <option :value="EMPLOYEE_LATES">
+                Employee Lates
+            </option>
+            <option :value="EMPLOYEE_ATTENDANCE">
+                Employee Presence
             </option>
         </select>
     </div>

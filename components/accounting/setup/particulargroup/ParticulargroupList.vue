@@ -43,6 +43,9 @@ const boardLoading = ref(false)
 </script>
 <template>
     <LayoutBoards title="Particular Group List" class="w-full" :loading="particularGroupStore.isLoading">
+        <div class="w-1/2 flex px-4">
+            <LayoutFormPsTextInput v-model="particularGroupStore.getParams.key" title="Search Particular Group" class="w-full" />
+        </div>
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="pGroupList" :actions="actions" @edit-row="setEdit" @delete-row="deleteParticularGroup" />
         </div>

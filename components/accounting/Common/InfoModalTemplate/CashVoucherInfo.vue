@@ -125,7 +125,7 @@ const totalCredit = computed(() => {
                 </div>
             </div>
         </div>
-        <AccountingCommonStepperSignatureProgress class="my-8" :signatories="signatories" />
+        <AccountingCommonStepperSignatureStepper class="my-8" :signatories="signatories" />
         <div class="w-full">
             <LayoutApprovalsListView :approvals="voucherData?.approvals" />
         </div>

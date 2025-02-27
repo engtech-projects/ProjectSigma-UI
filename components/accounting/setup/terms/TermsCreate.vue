@@ -61,11 +61,33 @@ const formatTermName = (name) => {
                         >
                     </div>
                     <div>
+                        <label
+                            for="term_name"
+                            class="text-xs italic"
+                        >Account</label>
                         <AccountingCommonSelectJournalAccounts
                             v-model:journal-account-info="account"
                             v-model:account-id="termsStore.term.account_id"
                             class="w-full min-w-[300px]"
                         />
+                    </div>
+                    <div>
+                        <label
+                            for="term_name"
+                            class="text-xs italic"
+                        >Debit/Credit</label>
+                        <select
+                            v-model="termsStore.term.debit_credit"
+                            class="w-full rounded-lg"
+                        >
+                            <option
+                                v-for="balance in termsStore.balanceType"
+                                :key="balance"
+                                :value="balance"
+                            >
+                                {{ upperFirst(balance) }}
+                            </option>
+                        </select>
                     </div>
                     <div>
                         <label

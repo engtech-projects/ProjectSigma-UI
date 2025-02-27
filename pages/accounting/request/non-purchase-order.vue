@@ -1,7 +1,7 @@
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER,
+            AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_GROUP,
         ])"
     >
         <div class="flex flex-col gap-4">

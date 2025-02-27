@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useGenerateReportStore, EMPLOYEE_NEWHIRE, EMPLOYEE_LEAVES, EMPLOYEE_MASTERLIST, EMPLOYEE_ABSENCES } from "@/stores/hrms/reports/generateReport"
+import { useGenerateReportStore, EMPLOYEE_NEWHIRE, EMPLOYEE_LEAVES, EMPLOYEE_MASTERLIST, EMPLOYEE_ABSENCES, EMPLOYEE_ATTENDANCE, EMPLOYEE_LATES } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
 const compId = useId()
@@ -19,7 +19,9 @@ const compId = useId()
             <div
                 v-show="administrativeReports.params.report_type == EMPLOYEE_NEWHIRE ||
                     administrativeReports.params.report_type == EMPLOYEE_LEAVES ||
-                    administrativeReports.params.report_type == EMPLOYEE_ABSENCES"
+                    administrativeReports.params.report_type == EMPLOYEE_ABSENCES ||
+                    administrativeReports.params.report_type == EMPLOYEE_LATES ||
+                    administrativeReports.params.report_type == EMPLOYEE_ATTENDANCE"
                 class="flex gap-4 flex-col max-w-sm"
             >
                 <label class="block text-sm font-medium text-gray-900">Date Filter:</label>

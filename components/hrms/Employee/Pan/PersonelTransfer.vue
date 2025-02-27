@@ -85,4 +85,30 @@ const pan = usePersonelActionNotice()
             </div>
         </td>
     </tr>
+    <tr class="border border-slate-300 p-2">
+        <td colspan="2" class="border border-slate-300">
+            <div class="m-2">
+                <label
+                    class="flex text-sm text-black-700 dark:text-white"
+                >
+                    OLD POSITION:
+                </label>
+                <p>{{ employee.information?.current_employment?.position.name }}</p>
+            </div>
+        </td>
+        <td colspan="2" class="border border-slate-300">
+            <div class="m-2">
+                <label
+                    for="PromotionPosition"
+                    class="flex text-sm text-black-700 dark:text-white"
+                >
+                    NEW POSITION :
+                </label>
+                <HrmsCommonPositionSelector
+                    id="PromotionPosition"
+                    v-model="pan.personelActionNotice.designation_position"
+                />
+            </div>
+        </td>
+    </tr>
 </template>
