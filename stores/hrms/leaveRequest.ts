@@ -276,7 +276,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 "/api/void/LeaveEmployeeRequest/" + id,
                 {
                     method: "POST",
-                    params: { remarks },
+                    params: { reason_for_void: remarks },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.fetchLeaveRequestList()
