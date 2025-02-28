@@ -9,6 +9,10 @@ defineProps({
         required: false,
         default: "Department/Project",
     },
+    useClassChargeType: {
+        type: Boolean,
+        default: false,
+    }
 })
 watch(selectType, () => {
     projectId.value = null
@@ -18,6 +22,7 @@ watch(selectType, () => {
 <template>
     <div>
         <label
+            v-if="!useClassChargeType"
             :for="compId"
             class="block mb-1 text-sm font-medium text-gray-900"
         >
@@ -32,27 +37,51 @@ watch(selectType, () => {
                     <option value="" selected>
                         Select Type
                     </option>
-                    <option value="All">
-                        All
-                    </option>
-                    <option value="Project">
-                        Project
-                    </option>
-                    <option value="Department">
-                        Department
-                    </option>
+                    <template v-if="!useClassChargeType">
+                        <option value="All">
+                            All
+                        </option>
+                        <option value="Project">
+                            Project
+                        </option>
+                        <option value="Department">
+                            Department
+                        </option>
+                    </template>
+                    <template v-else>
+                        <option value="App\Models\Project">
+                            Project
+                        </option>
+                        <option value="App\Models\Department">
+                            Department
+                        </option>
+                    </template>
                 </select>
             </div>
             <div class="w-auto">
-                <template v-if="selectType === 'Department'">
-                    <HrmsCommonDepartmentSelector
-                        v-model="departmentId"
-                    />
+                <template v-if="!useClassChargeType">
+                    <template v-if="selectType === 'Department'">
+                        <HrmsCommonDepartmentSelector
+                            v-model="departmentId"
+                        />
+                    </template>
+                    <template v-if="selectType === 'Project'">
+                        <HrmsCommonProjectSelector
+                            v-model="projectId"
+                        />
+                    </template>
                 </template>
-                <template v-if="selectType === 'Project'">
-                    <HrmsCommonProjectSelector
-                        v-model="projectId"
-                    />
+                <template v-else>
+                    <template v-if="selectType == 'App\\Models\\Department'">
+                        <HrmsCommonDepartmentSelector
+                            v-model="departmentId"
+                        />
+                    </template>
+                    <template v-if="selectType == 'App\\Models\\Project'">
+                        <HrmsCommonProjectSelector
+                            v-model="projectId"
+                        />
+                    </template>
                 </template>
             </div>
         </div>
