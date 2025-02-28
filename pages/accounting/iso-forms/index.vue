@@ -19,6 +19,11 @@
 <script lang="ts" setup>
 import AccountingIsoformsLiquidationForm from "~/components/accounting/isoforms/LiquidationForm.vue"
 import AccountingIsoformsReplenishmentSummary from "~/components/accounting/isoforms/ReplenishmentSummary.vue"
+import AccountingIsoformsCashAdvanceSummary from "~/components/accounting/isoforms/CashAdvanceSummary.vue"
+import AccountingIsoformsMemorandumOfDeposit from "~/components/accounting/isoforms/MemorandumOfDeposit.vue"
+import AccountingIsoformsProvisionalReceipt from "~/components/accounting/isoforms/ProvisionalReceipt.vue"
+import AccountingIsoformsCashReturnSlip from "~/components/accounting/isoforms/CashReturnSlip.vue"
+import AccountingIsoformsPayrollLiquidations from "~/components/accounting/isoforms/PayrollLiquidations.vue"
 
 const reportType = ref(null)
 const reports = ref([
@@ -32,6 +37,31 @@ const reports = ref([
         value: "replenishment-summary",
         component: AccountingIsoformsReplenishmentSummary,
     },
+    {
+        name: "Cash Advance Summary",
+        value: "cash-advance-summary",
+        component: AccountingIsoformsCashAdvanceSummary,
+    },
+    {
+        name: "Memorandum of Deposit",
+        value: "memorandum-of-deposit",
+        component: AccountingIsoformsMemorandumOfDeposit,
+    },
+    {
+        name: "Provisional Receipt",
+        value: "provisional-receipt",
+        component: AccountingIsoformsProvisionalReceipt,
+    },
+    {
+        name: "Cash Return Slip",
+        value: "cash-return-slip",
+        component: AccountingIsoformsCashReturnSlip,
+    },
+    {
+        name: "Payroll Liquidations",
+        value: "payroll-liquidations",
+        component: AccountingIsoformsPayrollLiquidations,
+    }
 ])
 const reportComponent = computed(() => {
     return reports.value.find(report => report.value === reportType.value)?.component
