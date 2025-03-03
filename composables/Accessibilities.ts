@@ -219,6 +219,13 @@ export enum AccessibilityTypes {
     ACCOUNTING_REPORTS_STATEMENT_OF_CASH_FLOW = "accounting:reports_statement of cash flow",
     ACCOUNTING_REPORTS_OFFICE_CODE = "accounting:reports_office code",
     ACCOUNTING_REPORTS_OFFICE_HUMAN_RESOURCE = "accounting:reports_office human resource",
+    ACCOUNTING_REPORTS_LIQUIDATION_FORM = "accounting:reports_liquidation form",
+    ACCOUNTING_REPORTS_REPLENISHMENT_SUMMARY = "accounting:reports_replenishment summary",
+    ACCOUNTING_REPORTS_CASH_ADVANCE_SUMMARY = "accounting:reports_cash advance summary",
+    ACCOUNTING_REPORTS_MEMORANDUM_OF_DEPOSIT = "accounting:reports_memorandum of deposit",
+    ACCOUNTING_REPORTS_PROVISIONAL_RECEIPT = "accounting:reports_provisional receipt",
+    ACCOUNTING_REPORTS_CASH_RETURN_SLIP = "accounting:reports_cash return slip",
+    ACCOUNTING_REPORTS_PAYROLL_LIQUIDATIONS = "accounting:reports_payroll liquidations",
 
     // PROJECT MONITORING
     project_monitoring_group = "project monitoring:",
