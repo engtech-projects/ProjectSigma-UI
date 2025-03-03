@@ -34,6 +34,13 @@ import AccountingReportsOfficeHumanResource from "~/components/accounting/report
 import AccountingReportsMonthlyProjectExpenses from "~/components/accounting/reports/MonthlyProjectExpenses.vue"
 import AccountingReportsMonthlyUnliquidatedCashAdvances from "~/components/accounting/reports/MonthlyUnliquidatedCashAdvances.vue"
 import AccountingReportsExpensesfortheMonth from "~/components/accounting/reports/ExpensesfortheMonth.vue"
+import AccountingIsoformsLiquidationForm from "~/components/accounting/reports/LiquidationForm.vue"
+import AccountingIsoformsReplenishmentSummary from "~/components/accounting/reports/ReplenishmentSummary.vue"
+import AccountingIsoformsCashAdvanceSummary from "~/components/accounting/reports/CashAdvanceSummary.vue"
+import AccountingIsoformsMemorandumOfDeposit from "~/components/accounting/reports/MemorandumOfDeposit.vue"
+import AccountingIsoformsProvisionalReceipt from "~/components/accounting/reports/ProvisionalReceipt.vue"
+import AccountingIsoformsCashReturnSlip from "~/components/accounting/reports/CashReturnSlip.vue"
+import AccountingIsoformsPayrollLiquidations from "~/components/accounting/reports/PayrollLiquidations.vue"
 
 const reportType = ref(null)
 const reports = ref([
@@ -91,6 +98,48 @@ const reports = ref([
         component: AccountingReportsExpensesfortheMonth,
         permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_EXPENSES_FOR_THE_MONTH],
     },
+    {
+        name: "Liquidation Form",
+        value: "liquidation-form",
+        component: AccountingIsoformsLiquidationForm,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_LIQUIDATION_FORM],
+    },
+    {
+        name: "Replenishment Summary",
+        value: "replenishment-summary",
+        component: AccountingIsoformsReplenishmentSummary,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_REPLENISHMENT_SUMMARY],
+    },
+    {
+        name: "Cash Advance Summary",
+        value: "cash-advance-summary",
+        component: AccountingIsoformsCashAdvanceSummary,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_CASH_ADVANCE_SUMMARY],
+    },
+    {
+        name: "Memorandum of Deposit",
+        value: "memorandum-of-deposit",
+        component: AccountingIsoformsMemorandumOfDeposit,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_MEMORANDUM_OF_DEPOSIT],
+    },
+    {
+        name: "Provisional Receipt",
+        value: "provisional-receipt",
+        component: AccountingIsoformsProvisionalReceipt,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_PROVISIONAL_RECEIPT],
+    },
+    {
+        name: "Cash Return Slip",
+        value: "cash-return-slip",
+        component: AccountingIsoformsCashReturnSlip,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_CASH_RETURN_SLIP],
+    },
+    {
+        name: "Payroll Liquidations",
+        value: "payroll-liquidations",
+        component: AccountingIsoformsPayrollLiquidations,
+        permissions: [AccessibilityTypes.ACCOUNTING_REPORTS_PAYROLL_LIQUIDATIONS],
+    }
 ])
 const reportComponent = computed(() => {
     return reports.value.find(report => report.value === reportType.value)?.component
