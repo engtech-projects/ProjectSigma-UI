@@ -258,6 +258,19 @@ export const useFormatDateTimeString = (date: Date) => {
     return formattedDate
 }
 
+export const useFullDateTime = (date) => {
+    const options = {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+    }
+
+    return date.toLocaleString(undefined, options)
+}
+
 export const useFormatCurrency = (number: number | string, locale = "en-US") => {
     const formatter = new Intl.NumberFormat(locale, {
         style: "decimal",
