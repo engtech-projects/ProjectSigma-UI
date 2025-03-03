@@ -78,9 +78,6 @@ const determineStatus = (appr: any) => {
     })
     return err
 }
-onMounted(() => {
-    console.log(approvals.value)
-})
 </script>
 
   <style scoped>
