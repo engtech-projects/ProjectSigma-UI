@@ -105,6 +105,11 @@ export enum AccessibilityTypes {
     hrms_schedule_department = "hrms:schedule_department",
     hrms_schedule_employee = "hrms:schedule_employee",
     hrms_schedule_project = "hrms:schedule_project",
+    // VOID
+    HRMS_REQUEST_VOID_GROUP = "hrms:request void_",
+    HRMS_REQUEST_VOID_CREATEREQUEST = "hrms:request void_my requests and create request",
+    HRMS_REQUEST_VOID_ALLREQUEST = "hrms:request void_all requests",
+    HRMS_REQUEST_VOID_MYAPPROVALS = "hrms:request void_my approvals",
     // SETUP
     hrms_setup_group = "hrms:setup",
     hrms_setup_user_account = "hrms:setup_user account",
@@ -249,4 +254,8 @@ export function useCheckAccessibility (allowedAccessibilities: any) {
         return true
     }
     return userAllowed
+}
+
+export function useCheckIsCurrentUser (userId: any) {
+    return userData.value?.id === userId || useCheckAccessibility([AccessibilityTypes.SUPERADMIN])
 }
