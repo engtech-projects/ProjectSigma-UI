@@ -42,7 +42,14 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
             description: "",
             approvals: [],
             details: [],
+            attachment_file_name: "",
             stakeholderInformation: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        paymentRequestAttachmentData: {
+            isLoading: false,
+            attachment_file: "",
             errorMessage: "",
             successMessage: "",
         },
@@ -146,6 +153,37 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                 }
             )
         },
+        async uploadAttachment () {
+            this.paymentRequestAttachmentData.isLoading = true
+            const formData = new FormData()
+            formData.append("attachment_file", this.paymentRequestAttachmentData.attachment_file)
+            formData.append("attachment_file_name", this.paymentRequest.attachment_file_name)
+            await useAccountingApiO(
+                "/api/npo/upload-attachment",
+                {
+                    method: "POST",
+                    body: formData,
+                    watch: false,
+                    onRequest: () => {
+                        this.paymentRequestAttachmentData.isLoading = true
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.paymentRequestAttachmentData.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.paymentRequestAttachmentData.isLoading = false
+                        if (response.ok) {
+                            this.paymentRequest.attachment_file_name = response._data.data
+                            this.paymentRequestAttachmentData.successMessage = response._data.message
+                        } else {
+                            this.paymentRequestAttachmentData.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async addPaymentRequest () {
             this.paymentRequest.successMessage = ""
             this.paymentRequest.errorMessage = ""
@@ -166,6 +204,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
                         this.paymentRequest.isLoading = false
                         if (response.ok) {
                             this.reloadResources()
+                            this.paymentRequestAttachmentData.attachment_file = ""
                             this.paymentRequest.successMessage = response._data.message
                         } else {
                             this.paymentRequest.errorMessage = response._data.message
@@ -303,6 +342,7 @@ export const usePaymentRequestStore = defineStore("paymentRequestStore", {
         reloadResources () {
             const backup = this.paymentRequest.approvals
             const callFunctions = []
+            callFunctions.push(this.generatePrNo)
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
             }
