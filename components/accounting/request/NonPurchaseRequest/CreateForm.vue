@@ -3,7 +3,7 @@ import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequ
 import { useApprovalStore, APPROVAL_PAYMENT_REQUEST_NPO } from "@/stores/hrms/setup/approvals"
 import { useWithholdingTaxStore } from "~/stores/accounting/setup/withholdingtax"
 const paymentRequestStore = usePaymentRequestStore()
-const { paymentRequest, vat } = storeToRefs(paymentRequestStore)
+const { paymentRequest, vat, paymentRequestAttachmentData } = storeToRefs(paymentRequestStore)
 const snackbar = useSnackbar()
 const approvals = useApprovalStore()
 const withHoldingTaxStore = useWithholdingTaxStore()
@@ -28,6 +28,11 @@ const details = ref({
     cost: 0,
     vat: vat.value
 })
+const handleFileUpload = async (event) => {
+    const attachmentFile = event.target.files[0]
+    paymentRequestAttachmentData.value.attachment_file = attachmentFile
+    await paymentRequestStore.uploadAttachment()
+}
 const addPaymentRequest = async () => {
     try {
         await paymentRequestStore.addPaymentRequest()
@@ -77,12 +82,28 @@ const selectStakeholder = (stakeholder) => {
 <template>
     <LayoutBoards title="Payment Request Form (Non-Purchase)" :loading="paymentRequest.isLoading" class="w-90">
         <div>
-            <form @submit.prevent="addPaymentRequest">
+            <form enctype="multipart/form-data" @submit.prevent="addPaymentRequest">
                 <div class="flex flex-col gap-16 pt-8 sticky">
                     <h1 class="text-2xl text-center font-bold">
                         PAYMENT REQUEST FORM
                     </h1>
                     <div class="w-full">
+                        <div class="w-full flex justify-end">
+                            <div class="w-1/5">
+                                <label for="floating_payment_request_attachment" class="block  text-sm font-medium text-gray-900 dark:text-white">Payment Request Proof of attachment</label>
+                                <input
+                                    id="floating_payment_request_attachment"
+                                    formenctype="multipart/form-data"
+                                    class="block w-full mb-1 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                    aria-describedby="file_input_help"
+                                    type="file"
+                                    @change="handleFileUpload"
+                                >
+                                <p class="flex justify-center mx-auto text-xs text-gray-500 dark:text-gray-300 uppercase">
+                                    pdf/jpg/jpeg
+                                </p>
+                            </div>
+                        </div>
                         <div class="flex gap-2">
                             <div class="w-full">
                                 <label

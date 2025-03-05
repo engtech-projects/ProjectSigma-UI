@@ -106,7 +106,7 @@ export const useAccountStore = defineStore("useAccountStore", {
                 {
                     method: "PUT",
                     body: this.account,
-                    watch: false,
+                    p,
                 }
             )
             if (data.value) {
