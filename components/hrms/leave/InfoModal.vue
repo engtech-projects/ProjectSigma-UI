@@ -88,7 +88,7 @@ const voidRequest = async (id) => {
                     @deny="denyRequest"
                 />
             </div>
-            <div v-if="useCheckIsCurrentUser(data.created_by) && data.request_status.toLowerCase() === 'approved'" class="flex gap-2 p-2 justify-end relative">
+            <div v-if="useCheckIsCurrentUser(data.created_by) && data.request_status.toLowerCase() === 'approved' && useCheckAccessibility([AccessibilityTypes.HRMS_REQUEST_VOID_CREATEREQUEST])" class="flex gap-2 p-2 justify-end relative">
                 <LayoutFormPsHoverButton
                     v-model:remarks="voidRemarks"
                     main-button-title="Void"

@@ -1,4 +1,5 @@
 <script setup>
+const compId = useId()
 defineProps({
     mainButtonTitle: {
         type: String,
@@ -40,13 +41,13 @@ const clear = () => {
 </script>
 <template>
     <button
-        data-popover-target="popover-deny"
+        :data-popover-target="'popover' + compId"
         class="bg-green-600 p-2 hover:brightness-75 text-white round-sm"
         :class="mainButtonColor"
     >
         {{ mainButtonTitle }}
     </button>
-    <div id="popover-deny" data-popover role="tooltip" class="absolute z-10 invisible inline-block md:w-96 w-full text-sm text-gray-500 transition-opacity duration-300 bg-gray-800 border border-gray-200 shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 p-4">
+    <div :id="'popover' + compId" data-popover role="tooltip" class="absolute z-10 invisible inline-block md:w-96 w-full text-sm text-gray-500 transition-opacity duration-300 bg-gray-800 border border-gray-200 shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800 p-4">
         <div>
             <div>
                 <div class="w-full">

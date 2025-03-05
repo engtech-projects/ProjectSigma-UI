@@ -7,7 +7,7 @@ const compId = useId()
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            'SUPER_ADMIN'
+            AccessibilityTypes.HRMS_REQUEST_VOID_GROUP
         ])"
     >
         <div class="grid grid-cols-1 md:flex-row gap-4">
@@ -15,21 +15,21 @@ const compId = useId()
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            'SUPER_ADMIN'
+                            AccessibilityTypes.HRMS_REQUEST_VOID_ALLREQUEST
                         ])"
                         :target-id="'tab1' + compId"
                         title="All Request"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            'SUPER_ADMIN'
+                            AccessibilityTypes.HRMS_REQUEST_VOID_CREATEREQUEST
                         ])"
                         :target-id="'tab2' + compId"
                         title="My Request"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            'SUPER_ADMIN'
+                            AccessibilityTypes.HRMS_REQUEST_VOID_MYAPPROVALS
                         ])"
                         :target-id="'tab3' + compId"
                         title="My Approvals"

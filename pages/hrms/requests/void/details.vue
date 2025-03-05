@@ -53,7 +53,7 @@ const denyRequest = async (id : any) => {
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            '',
+            AccessibilityTypes.HRMS_REQUEST_VOID_GROUP,
         ])"
         :comp-id="compId"
         class="min-h-40 flex flex-col gap-2"
