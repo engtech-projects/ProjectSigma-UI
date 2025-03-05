@@ -16,6 +16,10 @@ const showInformation = (data) => {
     showInfoModal.value = true
 }
 
+const changePaginate = (newParams) => {
+    myRequests.value.params.page = newParams.page ?? ""
+}
+
 const headers = [
     { name: "Requesting Department", id: "requesting_department_name" },
     { name: "Position/Title", id: "position.name" },
@@ -39,6 +43,9 @@ const actions = {
                 :datas="myRequests.list ?? []"
                 @show-table="showInformation"
             />
+        </div>
+        <div class="flex justify-center mx-auto p-2">
+            <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <HrmsEmployeeManpowerInfoModal
