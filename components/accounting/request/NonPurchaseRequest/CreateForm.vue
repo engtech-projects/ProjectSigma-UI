@@ -29,9 +29,14 @@ const details = ref({
     vat: vat.value
 })
 const handleFileUpload = async (event) => {
-    const attachmentFile = event.target.files[0]
-    paymentRequestAttachmentData.value.attachment_file = attachmentFile
-    await paymentRequestStore.uploadAttachment()
+    if (event.target.files[0] !== undefined) {
+        const attachmentFile = event.target.files[0]
+        paymentRequestAttachmentData.value.attachment_files = [
+            ...paymentRequestAttachmentData.value.attachment_files,
+            attachmentFile
+        ]
+        await paymentRequestStore.uploadAttachments()
+    }
 }
 const addPaymentRequest = async () => {
     try {
@@ -88,7 +93,29 @@ const selectStakeholder = (stakeholder) => {
                         PAYMENT REQUEST FORM
                     </h1>
                     <div class="w-full">
-                        <div class="w-full flex justify-end">
+                        <div class="w-full flex justify-between">
+                            <div class="4/5">
+                                <div class="w-full flex">
+                                    <div class="w-full flex gap-2">
+                                        <template v-if="paymentRequestAttachmentData.attachment_files.length > 0">
+                                            <div
+                                                v-for="(attachment, index) in paymentRequestAttachmentData.attachment_files"
+                                                :key="index"
+                                                class="flex gap-2 p-2 bg-green-400 text-white"
+                                            >
+                                                <div class="w-1/6">
+                                                    {{ attachment.name }}
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <p>
+                                                No attachments yet
+                                            </p>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="w-1/5">
                                 <label for="floating_payment_request_attachment" class="block  text-sm font-medium text-gray-900 dark:text-white">Payment Request Proof of attachment</label>
                                 <input
