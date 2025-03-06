@@ -81,34 +81,54 @@ const setCompanyId = () => {
                                         <label
                                             for="newhire"
                                             class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                                        >NEW HIRE</label>
+                                        >
+                                            NEW HIRE
+                                        </label>
                                     </template>
                                     <template v-if="useCheckAccessibility([AccessibilityTypes.HRMS_EMPLOYEE_PAN_FORM_TRANSFER])">
                                         <input id="transfer" v-model="pan.personelActionNotice.type" class="" type="radio" value="Transfer">
                                         <label
                                             for="transfer"
                                             class="text-xs text-gray-900 dark:text-gray-300"
-                                        >TRANSFER</label>
+                                        >
+                                            TRANSFER
+                                        </label>
                                     </template>
                                     <template v-if="useCheckAccessibility([AccessibilityTypes.HRMS_EMPLOYEE_PAN_FORM_PROMOTION])">
                                         <input id="promotion" v-model="pan.personelActionNotice.type" type="radio" value="Promotion">
                                         <label
                                             for="promotion"
                                             class="text-xs text-gray-900 dark:text-gray-300"
-                                        >PROMOTION</label>
+                                        >
+                                            PROMOTION
+                                        </label>
                                     </template>
                                     <template v-if="useCheckAccessibility([AccessibilityTypes.HRMS_EMPLOYEE_PAN_FORM_TERMINATION])">
                                         <input id="termination" v-model="pan.personelActionNotice.type" class="" type="radio" value="Termination">
                                         <label
                                             for="termination"
                                             class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                                        >TERMINATION</label>
+                                        >
+                                            TERMINATION
+                                        </label>
                                     </template>
                                     <template v-if="useCheckAccessibility([AccessibilityTypes.HRMS_EMPLOYEE_PAN_FORM_BULKTRANSFER])">
-                                        Placeholder
+                                        <input id="bulktransfer" v-model="pan.personelActionNotice.type" class="" type="radio" value="Bulk Transfer">
+                                        <label
+                                            for="bulktransfer"
+                                            class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                                        >
+                                            BULK TRANSFER
+                                        </label>
                                     </template>
                                     <template v-if="useCheckAccessibility([AccessibilityTypes.HRMS_EMPLOYEE_PAN_FORM_MEMO])">
-                                        Placeholder
+                                        <input id="memo" v-model="pan.personelActionNotice.type" class="" type="radio" value="Memo">
+                                        <label
+                                            for="memo"
+                                            class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                                        >
+                                            MEMO
+                                        </label>
                                     </template>
                                 </div>
                             </td>
