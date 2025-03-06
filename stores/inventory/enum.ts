@@ -29,6 +29,12 @@ export interface Item {
 export interface ItemProfileSearch {
     query: String | null,
 }
+export interface CurrentBom {
+    id: Number | null,
+    item_name: String,
+    item_id: Number | null,
+    uom: Array<any>,
+}
 export const useInventoryEnumsStore = defineStore("inventoryEnums", {
     state: () => ({
         test: true,
@@ -48,6 +54,15 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
         },
         itemEnum: {
             list: [] as Item[],
+            itemGroupFilter: [],
+            params: {} as ItemProfileSearch,
+            isLoading: false,
+            isLoaded: false,
+            successMessage: "",
+            errorMessage: "",
+        },
+        curentBomEnum: {
+            list: [] as CurrentBom[],
             itemGroupFilter: [],
             params: {} as ItemProfileSearch,
             isLoading: false,
@@ -118,5 +133,6 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
                 }
             )
         },
+
     },
 })
