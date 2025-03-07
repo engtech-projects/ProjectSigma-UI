@@ -9,8 +9,34 @@ useHead({
             AccessibilityTypes.hrms_employee_job_applicant,
         ])"
     >
-        <div class="grid grid-flow-col gap-4">
-            <HrmsEmployeeJobOpeningList />
+        <div class="grid grid-cols-1 gap-4">
+            <!-- <EmployeeManpowerEditRequest v-show="isEdit" /> -->
+            <HrmsCommonTabsMainContainer>
+                <template #tab-titles>
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_employee_job_applicant,
+                        ])"
+                        title="Add Applicant"
+                        target-id="addApplicant"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_employee_job_applicant,
+                        ])"
+                        title="All Applicants"
+                        target-id="allApplicants"
+                    />
+                </template>
+                <template #tab-containers>
+                    <HrmsCommonTabsTabContainer id="addApplicant">
+                        <HrmsEmployeeJobApplicationForm />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer id="allApplicants">
+                        <HrmsEmployeeJobAllApplicantList />
+                    </HrmsCommonTabsTabContainer>
+                </template>
+            </HrmsCommonTabsMainContainer>
         </div>
     </LayoutAcessContainer>
 </template>

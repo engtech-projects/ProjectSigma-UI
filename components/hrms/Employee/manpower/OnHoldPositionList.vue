@@ -3,19 +3,21 @@
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
-const { myApprovals } = storeToRefs(manpowers)
+const { onHoldPositions } = storeToRefs(manpowers)
 onMounted(() => {
-    if (!myApprovals.value.isLoaded) {
-        manpowers.getMyApprovals()
+    if (!onHoldPositions.value.isLoaded) {
+        manpowers.getHoldPositions()
     }
 })
-
 const infoModalData = ref({})
 const showInfoModal = ref(false)
 
 const showInformation = (data) => {
     infoModalData.value = data
     showInfoModal.value = true
+}
+const changePaginate = (newParams) => {
+    onHoldPositions.value.params.page = newParams.page ?? ""
 }
 
 const headers = [
@@ -35,9 +37,9 @@ const actions = {
 
 </script>
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="myApprovals.isLoading">
+    <LayoutLoadingContainer class="w-full" :loading="onHoldPositions.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <div v-if="myApprovals.list" class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+            <div v-if="onHoldPositions.list" class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                 <table class="table-auto w-full border-collapse">
                     <thead>
                         <tr>
@@ -55,13 +57,13 @@ const actions = {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="myApprovals.list.length === 0">
+                        <tr v-if="onHoldPositions.list.length === 0">
                             <td :colspan="headers.length + 1" class="text-center">
                                 NO DATA
                             </td>
                         </tr>
                         <template v-else>
-                            <tr v-for="dataValue, index in myApprovals.list" :key="index" class="border text-center">
+                            <tr v-for="dataValue, index in onHoldPositions.list" :key="index" class="border text-center">
                                 <td
                                     class="p-2"
                                 >
@@ -117,6 +119,9 @@ const actions = {
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="flex justify-center mx-auto p-2">
+            <CustomPagination :links="onHoldPositions.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <HrmsEmployeeManpowerInfoModal

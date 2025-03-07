@@ -11,6 +11,10 @@ export const EMPLOYMENT_TYPE = [
     EMPLOYMENT_REGULAR
 ]
 
+export const FILL_STATUS_OPEN = "Open"
+export const FILL_STATUS_HOLD = "Hold"
+export const FILL_STATUS_FILLED = "Filled"
+
 export const NATURE_NEW = "New/Addition"
 export const NATURE_REPLACEMENT = "Replacement"
 export const NATURE_REQUESTS = [
@@ -109,6 +113,33 @@ export const useManpowerStore = defineStore("manpowers", {
         errorMessage: "",
         successMessage: "",
         remarks: "",
+        openPositions: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                fill_status: FILL_STATUS_OPEN
+            },
+            pagination: {},
+        },
+        onHoldPositions: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                fill_status: FILL_STATUS_HOLD
+            },
+            pagination: {},
+        },
+        filledPositions: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                fill_status: FILL_STATUS_FILLED
+            },
+            pagination: {},
+        },
         allRequests: {
             isLoading: false,
             isLoaded: false,
@@ -149,6 +180,78 @@ export const useManpowerStore = defineStore("manpowers", {
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getFilledPositions () {
+            this.filledPositions.isLoaded = true
+            await useHRMSApi(
+                "/api/manpower/fill-statuses",
+                {
+                    method: "GET",
+                    params: this.filledPositions.params,
+                    onRequest: () => {
+                        this.filledPositions.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.filledPositions.isLoading = false
+                        if (response.ok) {
+                            this.filledPositions.list = response._data.data.data
+                            this.filledPositions.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getOpenPositions () {
+            this.openPositions.isLoaded = true
+            await useHRMSApi(
+                "/api/manpower/fill-statuses",
+                {
+                    method: "GET",
+                    params: this.openPositions.params,
+                    onRequest: () => {
+                        this.openPositions.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.openPositions.isLoading = false
+                        if (response.ok) {
+                            this.openPositions.list = response._data.data.data
+                            this.openPositions.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+        },
+        async getHoldPositions () {
+            this.onHoldPositions.isLoaded = true
+            await useHRMSApi(
+                "/api/manpower/fill-statuses",
+                {
+                    method: "GET",
+                    params: this.onHoldPositions.params,
+                    onRequest: () => {
+                        this.onHoldPositions.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.onHoldPositions.isLoading = false
+                        if (response.ok) {
+                            this.onHoldPositions.list = response._data.data.data
+                            this.onHoldPositions.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         }
                     },
                 }
@@ -218,7 +321,7 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
-                            this.myApprovals.list = response._data.data
+                            this.myApprovals.list = response._data.data.data
                             // this.myApprovals.pagination = {
                             //     first_page: response._data.data.first_page_url,
                             //     pages: response._data.data.links,

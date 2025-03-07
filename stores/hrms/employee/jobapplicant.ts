@@ -293,6 +293,13 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         errorMessage: "",
         successMessage: "",
         showFormComponent: false,
+        allJobApplicants: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
     }),
     getters: {
         fullname (state) {
@@ -334,6 +341,30 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 }
             )
         },
+        async getAllJobApplicant () {
+            this.allJobApplicants.isLoaded = true
+            await useHRMSApi(
+                "/api/job-applicants",
+                {
+                    method: "GET",
+                    params: this.allJobApplicants.params,
+                    onRequest: () => {
+                        this.allJobApplicants.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.allJobApplicants.isLoading = false
+                        if (response.ok) {
+                            this.allJobApplicants.list = response._data.data.data
+                            this.allJobApplicants.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+        },
         async getJobApplicant () {
             const { data, error } = await useFetch(
                 "/api/job-applicants",
@@ -355,7 +386,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 return error
             }
         },
-
         async createJobapplicant () {
             if (this.addJobApplicantRequest.isLoading) { return }
             this.successMessage = ""
