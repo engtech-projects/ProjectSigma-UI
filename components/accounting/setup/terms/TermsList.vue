@@ -31,6 +31,7 @@ const changePaginate = (newParams) => {
 const headers = [
     { name: "Name", id: "name", style: "text-left" },
     { name: "Account", id: "account_name", style: "text-left" },
+    { name: "Location", id: "location", style: "text-left" },
     { name: "Entry Type", id: "debit_credit", style: "text-left" },
 ]
 const actions = {
@@ -54,7 +55,7 @@ const boardLoading = ref(false)
 <template>
     <LayoutBoards title="Terms List" class="w-full" :loading="termsStore.isLoading">
         <div class="w-1/2 flex px-4">
-            <LayoutFormPsTextInput v-model="termsStore.getParams.key" title="Search Payee" class="w-full" />
+            <LayoutFormPsTextInput v-model="termsStore.getParams.key" title="Search Terms Name" class="w-full" />
         </div>
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="termsData" :actions="actions" @edit-row="setEdit" @delete-row="deleteTerm" />
