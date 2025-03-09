@@ -9,13 +9,7 @@ onMounted(() => {
         jobApplicant.getAllJobApplicant()
     }
 })
-const infoModalData = ref({})
-const showInfoModal = ref(false)
 
-const showInformation = (data) => {
-    infoModalData.value = data
-    showInfoModal.value = true
-}
 const changePaginate = (newParams) => {
     allJobApplicants.value.params.page = newParams.page ?? ""
 }
@@ -30,7 +24,12 @@ const headers = [
 const actions = {
     showTable: true,
 }
-
+const applicantInfo = ref({})
+const applicantDetail = ref(false)
+const applicantDetails = (applic) => {
+    applicantDetail.value = true
+    applicantInfo.value = applic
+}
 </script>
 <template>
     <LayoutLoadingContainer class="w-full" :loading="allJobApplicants.isLoading">
@@ -39,15 +38,16 @@ const actions = {
                 :header-columns="headers"
                 :actions="actions"
                 :datas="allJobApplicants.list ?? []"
-                @show-table="showInformation"
+                @show-table="applicantDetails"
             />
         </div>
         <div class="flex justify-center mx-auto p-2">
             <CustomPagination :links="allJobApplicants.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
-    <HrmsEmployeeManpowerInfoModal
-        v-model:show-modal="showInfoModal"
-        :data="infoModalData"
-    />
+    <PsModal v-model:show-modal="applicantDetail" :is-loading="boardLoading" title="APPLICANT DETAILS">
+        <template #body>
+            <HrmsEmployeeJobApplicantList :applicant="applicantInfo" />
+        </template>
+    </PsModal>
 </template>
