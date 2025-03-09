@@ -15,16 +15,16 @@ useHead({
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_job_applicant,
+                            AccessibilityTypes.hrms_employee_job_applicants_application_form,
                         ])"
-                        title="Add Applicant"
+                        title="Application Form"
                         target-id="addApplicant"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_job_applicant,
+                            AccessibilityTypes.hrms_employee_job_applicants_job_applicants,
                         ])"
-                        title="All Applicants"
+                        title="Job Applicants"
                         target-id="allApplicants"
                     />
                 </template>

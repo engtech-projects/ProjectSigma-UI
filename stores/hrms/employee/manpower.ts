@@ -177,6 +177,7 @@ export const useManpowerStore = defineStore("manpowers", {
                     method: "GET",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
+                            this.manpower = response._data.data
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)
@@ -188,7 +189,7 @@ export const useManpowerStore = defineStore("manpowers", {
         async getFilledPositions () {
             this.filledPositions.isLoaded = true
             await useHRMSApi(
-                "/api/manpower/fill-statuses",
+                "/api/manpower/get-filled-positions",
                 {
                     method: "GET",
                     params: this.filledPositions.params,
@@ -212,7 +213,7 @@ export const useManpowerStore = defineStore("manpowers", {
         async getOpenPositions () {
             this.openPositions.isLoaded = true
             await useHRMSApi(
-                "/api/manpower/fill-statuses",
+                "/api/manpower/get-open-positions",
                 {
                     method: "GET",
                     params: this.openPositions.params,
@@ -236,7 +237,7 @@ export const useManpowerStore = defineStore("manpowers", {
         async getHoldPositions () {
             this.onHoldPositions.isLoaded = true
             await useHRMSApi(
-                "/api/manpower/fill-statuses",
+                "/api/manpower/get-onhold-positions",
                 {
                     method: "GET",
                     params: this.onHoldPositions.params,
