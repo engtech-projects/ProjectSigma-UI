@@ -8,6 +8,10 @@
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
+                        title="NPO Form"
+                        target-id="npoForm"
+                    />
+                    <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
                             AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_ALL,
                         ])"
