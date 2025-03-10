@@ -8,7 +8,7 @@
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
-                        title="Npo Form"
+                        title="NPO Form"
                         target-id="npoForm"
                     />
                     <AccountingCommonTabsTabTitle

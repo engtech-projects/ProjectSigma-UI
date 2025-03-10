@@ -154,8 +154,8 @@ watch(showModal, (newVal) => {
                 <div class="flex justify-end">
                     <div>
                         <NuxtLink
-                            class="flex items-center gap-2 p-2 border border-green-600 rounded-lg${process.env.ACCOUNTING_API_URL}/pdf-viewer?id=${paymentData?.id} hover:bg-green-100"
-                            :to="config.public.ACCOUNTING_API_URL + '/pdf-viewer?id=' + paymentData?.id"
+                            class="flex items-center gap-2 p-2 border border-green-600 rounded-lg hover:bg-green-100"
+                            :to="config.public.ACCOUNTING_API_URL + '/document-viewer?id=' + paymentData?.id"
                             target="_blank"
                         >
                             <Icon name="ic:sharp-file-download" color="green" class="w-4 h-4" />

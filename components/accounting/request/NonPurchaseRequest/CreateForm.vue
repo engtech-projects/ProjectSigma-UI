@@ -94,26 +94,24 @@ const selectStakeholder = (stakeholder) => {
                     </h1>
                     <div class="w-full">
                         <div class="w-full flex justify-between">
-                            <div class="4/5">
-                                <div class="w-full flex">
-                                    <div class="w-full flex gap-2">
-                                        <template v-if="paymentRequestAttachmentData.attachment_files.length > 0">
-                                            <div
-                                                v-for="(attachment, index) in paymentRequestAttachmentData.attachment_files"
-                                                :key="index"
-                                                class="flex gap-2 p-2 bg-green-400 text-white"
-                                            >
-                                                <div class="w-1/6">
-                                                    {{ attachment.name }}
-                                                </div>
+                            <div class="w-full">
+                                <div class="w-1/3 flex flex-col gap-2">
+                                    <template v-if="paymentRequestAttachmentData.attachment_files.length > 0">
+                                        <div
+                                            v-for="(attachment, index) in paymentRequestAttachmentData.attachment_files"
+                                            :key="index"
+                                            class="p-2 bg-gray-400 text-white"
+                                        >
+                                            <div class="w-full">
+                                                {{ attachment.name.length > 20 ? attachment.name.slice(0, 20) + '...' : attachment.name }}
                                             </div>
-                                        </template>
-                                        <template v-else>
-                                            <p>
-                                                No attachments yet
-                                            </p>
-                                        </template>
-                                    </div>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <p>
+                                            No attachments yet
+                                        </p>
+                                    </template>
                                 </div>
                             </div>
                             <div class="w-1/5">
