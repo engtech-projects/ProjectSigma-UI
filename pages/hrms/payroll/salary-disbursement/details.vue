@@ -69,7 +69,7 @@ const submitToAccounting = async (id: any) => {
         :comp-id="compId"
         class="min-h-40"
     >
-        <LayoutCard title="Payroll Summary Details" :is-loading="isLoading">
+        <LayoutBoards title="Payroll Summary Details" :is-loading="isLoading">
             <LayoutBackOrHome v-if="!route.query.id" message="Please select a Payroll Disbursement" />
             <template v-if="salaryDisbursement?.data">
                 <div class="grid md:grid-cols-3 gap-2 md:justify-between">
@@ -108,6 +108,6 @@ const submitToAccounting = async (id: any) => {
                     <LayoutFormPsButton button-title="Submit to Accounting" @click="submitToAccounting(salaryDisbursement?.data.id)" />
                 </div>
             </template>
-        </LayoutCard>
+        </LayoutBoards>
     </LayoutAcessContainer>
 </template>

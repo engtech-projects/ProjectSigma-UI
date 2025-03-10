@@ -50,10 +50,16 @@ export enum AccessibilityTypes {
     hrms_employee_201_documents_memos = "hrms:employee_201_documents and memos",
     hrms_employee_201_id = "hrms:employee_201_id",
     hrms_employee_pan_group = "hrms:employee_pan_",
-    hrms_employee_pan_form = "hrms:employee_pan_form",
+    HRMS_EMPLOYEE_PAN_FORM_GROUP = "hrms:employee_pan_form_",
+    HRMS_EMPLOYEE_PAN_FORM_NEWHIRE = "hrms:employee_pan_form_new hire",
+    HRMS_EMPLOYEE_PAN_FORM_TRANSFER = "hrms:employee_pan_form_transfer",
+    HRMS_EMPLOYEE_PAN_FORM_PROMOTION = "hrms:employee_pan_form_promotion",
+    HRMS_EMPLOYEE_PAN_FORM_TERMINATION = "hrms:employee_pan_form_termination",
+    HRMS_EMPLOYEE_PAN_FORM_BULKTRANSFER = "hrms:employee_pan_form_bulk transfer",
+    HRMS_EMPLOYEE_PAN_FORM_MEMO = "hrms:employee_pan_form_memo",
+    // hrms_employee_pan_my_request = "hrms:employee_pan_my request",
     hrms_employee_pan_all_request = "hrms:employee_pan_all request",
     hrms_employee_pan_approval = "hrms:employee_pan_approval",
-    hrms_employee_pan_my_request = "hrms:employee_pan_my request",
     // LOANS AND ADVANCES
     hrms_loans_and_advances_group = "hrms:loans and advances_",
     hrms_loans_and_advances_cash_advance_group = "hrms:loans and advances_cash advance",
@@ -105,6 +111,11 @@ export enum AccessibilityTypes {
     hrms_schedule_department = "hrms:schedule_department",
     hrms_schedule_employee = "hrms:schedule_employee",
     hrms_schedule_project = "hrms:schedule_project",
+    // VOID
+    HRMS_REQUEST_VOID_GROUP = "hrms:request void_",
+    HRMS_REQUEST_VOID_CREATEREQUEST = "hrms:request void_my requests and create request",
+    HRMS_REQUEST_VOID_ALLREQUEST = "hrms:request void_all requests",
+    HRMS_REQUEST_VOID_MYAPPROVALS = "hrms:request void_my approvals",
     // SETUP
     hrms_setup_group = "hrms:setup",
     hrms_setup_user_account = "hrms:setup_user account",
@@ -219,6 +230,13 @@ export enum AccessibilityTypes {
     ACCOUNTING_REPORTS_STATEMENT_OF_CASH_FLOW = "accounting:reports_statement of cash flow",
     ACCOUNTING_REPORTS_OFFICE_CODE = "accounting:reports_office code",
     ACCOUNTING_REPORTS_OFFICE_HUMAN_RESOURCE = "accounting:reports_office human resource",
+    ACCOUNTING_REPORTS_LIQUIDATION_FORM = "accounting:reports_liquidation form",
+    ACCOUNTING_REPORTS_REPLENISHMENT_SUMMARY = "accounting:reports_replenishment summary",
+    ACCOUNTING_REPORTS_CASH_ADVANCE_SUMMARY = "accounting:reports_cash advance summary",
+    ACCOUNTING_REPORTS_MEMORANDUM_OF_DEPOSIT = "accounting:reports_memorandum of deposit",
+    ACCOUNTING_REPORTS_PROVISIONAL_RECEIPT = "accounting:reports_provisional receipt",
+    ACCOUNTING_REPORTS_CASH_RETURN_SLIP = "accounting:reports_cash return slip",
+    ACCOUNTING_REPORTS_PAYROLL_LIQUIDATIONS = "accounting:reports_payroll liquidations",
 
     // PROJECT MONITORING
     project_monitoring_group = "project monitoring:",
@@ -242,4 +260,8 @@ export function useCheckAccessibility (allowedAccessibilities: any) {
         return true
     }
     return userAllowed
+}
+
+export function useCheckIsCurrentUser (userId: any) {
+    return userData.value?.id === userId || useCheckAccessibility([AccessibilityTypes.SUPERADMIN])
 }

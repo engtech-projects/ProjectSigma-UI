@@ -34,6 +34,9 @@
                     />
                 </template>
                 <template #tab-containers>
+                    <AccountingCommonTabsTabContainer id="npoForm">
+                        <AccountingRequestNonPurchaseRequestForm :fillable="true" />
+                    </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="allList">
                         <AccountingRequestNonPurchaseRequestAllList />
                     </AccountingCommonTabsTabContainer>
@@ -45,9 +48,6 @@
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
-            <div class="w-full">
-                <AccountingRequestNonPurchaseRequestForm :fillable="true" />
-            </div>
         </div>
     </LayoutAcessContainer>
 </template>
