@@ -183,7 +183,8 @@ watch(showModal, (newVal) => {
                 </div>
             </div>
             <LayoutPrint v-else>
-                <AccountingRequestPayrollRequestPrintForm :data="paymentData" />
+                <!-- <AccountingRequestPayrollRequestPrintForm :data="paymentData" /> -->
+                <AccountingRequestPayrollRequestPrintView :data="paymentData" />
             </LayoutPrint>
         </template>
         <template #footer>

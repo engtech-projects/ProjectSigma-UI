@@ -219,11 +219,11 @@ export const useManpowerStore = defineStore("manpowers", {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.list = response._data.data
-                            // this.myApprovals.pagination = {
-                            //     first_page: response._data.data.first_page_url,
-                            //     pages: response._data.data.links,
-                            //     last_page: response._data.data.last_page_url,
-                            // }
+                            this.myApprovals.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

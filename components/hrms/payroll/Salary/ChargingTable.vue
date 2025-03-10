@@ -55,14 +55,31 @@ defineProps({
                         <td class="p-4 border-solid border border-slate-400">
                             {{ data.fullname_last || data.employee.fullname_last }}
                         </td>
-                        <td class="p-4 border-solid border border-slate-400">
+                        <td class="p-4 border-solid border border-slate-400 ">
                             <template v-if="data.payroll_records?.chargings">
-                                <p v-for="(charge, chargeIndex) in data.payroll_records.chargings" :key="index+'_charge_'+chargeIndex">
-                                    {{ charge.name }} ({{ charge.charging_name ?? "No Name Found" }}): {{ useFormatCurrency(charge.amount) }}
-                                </p>
+                                <div v-for="(charge, chargeIndex) in data.payroll_records.chargings" :key="index+'_charge_'+chargeIndex" class="flex flex-col">
+                                    {{ charge.name }}
+                                    <template v-if="useCheckAccessibility([AccessibilityTypes.hrms_payroll_salary_generate_payroll_change_of_charging])">
+                                        <div class="flex flex-row gap-4 justify-center items-center mt-4 mb-4">
+                                            <HrmsReportsAdministrativeReportsAllDepartmentProjectSelector
+                                                v-model:select-type="data.payroll_records.chargings[chargeIndex].charge_type"
+                                                v-model:department-id="data.payroll_records.chargings[chargeIndex].charge_id"
+                                                v-model:project-id="data.payroll_records.chargings[chargeIndex].charge_id"
+                                                :use-class-charge-type="true"
+                                                title="Category:"
+                                            />
+                                            {{ useFormatCurrency(charge.amount) }}
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <p class="mt-4">
+                                            ( {{ charge.charging_name ?? "No Name Found" }} ): {{ useFormatCurrency(charge.amount) }}
+                                        </p>
+                                    </template>
+                                </div>
                             </template>
                             <template v-else>
-                                <p v-for="(charge, chargeIndex) in data.charges" :key="index+'_charge_'+chargeIndex">
+                                <p v-for="(charge, chargeIndex) in data.charges" :key="index+'_charge_'+chargeIndex" class="mt-4">
                                     {{ charge.name }} ({{ charge.charging_name ?? "No Name Found" }}): {{ useFormatCurrency(charge.amount) }}
                                 </p>
                             </template>
