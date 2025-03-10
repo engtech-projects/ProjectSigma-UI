@@ -8,6 +8,10 @@
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
+                        title="Npo Form"
+                        target-id="npoForm"
+                    />
+                    <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
                             AccessibilityTypes.ACCOUNTING_REQUEST_NON_PURCHASE_ORDER_ALL,
                         ])"
@@ -30,6 +34,9 @@
                     />
                 </template>
                 <template #tab-containers>
+                    <AccountingCommonTabsTabContainer id="npoForm">
+                        <AccountingRequestNonPurchaseRequestForm :fillable="true" />
+                    </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="allList">
                         <AccountingRequestNonPurchaseRequestAllList />
                     </AccountingCommonTabsTabContainer>
@@ -41,9 +48,6 @@
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
-            <div class="w-full">
-                <AccountingRequestNonPurchaseRequestForm :fillable="true" />
-            </div>
         </div>
     </LayoutAcessContainer>
 </template>
