@@ -117,27 +117,21 @@ export const useManpowerStore = defineStore("manpowers", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {
-                fill_status: FILL_STATUS_OPEN
-            },
+            params: {},
             pagination: {},
         },
         onHoldPositions: {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {
-                fill_status: FILL_STATUS_HOLD
-            },
+            params: {},
             pagination: {},
         },
         filledPositions: {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {
-                fill_status: FILL_STATUS_FILLED
-            },
+            params: {},
             pagination: {},
         },
         allRequests: {
@@ -201,10 +195,13 @@ export const useManpowerStore = defineStore("manpowers", {
                         if (response.ok) {
                             this.filledPositions.list = response._data.data.data
                             this.filledPositions.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -225,10 +222,13 @@ export const useManpowerStore = defineStore("manpowers", {
                         if (response.ok) {
                             this.openPositions.list = response._data.data.data
                             this.openPositions.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -249,10 +249,13 @@ export const useManpowerStore = defineStore("manpowers", {
                         if (response.ok) {
                             this.onHoldPositions.list = response._data.data.data
                             this.onHoldPositions.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -273,10 +276,13 @@ export const useManpowerStore = defineStore("manpowers", {
                         if (response.ok) {
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -297,9 +303,9 @@ export const useManpowerStore = defineStore("manpowers", {
                         if (response.ok) {
                             this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -323,11 +329,11 @@ export const useManpowerStore = defineStore("manpowers", {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.list = response._data.data.data
-                            // this.myApprovals.pagination = {
-                            //     first_page: response._data.data.first_page_url,
-                            //     pages: response._data.data.links,
-                            //     last_page: response._data.data.last_page_url,
-                            // }
+                            this.myApprovals.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -351,9 +357,9 @@ export const useManpowerStore = defineStore("manpowers", {
                         if (response.ok) {
                             this.forHiringRequests.list = response._data.data.data
                             this.forHiringRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
