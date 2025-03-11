@@ -15,7 +15,7 @@ const showInfoModal = ref(false)
 
 const showInformation = (data) => {
     navigateTo({
-        path: "/hrms/employee/position/details",
+        path: "/hrms/employee/position-details",
         query: {
             key: data.id
         },
