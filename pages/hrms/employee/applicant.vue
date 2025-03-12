@@ -30,10 +30,18 @@ useHead({
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer id="addApplicant">
-                        <HrmsEmployeeJobApplicationForm />
+                        <HrmsEmployeeJobApplicationForm
+                            :if-access="useCheckAccessibility([
+                                AccessibilityTypes.hrms_employee_job_applicants_application_form,
+                            ])"
+                        />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="allApplicants">
-                        <HrmsEmployeeJobAllApplicantList />
+                        <HrmsEmployeeJobAllApplicantList
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_employee_job_applicants_job_applicants,
+                            ])"
+                        />
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>
