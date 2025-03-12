@@ -4,6 +4,7 @@ import { storeToRefs } from "pinia"
 import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 const jobApplicant = useJobapplicantStore()
 const { allJobApplicants } = storeToRefs(jobApplicant)
+
 onMounted(() => {
     if (!allJobApplicants.value.isLoaded) {
         jobApplicant.getAllJobApplicant()
@@ -32,8 +33,11 @@ const applicantDetails = (applic) => {
 }
 </script>
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="allJobApplicants.isLoading">
-        <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+    <LayoutLoadingContainer class="w-full p-4" :loading="allJobApplicants.isLoading">
+        <div class="flex flex-row gap-4 p-2">
+            <HrmsEmployeeJobHiringFilter v-model:status="allJobApplicants.params.status" v-model:applicant="allJobApplicants.params.name" />
+        </div>
+        <div class="text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"

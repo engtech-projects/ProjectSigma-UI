@@ -107,6 +107,13 @@ export const useManpowerStore = defineStore("manpowers", {
             charged_to: null,
             breakdown_details: "",
         } as Manpower,
+        allJobApplicants: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
         applicantDetails: [],
         pagination: {},
         getParams: {},
@@ -174,6 +181,33 @@ export const useManpowerStore = defineStore("manpowers", {
                             this.manpower = response._data.data
                             return response._data.data
                         } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getAllJobApplicant () {
+            this.allJobApplicants.isLoaded = true
+            await useHRMSApi(
+                "/api/job-applicants",
+                {
+                    method: "GET",
+                    params: this.allJobApplicants.params,
+                    onRequest: () => {
+                        this.allJobApplicants.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.allJobApplicants.isLoading = false
+                        if (response.ok) {
+                            this.allJobApplicants.list = response._data.data.data
+                            this.allJobApplicants.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        } else {
+                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },

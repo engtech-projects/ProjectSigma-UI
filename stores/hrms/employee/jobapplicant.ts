@@ -281,6 +281,13 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             remarks: "",
         },
         list: [],
+        allApplicantList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
         jobApplicantDetails: [],
         searchJobApplicantParams: {
             key: "",
@@ -344,7 +351,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         async getAllJobApplicant () {
             this.allJobApplicants.isLoaded = true
             await useHRMSApi(
-                "/api/job-applicants",
+                "/api/get-all-applicant",
                 {
                     method: "GET",
                     params: this.allJobApplicants.params,
@@ -356,10 +363,13 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         if (response.ok) {
                             this.allJobApplicants.list = response._data.data.data
                             this.allJobApplicants.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -385,6 +395,28 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             } else if (error) {
                 return error
             }
+        },
+        async getAllApplicantList () {
+            this.allApplicantList.isLoaded = true
+            await useHRMSApi(
+                "/api/manpower/resource",
+                {
+                    method: "GET",
+                    params: this.allApplicantList.params,
+                    onRequest: () => {
+                        this.allApplicantList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.allApplicantList.isLoading = false
+                        if (response.ok) {
+                            this.allApplicantList.list = response._data.data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
         },
         async createJobapplicant () {
             if (this.addJobApplicantRequest.isLoading) { return }
