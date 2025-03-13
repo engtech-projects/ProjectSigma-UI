@@ -234,7 +234,6 @@ const isCheckboxChecked = ref(false)
                         </div>
                     </div>
                     <hr class="my-4">
-                    <pre>{{ selectedItems }}</pre>
                     <div class="border border-teal-200 shadow-md rounded-lg overflow-y-auto max-h-[355px]">
                         <label class="block mb-1 text-lg font-medium text-gray-900 bg-teal-200 p-2 sticky top-0 z-0">Selected Item</label>
                         <InventoryRequestStockSelectedItems :header-columns="headers" :data-columns="selectedItems" @update-field="updateField" @remove-item="removeItem" />
