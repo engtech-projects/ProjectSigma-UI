@@ -2,6 +2,11 @@
 import { useRequestStockStore, APPROVALS } from "@/stores/inventory/requeststock"
 import { useApprovalStore } from "@/stores/hrms/setup/approvals"
 import { useBOMStore } from "@/stores/inventory/bom"
+import { useInventoryEnumsStore } from "@/stores/inventory/enum"
+
+const enums = useInventoryEnumsStore()
+const { itemEnum } = storeToRefs(enums)
+
 const BOMStore = useBOMStore()
 const { currentBom: List } = storeToRefs(BOMStore)
 const today = new Date()
@@ -20,12 +25,46 @@ const snackbar = useSnackbar()
 
 const selectedItems = ref([])
 
+const addNonBomItem = () => {
+    if (!form.value.item_id) {
+        snackbar.add({ type: "error", text: "Please select an item before adding." })
+        return
+    }
+
+    const selectedItem = itemEnum.value.list.find(i => i.id === form.value.item_id)
+
+    if (!selectedItem) {
+        snackbar.add({ type: "error", text: "Invalid item selected." })
+        return
+    }
+
+    if (selectedItems.value.some(i => i.item_id === selectedItem.id)) {
+        snackbar.add({ type: "error", text: "Item already added!" })
+        return
+    }
+
+    selectedItems.value.push({
+        item_id: selectedItem.id,
+        item_summary: selectedItem.item_summary || selectedItem.item_description,
+        quantity: 1,
+        max_quantity: 1000,
+        unit: "",
+        specification: "",
+        preferred_brand: "",
+        reason: "",
+    })
+
+    // Reset selection
+    form.value.item_id = null
+    form.value.quantity = 1
+}
+
 const addItem = (item) => {
     if (!selectedItems.value.find(i => i.item_id === item.item_id)) {
         selectedItems.value.push({
             item_id: item.item_id,
             item_summary: item.item_summary,
-            quantity: item.quantity,
+            quantity: 1,
             max_quantity: item.quantity,
             unit: item.uom_id,
             specification: "",
@@ -45,23 +84,31 @@ const removeItem = (index) => {
 
 const storeRequestForm = async () => {
     try {
-        // form.value.items = mainStore.requestStock.items
+        if (!selectedItems.value.length) {
+            snackbar.add({
+                type: "error",
+                text: "Please add at least one item before submitting the request.",
+            })
+            return
+        }
+        for (const item of selectedItems.value) {
+            if (!item.item_id || !item.unit || !item.quantity) {
+                snackbar.add({
+                    type: "error",
+                    text: "Each item must have an Item, UOM, and Quantity.",
+                })
+                return
+            }
+        }
+
         form.value.items = selectedItems.value.map(item => ({
             item_id: item.item_id,
             quantity: item.quantity,
             unit: item.unit,
-            specification: item.specification,
-            preferred_brand: item.preferred_brand,
-            reason: item.reason,
+            specification: item.specification || "",
+            preferred_brand: item.preferred_brand || "",
+            reason: item.reason || "",
         }))
-
-        if (!form.value.items || form.value.items.length === 0) {
-            snackbar.add({
-                type: "error",
-                text: "Please add items before submitting the request.",
-            })
-            return
-        }
 
         form.value.approvals = approvalList.value.list
         await mainStore.storeRequest()
@@ -84,6 +131,7 @@ const storeRequestForm = async () => {
         })
     }
 }
+
 const headers = [
     { name: "Qty", id: "quantity" },
     { name: "Unit", id: "unit" },
@@ -120,9 +168,9 @@ watch([selectType, () => List.value.params.department_id, () => List.value.param
     BOMStore.getCurrentBOM()
 })
 
+const isCheckboxChecked = ref(false)
 </script>
 <template>
-    <!-- <pre>PAYLOAD:{{ form }}</pre> -->
     <div class="text-gray-500 p-2">
         <form @submit.prevent="storeRequestForm">
             <div class="flex flex-col gap-4 pt-4 w-full">
@@ -144,14 +192,10 @@ watch([selectType, () => List.value.params.department_id, () => List.value.param
                                         v-model:project-id="List.params.project_id"
                                         title="Department/Project"
                                     />
-                                    <!-- <pre>{{ List }}</pre> -->
                                 </div>
                                 <div :class="{ 'w-full': !form.section_id, 'w-2/3': form.section_id }">
                                     <LayoutFormPsTextInput v-model="form.office_project_address" class="w-full" title="Address" />
                                 </div>
-                                <!-- <div class="w-full">
-                                    <LayoutFormPsTextInput v-model="form.office_project_address" :required="true" class="w-full" title="Address" />
-                                </div> -->
                             </div>
                         </div>
                         <div class="w-full flex flex-col gap-2">
@@ -159,23 +203,43 @@ watch([selectType, () => List.value.params.department_id, () => List.value.param
                             <LayoutFormPsDateInput v-model="form.date_needed" :required="true" class="w-full" title="Date Needed" />
                             <LayoutFormPsTextInput v-model="form.equipment_no" :required="true" class="w-full" title="Equipment No." />
                         </div>
-                        <div v-show="form.section_id" class="w-full flex flex-col gap-2 border border-teal-500 shadow-md rounded-md h-[300px] overflow-y-auto">
+                        <div
+                            v-show="form.section_id"
+                            class="w-full flex flex-col gap-2 border border-teal-500 shadow-md rounded-md h-[300px] overflow-y-auto"
+                        >
                             <label class="text-lg font-bold text-center sticky top-0 bg-teal-200 z-10 p-2">
                                 {{ selectType }} BOM
                             </label>
+
+                            <label class="flex px-2 items-center text-sm font-medium text-gray-700 select-none">
+                                <input v-model="isCheckboxChecked" type="checkbox" class="mr-2">
+                                Add Non-BOM Items
+                            </label>
+
+                            <div v-if="isCheckboxChecked" class="flex items-center gap-4 p-2">
+                                <div class="flex-1">
+                                    <InventoryBomItemSelector v-model="form.item_id" class="w-full" />
+                                </div>
+                                <button
+                                    class="bg-green-600 text-white p-2 rounded hover:bg-green-800 flex items-center"
+                                    @click.prevent="addNonBomItem"
+                                >
+                                    <Icon name="material-symbols-light:add" class="h-5 w-5 mr-2" />
+                                    Add Item
+                                </button>
+                            </div>
+
                             <hr class="my-2">
                             <LayoutPsTableAppend :header-columns="bomheaders" :datas="List.list ?? []" @add-item="addItem" />
                         </div>
                     </div>
                     <hr class="my-4">
+                    <pre>{{ selectedItems }}</pre>
                     <div class="border border-teal-200 shadow-md rounded-lg overflow-y-auto max-h-[355px]">
-                        <label class="block mb-1 text-lg font-medium text-gray-900 bg-teal-200 p-2 sticky top-0 z-10">Selected Item List</label>
+                        <label class="block mb-1 text-lg font-medium text-gray-900 bg-teal-200 p-2 sticky top-0 z-0">Selected Item</label>
                         <InventoryRequestStockSelectedItems :header-columns="headers" :data-columns="selectedItems" @update-field="updateField" @remove-item="removeItem" />
                     </div>
                     <hr class="my-4">
-                    <!-- <div>
-                        <InventoryRequestStockItemTable title="Item List" :header-columns="headers" :data-columns="List.list" :section-id="form.section_id" />
-                    </div> -->
                     <div class="flex flex-row justify-between gap-4">
                         <div class="w-full flex flex-col gap-2">
                             <LayoutFormPsTextInput v-model="form.type_of_request" :required="false" class="w-full" title="Type of Request" />

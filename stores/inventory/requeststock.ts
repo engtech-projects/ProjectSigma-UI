@@ -58,7 +58,10 @@ export const useRequestStockStore = defineStore("requestStockStore", {
             details: [],
             form: {} as RsDetails,
             items: [] as Array<RsList>,
-            params: {},
+            params: {
+                department_id: null as null | Number,
+                attendance_type: null as null | String,
+            },
             pagination: {},
         },
         allRequests: {

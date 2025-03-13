@@ -32,7 +32,9 @@ const emit = defineEmits(["addItem"])
                 <tr
                     v-for="dataValue, index in datas"
                     :key="index"
-                    class="border text-center cursor-pointer"
+                    class="border text-center cursor-pointer select-none"
+                    title="Double click to add item"
+                    :class="{ 'bg-gray-100': index % 2 === 0 }"
                     @dblclick="emit('addItem', dataValue)"
                 >
                     <td v-for="header in headerColumns" :key="header.id" class="p-2">

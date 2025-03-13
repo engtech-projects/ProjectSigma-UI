@@ -11,10 +11,11 @@ defineProps({
 })
 
 const emit = defineEmits(["updateField", "removeItem"])
+const compId = useId()
 </script>
 
 <template>
-    <table class="table-auto w-full border-collapse">
+    <table class="min-w-full table-auto w-full border-collapse">
         <thead>
             <tr>
                 <th v-for="header in headerColumns" :key="header.name" class="p-2">
@@ -41,10 +42,21 @@ const emit = defineEmits(["updateField", "removeItem"])
                         :min="1"
                         :max="dataValue.max_quantity"
                         class="border p-1 w-16 text-center"
-                        @input="emit('updateField', index, 'quantity', Math.min(dataValue.quantity, dataValue.max_quantity))"
+                        @input="emit('updateField', index, 'quantity', Math.max(1, Math.min(dataValue.quantity, dataValue.max_quantity)))"
                     >
                 </td>
-                <td>{{ dataValue.uom_id }}</td>
+                <td>
+                    <InventoryBomItemUomSelector
+                        :id="compId"
+                        v-model="dataValue.unit"
+                        :item-id="dataValue.item_id"
+                        @update:model-value="(newUnit) => {
+                            emit('updateField', index, 'unit', newUnit);
+                            // Ensure quantity is valid for the new UOM
+                            emit('updateField', index, 'quantity', dataValue.quantity || 1);
+                        }"
+                    />
+                </td>
                 <td>{{ dataValue.item_summary }}</td>
                 <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
                     <input
