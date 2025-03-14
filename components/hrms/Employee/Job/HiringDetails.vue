@@ -1,12 +1,13 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
+import { FILL_STATUS_OPEN } from "@/stores/hrms/employee/manpower"
 const jobapplicants = useJobapplicantStore()
 
-const { errorMessage, successMessage, addJobApplicantRequest } = storeToRefs(jobapplicants)
+const { errorMessage, successMessage } = storeToRefs(jobapplicants)
 
-// const snackbar = useSnackbar()
 const boardLoading = ref(false)
+const showAddApplicant = defineModel("showAddApplicant", { required: false, type: Boolean, default: false })
 
 const props = defineProps({
     manpowerData: {
@@ -19,19 +20,23 @@ const emit = defineEmits(["setDetail"])
 const setDetail = (event) => {
     emit("setDetail", props.manpowerData, event.target.value)
 }
-const showAddApplicant = ref(false)
 const addApplicant = () => {
     showAddApplicant.value = true
-}
-const closeModal = () => {
-    showAddApplicant.value = false
 }
 </script>
 <template>
     <div>
-        <LayoutEditBoards title="Job Opening Details" class="w-full" :loading="boardLoading">
+        <LayoutEditBoards :title="manpowerData.fill_status === FILL_STATUS_OPEN ? 'Job Opening Details' : 'Manpower Request Details'" class="w-full" :loading="boardLoading">
             <div class="text-gray-600 text-sm p-2">
                 <div class="rounded p-2 grid grid-cols-2 " @change="setDetail">
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Fill Status: </span>
+                        <span>{{ manpowerData.fill_status }}</span>
+                    </div>
+                    <div class="border px-4 py-2">
+                        <span class="font-semibold">Request Status: </span>
+                        <span>{{ manpowerData.request_status }}</span>
+                    </div>
                     <div class="border px-4 py-2">
                         <span class="font-semibold">Requesting Department: </span>
                         <span>{{ manpowerData.requesting_department_name }}</span>
@@ -107,7 +112,7 @@ const closeModal = () => {
                 </div>
                 <HrmsEmployeeJobProcessApplicant />
                 <div class="flex justify-end mt-4">
-                    <button class="hover:text-green-500 flex items-center" @click="addApplicant">
+                    <button v-show="manpowerData.fill_status === FILL_STATUS_OPEN" class="hover:text-green-500 flex items-center" @click="addApplicant">
                         <Icon name="pajamas:file-addition" class="h-4 w-4 " />
                         Add Applicant
                     </button>
@@ -124,10 +129,5 @@ const closeModal = () => {
                 {{ successMessage }}
             </p>
         </LayoutEditBoards>
-        <PsModal v-model:show-modal="showAddApplicant" :is-loading="addJobApplicantRequest.isLoading" title="APPLICATION FORM">
-            <template #body>
-                <HrmsEmployeeJobApplicationForm class="pt-2" @close-modal="closeModal" />
-            </template>
-        </PsModal>
     </div>
 </template>

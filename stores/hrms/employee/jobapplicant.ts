@@ -172,6 +172,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             application_letter_attachment: undefined,
             resume_attachment: undefined,
             status: "",
+            hiring_status: "",
             lastname: "",
             firstname: "",
             middlename: "",
@@ -304,7 +305,9 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                paginated: "true"
+            },
             pagination: {},
         },
     }),
@@ -516,9 +519,10 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             this.errorMessage = ""
             this.successMessage = ""
         },
-        async updateJobapplicant () {
+        async updateJobapplicant (status:string) {
             this.successMessage = ""
             this.errorMessage = ""
+            this.jobapplicant.hiring_status = status
             await useHRMSApiO(
                 "/api/update-applicant/" + this.jobapplicant.id,
                 {

@@ -17,6 +17,8 @@ if (route.query.key) {
     validKey.value = false
 }
 
+const showAddApplicant = ref(false)
+
 </script>
 
 <template>
@@ -25,8 +27,13 @@ if (route.query.key) {
             AccessibilityTypes.hrms_employee_manpower_request_open_positions,
         ])"
     >
-        <div class="grid lg:grid-cols-2 grid-cols-1 gap-4">
-            <HrmsEmployeeJobHiringDetails :manpower-data="manpower" class="w-full" />
+        <div class="w-full flex flex-row gap-4">
+            <HrmsEmployeeJobHiringDetails v-model:showAddApplicant="showAddApplicant" :manpower-data="manpower" class="w-full" />
+            <HrmsEmployeeJobAddApplicant
+                v-if="showAddApplicant"
+                v-model:hideAddApplicant="showAddApplicant"
+                class="w-full"
+            />
         </div>
     </LayoutAcessContainer>
 </template>

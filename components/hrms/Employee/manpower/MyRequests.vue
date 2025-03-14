@@ -119,6 +119,9 @@ const actions = {
                 </table>
             </div>
         </div>
+        <div class="flex justify-center mx-auto p-2">
+            <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
+        </div>
     </LayoutLoadingContainer>
     <HrmsEmployeeManpowerInfoModal
         v-model:show-modal="showInfoModal"
