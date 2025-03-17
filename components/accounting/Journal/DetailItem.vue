@@ -35,11 +35,12 @@ const emit = defineEmits("delete-item")
                 for="particulars"
                 class="text-xs italic"
             >Project/Department</label>
-            <AccountingCommonSelectStakeHolder
-                v-model:stakeholder-info="details.stakeholderInformation"
-                class="w-full"
-                :selected-id="details.stakeholder_id"
-                :filter-options="['project', 'department', 'employee']"
+            <AccountingCommonSelectStakeholderSelect
+                :stakeholder-id="details.stakeholder_id"
+                :stakeholder="details.stakeholderInformation"
+                :style="'z-index:' + (10 + (itemCount - index))"
+                :select-options="['project', 'department', 'employee']"
+                @select="selectStakeholder"
             />
         </div>
         <div class="flex-1">
