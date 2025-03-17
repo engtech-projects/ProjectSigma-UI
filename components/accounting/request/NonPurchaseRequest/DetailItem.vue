@@ -29,11 +29,14 @@ const compute = () => {
         model.value.total_vat_amount = (model.value.cost * (model.value.vat / 100)).toFixed(2)
     }
 }
-
+const selectStakeholder = (stakeholder) => {
+    model.value.stakeholderInformation = stakeholder
+    model.value.stakeholder_id = stakeholder.id
+}
 </script>
 <template>
-    <div class="flex gap-2">
-        <div class="flex-1">
+    <div class="grid grid-cols-11 gap-2">
+        <div class="col-span-2 self-center">
             <label
                 for="particulars"
                 class="text-xs italic"
@@ -46,19 +49,27 @@ const compute = () => {
                 required
             >
         </div>
-        <div class="flex-1">
+        <div class="col-span-2 self-center">
             <label
                 for="projectCode"
                 class="text-xs italic"
             >Project/Section Code</label>
-            <AccountingCommonSelectStakeHolder
+            <!-- <AccountingCommonSelectStakeHolder
                 v-model:stakeholder-info="model.stakeholderInformation"
+                v-model:selected-type="model.stakeholder_type"
                 class="w-full"
                 :selected-id="model.stakeholderInformation"
                 :filter-options="['project', 'department', 'employee']"
+            /> -->
+            <AccountingCommonSelectStakeholderSelect
+                :stakeholder-id="model.stakeholder_id"
+                :stakeholder="model.stakeholderInformation"
+                :style="'z-index:' + (10 + (200 - index))"
+                :select-options="['project', 'department', 'employee']"
+                @select="selectStakeholder"
             />
         </div>
-        <div class="flex-1">
+        <div class="col-span-1 self-center">
             <label
                 for="cost"
                 class="text-xs italic"
@@ -73,7 +84,7 @@ const compute = () => {
                 @change="setCost()"
             >
         </div>
-        <div class="flex-1">
+        <div class="col-span-1 self-center">
             <label
                 for="vat"
                 class="text-xs italic"
@@ -90,7 +101,7 @@ const compute = () => {
                 @change="setVat()"
             >
         </div>
-        <div class="flex-1">
+        <div class="col-span-1 self-center">
             <label
                 for="vat"
                 class="text-xs italic"
@@ -107,7 +118,7 @@ const compute = () => {
                 @change="setVat()"
             >
         </div>
-        <div class="flex-1">
+        <div class="col-span-1 self-center">
             <label
                 for="total"
                 class="text-xs italic"
@@ -121,23 +132,24 @@ const compute = () => {
                 @change="setTotal()"
             >
         </div>
-        <div class="flex-1">
+        <div class="col-span-3 self-center">
             <label
                 for="particular_group"
                 class="text-xs italic"
             >Equipment No./Code</label>
-            <AccountingCommonSelectParticularGroup
-                v-model:particular-group-info="model.particularGroupInfo"
-                class="w-full"
-            />
+            <div class="flex gap-1 items-start">
+                <AccountingCommonSelectParticularGroup
+                    v-model:particular-group-info="model.particularGroupInfo"
+                    class="w-full"
+                />
+                <button
+                    class="text-white p-2 bg-red-500 content-center rounded-md w-fit"
+                    @click.prevent="emit('delete-item', index)"
+                >
+                    <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-6 w-6 p-1" />
+                </button>
+            </div>
         </div>
-        <div>
-            <button
-                class="text-white p-2 bg-red-500 content-center mt-5 rounded-md w-fit"
-                @click.prevent="emit('delete-item', index)"
-            >
-                <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" />
-            </button>
-        </div>
+        <div />
     </div>
 </template>

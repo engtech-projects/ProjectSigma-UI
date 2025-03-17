@@ -31,7 +31,6 @@ export const useAccountTypeStore = defineStore("accountTypeStore", {
                 {
                     method: "GET",
                     params: this.getParams,
-                    watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
                         this.list = response._data.data.data

@@ -91,11 +91,6 @@ const journalStore = useJournalStore()
                 v-if="journalStore.journal.journal_no"
                 :fillable="true"
             />
-            <div v-else class="w-full py-2">
-                <p class="text-center text-gray-300">
-                    No PRF Journal Entries transactions yet.
-                </p>
-            </div>
         </div>
     </LayoutAcessContainer>
 </template>

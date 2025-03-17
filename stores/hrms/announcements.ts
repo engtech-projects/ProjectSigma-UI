@@ -18,6 +18,17 @@ export const useAnnouncements = defineStore("Announcements", {
             start_date: "",
             end_date: "",
         },
+        createData: {
+            isLoading: false,
+            errorMessage: "",
+            successMessage: "",
+            params: {
+                title: "",
+                content: "",
+                start_date: "",
+                end_date: "",
+            },
+        },
         list: [] as Array<Announcement>,
         activeList: [] as Array<Announcement>,
         pagination: {},
@@ -75,13 +86,22 @@ export const useAnnouncements = defineStore("Announcements", {
         async createone () {
             this.successMessage = ""
             this.errorMessage = ""
-
+            if (this.createData.isLoading) { return }
             await useHRMSApiO(
                 "/api/announcement",
                 {
                     method: "POST",
                     body: this.announcement,
-                    onResponse: ({ response }) => {
+                    onRequest () {
+                        this.createData.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.createData.isLoading = false
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        this.createData.isLoading = false
                         if (response.ok) {
                             this.$reset()
                             this.getAll()

@@ -49,6 +49,16 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
             successMessage: "",
             errorMessage: "",
         },
+        monthlyLateAbsences: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                reload: false,
+            },
+            successMessage: "",
+            errorMessage: "",
+        },
         latesAbsenceStats: {
             isLoading: false,
             list: {} as any,
@@ -118,6 +128,29 @@ export const useDashboardStatisticsStore = defineStore("dashboardStats", {
                         this.monthlyLates.isLoading = false
                         if (response.ok) {
                             this.monthlyLates.list = response._data ?? []
+                        }
+                    },
+                }
+            )
+        },
+        async getMonthlyLateAbsences () {
+            await useHRMSApiO(
+                "/api/employee/monthly/lates-absence",
+                {
+                    method: "GET",
+                    params: this.monthlyLateAbsences.params,
+                    onRequest: () => {
+                        this.monthlyLateAbsences.isLoading = true
+                    },
+                    onResponseError: ({ response } : any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.monthlyLateAbsences.isLoading = false
+                        if (response.ok) {
+                            this.monthlyLateAbsences.isLoaded = true
+                            this.monthlyLates.list = response._data.data.lates ?? []
+                            this.monthlyAbsences.list = response._data.data.absence ?? []
                         }
                     },
                 }

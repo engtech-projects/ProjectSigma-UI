@@ -51,7 +51,7 @@ const totalVat = computed(() => {
                             </span>
                         </div>
                         <span class="flex-3 border-b-2 border-gray-700">
-                            {{ props.data.stakeholder ? props.data.stakeholder.name : '' }}
+                            {{ props.data.stakeholder ? props.data.stakeholder?.name : '' }}
                         </span>
                     </div>
                     <div class="flex flex-between flex-1 gap-6">
@@ -64,7 +64,7 @@ const totalVat = computed(() => {
                             </span>
                         </div>
                         <span class="flex-3 border-b-2 border-gray-700">
-                            {{ dateToString(new Date(props.data.request_date)) }}
+                            {{ dateToString(new Date(props.data?.request_date)) }}
                         </span>
                     </div>
                 </div>
@@ -114,16 +114,16 @@ const totalVat = computed(() => {
                                         {{ ae.particulars }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
-                                        {{ ae.stakeholder?.stakeholder_name }}
+                                        {{ ae.stakeholder?.name }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
-                                        {{ ae.cost }}
+                                        {{ ae.cost > 0 ? formatToCurrency(ae.cost) : "-" }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800  text-sm">
-                                        {{ formatToCurrency(ae.total_vat_amount) }}
+                                        {{ ae.total_vat_amount > 0 ? formatToCurrency(ae.total_vat_amount) : "-" }}
                                     </td>
                                     <td class="border-2 px-4 py-1 font-bold border-gray-800 border-y-gray-800 text-sm">
-                                        {{ formatToCurrency(ae.amount) }}
+                                        {{ ae.amount > 0 ? formatToCurrency(ae.amount) : "-" }}
                                     </td>
                                 </tr>
                                 <tr class="border border-black">

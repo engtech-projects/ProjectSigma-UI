@@ -127,6 +127,19 @@ export const formatToCurrency = (number: Number, locale = "en-US") => {
     return formatter.format(number)
 }
 
+export const accountingCurrency = (number: Number, locale = "en-US") => {
+    const formatter = new Intl.NumberFormat(locale, {
+        style: "decimal",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    })
+    if (!parseFloat(number)) {
+        return "-"
+    } else {
+        return formatter.format(number)
+    }
+}
+
 export const upperFirst = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1)
 }
@@ -243,6 +256,19 @@ export const useFormatDateTimeString = (date: Date) => {
     hours = hours ?? 12 // the hour "0" should be '12'
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes} ${ampm}`
     return formattedDate
+}
+
+export const useFullDateTime = (date) => {
+    const options = {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+    }
+
+    return date.toLocaleString(undefined, options)
 }
 
 export const useFormatCurrency = (number: number | string, locale = "en-US") => {

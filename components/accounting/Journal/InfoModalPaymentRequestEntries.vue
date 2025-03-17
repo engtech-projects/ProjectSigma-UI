@@ -17,17 +17,17 @@ defineProps({
 const generateJournal = async (data) => {
     await journalStore.generateJournalNumber()
     journal.value.details = data.details.map(detail => ({
-        ...detail,
-        debit: (data.type === "prf" || (data.type === "payroll" && detail.account_notation_type === "debit")) ? parseFloat(detail.amount) + parseFloat(detail.total_vat_amount) : 0,
-        credit: (data.type === "payroll" && detail.account_notation_type === "credit") ? parseFloat(detail.amount) + parseFloat(detail.total_vat_amount) : 0,
+        debit: detail.debit,
+        credit: detail.credit,
         vat: parseInt(detail.vat ?? 0),
-        stakeholder_id: detail.stakeholder_id,
+        stakeholder_id: detail.stakeholder_id ?? "",
         stakeholder_type: trimStakeholdableType(detail?.stakeholder?.stakeholdable_type),
-        stakeholderInformation: detail.stakeholder,
+        stakeholderInformation: detail.stakeholder ?? {},
+        journalAccountInfo: detail?.journalAccountInfo ?? {},
         description: detail.particulars
     }))
 
-    journal.value.stakeholder_id = data.stakeholder_id
+    journal.value.stakeholder_id = data?.stakeholder_id
     journal.value.journal_date = data.date_filed
     journal.value.reference_no = data.prf_no
     journal.value.payment_request_id = data.id
@@ -38,7 +38,7 @@ const generateJournal = async (data) => {
 }
 const trimStakeholdableType = (type) => {
     if (type) {
-        return type.replace("App\\Models\\Stakeholders\\", "")
+        return type.replace("App\\Models\\Stakeholders\\", "").toLowerCase()
     }
     return null
 }
@@ -81,7 +81,7 @@ const boardLoading = ref(false)
                     {{ paymentDataEntries?.date_filed }}
                 </div>
             </div>
-            <div class="grid md:grid-cols-3 gap-2 md:justify-between">
+            <div class="grid md:grid-cols-1 gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light">Description: </span>
                     {{ paymentDataEntries?.description }}
@@ -103,7 +103,7 @@ const boardLoading = ref(false)
                                         Project/Section Code
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Vat
+                                        COST
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Total Vat Amount
@@ -127,17 +127,17 @@ const boardLoading = ref(false)
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ detail?.vat }}
+                                            {{ accountingCurrency(detail?.cost) }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ detail?.total_vat_amount }}
+                                            {{ accountingCurrency(detail?.total_vat_amount) }}
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ detail?.amount }}
+                                            {{ accountingCurrency(detail?.amount) }}
                                         </div>
                                     </td>
                                 </tr>
@@ -146,7 +146,10 @@ const boardLoading = ref(false)
                     </div>
                 </div>
             </div>
-            <div class="w-full">
+            <div
+                v-show="paymentDataEntries?.approvals"
+                class="w-full"
+            >
                 <LayoutApprovalsListView :approvals="paymentDataEntries?.approvals" />
             </div>
         </template>

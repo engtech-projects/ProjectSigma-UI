@@ -43,7 +43,7 @@ const formatTermName = (name) => {
 }
 </script>
 <template>
-    <LayoutBoards title="Term" :loading="boardLoading">
+    <LayoutBoards title="Accounting Particular Terms" :loading="boardLoading">
         <div class="text-gray-500">
             <form @submit.prevent="handleSubmit">
                 <div class="flex flex-col gap-2">
@@ -61,11 +61,59 @@ const formatTermName = (name) => {
                         >
                     </div>
                     <div>
+                        <label
+                            for="term_name"
+                            class="text-xs italic"
+                        >Account</label>
                         <AccountingCommonSelectJournalAccounts
                             v-model:journal-account-info="account"
                             v-model:account-id="termsStore.term.account_id"
                             class="w-full min-w-[300px]"
                         />
+                    </div>
+                    <div>
+                        <label
+                            for="term_name"
+                            class="text-xs italic"
+                        >Debit/Credit</label>
+                        <select
+                            v-model="termsStore.term.debit_credit"
+                            class="w-full rounded-lg"
+                        >
+                            <option
+                                v-for="balance in termsStore.balanceType"
+                                :key="balance"
+                                :value="balance"
+                            >
+                                {{ upperFirst(balance) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label
+                            for="term_name"
+                            class="text-xs italic"
+                        >Location</label>
+                        <select
+                            v-model="termsStore.term.location"
+                            class="w-full rounded-lg"
+                        >
+                            <option
+                                value=""
+                            >
+                                - Select -
+                            </option>
+                            <option
+                                value="OFFICE"
+                            >
+                                DEPARTMENT / OFFICE
+                            </option>
+                            <option
+                                value="FIELD"
+                            >
+                                PROJECTS / FIELD
+                            </option>
+                        </select>
                     </div>
                     <div>
                         <label

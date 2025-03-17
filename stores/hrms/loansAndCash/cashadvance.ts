@@ -27,6 +27,12 @@ export interface CashAdvance {
 
 export const useCashadvanceStore = defineStore("Cashadvances", {
     state: () => ({
+        createData: {
+            isLoading: false,
+            errorMessage: "",
+            successMessage: "",
+            params: {},
+        },
         isEdit: false,
         cashadvance: {
             id: null,
@@ -141,9 +147,9 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         if (response.ok) {
                             this.cashAdvanceList.list = response._data.data.data
                             this.cashAdvanceList.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         }
                     },
@@ -165,9 +171,9 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         if (response.ok) {
                             this.myRequestList.list = response._data.data.data
                             this.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         }
                     },
@@ -237,9 +243,9 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                         if (response.ok) {
                             this.myApprovalRequestList.list = response._data.data.data
                             this.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         }
                     },
@@ -261,9 +267,9 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                             this.paymentCashAdvanceList.list = response._data.data.data
                             this.paymentCashAdvanceList.isLoaded = true
                             this.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         }
                     },
@@ -271,6 +277,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
             )
         },
         async createRequest () {
+            if (this.createData.isLoading) { return }
             const backupEmployee = this.cashadvance.employee_id
             const backupApprovals = this.cashadvance.approvals
             await useHRMSApiO(
@@ -278,7 +285,16 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "POST",
                     body: this.cashadvance,
+                    onRequest: () => {
+                        this.createData.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.createData.isLoading = false
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
+                        this.createData.isLoading = false
                         if (response.ok) {
                             this.reloadResources()
                             this.successMessage = response._data.message
@@ -353,7 +369,7 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 }
             )
         },
-        async denyApprovalForm (id: String) {
+        async denyApprovalForm (id: string) {
             this.successMessage = ""
             this.errorMessage = ""
             const formData = new FormData()
@@ -364,11 +380,11 @@ export const useCashadvanceStore = defineStore("Cashadvances", {
                 {
                     method: "POST",
                     body: formData,
-                    onResponseError: ({ response }) => {
+                    onResponseError: ({ response }: any) => {
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
-                    onResponse: ({ response }) => {
+                    onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.successMessage = response._data.message
                             this.getMyApprovalRequests()

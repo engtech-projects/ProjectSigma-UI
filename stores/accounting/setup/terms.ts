@@ -6,8 +6,11 @@ export const useTermsStore = defineStore("termsStore", {
             id: null,
             name: null,
             account_id: null,
+            debit_credit: null,
+            location: null,
             description: null
         },
+        balanceType: [],
         list: [],
         pagination: {},
         getParams: {},
@@ -20,17 +23,17 @@ export const useTermsStore = defineStore("termsStore", {
         async getTerms () {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/term",
+                "/api/terms",
                 {
                     method: "GET",
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.list = response._data.data
+                        this.list = response._data.data.data
                         this.pagination = {
-                            first_page: response._data.links.first,
-                            pages: response._data.meta.links,
-                            last_page: response._data.links.last,
+                            first_page: response._data.data.links.first,
+                            pages: response._data.data.links,
+                            last_page: response._data.data.links.last,
                         }
                     },
                 }
@@ -64,7 +67,7 @@ export const useTermsStore = defineStore("termsStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useAccountingApi(
-                "/api/term",
+                "/api/terms",
                 {
                     method: "POST",
                     body: this.term,
@@ -85,7 +88,7 @@ export const useTermsStore = defineStore("termsStore", {
             this.successMessage = ""
             this.errorMessage = ""
             const { data, error } = await useAccountingApi(
-                "/api/term/" + this.term.id,
+                "/api/terms/" + this.term.id,
                 {
                     method: "PATCH",
                     body: this.term,
@@ -105,7 +108,7 @@ export const useTermsStore = defineStore("termsStore", {
         async deleteTerm (id: number) {
             this.isLoading = true
             const { data, error } = await useAccountingApi(
-                "/api/term/" + id,
+                "/api/terms/" + id,
                 {
                     method: "DELETE",
                     body: this.term,
@@ -131,6 +134,31 @@ export const useTermsStore = defineStore("termsStore", {
             }
         },
 
+        async getBalanceType () {
+            this.isLoading = true
+            const { data, error } = await useAccountingApi(
+                "/api/balance-type",
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading = false
+                        this.balanceType = response._data.balance_type
+                        this.pagination = {
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
@@ -140,6 +168,7 @@ export const useTermsStore = defineStore("termsStore", {
             this.term = {
                 id: null,
                 name: null,
+                debit_credit: null,
                 account_id: null,
                 description: null
             }

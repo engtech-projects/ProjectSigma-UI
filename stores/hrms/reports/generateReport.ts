@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+const config = useRuntimeConfig()
 export const LOAN_HDMF_MPL = "HDMF MPL"
 export const LOAN_HDMF_MPL_LOAN = "HDMF MPL LOAN"
 export const LOAN_COOP = "COOP LOAN"
@@ -8,6 +9,9 @@ export const EMPLOYEE_MASTERLIST = "EMPLOYEE MASTERLIST"
 export const EMPLOYEE_NEWHIRE = "EMPLOYEE NEWHIRE"
 export const EMPLOYEE_TENURESHIP = "EMPLOYEE TENURESHIP"
 export const EMPLOYEE_LEAVES = "EMPLOYEE LEAVES"
+export const EMPLOYEE_ABSENCES = "EMPLOYEE ABSENCES"
+export const EMPLOYEE_LATES = "EMPLOYEE LATES"
+export const EMPLOYEE_ATTENDANCE = "EMPLOYEE ATTENDANCE"
 export const LOAN_REPORTS = [
     LOAN_HDMF_MPL,
     LOAN_HDMF_MPL_LOAN,
@@ -51,6 +55,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             itemFilters: [],
             filters: [],
             headers: [],
+            tempFile: "",
             params: {
                 report_type: null,
                 department_id: null,
@@ -395,6 +400,31 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                             this.administrativeReports.successMessage = response._data.message
                             this.administrativeReports.params = tempParams
                             this.administrativeReports.headers = tempHeaders
+                        }
+                    },
+                }
+            )
+        },
+        async getExportAdministrativeReport () {
+            await useHRMSApiO(
+                "/api/reports/administrative-export",
+                {
+                    params: this.administrativeReports.params,
+                    method: "GET",
+                    watch: false,
+                    onRequest: () => {
+                        this.administrativeReports.isLoading = true
+                        this.administrativeReports.tempFile = ""
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.administrativeReports.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.administrativeReports.isLoading = false
+                        if (response.ok) {
+                            this.administrativeReports.successMessage = response._data.message
+                            this.administrativeReports.tempFile = config.public.HRMS_API_URL + response._data.url
                         }
                     },
                 }

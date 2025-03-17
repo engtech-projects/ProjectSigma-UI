@@ -54,6 +54,9 @@ const boardLoading = ref(false)
 </script>
 <template>
     <LayoutBoards title="Accounts List" class="w-full" :loading="accountStore.isLoading.list">
+        <div class="w-1/2 flex px-4">
+            <LayoutFormPsTextInput v-model="accountStore.getParams.key" title="Search Account" class="w-full" />
+        </div>
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="accountsList" :actions="actions" @edit-row="setEdit" @delete-row="deleteAccount" />
         </div>

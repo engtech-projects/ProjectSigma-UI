@@ -61,19 +61,19 @@ const totalAllowanceAmount = () => {
                         {{ employee.employee.position }}
                     </td>
                     <td class="border border-zinc-300 px-2 py-1">
-                        {{ employee.allowance_rate }}
+                        {{ employee.allowance_rate_formatted }}
                     </td>
                     <td class="border border-zinc-300 px-2 py-1">
                         {{ employee.allowance_days }}
                     </td>
                     <td class="border border-zinc-300 px-2 py-1">
-                        {{ employee.allowance_amount }}
+                        {{ employee.allowance_amount_formatted }}
                     </td>
                 </tr>
                 <tr>
                     <td colspan="5" class="border border-zinc-300 px-2 py-1" />
                     <td colspan="1" class="border border-zinc-300 px-2 py-1">
-                        TOTAL : Php {{ totalAllowanceAmount() }}
+                        TOTAL : Php {{ formatToCurrency(totalAllowanceAmount()) }}
                     </td>
                 </tr>
             </tbody>

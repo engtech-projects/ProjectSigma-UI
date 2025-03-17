@@ -76,6 +76,11 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
             number_of_days: null,
             with_pay: false,
         } as LeaveRequest,
+        createData: {
+            isLoading: false,
+            errorMessage: "",
+            successMessage: "",
+        },
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -89,6 +94,8 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
             this.successMessage = ""
         },
         async createRequest () {
+            if (this.createData.isLoading) { return }
+            this.createData.isLoading = true
             this.successMessage = ""
             this.errorMessage = ""
             const idBackup = this.payload.employee_id
@@ -100,7 +107,15 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 {
                     method: "POST",
                     body: requestData,
+                    onRequest: () => {
+                        this.createData.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.createData.isLoading = false
+                        this.errorMessage = response._data.message
+                    },
                     onResponse: ({ response }: any) => {
+                        this.createData.isLoading = false
                         if (response.ok) {
                             this.$reset()
                             this.successMessage = response._data.message
@@ -244,6 +259,24 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 {
                     method: "POST",
                     body: formData,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.fetchLeaveRequestList()
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async voidRequest (id: any, remarks: any) {
+            await useHRMSApiO(
+                "/api/request-voids/void/LeaveEmployeeRequest/" + id,
+                {
+                    method: "POST",
+                    params: { reason_for_void: remarks },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.fetchLeaveRequestList()

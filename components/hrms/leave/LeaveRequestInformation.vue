@@ -28,7 +28,7 @@ defineProps({
                         <p> {{ leaveData.reason_for_absence }}</p>
                     </dd>
                 </div>
-                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div class="bg-gray-100 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
                         Status
                     </dt>
@@ -42,15 +42,9 @@ defineProps({
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <p> {{ leaveData.number_of_days }}</p>
-                        <!-- <template v-if="leaveData.date_of_absence_to && leaveData.date_of_absence_from">
-                            {{ ((new Date(leaveData.date_of_absence_to) - new Date(leaveData.date_of_absence_from)) / (24 * 60 * 60 * 1000)) + 1 }} day/s
-                        </template>
-                        <template v-else>
-                            0 day
-                        </template> -->
                     </dd>
                 </div>
-                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div class="bg-gray-100 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
                         Date of Absence From
                     </dt>
@@ -58,12 +52,28 @@ defineProps({
                         {{ leaveData.date_of_absence_from }}
                     </dd>
                 </div>
-                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dt class="text-sm font-medium text-gray-500">
                         Date of Absence To
                     </dt>
                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         {{ leaveData.date_of_absence_to }}
+                    </dd>
+                </div>
+                <div class="bg-gray-100 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Prepared by:
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ leaveData.created_by_user }}
+                    </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">
+                        Prepared on:
+                    </dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ leaveData.created_at_human }}
                     </dd>
                 </div>
             </dl>

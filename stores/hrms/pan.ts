@@ -43,9 +43,12 @@ export interface PersonelActionNotice {
 }
 export const usePersonelActionNotice = defineStore("personelActionNotice", {
     state: () => ({
-        allPanList: [] as Array<PersonelActionNotice>,
-        myPanList: [] as Array<PersonelActionNotice>,
-        approvalPanList: [] as Array<PersonelActionNotice>,
+        createData: {
+            isLoading: false,
+            errorMessage: "",
+            successMessage: "",
+            params: {},
+        },
         personelActionNotice: {
             id: null as null | Number,
             type: "" as String,
@@ -87,6 +90,12 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
             list: [],
             params: {},
             pagination: {},
+            fetchData: {
+                data: ref(),
+                status: ref(),
+                error: ref(),
+                refresh: ref(),
+            },
         },
         myApprovals: {
             isLoading: false,
@@ -105,6 +114,7 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
     }),
     actions: {
         async savePan () {
+            if (this.createData.isLoading) { return }
             this.successMessage = ""
             this.errorMessage = ""
             const requestData = JSON.parse(JSON.stringify(this.personelActionNotice))
@@ -114,7 +124,16 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 {
                     method: "POST",
                     body: requestData,
+                    onRequest: () => {
+                        this.createData.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.createData.isLoading = false
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
+                        this.createData.isLoading = false
                         if (response.ok) {
                             this.reloadResources()
                             this.successMessage = response._data.message
@@ -158,10 +177,14 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 }
             )
         },
-        async getAllPan () {
+        async getAllRequest () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useHRMSApi(
+            if (this.allRequests.isLoaded) {
+                return true
+            }
+            this.allRequests.isLoaded = true
+            const { data, status, error, refresh } = await useHRMSApi(
                 "/api/pan/resource",
                 {
                     method: "GET",
@@ -185,10 +208,18 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                     },
                 }
             )
+            this.allRequests.fetchData.data = data
+            this.allRequests.fetchData.status = status
+            this.allRequests.fetchData.error = error
+            this.allRequests.fetchData.refresh = refresh
         },
-        async getPanApprovals () {
+        async getMyApprovals () {
             this.successMessage = ""
             this.errorMessage = ""
+            if (this.myApprovals.isLoaded) {
+                return true
+            }
+            this.myApprovals.isLoaded = true
             await useHRMSApi(
                 "/api/pan/my-approvals",
                 {
@@ -210,9 +241,13 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
                 }
             )
         },
-        async myPanRequest () {
+        async getMyRequests () {
             this.successMessage = ""
             this.errorMessage = ""
+            if (this.myRequests.isLoaded) {
+                return true
+            }
+            this.myRequests.isLoaded = true
             await useHRMSApi(
                 "/api/pan/my-request",
                 {
@@ -279,14 +314,14 @@ export const usePersonelActionNotice = defineStore("personelActionNotice", {
         reloadResources () {
             const backup = this.personelActionNotice.approvals
             const callFunctions = []
-            if (this.allPanList.length > 0) {
-                callFunctions.push(this.getAllPan)
+            if (this.allRequests.isLoaded) {
+                callFunctions.push(this.getAllRequest)
             }
-            if (this.approvalPanList.length > 0) {
-                callFunctions.push(this.getPanApprovals)
+            if (this.myApprovals.isLoaded) {
+                callFunctions.push(this.getMyApprovals)
             }
-            if (this.myPanList.length > 0) {
-                callFunctions.push(this.myPanRequest)
+            if (this.myRequests.isLoaded) {
+                callFunctions.push(this.getMyRequests)
             }
             this.$reset()
             this.personelActionNotice.approvals = backup

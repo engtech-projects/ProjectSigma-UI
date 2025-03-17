@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useGenerateReportStore, EMPLOYEE_NEWHIRE, EMPLOYEE_LEAVES } from "@/stores/hrms/reports/generateReport"
+import { useGenerateReportStore, EMPLOYEE_NEWHIRE, EMPLOYEE_LEAVES, EMPLOYEE_MASTERLIST, EMPLOYEE_ABSENCES, EMPLOYEE_ATTENDANCE, EMPLOYEE_LATES } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { administrativeReports } = storeToRefs(generateReportstore)
 const compId = useId()
@@ -16,7 +16,14 @@ const compId = useId()
                 v-model:project-id="administrativeReports.params.project_id"
                 title="Category:"
             />
-            <div v-show="administrativeReports.params.report_type == EMPLOYEE_NEWHIRE || administrativeReports.params.report_type == EMPLOYEE_LEAVES" class="flex gap-4 flex-col max-w-sm">
+            <div
+                v-show="administrativeReports.params.report_type == EMPLOYEE_NEWHIRE ||
+                    administrativeReports.params.report_type == EMPLOYEE_LEAVES ||
+                    administrativeReports.params.report_type == EMPLOYEE_ABSENCES ||
+                    administrativeReports.params.report_type == EMPLOYEE_LATES ||
+                    administrativeReports.params.report_type == EMPLOYEE_ATTENDANCE"
+                class="flex gap-4 flex-col max-w-sm"
+            >
                 <label class="block text-sm font-medium text-gray-900">Date Filter:</label>
                 <div class="flex flex-row gap-4">
                     <div class="flex justify-start items-center gap-2">
@@ -30,6 +37,7 @@ const compId = useId()
                 </div>
             </div>
             <HrmsReportsAdministrativeReportsAdministrativeGenerateButton />
+            <HrmsReportsAdministrativeReportsAdministrativeExcelExportButton v-show="administrativeReports.params.report_type == EMPLOYEE_MASTERLIST" />
         </div>
     </div>
 </template>

@@ -16,14 +16,16 @@
             >
                 <div
                     :class="{
-                        'bg-green-500 text-white': index + 1 <= currStep,
-                        'bg-gray-300 text-gray-700': index + 1 > currStep,
-                        'bg-yellow-300 text-gray-700': index + 1 === currStep + 1
+                        'bg-green-500 text-white': index + 1 <= currStep && step.status === 'Approved',
+                        'bg-gray-300 text-gray-700': index + 1 > currStep && step.status === 'tbd',
+                        'bg-yellow-300 text-gray-700': index + 1 === currStep + 1 && step.status === 'Pending',
+                        'bg-red-500 text-white': step.status === 'Rejected'
                     }"
                     class="w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold transition-colors duration-300 z-10"
                 >
-                    <Icon v-if="index + 1 <= currStep" name="iconamoon:check-bold" class="h-4 w-4" />
-                    <Icon v-else-if="index + 1 === currStep + 1" name="material-symbols:play-arrow" class="h-4 w-4" />
+                    <Icon v-if="index + 1 <= currStep && step.status === 'Approved'" name="iconamoon:check-bold" class="h-4 w-4" />
+                    <Icon v-else-if="index + 1 === currStep + 1 && step.status === 'Pending'" name="material-symbols:play-arrow" class="h-4 w-4" />
+                    <Icon v-else-if="step.status === 'Rejected'" name="ic:outline-close" class="h-4 w-4" />
                     <Icon v-else name="material-symbols:timelapse-outline-rounded" class="h-4 w-4" />
                 </div>
 
@@ -33,7 +35,8 @@
                     class="absolute top-1/2 left-1 transform -translate-y-1/2 w-full h-1 bg-gray-300"
                     :class="{
                         'bg-green-500': index + 1 < currStep,
-                        'bg-yellow-400': index + 1 === currStep
+                        'bg-yellow-400': index + 1 === currStep && approvals[index + 1].status !== 'Rejected',
+                        'bg-red-500': index + 1 === currStep && approvals[index + 1].status === 'Rejected'
                     }"
                 />
                 <AccountingCommonStepperSignatureDetails
@@ -79,10 +82,20 @@ const approvals = computed(() => {
     for (const i in props.signatories) {
         const appr = props.signatories[i]
         appr.name = i
+        appr.status = appr.details.length > 0 ? determineStatus(appr) : "tbd"
         arr.push(appr)
     }
     return arr
 })
+const determineStatus = (appr: any) => {
+    let err = ""
+    appr.details.forEach((d: any) => {
+        if (d.status.toLowerCase() !== "approved") {
+            err = d.status
+        }
+    })
+    return err === "" ? "Approved" : err
+}
 const showPopup = (index: number) => {
     popupIndex.value = index
 }

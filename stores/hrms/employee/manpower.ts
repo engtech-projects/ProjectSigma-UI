@@ -74,6 +74,12 @@ export interface Manpower {
 
 export const useManpowerStore = defineStore("manpowers", {
     state: () => ({
+        createData: {
+            isLoading: false,
+            errorMessage: "",
+            successMessage: "",
+            params: {},
+        },
         isEdit: false,
         isDetail: false,
         manpower: {
@@ -213,11 +219,11 @@ export const useManpowerStore = defineStore("manpowers", {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
                             this.myApprovals.list = response._data.data
-                            // this.myApprovals.pagination = {
-                            //     first_page: response._data.data.first_page_url,
-                            //     pages: response._data.data.links,
-                            //     last_page: response._data.data.last_page_url,
-                            // }
+                            this.myApprovals.pagination = {
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -255,6 +261,7 @@ export const useManpowerStore = defineStore("manpowers", {
         },
 
         async createManpower () {
+            if (this.createData.isLoading) { return }
             this.successMessage = ""
             this.errorMessage = ""
             const formData = new FormData()
@@ -281,7 +288,16 @@ export const useManpowerStore = defineStore("manpowers", {
                 {
                     method: "POST",
                     body: formData,
+                    onRequest: () => {
+                        this.createData.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.createData.isLoading = false
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }) => {
+                        this.createData.isLoading = false
                         if (response.ok) {
                             this.reloadResources()
                             this.successMessage = response._data.message

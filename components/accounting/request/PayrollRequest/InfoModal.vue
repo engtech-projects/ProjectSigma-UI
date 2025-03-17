@@ -132,7 +132,7 @@ watch(showModal, (newVal) => {
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
-                                            Particulars
+                                            Description
                                         </th>
                                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-950 uppercase tracking-wider">
                                             Project/Section Code
@@ -152,27 +152,27 @@ watch(showModal, (newVal) => {
                                     <tr v-for="detail in paymentData?.details" :key="detail.id">
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-600">
-                                                {{ detail?.particulars }}
+                                                {{ detail?.particulars ?? '' }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-600">
-                                                {{ detail?.stakeholder.name }}
+                                                {{ detail?.stakeholder?.name ?? '' }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-600">
-                                                {{ useFormatCurrency(detail?.cost) }}
+                                                {{ accountingCurrency(detail?.cost) }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-600">
-                                                {{ useFormatCurrency(detail?.total_vat_amount) }}
+                                                {{ accountingCurrency(detail?.total_vat_amount) }}
                                             </div>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-600">
-                                                {{ useFormatCurrency(detail?.amount) }}
+                                                {{ accountingCurrency(detail?.amount) }}
                                             </div>
                                         </td>
                                     </tr>
@@ -181,12 +181,10 @@ watch(showModal, (newVal) => {
                         </div>
                     </div>
                 </div>
-                <div class="w-full">
-                    <LayoutApprovalsListView :approvals="paymentData?.approvals" />
-                </div>
             </div>
             <LayoutPrint v-else>
-                <AccountingRequestPayrollRequestPrintForm :data="paymentData" />
+                <!-- <AccountingRequestPayrollRequestPrintForm :data="paymentData" /> -->
+                <AccountingRequestPayrollRequestPrintView :data="paymentData" />
             </LayoutPrint>
         </template>
         <template #footer>

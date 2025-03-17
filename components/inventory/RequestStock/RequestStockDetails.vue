@@ -1,27 +1,31 @@
 <script setup lang="ts">
-import { useSupplierStore } from "@/stores/inventory/suppliers"
+import { useRequestStockStore } from "@/stores/inventory/requeststock"
+
+interface HeaderColumn {
+    name: string,
+    id: string,
+    style: string
+}
 
 defineProps({
     title: {
         type: String,
         required: true,
     },
-    datas: {
-        type: Object,
+    headerColumns: {
+        type: Array<HeaderColumn>,
+        required: true,
+    },
+    data: {
+        type: Array<any>,
         required: true,
     },
 })
 
-const headers = [
-    { name: "Attachment" },
-    { name: "Action" },
-]
-
 const { data: userData } = useAuth()
-const main = useSupplierStore()
+const main = useRequestStockStore()
 const snackbar = useSnackbar()
 const { remarks } = storeToRefs(main)
-const config = useRuntimeConfig()
 
 const approvedRequest = async (id:number) => {
     try {
@@ -38,7 +42,7 @@ const approvedRequest = async (id:number) => {
             })
             main.$reset()
             navigateTo({
-                path: "/inventory/suppliers",
+                path: "/inventory/request-stocks",
             })
         }
     } catch (error) {
@@ -63,7 +67,7 @@ const denyRequest = async (id:any) => {
             })
             main.$reset()
             navigateTo({
-                path: "/inventory/suppliers",
+                path: "/inventory/request-stocks",
             })
         }
     } catch (error) {
@@ -76,100 +80,139 @@ const denyRequest = async (id:any) => {
 
 </script>
 <template>
-    <div class="text-gray-500 p-2">
-        <LayoutPrint>
-            <div class="flex flex-col gap-4 pt-4 px-2 w-full">
-                <div class="flex flex-col gap-4 mb-5">
-                    <div class="w-full flex justify-end">
-                        <InventoryCommonFormPsLabel :value="datas.supplier_code" title="Supplier Code" />
+    <div
+        class="h-full w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700"
+    >
+        <div class="flex flex-col gap-2 w-full p-4">
+            <LayoutPrint>
+                <div id="headline mb-4">
+                    <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center border-b rounded-t mb-4">
+                        <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
+                            {{ title }}
+                        </h3>
                     </div>
-                    <div class="w-full">
-                        <p class="font-bold">
-                            Please accomplish this form completely and submit the required documents listed below.  The information given would serve as basis for accreditation.
-                        </p>
+                    <div class="flex mb-4">
+                        <div class="flex-1 mr-4">
+                            <p v-if="title" class="pl-4 text-md text-gray-900">
+                                Request For: <span class="underline">{{ data.request_for }}</span>
+                            </p>
+                            <p v-if="title" class="pl-4 text-md text-gray-900">
+                                Office/Project: <span class="underline">{{ data.project.project_code }}</span>
+                            </p>
+                            <p v-if="title" class="pl-4 text-md text-gray-900">
+                                Address: <span class="underline">{{ data.office_project_address }}</span>
+                            </p>
+                        </div>
+                        <div class="flex-1">
+                            <p v-if="title" class="pl-4 text-md text-gray-900">
+                                Reference No.: <span class="underline">{{ data.reference_no }}</span>
+                            </p>
+                            <p v-if="title" class="pl-4 text-md text-gray-900">
+                                Date Prepared: <span class="underline">{{ data.date_prepared }}</span>
+                            </p>
+                            <p v-if="title" class="pl-4 text-md text-gray-900">
+                                Date Needed: <span class="underline">{{ data.date_needed }}</span>
+                            </p>
+                            <p v-if="title" class="pl-4 text-md text-gray-900">
+                                Equipment No.: <span class="underline">{{ data.equipment_no }}</span>
+                            </p>
+                        </div>
                     </div>
-                    <InventoryCommonFormPsLabel :value="datas.company_name" title="Company Name" />
-                    <InventoryCommonFormPsLabel :value="datas.company_address" title="Company Address" />
-                    <div class="flex flex-row items-center gap-4">
-                        <InventoryCommonFormPsLabel :value="datas.company_contact_number" title="Contact Number" />
-                        <InventoryCommonFormPsLabel :value="datas.company_email" title="Company Email" />
-                    </div>
-                    <div class="flex flex-row items-center gap-4">
-                        <InventoryCommonFormPsLabel :value="datas.contact_person_name" title="Contact Person Name" />
-                        <InventoryCommonFormPsLabel :value="datas.contact_person_number" title="Contact Person Number" />
-                        <InventoryCommonFormPsLabel :value="datas.contact_person_designation" title="Contact Person Designation" />
-                    </div>
-                    <InventoryCommonFormPsLabel :value="datas.type_of_ownership" title="Type of Ownership" />
-                    <div class="flex flex-row items-center gap-4">
-                        <InventoryCommonFormPsLabel :value="datas.nature_of_business" title="Nature of Business" />
-                        <InventoryCommonFormPsLabel :value="datas.products_services" title="Products/Services" />
-                    </div>
-                    <div class="flex flex-row items-center gap-4">
-                        <InventoryCommonFormPsLabel :value="datas.classification" title="Classification" />
-                        <InventoryCommonFormPsLabel :value="datas.tin" title="TIN" />
-                    </div>
-                    <div>
-                        <InventoryCommonFormPsLabel :value="datas.terms_and_conditions" title="Terms and Conditions" />
-                    </div>
-                    <div class="w-full">
-                        <p class="font-bold">
-                            I/We hereby certify that the information furnished are in all respect true and correct.  It is agreed that ECDC may inquire into the accuracy of the information submitted.  It is further agreed that these information shall remain the property of ECDC whether or not the accreditation applied for is granted
-                        </p>
-                    </div>
-                    <div class="w-full">
-                        <p class="font-bold">
-                            Any information/document found to be false and incorrect shall be sufficient ground for disapproval of this application for accreditation.
-                        </p>
-                    </div>
-                    <div class="w-full flex flex-row gap-4">
-                        <InventoryCommonFormPsLabel :value="datas.filled_by" title="Filled By" />
-                        <InventoryCommonFormPsLabel :value="datas.filled_designation" title="Filled Designation" />
-                        <InventoryCommonFormPsLabel :value="datas.filled_date" title="Filled Date" />
-                    </div>
-                    <div class="flex flex-col full gap-2">
+                </div>
+                <div id="itemDetails">
+                    <div id="content" class="overflow-auto">
                         <table class="table-auto w-full border-collapse">
                             <thead>
                                 <tr>
-                                    <th v-for="(dataHeader, index) in headers" :key="index" scope="col" class="p-2 border-0 border-b text-sm">
+                                    <th v-for="(dataHeader, index) in headerColumns" :key="index" scope="col" class="p-2 border-0 border-b text-sm">
                                         {{ dataHeader.name }}
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="dataValue, index in datas.uploads" :key="index">
-                                    <td class="p-4 font-medium text-gray-900 whitespace-nowrap text-center">
-                                        {{ dataValue.attachment_name }}
+                                <tr v-for="item in data.items" :key="item.id" class="bg-white border-b">
+                                    <td class="px-4 py-2 border text-center">
+                                        {{ item.quantity }}
                                     </td>
-                                    <td>
-                                        <a target="_blank" :href="config.public.INVENTORY_API_URL + dataValue.file_location" class="hover:text-green-600 max-w-sm hover:bg-gray-100 hover:border-green-600 block mb-2 text-sm font-medium text-gray-100 text-center bg-green-600 px-2 py-3 cursor-pointer border rounded">
-                                            <Icon name="mage:file-download-fill" class="h-5 w-5 lg:h-5 lg:w-5" />
-                                            Download
-                                        </a>
+                                    <td class="px-4 py-2 border text-center">
+                                        {{ item.uom_name }}
+                                    </td>
+                                    <td class="px-4 py-2 border text-center">
+                                        {{ item.item_description }}
+                                    </td>
+                                    <td class="px-4 py-2 border text-center">
+                                        {{ item.specification }}
+                                    </td>
+                                    <td class="px-4 py-2 border text-center">
+                                        {{ item.preferred_brand }}
+                                    </td>
+                                    <td class="px-4 py-2 border text-center">
+                                        {{ item.reason }}
+                                    </td>
+                                    <td class="px-4 py-2 border text-center">
+                                        {{ item.location }}
+                                    </td>
+                                    <td class="px-4 py-2 border text-center">
+                                        {{ item.location_qty }}
+                                    </td>
+                                    <td class="px-4 py-2 border text-center">
+                                        {{ item.status }}
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="w-full">
-                        <InventoryCommonFormPsLabel :value="datas.requirements_complete" title="Requirements Complete" />
+                    <div class="flex mt-4">
+                        <div class="flex-1 mr-4">
+                            <p v-if="title" class="pl-4 text-md text-gray-900">
+                                Type of Request: {{ data.type_of_request }}
+                            </p>
+                            <p v-if="title" class="pl-4 text-md text-gray-900">
+                                Contact Number: {{ data.contact_no }}
+                            </p>
+                        </div>
+                        <div class="flex-1 mr-4">
+                            <p v-if="title" class="pl-4 text-md text-gray-900">
+                                Remarks: {{ data.remarks }}
+                            </p>
+                        </div>
+                        <div class="flex-1 grid grid-rows-2 grid-cols-2 gap-4">
+                            <div class="row-span-1">
+                                <p v-if="title" class="pl-4 text-md text-gray-900">
+                                    Current SMR: {{ data.current_smr }}
+                                </p>
+                            </div>
+                            <div class="row-span-1">
+                                <p v-if="title" class="pl-4 text-md text-gray-900">
+                                    Unused SMR: {{ data.unused_smr }}
+                                </p>
+                            </div>
+                            <div class="row-span-1">
+                                <p v-if="title" class="pl-4 text-md text-gray-900">
+                                    Previous SMR: {{ data.previous_smr }}
+                                </p>
+                            </div>
+                            <div class="row-span-1">
+                                <p v-if="title" class="pl-4 text-md text-gray-900">
+                                    Next SMR: {{ data.next_smr }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="w-full">
-                        <InventoryCommonFormPsLabel :value="datas.remarks" title="Remarks" />
+                    <div id="approvals" class="w-full mt-4">
+                        <LayoutApprovalsListView :approvals="data.approvals" />
                     </div>
                 </div>
-                <div id="approvals" class="w-full">
-                    <LayoutApprovalsListView :approvals="datas.approvals" />
+            </LayoutPrint>
+            <div id="footer">
+                <div v-if="data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+                    <HrmsCommonApprovalDenyButton
+                        v-model:deny-remarks="remarks"
+                        :request-id="data.id"
+                        @approve="approvedRequest"
+                        @deny="denyRequest"
+                    />
                 </div>
-            </div>
-        </LayoutPrint>
-        <div id="footer">
-            <div v-if="datas.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
-                <HrmsCommonApprovalDenyButton
-                    v-model:deny-remarks="remarks"
-                    :request-id="datas.id"
-                    @approve="approvedRequest"
-                    @deny="denyRequest"
-                />
             </div>
         </div>
     </div>
