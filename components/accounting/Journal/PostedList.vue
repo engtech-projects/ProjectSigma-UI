@@ -35,6 +35,9 @@ const actions = {
 
 <template>
     <LayoutBoards class="w-full" :loading="postedEntries.isLoading">
+        <div class="w-1/3 flex">
+            <LayoutFormPsTextInput v-model="postedEntries.params.key" title="Journal No. / PRF No." class="w-full" />
+        </div>
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
