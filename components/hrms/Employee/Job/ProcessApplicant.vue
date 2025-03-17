@@ -1,30 +1,39 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/hrms/employee/manpower"
+import { useManpowerStore, HIRING_STATUS_HIRED } from "@/stores/hrms/employee/manpower"
 import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 
 const manpowers = useManpowerStore()
-const { manpower, HIRING_STATUS_FOR_HIRING, HIRING_STATUS_REJECTED, HIRING_STATUS_HIRED } = storeToRefs(manpowers)
+const { manpower } = storeToRefs(manpowers)
 const jobapplicantstore = useJobapplicantStore()
 const { jobapplicant } = storeToRefs(jobapplicantstore)
 
 const snackbar = useSnackbar()
+const route = useRoute()
 const boardLoading = ref(false)
 
-const handleStatusChange = async (applicant, status) => {
+const handleStatusChange = async (applicant) => {
     try {
         jobapplicant.value = applicant
         boardLoading.value = true
-        await jobapplicantstore.updateJobapplicant(status)
-        if (jobapplicantstore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: jobapplicantstore.errorMessage
-            })
+        if (route.query.key) {
+            jobapplicant.value.manpowerrequests_id = route.query.key
+            await jobapplicantstore.updateJobapplicant()
+            if (jobapplicantstore.errorMessage !== "") {
+                snackbar.add({
+                    type: "error",
+                    text: jobapplicantstore.errorMessage
+                })
+            } else {
+                snackbar.add({
+                    type: "success",
+                    text: jobapplicantstore.successMessage
+                })
+            }
         } else {
             snackbar.add({
-                type: "success",
-                text: jobapplicantstore.successMessage
+                type: "error",
+                text: "Failed to update."
             })
         }
     } catch (error) {
@@ -87,7 +96,7 @@ formatApplicantStatuses(manpower.value)
                                     </div>
                                 </template>
                                 <template v-else>
-                                    <HrmsEmployeeJobProcessCheckList v-model:processingChecklist="applicant.processing_checklist" v-model:remarks="applicant.remarks" />
+                                    <HrmsEmployeeJobStatusSet v-model:hiringStatus="applicant.pivot.hiring_status" v-model:processingChecklist="applicant.processing_checklist" v-model:remarks="applicant.remarks" />
                                 </template>
                             </td>
                             <td class="border border-gray-400 p-2">
@@ -97,12 +106,10 @@ formatApplicantStatuses(manpower.value)
                                     </div>
                                 </template>
                                 <template v-else>
-                                    <div class="flex flex-row gap-4">
-                                        <button class="p-2 bg-primary-600 hover:bg-primary-700 text-white rounded" @click.prevent="handleStatusChange(applicant, HIRING_STATUS_FOR_HIRING)">
-                                            For Hiring
-                                        </button>
-                                        <button class="p-2 bg-red-600 hover:bg-red-700 rounded text-white" @click.prevent="handleStatusChange(applicant, HIRING_STATUS_REJECTED)">
-                                            Rejected
+                                    <div class="w-full flex justify-center items-center gap-4">
+                                        <button class="p-2 bg-teal-200 hover:bg-teal-300 rounded" @click.prevent="handleStatusChange(applicant)">
+                                            Update
+                                            <Icon name="ic:twotone-system-update-alt" class="h-5 w-5 lg:h-5 lg:w-5" />
                                         </button>
                                     </div>
                                 </template>

@@ -19,17 +19,10 @@ export const STATUS_TEST = "Test"
 export const STATUS_INTERVIEW = "Interview"
 export const STATUS_REFERENCECHECK = "Reference Checking"
 export const STATUS_MEDICALEXAM = "Medical Examination"
+export const STATUS_PROCESSING = "Processing"
 export const STATUS = [
-    STATUS_CONTACTEXT,
-    STATUS_CONTRACTSIGNED,
-    STATUS_PENDING,
-    STATUS_INTERVIEWED,
-    STATUS_REJECTED,
     STATUS_FORHIRING,
-    STATUS_TEST,
-    STATUS_INTERVIEW,
-    STATUS_REFERENCECHECK,
-    STATUS_MEDICALEXAM,
+    STATUS_REJECTED,
 ]
 
 export interface JobApplicationChildren {
@@ -519,10 +512,10 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             this.errorMessage = ""
             this.successMessage = ""
         },
-        async updateJobapplicant (status:string) {
+        async updateJobapplicant () {
             this.successMessage = ""
             this.errorMessage = ""
-            this.jobapplicant.hiring_status = status
+            this.jobapplicant.status = this.jobapplicant.pivot.hiring_status
             await useHRMSApiO(
                 "/api/update-applicant/" + this.jobapplicant.id,
                 {

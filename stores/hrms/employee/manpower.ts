@@ -15,7 +15,6 @@ export const FILL_STATUS_OPEN = "Open"
 export const FILL_STATUS_HOLD = "Hold"
 export const FILL_STATUS_FILLED = "Filled"
 
-// 'Processing','For Hiring','Rejected','Hired'
 export const HIRING_STATUS_FOR_HIRING = "For Hiring"
 export const HIRING_STATUS_REJECTED = "Rejected"
 export const HIRING_STATUS_HIRED = "Hired"
@@ -80,6 +79,7 @@ export interface Manpower {
     request_status: string,
     charged_to: null | string,
     breakdown_details: string,
+    isLoading: boolean,
 }
 
 export const useManpowerStore = defineStore("manpowers", {
@@ -114,6 +114,7 @@ export const useManpowerStore = defineStore("manpowers", {
             charged_to: null,
             breakdown_details: "",
             job_applicants: [],
+            isLoading: false,
         } as Manpower,
         allJobApplicants: {
             isLoading: false,
@@ -215,6 +216,7 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.storeApplicantRequests.isLoading = false
                         if (response.ok) {
+                            this.getOne(this.storeApplicantRequests.form.manpowerrequests_id)
                             this.reloadResources()
                             this.successMessage = response._data.message
                         } else {
@@ -229,18 +231,33 @@ export const useManpowerStore = defineStore("manpowers", {
                 "/api/manpower/resource/" + id,
                 {
                     method: "GET",
+                    onRequest: () => {
+                        this.manpower.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.manpower.isLoading = false
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
+                        this.manpower.isLoading = false
                         if (response.ok) {
                             this.manpower = response._data.data
-                            return response._data.data
+                            this.manpower.job_applicants = this.manpower.job_applicants.map((item:any) => {
+                                return {
+                                    ...item,
+                                    processing_checklist: JSON.parse(item.pivot.processing_checklist)
+                                }
+                            })
+                            this.successMessage = response._data.message
                         } else {
-                            throw new Error(response._data.message)
+                            this.errorMessage = response._data.message
                         }
                     },
                 }
             )
         },
-        async getAllJobApplicant () {
+        async getAllApplicant () {
             this.allJobApplicants.isLoaded = true
             await useHRMSApi(
                 "/api/get-all-applicant",
@@ -612,7 +629,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 callFunctions.push(this.getOpenPositions)
             }
             if (this.allJobApplicants.isLoaded) {
-                callFunctions.push(this.getAllJobApplicant)
+                callFunctions.push(this.getAllApplicant)
             }
             this.$reset()
             this.manpower.approvals = backup

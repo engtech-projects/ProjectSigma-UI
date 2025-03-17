@@ -9,7 +9,7 @@ const showAddApplicant = defineModel("hideAddApplicant", { required: false, type
 
 onMounted(() => {
     if (!allJobApplicants.value.isLoaded) {
-        manpowers.getAllJobApplicant()
+        manpowers.getAllApplicant()
     }
 })
 
@@ -23,13 +23,14 @@ const applicantDetails = (applic) => {
     applicantInfo.value = applic
 }
 const route = useRoute()
-
+const isClicked = ref(false)
 const saveApplicant = async () => {
+    isClicked.value = true
     if (route.query.key) {
         manpowers.storeApplicantRequests.form.manpowerrequests_id = route.query.key
         const getList = manpowers.getAddedApplicants.map(item => item.id)
         await manpowers.storeApplicants(getList)
-        await manpowers.getOne(route.query.key)
+        isClicked.value = false
     }
 }
 
@@ -37,7 +38,7 @@ const saveApplicant = async () => {
 <template>
     <div>
         <div class="relative">
-            <div v-if="boardLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+            <div v-if="allJobApplicants.isLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
                 <img
                     class="flex justify-center w-28 rounded-md"
                     src="/loader.gif"
@@ -94,8 +95,7 @@ const saveApplicant = async () => {
                             </table>
                         </div>
                         <div class="flex justify-end mt-4">
-                            <button class="bg-green-500 text-white flex items-center p-2" @click="saveApplicant">
-                                <Icon name="pajamas:file-addition" class="h-4 w-4 text-white" />
+                            <button :disabled="isClicked" class="bg-green-500 text-white flex items-center p-2" @click="saveApplicant">
                                 Save Applicants
                             </button>
                         </div>

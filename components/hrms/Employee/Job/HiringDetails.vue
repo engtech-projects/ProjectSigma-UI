@@ -6,7 +6,6 @@ const jobapplicants = useJobapplicantStore()
 
 const { errorMessage, successMessage } = storeToRefs(jobapplicants)
 
-const boardLoading = ref(false)
 const showAddApplicant = defineModel("showAddApplicant", { required: false, type: Boolean, default: false })
 
 const props = defineProps({
@@ -26,7 +25,7 @@ const addApplicant = () => {
 </script>
 <template>
     <div>
-        <LayoutEditBoards :title="manpowerData.fill_status === FILL_STATUS_OPEN ? 'Job Opening Details' : 'Manpower Request Details'" class="w-full" :loading="boardLoading">
+        <LayoutEditBoards :title="manpowerData.fill_status === FILL_STATUS_OPEN ? 'Job Opening Details' : 'Manpower Request Details'" class="w-full" :loading="manpowerData.isLoading">
             <div class="text-gray-600 text-sm p-2">
                 <div class="rounded p-2 grid grid-cols-2 " @change="setDetail">
                     <div class="border px-4 py-2">
