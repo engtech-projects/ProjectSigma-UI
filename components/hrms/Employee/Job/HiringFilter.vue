@@ -9,7 +9,7 @@ const compId = useId()
             :for="compId"
             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
         >
-            Type of Hiring Status
+            Type of Status
         </label>
         <select
             :id="compId"
@@ -19,27 +19,27 @@ const compId = useId()
         >
             <option
                 class="uppercase cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
-                value="Hired"
+                value="Available"
             >
-                Hired
-            </option>
-            <option
-                class="uppercase cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
-                value="For Hiring"
-            >
-                For Hiring
-            </option>
-            <option
-                class="uppercase cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
-                value="Rejected"
-            >
-                Rejected
+                Available
             </option>
             <option
                 class="uppercase cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
                 value="Processing"
             >
                 Processing
+            </option>
+            <option
+                class="uppercase cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
+                value="Not Available"
+            >
+                Not Available
+            </option>
+            <option
+                class="uppercase cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
+                value="Hired"
+            >
+                Hired
             </option>
         </select>
     </div>

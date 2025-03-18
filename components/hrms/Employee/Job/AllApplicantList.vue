@@ -19,7 +19,7 @@ const headers = [
     { name: "Applicant Name", id: "fullname_last" },
     { name: "Position Desired", id: "desired_position" },
     { name: "Position in Manpower Request", id: "position" },
-    { name: "Hiring Status", id: "status" },
+    { name: "Status", id: "status" },
     { name: "Date added", id: "created_at" },
 ]
 const actions = {
@@ -38,12 +38,49 @@ const applicantDetails = (applic) => {
             <HrmsEmployeeJobHiringFilter v-model:status="allJobApplicants.params.status" v-model:applicant="allJobApplicants.params.name" />
         </div>
         <div class="text-gray-500 text-[12px] overflow-y-auto p-2">
-            <LayoutPsTable
-                :header-columns="headers"
-                :actions="actions"
-                :datas="allJobApplicants.list ?? []"
-                @show-table="applicantDetails"
-            />
+            <table class="table-auto w-full border-collapse">
+                <thead>
+                    <tr>
+                        <th
+                            v-for="header in headers"
+                            :key="header.name+'headerRow'"
+                            class="p-2"
+                            :class="header.style ?? ''"
+                        >
+                            {{ header.name }}
+                        </th>
+                        <th v-if="actions" class="p-2">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(applicant, index) in allJobApplicants.list" :key="index" class="border text-center">
+                        <td class="p-2">
+                            {{ applicant.fullname_last }}
+                        </td>
+                        <td class="p-2">
+                            {{ applicant.desired_position }}
+                        </td>
+                        <td class="p-2">
+                            <div v-for="(position, applicantIndex) in applicant.position" :key="'applicant-'+applicantIndex">
+                                {{ position.name }}
+                            </div>
+                        </td>
+                        <td class="p-2">
+                            {{ applicant.status }}
+                        </td>
+                        <td class="p-2">
+                            {{ applicant.created_at }}
+                        </td>
+                        <td class="p-2">
+                            <button v-if="actions.showTable" @click="applicantDetails(applicant)">
+                                <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="flex justify-center mx-auto p-2">
             <CustomPagination :links="allJobApplicants.pagination" @change-params="changePaginate" />
