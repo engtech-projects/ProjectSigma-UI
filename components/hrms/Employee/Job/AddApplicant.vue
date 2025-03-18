@@ -9,7 +9,7 @@ const showAddApplicant = defineModel("hideAddApplicant", { required: false, type
 
 onMounted(() => {
     if (!allJobApplicants.value.isLoaded) {
-        manpowers.getAllApplicant()
+        manpowers.getAllAvailableApplicant()
     }
 })
 

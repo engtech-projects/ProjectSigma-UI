@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useManpowerStore, HIRING_STATUS_HIRED } from "@/stores/hrms/employee/manpower"
+import { useManpowerStore, HIRING_STATUS_HIRED, FILL_STATUS_OPEN } from "@/stores/hrms/employee/manpower"
 import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 
 const manpowers = useManpowerStore()
@@ -11,6 +11,7 @@ const { jobapplicant } = storeToRefs(jobapplicantstore)
 const snackbar = useSnackbar()
 const route = useRoute()
 const boardLoading = ref(false)
+const { data: userData } = useAuth()
 
 const handleStatusChange = async (applicant) => {
     try {
@@ -63,9 +64,45 @@ const formatApplicantStatuses = (manpower) => {
 }
 formatApplicantStatuses(manpower.value)
 
+const approvedRequest = async (id) => {
+    try {
+        boardLoading.value = true
+        await manpowers.approveApprovalForm(id)
+        snackbar.add({
+            type: "success",
+            text: manpowers.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    } finally {
+        boardLoading.value = false
+    }
+}
+
+const denyRequest = async (id) => {
+    try {
+        boardLoading.value = true
+        await manpowers.denyApprovalForm(id)
+        snackbar.add({
+            type: "success",
+            text: manpowers.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    } finally {
+        boardLoading.value = false
+    }
+}
+
 </script>
 <template>
-    <div>
+    <div v-if="manpower.fill_status === FILL_STATUS_OPEN">
         <template v-if="manpower.job_applicants && manpower.job_applicants.length > 0">
             <div class="overflow--auto">
                 <table class="table-auto border-collapse w-full">
@@ -129,5 +166,18 @@ formatApplicantStatuses(manpower.value)
                 <HrmsEmployeeJobApplicantList :applicant="applicantInfo" />
             </template>
         </PsModal>
+    </div>
+    <div v-if="manpower.fill_status !== FILL_STATUS_OPEN" class="w-full">
+        <LayoutApprovalsListView :approvals="manpower.approvals" />
+    </div>
+    <div v-if="manpower.next_approval?.user_id === userData?.id && manpower.fill_status !== FILL_STATUS_OPEN" class="w-full flex flex-col gap-4">
+        <div class="flex gap-2 p-2 justify-end relative">
+            <HrmsCommonApprovalDenyButton
+                v-model:deny-remarks="remarks"
+                :request-id="manpower.id"
+                @approve="approvedRequest"
+                @deny="denyRequest"
+            />
+        </div>
     </div>
 </template>

@@ -257,10 +257,10 @@ export const useManpowerStore = defineStore("manpowers", {
                 }
             )
         },
-        async getAllApplicant () {
+        async getAllAvailableApplicant () {
             this.allJobApplicants.isLoaded = true
             await useHRMSApi(
-                "/api/get-all-applicant",
+                "/api/get-all-available-applicant",
                 {
                     method: "GET",
                     params: this.allJobApplicants.params,
