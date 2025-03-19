@@ -278,6 +278,14 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
+                    AccessibilityTypes.HRMS_REQUEST_VOID_GROUP,
+                ])"
+                linkarea="/hrms/requests/void"
+                icon="mdi:archive-cancel"
+                single-nav-title="Void Requests"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_reports_group,
                 ])"
                 linkarea="/hrms/reports"

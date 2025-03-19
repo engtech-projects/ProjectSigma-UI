@@ -41,6 +41,9 @@ const actions = {
             ])"
             class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2"
         >
+            <div class="w-1/3 flex">
+                <LayoutFormPsTextInput v-model="cashEntries.params.key" title="Journal No. / PRF No." class="w-full" />
+            </div>
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"

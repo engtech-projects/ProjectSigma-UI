@@ -19,17 +19,10 @@ export const STATUS_TEST = "Test"
 export const STATUS_INTERVIEW = "Interview"
 export const STATUS_REFERENCECHECK = "Reference Checking"
 export const STATUS_MEDICALEXAM = "Medical Examination"
+export const STATUS_PROCESSING = "Processing"
 export const STATUS = [
-    STATUS_CONTACTEXT,
-    STATUS_CONTRACTSIGNED,
-    STATUS_PENDING,
-    STATUS_INTERVIEWED,
-    STATUS_REJECTED,
     STATUS_FORHIRING,
-    STATUS_TEST,
-    STATUS_INTERVIEW,
-    STATUS_REFERENCECHECK,
-    STATUS_MEDICALEXAM,
+    STATUS_REJECTED,
 ]
 
 export interface JobApplicationChildren {
@@ -172,6 +165,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             application_letter_attachment: undefined,
             resume_attachment: undefined,
             status: "",
+            hiring_status: "",
             lastname: "",
             firstname: "",
             middlename: "",
@@ -281,6 +275,13 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             remarks: "",
         },
         list: [],
+        allApplicantList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
         jobApplicantDetails: [],
         searchJobApplicantParams: {
             key: "",
@@ -293,6 +294,15 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         errorMessage: "",
         successMessage: "",
         showFormComponent: false,
+        allJobApplicants: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                paginated: "true"
+            },
+            pagination: {},
+        },
     }),
     getters: {
         fullname (state) {
@@ -334,6 +344,33 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 }
             )
         },
+        async getAllJobApplicant () {
+            this.allJobApplicants.isLoaded = true
+            await useHRMSApi(
+                "/api/get-applicant",
+                {
+                    method: "GET",
+                    params: this.allJobApplicants.params,
+                    onRequest: () => {
+                        this.allJobApplicants.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.allJobApplicants.isLoading = false
+                        if (response.ok) {
+                            this.allJobApplicants.list = response._data.data.data
+                            this.allJobApplicants.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getJobApplicant () {
             const { data, error } = await useFetch(
                 "/api/job-applicants",
@@ -355,7 +392,28 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 return error
             }
         },
-
+        async getAllApplicantList () {
+            this.allApplicantList.isLoaded = true
+            await useHRMSApi(
+                "/api/manpower/resource",
+                {
+                    method: "GET",
+                    params: this.allApplicantList.params,
+                    onRequest: () => {
+                        this.allApplicantList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.allApplicantList.isLoading = false
+                        if (response.ok) {
+                            this.allApplicantList.list = response._data.data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async createJobapplicant () {
             if (this.addJobApplicantRequest.isLoading) { return }
             this.successMessage = ""
@@ -457,6 +515,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         async updateJobapplicant () {
             this.successMessage = ""
             this.errorMessage = ""
+            this.jobapplicant.hiring_status = this.jobapplicant.pivot.hiring_status
             await useHRMSApiO(
                 "/api/update-applicant/" + this.jobapplicant.id,
                 {
