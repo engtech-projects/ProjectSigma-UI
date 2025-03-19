@@ -121,7 +121,7 @@ export const useManpowerStore = defineStore("manpowers", {
             isLoaded: false,
             list: [],
             params: {
-                status: "Rejected",
+                hiring_status: "Rejected",
             },
             pagination: {},
         },

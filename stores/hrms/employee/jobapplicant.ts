@@ -515,7 +515,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         async updateJobapplicant () {
             this.successMessage = ""
             this.errorMessage = ""
-            this.jobapplicant.status = this.jobapplicant.pivot.hiring_status
+            this.jobapplicant.hiring_status = this.jobapplicant.pivot.hiring_status
             await useHRMSApiO(
                 "/api/update-applicant/" + this.jobapplicant.id,
                 {
