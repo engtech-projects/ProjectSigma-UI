@@ -347,7 +347,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         async getAllJobApplicant () {
             this.allJobApplicants.isLoaded = true
             await useHRMSApi(
-                "/api/get-all-applicant",
+                "/api/get-applicant",
                 {
                     method: "GET",
                     params: this.allJobApplicants.params,
