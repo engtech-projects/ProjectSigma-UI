@@ -785,13 +785,13 @@ const config = useRuntimeConfig()
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.project_monitoring_group,
+                AccessibilityTypes.ADMIN_ONLY,
             ])"
             title="Project Monitoring"
         >
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.project_monitoring_dashboard,
+                    AccessibilityTypes.ADMIN_ONLY,
                 ])"
                 linkarea="/project-monitoring"
                 icon="ic:baseline-space-dashboard"
@@ -801,9 +801,9 @@ const config = useRuntimeConfig()
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.ADMIN_ONLY,
                 ])"
-                linkarea="/project-monitoring/projects"
+                linkarea="/project-monitoring/marketing"
                 icon="material-symbols:business-center"
-                single-nav-title="Projects"
+                single-nav-title="Marketing"
             />
         </LayoutNavModuleGroup>
     </div>
