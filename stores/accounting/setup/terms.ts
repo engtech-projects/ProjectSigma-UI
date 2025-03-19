@@ -7,6 +7,7 @@ export const useTermsStore = defineStore("termsStore", {
             name: null,
             account_id: null,
             debit_credit: null,
+            location: null,
             description: null
         },
         balanceType: [],
@@ -30,9 +31,9 @@ export const useTermsStore = defineStore("termsStore", {
                         this.isLoading = false
                         this.list = response._data.data.data
                         this.pagination = {
-                            first_page: response._data.data.first_page_url,
+                            first_page: response._data.data.links.first,
                             pages: response._data.data.links,
-                            last_page: response._data.data.last_page_url,
+                            last_page: response._data.data.links.last,
                         }
                     },
                 }
