@@ -14,24 +14,30 @@ useHead({
             AccessibilityTypes.hrms_employee_manpowerrequest_group,
         ])"
     >
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <HrmsEmployeeManpowerAddRequest
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.hrms_employee_manpowerrequest_form,
-                    ])"
-                    v-show="!isEdit"
-                />
-                <!-- <EmployeeManpowerEditRequest v-show="isEdit" /> -->
-            </div>
+        <div class="grid grid-cols-1 gap-4">
+            <!-- <EmployeeManpowerEditRequest v-show="isEdit" /> -->
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_employee_manpower_request_form_and_my_requests,
+                        ])"
+                        title="Request Form"
+                        target-id="requestForm"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_employee_manpower_request_form_and_my_requests,
+                        ])"
+                        title="My Requests"
+                        target-id="myRequestsManpower"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
                             AccessibilityTypes.hrms_employee_manpowerrequest_all_request,
                         ])"
-                        title="All List"
-                        target-id="allListManpower"
+                        title="All Requests"
+                        target-id="allRequestsManpower"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -42,21 +48,62 @@ useHead({
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_manpowerrequest_my_request,
+                            AccessibilityTypes.hrms_employee_manpower_request_open_positions,
                         ])"
-                        title="My Request"
-                        target-id="myRequestsManpower"
+                        title="Open Positions"
+                        target-id="openPositions"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.hrms_employee_manpowerrequest_all_request,
+                        ])"
+                        title="Approved Positions"
+                        target-id="approvedPositions"
                     />
                 </template>
                 <template #tab-containers>
-                    <HrmsCommonTabsTabContainer id="allListManpower">
-                        <HrmsEmployeeManpowerMonitoringList />
-                    </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="myApprovalsManpower">
-                        <HrmsEmployeeManpowerMyApprovals />
+                    <HrmsCommonTabsTabContainer id="requestForm">
+                        <HrmsEmployeeManpowerAddRequest
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_employee_manpower_request_form_and_my_requests,
+                            ])"
+                            v-show="!isEdit"
+                        />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer id="myRequestsManpower">
-                        <HrmsEmployeeManpowerMyRequests />
+                        <HrmsEmployeeManpowerMyRequests
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_employee_manpower_request_form_and_my_requests,
+                            ])"
+                        />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer id="allRequestsManpower">
+                        <HrmsEmployeeManpowerMonitoringList
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_employee_manpowerrequest_all_request,
+                            ])"
+                        />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer id="myApprovalsManpower">
+                        <HrmsEmployeeManpowerMyApprovals
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_employee_manpowerrequest_approval,
+                            ])"
+                        />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer id="openPositions">
+                        <HrmsEmployeeManpowerOpenPositionList
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_employee_manpower_request_open_positions,
+                            ])"
+                        />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer id="approvedPositions">
+                        <HrmsEmployeeManpowerFilledPositionList
+                            v-if="useCheckAccessibility([
+                                AccessibilityTypes.hrms_employee_manpowerrequest_all_request,
+                            ])"
+                        />
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>
