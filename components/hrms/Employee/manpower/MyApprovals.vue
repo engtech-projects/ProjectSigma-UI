@@ -22,6 +22,10 @@ const showInformation = (data) => {
     })
 }
 
+const changePaginate = (newParams) => {
+    myApprovals.value.params.page = newParams.page ?? ""
+}
+
 const headers = [
     { name: "Requesting Department", id: "requesting_department_name" },
     { name: "Position/Title", id: "position.name" },
@@ -121,6 +125,9 @@ const actions = {
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="flex justify-center mx-auto p-2">
+            <CustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <HrmsEmployeeManpowerInfoModal

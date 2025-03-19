@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
+const config = useRuntimeConfig()
 
 const props = defineProps({
     paymentData: {
@@ -148,6 +149,18 @@ watch(showModal, (newVal) => {
                         <p>
                             {{ paymentData?.description }}
                         </p>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div>
+                        <NuxtLink
+                            class="flex items-center gap-2 p-2 border border-green-600 rounded-lg hover:bg-green-100"
+                            :to="config.public.ACCOUNTING_API_URL + '/document-viewer?id=' + paymentData?.id"
+                            target="_blank"
+                        >
+                            <Icon name="ic:sharp-file-download" color="green" class="w-4 h-4" />
+                            View Attachment File
+                        </NuxtLink>
                     </div>
                 </div>
                 <div class="p-2 border border-gray-200 rounded-lg">

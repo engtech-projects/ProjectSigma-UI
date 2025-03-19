@@ -34,9 +34,7 @@ const setCompanyId = () => {
 }
 </script>
 <template>
-    <LayoutBoards
-        title=" "
-        class="shadow-md bg-white border-gray-200 rounded-lg w-full"
+    <LayoutLoadingContainer
         :loading="boardLoading"
     >
         <div class="flex items-center md:justify-center p-4">
@@ -78,26 +76,60 @@ const setCompanyId = () => {
                         <tr>
                             <td colspan="4" class="border border-slate-300 p-2">
                                 <div class="md:flex gap-2 space-x-2 p-2">
-                                    <input id="newhire" v-model="pan.personelActionNotice.type" class="" type="radio" value="New Hire">
-                                    <label
-                                        for="newhire"
-                                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                                    >NEW HIRE</label>
-                                    <input id="transfer" v-model="pan.personelActionNotice.type" class="" type="radio" value="Transfer">
-                                    <label
-                                        for="transfer"
-                                        class="text-xs text-gray-900 dark:text-gray-300"
-                                    >TRANSFER</label>
-                                    <input id="promotion" v-model="pan.personelActionNotice.type" type="radio" value="Promotion">
-                                    <label
-                                        for="promotion"
-                                        class="text-xs text-gray-900 dark:text-gray-300"
-                                    >PROMOTION</label>
-                                    <input id="termination" v-model="pan.personelActionNotice.type" class="" type="radio" value="Termination">
-                                    <label
-                                        for="termination"
-                                        class="mr-4 text-xs text-gray-900 dark:text-gray-300"
-                                    >TERMINATION</label>
+                                    <template v-if="useCheckAccessibility([AccessibilityTypes.HRMS_EMPLOYEE_PAN_FORM_NEWHIRE])">
+                                        <input id="newhire" v-model="pan.personelActionNotice.type" class="" type="radio" value="New Hire">
+                                        <label
+                                            for="newhire"
+                                            class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                                        >
+                                            NEW HIRE
+                                        </label>
+                                    </template>
+                                    <template v-if="useCheckAccessibility([AccessibilityTypes.HRMS_EMPLOYEE_PAN_FORM_TRANSFER])">
+                                        <input id="transfer" v-model="pan.personelActionNotice.type" class="" type="radio" value="Transfer">
+                                        <label
+                                            for="transfer"
+                                            class="text-xs text-gray-900 dark:text-gray-300"
+                                        >
+                                            TRANSFER
+                                        </label>
+                                    </template>
+                                    <template v-if="useCheckAccessibility([AccessibilityTypes.HRMS_EMPLOYEE_PAN_FORM_PROMOTION])">
+                                        <input id="promotion" v-model="pan.personelActionNotice.type" type="radio" value="Promotion">
+                                        <label
+                                            for="promotion"
+                                            class="text-xs text-gray-900 dark:text-gray-300"
+                                        >
+                                            PROMOTION
+                                        </label>
+                                    </template>
+                                    <template v-if="useCheckAccessibility([AccessibilityTypes.HRMS_EMPLOYEE_PAN_FORM_TERMINATION])">
+                                        <input id="termination" v-model="pan.personelActionNotice.type" class="" type="radio" value="Termination">
+                                        <label
+                                            for="termination"
+                                            class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                                        >
+                                            TERMINATION
+                                        </label>
+                                    </template>
+                                    <template v-if="useCheckAccessibility([AccessibilityTypes.HRMS_EMPLOYEE_PAN_FORM_BULKTRANSFER])">
+                                        <input id="bulktransfer" v-model="pan.personelActionNotice.type" class="" type="radio" value="Bulk Transfer">
+                                        <label
+                                            for="bulktransfer"
+                                            class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                                        >
+                                            BULK TRANSFER
+                                        </label>
+                                    </template>
+                                    <template v-if="useCheckAccessibility([AccessibilityTypes.HRMS_EMPLOYEE_PAN_FORM_MEMO])">
+                                        <input id="memo" v-model="pan.personelActionNotice.type" class="" type="radio" value="Memo">
+                                        <label
+                                            for="memo"
+                                            class="mr-4 text-xs text-gray-900 dark:text-gray-300"
+                                        >
+                                            MEMO
+                                        </label>
+                                    </template>
                                 </div>
                             </td>
                         </tr>
@@ -215,5 +247,5 @@ const setCompanyId = () => {
                 </table>
             </form>
         </div>
-    </LayoutBoards>
+    </LayoutLoadingContainer>
 </template>
