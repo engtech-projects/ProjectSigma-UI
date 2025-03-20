@@ -43,7 +43,7 @@ const actions = {
 <template>
     <LayoutLoadingContainer class="w-full" :loading="filledPositions.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <div v-if="filledPositions.list" class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+            <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                 <table class="table-auto w-full border-collapse">
                     <thead>
                         <tr>
@@ -61,7 +61,7 @@ const actions = {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="filledPositions.list.length === 0">
+                        <tr v-if="!filledPositions.list">
                             <td :colspan="headers.length + 1" class="text-center">
                                 NO DATA
                             </td>
