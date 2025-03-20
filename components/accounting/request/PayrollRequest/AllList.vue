@@ -27,6 +27,9 @@ const actions = {
 }
 </script>
 <template>
+    <div class="w-1/3 flex">
+        <LayoutFormPsTextInput v-model="allRequests.params.key" title="Payroll No. / Payee" class="w-full" />
+    </div>
     <LayoutBoards class="w-full" :loading="allRequests.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
