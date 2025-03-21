@@ -2,12 +2,13 @@
 
 import { storeToRefs } from "pinia"
 import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
+
 const jobApplicant = useJobapplicantStore()
 const { allJobApplicants } = storeToRefs(jobApplicant)
 
 onMounted(() => {
     if (!allJobApplicants.value.isLoaded) {
-        jobApplicant.getAllJobApplicant()
+        jobApplicant.getAllAvailableApplicant()
     }
 })
 

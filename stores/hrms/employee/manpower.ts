@@ -14,6 +14,7 @@ export const EMPLOYMENT_TYPE = [
 export const FILL_STATUS_OPEN = "Open"
 export const FILL_STATUS_HOLD = "Hold"
 export const FILL_STATUS_FILLED = "Filled"
+export const FILL_STATUS_PENDING = "Pending"
 
 export const HIRING_STATUS_FOR_HIRING = "For Hiring"
 export const HIRING_STATUS_REJECTED = "Rejected"
@@ -629,7 +630,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 callFunctions.push(this.getOpenPositions)
             }
             if (this.allJobApplicants.isLoaded) {
-                callFunctions.push(this.getAllApplicant)
+                callFunctions.push(this.getAllAvailableApplicant)
             }
             this.$reset()
             this.manpower.approvals = backup

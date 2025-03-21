@@ -42,7 +42,7 @@ const actions = {
 <template>
     <LayoutLoadingContainer class="w-full" :loading="myRequests.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
-            <div v-if="myRequests.list" class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+            <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                 <table class="table-auto w-full border-collapse">
                     <thead>
                         <tr>
@@ -60,7 +60,7 @@ const actions = {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="myRequests.list.length === 0">
+                        <tr v-if="!myRequests.list">
                             <td :colspan="headers.length + 1" class="text-center">
                                 NO DATA
                             </td>
@@ -122,9 +122,6 @@ const actions = {
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="flex justify-center mx-auto p-2">
-            <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
         </div>
         <div class="flex justify-center mx-auto p-2">
             <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />

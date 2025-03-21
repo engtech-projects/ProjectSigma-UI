@@ -1,6 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useManpowerStore, HIRING_STATUS_HIRED, FILL_STATUS_OPEN } from "@/stores/hrms/employee/manpower"
+import { useManpowerStore, HIRING_STATUS_HIRED, FILL_STATUS_PENDING } from "@/stores/hrms/employee/manpower"
 import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 
 const manpowers = useManpowerStore()
@@ -11,7 +11,6 @@ const { jobapplicant } = storeToRefs(jobapplicantstore)
 const snackbar = useSnackbar()
 const route = useRoute()
 const boardLoading = ref(false)
-const { data: userData } = useAuth()
 
 const handleStatusChange = async (applicant) => {
     try {
@@ -102,7 +101,7 @@ const denyRequest = async (id) => {
 
 </script>
 <template>
-    <div v-if="manpower.fill_status === FILL_STATUS_OPEN">
+    <div v-if="manpower.fill_status !== FILL_STATUS_PENDING">
         <template v-if="manpower.job_applicants && manpower.job_applicants.length > 0">
             <div class="overflow--auto">
                 <table class="table-auto border-collapse w-full">
@@ -167,10 +166,10 @@ const denyRequest = async (id) => {
             </template>
         </PsModal>
     </div>
-    <div v-if="manpower.fill_status !== FILL_STATUS_OPEN" class="w-full">
+    <div class="w-full">
         <LayoutApprovalsListView :approvals="manpower.approvals" />
     </div>
-    <div v-if="manpower.next_approval?.user_id === userData?.id && manpower.fill_status !== FILL_STATUS_OPEN" class="w-full flex flex-col gap-4">
+    <div v-if="useCheckIsCurrentUser(manpower.next_approval?.user_id) && manpower.request_status === REQUEST_PENDING" class="w-full flex flex-col gap-4">
         <div class="flex gap-2 p-2 justify-end relative">
             <HrmsCommonApprovalDenyButton
                 v-model:deny-remarks="remarks"
