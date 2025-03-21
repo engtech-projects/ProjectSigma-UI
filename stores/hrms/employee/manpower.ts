@@ -630,7 +630,7 @@ export const useManpowerStore = defineStore("manpowers", {
                 callFunctions.push(this.getOpenPositions)
             }
             if (this.allJobApplicants.isLoaded) {
-                callFunctions.push(this.getAllApplicant)
+                callFunctions.push(this.getAllAvailableApplicant)
             }
             this.$reset()
             this.manpower.approvals = backup
