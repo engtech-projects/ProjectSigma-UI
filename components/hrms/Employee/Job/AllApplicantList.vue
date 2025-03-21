@@ -8,7 +8,7 @@ const { allJobApplicants } = storeToRefs(jobApplicant)
 
 onMounted(() => {
     if (!allJobApplicants.value.isLoaded) {
-        jobApplicant.getAllAvailableApplicant()
+        jobApplicant.getAllJobApplicant()
     }
 })
 
