@@ -813,6 +813,14 @@ const config = useRuntimeConfig()
                 icon="material-symbols:business-center"
                 single-nav-title="Marketing"
             />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.ADMIN_ONLY,
+                ])"
+                linkarea="/project-monitoring/technical-service"
+                icon="material-symbols:linked-services"
+                single-nav-title="Technical Service"
+            />
         </LayoutNavModuleGroup>
     </div>
 </template>

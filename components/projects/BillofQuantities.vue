@@ -10,7 +10,7 @@
                         Project Description
                     </h4>
                 </div>
-                <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9" @click="showPhaseModal = true">
+                <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9" @click="showPhaseModal = true">
                     Create Phase
                 </button>
             </div>
@@ -40,17 +40,17 @@
                 <tbody>
                     <tr>
                         <td class="uppercase bg-yellow-200 text-center">
-                            Phase A
+                            Item A
                         </td>
                         <td class="uppercase bg-yellow-200 text-center">
                             Facilities for Engineers
                         </td>
                         <td class="bg-yellow-200 py-1" colspan="4">
                             <div class="flex gap-1 justify-end">
-                                <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showTaskModal = true">
+                                <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showTaskModal = true">
                                     Create Task
                                 </button>
-                                <button class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
+                                <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
                                     Remove
                                 </button>
                             </div>
@@ -108,10 +108,13 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="edit" to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
                                     </NuxtLink>
-                                    <button class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
+                                    </NuxtLink>
+                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
                                     </button>
                                 </div>
@@ -170,10 +173,13 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="edit" to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
                                     </NuxtLink>
-                                    <button class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
+                                    </NuxtLink>
+                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
                                     </button>
                                 </div>
@@ -232,10 +238,13 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="edit" to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
                                     </NuxtLink>
-                                    <button class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
+                                    </NuxtLink>
+                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
                                     </button>
                                 </div>
@@ -244,17 +253,17 @@
                     </tr>
                     <tr>
                         <td class="uppercase bg-yellow-200 text-center">
-                            Phase B
+                            Item B
                         </td>
                         <td class="uppercase bg-yellow-200 text-center">
                             Facilities for Engineers
                         </td>
                         <td class="bg-yellow-200 py-1" colspan="4">
                             <div class="flex gap-1 justify-end">
-                                <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showTaskModal = true">
+                                <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showTaskModal = true">
                                     Create Task
                                 </button>
-                                <button class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
+                                <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
                                     Remove
                                 </button>
                             </div>
@@ -312,10 +321,13 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="edit" to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
                                     </NuxtLink>
-                                    <button class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
+                                    </NuxtLink>
+                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
                                     </button>
                                 </div>
@@ -374,10 +386,13 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="edit" to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
                                     </NuxtLink>
-                                    <button class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
+                                    </NuxtLink>
+                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
                                     </button>
                                 </div>
@@ -393,6 +408,11 @@
 </template>
 
 <script lang="ts" setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+
+const projectStore = useProjectStore()
+const edit = projectStore.viewState
+
 const showPhaseModal = ref(false)
 const showTaskModal = ref(false)
 

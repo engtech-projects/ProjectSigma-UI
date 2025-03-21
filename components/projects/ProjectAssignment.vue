@@ -4,7 +4,7 @@
             PROJECT ASSIGNMENT
         </h1>
 
-        <div class="flex flex-wrap items-center mb-6">
+        <div v-if="edit" class="flex flex-wrap items-center mb-6">
             <div class="w-full md:w-1/2 mb-4 md:mb-0 md:pr-2">
                 <label for="searchEmployee" class="block text-sm font-medium text-gray-700">Search Employee</label>
                 <div class="relative mt-1">
@@ -278,6 +278,10 @@
 </template>
 
 <script lang="ts" setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+
+const projectStore = useProjectStore()
+const edit = projectStore.viewState
 const showModal = ref(false)
 </script>
 

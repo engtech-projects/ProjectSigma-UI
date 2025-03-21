@@ -70,7 +70,7 @@
                 <label class="text-md text-gray-700">
                     Description
                 </label>
-                <TextArea class="border border-gray-300 rounded-md w-full h-56 resize-none" />
+                <textarea class="border border-gray-300 rounded-md w-full h-56 resize-none" />
             </div>
             <div class="flex justify-end">
                 <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" @click="emit('hideModal')">

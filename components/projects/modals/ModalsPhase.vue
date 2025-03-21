@@ -10,10 +10,10 @@
         <div class="flex flex-col p-4">
             <div class="flex mb-16 items-end gap-2">
                 <h1 class="text-3xl uppercase">
-                    Create Phase
+                    Create Item
                 </h1>
                 <h3 class="text-gray-400 text-lg">
-                    Phase Creation
+                    Item Creation
                 </h3>
             </div>
             <div class="grid grid-cols-2 gap-6 mb-6">
@@ -34,11 +34,11 @@
                 <label class="text-md text-gray-700">
                     Description
                 </label>
-                <TextArea class="border border-gray-300 rounded-md w-full h-56 resize-none" />
+                <textarea class="border border-gray-300 rounded-md w-full h-56 resize-none" />
             </div>
             <div class="flex justify-end">
                 <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" @click="emit('hideModal')">
-                    Create Phase
+                    Create Item
                 </button>
             </div>
         </div>
