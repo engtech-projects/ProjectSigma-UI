@@ -5,7 +5,7 @@ useHead({
     title: "Position Details",
 })
 const manpowers = useManpowerStore()
-const { manpower, isDetail } = storeToRefs(manpowers)
+const { positionDetails, isDetail } = storeToRefs(manpowers)
 const route = useRoute()
 const validKey = ref(false)
 
@@ -28,7 +28,7 @@ const showAddApplicant = ref(false)
         ])"
     >
         <div class="w-full flex flex-row gap-4">
-            <HrmsEmployeeJobHiringDetails v-model:showAddApplicant="showAddApplicant" :manpower-data="manpower" class="w-full" />
+            <HrmsEmployeeJobHiringDetails v-model:showAddApplicant="showAddApplicant" :manpower-data="positionDetails" class="w-full" />
             <HrmsEmployeeJobAddApplicant
                 v-if="showAddApplicant"
                 v-model:hideAddApplicant="showAddApplicant"

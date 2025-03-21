@@ -23,6 +23,7 @@ export const STATUS_PROCESSING = "Processing"
 export const STATUS = [
     STATUS_FORHIRING,
     STATUS_REJECTED,
+    STATUS_PROCESSING,
 ]
 
 export interface JobApplicationChildren {
