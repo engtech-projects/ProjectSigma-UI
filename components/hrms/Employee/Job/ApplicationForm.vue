@@ -22,11 +22,12 @@ const submitForm = async () => {
         jobapplicant.value.manpowerrequests_id = manpower.value.id
         boardLoading.value = true
         await jobapplicantstore.createJobapplicant()
+        await jobapplicantstore.getAllJobApplicant()
+        manpowers.reloadResources()
         snackbar.add({
             type: "success",
             text: jobapplicantstore.successMessage
         })
-        manpowers.reloadResources()
         closeViewModal()
     } catch (error) {
         snackbar.add({
