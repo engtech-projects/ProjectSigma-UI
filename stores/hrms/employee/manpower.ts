@@ -117,6 +117,30 @@ export const useManpowerStore = defineStore("manpowers", {
             job_applicants: [],
             isLoading: false,
         } as Manpower,
+        positionDetails: {
+            id: null,
+            requesting_department: null,
+            date_requested: "",
+            date_required: "",
+            position_id: null,
+            employment_type: "",
+            brief_description: "",
+            job_description_attachment: "",
+            nature_of_request: "",
+            age_range: "",
+            status: "",
+            fill_status: "",
+            gender: "",
+            educational_requirement: "",
+            preferred_qualifications: "",
+            approvals: [],
+            remarks: "",
+            request_status: "",
+            charged_to: null,
+            breakdown_details: "",
+            job_applicants: [],
+            isLoading: false,
+        } as Manpower,
         allJobApplicants: {
             isLoading: false,
             isLoaded: false,
@@ -233,18 +257,18 @@ export const useManpowerStore = defineStore("manpowers", {
                 {
                     method: "GET",
                     onRequest: () => {
-                        this.manpower.isLoading = true
+                        this.positionDetails.isLoading = true
                     },
                     onResponseError: ({ response }: any) => {
-                        this.manpower.isLoading = false
+                        this.positionDetails.isLoading = false
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
-                        this.manpower.isLoading = false
+                        this.positionDetails.isLoading = false
                         if (response.ok) {
-                            this.manpower = response._data.data
-                            this.manpower.job_applicants = this.manpower.job_applicants.map((item:any) => {
+                            this.positionDetails = response._data.data
+                            this.positionDetails.job_applicants = this.positionDetails.job_applicants.map((item:any) => {
                                 return {
                                     ...item,
                                     processing_checklist: JSON.parse(item.pivot.processing_checklist)

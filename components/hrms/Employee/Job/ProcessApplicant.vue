@@ -4,7 +4,7 @@ import { useManpowerStore, HIRING_STATUS_HIRED, FILL_STATUS_PENDING } from "@/st
 import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 
 const manpowers = useManpowerStore()
-const { manpower } = storeToRefs(manpowers)
+const { positionDetails } = storeToRefs(manpowers)
 const jobapplicantstore = useJobapplicantStore()
 const { jobapplicant } = storeToRefs(jobapplicantstore)
 
@@ -53,15 +53,15 @@ const applicantDetails = (applic) => {
     applicantDetail.value = true
     applicantInfo.value = applic
 }
-const formatApplicantStatuses = (manpower) => {
-    manpower.job_applicants = manpower.job_applicants.map((item) => {
+const formatApplicantStatuses = (positionDetails) => {
+    positionDetails.job_applicants = positionDetails.job_applicants.map((item) => {
         return {
             ...item,
             processing_checklist: JSON.parse(item.pivot.processing_checklist)
         }
     })
 }
-formatApplicantStatuses(manpower.value)
+formatApplicantStatuses(positionDetails.value)
 
 const approvedRequest = async (id) => {
     try {
@@ -101,8 +101,8 @@ const denyRequest = async (id) => {
 
 </script>
 <template>
-    <div v-if="manpower.fill_status !== FILL_STATUS_PENDING">
-        <template v-if="manpower.job_applicants && manpower.job_applicants.length > 0">
+    <div v-if="positionDetails.fill_status !== FILL_STATUS_PENDING">
+        <template v-if="positionDetails.job_applicants && positionDetails.job_applicants.length > 0">
             <div class="overflow--auto">
                 <table class="table-auto border-collapse w-full">
                     <thead>
@@ -119,7 +119,7 @@ const denyRequest = async (id) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(applicant, index) in manpower.job_applicants" :key="index" class="bg-white">
+                        <tr v-for="(applicant, index) in positionDetails.job_applicants" :key="index" class="bg-white">
                             <td class="border border-gray-400 p-2">
                                 <span class="cursor-pointer text-blue-500" @click="applicantDetails(applicant)">
                                     {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }}
@@ -167,13 +167,13 @@ const denyRequest = async (id) => {
         </PsModal>
     </div>
     <div class="w-full">
-        <LayoutApprovalsListView :approvals="manpower.approvals" />
+        <LayoutApprovalsListView :approvals="positionDetails.approvals" />
     </div>
-    <div v-if="useCheckIsCurrentUser(manpower.next_approval?.user_id) && manpower.request_status === REQUEST_PENDING" class="w-full flex flex-col gap-4">
+    <div v-if="useCheckIsCurrentUser(positionDetails.next_approval?.user_id) && positionDetails.request_status === REQUEST_PENDING" class="w-full flex flex-col gap-4">
         <div class="flex gap-2 p-2 justify-end relative">
             <HrmsCommonApprovalDenyButton
                 v-model:deny-remarks="remarks"
-                :request-id="manpower.id"
+                :request-id="positionDetails.id"
                 @approve="approvedRequest"
                 @deny="denyRequest"
             />
