@@ -2,7 +2,7 @@
 import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
-projectStore.viewState = true
+projectStore.viewState = false
 
 const voucherStore = useVoucherStore()
 </script>
@@ -13,34 +13,31 @@ const voucherStore = useVoucherStore()
         ])"
     >
         <div class="flex flex-col gap-4">
-            <!-- <div class="w-full">
-                <p class="text-xl">
-                    Disbursement Voucher
-                </p>
-            </div> -->
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_ALL,
                         ])"
-                        title="Project Form"
-                        target-id="projectForm"
+                        title="MY DRAFTS"
+                        target-id="myDrafts"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_ALL,
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
                         ])"
-                        title="My Drafts"
-                        target-id="myDrafts"
+                        title="AWARDEE"
+                        target-id="awardee"
                     />
                 </template>
                 <template #tab-containers>
-                    <AccountingCommonTabsTabContainer id="projectForm">
-                        <ProjectsForm />
-                    </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="myDrafts">
                         <ProjectsAllList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="awardee">
+                        <h1 class="center 2xl font-semibold">
+                            Awardee Section
+                        </h1>
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>

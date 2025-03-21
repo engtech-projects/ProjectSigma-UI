@@ -81,6 +81,13 @@
                     title="PROJECT ASSIGNMENT"
                     target-id="projectAssignment"
                 />
+                <AccountingCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                    ])&&!edit"
+                    title="BILL OF MATERIALS"
+                    target-id="billOfMaterials"
+                />
             </template>
             <template #tab-containers>
                 <AccountingCommonTabsTabContainer id="billOfQuantities">
@@ -98,12 +105,19 @@
                 <AccountingCommonTabsTabContainer id="projectAssignment">
                     <ProjectsProjectAssignment />
                 </AccountingCommonTabsTabContainer>
+                <AccountingCommonTabsTabContainer v-if="!edit" id="billOfMaterials">
+                    <ProjectsBillofMaterials />
+                </AccountingCommonTabsTabContainer>
             </template>
         </AccountingCommonTabsMainContainer>
     </div>
 </template>
 
 <script lang="ts" setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+
+const projectStore = useProjectStore()
+const edit = projectStore.viewState
 </script>
 
 <style>

@@ -25,6 +25,7 @@ interface Project {
 export const useProjectStore = defineStore("projects", {
     state: () => ({
         isEdit: false,
+        viewState: false,
         information:
         {
             id: null,
