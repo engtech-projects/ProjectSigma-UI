@@ -26,7 +26,7 @@ const submitForm = async () => {
             type: "success",
             text: jobapplicantstore.successMessage
         })
-        manpowers.getAllAvailableApplicant()
+        manpowers.reloadResources()
         closeViewModal()
     } catch (error) {
         snackbar.add({
