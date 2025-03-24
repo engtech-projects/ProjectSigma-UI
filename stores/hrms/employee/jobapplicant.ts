@@ -316,7 +316,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
     actions: {
         async searchJobApplicants () {
             await useHRMSApi(
-                "/api/get-for-hiring",
+                "/api/job-applicants/hiring/for-pan",
                 {
                     method: "POST",
                     body: this.searchJobApplicantParams,
@@ -332,7 +332,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         },
         async getJobApplicantInformation (id: Number) {
             await useHRMSApi(
-                "/api/job-applicants/" + id,
+                "/api/job-applicants/resource/" + id,
                 {
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -348,7 +348,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         async getAllJobApplicant () {
             this.allJobApplicants.isLoaded = true
             await useHRMSApi(
-                "/api/get-applicant",
+                "/api/job-applicants/resource",
                 {
                     method: "GET",
                     params: this.allJobApplicants.params,
@@ -364,49 +364,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                                 pages: response._data.data.meta.links,
                                 last_page: response._data.data.links.last,
                             }
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getJobApplicant () {
-            const { data, error } = await useFetch(
-                "/api/job-applicants",
-                {
-                    baseURL: config.public.HRMS_API_URL,
-                    method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
-                    onResponse: ({ response }) => {
-                        this.list = response._data.data.data
-                    },
-                }
-            )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
-        },
-        async getAllApplicantList () {
-            this.allApplicantList.isLoaded = true
-            await useHRMSApi(
-                "/api/manpower/resource",
-                {
-                    method: "GET",
-                    params: this.allApplicantList.params,
-                    onRequest: () => {
-                        this.allApplicantList.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.allApplicantList.isLoading = false
-                        if (response.ok) {
-                            this.allApplicantList.list = response._data.data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
