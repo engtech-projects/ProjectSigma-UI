@@ -35,7 +35,7 @@ const selectItem = (dataValue) => {
     })
 }
 
-// Keyboard navigation support (optional)
+// Keyboard navigation support (enter)
 const handleKeydown = (event, item) => {
     if (event.key === "Enter") {
         selectItem(item)

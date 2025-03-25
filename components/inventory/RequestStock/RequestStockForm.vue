@@ -186,7 +186,6 @@ watch([selectType, () => List.value.params.department_id, () => List.value.param
 const isCheckboxChecked = ref(false)
 </script>
 <template>
-    <pre>{{ form }}</pre>
     <div class="text-gray-500 p-2">
         <form @submit.prevent="storeRequestForm">
             <div class="flex flex-col gap-4 w-full">

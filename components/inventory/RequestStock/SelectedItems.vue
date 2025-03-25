@@ -31,51 +31,6 @@ const changeUnit = (index, newUnit) => {
     emit("updateField", index, "old_unit", item.old_unit)
 }
 
-// Function to convert quantity based on unit change
-// const convertQuantity = (index, newUnit) => {
-//     const item = data.value[index]
-//     if (!item) { return }
-
-//     const oldUnit = item.old_unit || item.unit
-
-//     // Get initial and target conversion units
-//     const initialUnit = item.convertable_units.find(u => u.id === oldUnit)
-//     const selectedUnit = item.convertable_units.find(u => u.id === newUnit)
-
-//     if (!initialUnit || !selectedUnit) {
-//         console.log("Unit conversion failed: Unit not found")
-//         return
-//     }
-
-//     const initialConversion = Number(initialUnit.conversion)
-//     const newConversion = Number(selectedUnit.conversion)
-
-//     console.log(`Converting ${item.quantity} ${initialUnit.name} (${initialConversion}) to ${selectedUnit.name} (${newConversion})`)
-
-//     if (isNaN(initialConversion) || isNaN(newConversion) || !item.quantity) {
-//         console.log("Invalid conversion values or quantity")
-//         return
-//     }
-
-//     // Store original quantity for logging
-//     const originalQuantity = item.quantity
-
-//     // Convert quantity using ratio of conversion values
-//     const newQuantity = Number((useInventoryUomConvertValue(originalQuantity, initialConversion, newConversion)).toFixed(4))
-
-//     const originalMaxQuantity = item.max_quantity
-//     const newMaxQuantity = Number((useInventoryUomConvertValue(originalMaxQuantity, initialConversion, newConversion)).toFixed(2))
-
-//     item.quantity = newQuantity
-//     item.max_quantity = newMaxQuantity
-
-//     emit("updateField", index, "quantity", newQuantity)
-//     emit("updateField", index, "max_quantity", newMaxQuantity)
-
-//     console.log(`Quantity changed from ${originalQuantity} to ${newQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
-//     console.log(`Max Quantity changed from ${originalMaxQuantity} to ${newMaxQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
-// }
-
 const convertQuantity = (index, newUnit) => {
     const item = data.value[index]
     if (!item) { return }
@@ -101,7 +56,7 @@ const convertQuantity = (index, newUnit) => {
         return
     }
 
-    // Store original quantity for logging
+    // Store original quantity
     const originalQuantity = item.quantity
 
     // Convert quantity using ratio of conversion values
@@ -127,49 +82,6 @@ const convertQuantity = (index, newUnit) => {
 
     console.log(`Quantity changed from ${originalQuantity} to ${newQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
 }
-
-// const convertQuantity = (index, newUnit) => {
-//     const item = data.value[index]
-//     if (!item) { return }
-
-//     const oldUnit = item.old_unit || item.unit
-
-//     // Get initial and target conversion units
-//     const initialUnit = item.convertable_units.find(u => u.id === oldUnit)
-//     const selectedUnit = item.convertable_units.find(u => u.id === newUnit)
-
-//     if (!initialUnit || !selectedUnit) {
-//         console.log("Unit conversion failed: Unit not found")
-//         return
-//     }
-
-//     const initialConversion = Number(initialUnit.conversion)
-//     const newConversion = Number(selectedUnit.conversion)
-
-//     if (isNaN(initialConversion) || isNaN(newConversion) || !item.quantity || !item.max_quantity) {
-//         console.log("Invalid conversion values or quantity/max_quantity")
-//         return
-//     }
-
-//     // Convert quantity
-//     const originalQuantity = item.quantity
-//     const newQuantity = Number((useInventoryUomConvertValue(originalQuantity, initialConversion, newConversion)).toFixed(2))
-
-//     // Convert max_quantity
-//     const originalMaxQuantity = item.max_quantity
-//     const newMaxQuantity = Number((useInventoryUomConvertValue(originalMaxQuantity, initialConversion, newConversion)).toFixed(2))
-
-//     // Update values
-//     item.quantity = newQuantity
-//     item.max_quantity = newMaxQuantity
-
-//     // Emit changes
-//     emit("updateField", index, "quantity", newQuantity)
-//     emit("updateField", index, "max_quantity", newMaxQuantity)
-
-//     console.log(`Quantity changed from ${originalQuantity} to ${newQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
-//     console.log(`Max Quantity changed from ${originalMaxQuantity} to ${newMaxQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
-// }
 
 // Function to change unit and convert quantity
 const changeUnitAndConvert = (index, newUnit) => {
