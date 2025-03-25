@@ -60,7 +60,7 @@ export const useRequestStockStore = defineStore("requestStockStore", {
             items: [] as Array<RsList>,
             params: {
                 department_id: null as null | Number,
-                attendance_type: null as null | String,
+                project_id: null as null | Number,
             },
             pagination: {},
         },

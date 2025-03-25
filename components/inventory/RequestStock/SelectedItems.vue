@@ -1,20 +1,193 @@
 <script setup>
 defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
     headerColumns: {
         type: Array,
         required: true,
     },
-    dataColumns: {
-        type: Array,
-        required: true,
-    },
 })
+const dataColumns = defineModel("dataColumns", { type: Array })
+const data = computed(() => dataColumns.value)
 
 const emit = defineEmits(["updateField", "removeItem"])
 const compId = useId()
+
+// Function to handle unit changes and track the previous unit
+const changeUnit = (index, newUnit) => {
+    const item = data.value[index]
+    if (!item) { return }
+
+    // Store old unit before changing
+    item.old_unit = item.unit
+
+    // Update the unit
+    item.unit = newUnit
+
+    // Emit the update to parent
+    emit("updateField", index, "unit", newUnit)
+    emit("updateField", index, "old_unit", item.old_unit)
+}
+
+// Function to convert quantity based on unit change
+// const convertQuantity = (index, newUnit) => {
+//     const item = data.value[index]
+//     if (!item) { return }
+
+//     const oldUnit = item.old_unit || item.unit
+
+//     // Get initial and target conversion units
+//     const initialUnit = item.convertable_units.find(u => u.id === oldUnit)
+//     const selectedUnit = item.convertable_units.find(u => u.id === newUnit)
+
+//     if (!initialUnit || !selectedUnit) {
+//         console.log("Unit conversion failed: Unit not found")
+//         return
+//     }
+
+//     const initialConversion = Number(initialUnit.conversion)
+//     const newConversion = Number(selectedUnit.conversion)
+
+//     console.log(`Converting ${item.quantity} ${initialUnit.name} (${initialConversion}) to ${selectedUnit.name} (${newConversion})`)
+
+//     if (isNaN(initialConversion) || isNaN(newConversion) || !item.quantity) {
+//         console.log("Invalid conversion values or quantity")
+//         return
+//     }
+
+//     // Store original quantity for logging
+//     const originalQuantity = item.quantity
+
+//     // Convert quantity using ratio of conversion values
+//     const newQuantity = Number((useInventoryUomConvertValue(originalQuantity, initialConversion, newConversion)).toFixed(4))
+
+//     const originalMaxQuantity = item.max_quantity
+//     const newMaxQuantity = Number((useInventoryUomConvertValue(originalMaxQuantity, initialConversion, newConversion)).toFixed(2))
+
+//     item.quantity = newQuantity
+//     item.max_quantity = newMaxQuantity
+
+//     emit("updateField", index, "quantity", newQuantity)
+//     emit("updateField", index, "max_quantity", newMaxQuantity)
+
+//     console.log(`Quantity changed from ${originalQuantity} to ${newQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
+//     console.log(`Max Quantity changed from ${originalMaxQuantity} to ${newMaxQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
+// }
+
+const convertQuantity = (index, newUnit) => {
+    const item = data.value[index]
+    if (!item) { return }
+
+    const oldUnit = item.old_unit || item.unit
+
+    // Get initial and target conversion units
+    const initialUnit = item.convertable_units.find(u => u.id === oldUnit)
+    const selectedUnit = item.convertable_units.find(u => u.id === newUnit)
+
+    if (!initialUnit || !selectedUnit) {
+        console.log("Unit conversion failed: Unit not found")
+        return
+    }
+
+    const initialConversion = Number(initialUnit.conversion)
+    const newConversion = Number(selectedUnit.conversion)
+
+    console.log(`Converting ${item.quantity} ${initialUnit.name} (${initialConversion}) to ${selectedUnit.name} (${newConversion})`)
+
+    if (isNaN(initialConversion) || isNaN(newConversion) || !item.quantity) {
+        console.log("Invalid conversion values or quantity")
+        return
+    }
+
+    // Store original quantity for logging
+    const originalQuantity = item.quantity
+
+    // Convert quantity using ratio of conversion values
+    const newQuantity = Number((useInventoryUomConvertValue(originalQuantity, initialConversion, newConversion)).toFixed(4))
+    item.quantity = newQuantity
+
+    // Handle max_quantity conversion or infinite fallback
+    const originalMaxQuantity = item.max_quantity
+
+    let newMaxQuantity
+    if (originalMaxQuantity == null) { // If max_quantity is undefined or null
+        newMaxQuantity = Infinity // Treat as infinite
+        console.log("Max Quantity is undefined; treating as infinite.")
+    } else {
+        newMaxQuantity = Number((useInventoryUomConvertValue(originalMaxQuantity, initialConversion, newConversion)).toFixed(2))
+        console.log(`Max Quantity changed from ${originalMaxQuantity} to ${newMaxQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
+    }
+    item.max_quantity = newMaxQuantity
+
+    // Emit updates to parent
+    emit("updateField", index, "quantity", newQuantity)
+    emit("updateField", index, "max_quantity", newMaxQuantity)
+
+    console.log(`Quantity changed from ${originalQuantity} to ${newQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
+}
+
+// const convertQuantity = (index, newUnit) => {
+//     const item = data.value[index]
+//     if (!item) { return }
+
+//     const oldUnit = item.old_unit || item.unit
+
+//     // Get initial and target conversion units
+//     const initialUnit = item.convertable_units.find(u => u.id === oldUnit)
+//     const selectedUnit = item.convertable_units.find(u => u.id === newUnit)
+
+//     if (!initialUnit || !selectedUnit) {
+//         console.log("Unit conversion failed: Unit not found")
+//         return
+//     }
+
+//     const initialConversion = Number(initialUnit.conversion)
+//     const newConversion = Number(selectedUnit.conversion)
+
+//     if (isNaN(initialConversion) || isNaN(newConversion) || !item.quantity || !item.max_quantity) {
+//         console.log("Invalid conversion values or quantity/max_quantity")
+//         return
+//     }
+
+//     // Convert quantity
+//     const originalQuantity = item.quantity
+//     const newQuantity = Number((useInventoryUomConvertValue(originalQuantity, initialConversion, newConversion)).toFixed(2))
+
+//     // Convert max_quantity
+//     const originalMaxQuantity = item.max_quantity
+//     const newMaxQuantity = Number((useInventoryUomConvertValue(originalMaxQuantity, initialConversion, newConversion)).toFixed(2))
+
+//     // Update values
+//     item.quantity = newQuantity
+//     item.max_quantity = newMaxQuantity
+
+//     // Emit changes
+//     emit("updateField", index, "quantity", newQuantity)
+//     emit("updateField", index, "max_quantity", newMaxQuantity)
+
+//     console.log(`Quantity changed from ${originalQuantity} to ${newQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
+//     console.log(`Max Quantity changed from ${originalMaxQuantity} to ${newMaxQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
+// }
+
+// Function to change unit and convert quantity
+const changeUnitAndConvert = (index, newUnit) => {
+    convertQuantity(index, newUnit) // Convert quantity first
+    changeUnit(index, newUnit) // Then update the unit
+}
+
+// Watch for changes to data
+watch(dataColumns, () => {
+    console.log("Data columns changed")
+}, { deep: true })
+
 </script>
 
 <template>
+    <h5 v-if="title" class="text-xl dark:text-white border-b block mb-1 font-medium text-gray-900 bg-teal-200 p-2 sticky top-0 z-50">
+        {{ title }}
+    </h5>
     <table class="min-w-full table-auto w-full border-collapse">
         <thead>
             <tr>
@@ -32,7 +205,7 @@ const compId = useId()
             </tr>
             <tr
                 v-for="(dataValue, index) in dataColumns"
-                :key="index"
+                :key="dataValue.item_id"
                 class="border text-center"
             >
                 <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
@@ -40,21 +213,31 @@ const compId = useId()
                         v-model="dataValue.quantity"
                         type="number"
                         :min="1"
-                        :max="dataValue.max_quantity"
-                        class="border p-1 w-16 text-center"
-                        @input="emit('updateField', index, 'quantity', Math.max(1, Math.min(dataValue.quantity, dataValue.max_quantity)))"
+                        :max="dataValue.max_quantity === Infinity ? undefined : dataValue.max_quantity"
+                        class="border p-1 w-24 text-center"
+                        @input="dataValue.quantity = Math.max(1, Math.min(Number(dataValue.quantity) || 1, dataValue.max_quantity));
+                                emit('updateField', index, 'quantity', dataValue.quantity)"
                     >
                 </td>
-                <td>
-                    <InventoryBomItemUomSelector
-                        :id="compId"
+                <td v-if="dataValue.convertable_units.length > 1" colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
+                    <span
+                        class="block w-full cursor-pointer"
+                        @click="dataValue.showUomSelector = true"
+                    >
+                        {{ (dataValue.convertable_units.find(u => u.id === dataValue.unit)?.name || '').toUpperCase() }}
+                    </span>
+                    <InventoryRequestStockItemUomSelector
+                        v-if="dataValue.showUomSelector"
+                        :id="compId + index"
                         v-model="dataValue.unit"
                         :item-id="dataValue.item_id"
+                        :quantity="dataValue.quantity"
+                        :convertable-units="dataValue.convertable_units"
                         @update:model-value="(newUnit) => {
-                            emit('updateField', index, 'unit', newUnit);
-                            // Ensure quantity is valid for the new UOM
-                            emit('updateField', index, 'quantity', dataValue.quantity || 1);
+                            changeUnitAndConvert(index, newUnit);
+                            dataValue.showUomSelector = false;
                         }"
+                        @close="dataValue.showUomSelector = false"
                     />
                 </td>
                 <td>{{ dataValue.item_summary }}</td>
@@ -83,7 +266,7 @@ const compId = useId()
                     >
                 </td>
                 <td>
-                    <button class="text-red-700 bg-transparent font-medium rounded-lg text-sm py-2.5 me-2 mb-2" @click="emit('removeItem', index)">
+                    <button class="text-red-700 bg-transparent font-medium rounded-lg text-sm py-2.5 me-2 mb-2" @click.prevent="emit('removeItem', index)">
                         <Icon name="mdi:remove" class="h-5 w-5 lg:h-5 lg:w-5" />
                     </button>
                 </td>

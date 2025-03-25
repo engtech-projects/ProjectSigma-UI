@@ -47,31 +47,46 @@ const addNonBomItem = () => {
         item_id: selectedItem.id,
         item_summary: selectedItem.item_summary || selectedItem.item_description,
         quantity: 1,
-        max_quantity: 1000,
-        unit: "",
+        max_quantity: Infinity,
+        unit: selectedItem.uom,
+        old_unit: selectedItem.uom,
         specification: "",
         preferred_brand: "",
         reason: "",
+        convertable_units: selectedItem.convertable_units,
+        showUomSelector: false,
     })
+
+    selectedItems.value = [...selectedItems.value]
 
     // Reset selection
     form.value.item_id = null
-    form.value.quantity = 1
 }
 
 const addItem = (item) => {
-    if (!selectedItems.value.find(i => i.item_id === item.item_id)) {
-        selectedItems.value.push({
-            item_id: item.item_id,
-            item_summary: item.item_summary,
-            quantity: 1,
-            max_quantity: item.quantity,
-            unit: item.uom_id,
-            specification: "",
-            preferred_brand: "",
-            reason: "",
-        })
+    const isAlreadyAdded = selectedItems.value.some(i => i.item_id === item.item_id)
+
+    if (isAlreadyAdded) {
+        snackbar.add({ type: "warning", text: "Item already in the list!" })
+        return
     }
+
+    selectedItems.value.push({
+        item_id: item.item_id,
+        item_summary: item.item_summary,
+        quantity: 1,
+        max_quantity: item.quantity,
+        unit: item.uom_id,
+        old_unit: item.uom_id,
+        specification: "",
+        preferred_brand: "",
+        reason: "",
+        convertable_units: item.convertable_units,
+        showUomSelector: false,
+    })
+
+    selectedItems.value = [...selectedItems.value]
+    itemEnum.value.params.query = ""
 }
 
 const updateField = (index, field, value) => {
@@ -171,18 +186,13 @@ watch([selectType, () => List.value.params.department_id, () => List.value.param
 const isCheckboxChecked = ref(false)
 </script>
 <template>
+    <pre>{{ form }}</pre>
     <div class="text-gray-500 p-2">
         <form @submit.prevent="storeRequestForm">
-            <div class="flex flex-col gap-4 pt-4 w-full">
+            <div class="flex flex-col gap-4 w-full">
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="flex flex-row justify-between gap-4">
                         <div class="w-full flex flex-col gap-2">
-                            <div class="w-full flex flex-cols-2 gap-2">
-                                <InventoryWarehouseSelector
-                                    v-model="form.warehouse_id"
-                                    :disabled="selectType === 'Department'"
-                                />
-                            </div>
                             <LayoutFormPsTextInput v-model="form.request_for" :required="true" class="w-full" title="Request For" />
                             <div class="w-full flex gap-2">
                                 <div class="w-full">
@@ -205,10 +215,10 @@ const isCheckboxChecked = ref(false)
                         </div>
                         <div
                             v-show="form.section_id"
-                            class="w-full flex flex-col gap-2 border border-teal-500 shadow-md rounded-md h-[300px] overflow-y-auto"
+                            class="w-full flex flex-col gap-2 border border-teal-500 shadow-md rounded-md h-[435px] overflow-y-auto z-0"
                         >
                             <label class="text-lg font-bold text-center sticky top-0 bg-teal-200 z-10 p-2">
-                                {{ selectType }} BOM
+                                Non BOM List
                             </label>
 
                             <label class="flex px-2 items-center text-sm font-medium text-gray-700 select-none">
@@ -224,19 +234,30 @@ const isCheckboxChecked = ref(false)
                                     class="bg-green-600 text-white p-2 rounded hover:bg-green-800 flex items-center"
                                     @click.prevent="addNonBomItem"
                                 >
-                                    <Icon name="material-symbols-light:add" class="h-5 w-5 mr-2" />
                                     Add Item
                                 </button>
                             </div>
 
-                            <hr class="my-2">
-                            <LayoutPsTableAppend :header-columns="bomheaders" :datas="List.list ?? []" @add-item="addItem" />
+                            <hr>
+                            <label class="text-lg font-bold text-center sticky top-0 bg-teal-200 z-10 p-2">
+                                {{ selectType }} BOM List
+                            </label>
+                            <InventoryRequestStockItemsAppend
+                                :header-columns="bomheaders"
+                                :datas="List.list ?? []"
+                                @add-item="addItem"
+                            />
                         </div>
                     </div>
                     <hr class="my-4">
-                    <div class="border border-teal-200 shadow-md rounded-lg overflow-y-auto max-h-[355px]">
-                        <label class="block mb-1 text-lg font-medium text-gray-900 bg-teal-200 p-2 sticky top-0 z-0">Selected Item</label>
-                        <InventoryRequestStockSelectedItems :header-columns="headers" :data-columns="selectedItems" @update-field="updateField" @remove-item="removeItem" />
+                    <div class="border border-teal-200 shadow-md rounded-lg overflow-y-auto max-h-[365px]">
+                        <InventoryRequestStockSelectedItems
+                            title="Selected Items"
+                            :header-columns="headers"
+                            :data-columns="selectedItems"
+                            @update-field="updateField"
+                            @remove-item="removeItem"
+                        />
                     </div>
                     <hr class="my-4">
                     <div class="flex flex-row justify-between gap-4">
