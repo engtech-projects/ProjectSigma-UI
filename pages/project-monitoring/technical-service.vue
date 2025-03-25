@@ -1,10 +1,8 @@
 <script setup>
-import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 projectStore.viewState = false
 
-const voucherStore = useVoucherStore()
 </script>
 <template>
     <LayoutAcessContainer
@@ -35,18 +33,35 @@ const voucherStore = useVoucherStore()
                         <ProjectsAllList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="awardee">
-                        <h1 class="center 2xl font-semibold">
-                            Awardee Section
-                        </h1>
+                        <AccountingCommonTabsMainContainer class="w-full">
+                            <template #tab-titles>
+                                <AccountingCommonTabsTabTitle
+                                    v-if="useCheckAccessibility([
+                                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_ALL,
+                                    ])"
+                                    title="SUMMARY OF ESTIMATED NET INCOME"
+                                    target-id="summaryOfEstimatedNetIncome"
+                                />
+                                <AccountingCommonTabsTabTitle
+                                    v-if="useCheckAccessibility([
+                                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                                    ])"
+                                    title="SUMMARY OF ESTIMATED DIRECT COST"
+                                    target-id="summaryOfEstimatedDirectCost"
+                                />
+                            </template>
+                            <template #tab-containers>
+                                <AccountingCommonTabsTabContainer id="summaryOfEstimatedNetIncome">
+                                    <ProjectsAwardeeEstimatedNetIncome />
+                                </AccountingCommonTabsTabContainer>
+                                <AccountingCommonTabsTabContainer id="summaryOfEstimatedDirectCost">
+                                    <ProjectsAwardeeEstimatedDirectCost />
+                                </AccountingCommonTabsTabContainer>
+                            </template>
+                        </AccountingCommonTabsMainContainer>
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
-            <div class="w-full">
-                <AccountingVoucherDisbursementRequestForm
-                    v-if="voucherStore.voucherDisbursement.reference_no"
-                    :fillable="true"
-                />
-            </div>
         </div>
     </LayoutAcessContainer>
 </template>

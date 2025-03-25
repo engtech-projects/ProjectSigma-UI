@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex flex-col gap-6 border-t-2 border-gray-800 pt-6">
+        <div class="flex flex-col gap-6 border-t-2 border-gray-800 pt-6 mb-4">
             <div class="flex justify-between">
                 <div class="flex items-end gap-2">
                     <h1 class="text-3xl text-black uppercase">
@@ -401,6 +401,11 @@
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="flex justify-end">
+            <NuxtLink v-if="!edit" to="/project-monitoring/tss" class="flex items-center  justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9 text-center">
+                Generate TSS
+            </NuxtLink>
         </div>
         <ProjectsModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" />
         <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" />

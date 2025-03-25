@@ -176,7 +176,7 @@
                                     B. Labor
                                 </span>
                                 <div class="flex gap-1 justify-end">
-                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showTaskModal = true">
+                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showResourceModal = true">
                                         Add Resource
                                     </button>
                                     <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
@@ -216,7 +216,7 @@
                                     C. Equipment
                                 </span>
                                 <div class="flex gap-1 justify-end">
-                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showTaskModal = true">
+                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showResourceModal = true">
                                         Add Resource
                                     </button>
                                     <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
