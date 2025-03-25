@@ -1,6 +1,7 @@
 <script setup>
 import { useManpowerStore, FILL_STATUS_OPEN } from "@/stores/hrms/employee/manpower"
 
+const snackbar = useSnackbar()
 const manpowers = useManpowerStore()
 const showAddApplicant = defineModel("showAddApplicant", { required: false, type: Boolean, default: false })
 const { remarks } = storeToRefs(manpowers)
