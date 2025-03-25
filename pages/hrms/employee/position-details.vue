@@ -12,7 +12,7 @@ const validKey = ref(false)
 if (route.query.key) {
     validKey.value = true
     isDetail.value = true
-    await manpowers.getOne(route.query.key)
+    await manpowers.getOnePosition(route.query.key)
 } else {
     validKey.value = false
 }

@@ -267,7 +267,7 @@ export const useManpowerStore = defineStore("manpowers", {
             )
         },
 
-        async getOne (id: any): Promise<any> {
+        async getOnePosition (id: any): Promise<any> {
             return await useHRMSApiO(
                 "/api/manpower/resource/" + id,
                 {
