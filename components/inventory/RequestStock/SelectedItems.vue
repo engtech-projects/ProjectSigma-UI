@@ -41,18 +41,16 @@ const convertQuantity = (index, newUnit) => {
     const initialUnit = item.convertable_units.find(u => u.id === oldUnit)
     const selectedUnit = item.convertable_units.find(u => u.id === newUnit)
 
+    // Check if the initial and target conversion units exist
     if (!initialUnit || !selectedUnit) {
-        console.log("Unit conversion failed: Unit not found")
         return
     }
 
     const initialConversion = Number(initialUnit.conversion)
     const newConversion = Number(selectedUnit.conversion)
 
-    console.log(`Converting ${item.quantity} ${initialUnit.name} (${initialConversion}) to ${selectedUnit.name} (${newConversion})`)
-
+    // Check validity of conversion rates and item quantity
     if (isNaN(initialConversion) || isNaN(newConversion) || !item.quantity) {
-        console.log("Invalid conversion values or quantity")
         return
     }
 
@@ -69,18 +67,14 @@ const convertQuantity = (index, newUnit) => {
     let newMaxQuantity
     if (originalMaxQuantity == null) { // If max_quantity is undefined or null
         newMaxQuantity = Infinity // Treat as infinite
-        console.log("Max Quantity is undefined; treating as infinite.")
     } else {
         newMaxQuantity = Number((useInventoryUomConvertValue(originalMaxQuantity, initialConversion, newConversion)).toFixed(2))
-        console.log(`Max Quantity changed from ${originalMaxQuantity} to ${newMaxQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
     }
     item.max_quantity = newMaxQuantity
 
     // Emit updates to parent
     emit("updateField", index, "quantity", newQuantity)
     emit("updateField", index, "max_quantity", newMaxQuantity)
-
-    console.log(`Quantity changed from ${originalQuantity} to ${newQuantity} (${initialUnit.name} -> ${selectedUnit.name})`)
 }
 
 // Function to change unit and convert quantity
@@ -88,11 +82,6 @@ const changeUnitAndConvert = (index, newUnit) => {
     convertQuantity(index, newUnit) // Convert quantity first
     changeUnit(index, newUnit) // Then update the unit
 }
-
-// Watch for changes to data
-watch(dataColumns, () => {
-    console.log("Data columns changed")
-}, { deep: true })
 
 </script>
 

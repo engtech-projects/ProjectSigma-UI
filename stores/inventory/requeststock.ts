@@ -20,6 +20,7 @@ export interface RsDetails {
     date_prepared: String,
     date_needed: String,
     equipment_no: String,
+    reference_no: String,
     items: any,
     approvals: any,
 }
@@ -55,7 +56,6 @@ export const useRequestStockStore = defineStore("requestStockStore", {
                 params: {},
             },
             list: [] as Array<RsList>,
-            details: [],
             form: {} as RsDetails,
             items: [] as Array<RsList>,
             params: {

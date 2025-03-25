@@ -138,6 +138,7 @@ const storeRequestForm = async () => {
                 type: "success",
                 text: mainStore.successMessage,
             })
+            selectedItems.value = []
         }
     } catch (error) {
         snackbar.add({
@@ -208,6 +209,7 @@ const isCheckboxChecked = ref(false)
                             </div>
                         </div>
                         <div class="w-full flex flex-col gap-2">
+                            {{ form.reference_no }}
                             <LayoutFormPsDateInput v-model="form.date_prepared" :required="true" class="w-full" title="Date Prepared" />
                             <LayoutFormPsDateInput v-model="form.date_needed" :required="true" class="w-full" title="Date Needed" />
                             <LayoutFormPsTextInput v-model="form.equipment_no" :required="true" class="w-full" title="Equipment No." />
@@ -216,29 +218,15 @@ const isCheckboxChecked = ref(false)
                             v-show="form.section_id"
                             class="w-full flex flex-col gap-2 border border-teal-500 shadow-md rounded-md h-[435px] overflow-y-auto z-0"
                         >
-                            <label class="text-lg font-bold text-center sticky top-0 bg-teal-200 z-10 p-2">
-                                Non BOM List
-                            </label>
-
-                            <label class="flex px-2 items-center text-sm font-medium text-gray-700 select-none">
-                                <input v-model="isCheckboxChecked" type="checkbox" class="mr-2">
-                                Add Non-BOM Items
-                            </label>
-
-                            <div v-if="isCheckboxChecked" class="flex items-center gap-4 p-2">
-                                <div class="flex-1">
-                                    <InventoryBomItemSelector v-model="form.item_id" class="w-full" />
-                                </div>
-                                <button
-                                    class="bg-green-600 text-white p-2 rounded hover:bg-green-800 flex items-center"
-                                    @click.prevent="addNonBomItem"
-                                >
-                                    Add Item
-                                </button>
-                            </div>
-
+                            <InventoryRequestStockNonBomItemSelector
+                                v-model:isCheckboxChecked="isCheckboxChecked"
+                                v-model:itemId="form.item_id"
+                                :section-id="form.section_id"
+                                :select-type="selectType"
+                                @add-non-bom-item="addNonBomItem"
+                            />
                             <hr>
-                            <label class="text-lg font-bold text-center sticky top-0 bg-teal-200 z-10 p-2">
+                            <label class="text-lg font-bold text-center sticky top-0 bg-teal-200 z-0 p-2">
                                 {{ selectType }} BOM List
                             </label>
                             <InventoryRequestStockItemsAppend

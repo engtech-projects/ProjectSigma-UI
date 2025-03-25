@@ -36,12 +36,6 @@ const closeDD = () => {
     }, 100)
 }
 
-// function selectOption (option: { name: string }) {
-//     result.value = option.name
-//     emit("update:quantity", option.id) // Update quantity
-//     emit("update:unit", option.name) // Update unit
-//     forFocusOut.value.focus()
-// }
 function selectOption (option: any) {
     result.value = option.name
     model.value = option.id
@@ -52,14 +46,6 @@ function selectOption (option: any) {
 function clearSearchQuery () {
     searchInput.value = ""
 }
-
-// function clearSelection () {
-//     result.value = ""
-//     emit("update:quantity", null) // Reset quantity
-//     emit("update:unit", "") // Reset unit
-// }
-
-// const emit = defineEmits(["update:quantity", "update:unit"])
 
 function clearSelection () {
     result.value = ""
