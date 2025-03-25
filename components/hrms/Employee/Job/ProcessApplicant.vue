@@ -62,43 +62,6 @@ const formatApplicantStatuses = (positionDetails) => {
     })
 }
 formatApplicantStatuses(positionDetails.value)
-
-const approvedRequest = async (id) => {
-    try {
-        boardLoading.value = true
-        await manpowers.approveApprovalForm(id)
-        snackbar.add({
-            type: "success",
-            text: manpowers.successMessage
-        })
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
-
-const denyRequest = async (id) => {
-    try {
-        boardLoading.value = true
-        await manpowers.denyApprovalForm(id)
-        snackbar.add({
-            type: "success",
-            text: manpowers.successMessage
-        })
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    } finally {
-        boardLoading.value = false
-    }
-}
-
 </script>
 <template>
     <div v-if="positionDetails.fill_status !== FILL_STATUS_PENDING">
@@ -168,15 +131,5 @@ const denyRequest = async (id) => {
     </div>
     <div class="w-full">
         <LayoutApprovalsListView :approvals="positionDetails.approvals" />
-    </div>
-    <div v-if="positionDetails.next_approval && useCheckIsCurrentUser(positionDetails.next_approval?.user_id)" class="w-full flex flex-col gap-4">
-        <div class="flex gap-2 p-2 justify-end relative">
-            <HrmsCommonApprovalDenyButton
-                v-model:deny-remarks="remarks"
-                :request-id="positionDetails.id"
-                @approve="approvedRequest"
-                @deny="denyRequest"
-            />
-        </div>
     </div>
 </template>

@@ -256,6 +256,22 @@ export const useManpowerStore = defineStore("manpowers", {
                 "/api/manpower/resource/" + id,
                 {
                     method: "GET",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            return response._data.data
+                        } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+
+        async getOne (id: any): Promise<any> {
+            return await useHRMSApiO(
+                "/api/manpower/resource/" + id,
+                {
+                    method: "GET",
                     onRequest: () => {
                         this.positionDetails.isLoading = true
                     },
@@ -285,7 +301,7 @@ export const useManpowerStore = defineStore("manpowers", {
         async getAllAvailableApplicant () {
             this.allJobApplicants.isLoaded = true
             await useHRMSApi(
-                "/api/get-available-applicant",
+                "/api/job-applicants/hiring/available",
                 {
                     method: "GET",
                     params: this.allJobApplicants.params,
