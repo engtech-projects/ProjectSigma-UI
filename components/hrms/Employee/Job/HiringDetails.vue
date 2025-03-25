@@ -6,6 +6,7 @@ const showAddApplicant = defineModel("showAddApplicant", { required: false, type
 const { remarks } = storeToRefs(manpowers)
 
 const manpowerData = defineModel("manpowerData", { required: true, type: Object })
+const isLoading = ref(false)
 
 const emit = defineEmits(["setDetail"])
 const setDetail = (event) => {
@@ -16,8 +17,9 @@ const addApplicant = () => {
 }
 const approvedRequest = async (id) => {
     try {
-        boardLoading.value = true
+        isLoading.value = true
         await manpowers.approveApprovalForm(id)
+        await manpowers.getOnePosition(id)
         snackbar.add({
             type: "success",
             text: manpowers.successMessage
@@ -28,14 +30,15 @@ const approvedRequest = async (id) => {
             text: error || "something went wrong."
         })
     } finally {
-        boardLoading.value = false
+        isLoading.value = false
     }
 }
 
 const denyRequest = async (id) => {
     try {
-        boardLoading.value = true
+        isLoading.value = true
         await manpowers.denyApprovalForm(id)
+        await manpowers.getOnePosition(id)
         snackbar.add({
             type: "success",
             text: manpowers.successMessage
@@ -46,13 +49,13 @@ const denyRequest = async (id) => {
             text: error || "something went wrong."
         })
     } finally {
-        boardLoading.value = false
+        isLoading.value = false
     }
 }
 </script>
 <template>
     <div>
-        <LayoutEditBoards :title="manpowerData.fill_status === FILL_STATUS_OPEN ? 'Job Opening Details' : 'Manpower Request Details'" class="w-full" :loading="manpowerData.isLoading">
+        <LayoutEditBoards :title="manpowerData.fill_status === FILL_STATUS_OPEN ? 'Job Opening Details' : 'Manpower Request Details'" class="w-full" :loading="isLoading">
             <div class="text-gray-600 text-sm p-2">
                 <div class="rounded p-2 grid grid-cols-2 " @change="setDetail">
                     <div class="border px-4 py-2">
