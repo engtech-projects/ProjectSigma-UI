@@ -1,19 +1,11 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
-import { FILL_STATUS_OPEN } from "@/stores/hrms/employee/manpower"
-const jobapplicants = useJobapplicantStore()
+import { useManpowerStore, FILL_STATUS_OPEN } from "@/stores/hrms/employee/manpower"
 
-const { errorMessage, successMessage } = storeToRefs(jobapplicants)
-
+const manpowers = useManpowerStore()
 const showAddApplicant = defineModel("showAddApplicant", { required: false, type: Boolean, default: false })
+const { remarks } = storeToRefs(manpowers)
 
-const props = defineProps({
-    manpowerData: {
-        type: Object,
-        required: true,
-    }
-})
+const manpowerData = defineModel("manpowerData", { required: true, type: Object })
 
 const emit = defineEmits(["setDetail"])
 const setDetail = (event) => {
@@ -21,6 +13,41 @@ const setDetail = (event) => {
 }
 const addApplicant = () => {
     showAddApplicant.value = true
+}
+const approvedRequest = async (id) => {
+    try {
+        boardLoading.value = true
+        await manpowers.approveApprovalForm(id)
+        snackbar.add({
+            type: "success",
+            text: manpowers.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    } finally {
+        boardLoading.value = false
+    }
+}
+
+const denyRequest = async (id) => {
+    try {
+        boardLoading.value = true
+        await manpowers.denyApprovalForm(id)
+        snackbar.add({
+            type: "success",
+            text: manpowers.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "something went wrong."
+        })
+    } finally {
+        boardLoading.value = false
+    }
 }
 </script>
 <template>
@@ -117,16 +144,16 @@ const addApplicant = () => {
                     </button>
                 </div>
             </div>
-            <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
-                {{ errorMessage }}
-            </p>
-            <p
-                v-show="successMessage"
-                hidden
-                class="success-message text-green-600 text-center font-semibold italic"
-            >
-                {{ successMessage }}
-            </p>
+            <div v-if="manpowerData.next_approval && useCheckIsCurrentUser(manpowerData.next_approval?.user_id)" class="w-full flex flex-col gap-4">
+                <div class="flex gap-2 p-2 justify-end relative">
+                    <HrmsCommonApprovalDenyButton
+                        v-model:deny-remarks="remarks"
+                        :request-id="manpowerData.id"
+                        @approve="approvedRequest"
+                        @deny="denyRequest"
+                    />
+                </div>
+            </div>
         </LayoutEditBoards>
     </div>
 </template>

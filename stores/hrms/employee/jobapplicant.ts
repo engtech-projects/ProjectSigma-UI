@@ -475,7 +475,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             this.errorMessage = ""
             this.jobapplicant.hiring_status = this.jobapplicant.pivot.hiring_status
             await useHRMSApiO(
-                "/api/update-applicant/" + this.jobapplicant.id,
+                "/api/job-applicants/update-applicant/" + this.jobapplicant.id,
                 {
                     method: "PUT",
                     headers: {
