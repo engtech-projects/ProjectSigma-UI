@@ -8,13 +8,16 @@
         @hide="emit('hideModal')"
     >
         <div class="flex flex-col p-4">
-            <div class="flex mb-16 items-end gap-2">
-                <h1 class="text-3xl uppercase">
-                    Create Item
-                </h1>
-                <h3 class="text-gray-400 text-lg">
-                    Item Creation
-                </h3>
+            <div class="flex items-center justify-between mb-16">
+                <div class="flex items-end gap-2">
+                    <h1 class="text-3xl uppercase">
+                        Create Item
+                    </h1>
+                    <h3 class="text-gray-400 text-lg">
+                        Item Creation
+                    </h3>
+                </div>
+                <Icon name="material-symbols:close-rounded" class="h-6 w-6 text-gray-500 hover:text-gray-800 cursor-pointer" @click="emit('hideModal')" />
             </div>
             <div class="grid grid-cols-2 gap-6 mb-6">
                 <div class="flex flex-col">

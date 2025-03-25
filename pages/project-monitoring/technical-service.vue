@@ -1,10 +1,8 @@
 <script setup>
-import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 projectStore.viewState = false
 
-const voucherStore = useVoucherStore()
 </script>
 <template>
     <LayoutAcessContainer
@@ -35,18 +33,10 @@ const voucherStore = useVoucherStore()
                         <ProjectsAllList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="awardee">
-                        <h1 class="center 2xl font-semibold">
-                            Awardee Section
-                        </h1>
+                        <ProjectsMydraftsDetails :awardee="true" />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
-            <div class="w-full">
-                <AccountingVoucherDisbursementRequestForm
-                    v-if="voucherStore.voucherDisbursement.reference_no"
-                    :fillable="true"
-                />
-            </div>
         </div>
     </LayoutAcessContainer>
 </template>

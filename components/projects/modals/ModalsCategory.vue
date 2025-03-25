@@ -8,18 +8,21 @@
         @hide="emit('hideModal')"
     >
         <div v-if="!showAddModal" class="flex flex-col p-4">
-            <div class="flex justify-left gap-4">
-                <div class="flex flex-col mb-16 items-start gap-2">
-                    <h1 class="text-3xl uppercase">
-                        Add Category
-                    </h1>
-                    <h3 class="text-gray-400 text-lg">
-                        Category Creation
-                    </h3>
+            <div class="flex items-start justify-between mb-16">
+                <div class="flex justify-left gap-4">
+                    <div class="flex flex-col items-start gap-2">
+                        <h1 class="text-3xl uppercase">
+                            Add Category
+                        </h1>
+                        <h3 class="text-gray-400 text-lg">
+                            Category Creation
+                        </h3>
+                    </div>
+                    <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-10 h-10" @click="showAddModal = true">
+                        +
+                    </button>
                 </div>
-                <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-10 h-10" @click="showAddModal = true">
-                    +
-                </button>
+                <Icon name="material-symbols:close-rounded" class="h-6 w-6 text-gray-500 hover:text-gray-800 cursor-pointer" @click="emit('hideModal')" />
             </div>
             <div class="grid grid-cols-2 gap-6 mb-6">
                 <div class="flex flex-col col-span-2 gap-1">
@@ -68,7 +71,7 @@
                 <button class="bg-gray-500 hover:bg-gray-600 active:bg-gray-700 select-none text-white rounded-lg text-sm w-36 h-10" @click="showAddModal = false">
                     Cancel
                 </button>
-                <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" @click="emit('hideModal')">
+                <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" @click="resetModal">
                     Create Category
                 </button>
             </div>
@@ -86,6 +89,10 @@ defineProps({
 })
 const emit = defineEmits(["hideModal"])
 const showAddModal = ref(false)
+const resetModal = () => {
+    showAddModal.value = false
+    emit("hideModal")
+}
 </script>
 
 <style>

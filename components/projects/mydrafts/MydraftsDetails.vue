@@ -88,6 +88,20 @@
                     title="BILL OF MATERIALS"
                     target-id="billOfMaterials"
                 />
+                <AccountingCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                    ])&&awardee"
+                    title="ESTIMATED NET INCOME"
+                    target-id="estimatedNetIncome"
+                />
+                <AccountingCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                    ])&&awardee"
+                    title="ESTIMATED DIRECT COST"
+                    target-id="estimatedDirectCost"
+                />
             </template>
             <template #tab-containers>
                 <AccountingCommonTabsTabContainer id="billOfQuantities">
@@ -108,6 +122,12 @@
                 <AccountingCommonTabsTabContainer v-if="!edit" id="billOfMaterials">
                     <ProjectsBillofMaterials />
                 </AccountingCommonTabsTabContainer>
+                <AccountingCommonTabsTabContainer v-if="awardee" id="estimatedNetIncome">
+                    <ProjectsAwardeeEstimatedNetIncome />
+                </AccountingCommonTabsTabContainer>
+                <AccountingCommonTabsTabContainer v-if="awardee" id="estimatedDirectCost">
+                    <ProjectsAwardeeEstimatedDirectCost />
+                </AccountingCommonTabsTabContainer>
             </template>
         </AccountingCommonTabsMainContainer>
     </div>
@@ -118,6 +138,12 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projectStore = useProjectStore()
 const edit = projectStore.viewState
+defineProps({
+    awardee: {
+        type: Boolean,
+        default: false
+    },
+})
 </script>
 
 <style>
