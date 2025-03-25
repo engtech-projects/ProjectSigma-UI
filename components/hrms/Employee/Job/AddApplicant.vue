@@ -6,7 +6,7 @@ const { allJobApplicants } = storeToRefs(manpowers)
 const boardLoading = ref(false)
 
 const showAddApplicant = defineModel("hideAddApplicant", { required: false, type: Boolean, default: false })
-
+const applicantInfo = ref()
 onMounted(() => {
     if (!allJobApplicants.value.isLoaded) {
         manpowers.getAllAvailableApplicant()
@@ -70,6 +70,9 @@ const saveApplicant = async () => {
                                         <th class="border border-gray-400 p-2">
                                             Desired Position
                                         </th>
+                                        <th class="border border-gray-400 p-2">
+                                            View
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,11 +87,16 @@ const saveApplicant = async () => {
                                                 :checked="data.isCheck"
                                             >
                                         </td>
-                                        <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center" @click="applicantDetails(data)">
+                                        <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
                                             {{ data.fullname_last }}
                                         </td>
                                         <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
                                             {{ data.desired_position }}
+                                        </td>
+                                        <td class="px-2 py-3 font-medium text-gray-900 whitespace-nowrap text-center">
+                                            <button title="View Complete Applicant Information" @click="applicantDetails(data)">
+                                                <Icon name="material-symbols:visibility-rounded" color="white" class="bg-green-500 rounded h-8 w-8 p-1 " />
+                                            </button>
                                         </td>
                                     </tr>
                                 </tbody>
