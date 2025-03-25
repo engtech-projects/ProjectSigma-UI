@@ -19,11 +19,11 @@ const approvedRequest = async (id) => {
     try {
         isLoading.value = true
         await manpowers.approveApprovalForm(id)
-        await manpowers.getOnePosition(id)
         snackbar.add({
             type: "success",
             text: manpowers.successMessage
         })
+        await manpowers.getOnePosition(id)
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -38,11 +38,11 @@ const denyRequest = async (id) => {
     try {
         isLoading.value = true
         await manpowers.denyApprovalForm(id)
-        await manpowers.getOnePosition(id)
         snackbar.add({
             type: "success",
             text: manpowers.successMessage
         })
+        await manpowers.getOnePosition(id)
     } catch (error) {
         snackbar.add({
             type: "error",

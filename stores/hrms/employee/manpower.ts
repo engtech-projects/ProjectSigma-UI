@@ -170,7 +170,7 @@ export const useManpowerStore = defineStore("manpowers", {
             params: {},
             pagination: {},
         },
-        filledPositions: {
+        approvedPositions: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -320,21 +320,21 @@ export const useManpowerStore = defineStore("manpowers", {
                 }
             )
         },
-        async getFilledPositions () {
-            this.filledPositions.isLoaded = true
+        async getApprovedPositions () {
+            this.approvedPositions.isLoaded = true
             await useHRMSApi(
-                "/api/manpower/get-filled-positions",
+                "/api/manpower/get-approved-positions",
                 {
                     method: "GET",
-                    params: this.filledPositions.params,
+                    params: this.approvedPositions.params,
                     onRequest: () => {
-                        this.filledPositions.isLoading = true
+                        this.approvedPositions.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.filledPositions.isLoading = false
+                        this.approvedPositions.isLoading = false
                         if (response.ok) {
-                            this.filledPositions.list = response._data.data.data
-                            this.filledPositions.pagination = {
+                            this.approvedPositions.list = response._data.data.data
+                            this.approvedPositions.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,
                                 last_page: response._data.data.links.last,
@@ -362,33 +362,6 @@ export const useManpowerStore = defineStore("manpowers", {
                         if (response.ok) {
                             this.openPositions.list = response._data.data.data
                             this.openPositions.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
-                            }
-                        } else {
-                            this.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getHoldPositions () {
-            this.onHoldPositions.isLoaded = true
-            await useHRMSApi(
-                "/api/manpower/get-onhold-positions",
-                {
-                    method: "GET",
-                    params: this.onHoldPositions.params,
-                    onRequest: () => {
-                        this.onHoldPositions.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.onHoldPositions.isLoading = false
-                        if (response.ok) {
-                            this.onHoldPositions.list = response._data.data.data
-                            this.onHoldPositions.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,
                                 last_page: response._data.data.links.last,

@@ -64,9 +64,7 @@ const applicantDetails = (applic) => {
                             {{ applicant.desired_position }}
                         </td>
                         <td class="p-2">
-                            <div v-for="(position, applicantIndex) in applicant.position" :key="'applicant-'+applicantIndex">
-                                {{ position.name }}
-                            </div>
+                            {{ applicant.position }}
                         </td>
                         <td class="p-2">
                             {{ applicant.status }}
