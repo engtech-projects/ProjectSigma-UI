@@ -439,7 +439,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             formData.append("remarks", this.jobapplicant.remarks)
 
             return await useHRMSApiO(
-                "/api/job-applicants",
+                "/api/job-applicants/resource",
                 {
                     method: "POST",
                     body: formData,
