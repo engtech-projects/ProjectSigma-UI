@@ -20,14 +20,14 @@ useHead({
                 <template #tab-titles>
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_manpower_request_form_and_my_requests,
+                            AccessibilityTypes.hrms_employee_manpowerrequest_formandmyrequests,
                         ])"
                         title="Request Form"
                         target-id="requestForm"
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_manpower_request_form_and_my_requests,
+                            AccessibilityTypes.hrms_employee_manpowerrequest_formandmyrequests,
                         ])"
                         title="My Requests"
                         target-id="myRequestsManpower"
@@ -48,7 +48,7 @@ useHead({
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.hrms_employee_manpower_request_open_positions,
+                            AccessibilityTypes.hrms_employee_manpowerrequest_openpositions,
                         ])"
                         title="Open Positions"
                         target-id="openPositions"
@@ -65,7 +65,7 @@ useHead({
                     <HrmsCommonTabsTabContainer id="requestForm">
                         <HrmsEmployeeManpowerAddRequest
                             v-if="useCheckAccessibility([
-                                AccessibilityTypes.hrms_employee_manpower_request_form_and_my_requests,
+                                AccessibilityTypes.hrms_employee_manpowerrequest_formandmyrequests,
                             ])"
                             v-show="!isEdit"
                         />
@@ -73,7 +73,7 @@ useHead({
                     <HrmsCommonTabsTabContainer id="myRequestsManpower">
                         <HrmsEmployeeManpowerMyRequests
                             v-if="useCheckAccessibility([
-                                AccessibilityTypes.hrms_employee_manpower_request_form_and_my_requests,
+                                AccessibilityTypes.hrms_employee_manpowerrequest_formandmyrequests,
                             ])"
                         />
                     </HrmsCommonTabsTabContainer>
@@ -94,7 +94,7 @@ useHead({
                     <HrmsCommonTabsTabContainer id="openPositions">
                         <HrmsEmployeeManpowerOpenPositionList
                             v-if="useCheckAccessibility([
-                                AccessibilityTypes.hrms_employee_manpower_request_open_positions,
+                                AccessibilityTypes.hrms_employee_manpowerrequest_openpositions,
                             ])"
                         />
                     </HrmsCommonTabsTabContainer>

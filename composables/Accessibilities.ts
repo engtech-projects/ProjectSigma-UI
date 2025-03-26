@@ -43,8 +43,8 @@ export enum AccessibilityTypes {
     hrms_employee_manpowerrequest_all_request = "hrms:employee_manpower request_all request",
     hrms_employee_manpowerrequest_approval = "hrms:employee_manpower request_approval",
     hrms_employee_manpowerrequest_my_request = "hrms:employee_manpower request_my request",
-    hrms_employee_manpower_request_form_and_my_requests = "hrms:employee_manpower request_form and my requests",
-    hrms_employee_manpower_request_open_positions = "hrms:employee_manpower request_open positions",
+    hrms_employee_manpowerrequest_formandmyrequests = "hrms:employee_manpower request_form and my requests",
+    hrms_employee_manpowerrequest_openpositions = "hrms:employee_manpower request_open positions",
     hrms_employee_job_applicants_application_form = "hrms:employee_job applicants_application form",
     hrms_employee_job_applicants_job_applicants = "hrms:employee_job applicants_job applicants",
 

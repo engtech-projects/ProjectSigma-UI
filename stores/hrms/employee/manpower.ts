@@ -279,6 +279,7 @@ export const useManpowerStore = defineStore("manpowers", {
                         this.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
+
                     onResponse: ({ response }: any) => {
                         this.positionDetails.isLoading = false
                         if (response.ok) {
@@ -286,7 +287,10 @@ export const useManpowerStore = defineStore("manpowers", {
                             this.positionDetails.job_applicants = this.positionDetails.job_applicants.map((item:any) => {
                                 return {
                                     ...item,
-                                    processing_checklist: JSON.parse(item.pivot.processing_checklist)
+                                    pivot: {
+                                        ...item.pivot,
+                                        processing_checklist: JSON.parse(item.pivot.processing_checklist)
+                                    }
                                 }
                             })
                             this.successMessage = response._data.message

@@ -62,6 +62,10 @@ const denyRequest = async (id) => {
                     <div class="border px-4 py-2">
                         <span class="font-semibold">Fill Status: </span>
                         <span>{{ manpowerData.fill_status }}</span>
+                        <button v-show="manpowerData.fill_status === FILL_STATUS_OPEN" class="text-blue-500 hover:text-green-500 flex items-center" @click="addApplicant">
+                            <Icon name="pajamas:file-addition" class="h-4 w-4" />
+                            Add Applicant(s)
+                        </button>
                     </div>
                     <div class="border px-4 py-2">
                         <span class="font-semibold">Request Status: </span>
@@ -141,12 +145,6 @@ const denyRequest = async (id) => {
                     </div>
                 </div>
                 <HrmsEmployeeJobProcessApplicant />
-                <div class="flex justify-end mt-4">
-                    <button v-show="manpowerData.fill_status === FILL_STATUS_OPEN" class="hover:text-green-500 flex items-center" @click="addApplicant">
-                        <Icon name="pajamas:file-addition" class="h-4 w-4 " />
-                        Add Applicant
-                    </button>
-                </div>
             </div>
             <div v-if="manpowerData.next_approval && useCheckIsCurrentUser(manpowerData.next_approval?.user_id)" class="w-full flex flex-col gap-4">
                 <div class="flex gap-2 p-2 justify-end relative">

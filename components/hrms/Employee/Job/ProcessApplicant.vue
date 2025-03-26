@@ -14,11 +14,10 @@ const boardLoading = ref(false)
 
 const handleStatusChange = async (applicant) => {
     try {
-        jobapplicant.value = applicant
         boardLoading.value = true
         if (route.query.key) {
             jobapplicant.value.manpowerrequests_id = route.query.key
-            await jobapplicantstore.updateJobapplicant()
+            await jobapplicantstore.updateJobApplicantProcessing(applicant.pivot.id, applicant.pivot)
             if (jobapplicantstore.errorMessage !== "") {
                 snackbar.add({
                     type: "error",
@@ -30,6 +29,7 @@ const handleStatusChange = async (applicant) => {
                     text: jobapplicantstore.successMessage
                 })
             }
+            await manpowers.getOnePosition(route.query.key)
         } else {
             snackbar.add({
                 type: "error",
@@ -37,7 +37,6 @@ const handleStatusChange = async (applicant) => {
             })
         }
     } catch (error) {
-        errorMessage.value = errorMessage
         snackbar.add({
             type: "error",
             text: jobapplicantstore.errorMessage
@@ -53,15 +52,6 @@ const applicantDetails = (applic) => {
     applicantDetail.value = true
     applicantInfo.value = applic
 }
-const formatApplicantStatuses = (positionDetails) => {
-    positionDetails.job_applicants = positionDetails.job_applicants.map((item) => {
-        return {
-            ...item,
-            processing_checklist: JSON.parse(item.pivot.processing_checklist)
-        }
-    })
-}
-formatApplicantStatuses(positionDetails.value)
 </script>
 <template>
     <div v-if="positionDetails.fill_status !== FILL_STATUS_PENDING">
@@ -95,7 +85,7 @@ formatApplicantStatuses(positionDetails.value)
                                     </div>
                                 </template>
                                 <template v-else>
-                                    <HrmsEmployeeJobStatusSet v-model:hiringStatus="applicant.pivot.hiring_status" v-model:processingChecklist="applicant.processing_checklist" v-model:remarks="applicant.remarks" />
+                                    <HrmsEmployeeJobStatusSet v-model:hiringStatus="applicant.pivot.hiring_status" v-model:processingChecklist="applicant.pivot.processing_checklist" v-model:remarks="applicant.pivot.remarks" />
                                 </template>
                             </td>
                             <td class="border border-gray-400 p-2">

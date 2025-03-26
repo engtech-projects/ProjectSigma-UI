@@ -30,6 +30,7 @@ const saveApplicant = async () => {
         manpowers.storeApplicantRequests.form.manpowerrequests_id = route.query.key
         const getList = manpowers.getAddedApplicants.map(item => item.id)
         await manpowers.storeApplicants(getList)
+        await manpowers.getOnePosition(route.query.key)
         isClicked.value = false
     }
 }

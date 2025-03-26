@@ -10,7 +10,9 @@ const hiringStatus = defineModel("hiringStatus", { required: true, type: String 
         <div class="flex flex-row">
             <div class="flex flex-col w-full items-start list-none">
                 <li v-for="(value, key) in processingChecklist" :key="key">
-                    <input v-model="processingChecklist[key]" type="checkbox"> {{ key }}
+                    <label>
+                        <input v-model="processingChecklist[key]" type="checkbox"> {{ key }}
+                    </label>
                 </li>
             </div>
             <div class="w-full flex items-center gap-2">

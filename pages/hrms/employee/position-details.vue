@@ -24,7 +24,7 @@ const showAddApplicant = ref(false)
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_employee_manpower_request_open_positions,
+            AccessibilityTypes.hrms_employee_manpowerrequest_group,
         ])"
     >
         <div class="w-full flex flex-row gap-4">
