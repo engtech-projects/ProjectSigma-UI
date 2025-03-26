@@ -30,17 +30,38 @@ const totalVat = computed(() => {
 })
 
 const numPages = computed(() => {
-    const pages = chunkArray(detailsData.value, 15)
+    const pages = chunkArray(detailsData.value, 15, 23)
     return pages
 })
 
-function chunkArray (array: string | any[], chunkSize: number) {
-    const result = []
-    for (let i = 0; i < array.length; i += chunkSize) {
+// function chunkArray (array: string | any[], chunkSize: number) {
+//     const result = []
+//     for (let i = 0; i < array.length; i += chunkSize) {
+//         result.push(array.slice(i, i + chunkSize))
+//     }
+//     return result
+// }
+function chunkArray<T> (array: T[], firstChunkSize: number, chunkSize: number): T[][] {
+    if (!array.length || firstChunkSize <= 0 || chunkSize <= 0) { return [] }
+
+    const result: T[][] = []
+
+    // If the first chunk size is greater than or equal to the array, return the whole array as one chunk
+    if (firstChunkSize >= array.length) {
+        return [array]
+    }
+
+    // Extract the first chunk
+    result.push(array.slice(0, firstChunkSize))
+
+    // Extract the remaining chunks
+    for (let i = firstChunkSize; i < array.length; i += chunkSize) {
         result.push(array.slice(i, i + chunkSize))
     }
+
     return result
 }
+
 </script>
 
 <template>

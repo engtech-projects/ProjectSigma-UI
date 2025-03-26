@@ -19,17 +19,11 @@ export const STATUS_TEST = "Test"
 export const STATUS_INTERVIEW = "Interview"
 export const STATUS_REFERENCECHECK = "Reference Checking"
 export const STATUS_MEDICALEXAM = "Medical Examination"
+export const STATUS_PROCESSING = "Processing"
 export const STATUS = [
-    STATUS_CONTACTEXT,
-    STATUS_CONTRACTSIGNED,
-    STATUS_PENDING,
-    STATUS_INTERVIEWED,
-    STATUS_REJECTED,
     STATUS_FORHIRING,
-    STATUS_TEST,
-    STATUS_INTERVIEW,
-    STATUS_REFERENCECHECK,
-    STATUS_MEDICALEXAM,
+    STATUS_REJECTED,
+    STATUS_PROCESSING,
 ]
 
 export interface JobApplicationChildren {
@@ -172,6 +166,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             application_letter_attachment: undefined,
             resume_attachment: undefined,
             status: "",
+            hiring_status: "",
             lastname: "",
             firstname: "",
             middlename: "",
@@ -281,6 +276,13 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             remarks: "",
         },
         list: [],
+        allApplicantList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
         jobApplicantDetails: [],
         searchJobApplicantParams: {
             key: "",
@@ -293,6 +295,15 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         errorMessage: "",
         successMessage: "",
         showFormComponent: false,
+        allJobApplicants: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                paginated: "true"
+            },
+            pagination: {},
+        },
     }),
     getters: {
         fullname (state) {
@@ -305,7 +316,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
     actions: {
         async searchJobApplicants () {
             await useHRMSApi(
-                "/api/get-for-hiring",
+                "/api/job-applicants/hiring/for-pan",
                 {
                     method: "POST",
                     body: this.searchJobApplicantParams,
@@ -321,7 +332,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         },
         async getJobApplicantInformation (id: Number) {
             await useHRMSApi(
-                "/api/job-applicants/" + id,
+                "/api/job-applicants/resource/" + id,
                 {
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -334,28 +345,33 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 }
             )
         },
-        async getJobApplicant () {
-            const { data, error } = await useFetch(
-                "/api/job-applicants",
+        async getAllJobApplicant () {
+            this.allJobApplicants.isLoaded = true
+            await useHRMSApi(
+                "/api/job-applicants/resource",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
+                    params: this.allJobApplicants.params,
+                    onRequest: () => {
+                        this.allJobApplicants.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data
+                        this.allJobApplicants.isLoading = false
+                        if (response.ok) {
+                            this.allJobApplicants.list = response._data.data.data
+                            this.allJobApplicants.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
-
         async createJobapplicant () {
             if (this.addJobApplicantRequest.isLoading) { return }
             this.successMessage = ""
@@ -423,7 +439,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             formData.append("remarks", this.jobapplicant.remarks)
 
             return await useHRMSApiO(
-                "/api/job-applicants",
+                "/api/job-applicants/resource",
                 {
                     method: "POST",
                     body: formData,
@@ -439,7 +455,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         this.addJobApplicantRequest.isLoading = false
                         if (response.ok) {
                             this.$reset()
-                            this.getJobApplicant()
                             this.addJobApplicantRequest.successMessage = response._data.message
                             this.successMessage = response._data.message
                         } else {
@@ -457,8 +472,9 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         async updateJobapplicant () {
             this.successMessage = ""
             this.errorMessage = ""
+            this.jobapplicant.hiring_status = this.jobapplicant.pivot.hiring_status
             await useHRMSApiO(
-                "/api/update-applicant/" + this.jobapplicant.id,
+                "/api/job-applicants/update-applicant/" + this.jobapplicant.id,
                 {
                     method: "PUT",
                     headers: {

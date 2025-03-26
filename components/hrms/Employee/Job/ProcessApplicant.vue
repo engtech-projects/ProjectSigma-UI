@@ -1,30 +1,39 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useManpowerStore } from "@/stores/hrms/employee/manpower"
+import { useManpowerStore, HIRING_STATUS_HIRED, FILL_STATUS_PENDING } from "@/stores/hrms/employee/manpower"
 import { useJobapplicantStore } from "@/stores/hrms/employee/jobapplicant"
 
 const manpowers = useManpowerStore()
-const { manpower } = storeToRefs(manpowers)
+const { positionDetails } = storeToRefs(manpowers)
 const jobapplicantstore = useJobapplicantStore()
 const { jobapplicant } = storeToRefs(jobapplicantstore)
 
 const snackbar = useSnackbar()
+const route = useRoute()
 const boardLoading = ref(false)
 
 const handleStatusChange = async (applicant) => {
     try {
         jobapplicant.value = applicant
         boardLoading.value = true
-        await jobapplicantstore.updateJobapplicant()
-        if (jobapplicantstore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: jobapplicantstore.errorMessage
-            })
+        if (route.query.key) {
+            jobapplicant.value.manpowerrequests_id = route.query.key
+            await jobapplicantstore.updateJobapplicant()
+            if (jobapplicantstore.errorMessage !== "") {
+                snackbar.add({
+                    type: "error",
+                    text: jobapplicantstore.errorMessage
+                })
+            } else {
+                snackbar.add({
+                    type: "success",
+                    text: jobapplicantstore.successMessage
+                })
+            }
         } else {
             snackbar.add({
-                type: "success",
-                text: jobapplicantstore.successMessage
+                type: "error",
+                text: "Failed to update."
             })
         }
     } catch (error) {
@@ -44,10 +53,19 @@ const applicantDetails = (applic) => {
     applicantDetail.value = true
     applicantInfo.value = applic
 }
+const formatApplicantStatuses = (positionDetails) => {
+    positionDetails.job_applicants = positionDetails.job_applicants.map((item) => {
+        return {
+            ...item,
+            processing_checklist: JSON.parse(item.pivot.processing_checklist)
+        }
+    })
+}
+formatApplicantStatuses(positionDetails.value)
 </script>
 <template>
-    <div>
-        <template v-if="manpower.job_applicants && manpower.job_applicants.length > 0">
+    <div v-if="positionDetails.fill_status !== FILL_STATUS_PENDING">
+        <template v-if="positionDetails.job_applicants && positionDetails.job_applicants.length > 0">
             <div class="overflow--auto">
                 <table class="table-auto border-collapse w-full">
                     <thead>
@@ -64,33 +82,35 @@ const applicantDetails = (applic) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(applicant, index) in manpower.job_applicants" :key="index" class="bg-white">
+                        <tr v-for="(applicant, index) in positionDetails.job_applicants" :key="index" class="bg-white">
                             <td class="border border-gray-400 p-2">
                                 <span class="cursor-pointer text-blue-500" @click="applicantDetails(applicant)">
                                     {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }}
                                 </span>
                             </td>
                             <td class="border border-gray-400 p-2">
-                                <template v-if="applicant.status.toLowerCase() === 'hired'">
+                                <template v-if="applicant.pivot.hiring_status === HIRING_STATUS_HIRED">
                                     <div class="bg-green-200 p-2 rounded">
                                         Hired
                                     </div>
                                 </template>
                                 <template v-else>
-                                    <HrmsEmployeeJobStatusSet v-model:status="applicant.status" v-model:remarks="applicant.remarks" />
+                                    <HrmsEmployeeJobStatusSet v-model:hiringStatus="applicant.pivot.hiring_status" v-model:processingChecklist="applicant.processing_checklist" v-model:remarks="applicant.remarks" />
                                 </template>
                             </td>
                             <td class="border border-gray-400 p-2">
-                                <template v-if="applicant.status.toLowerCase() === 'hired'">
+                                <template v-if="applicant.pivot.hiring_status === HIRING_STATUS_HIRED">
                                     <div class="bg-green-200 p-2 rounded">
                                         Hired
                                     </div>
                                 </template>
                                 <template v-else>
-                                    <button class="p-2 bg-teal-200 hover:bg-teal-300 rounded" @click.prevent="handleStatusChange(applicant)">
-                                        Update
-                                        <Icon name="ic:twotone-system-update-alt" class="h-5 w-5 lg:h-5 lg:w-5" />
-                                    </button>
+                                    <div class="w-full flex justify-center items-center gap-4">
+                                        <button class="p-2 bg-teal-200 hover:bg-teal-300 rounded" @click.prevent="handleStatusChange(applicant)">
+                                            Update
+                                            <Icon name="ic:twotone-system-update-alt" class="h-5 w-5 lg:h-5 lg:w-5" />
+                                        </button>
+                                    </div>
                                 </template>
                             </td>
                         </tr>
@@ -108,5 +128,8 @@ const applicantDetails = (applic) => {
                 <HrmsEmployeeJobApplicantList :applicant="applicantInfo" />
             </template>
         </PsModal>
+    </div>
+    <div class="w-full">
+        <LayoutApprovalsListView :approvals="positionDetails.approvals" />
     </div>
 </template>

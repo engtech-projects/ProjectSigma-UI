@@ -4,7 +4,7 @@ import { useManpowerStore, EMPLOYMENT_TYPE, NATURE_REQUESTS, STATUS, GENDER } fr
 import { useApprovalStore, APPROVAL_MANPOWERREQ } from "@/stores/hrms/setup/approvals"
 
 const manpowers = useManpowerStore()
-const { manpower, errorMessage, successMessage } = storeToRefs(manpowers)
+const { manpower, errorMessage, successMessage, createData } = storeToRefs(manpowers)
 const approvals = useApprovalStore()
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
@@ -44,10 +44,16 @@ const addManpwr = async () => {
 }
 </script>
 <template>
-    <LayoutBoards title="Manpower Request" :loading="boardLoading" class="w-90">
+    <div class="relative">
+        <div v-if="createData.isLoading" class="absolute bg-slate-200/50 rounded-lg w-full h-full flex items-center justify-center">
+            <img
+                class="flex justify-center w-28 rounded-md"
+                src="/loader.gif"
+                alt="logo"
+            >
+        </div>
         <div class="text-gray-500 p-2">
             <form @submit.prevent="addManpwr">
-                <!-- {{ manpower }} -->
                 <div class="grid grid-cols-2 gap-2 sm:grid-cols-2">
                     <div class="pb-4">
                         <label for="reqDepartment" class="block text-sm font-medium text-gray-900 dark:text-white">Requesting Department</label>
@@ -185,5 +191,5 @@ const addManpwr = async () => {
                 {{ successMessage }}
             </p>
         </div>
-    </LayoutBoards>
+    </div>
 </template>

@@ -3,14 +3,15 @@
 import { storeToRefs } from "pinia"
 import { useManpowerStore } from "@/stores/hrms/employee/manpower"
 const manpowers = useManpowerStore()
-const { myRequests } = storeToRefs(manpowers)
+const { openPositions } = storeToRefs(manpowers)
 onMounted(() => {
-    if (!myRequests.value.isLoaded) {
-        manpowers.getMyRequests()
+    if (!openPositions.value.isLoaded) {
+        manpowers.getOpenPositions()
     }
 })
 const infoModalData = ref({})
 const showInfoModal = ref(false)
+
 const showInformation = (data) => {
     navigateTo({
         path: "/hrms/employee/position-details",
@@ -19,9 +20,8 @@ const showInformation = (data) => {
         },
     })
 }
-
 const changePaginate = (newParams) => {
-    myRequests.value.params.page = newParams.page ?? ""
+    openPositions.value.params.page = newParams.page ?? ""
 }
 
 const headers = [
@@ -38,9 +38,10 @@ const headers = [
 const actions = {
     showTable: true,
 }
+
 </script>
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="myRequests.isLoading">
+    <LayoutLoadingContainer class="w-full" :loading="openPositions.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                 <table class="table-auto w-full border-collapse">
@@ -60,13 +61,13 @@ const actions = {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-if="!myRequests.list">
+                        <tr v-if="!openPositions.list">
                             <td :colspan="headers.length + 1" class="text-center">
                                 NO DATA
                             </td>
                         </tr>
                         <template v-else>
-                            <tr v-for="dataValue, index in myRequests.list" :key="index" class="border text-center">
+                            <tr v-for="dataValue, index in openPositions.list" :key="index" class="border text-center">
                                 <td
                                     class="p-2"
                                 >
@@ -124,7 +125,7 @@ const actions = {
             </div>
         </div>
         <div class="flex justify-center mx-auto p-2">
-            <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
+            <CustomPagination :links="openPositions.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
     <HrmsEmployeeManpowerInfoModal
