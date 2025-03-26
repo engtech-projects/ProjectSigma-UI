@@ -455,7 +455,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         this.addJobApplicantRequest.isLoading = false
                         if (response.ok) {
                             this.$reset()
-                            this.getJobApplicant()
                             this.addJobApplicantRequest.successMessage = response._data.message
                             this.successMessage = response._data.message
                         } else {
