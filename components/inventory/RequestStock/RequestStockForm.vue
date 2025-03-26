@@ -226,12 +226,10 @@ const isCheckboxChecked = ref(false)
                                 @add-non-bom-item="addNonBomItem"
                             />
                             <hr>
-                            <label class="text-lg font-bold text-center sticky top-0 bg-teal-200 z-0 p-2">
-                                {{ selectType }} BOM List
-                            </label>
                             <InventoryRequestStockItemsAppend
                                 :header-columns="bomheaders"
                                 :datas="List.list ?? []"
+                                :select-type="selectType"
                                 @add-item="addItem"
                             />
                         </div>
