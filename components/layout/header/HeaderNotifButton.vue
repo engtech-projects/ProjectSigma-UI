@@ -1,7 +1,7 @@
 <script setup>
 import { useNotificationsStore } from "@/stores/notifications"
 const notifStore = useNotificationsStore()
-const { unreadList } = storeToRefs(notifStore)
+const { unreadList, unreadListLength } = storeToRefs(notifStore)
 </script>
 <template>
     <button
@@ -22,7 +22,7 @@ const { unreadList } = storeToRefs(notifStore)
             />
         </svg>
         <div v-if="unreadList.length > 0" class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">
-            {{ unreadList.length }}
+            {{ unreadListLength }}
         </div>
     </button>
 </template>
