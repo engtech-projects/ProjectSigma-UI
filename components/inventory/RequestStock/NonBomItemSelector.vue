@@ -28,7 +28,7 @@ watch(selectedItem, val => emits("update:itemId", val))
 <template>
     <div
         v-show="sectionId"
-        class="w-full flex flex-col gap-2 rounded-md h-auto z-10"
+        class="w-full flex flex-col gap-2 rounded-md h-auto z-30"
     >
         <label class="text-lg font-bold text-center sticky top-0 bg-teal-200 z-10 p-2">
             Non BOM List
