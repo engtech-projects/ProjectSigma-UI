@@ -7,6 +7,16 @@ const hiringStatus = defineModel("hiringStatus", { required: true, type: String 
 </script>
 <template>
     <div class="flex flex-col gap-4 m-1">
+        <div class="flex flex-row">
+            <div class="flex flex-col w-full items-start list-none">
+                <li v-for="(value, key) in processingChecklist" :key="key">
+                    <input v-model="processingChecklist[key]" type="checkbox"> {{ key }}
+                </li>
+            </div>
+            <div class="w-full flex items-center gap-2">
+                <textarea v-model="remarks" class="w-full" type="text" />
+            </div>
+        </div>
         <div class="w-full flex items-center gap-2">
             <select
                 v-model="hiringStatus"
@@ -19,14 +29,6 @@ const hiringStatus = defineModel("hiringStatus", { required: true, type: String 
                     {{ stat }}
                 </option>
             </select>
-        </div>
-        <div class="flex flex-col items-start gap-2 list-none">
-            <li v-for="(value, key) in processingChecklist" :key="key">
-                <input v-model="processingChecklist[key]" type="checkbox"> {{ key }}
-            </li>
-        </div>
-        <div class="w-full flex items-center gap-2">
-            <textarea v-model="remarks" class="w-full" type="text" />
         </div>
     </div>
 </template>
