@@ -67,7 +67,7 @@ const headers = [
                                         class="border border-gray-500 h-8"
                                     >
                                         <div
-                                            v-for="approval in dataValue.approvals"
+                                            v-for="approval in dataValue.approvals.split(',')"
                                             :key="approval+'dataApproverRow'"
                                             class="flex justify-center flex-row gap-4 mb-2"
                                         >
