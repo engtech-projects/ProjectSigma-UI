@@ -37,7 +37,7 @@
                         12-12-2024
                     </td>
                     <td class="text-[12px] p-[1px] text-center border border-gray-500">
-                        <!-- {{ page.currentPage }} of {{ page.totalPages }} -->
+                        {{ page.currentPage }} of {{ page.totalPages }}
                     </td>
                 </tr>
             </tbody>

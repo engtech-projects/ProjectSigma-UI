@@ -8,6 +8,7 @@ export const useNotificationsStore = defineStore("notificationsStore", {
         allListLoading: false,
         allList: [],
         unreadList: [],
+        unreadListLength: 0,
         streamingList: false,
         pagination: {},
         getParams: {},
@@ -60,7 +61,8 @@ export const useNotificationsStore = defineStore("notificationsStore", {
                     let readData = value.trim().split("\n")
                     readData = readData[readData.length - 1].split(": ", 2)
                     const event = JSON.parse(readData[readData.length - 1])
-                    this.unreadList = event ?? []
+                    this.unreadList = JSON.parse(event.notifications) ?? []
+                    this.unreadListLength = JSON.parse(event.total_notifications) ?? []
                 } finally {
                     this.unreadList = this.unreadList ?? []
                 }

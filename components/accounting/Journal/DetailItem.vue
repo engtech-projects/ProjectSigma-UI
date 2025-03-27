@@ -37,13 +37,6 @@ const selectStakeholder = (stakeholder) => {
                 for="particulars"
                 class="text-xs italic"
             >Project/Department</label>
-            <!-- <AccountingCommonSelectStakeHolder
-                v-model:stakeholder-info="details.stakeholderInformation"
-                v-model:selected-type="details.stakeholder_type"
-                class="w-full bg-white"
-                :selected-id="details.stakeholder_id"
-                :filter-options="['project', 'department', 'employee']"
-            /> -->
             <AccountingCommonSelectStakeholderSelect
                 :stakeholder-id="details.stakeholder_id"
                 :stakeholder="details.stakeholderInformation"

@@ -278,6 +278,14 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
+                    AccessibilityTypes.HRMS_REQUEST_VOID_GROUP,
+                ])"
+                linkarea="/hrms/requests/void"
+                icon="mdi:archive-cancel"
+                single-nav-title="Void Requests"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_reports_group,
                 ])"
                 linkarea="/hrms/reports"
@@ -785,13 +793,13 @@ const config = useRuntimeConfig()
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.project_monitoring_group,
+                AccessibilityTypes.ADMIN_ONLY,
             ])"
             title="Project Monitoring"
         >
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.project_monitoring_dashboard,
+                    AccessibilityTypes.ADMIN_ONLY,
                 ])"
                 linkarea="/project-monitoring"
                 icon="ic:baseline-space-dashboard"
@@ -801,9 +809,17 @@ const config = useRuntimeConfig()
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.ADMIN_ONLY,
                 ])"
-                linkarea="/project-monitoring/projects"
+                linkarea="/project-monitoring/marketing"
                 icon="material-symbols:business-center"
-                single-nav-title="Projects"
+                single-nav-title="Marketing"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.ADMIN_ONLY,
+                ])"
+                linkarea="/project-monitoring/technical-service"
+                icon="material-symbols:linked-services"
+                single-nav-title="Technical Service"
             />
         </LayoutNavModuleGroup>
     </div>

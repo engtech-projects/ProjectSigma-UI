@@ -11,6 +11,15 @@ export const EMPLOYMENT_TYPE = [
     EMPLOYMENT_REGULAR
 ]
 
+export const FILL_STATUS_OPEN = "Open"
+export const FILL_STATUS_HOLD = "Hold"
+export const FILL_STATUS_FILLED = "Filled"
+export const FILL_STATUS_PENDING = "Pending"
+
+export const HIRING_STATUS_FOR_HIRING = "For Hiring"
+export const HIRING_STATUS_REJECTED = "Rejected"
+export const HIRING_STATUS_HIRED = "Hired"
+
 export const NATURE_NEW = "New/Addition"
 export const NATURE_REPLACEMENT = "Replacement"
 export const NATURE_REQUESTS = [
@@ -62,6 +71,7 @@ export interface Manpower {
     nature_of_request: string,
     age_range: string,
     status: string,
+    fill_status: string,
     gender: string,
     educational_requirement: string,
     preferred_qualifications: string,
@@ -70,6 +80,7 @@ export interface Manpower {
     request_status: string,
     charged_to: null | string,
     breakdown_details: string,
+    isLoading: boolean,
 }
 
 export const useManpowerStore = defineStore("manpowers", {
@@ -94,6 +105,7 @@ export const useManpowerStore = defineStore("manpowers", {
             nature_of_request: "",
             age_range: "",
             status: "",
+            fill_status: "",
             gender: "",
             educational_requirement: "",
             preferred_qualifications: "",
@@ -102,13 +114,68 @@ export const useManpowerStore = defineStore("manpowers", {
             request_status: "",
             charged_to: null,
             breakdown_details: "",
+            job_applicants: [],
+            isLoading: false,
         } as Manpower,
+        positionDetails: {
+            id: null,
+            requesting_department: null,
+            date_requested: "",
+            date_required: "",
+            position_id: null,
+            employment_type: "",
+            brief_description: "",
+            job_description_attachment: "",
+            nature_of_request: "",
+            age_range: "",
+            status: "",
+            fill_status: "",
+            gender: "",
+            educational_requirement: "",
+            preferred_qualifications: "",
+            approvals: [],
+            remarks: "",
+            request_status: "",
+            charged_to: null,
+            breakdown_details: "",
+            job_applicants: [],
+            isLoading: false,
+        } as Manpower,
+        allJobApplicants: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+            },
+            pagination: {},
+        },
         applicantDetails: [],
         pagination: {},
         getParams: {},
         errorMessage: "",
         successMessage: "",
         remarks: "",
+        openPositions: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        onHoldPositions: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
+        approvedPositions: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
         allRequests: {
             isLoading: false,
             isLoaded: false,
@@ -136,9 +203,53 @@ export const useManpowerStore = defineStore("manpowers", {
             list: [],
             params: {},
             pagination: {},
+        },
+        storeApplicantRequests: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            form: {
+                manpowerrequests_id: null,
+                data: []
+            },
+            pagination: {},
         }
     }),
+    getters: {
+        getAddedApplicants (state) {
+            return state.allJobApplicants.list.filter(data => data.isCheck)
+        }
+    },
     actions: {
+        async storeApplicants (applicant:any) {
+            this.storeApplicantRequests.form.data = applicant
+            await useHRMSApi(
+                "/api/manpower/save-applicant",
+                {
+                    method: "POST",
+                    body: this.storeApplicantRequests.form,
+                    onRequest: () => {
+                        this.storeApplicantRequests.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.storeApplicantRequests.isLoading = false
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        this.storeApplicantRequests.isLoading = false
+                        if (response.ok) {
+                            this.getOne(this.storeApplicantRequests.form.manpowerrequests_id)
+                            this.reloadResources()
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
         async getOne (id: any): Promise<any> {
             return await useHRMSApiO(
                 "/api/manpower/resource/" + id,
@@ -148,6 +259,118 @@ export const useManpowerStore = defineStore("manpowers", {
                         if (response.ok) {
                             return response._data.data
                         } else {
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+
+        async getOnePosition (id: any): Promise<any> {
+            return await useHRMSApiO(
+                "/api/manpower/resource/" + id,
+                {
+                    method: "GET",
+                    onRequest: () => {
+                        this.positionDetails.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.positionDetails.isLoading = false
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+
+                    onResponse: ({ response }: any) => {
+                        this.positionDetails.isLoading = false
+                        if (response.ok) {
+                            this.positionDetails = response._data.data
+                            this.positionDetails.job_applicants = this.positionDetails.job_applicants.map((item:any) => {
+                                return {
+                                    ...item,
+                                    pivot: {
+                                        ...item.pivot,
+                                        processing_checklist: JSON.parse(item.pivot.processing_checklist)
+                                    }
+                                }
+                            })
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async getAllAvailableApplicant () {
+            this.allJobApplicants.isLoaded = true
+            await useHRMSApi(
+                "/api/job-applicants/hiring/available",
+                {
+                    method: "GET",
+                    params: this.allJobApplicants.params,
+                    onRequest: () => {
+                        this.allJobApplicants.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.allJobApplicants.isLoading = false
+                        if (response.ok) {
+                            this.allJobApplicants.list = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getApprovedPositions () {
+            this.approvedPositions.isLoaded = true
+            await useHRMSApi(
+                "/api/manpower/get-approved-positions",
+                {
+                    method: "GET",
+                    params: this.approvedPositions.params,
+                    onRequest: () => {
+                        this.approvedPositions.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.approvedPositions.isLoading = false
+                        if (response.ok) {
+                            this.approvedPositions.list = response._data.data.data
+                            this.approvedPositions.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getOpenPositions () {
+            this.openPositions.isLoaded = true
+            await useHRMSApi(
+                "/api/manpower/get-open-positions",
+                {
+                    method: "GET",
+                    params: this.openPositions.params,
+                    onRequest: () => {
+                        this.openPositions.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.openPositions.isLoading = false
+                        if (response.ok) {
+                            this.openPositions.list = response._data.data.data
+                            this.openPositions.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        } else {
+                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
@@ -169,10 +392,13 @@ export const useManpowerStore = defineStore("manpowers", {
                         if (response.ok) {
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }
@@ -193,9 +419,9 @@ export const useManpowerStore = defineStore("manpowers", {
                         if (response.ok) {
                             this.myRequests.list = response._data.data.data
                             this.myRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -218,12 +444,12 @@ export const useManpowerStore = defineStore("manpowers", {
                     onResponse: ({ response }) => {
                         this.myApprovals.isLoading = false
                         if (response.ok) {
-                            this.myApprovals.list = response._data.data
-                            // this.myApprovals.pagination = {
-                            //     first_page: response._data.data.first_page_url,
-                            //     pages: response._data.data.links,
-                            //     last_page: response._data.data.last_page_url,
-                            // }
+                            this.myApprovals.list = response._data.data.data
+                            this.myApprovals.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -247,9 +473,9 @@ export const useManpowerStore = defineStore("manpowers", {
                         if (response.ok) {
                             this.forHiringRequests.list = response._data.data.data
                             this.forHiringRequests.pagination = {
-                                first_page: response._data.data.first_page_url,
-                                pages: response._data.data.links,
-                                last_page: response._data.data.last_page_url,
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
                             }
                         } else {
                             this.errorMessage = response._data.message
@@ -415,6 +641,12 @@ export const useManpowerStore = defineStore("manpowers", {
             }
             if (this.forHiringRequests.isLoaded) {
                 callFunctions.push(this.getManpowerHiringRequests)
+            }
+            if (this.openPositions.isLoaded) {
+                callFunctions.push(this.getOpenPositions)
+            }
+            if (this.allJobApplicants.isLoaded) {
+                callFunctions.push(this.getAllAvailableApplicant)
             }
             this.$reset()
             this.manpower.approvals = backup
