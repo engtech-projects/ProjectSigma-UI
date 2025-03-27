@@ -72,7 +72,7 @@ const headers = [
                                             class="flex justify-center flex-row gap-4 mb-2"
                                         >
                                             <p class="whitespace-nowrap text-sm text-center">
-                                                {{ approval.employee_name }} - {{ approval.status }} - {{ approval.no_of_days_approved_from_the_date_filled ? approval.no_of_days_approved_from_the_date_filled : 0 }}
+                                                {{ approval }}
                                             </p>
                                         </div>
                                     </td>
