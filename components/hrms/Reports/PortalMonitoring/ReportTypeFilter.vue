@@ -18,7 +18,7 @@ const clearList = () => {
             @change="clearList"
         >
             <option :value="OVERTIME_MONITORING">
-                OVERTIME MONITORING
+                Overtime Monitoring
             </option>
         </select>
     </div>
