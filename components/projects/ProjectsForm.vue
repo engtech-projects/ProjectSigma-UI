@@ -19,7 +19,7 @@
                 </div>
                 <div class="flex flex-col gap-1">
                     <label for="" class="text-sm text-gray-700">
-                        ABC
+                        Contract Amount
                     </label>
                     <input type="text" class="border rounded-lg border-gray-300 h-10" placeholder="0.00">
                 </div>
@@ -43,6 +43,26 @@
                         Implementing Office
                     </label>
                     <input type="text" class="border rounded-lg border-gray-300 h-10" placeholder="Implementing Office">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="" class="text-sm text-gray-700">
+                        Contract ID
+                    </label>
+                    <input type="text" class="border rounded-lg border-gray-300 h-10" placeholder="Contract ID">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label for="" class="text-sm text-gray-700">
+                        License
+                    </label>
+                    <input type="text" class="border rounded-lg border-gray-300 h-10" placeholder="License">
+                </div>
+            </div>
+            <div class="grid grid-cols-4 gap-6">
+                <div class="flex flex-col gap-1">
+                    <label for="" class="text-sm text-gray-700">
+                        Designation
+                    </label>
+                    <input type="text" class="border rounded-lg border-gray-300 h-10" placeholder="Designation">
                 </div>
             </div>
 

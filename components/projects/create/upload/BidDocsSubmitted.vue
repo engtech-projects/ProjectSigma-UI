@@ -1,6 +1,6 @@
 <template>
     <div class="text-center">
-        Bio Docs (Submitted)
+        Bid Docs (Submitted)
     </div>
 </template>
 

@@ -56,7 +56,7 @@ const tabs = ref([
         component: markRaw(ProjectsCreateUploadJvLicense),
     },
     {
-        name: "Bio Docs (Agency)",
+        name: "Bid Docs (Agency)",
         component: markRaw(ProjectsCreateUploadBioDocsAgency),
     },
     {

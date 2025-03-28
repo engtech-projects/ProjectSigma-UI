@@ -11,7 +11,7 @@
                     </h4>
                 </div>
                 <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9" @click="showPhaseModal = true">
-                    Create Phase
+                    Create Item
                 </button>
             </div>
             <table class="border border-collapse border-gray-800 w-full">

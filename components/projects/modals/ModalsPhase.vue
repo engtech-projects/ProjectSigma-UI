@@ -22,7 +22,7 @@
             <div class="grid grid-cols-2 gap-6 mb-6">
                 <div class="flex flex-col">
                     <label class="text-md text-gray-700">
-                        Project Name
+                        Item Name
                     </label>
                     <input type="text" class="border border-gray-300 rounded-md" placeholder="Project Name">
                 </div>
@@ -30,7 +30,7 @@
                     <label class="text-md text-gray-700">
                         Total Cost
                     </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
+                    <input type="text" class="border border-gray-300 rounded-md" disabled placeholder="0.00">
                 </div>
             </div>
             <div class="flex flex-col mb-6">
