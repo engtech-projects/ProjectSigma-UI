@@ -376,12 +376,18 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             this.errorMessage = ""
             const formData = new FormData()
             Object.keys(this.jobapplicant).forEach((key) => {
-                if (!key.includes("attachment") || ["workexperience", "education"].includes(key)) {
-                    formData.append(key, JSON.stringify(this.jobapplicant[key]))
-                } else {
-                    formData.append(key, this.jobapplicant[key])
-                }
+                // TRY STRINGIFY ALL
+                formData.append(key, JSON.stringify(this.jobapplicant[key]))
+                // if (!key.includes("attachment") || ["workexperience", "education"].includes(key)) {
+                //     formData.append(key, JSON.stringify(this.jobapplicant[key]))
+                // } else if (["date_of_birth", "icoe_date_of_birth"].includes(key)) {
+                //     // SKIP
+                // } else {
+                //     formData.append(key, this.jobapplicant[key])
+                // }
             })
+            // formData.append("icoe_date_of_birth", this.jobapplicant.icoe_date_of_birth)
+            // formData.append("date_of_birth", this.jobapplicant.date_of_birth)
 
             return await useHRMSApiO(
                 "/api/job-applicants/resource",
