@@ -47,7 +47,7 @@ export const useNotificationsStore = defineStore("notificationsStore", {
                 keepalive: true,
                 onResponseError: () => {
                     // response.cancel()
-                    // this.getNotificationsStream()
+                    this.getNotificationsStream()
                 },
             })
             // Create a new ReadableStream from the response with TextDecoderStream to get the data as text
