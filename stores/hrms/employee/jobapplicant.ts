@@ -376,7 +376,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             this.errorMessage = ""
             const formData = new FormData()
             Object.keys(this.jobapplicant).forEach((key) => {
-                if (!key.includes("attachment")) {
+                if (!key.includes("attachment") || ["workexperience", "education"].includes(key)) {
                     formData.append(key, JSON.stringify(this.jobapplicant[key]))
                 } else {
                     formData.append(key, this.jobapplicant[key])
