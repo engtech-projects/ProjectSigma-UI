@@ -35,47 +35,43 @@ const headers = [
                                 </tr>
                             </thead>
                             <tbody class="text-sm text-center">
-                                <tr v-for="dataValue, index in portalMonitoringReports.list" :key="'EmployeeNewHire' + index" class="h-2">
-                                    <td class="border border-gray-500 h-8">
-                                        {{ index + 1 }}
-                                    </td>
-                                    <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ dataValue.employee_name }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ dataValue.designation }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ dataValue.section }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ dataValue.date_of_overtime }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ dataValue.prepared_by }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ dataValue.request_status }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ dataValue.days_delayed_filling }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ dataValue.date_approved }}
-                                    </td>
-                                    <td
-                                        class="border border-gray-500 h-8"
-                                    >
-                                        <div
-                                            v-for="approval in dataValue.approvals.split(',')"
-                                            :key="approval+'dataApproverRow'"
-                                            class="flex justify-center flex-row gap-4 mb-2"
+                                <tr v-for="overtimeRequest, index in portalMonitoringReports.list" :key="'OvertimeMonitoring' + index" class="h-2">
+                                    <template v-for="dataValue, dataValueIndex in overtimeRequest" :key="'Request' + dataValueIndex">
+                                        <td class="border border-gray-500 h-8">
+                                            {{ index + 1 }}
+                                        </td>
+                                        <td class="whitespace-nowrap border border-gray-500 h-8">
+                                            {{ dataValue.employee_name }}
+                                        </td>
+                                        <td class="border border-gray-500 h-8">
+                                            {{ dataValue.designation }}
+                                        </td>
+                                        <td class="border border-gray-500 h-8">
+                                            {{ dataValue.section }}
+                                        </td>
+                                        <td class="border border-gray-500 h-8">
+                                            {{ dataValue.date_of_overtime }}
+                                        </td>
+                                        <td class="border border-gray-500 h-8">
+                                            {{ dataValue.prepared_by }}
+                                        </td>
+                                        <td class="border border-gray-500 h-8">
+                                            {{ dataValue.request_status }}
+                                        </td>
+                                        <td class="border border-gray-500 h-8">
+                                            {{ dataValue.days_delayed_filling }}
+                                        </td>
+                                        <td class="border border-gray-500 h-8">
+                                            {{ dataValue.date_approved }}
+                                        </td>
+                                        <td
+                                            class="border border-gray-500 h-8"
                                         >
                                             <p class="whitespace-nowrap text-sm text-center">
-                                                {{ approval }}
+                                                {{ dataValue.approvals }}
                                             </p>
-                                        </div>
-                                    </td>
+                                        </td>
+                                    </template>
                                 </tr>
                             </tbody>
                         </table>
