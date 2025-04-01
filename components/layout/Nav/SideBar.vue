@@ -432,6 +432,14 @@ const config = useRuntimeConfig()
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.hrms_setup_settings,
                     ])"
+                    linkarea="/hrms/setup/api-synchronization"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="API Syncronization"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.hrms_setup_settings,
+                    ])"
                     linkarea="/hrms/setup/settings"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Settings"

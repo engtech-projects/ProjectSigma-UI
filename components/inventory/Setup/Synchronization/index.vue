@@ -57,37 +57,37 @@ const sync = async () => {
                 </button>
             </div>
             <div class="flex flex-col gap-8">
-                <AccountingSyncGroup name="HRMS" url="/api/sync/hrms/all" api="accounting">
-                    <AccountingSyncItem
+                <LayoutSyncGroup name="HRMS" url="/api/sync/hrms/all" api="accounting">
+                    <LayoutSyncItem
                         name="Employees"
                         url="/api/sync/hrms/employee"
                         api="accounting"
                     />
-                    <AccountingSyncItem
+                    <LayoutSyncItem
                         name="Users"
                         url="/api/sync/hrms/users"
                         api="accounting"
                     />
-                    <AccountingSyncItem
+                    <LayoutSyncItem
                         name="Departments"
                         url="/api/sync/hrms/department"
                         api="accounting"
                     />
-                </AccountingSyncGroup>
-                <AccountingSyncGroup name="PROJECT" url="/api/sync/project/all" api="accounting">
-                    <AccountingSyncItem
+                </LayoutSyncGroup>
+                <LayoutSyncGroup name="PROJECT" url="/api/sync/project/all" api="accounting">
+                    <LayoutSyncItem
                         name="Projects"
                         url="/api/sync/project/project"
                         api="accounting"
                     />
-                </AccountingSyncGroup>
-                <AccountingSyncGroup name="INVENTORY" url="/api/sync/inventory/all" api="accounting">
-                    <AccountingSyncItem
+                </LayoutSyncGroup>
+                <LayoutSyncGroup name="INVENTORY" url="/api/sync/inventory/all" api="accounting">
+                    <LayoutSyncItem
                         name="Suppliers"
                         url="/api/sync/inventory/supplier"
                         api="accounting"
                     />
-                </AccountingSyncGroup>
+                </LayoutSyncGroup>
             </div>
         </div>
     </LayoutAcessContainer>
