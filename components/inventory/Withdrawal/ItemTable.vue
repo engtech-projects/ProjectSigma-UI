@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useRequestStockStore } from "@/stores/inventory/requeststock"
-const mainStore = useRequestStockStore()
-const { requestStock } = storeToRefs(mainStore)
+import { useWithdrawalStore } from "@/stores/inventory/withdrawal"
+const mainStore = useWithdrawalStore()
+const { withdrawal } = storeToRefs(mainStore)
 interface HeaderColumn {
     name: string,
     id: string,
@@ -17,21 +17,18 @@ defineProps({
     },
 })
 const addItem = () => {
-    requestStock.value.items.push(
+    withdrawal.value.items.push(
         {
-            quantity: "",
-            unit: "",
             item_id: "",
-            specification: "",
-            preferred_brand: "",
-            reason: "",
-            location: "",
-            location_qty: "",
+            item_code: "",
+            qty: "",
+            unit: "",
+            purpose: "",
         }
     )
 }
 const removeItem = (id: number) => {
-    requestStock.value.items.splice(id, 1)
+    withdrawal.value.items.splice(id, 1)
 }
 </script>
 <template>
@@ -61,9 +58,9 @@ const removeItem = (id: number) => {
                                 </button>
                             </td>
                         </tr>
-                        <template v-for="(item, index) in requestStock.items" :key="index">
-                            <InventoryRequestStockItemAppend
-                                v-model:item="requestStock.items[index]"
+                        <template v-for="(item, index) in withdrawal.items" :key="index">
+                            <InventoryWithdrawalItemAppend
+                                v-model:item="withdrawal.items[index]"
                                 :index="index"
                                 @remove-item="removeItem"
                             />
