@@ -1,5 +1,8 @@
 import { defineStore } from "pinia"
-
+export enum Particulars {
+    INPUT_VAT = "NPUT VAT",
+    CASH_IN_BANK = "CASH IN BANK",
+}
 export const useJournalStore = defineStore("journalStore", {
     state: () => ({
         journal: {

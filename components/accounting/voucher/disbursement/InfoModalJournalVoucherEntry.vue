@@ -36,8 +36,8 @@ const generateVoucher = async (data) => {
     voucherDisbursement.value.details = data.details
     voucherDisbursement.value.details = data.details.map(detail => ({
         ...detail,
-        debit: detail.credit,
-        credit: detail.debit,
+        debit: detail.debit,
+        credit: detail.credit,
         description: detail.particulars,
         stakeholder_id: detail.stakeholder ? detail.stakeholder.id : null
     }))
