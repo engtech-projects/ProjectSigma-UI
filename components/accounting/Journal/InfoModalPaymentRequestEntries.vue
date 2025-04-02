@@ -33,7 +33,7 @@ const generateJournal = async (data) => {
     journal.value.payment_request_id = data.id
     journal.value.description = data.description
     journal.value.remarks = data.description
-    journal.value.total = parseFloat(data.total) + parseFloat(data.total_vat_amount)
+    journal.value.total = parseFloat(data.total)
     showModal.value = false
 }
 const trimStakeholdableType = (type) => {
@@ -114,33 +114,35 @@ const boardLoading = ref(false)
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                <tr v-for="detail in paymentDataEntries?.details" :key="detail.id">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            {{ detail?.particulars }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            {{ detail?.stakeholder?.name }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            {{ accountingCurrency(detail?.cost) }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            {{ accountingCurrency(detail?.total_vat_amount) }}
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">
-                                            {{ accountingCurrency(detail?.amount) }}
-                                        </div>
-                                    </td>
-                                </tr>
+                                <template v-for="detail in paymentDataEntries?.details" :key="detail.id">
+                                    <tr v-if="detail?.particulars != 'INPUT VAT' && detail?.particulars != 'CASH IN BANK'">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">
+                                                {{ detail?.particulars }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">
+                                                {{ detail?.stakeholder?.name }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">
+                                                {{ accountingCurrency(detail?.cost) }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">
+                                                {{ accountingCurrency(detail?.total_vat_amount) }}
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">
+                                                {{ accountingCurrency(detail?.amount) }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
                             </tbody>
                         </table>
                     </div>
