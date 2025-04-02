@@ -16,14 +16,9 @@ const employeePosition = computed(() => {
 <template>
     <div id="front-id" class="h-[6.303in] w-[4.051in] shadow-lg relative bg-white border-none">
         <img class="h-[6.303in] w-[4.051in] cover" src="/ID-FRONT.png" alt="front" draggable="false">
-        <div class="w-full absolute top-[115px] text-center">
+        <div class="w-full absolute top-[105px] text-center">
             <p
                 class="font-medium text-lg "
-                style="text-shadow:
-                    1px 1px 0 #FFF,
-                    -1px 1px 0 #FFF,
-                    -1px -1px 0 #FFF,
-                    1px -1px 0 #FFF;"
             >
                 {{ information.company_employments.employeedisplay_id }}
             </p>
@@ -54,7 +49,7 @@ const employeePosition = computed(() => {
             </p>
         </div>
         <div class="w-full absolute top-[395px] text-center">
-            <p class="font-medium text-md">
+            <p class="font-bold text-lg">
                 {{ information.fullname_first }}
             </p>
         </div>
