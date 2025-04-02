@@ -1,8 +1,8 @@
 <script setup>
 import { useRoute } from "vue-router"
-import { useReceivingStore } from "@/stores/inventory/receiving"
-const mainStore = useReceivingStore()
-const { receiving } = storeToRefs(mainStore)
+import { useWithdrawalStore } from "@/stores/inventory/withdrawal"
+const mainStore = useWithdrawalStore()
+const { withdrawal } = storeToRefs(mainStore)
 const route = useRoute()
 const validKey = ref(false)
 if (route.query.key) {
@@ -28,18 +28,18 @@ const headers = [
 ]
 
 useHead({
-    title: "Materials Receiving Report",
+    title: "Withdrawal Slip",
 })
 
 </script>
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.inventory_materials_receiving_group,
+            AccessibilityTypes.inventory_withdrawal_group,
         ])"
     >
         <template v-if="validKey">
-            <InventoryReceivingDetails title="Materials Receiving Report" :data="receiving.details" :header-columns="headers" />
+            <InventoryWithdrawalDetails title="Withdrawal Slip" :data="receiving.details" :header-columns="headers" />
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">
