@@ -543,6 +543,11 @@
                 </tr>
             </tbody>
         </table>
+        <div class="flex justify-end py-4 pt-6">
+            <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-12 h-8">
+                <Icon name="ic:outline-local-printshop" class="text-white h-6 w-6" />
+            </button>
+        </div>
     </div>
 </template>
 
