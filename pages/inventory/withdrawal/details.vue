@@ -22,9 +22,9 @@ if (route.query.key) {
     >
         <LayoutBoards title="MATERIALS RECEIVING REPORT" class="w-full" :loading="receiving.isLoading">
             <template v-if="validKey">
-                <InventoryReceivingDetails
+                <InventoryWithdrawalDetails
                     id="listTable"
-                    :datas="receiving.details"
+                    :datas="withdrawal.details"
                 />
             </template>
             <template v-else>

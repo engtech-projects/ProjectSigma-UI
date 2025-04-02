@@ -39,7 +39,7 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <InventoryWithdrawalDetails title="Withdrawal Slip" :data="receiving.details" :header-columns="headers" />
+            <InventoryWithdrawalDetails title="Withdrawal Slip" :data="withdrawal.details" :header-columns="headers" />
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">
