@@ -198,11 +198,11 @@ voucherCash.value.total_credit = computed(() => {
                                 </div>
                                 <div class="flex flex-col">
                                     <span class="text-xs text-gray-500">Total Debit</span>
-                                    <span class="font-medium text-right">{{ accountingCurrency(voucherCash.total_debit) }}</span>
+                                    <span class="font-medium text-right">{{ accountingCurrency(voucherCash.net_amount) }}</span>
                                 </div>
                                 <div class="flex flex-col">
                                     <span class="text-xs text-gray-500">Total Credit</span>
-                                    <span class="font-medium text-right">{{ accountingCurrency(voucherCash.total_credit) }}</span>
+                                    <span class="font-medium text-right">{{ accountingCurrency(voucherCash.net_amount) }}</span>
                                 </div>
                             </div>
                         </div>

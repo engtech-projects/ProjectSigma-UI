@@ -110,6 +110,24 @@
                         </td>
                     </tr>
                     <tr>
+                        <td />
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Name and Specification
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Quantity
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Unit
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Unit Cost
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Amount
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="text-center border border-gray-700" />
                         <td class="p-2 border border-gray-700">
                             Construction of Field Office for the Engineer (Bunk House with Complete Electrical, Water & Sanitary Installation including Provision of 2 units Multifunction Inkjet Printer A3)
@@ -187,6 +205,24 @@
                         </td>
                     </tr>
                     <tr>
+                        <td />
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Designation
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            No. of Persons
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            No. of Hours
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Hourly Rate
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Amount
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="text-center border border-gray-700" />
                         <td class="p-2 border border-gray-700" />
                         <td class="p-2 border border-gray-700 text-center" />
@@ -224,6 +260,24 @@
                                     </button>
                                 </div>
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td />
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Description
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            No. of Persons
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            No. of Hours
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Hourly Rate
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Amount
                         </td>
                     </tr>
                     <tr>

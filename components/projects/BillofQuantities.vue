@@ -11,7 +11,7 @@
                     </h4>
                 </div>
                 <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9" @click="showPhaseModal = true">
-                    Create Phase
+                    Create Item
                 </button>
             </div>
             <table class="border border-collapse border-gray-800 w-full">
@@ -54,6 +54,24 @@
                                     Remove
                                 </button>
                             </div>
+                        </td>
+                    </tr>
+                    <tr class="bg-gray-100">
+                        <td />
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Name and Specification
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Quantity
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Unit
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Unit Cost
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Amount
                         </td>
                     </tr>
                     <tr>
@@ -269,6 +287,24 @@
                             </div>
                         </td>
                     </tr>
+                    <tr class="bg-gray-100">
+                        <td />
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Designation
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            No. of Persons
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            No. of Hours
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Hourly Rate
+                        </td>
+                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                            Amount
+                        </td>
+                    </tr>
                     <tr>
                         <td class="text-center border border-gray-700">
                             B.1.1
@@ -402,7 +438,10 @@
                 </tbody>
             </table>
         </div>
-        <div class="flex justify-end">
+        <div class="flex justify-end gap-4 items-center">
+            <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-12 h-8">
+                <Icon name="ic:outline-local-printshop" class="text-white h-6 w-6" />
+            </button>
             <NuxtLink v-if="!edit" to="/project-monitoring/tss" class="flex items-center  justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9 text-center">
                 Generate TSS
             </NuxtLink>

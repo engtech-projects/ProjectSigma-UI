@@ -72,7 +72,7 @@ const selectStakeholder = (stakeholder) => {
                 step=".01"
                 class="w-full rounded-lg h-9 text-sm "
             >
-            <p v-if="(index === itemCount - 1) && details.debit === 0" class="text-italic text-xs text-blue-500 cursor-pointer" @click="details.credit = totalDebit">
+            <p v-if="(index === itemCount - 1) && details.debit === 0" class="text-italic text-xs text-blue-500 cursor-pointer hidden" @click="details.credit = totalDebit">
                 max : {{ totalDebit }}
             </p>
         </div>

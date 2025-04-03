@@ -77,13 +77,6 @@
                 <AccountingCommonTabsTabTitle
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
-                    ])"
-                    title="PROJECT ASSIGNMENT"
-                    target-id="projectAssignment"
-                />
-                <AccountingCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
                     ])&&!edit"
                     title="BILL OF MATERIALS"
                     target-id="billOfMaterials"
@@ -115,9 +108,6 @@
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer id="cashFlow">
                     <ProjectsCashFlow />
-                </AccountingCommonTabsTabContainer>
-                <AccountingCommonTabsTabContainer id="projectAssignment">
-                    <ProjectsProjectAssignment />
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer v-if="!edit" id="billOfMaterials">
                     <ProjectsBillofMaterials />

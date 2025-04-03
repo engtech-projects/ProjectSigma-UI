@@ -1,6 +1,6 @@
 <template>
     <div class="text-center">
-        Bio Docs (Agency)
+        Bid Docs (Agency)
     </div>
 </template>
 
