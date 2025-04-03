@@ -1,7 +1,8 @@
 <script setup>
 import {
     useGenerateReportStore,
-    OVERTIME_MONITORING
+    OVERTIME_MONITORING,
+    SALARY_MONITORING
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -12,21 +13,15 @@ watch(portalMonitoringReports.value.params, (newValue, oldValue) => {
 })
 </script>
 <template>
-    <div class="relative LayoutBoards">
-        <div
-            class="h-full w-full rounded-lg sm:p-6 md:p-2"
-        >
-            <h5 class="text-xl font-medium text-gray-900 border-b p-2 mb-4">
-                Portal Monitoring Reports
-            </h5>
-            <div class="h-full p-2">
-                <HrmsReportsPortalMonitoringHeader />
-                <HrmsReportsPortalMonitoringOvertimeMonitoring
-                    v-show="portalMonitoringReports.params.report_type === OVERTIME_MONITORING"
-                />
-            </div>
-        </div>
-    </div>
+    <LayoutBoardsWithoutBackground title="Portal Monitoring Reports" class="w-full">
+        <HrmsReportsPortalMonitoringHeader />
+        <HrmsReportsPortalMonitoringOvertimeMonitoring
+            v-show="portalMonitoringReports.params.report_type === OVERTIME_MONITORING"
+        />
+        <HrmsReportsPortalMonitoringSalaryMonitoring
+            v-show="portalMonitoringReports.params.report_type === SALARY_MONITORING"
+        />
+    </LayoutBoardsWithoutBackground>
 </template>
 
 <style scoped>
