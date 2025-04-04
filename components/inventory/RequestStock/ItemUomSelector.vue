@@ -1,13 +1,20 @@
 <script lang="ts" setup>
-import { useInventoryEnumsStore } from "@/stores/inventory/enum"
-const compId = useId()
-const enums = useInventoryEnumsStore()
-const { itemEnum } = storeToRefs(enums)
-onMounted(() => {
-    if (!itemEnum.value.isLoaded) {
-        enums.getItems()
-    }
+defineProps({
+    quantity: {
+        type: Number,
+        required: true,
+    },
+    unit: {
+        type: String,
+        required: true,
+    },
+    convertableUnits: {
+        type: Array,
+        required: true,
+    },
 })
+
+const compId = useId()
 let toggleTimeout: any = null
 const showDD = ref(false)
 const forFocusOut = ref()
@@ -15,36 +22,37 @@ const model = defineModel({ required: false, type: Number, default: null })
 const result = ref("")
 const searchData = ref("")
 const searchInput = defineModel("searchInput", { type: String, required: true })
+
 const openDD = () => {
     if (toggleTimeout) {
         clearTimeout(toggleTimeout)
     }
     showDD.value = true
 }
+
 const closeDD = () => {
     toggleTimeout = setTimeout(() => {
         showDD.value = false
     }, 100)
 }
+
 function selectOption (option: any) {
-    result.value = option.item_summary
+    result.value = option.name
     model.value = option.id
-    const names = option.convertable_units
-    itemEnum.value.itemGroupFilter = names
+    emit("watchItem", option)
     forFocusOut.value.focus()
-    searchInput.value = ""
-    itemEnum.value.params.query = ""
 }
+
 function clearSearchQuery () {
     searchInput.value = ""
 }
+
 function clearSelection () {
     result.value = ""
 }
-const handleInput = () => {
-    itemEnum.value.params.query = searchData.value
-}
+const emit = defineEmits(["watchItem"])
 </script>
+
 <template>
     <div ref="forFocusOut" tabindex="51">
         <div
@@ -62,7 +70,6 @@ const handleInput = () => {
                         type="text"
                         class="border border-slate-300 rounded w-full h-full"
                         placeholder="Search"
-                        @input="handleInput"
                         @click.stop
                     >
                     <span v-else class="flex-1">{{ result ? result : "Search" }}</span>
@@ -81,19 +88,16 @@ const handleInput = () => {
             <div class="absolute z-50">
                 <div
                     v-if="showDD"
-                    class="absolute max-h-72 left-0 min-w-[300px] py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2 z-10"
+                    class="absolute max-h-72 left-0 min-w-full py-2 px-2 border border-slate-800 bg-white rounded flex flex-col gap-2 z-10"
                 >
-                    <div v-show="itemEnum.isLoading" class="mx-auto">
-                        <Icon name="svg-spinners:6-dots-rotate" />
-                    </div>
-                    <div v-if="itemEnum.list.length" class="flex flex-col overflow-auto">
+                    <div v-if="convertableUnits.length" class="flex flex-col overflow-auto">
                         <span
-                            v-for="option, i in itemEnum.list"
+                            v-for="option, i in convertableUnits"
                             :key="i"
-                            class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b text-left"
+                            class="cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
                             @click="selectOption(option)"
                         >
-                            {{ "[" + option.item_code + "] " + option.item_summary }}
+                            {{ option.name }}
                         </span>
                     </div>
                     <div v-else class="px-4">

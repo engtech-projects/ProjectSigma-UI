@@ -40,7 +40,10 @@ export const useBOMStore = defineStore("BOMStore", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                project_id: null as null | Number,
+                department_id: null as null | Number,
+            },
             pagination: {},
         },
         allRequests: {
