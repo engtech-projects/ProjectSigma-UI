@@ -17,7 +17,7 @@ const headers = [
 </script>
 <template>
     <div
-        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_overtimemonitoring]) || useCheckAccessibility(['AdminOnly'])"
+        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_overtimemonitoring])"
         class="flex flex-col"
     >
         <LayoutPrint>
