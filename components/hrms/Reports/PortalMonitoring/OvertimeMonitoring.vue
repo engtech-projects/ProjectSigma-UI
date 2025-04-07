@@ -16,7 +16,10 @@ const headers = [
 ]
 </script>
 <template>
-    <div class="flex flex-col">
+    <div
+        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_overtimemonitoring])"
+        class="flex flex-col"
+    >
         <LayoutPrint>
             <LayoutLoadingContainer :loading="portalMonitoringReports.isLoading">
                 <div class="h-full w-full">
