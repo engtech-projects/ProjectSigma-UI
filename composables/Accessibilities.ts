@@ -247,7 +247,9 @@ export enum AccessibilityTypes {
     project_monitoring_group = "project monitoring:",
     project_monitoring_dashboard = "project monitoring:dashboard",
     project_monitoring_projects = "project monitoring:projects",
-
+    PROJECTMONITORING_MARKETING = "project monitoring:marketing",
+    PROJECTMONITORING_TSS = "project monitoring:tss",
+    PROJECTMONITORING_SETUP = "project monitoring:setup"
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
     allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS
