@@ -558,6 +558,12 @@ const config = useRuntimeConfig()
                     icon="grommet-icons:overview"
                     single-nav-title="Overview"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_warehouse_materials_receiving_group])"
+                    linkarea="/inventory/material-receiving"
+                    icon="material-symbols-light:add-home-work-outline"
+                    single-nav-title="Materials Receiving"
+                />
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
@@ -572,12 +578,6 @@ const config = useRuntimeConfig()
                 linkarea="/inventory/request-stocks"
                 icon="material-symbols-light:shopping-cart-checkout-sharp"
                 single-nav-title="Request Stocks"
-            />
-            <LayoutNavSingle
-                v-if="useCheckAccessibility([AccessibilityTypes.inventory_materials_receiving_group])"
-                linkarea="/inventory/material-receiving"
-                icon="material-symbols-light:add-home-work-outline"
-                single-nav-title="Materials Receiving"
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
