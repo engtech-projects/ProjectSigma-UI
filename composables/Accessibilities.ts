@@ -23,6 +23,9 @@ export enum AccessibilityTypes {
     hrms_reports_philhealthremittancesummary = "hrms:reports_philhealth remittance summary",
     hrms_reports_loanreports = "hrms:reports_loan reports",
     hrms_reports_administrativereports = "hrms:reports_administrative reports",
+    hrms_reports_portalmonitoring_group = "hrms:reports_portal monitoring_",
+    hrms_reports_portalmonitoring_overtimemonitoring = "hrms:reports_portal monitoring_overtime monitoring",
+    hrms_reports_portalmonitoring_salarymonitoring = "hrms:reports_portal monitoring_salary monitoring",
     // ATTENDANCE
     hrms_attendance_group = "hrms:attendance_",
     hrms_attendance_attendance_portal = "hrms:attendance_attendance portal",
@@ -43,8 +46,8 @@ export enum AccessibilityTypes {
     hrms_employee_manpowerrequest_all_request = "hrms:employee_manpower request_all request",
     hrms_employee_manpowerrequest_approval = "hrms:employee_manpower request_approval",
     hrms_employee_manpowerrequest_my_request = "hrms:employee_manpower request_my request",
-    hrms_employee_manpower_request_form_and_my_requests = "hrms:employee_manpower request_form and my requests",
-    hrms_employee_manpower_request_open_positions = "hrms:employee_manpower request_open positions",
+    hrms_employee_manpowerrequest_formandmyrequests = "hrms:employee_manpower request_form and my requests",
+    hrms_employee_manpowerrequest_openpositions = "hrms:employee_manpower request_open positions",
     hrms_employee_job_applicants_application_form = "hrms:employee_job applicants_application form",
     hrms_employee_job_applicants_job_applicants = "hrms:employee_job applicants_job applicants",
 
@@ -173,6 +176,10 @@ export enum AccessibilityTypes {
     inventory_materials_receiving_group = "inventory:materials receiving_",
     inventory_materials_receiving_forms_and_my_requests = "inventory:materials receiving_form and my requests",
     inventory_materials_receiving_all_request = "inventory:materials receiving_all requests",
+    inventory_withdrawal_group = "inventory:withdrawal_",
+    inventory_withdrawal_forms_and_my_requests = "inventory:withdrawal_form and my requests",
+    inventory_withdrawal_all_request = "inventory:withdrawal_all requests",
+    inventory_withdrawal_my_approvals = "inventory:withdrawal_my approvals",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",

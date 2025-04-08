@@ -15,8 +15,8 @@ const selectedReport = ref("")
     >
         <LayoutBoards title="HRMS Reports">
             <template #default>
-                <div class="flex gap-4">
-                    <div class="text-2xl font-normal mb-4 mt-0  ">
+                <div class="flex gap-4 mt-4 items-center">
+                    <div class="text-2xl font-normal mb-4 mt-0">
                         Select Report Type:
                     </div>
                     <select id="report" v-model="selectedReport" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -96,10 +96,10 @@ const selectedReport = ref("")
                             Salary Monitoring
                         </option>
                         <option
-                            v-if="useCheckAccessibility(['AdminOnly'])"
+                            v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_group]) || useCheckAccessibility(['AdminOnly'])"
                             value="Report16"
                         >
-                            Overtime Monitoring
+                            Portal Monitoring
                         </option>
                         <option
                             v-if="useCheckAccessibility(['AdminOnly'])"

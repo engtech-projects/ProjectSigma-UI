@@ -10,9 +10,9 @@ defineProps({
 <template>
     <div>
         <h2 class="flex text-xl font-semibold mb-2 bg-slate-100 p-2 rounded-t-lg">
-            Applicant {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }}
+            {{ applicant.firstname }} {{ applicant.middlename }} {{ applicant.lastname }}
         </h2>
-        <div class="grid grid-cols-3 gap-8 p-4">
+        <div class="grid grid-cols-4 gap-8 p-4">
             <div>
                 <p class="font-semibold italic">
                     Application Letter Attachment:
@@ -52,7 +52,7 @@ defineProps({
             </div>
         </div>
         <hr>
-        <div class="grid grid-cols-3 gap-8 p-4">
+        <div class="grid grid-cols-4 gap-8 p-4">
             <div>
                 <p class="font-semibold italic">
                     Personal Information:
@@ -82,6 +82,86 @@ defineProps({
             </div>
             <div>
                 <p class="font-semibold italic">
+                    Place of Birth:
+                </p>
+                <p>
+                    {{ applicant.place_of_birth }}
+                </p>
+            </div>
+            <div>
+                <p class="font-semibold italic">
+                    Blood Type:
+                </p>
+                <p>
+                    {{ applicant.blood_type }}
+                </p>
+            </div>
+            <div>
+                <p class="font-semibold italic">
+                    Gender:
+                </p>
+                <p>
+                    {{ applicant.gender }}
+                </p>
+            </div>
+            <div>
+                <p class="font-semibold italic">
+                    Religion:
+                </p>
+                <p>
+                    {{ applicant.religion }}
+                </p>
+            </div>
+            <div>
+                <p class="font-semibold italic">
+                    Civil Status:
+                </p>
+                <p>
+                    {{ applicant.civil_status }}
+                </p>
+            </div>
+            <div>
+                <p class="font-semibold italic">
+                    Citizenship:
+                </p>
+                <p>
+                    {{ applicant.citizenship }}
+                </p>
+            </div>
+            <div>
+                <p class="font-semibold italic">
+                    Height:
+                </p>
+                <p>
+                    {{ applicant.height }}
+                </p>
+            </div>
+            <div>
+                <p class="font-semibold italic">
+                    Weight:
+                </p>
+                <p>
+                    {{ applicant.weight }}
+                </p>
+            </div>
+            <div>
+                <p class="font-semibold italic">
+                    Mother's Name:
+                </p>
+                <p>
+                    {{ applicant.mother_name }}
+                </p>
+            </div>
+            <div>
+                <p class="font-semibold italic">
+                    Father's Name:
+                </p>
+                <p>
+                    {{ applicant.father_name }}
+                </p>
+            </div>
+            <div>
+                <p class="font-semibold italic">
                     Present Address:
                 </p>
                 <p>{{ applicant.pre_address_street }} {{ applicant.pre_address_brgy }} {{ applicant.pre_address_city }} {{ applicant.pre_address_province }} {{ applicant.pre_address_zip }}</p>
@@ -91,6 +171,12 @@ defineProps({
                     Permanent Address:
                 </p>
                 <p>{{ applicant.per_address_street }} {{ applicant.per_address_brgy }} {{ applicant.per_address_city }} {{ applicant.per_address_province }} {{ applicant.per_address_zip }}</p>
+            </div>
+            <div>
+                <p class="font-semibold italic">
+                    Date of Marriage:
+                </p>
+                <p>{{ applicant.date_of_marriage }}</p>
             </div>
             <div>
                 <p class="font-semibold italic">
@@ -119,10 +205,10 @@ defineProps({
             </div>
         </div>
         <hr>
+        <h2 class="font-semibold italic pt-4 py-4">
+            Work Experience:
+        </h2>
         <div class="grid grid-flow-col auto-cols-max gap-8 p-4">
-            <p class="font-semibold italic">
-                Work Experience:
-            </p>
             <div v-for="(work, workIndex) in applicant.workexperience" :key="workIndex">
                 <div>
                     <p>Position: {{ work.position_title }}</p>
@@ -172,9 +258,12 @@ defineProps({
                 </p>
                 <p>{{ applicant.telephone_icoe }}</p>
             </div>
-            <p class="font-semibold italic">
-                Education:
-            </p>
+        </div>
+        <hr>
+        <h2 class="font-semibold italic pt-4 py-4">
+            Education:
+        </h2>
+        <div class="grid grid-cols-3 gap-8 p-4">
             <div v-for="(educ, educIndex) in applicant.education" :key="educIndex">
                 <div class="flex gap-8 min-w-max">
                     <div>

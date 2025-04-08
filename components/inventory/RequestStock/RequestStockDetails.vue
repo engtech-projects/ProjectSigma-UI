@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { useRequestStockStore } from "@/stores/inventory/requeststock"
+import { useHrmsEnumsStore } from "@/stores/hrms/enum"
+const enums = useHrmsEnumsStore()
+enums.getDepartmentEnums()
+enums.getProjectEnums()
 
 interface HeaderColumn {
     name: string,
@@ -86,6 +90,7 @@ const denyRequest = async (id:any) => {
         <div class="flex flex-col gap-2 w-full p-4">
             <LayoutPrint>
                 <div id="headline mb-4">
+                    <InventoryCommonEvenparHeader />
                     <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center border-b rounded-t mb-4">
                         <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                             {{ title }}
@@ -97,7 +102,7 @@ const denyRequest = async (id:any) => {
                                 Request For: <span class="underline">{{ data.request_for }}</span>
                             </p>
                             <p v-if="title" class="pl-4 text-md text-gray-900">
-                                Office/Project: <span class="underline">{{ data.project.project_code }}</span>
+                                Office/Project: <span class="underline">{{ data.section_type }}</span>
                             </p>
                             <p v-if="title" class="pl-4 text-md text-gray-900">
                                 Address: <span class="underline">{{ data.office_project_address }}</span>

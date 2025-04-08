@@ -163,7 +163,7 @@ journal.value.entry_balance = computed(() => {
                                 <div>
                                     <label class="text-xs italic">Total Debit</label>
                                     <input
-                                        :value="journal.total_debit"
+                                        :value="journal.total"
                                         type="number"
                                         class="w-full rounded-lg h-9 text-sm bg-white"
                                         disabled
@@ -172,13 +172,13 @@ journal.value.entry_balance = computed(() => {
                                 <div>
                                     <label class="text-xs italic">Total Credit</label>
                                     <input
-                                        :value="journal.total_credit"
+                                        :value="journal.total"
                                         type="number"
                                         class="w-full rounded-lg h-9 text-sm bg-white"
                                         disabled
                                     >
                                 </div>
-                                <div>
+                                <div class="hidden">
                                     <label class="text-xs italic">Balance</label>
                                     <input
                                         :value="journal.entry_balance"

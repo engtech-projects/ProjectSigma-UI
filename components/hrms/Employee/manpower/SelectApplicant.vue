@@ -5,7 +5,7 @@ const jobApplicant = useJobapplicantStore()
 const { allApplicantList } = storeToRefs(jobApplicant)
 onMounted(() => {
     if (!allApplicantList.value.isLoaded) {
-        jobApplicant.getAllApplicantList()
+        jobApplicant.getJobApplicants()
     }
 })
 const compId = useId()

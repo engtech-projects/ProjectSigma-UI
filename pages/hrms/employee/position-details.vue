@@ -5,14 +5,14 @@ useHead({
     title: "Position Details",
 })
 const manpowers = useManpowerStore()
-const { manpower, isDetail } = storeToRefs(manpowers)
+const { positionDetails, isDetail } = storeToRefs(manpowers)
 const route = useRoute()
 const validKey = ref(false)
 
 if (route.query.key) {
     validKey.value = true
     isDetail.value = true
-    await manpowers.getOne(route.query.key)
+    await manpowers.getOnePosition(route.query.key)
 } else {
     validKey.value = false
 }
@@ -24,11 +24,11 @@ const showAddApplicant = ref(false)
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_employee_manpower_request_open_positions,
+            AccessibilityTypes.hrms_employee_manpowerrequest_group,
         ])"
     >
         <div class="w-full flex flex-row gap-4">
-            <HrmsEmployeeJobHiringDetails v-model:showAddApplicant="showAddApplicant" :manpower-data="manpower" class="w-full" />
+            <HrmsEmployeeJobHiringDetails v-model:showAddApplicant="showAddApplicant" :manpower-data="positionDetails" class="w-full" />
             <HrmsEmployeeJobAddApplicant
                 v-if="showAddApplicant"
                 v-model:hideAddApplicant="showAddApplicant"
