@@ -821,7 +821,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ADMIN_ONLY,
+                    AccessibilityTypes.PROJECTMONITORING_MARKETING,
                 ])"
                 linkarea="/project-monitoring/marketing"
                 icon="material-symbols:business-center"
@@ -829,7 +829,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ADMIN_ONLY,
+                    AccessibilityTypes.PROJECTMONITORING_TSS,
                 ])"
                 linkarea="/project-monitoring/technical-service"
                 icon="material-symbols:linked-services"
