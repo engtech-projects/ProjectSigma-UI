@@ -22,7 +22,7 @@ const changePaginate = (newParams) => {
 const headers = [
     { name: "PRF Number", id: "prf_no" },
     { name: "Payee", id: "stakeholder.name" },
-    { name: "Amount", id: "total" },
+    { name: "Amount", id: "total_amount_formatted" },
     { name: "PRF Date Created", id: "date_filed" },
     { name: "Status", id: "request_status" },
 ]
@@ -34,6 +34,9 @@ const actions = {
 
 <template>
     <LayoutBoards class="w-full" :loading="paymentRequestEntries.isLoading">
+        <div class="w-1/3 flex">
+            <LayoutFormPsTextInput v-model="paymentRequestEntries.params.key" title="PRF No." class="w-full" />
+        </div>
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"

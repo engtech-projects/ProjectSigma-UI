@@ -3,6 +3,7 @@ const { data: userData } = useAuth()
 export enum AccessibilityTypes {
     ADMIN_ONLY = "Admin Only Access",
     admin = "AdminOnly",
+    SUPERADMIN = "project sigma:super admin",
     hrms_group = "hrms:",
     // STANDALONES
     hrms_dashboard = "hrms:dashboard",
@@ -22,6 +23,9 @@ export enum AccessibilityTypes {
     hrms_reports_philhealthremittancesummary = "hrms:reports_philhealth remittance summary",
     hrms_reports_loanreports = "hrms:reports_loan reports",
     hrms_reports_administrativereports = "hrms:reports_administrative reports",
+    hrms_reports_portalmonitoring_group = "hrms:reports_portal monitoring_",
+    hrms_reports_portalmonitoring_overtimemonitoring = "hrms:reports_portal monitoring_overtime monitoring",
+    hrms_reports_portalmonitoring_salarymonitoring = "hrms:reports_portal monitoring_salary monitoring",
     // ATTENDANCE
     hrms_attendance_group = "hrms:attendance_",
     hrms_attendance_attendance_portal = "hrms:attendance_attendance portal",
@@ -42,6 +46,11 @@ export enum AccessibilityTypes {
     hrms_employee_manpowerrequest_all_request = "hrms:employee_manpower request_all request",
     hrms_employee_manpowerrequest_approval = "hrms:employee_manpower request_approval",
     hrms_employee_manpowerrequest_my_request = "hrms:employee_manpower request_my request",
+    hrms_employee_manpowerrequest_formandmyrequests = "hrms:employee_manpower request_form and my requests",
+    hrms_employee_manpowerrequest_openpositions = "hrms:employee_manpower request_open positions",
+    hrms_employee_job_applicants_application_form = "hrms:employee_job applicants_application form",
+    hrms_employee_job_applicants_job_applicants = "hrms:employee_job applicants_job applicants",
+
     hrms_employee_201_group = "hrms:employee_201_",
     hrms_employee_201_edit = "hrms:employee_201_edit",
     hrms_employee_201_PIS = "hrms:employee_201_pis",
@@ -49,10 +58,16 @@ export enum AccessibilityTypes {
     hrms_employee_201_documents_memos = "hrms:employee_201_documents and memos",
     hrms_employee_201_id = "hrms:employee_201_id",
     hrms_employee_pan_group = "hrms:employee_pan_",
-    hrms_employee_pan_form = "hrms:employee_pan_form",
+    HRMS_EMPLOYEE_PAN_FORM_GROUP = "hrms:employee_pan_form_",
+    HRMS_EMPLOYEE_PAN_FORM_NEWHIRE = "hrms:employee_pan_form_new hire",
+    HRMS_EMPLOYEE_PAN_FORM_TRANSFER = "hrms:employee_pan_form_transfer",
+    HRMS_EMPLOYEE_PAN_FORM_PROMOTION = "hrms:employee_pan_form_promotion",
+    HRMS_EMPLOYEE_PAN_FORM_TERMINATION = "hrms:employee_pan_form_termination",
+    HRMS_EMPLOYEE_PAN_FORM_BULKTRANSFER = "hrms:employee_pan_form_bulk transfer",
+    HRMS_EMPLOYEE_PAN_FORM_MEMO = "hrms:employee_pan_form_memo",
+    // hrms_employee_pan_my_request = "hrms:employee_pan_my request",
     hrms_employee_pan_all_request = "hrms:employee_pan_all request",
     hrms_employee_pan_approval = "hrms:employee_pan_approval",
-    hrms_employee_pan_my_request = "hrms:employee_pan_my request",
     // LOANS AND ADVANCES
     hrms_loans_and_advances_group = "hrms:loans and advances_",
     hrms_loans_and_advances_cash_advance_group = "hrms:loans and advances_cash advance",
@@ -83,6 +98,7 @@ export enum AccessibilityTypes {
     hrms_lnotnto_travel_order_list = "hrms:leaves and overtime_travel order_list",
     hrms_lnotnto_travel_order_my_request = "hrms:leaves and overtime_travel order_myrequest",
     hrms_lnotnto_travel_order_my_approvals = "hrms:leaves and overtime_travel order_myapprovals",
+    hrms_payroll_salary_generate_payroll_change_of_charging = "hrms:payroll_salary_generate payroll_change of charging",
     // PAYROLL
     hrms_payroll_group = "hrms:payroll_",
     hrms_payroll_salary_group = "hrms:payroll_salary_",
@@ -103,6 +119,11 @@ export enum AccessibilityTypes {
     hrms_schedule_department = "hrms:schedule_department",
     hrms_schedule_employee = "hrms:schedule_employee",
     hrms_schedule_project = "hrms:schedule_project",
+    // VOID
+    HRMS_REQUEST_VOID_GROUP = "hrms:request void_",
+    HRMS_REQUEST_VOID_CREATEREQUEST = "hrms:request void_my requests and create request",
+    HRMS_REQUEST_VOID_ALLREQUEST = "hrms:request void_all requests",
+    HRMS_REQUEST_VOID_MYAPPROVALS = "hrms:request void_my approvals",
     // SETUP
     hrms_setup_group = "hrms:setup",
     hrms_setup_user_account = "hrms:setup_user account",
@@ -155,6 +176,13 @@ export enum AccessibilityTypes {
     inventory_warehouse_materials_receiving_group = "inventory:warehouse_materials receiving_",
     inventory_warehouse_materials_receiving_forms_and_my_requests = "inventory:warehouse_materials receiving_form and my requests",
     inventory_warehouse_materials_receiving_all_request = "inventory:warehouse_materials receiving_all requests",
+    inventory_materials_receiving_group = "inventory:materials receiving_",
+    inventory_materials_receiving_forms_and_my_requests = "inventory:materials receiving_form and my requests",
+    inventory_materials_receiving_all_request = "inventory:materials receiving_all requests",
+    inventory_withdrawal_group = "inventory:withdrawal_",
+    inventory_withdrawal_forms_and_my_requests = "inventory:withdrawal_form and my requests",
+    inventory_withdrawal_all_request = "inventory:withdrawal_all requests",
+    inventory_withdrawal_my_approvals = "inventory:withdrawal_my approvals",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",
@@ -170,6 +198,8 @@ export enum AccessibilityTypes {
     ACCOUNTING_SETUP_SYNCHRONIZATION = "accounting:setup_synchronization",
     ACCOUNTING_SETUP_PARTICULAR_GROUP = "accounting:setup_particular group",
     ACCOUNTING_SETUP_TERMS = "accounting:setup_terms",
+    ACCOUNTING_SETUP_WITHHOLDING_TAX = "accounting:setup_withholding tax",
+
     // ACCOUNTING REQUEST
     ACCOUNTING_REQUEST_GROUP = "accounting:request_",
     ACCOUNTING_REQUEST_PURCHASE_ORDER = "accounting:request_purchase order",
@@ -204,14 +234,37 @@ export enum AccessibilityTypes {
     ACCOUNTING_JOURNAL_ENTRY_DISBURSEMENT_ENTRIES = "accounting:journal_list_journal entry disbursement entries",
     ACCOUNTING_JOURNAL_ENTRY_FOR_PAYMENT_ENTRIES = "accounting:journal_list_journal entry for payement entries",
 
-    // PROJECT MONITORING
-    project_monitoring_group = "project_monitoring:",
-    project_monitoring_dashboard = "project_monitoring:dashboard",
-    project_monitoring_projects = "project_monitoring:projects",
+    // ACCOUNTING REPORTS
+    ACCOUNTING_REPORTS_GROUP = "accounting:reports_",
+    ACCOUNTING_REPORTS_BALANCE_SHEET = "accounting:reports_balance sheet",
+    ACCOUNTING_REPORTS_BOOK_BALANCE = "accounting:reports_book balance",
+    ACCOUNTING_REPORTS_EXPENSES_FOR_THE_MONTH = "accounting:reports_expenses for the month",
+    ACCOUNTING_REPORTS_INCOME_STATEMENT = "accounting:reports_income statement",
+    ACCOUNTING_REPORTS_MONTHLY_PROJECT_EXPENSES = "accounting:reports_monthly project expenses",
+    ACCOUNTING_REPORTS_MONTHLY_UNLIQUIDATED_CASH_ADVANCES = "accounting:reports_monthly unliquidated cash advances",
+    ACCOUNTING_REPORTS_STATEMENT_OF_CASH_FLOW = "accounting:reports_statement of cash flow",
+    ACCOUNTING_REPORTS_OFFICE_CODE = "accounting:reports_office code",
+    ACCOUNTING_REPORTS_OFFICE_HUMAN_RESOURCE = "accounting:reports_office human resource",
+    ACCOUNTING_REPORTS_LIQUIDATION_FORM = "accounting:reports_liquidation form",
+    ACCOUNTING_REPORTS_REPLENISHMENT_SUMMARY = "accounting:reports_replenishment summary",
+    ACCOUNTING_REPORTS_CASH_ADVANCE_SUMMARY = "accounting:reports_cash advance summary",
+    ACCOUNTING_REPORTS_MEMORANDUM_OF_DEPOSIT = "accounting:reports_memorandum of deposit",
+    ACCOUNTING_REPORTS_PROVISIONAL_RECEIPT = "accounting:reports_provisional receipt",
+    ACCOUNTING_REPORTS_CASH_RETURN_SLIP = "accounting:reports_cash return slip",
+    ACCOUNTING_REPORTS_PAYROLL_LIQUIDATIONS = "accounting:reports_payroll liquidations",
 
+    // PROJECT MONITORING
+    project_monitoring_group = "project monitoring:",
+    project_monitoring_dashboard = "project monitoring:dashboard",
+    project_monitoring_projects = "project monitoring:projects",
+    PROJECTMONITORING_MARKETING = "project monitoring:marketing",
+    PROJECTMONITORING_TSS = "project monitoring:tss",
+    PROJECTMONITORING_SETUP = "project monitoring:setup"
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
+    allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS
     const userAccessibilites = userData.value?.accessibility_names ?? []
+    const userType = userData.value?.type ?? "employee"
     let userAllowed = false
     allowedAccessibilities.forEach((element: string) => {
         userAccessibilites.forEach((useraccess: string) => {
@@ -220,8 +273,12 @@ export function useCheckAccessibility (allowedAccessibilities: any) {
             }
         })
     })
-    if (userData.value?.type === USER_ADMINISTRATOR) {
+    if (userType === USER_ADMINISTRATOR) {
         return true
     }
     return userAllowed
+}
+
+export function useCheckIsCurrentUser (userId: any) {
+    return userData.value?.id === userId || useCheckAccessibility([AccessibilityTypes.SUPERADMIN])
 }

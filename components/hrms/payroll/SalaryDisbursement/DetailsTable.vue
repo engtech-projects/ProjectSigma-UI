@@ -491,7 +491,7 @@ const uniqueLoanNameTotals = computed(() => {
                     </tr>
                 </tbody>
             </table>
-            <LayoutApprovalsListView :approvals="data.approvals" />
+            <LayoutApprovalsListView :approvals="data.approvals" :signature-view="data.request_status?.toLowerCase() === 'approved'" />
         </div>
     </LayoutPrint>
 </template>

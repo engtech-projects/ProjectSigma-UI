@@ -1,6 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
 import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
+const config = useRuntimeConfig()
 
 const props = defineProps({
     paymentData: {
@@ -129,6 +130,17 @@ watch(showModal, (newVal) => {
                         {{ paymentData?.request_status }}
                     </div>
                 </div>
+                <div v-if="paymentData?.with_holding_tax">
+                    <span class="text-teal-600 text-light">Withholding Tax Information </span>
+                    <div class="flex gap-4">
+                        <div>
+                            Percentage: {{ paymentData?.with_holding_tax.wtax_percentage }}
+                        </div>
+                        <div>
+                            Type: {{ paymentData?.with_holding_tax.vat_type }}
+                        </div>
+                    </div>
+                </div>
                 <div class="grid md:grid-cols-1 gap-2 md:justify-between">
                     <div class="p-2 flex gap-2">
                         <span class="text-teal-600 text-light">Description/Remarks: </span>
@@ -137,6 +149,18 @@ watch(showModal, (newVal) => {
                         <p>
                             {{ paymentData?.description }}
                         </p>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div>
+                        <NuxtLink
+                            class="flex items-center gap-2 p-2 border border-green-600 rounded-lg hover:bg-green-100"
+                            :to="config.public.ACCOUNTING_API_URL + '/document-viewer?id=' + paymentData?.id"
+                            target="_blank"
+                        >
+                            <Icon name="ic:sharp-file-download" color="green" class="w-4 h-4" />
+                            View Attachment File
+                        </NuxtLink>
                     </div>
                 </div>
                 <div class="p-2 border border-gray-200 rounded-lg">
@@ -220,7 +244,7 @@ watch(showModal, (newVal) => {
                         </div>
                     </div>
                 </div>
-                <AccountingCommonStepperSignatureProgress class="my-12" :signatories="paymentData?.step_approval" />
+                <AccountingCommonStepperSignatureStepper class="my-12 px-8" :signatories="paymentData?.step_approval" />
                 <div class="w-full">
                     <LayoutApprovalsListView :approvals="paymentData?.approvals" />
                 </div>

@@ -16,10 +16,10 @@ const changePaginate = (newParams) => {
     allRequests.value.params.page = newParams.page ?? ""
 }
 const headers = [
-    { name: "PRF Number", id: "prf_no" },
+    { name: "Payroll number", id: "prf_no" },
     { name: "Payee", id: "stakeholder.name" },
-    { name: "Amount", id: "total" },
-    { name: "Created At", id: "created_at" },
+    { name: "Amount", id: "total_amount_formatted" },
+    { name: "Date filed", id: "date_filed" },
     { name: "Status", id: "request_status" },
 ]
 const actions = {
@@ -27,6 +27,9 @@ const actions = {
 }
 </script>
 <template>
+    <div class="w-1/3 flex">
+        <LayoutFormPsTextInput v-model="allRequests.params.key" title="Payroll No. / Payee" class="w-full" />
+    </div>
     <LayoutBoards class="w-full" :loading="allRequests.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable

@@ -8,6 +8,9 @@ defineProps({
 </script>
 <template>
     <div class="relative flex flex-col items-center gap-1 justify-start">
+        <div class="text-left w-full font-bold">
+            {{ approvalItem.type }}:
+        </div>
         <template v-if="approvalItem.status === 'Approved'">
             <img v-if="approvalItem.signature" :src="approvalItem.signature" class="w-64 h-64 left-[25px] top-[-190px] rounded-md absolute">
             <Icon

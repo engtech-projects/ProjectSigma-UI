@@ -16,24 +16,10 @@
                         title="All List"
                         target-id="allList"
                     />
-                    <AccountingCommonTabsTabTitle
-                        title="My Requests"
-                        target-id="myRequests"
-                    />
-                    <AccountingCommonTabsTabTitle
-                        title="My Approvals"
-                        target-id="myApprovals"
-                    />
                 </template>
                 <template #tab-containers>
                     <AccountingCommonTabsTabContainer id="allList">
                         <AccountingRequestPayrollRequestAllList />
-                    </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="myRequests">
-                        <AccountingRequestPayrollRequestMyRequestList />
-                    </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="myApprovals">
-                        <AccountingRequestPayrollRequestApprovalList />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>

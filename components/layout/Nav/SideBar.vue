@@ -278,6 +278,14 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
+                    AccessibilityTypes.HRMS_REQUEST_VOID_GROUP,
+                ])"
+                linkarea="/hrms/requests/void"
+                icon="mdi:archive-cancel"
+                single-nav-title="Void Requests"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
                     AccessibilityTypes.hrms_reports_group,
                 ])"
                 linkarea="/hrms/reports"
@@ -419,6 +427,14 @@ const config = useRuntimeConfig()
                     linkarea="/hrms/setup/wtax"
                     icon="material-symbols:dynamic-form-outline-rounded"
                     single-nav-title="Withholding Tax"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.hrms_setup_settings,
+                    ])"
+                    linkarea="/hrms/setup/api-synchronization"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="API Syncronization"
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
@@ -579,6 +595,18 @@ const config = useRuntimeConfig()
                 icon="material-symbols-light:shopping-cart-checkout-sharp"
                 single-nav-title="Request Stocks"
             />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([AccessibilityTypes.inventory_materials_receiving_group])"
+                linkarea="/inventory/material-receiving"
+                icon="material-symbols-light:add-home-work-outline"
+                single-nav-title="Materials Receiving"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([AccessibilityTypes.inventory_withdrawal_group])"
+                linkarea="/inventory/withdrawal"
+                icon="material-symbols-light:shopping-cart-checkout-sharp"
+                single-nav-title="Withdrawal"
+            />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.inventory_procurement_group
@@ -678,7 +706,7 @@ const config = useRuntimeConfig()
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ACCOUNTING_VOUCHER_CASH,
+                    AccessibilityTypes.ACCOUNTING_REPORTS_GROUP,
                 ])"
                 linkarea="/accounting/reports"
                 icon="oui:app-reporting"
@@ -771,19 +799,27 @@ const config = useRuntimeConfig()
                     icon="iconoir:database-script-minus"
                     single-nav-title="Terms"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_SETUP_WITHHOLDING_TAX,
+                    ])"
+                    linkarea="/accounting/setup/withholding"
+                    icon="material-symbols:dynamic-form-outline-rounded"
+                    single-nav-title="Withholding Tax"
+                />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
         <!-- Project Monitoring -->
         <LayoutNavModuleGroup
             v-if="useCheckAccessibility([
-                AccessibilityTypes.project_monitoring_group,
+                AccessibilityTypes.ADMIN_ONLY,
             ])"
             title="Project Monitoring"
         >
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.project_monitoring_dashboard,
+                    AccessibilityTypes.ADMIN_ONLY,
                 ])"
                 linkarea="/project-monitoring"
                 icon="ic:baseline-space-dashboard"
@@ -791,11 +827,19 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ADMIN_ONLY,
+                    AccessibilityTypes.PROJECTMONITORING_MARKETING,
                 ])"
-                linkarea="/project-monitoring/projects"
+                linkarea="/project-monitoring/marketing"
                 icon="material-symbols:business-center"
-                single-nav-title="Projects"
+                single-nav-title="Marketing"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.PROJECTMONITORING_TSS,
+                ])"
+                linkarea="/project-monitoring/technical-service"
+                icon="material-symbols:linked-services"
+                single-nav-title="Technical Service"
             />
         </LayoutNavModuleGroup>
     </div>

@@ -95,6 +95,7 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
         },
         async createRequest () {
             if (this.createData.isLoading) { return }
+            this.createData.isLoading = true
             this.successMessage = ""
             this.errorMessage = ""
             const idBackup = this.payload.employee_id
@@ -258,6 +259,24 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 {
                     method: "POST",
                     body: formData,
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.fetchLeaveRequestList()
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async voidRequest (id: any, remarks: any) {
+            await useHRMSApiO(
+                "/api/request-voids/void/LeaveEmployeeRequest/" + id,
+                {
+                    method: "POST",
+                    params: { reason_for_void: remarks },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.fetchLeaveRequestList()

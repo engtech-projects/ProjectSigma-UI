@@ -23,7 +23,7 @@ const headers = [
     { name: "Journal No.", id: "journal_no" },
     { name: "Reference No (PRF-no)", id: "payment_request.prf_no" },
     { name: "Payee", id: "payment_request.stakeholder.name" },
-    { name: "Amount", id: "payment_request.total" },
+    { name: "Amount", id: "total_amount_formatted" },
     { name: "Date Posted", id: "date_filed" },
     { name: "Status", id: "status" },
 ]
@@ -41,6 +41,9 @@ const actions = {
             ])"
             class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2"
         >
+            <div class="w-1/3 flex">
+                <LayoutFormPsTextInput v-model="disbursementEntries.params.key" title="Journal No. / PRF No." class="w-full" />
+            </div>
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"

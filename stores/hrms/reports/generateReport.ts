@@ -12,6 +12,12 @@ export const EMPLOYEE_LEAVES = "EMPLOYEE LEAVES"
 export const EMPLOYEE_ABSENCES = "EMPLOYEE ABSENCES"
 export const EMPLOYEE_LATES = "EMPLOYEE LATES"
 export const EMPLOYEE_ATTENDANCE = "EMPLOYEE ATTENDANCE"
+export const OVERTIME_MONITORING = "OVERTIME MONITORING"
+export const SALARY_MONITORING = "SALARY MONITORING"
+export const MONITORING_REPORTS = [
+    OVERTIME_MONITORING,
+    SALARY_MONITORING,
+]
 export const LOAN_REPORTS = [
     LOAN_HDMF_MPL,
     LOAN_HDMF_MPL_LOAN,
@@ -61,6 +67,26 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                 department_id: null,
                 project_id: null,
                 group_type: "All",
+            },
+            pagination: {},
+            errorMessage: null,
+            successMessage: null,
+        },
+        portalMonitoringReports: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            itemFilters: [],
+            filters: [],
+            headers: [],
+            tempFile: "",
+            params: {
+                report_type: null,
+                department_id: null,
+                project_id: null,
+                group_type: "All",
+                date_from: null,
+                date_to: null,
             },
             pagination: {},
             errorMessage: null,
@@ -405,6 +431,36 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                 }
             )
         },
+        async getPortalMonitoringReport () {
+            await useHRMSApiO(
+                "/api/reports/portal-monitoring",
+                {
+                    method: "GET",
+                    params: this.portalMonitoringReports.params,
+                    onRequest: () => {
+                        this.portalMonitoringReports.isLoading = true
+                        this.portalMonitoringReports.list = []
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.portalMonitoringReports.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.portalMonitoringReports.isLoading = false
+                        if (response.ok) {
+                            const tempParams = this.portalMonitoringReports.params
+                            const tempHeaders = this.portalMonitoringReports.headers
+                            this.$reset()
+                            this.portalMonitoringReports.isLoaded = true
+                            this.portalMonitoringReports.list = response._data.data
+                            this.portalMonitoringReports.successMessage = response._data.message
+                            this.portalMonitoringReports.params = tempParams
+                            this.portalMonitoringReports.headers = tempHeaders
+                        }
+                    },
+                }
+            )
+        },
         async getExportAdministrativeReport () {
             await useHRMSApiO(
                 "/api/reports/administrative-export",
@@ -425,6 +481,31 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                         if (response.ok) {
                             this.administrativeReports.successMessage = response._data.message
                             this.administrativeReports.tempFile = config.public.HRMS_API_URL + response._data.url
+                        }
+                    },
+                }
+            )
+        },
+        async getExportPortalMonitoringReport () {
+            await useHRMSApiO(
+                "/api/reports/portal-monitoring-export",
+                {
+                    params: this.portalMonitoringReports.params,
+                    method: "GET",
+                    watch: false,
+                    onRequest: () => {
+                        this.portalMonitoringReports.isLoading = true
+                        this.portalMonitoringReports.tempFile = ""
+                    },
+                    onResponseError: ({ response } : any) => {
+                        this.portalMonitoringReports.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response } : any) => {
+                        this.portalMonitoringReports.isLoading = false
+                        if (response.ok) {
+                            this.portalMonitoringReports.successMessage = response._data.message
+                            this.portalMonitoringReports.tempFile = config.public.HRMS_API_URL + response._data.url
                         }
                     },
                 }

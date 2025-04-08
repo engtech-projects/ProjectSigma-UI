@@ -130,7 +130,7 @@ journal.value.entry_balance = computed(() => {
                         </div>
                     </div>
                     <div class="w-full">
-                        <div class="flex justify-between">
+                        <div class="flex justify-between p-2 items-center mb-2">
                             <h2 class="text-xl font-bold text-center">
                                 JOURNAL ENTRY DETAILS
                             </h2>
@@ -141,7 +141,7 @@ journal.value.entry_balance = computed(() => {
                                 <Icon name="fa:plus-circle" />
                             </button>
                         </div>
-                        <div v-show="journal.details.length > 0" class="flex flex-col bg-gray-100 rounded-lg gap-2">
+                        <div v-show="journalStore.journal.details.length > 0" class="flex flex-col bg-white rounded-lg gap-1">
                             <AccountingJournalDetailItem
                                 v-for="(_detail, idx) in journal.details"
                                 :key="'detail'+idx"
@@ -149,6 +149,7 @@ journal.value.entry_balance = computed(() => {
                                 :total-debit="journal.total"
                                 :index="idx"
                                 :item-count="journal.details.length"
+                                class="hover:bg-gray-50 bg-white border"
                                 @delete-item="removeDetails(idx)"
                             />
                         </div>
@@ -162,7 +163,7 @@ journal.value.entry_balance = computed(() => {
                                 <div>
                                     <label class="text-xs italic">Total Debit</label>
                                     <input
-                                        :value="journal.total_debit"
+                                        :value="journal.total"
                                         type="number"
                                         class="w-full rounded-lg h-9 text-sm bg-white"
                                         disabled
@@ -171,13 +172,13 @@ journal.value.entry_balance = computed(() => {
                                 <div>
                                     <label class="text-xs italic">Total Credit</label>
                                     <input
-                                        :value="journal.total_credit"
+                                        :value="journal.total"
                                         type="number"
                                         class="w-full rounded-lg h-9 text-sm bg-white"
                                         disabled
                                     >
                                 </div>
-                                <div>
+                                <div class="hidden">
                                     <label class="text-xs italic">Balance</label>
                                     <input
                                         :value="journal.entry_balance"

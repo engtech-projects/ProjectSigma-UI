@@ -43,6 +43,9 @@ const boardLoading = ref(false)
 </script>
 <template>
     <LayoutBoards title="Books List" class="w-full" :loading="bookStore.isLoading.list">
+        <div class="w-1/2 flex px-4">
+            <LayoutFormPsTextInput v-model="bookStore.getParams.key" title="Search Book" class="w-full" />
+        </div>
         <div class="pb-2 text-gray-500">
             <LayoutPsTable :header-columns="headers" :datas="bookList" :actions="actions" @edit-row="setEdit" @delete-row="deleteBook" />
         </div>

@@ -27,6 +27,10 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+    bg: {
+        type: String,
+        default: "bg-white"
+    }
 })
 
 const showModal = computed(() => {
@@ -47,7 +51,7 @@ const hideModal = () => {
                 alt="logo"
             >
         </div>
-        <div :class="props.size" class="min-h-48 bg-white rounded flex flex-col text-slate-700">
+        <div :class="[props.bg, props.size]" class="min-h-48 rounded flex flex-col text-slate-700">
             <div v-if="props.header" class="header border-b px-4 h-12 flex items-center w-full justify-between">
                 <h1 class="text-l font-bold">
                     {{ props.title }}

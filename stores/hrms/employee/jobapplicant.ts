@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 
 export const CURRENT_YES = "Yes"
 export const CURRENT_NO = "No"
@@ -19,17 +17,11 @@ export const STATUS_TEST = "Test"
 export const STATUS_INTERVIEW = "Interview"
 export const STATUS_REFERENCECHECK = "Reference Checking"
 export const STATUS_MEDICALEXAM = "Medical Examination"
+export const STATUS_PROCESSING = "Processing"
 export const STATUS = [
-    STATUS_CONTACTEXT,
-    STATUS_CONTRACTSIGNED,
-    STATUS_PENDING,
-    STATUS_INTERVIEWED,
-    STATUS_REJECTED,
     STATUS_FORHIRING,
-    STATUS_TEST,
-    STATUS_INTERVIEW,
-    STATUS_REFERENCECHECK,
-    STATUS_MEDICALEXAM,
+    STATUS_REJECTED,
+    STATUS_PROCESSING,
 ]
 
 export interface JobApplicationChildren {
@@ -150,6 +142,8 @@ export interface ApplicantInformation {
     icoe_name: String,
     icoe_address: String,
     icoe_relationship: String,
+    icoe_occupation: String,
+    icoe_date_of_birth: String,
     telephone_icoe: null | String,
     workexperience: Array<JobApplicationWorkExperience>,
     education: Array<JobApplicationEducation>
@@ -170,6 +164,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             application_letter_attachment: undefined,
             resume_attachment: undefined,
             status: "",
+            hiring_status: "",
             lastname: "",
             firstname: "",
             middlename: "",
@@ -199,6 +194,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             philhealth: "",
             pagibig: "",
             tin: "",
+            atm: "",
             citizenship: "",
             religion: "",
             height: "",
@@ -214,6 +210,8 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             children: [],
             icoe_name: "",
             icoe_relationship: "",
+            icoe_occupation: "",
+            icoe_date_of_birth: "",
             telephone_icoe: "",
             workexperience: [],
             education: [
@@ -276,6 +274,13 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             remarks: "",
         },
         list: [],
+        allApplicantList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
         jobApplicantDetails: [],
         searchJobApplicantParams: {
             key: "",
@@ -288,6 +293,15 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         errorMessage: "",
         successMessage: "",
         showFormComponent: false,
+        allJobApplicants: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                paginated: "true"
+            },
+            pagination: {},
+        },
     }),
     getters: {
         fullname (state) {
@@ -300,7 +314,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
     actions: {
         async searchJobApplicants () {
             await useHRMSApi(
-                "/api/get-for-hiring",
+                "/api/job-applicants/hiring/for-pan",
                 {
                     method: "POST",
                     body: this.searchJobApplicantParams,
@@ -316,7 +330,7 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
         },
         async getJobApplicantInformation (id: Number) {
             await useHRMSApi(
-                "/api/job-applicants/" + id,
+                "/api/job-applicants/resource/" + id,
                 {
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -329,93 +343,48 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 }
             )
         },
-        async getJobApplicant () {
-            const { data, error } = await useFetch(
-                "/api/job-applicants",
+        async getAllJobApplicant () {
+            this.allJobApplicants.isLoaded = true
+            await useHRMSApi(
+                "/api/job-applicants/resource",
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
+                    params: this.allJobApplicants.params,
+                    onRequest: () => {
+                        this.allJobApplicants.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.list = response._data.data.data
+                        this.allJobApplicants.isLoading = false
+                        if (response.ok) {
+                            this.allJobApplicants.list = response._data.data.data
+                            this.allJobApplicants.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
                     },
                 }
             )
-            if (data) {
-                return data
-            } else if (error) {
-                return error
-            }
         },
-
         async createJobapplicant () {
             if (this.addJobApplicantRequest.isLoading) { return }
             this.successMessage = ""
             this.errorMessage = ""
             const formData = new FormData()
-            formData.append("manpowerrequests_id", this.jobapplicant.manpowerrequests_id ?? "")
-            formData.append("application_letter_attachment", this.jobapplicant.application_letter_attachment ?? "")
-            formData.append("resume_attachment", this.jobapplicant.resume_attachment ?? "")
-            formData.append("firstname", this.jobapplicant.firstname)
-            formData.append("middlename", this.jobapplicant.middlename)
-            formData.append("lastname", this.jobapplicant.lastname)
-            formData.append("name_suffix", this.jobapplicant.name_suffix)
-            formData.append("nickname", this.jobapplicant.nickname)
-            formData.append("status", this.jobapplicant.status)
-            formData.append("date_of_application", this.jobapplicant.date_of_application)
-            formData.append("date_of_birth", this.jobapplicant.date_of_birth)
-            formData.append("per_address_street", this.jobapplicant.per_address_street)
-            formData.append("per_address_brgy", this.jobapplicant.per_address_brgy)
-            formData.append("per_address_city", this.jobapplicant.per_address_city)
-            formData.append("per_address_zip", this.jobapplicant.per_address_zip)
-            formData.append("per_address_province", this.jobapplicant.per_address_province)
-            formData.append("pre_address_street", this.jobapplicant.pre_address_street)
-            formData.append("pre_address_brgy", this.jobapplicant.pre_address_brgy)
-            formData.append("pre_address_city", this.jobapplicant.pre_address_city)
-            formData.append("pre_address_zip", this.jobapplicant.pre_address_zip)
-            formData.append("pre_address_province", this.jobapplicant.pre_address_province)
-            formData.append("contact_info", this.jobapplicant.contact_info)
-            formData.append("email", this.jobapplicant.email)
-            formData.append("how_did_u_learn_about_our_company", this.jobapplicant.how_did_u_learn_about_our_company)
-            formData.append("desired_position", this.jobapplicant.desired_position)
-            formData.append("currently_employed", this.jobapplicant.currently_employed)
-            formData.append("place_of_birth", this.jobapplicant.place_of_birth)
-            formData.append("blood_type", this.jobapplicant.blood_type)
-            formData.append("date_of_marriage", this.jobapplicant.date_of_marriage)
-            formData.append("sss", this.jobapplicant.sss)
-            formData.append("philhealth", this.jobapplicant.philhealth)
-            formData.append("pagibig", this.jobapplicant.pagibig)
-            formData.append("tin", this.jobapplicant.tin)
-            formData.append("citizenship", this.jobapplicant.citizenship)
-            formData.append("religion", this.jobapplicant.religion)
-            formData.append("height", this.jobapplicant.height)
-            formData.append("weight", this.jobapplicant.weight)
-            formData.append("father_name", this.jobapplicant.father_name)
-            formData.append("mother_name", this.jobapplicant.mother_name)
-            formData.append("gender", this.jobapplicant.gender)
-            formData.append("civil_status", this.jobapplicant.civil_status)
-            formData.append("name_of_spouse", this.jobapplicant.name_of_spouse)
-            formData.append("date_of_birth_spouse", this.jobapplicant.date_of_birth_spouse)
-            formData.append("occupation_spouse", this.jobapplicant.occupation_spouse)
-            formData.append("telephone_spouse", this.jobapplicant.telephone_spouse)
-            formData.append("children", JSON.stringify(this.jobapplicant.children))
-            formData.append("icoe_name", this.jobapplicant.icoe_name)
-            formData.append("icoe_relationship", this.jobapplicant.icoe_relationship)
-            formData.append("telephone_icoe", this.jobapplicant.telephone_icoe)
-            formData.append("workexperience", JSON.stringify(this.jobapplicant.workexperience))
-            formData.append("education", JSON.stringify(this.jobapplicant.education))
-            formData.append("icoe_street", this.jobapplicant.icoe_street)
-            formData.append("icoe_brgy", this.jobapplicant.icoe_brgy)
-            formData.append("icoe_city", this.jobapplicant.icoe_city)
-            formData.append("icoe_province", this.jobapplicant.icoe_province)
-            formData.append("icoe_zip", this.jobapplicant.icoe_zip)
-            formData.append("remarks", this.jobapplicant.remarks)
+            Object.keys(this.jobapplicant).forEach((key) => {
+                if (["workexperience", "education"].includes(key)) {
+                    formData.append(key, JSON.stringify(this.jobapplicant[key]))
+                } else {
+                    formData.append(key, this.jobapplicant[key])
+                }
+            })
 
             return await useHRMSApiO(
-                "/api/job-applicants",
+                "/api/job-applicants/resource",
                 {
                     method: "POST",
                     body: formData,
@@ -431,7 +400,6 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                         this.addJobApplicantRequest.isLoading = false
                         if (response.ok) {
                             this.$reset()
-                            this.getJobApplicant()
                             this.addJobApplicantRequest.successMessage = response._data.message
                             this.successMessage = response._data.message
                         } else {
@@ -446,17 +414,13 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
             this.errorMessage = ""
             this.successMessage = ""
         },
-        async updateJobapplicant () {
+        async updateJobapplicant () { // TO UPDATE APPLICANT.
             this.successMessage = ""
             this.errorMessage = ""
             await useHRMSApiO(
-                "/api/update-applicant/" + this.jobapplicant.id,
+                "/api/job-applicants/resource/" + this.jobapplicant.id,
                 {
                     method: "PUT",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.jobapplicant,
                     onResponse: ({ response }: any) => {
                         if (!response.ok) {
@@ -469,16 +433,29 @@ export const useJobapplicantStore = defineStore("jobapplicants", {
                 }
             )
         },
+        async updateJobApplicantProcessing (id: any, processingData: any) { // TO UPDATE APPLICANT INSIDE MANPOWER REQUESTS.
+            await useHRMSApiO(
+                "/api/job-applicants/update-applicant-processing/" + id,
+                {
+                    method: "PUT",
+                    body: processingData,
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.$reset()
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
         async deleteJobapplicant (id: number) {
             const { data, error } = await useHRMSApiO(
                 "/api/manpower-requests/" + id,
                 {
-                    baseURL: config.public.HRMS_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     onResponse: ({ response }: any) => {
                         this.successMessage = response._data.message
                     },
