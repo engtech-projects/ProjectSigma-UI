@@ -29,6 +29,7 @@ const filterBOM = () => {
                         <label class="text-">Assignment :</label>
                         <div>
                             <HrmsCommonDepartmentSelector v-model="List.params.assignment_id" @change="filterBOM" />
+                            <HrmsCommonProjectSelector v-model="List.params.assignment_id" @change="filterBOM" />
                         </div>
                     </div>
                     <div class="flex flex-row gap-2 justify-start items-center">

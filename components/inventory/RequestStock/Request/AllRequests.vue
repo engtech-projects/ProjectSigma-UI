@@ -11,7 +11,7 @@ onMounted(() => {
 })
 const headers = [
     { name: "Reference No", id: "reference_no" },
-    { name: "Office/Project", id: "project.project_code" },
+    { name: "Office/Project", id: "section_type" },
     { name: "Project Address", id: "office_project_address" },
     { name: "Date Needed", id: "date_needed" },
 ]

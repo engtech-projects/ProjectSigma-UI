@@ -4,7 +4,7 @@ defineProps({
         type: Object,
         required: true,
     },
-    isApproved: {
+    signatureView: {
         type: Boolean,
         required: false,
         default: false,
@@ -16,7 +16,7 @@ defineProps({
         <p class="text-blue-700 text-center font-medium text-lg">
             Approvals
         </p>
-        <template v-if="isApproved">
+        <template v-if="signatureView">
             <div class="flex gap-8 flex-1">
                 <LayoutApprovalsSignatoryApprovalItem v-for="(apprItem, index) in approvals" :key="index" :approval-item="apprItem" />
             </div>
