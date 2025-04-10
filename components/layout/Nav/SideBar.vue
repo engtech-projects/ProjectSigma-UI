@@ -574,6 +574,12 @@ const config = useRuntimeConfig()
                     icon="grommet-icons:overview"
                     single-nav-title="Overview"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_GROUP])"
+                    linkarea="/inventory/material-receiving"
+                    icon="material-symbols-light:add-home-work-outline"
+                    single-nav-title="Materials Receiving"
+                />
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
