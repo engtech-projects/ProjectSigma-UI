@@ -8,32 +8,32 @@ useHead({
 </script>
 <template>
     <LayoutAcessContainer
-        :if-access="useCheckAccessibility([AccessibilityTypes.inventory_warehouse_withdrawal_group,
+        :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_GROUP,
         ])"
         class="w-full"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_warehouse_withdrawal_forms_and_my_requests])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_FORMSANDMYREQUESTS])"
                     target-id="Form"
                     title="Withdrawal Form"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_warehouse_withdrawal_all_request])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_ALLREQUEST])"
                     target-id="allRequest"
                     title="All Request"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.inventory_warehouse_withdrawal_my_approvals,
+                        AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_MYAPPROVALS,
                     ])"
                     target-id="myApprovals"
                     title="My Approvals"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.inventory_warehouse_withdrawal_forms_and_my_requests,
+                        AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_FORMSANDMYREQUESTS,
                     ])"
                     target-id="myRequests"
                     title="My Request"

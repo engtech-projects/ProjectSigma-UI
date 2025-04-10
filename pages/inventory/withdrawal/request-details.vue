@@ -35,7 +35,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.inventory_warehouse_withdrawal_group,
+            AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_GROUP,
         ])"
     >
         <template v-if="validKey">
