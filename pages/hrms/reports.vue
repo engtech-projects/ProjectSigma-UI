@@ -96,7 +96,7 @@ const selectedReport = ref("")
                             Salary Monitoring
                         </option>
                         <option
-                            v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portal_monitoring_overtime_monitoring]) || useCheckAccessibility(['AdminOnly'])"
+                            v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_group]) || useCheckAccessibility(['AdminOnly'])"
                             value="Report16"
                         >
                             Portal Monitoring

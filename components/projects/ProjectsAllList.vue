@@ -1,5 +1,10 @@
 <script setup>
-
+const props = defineProps({
+    status: {
+        type: String,
+        default: "Drafts"
+    }
+})
 const headers = [
     { name: "PROJECT CODE", id: "project_code", style: "text-left" },
     { name: "LOCATION", id: "location", style: "text-left" },
@@ -12,6 +17,9 @@ const actions = {
 }
 
 const { projects } = useProjectState()
+const filteredData = computed(() => {
+    return projects.value.map(item => ({ ...item, status: props.status }))
+})
 const showDetail = (data) => {
     navigateTo("/project-monitoring/my-drafts?project_code=" + data.project_code)
 }
@@ -29,7 +37,7 @@ const showDetail = (data) => {
                 </label>
                 <input type="text" class="w-full rounded-lg h-10 border border-gray-300">
             </div>
-            <LayoutPsTable :header-columns="headers" :datas="projects" :actions="actions" @detail-row="showDetail" />
+            <LayoutPsTable :header-columns="headers" :datas="filteredData" :actions="actions" @detail-row="showDetail" />
         </LayoutAcessContainer>
     </LayoutBoards>
 </template>

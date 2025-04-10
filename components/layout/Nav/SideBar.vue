@@ -595,6 +595,12 @@ const config = useRuntimeConfig()
                 icon="material-symbols-light:add-home-work-outline"
                 single-nav-title="Materials Receiving"
             />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([AccessibilityTypes.inventory_withdrawal_group])"
+                linkarea="/inventory/withdrawal"
+                icon="material-symbols-light:shopping-cart-checkout-sharp"
+                single-nav-title="Withdrawal"
+            />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.inventory_procurement_group
@@ -815,7 +821,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ADMIN_ONLY,
+                    AccessibilityTypes.PROJECTMONITORING_MARKETING,
                 ])"
                 linkarea="/project-monitoring/marketing"
                 icon="material-symbols:business-center"
@@ -823,7 +829,7 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ADMIN_ONLY,
+                    AccessibilityTypes.PROJECTMONITORING_TSS,
                 ])"
                 linkarea="/project-monitoring/technical-service"
                 icon="material-symbols:linked-services"

@@ -7,7 +7,7 @@ projectStore.viewState = false
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_GROUP,
+            AccessibilityTypes.PROJECTMONITORING_TSS,
         ])"
     >
         <div class="flex flex-col gap-4">
@@ -27,13 +27,33 @@ projectStore.viewState = false
                         title="AWARDEE"
                         target-id="awardee"
                     />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                        ])"
+                        title="ONGOING"
+                        target-id="ongoing"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                        ])"
+                        title="COMPLETE"
+                        target-id="complete"
+                    />
                 </template>
                 <template #tab-containers>
                     <AccountingCommonTabsTabContainer id="myDrafts">
-                        <ProjectsAllList />
+                        <ProjectsAllList status="Drafts" />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="awardee">
-                        <ProjectsMydraftsDetails :awardee="true" />
+                        <ProjectsAllList status="Awardee" />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="ongoing">
+                        <ProjectsAllList status="Ongoing" />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="complete">
+                        <ProjectsAllList status="Complete" />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>

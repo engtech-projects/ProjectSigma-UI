@@ -1,19 +1,19 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useRequestStockStore } from "@/stores/inventory/requeststock"
+import { useWithdrawalStore } from "@/stores/inventory/withdrawal"
 
-const mainStore = useRequestStockStore()
+const mainStore = useWithdrawalStore()
 const { allRequests } = storeToRefs(mainStore)
 onMounted(() => {
     if (!allRequests.isLoaded) {
         mainStore.getAllRequests()
     }
 })
+
 const headers = [
     { name: "Reference No", id: "reference_no" },
-    { name: "Office/Project", id: "section_type" },
-    { name: "Project Address", id: "office_project_address" },
-    { name: "Date Needed", id: "date_needed" },
+    { name: "Project Code", id: "project.project_code" },
+    { name: "Transaction Date", id: "transaction_date" },
 ]
 const actions = {
     showTable: true,
@@ -22,7 +22,7 @@ const actions = {
 }
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/request-stocks/request-details",
+        path: "/inventory/withdrawal/request-details",
         query: {
             key: data.id
         },
@@ -35,6 +35,7 @@ const changePaginate = (newParams) => {
 <template>
     <LayoutLoadingContainer class="w-full" :loading="allRequests.isLoading">
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
+            {{ allRequest }}
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"

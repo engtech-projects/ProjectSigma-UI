@@ -18,7 +18,7 @@ const compId = useId()
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <input
                 :id="compId"
-                v-model="item.quantity"
+                v-model="item.qty"
                 type="number"
                 class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
                 required
@@ -31,6 +31,15 @@ const compId = useId()
             />
         </td>
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
+            <input
+                :id="compId"
+                v-model="item.item_code"
+                type="text"
+                class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
+                disabled
+            >
+        </td>
+        <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <InventoryBomItemSelector
                 v-model="item.item_id"
             />
@@ -38,44 +47,11 @@ const compId = useId()
         <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
             <input
                 :id="compId"
-                v-model="item.specification"
+                v-model="item.purpose"
                 type="text"
                 class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
             >
         </td>
-        <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-            <input
-                :id="compId"
-                v-model="item.preferred_brand"
-                type="text"
-                class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
-            >
-        </td>
-        <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-            <input
-                :id="compId"
-                v-model="item.reason"
-                type="text"
-                class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
-            >
-        </td>
-        <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-            <input
-                :id="compId"
-                v-model="item.location"
-                type="text"
-                class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
-            >
-        </td>
-        <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-            <input
-                :id="compId"
-                v-model="item.location_qty"
-                type="number"
-                class="w-full min-w-[120px] border border-slate-600 rounded-md px-3 text-md flex items-center relative cursor-pointer"
-            >
-        </td>
-        <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center" />
         <td class="flex flex-row justify-center items-center px-2 font-medium text-gray-900 whitespace-nowrap text-center">
             <div class="cancel-control">
                 <button

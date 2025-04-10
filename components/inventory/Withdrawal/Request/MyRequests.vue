@@ -1,7 +1,7 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useRequestStockStore } from "@/stores/inventory/requeststock"
-const mainStore = useRequestStockStore()
+import { useWithdrawalStore } from "@/stores/inventory/withdrawal"
+const mainStore = useWithdrawalStore()
 const { myRequests } = storeToRefs(mainStore)
 onMounted(() => {
     if (!myRequests.value.isLoaded) {
@@ -10,7 +10,7 @@ onMounted(() => {
 })
 const headers = [
     { name: "Reference No", id: "reference_no" },
-    { name: "Office/Project", id: "section_type" },
+    { name: "Office/Project", id: "project.project_code" },
     { name: "Project Address", id: "office_project_address" },
     { name: "Date Needed", id: "date_needed" },
 ]
@@ -21,7 +21,7 @@ const actions = {
 }
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/request-stocks/request-details",
+        path: "/inventory/withdrawal/request-details",
         query: {
             key: data.id
         },
