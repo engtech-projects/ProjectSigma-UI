@@ -32,7 +32,7 @@ export const useTermsStore = defineStore("termsStore", {
                         this.list = response._data.data.data
                         this.pagination = {
                             first_page: response._data.data.links.first,
-                            pages: response._data.data.links,
+                            pages: response._data.data.meta.links,
                             last_page: response._data.data.links.last,
                         }
                     },
