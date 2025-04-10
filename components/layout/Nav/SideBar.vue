@@ -575,7 +575,7 @@ const config = useRuntimeConfig()
                     single-nav-title="Overview"
                 />
                 <LayoutNavSingle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_warehouse_withdrawal_group])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_GROUP])"
                     linkarea="/inventory/withdrawal"
                     icon="material-symbols-light:shopping-cart-checkout-sharp"
                     single-nav-title="Withdrawal"
