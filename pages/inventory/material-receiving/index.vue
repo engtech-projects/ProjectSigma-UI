@@ -15,12 +15,12 @@ useHead({
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_warehouse_materials_receiving_forms_and_my_requests])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_FORMSANDMYREQUESTS])"
                     target-id="Form"
                     title="Materials Receiving Report"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_warehouse_materials_receiving_all_request])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_ALLREQUEST])"
                     target-id="allRequest"
                     title="All Request"
                 />
