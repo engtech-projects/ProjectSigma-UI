@@ -67,7 +67,7 @@
             </div>
 
             <div class="flex justify-end gap-4 items-center">
-                <div class="flex items-center gap-1 border-b border-green-800 h-6 cursor-pointer hover:border-green-800 select-none" @click="showUploadModal = true">
+                <div v-if="!1" class="flex items-center gap-1 border-b border-green-800 h-6 cursor-pointer hover:border-green-800 select-none" @click="showUploadModal = true">
                     <Icon name="mdi:paperclip" class="text-green-800" />
                     <span class="text-green-600 hover:text-green-400 active:text-green-600">File Attachments</span>
                 </div>

@@ -76,6 +76,7 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             isLoading: false,
             isLoaded: false,
             list: [],
+            totalPay: {},
             itemFilters: [],
             filters: [],
             headers: [],
@@ -320,7 +321,37 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
             if (state.administrativeReports.list.length <= 0) {
                 return masterList
             }
-        }
+        },
+        getTotalSalaryListReport (state) {
+            const totalSalaryList: Record<string, number> = {
+                total_pay_basic: 0,
+                total_pay_overtime: 0,
+                total_pay_sunday: 0,
+                total_pay_allowance: 0,
+                total_pay_regularholiday: 0,
+                total_pay_specialholiday: 0,
+                total: 0
+            }
+            if (state.portalMonitoringReports.params.report_type === SALARY_MONITORING) {
+                const fields = [
+                    "pay_basic",
+                    "pay_overtime",
+                    "pay_sunday",
+                    "pay_allowance",
+                    "pay_regular_holiday_pay",
+                    "pay_special_holiday"
+                ]
+                fields.forEach((field) => {
+                    totalSalaryList[`total_${field.replace("_pay", "")}`] = Math.round(
+                        this.portalMonitoringReports.list.reduce((sum, item) => sum + (item[field] || 0), 0)
+                    ).toFixed(2)
+                })
+                totalSalaryList.total = Math.round(
+                    fields.reduce((sum, field) => sum + Number(totalSalaryList[`total_${field.replace("_pay", "")}`]), 0)
+                ).toFixed(2)
+                return totalSalaryList
+            }
+        },
     },
     actions: {
         // REMITTANCE REPORTS

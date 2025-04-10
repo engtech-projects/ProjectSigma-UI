@@ -95,6 +95,20 @@
                     title="ESTIMATED DIRECT COST"
                     target-id="estimatedDirectCost"
                 />
+                <AccountingCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                    ])"
+                    title="PCR"
+                    target-id="pcr"
+                />
+                <AccountingCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                    ])"
+                    title="STEWA"
+                    target-id="stewa"
+                />
             </template>
             <template #tab-containers>
                 <AccountingCommonTabsTabContainer id="billOfQuantities">
@@ -117,6 +131,12 @@
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer v-if="awardee" id="estimatedDirectCost">
                     <ProjectsAwardeeEstimatedDirectCost />
+                </AccountingCommonTabsTabContainer>
+                <AccountingCommonTabsTabContainer id="pcr">
+                    <ProjectsProjectCompletionReport />
+                </AccountingCommonTabsTabContainer>
+                <AccountingCommonTabsTabContainer id="stewa">
+                    <ProjectsStewa />
                 </AccountingCommonTabsTabContainer>
             </template>
         </AccountingCommonTabsMainContainer>

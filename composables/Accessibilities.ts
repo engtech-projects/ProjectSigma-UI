@@ -173,6 +173,9 @@ export enum AccessibilityTypes {
     inventory_request_stock_forms_and_my_requests = "inventory:request stock_form and my requests",
     inventory_request_stock_all_request = "inventory:request stock_all requests",
     inventory_request_stock_my_approvals = "inventory:request stock_my approvals",
+    INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_GROUP = "inventory:warehouse_materials receiving_",
+    INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_FORMSANDMYREQUESTS = "inventory:warehouse_materials receiving_form and my requests",
+    INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_ALLREQUEST = "inventory:warehouse_materials receiving_all requests",
     inventory_materials_receiving_group = "inventory:materials receiving_",
     inventory_materials_receiving_forms_and_my_requests = "inventory:materials receiving_form and my requests",
     inventory_materials_receiving_all_request = "inventory:materials receiving_all requests",
@@ -254,7 +257,9 @@ export enum AccessibilityTypes {
     project_monitoring_group = "project monitoring:",
     project_monitoring_dashboard = "project monitoring:dashboard",
     project_monitoring_projects = "project monitoring:projects",
-
+    PROJECTMONITORING_MARKETING = "project monitoring:marketing",
+    PROJECTMONITORING_TSS = "project monitoring:tss",
+    PROJECTMONITORING_SETUP = "project monitoring:setup"
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
     allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS
