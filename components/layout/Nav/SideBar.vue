@@ -579,10 +579,6 @@ const config = useRuntimeConfig()
                     linkarea="/inventory/withdrawal"
                     icon="material-symbols-light:shopping-cart-checkout-sharp"
                     single-nav-title="Withdrawal"
-                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_GROUP])"
-                    linkarea="/inventory/material-receiving"
-                    icon="material-symbols-light:add-home-work-outline"
-                    single-nav-title="Materials Receiving"
                 />
             </LayoutNavGroup>
             <LayoutNavSingle
