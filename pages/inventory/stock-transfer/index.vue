@@ -8,19 +8,19 @@ useHead({
 </script>
 <template>
     <LayoutAcessContainer
-        :if-access="useCheckAccessibility([AccessibilityTypes.inventory_warehouse_stock_transfer_group,
+        :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP,
         ])"
         class="w-full"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_warehouse_stock_transfer_forms_and_my_requests])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_STOCK_TRANSFER_REQUESTPROCESSING])"
                     target-id="Form"
                     title="Stock Transfer"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_warehouse_stock_transfer_all_request])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST])"
                     target-id="allRequest"
                     title="All Request"
                 />

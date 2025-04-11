@@ -60,7 +60,7 @@ const filterWarehouse = async () => {
                         </div>
                     </div>
                     <div class="mt-4">
-                        <InventoryStockTransferList :items="stockTransferStore.receiving.details" />
+                        <InventoryStockTransferList :items="stockTransferStore.details" />
                     </div>
                 </LayoutLoadingContainer>
             </div>

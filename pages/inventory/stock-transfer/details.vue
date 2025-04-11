@@ -17,7 +17,7 @@ if (route.query.key) {
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.inventory_warehouse_stock_transfer_group,
+            AccessibilityTypes.INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP,
         ])"
     >
         <LayoutBoards title="STOCK TRANSFER" class="w-full" :loading="stockTransfer.isLoading">

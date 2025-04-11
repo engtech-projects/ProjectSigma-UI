@@ -575,7 +575,7 @@ const config = useRuntimeConfig()
                     single-nav-title="Overview"
                 />
                 <LayoutNavSingle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_warehouse_stock_transfer_group])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP])"
                     linkarea="/inventory/stock-transfer"
                     icon="mingcute:transfer-horizontal-line"
                     single-nav-title="Stock Transfer"

@@ -1,13 +1,13 @@
- <script setup>
+<script setup>
 import { storeToRefs } from "pinia"
 import { useStockTransferStore } from "@/stores/inventory/stocktransfer"
 
-defineProps({
-    items: {
-        type: Object,
-        required: true,
-    },
-})
+// defineProps({
+//     items: {
+//         type: Object,
+//         required: true,
+//     },
+// })
 const mainStore = useStockTransferStore()
 const { stockTransfer } = storeToRefs(mainStore)
 
@@ -33,6 +33,24 @@ const showInformation = (data) => {
 const changePaginate = (newParams) => {
     stockTransfer.value.params.page = newParams.page ?? ""
 }
+const items = [
+    {
+        reference_no: "ABC123",
+        qty: 10,
+        unit: "pcs",
+        item_id: "Item-001",
+        condition: "Good",
+        remarks: "Ready for transfer",
+    },
+    {
+        reference_no: "XYZ456",
+        qty: 5,
+        unit: "pcs",
+        item_id: "Item-002",
+        condition: "Damaged",
+        remarks: "Needs inspection",
+    },
+]
 
 </script>
 <template>

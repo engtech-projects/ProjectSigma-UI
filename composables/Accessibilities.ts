@@ -168,12 +168,12 @@ export enum AccessibilityTypes {
     inventory_procurement_my_approvals = "inventory:procurement_suppliers_my approvals",
     inventory_procurement_edit = "inventory:procurement_suppliers_edit",
     inventory_request_stock_group = "inventory:request stock_",
-    inventory_request_stock_forms_and_my_requests = "inventory:request stock_form and my requests",
+    INVENTORY_REQUEST_STOCK_FORMSANDMYREQUESTS = "inventory:request stock_form and my requests",
     inventory_request_stock_all_request = "inventory:request stock_all requests",
     inventory_request_stock_my_approvals = "inventory:request stock_my approvals",
-    inventory_warehouse_stock_transfer_group = "inventory:warehouse_stock transfer_",
-    inventory_warehouse_stock_transfer_forms_and_my_requests = "inventory:warehouse_stock transfer_form and my requests",
-    inventory_warehouse_stock_transfer_all_request = "inventory:warehouse_stock transfer_all requests",
+    INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP = "inventory:warehouse_stock transfer_",
+    INVENTORY_WAREHOUSE_STOCK_TRANSFER_REQUESTPROCESSING = "inventory:warehouse_stock transfer_request processing",
+    INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST = "inventory:warehouse_stock transfer_all requests",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",
