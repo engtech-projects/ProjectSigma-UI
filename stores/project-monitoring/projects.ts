@@ -6,19 +6,21 @@ interface Employee {
 }
 interface Project {
     id: null | number,
-    contract_name: null | String,
-    contract_id: null | String
-    contract_location: null | String
-    contract_amount: null | number,
-    contract_duration: null | String
-    project_code: null | String
-    project_identifier: null | String
-    implementing_office: null | String
-    nature_of_work: null | String
-    date_of_noa: null | String
-    date_of_contract: null | String
-    date_of_ntp: null | String
-    license: null | String
+    parent_project_id: null | number,
+    contract_id: null | number,
+    code: null | String,
+    name: null | String,
+    amount: null | Number,
+    location: null | String,
+    contract_date: null | String,
+    duration: null | String,
+    nature_of_work: null | String,
+    implementing_office: null | String,
+    noa_date: null | String,
+    ntp_date: null | String,
+    license: null | String,
+    uuid: null | String,
+    designation: null | Number,
     employees: Array<Employee>
 }
 
@@ -29,19 +31,21 @@ export const useProjectStore = defineStore("projects", {
         information:
         {
             id: null,
-            contract_name: null,
+            uuid: null,
+            parent_project_id: null,
             contract_id: null,
-            contract_location: null,
-            contract_amount: 0,
-            contract_duration: null,
-            project_code: null,
-            project_identifier: null,
-            implementing_office: null,
+            code: null,
+            name: null,
+            amount: null,
+            location: null,
+            contract_date: null,
+            duration: null,
             nature_of_work: null,
-            date_of_noa: null,
-            date_of_contract: null,
-            date_of_ntp: null,
+            implementing_office: null,
+            noa_date: null,
+            ntp_date: null,
             license: null,
+            designation: null,
             employees: []
         } as Project,
         list: [] as Project[],
@@ -49,11 +53,14 @@ export const useProjectStore = defineStore("projects", {
         getParams: {},
         errorMessage: "",
         successMessage: "",
-        isLoading: false,
+        isLoading: {
+            create: false,
+            list: false,
+        },
     }),
     actions: {
         async getProjectInformation (id: any) {
-            this.isLoading = true
+            this.isLoading.list = true
             const { data, error } = await useFetch(
                 "/api/projects/" + id,
                 {
@@ -78,7 +85,7 @@ export const useProjectStore = defineStore("projects", {
             }
         },
         async getProject () {
-            this.isLoading = true
+            this.isLoading.list = true
             const { data, error } = await useFetch(
                 "/api/projects",
                 {
@@ -90,7 +97,7 @@ export const useProjectStore = defineStore("projects", {
                     },
                     params: this.getParams,
                     onResponse: ({ response }) => {
-                        this.isLoading = false
+                        this.isLoading.list = false
                         this.list = response._data.data
                         this.pagination = {
                             first_page: response._data.links.first,

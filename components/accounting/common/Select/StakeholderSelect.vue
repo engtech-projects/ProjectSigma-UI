@@ -4,7 +4,7 @@
         class="relative w-full flex flex-col border border-gray-500 rounded-lg min-h-[2.4rem]"
     >
         <div class="flex px-2 items-center flex-1 cursor-pointer" @click="toggleDropdown">
-            <span class="text-md flex-1 cursor-pointer select-none max-h-[2.4rem] overflow-hidden text-ellipsis whitespace-nowrap">{{ currentValue?.name || "Search Stakeholder" }}</span>
+            <span class="text-md flex-1 cursor-pointer select-none max-h-[2.4rem] overflow-hidden text-ellipsis whitespace-nowrap">{{ currentValue?.name || placeholder }}</span>
             <Icon v-if="!showDD" name="mdi:chevron-down" class="" />
             <Icon v-if="showDD" name="mdi:chevron-up" class="" />
         </div>
@@ -27,7 +27,7 @@
                                 v-model="searchString"
                                 type="text"
                                 class="border-none rounded-md p-1 text-xs focus:ring-0 flex-1"
-                                placeholder="Search Stakeholder"
+                                :placeholder="placeholder"
                                 index="1"
                             >
                             <input
@@ -81,6 +81,14 @@ const props = defineProps({
     selectOptions: {
         type: Array,
         required: true
+    },
+    placeholder: {
+        type: String,
+        default: "Search Stakeholder"
+    },
+    defaultDept: {
+        type: String,
+        default: null
     }
 })
 const isLoading = ref(false)
@@ -155,6 +163,9 @@ onMounted(() => {
         currentValue.value = props.stakeholder
         // searchString.value = props.stakeholder.name
         dept.value = stakeholderType.value
+    }
+    if (props.defaultDept) {
+        dept.value = props.defaultDept
     }
     document.addEventListener("click", handleClickOutside)
 })

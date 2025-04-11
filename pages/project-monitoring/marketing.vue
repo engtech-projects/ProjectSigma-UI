@@ -24,7 +24,7 @@ const voucherStore = useVoucherStore()
                         v-if="useCheckAccessibility([
                             AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
                         ])"
-                        title="Project Form"
+                        title="Project Contract"
                         target-id="projectForm"
                     />
                     <AccountingCommonTabsTabTitle
