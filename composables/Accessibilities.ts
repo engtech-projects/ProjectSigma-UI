@@ -173,9 +173,7 @@ export enum AccessibilityTypes {
     inventory_request_stock_forms_and_my_requests = "inventory:request stock_form and my requests",
     inventory_request_stock_all_request = "inventory:request stock_all requests",
     inventory_request_stock_my_approvals = "inventory:request stock_my approvals",
-
     INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_GROUP = "inventory:warehouse_materials receiving_",
-    INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_FORMSANDMYREQUESTS = "inventory:warehouse_materials receiving_form and my requests",
     INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_ALLREQUEST = "inventory:warehouse_materials receiving_all requests",
 
     // ACCOUNTING SETUP
