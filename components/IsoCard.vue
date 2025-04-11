@@ -1,6 +1,6 @@
 <template>
     <div>
-        <table class="text-md">
+        <table>
             <tr>
                 <th colspan="4" class="text-[12px] border border-gray-500 bg-[#dce5c8]">
                     DOCUMENT CODE NUMBER
@@ -57,17 +57,8 @@ defineProps({
 </script>
 
 <style scoped>
-/* @import url(public/css/accounting.css) */
-/* @media print {
-    @page {
-        counter-increment: page;
-    }
-    .current-page::after {
-        content: counter(page);
-    }
-    .total-pages::after {
-        content: " of " counter(pages);
-    }
-} */
+* {
+  font-family: Arial, sans-serif!important;
+}
 
 </style>
