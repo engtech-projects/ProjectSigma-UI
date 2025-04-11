@@ -1,16 +1,16 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useRequestStockStore } from "@/stores/inventory/requeststock"
-const mainStore = useRequestStockStore()
-const { myRequests } = storeToRefs(mainStore)
+import { useWithdrawalStore } from "@/stores/inventory/withdrawal"
+const mainStore = useWithdrawalStore()
+const { myApprovals } = storeToRefs(mainStore)
 onMounted(() => {
-    if (!myRequests.value.isLoaded) {
-        mainStore.getMyRequests()
+    if (!myApprovals.value.isLoaded) {
+        mainStore.getMyApprovals()
     }
 })
 const headers = [
     { name: "Reference No", id: "reference_no" },
-    { name: "Office/Project", id: "section_type" },
+    { name: "Office/Project", id: "project.project_code" },
     { name: "Project Address", id: "office_project_address" },
     { name: "Date Needed", id: "date_needed" },
 ]
@@ -21,28 +21,28 @@ const actions = {
 }
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/request-stocks/request-details",
+        path: "/inventory/withdrawal/request-details",
         query: {
             key: data.id
         },
     })
 }
 const changePaginate = (newParams) => {
-    myRequests.value.params.page = newParams.page ?? ""
+    myApprovals.value.params.page = newParams.page ?? ""
 }
 </script>
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="myRequests.isLoading">
+    <LayoutLoadingContainer class="w-full" :loading="myApprovals.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="myRequests.list ?? []"
+                :datas="myApprovals.list ?? []"
                 @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
-            <CustomPagination :links="myRequests.pagination" @change-params="changePaginate" />
+            <CustomPagination :links="myApprovals.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
 </template>

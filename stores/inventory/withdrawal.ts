@@ -3,49 +3,56 @@ import { defineStore } from "pinia"
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
 export const DENIED = "Denied"
-export const APPROVALS = "Request BOM"
-
+export const APPROVALS = "Withdrawal"
 export const REQ_STATUS = [
     APPROVED,
     PENDING,
     DENIED,
 ]
-export interface BOMForm {
-    assignment_id: number,
-    assignment_type: string,
-    effectivity: string,
-    details: any,
-    approvals: any,
+export const WITHDRAWAL_TYPE = [
+    "Full Tank",
+    "Partial",
+]
+
+export interface WithdrawDetails {
+    date: string;
+    time: string;
+    requesting: string;
+    charging: string;
+    equipment_no: string;
+    smr: string;
+    withdrawal_type: string;
 }
-export const useBOMStore = defineStore("BOMStore", {
+export interface WithdrawnItems {
+    item_id: string;
+    item_code: string;
+    qty: string;
+    unit: string;
+    purpose: string;
+}
+
+export const useWithdrawalStore = defineStore("withdrawalStore", {
     state: () => ({
-        isEdit: false,
-        bomRequest: {
+        withdrawal: {
             isLoading: false,
             isLoaded: false,
-            list: [],
-            bomDetails: {
-                isLoading: false,
-                isLoaded: false,
-                list: [],
-                params: {},
-            },
-            details: [],
-            formDepartment: {} as BOMForm,
-            formProject: {} as BOMForm,
-            params: {},
-            pagination: {},
-        },
-        currentBom: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
+            form: {} as WithdrawDetails,
+            items: [] as Array<WithdrawnItems>,
             params: {
                 project_id: null as null | Number,
-                department_id: null as null | Number,
+                department_id: null as null | Number
             },
+            list: [] as Array<WithdrawDetails>,
             pagination: {},
         },
+        // items: {
+        //     isLoading: false,
+        //     isLoaded: false,
+        //     details: {} as WithdrawnItems,
+        //     list: [],
+        //     params: {},
+        //     pagination: {},
+        // },
         allRequests: {
             isLoading: false,
             isLoaded: false,
@@ -81,12 +88,9 @@ export const useBOMStore = defineStore("BOMStore", {
         remarks: "",
     }),
     actions: {
-        getConversionBaseValue (conversion:any) {
-            return conversion
-        },
         async getAllRequests () {
             await useInventoryApi(
-                "/api/bom/all-request",
+                "/api/material-withdrawal/all-request",
                 {
                     method: "GET",
                     params: this.allRequests.params,
@@ -96,13 +100,13 @@ export const useBOMStore = defineStore("BOMStore", {
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.isLoaded = true
                             this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
                                 first_page: response._data.data.links.first,
                                 pages: response._data.data.meta.links,
                                 last_page: response._data.data.links.last,
                             }
+                            this.allRequests.isLoaded = true
                         }
                     },
                 }
@@ -110,7 +114,7 @@ export const useBOMStore = defineStore("BOMStore", {
         },
         async getMyRequests () {
             await useInventoryApi(
-                "/api/bom/my-request",
+                "/api/material-withdrawal/my-request",
                 {
                     method: "GET",
                     params: this.myRequests.params,
@@ -136,7 +140,7 @@ export const useBOMStore = defineStore("BOMStore", {
         },
         async getMyApprovals () {
             await useInventoryApi(
-                "/api/bom/my-approvals",
+                "/api/material-withdrawal/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
@@ -160,12 +164,78 @@ export const useBOMStore = defineStore("BOMStore", {
                 }
             )
         },
-        async storeBOMDepartment () {
+        async fetchWithdrawals () {
+            await useInventoryApi(
+                "/api/material-withdrawal/resource",
+                {
+                    method: "GET",
+                    params: this.withdrawal.params,
+                    onRequest: () => {
+                        this.withdrawal.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.withdrawal.isLoading = false
+                        if (response.ok) {
+                            this.withdrawal.list = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async fetchWithdrawalDetails (id: any) {
+            await useInventoryApi(
+                "/api/material-withdrawal/resource/" + id,
+                {
+                    method: "GET",
+                    watch: false,
+                    onRequest: () => {
+                        this.withdrawal.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.withdrawal.isLoading = false
+                        if (response.ok) {
+                            this.withdrawal.details = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async fetchWithdrawalByWarehouseId (id: any) {
+            await useInventoryApi(
+                "/api/material-withdrawal/warehouse/" + id,
+                {
+                    method: "GET",
+                    watch: false,
+                    onRequest: () => {
+                        this.withdrawal.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.withdrawal.isLoading = false
+                        if (response.ok) {
+                            this.withdrawal.details = response._data.data
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async storeRequest () {
             await useInventoryApiO(
-                "/api/bom/resource",
+                "/api/material-withdrawal/resource",
                 {
                     method: "POST",
-                    body: this.bomRequest.formDepartment,
+                    body: {
+                        ...this.withdrawal.form,
+                        details: this.withdrawal.details, // Include details
+                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -181,58 +251,15 @@ export const useBOMStore = defineStore("BOMStore", {
         },
         async getOne (id: number) {
             return await useInventoryApiO(
-                "/api/bom/resource/" + id,
+                "/api/material-withdrawal/resource/" + id,
                 {
                     method: "GET",
-                    params: this.bomRequest.bomDetails.params,
+                    params: this.withdrawal.params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.bomRequest.bomDetails.list = response._data.data
+                            this.withdrawal.details = response._data.data
                             return response._data.data
                         } else {
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getCurrentBOM () {
-            await useInventoryApi(
-                "/api/bom/current",
-                {
-                    method: "GET",
-                    params: this.currentBom.params,
-                    watch: false,
-                    onRequest: () => {
-                        this.currentBom.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.currentBom.isLoading = false
-                        if (response.ok) {
-                            this.currentBom.isLoaded = true
-                            this.currentBom.list = response._data.data.details
-                            this.currentBom.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
-                            }
-                        } else {
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getMyApprovalRequests () {
-            await useInventoryApi(
-                "/api/bom/my-approvals",
-                {
-                    method: "GET",
-                    onResponse: ({ response }) => {
-                        if (response.ok) {
-                            this.myApprovals.list = response._data.data
-                        } else {
-                            this.errorMessage = response._data.message
                             throw new Error(response._data.message)
                         }
                     },
@@ -243,7 +270,7 @@ export const useBOMStore = defineStore("BOMStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useInventoryApi(
-                "/api/approvals/approve/RequestBOM/" + id,
+                "/api/approvals/approve/Withdrawal/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -266,7 +293,7 @@ export const useBOMStore = defineStore("BOMStore", {
             formData.append("id", id)
             formData.append("remarks", this.remarks)
             await useInventoryApi(
-                "/api/approvals/disapprove/RequestBOM/" + id,
+                "/api/approvals/disapprove/Withdrawal/" + id,
                 {
                     method: "POST",
                     body: formData,
@@ -283,8 +310,88 @@ export const useBOMStore = defineStore("BOMStore", {
                 }
             )
         },
+        async acceptAllItem (id: number, data: { remarks: string }) {
+            this.errorMessage = ""
+            this.successMessage = ""
+
+            await useInventoryApi(
+                `/api/material-withdrawal/item/${id}/accept-all`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify(data),
+                    watch: false,
+                    onRequest: () => {
+                        this.items.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async acceptQtyRemarks (id: number, data: { acceptedQty: number, remarks: string }) {
+            this.errorMessage = ""
+            this.successMessage = ""
+
+            await useInventoryApi(
+                `/api/material-withdrawal/item/${id}/accept-with-details`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify(data),
+                    watch: false,
+                    onRequest: () => {
+                        this.items.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async rejectItem (id: number, data: { remarks: string }) {
+            this.errorMessage = ""
+            this.successMessage = ""
+
+            await useInventoryApi(
+                `/api/material-withdrawal/item/${id}/reject`,
+                {
+                    method: "PATCH",
+                    body: JSON.stringify(data),
+                    watch: false,
+                    onRequest: () => {
+                        this.items.isLoading = true
+                    },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+
+        clearMessages () {
+            this.errorMessage = ""
+            this.successMessage = ""
+        },
         reloadResources () {
-            const backup = this.bomRequest.formDepartment.approvals
+            const backup = this.approvalList.list
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
@@ -296,7 +403,7 @@ export const useBOMStore = defineStore("BOMStore", {
                 callFunctions.push(this.getMyApprovals)
             }
             this.$reset()
-            this.bomRequest.formDepartment.approvals = backup
+            this.approvalList.list = backup
             callFunctions.forEach((element) => {
                 element()
             })

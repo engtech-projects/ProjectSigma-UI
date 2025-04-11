@@ -1,9 +1,9 @@
 <script setup>
 import { useRoute } from "vue-router"
-import { useReceivingStore } from "@/stores/inventory/receiving"
+import { useWithdrawalStore } from "@/stores/inventory/withdrawal"
 const route = useRoute()
-const mainStore = useReceivingStore()
-const { receiving } = storeToRefs(mainStore)
+const mainStore = useWithdrawalStore()
+const { withdrawal } = storeToRefs(mainStore)
 const validKey = ref(false)
 
 if (route.query.key) {
@@ -17,14 +17,14 @@ if (route.query.key) {
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_GROUP,
+            AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_GROUP,
         ])"
     >
         <LayoutBoards title="MATERIALS RECEIVING REPORT" class="w-full" :loading="receiving.isLoading">
             <template v-if="validKey">
-                <InventoryReceivingDetails
+                <InventoryWithdrawalDetails
                     id="listTable"
-                    :datas="receiving.details"
+                    :datas="withdrawal.details"
                 />
             </template>
             <template v-else>

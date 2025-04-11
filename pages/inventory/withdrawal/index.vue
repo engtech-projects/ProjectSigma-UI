@@ -1,52 +1,56 @@
 <script lang="ts" setup>
-import { useRequestStockStore } from "~/stores/inventory/requeststock"
-const mainStore = useRequestStockStore()
-const { requestStock } = storeToRefs(mainStore)
+import { useWithdrawalStore } from "~/stores/inventory/withdrawal"
+const mainStore = useWithdrawalStore()
+const { withdrawal } = storeToRefs(mainStore)
 useHead({
-    title: "Request Stocks",
+    title: "Withdrawal",
 })
 </script>
 <template>
     <LayoutAcessContainer
-        :if-access="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_group,
+        :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_GROUP,
         ])"
         class="w-full"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_forms_and_my_requests])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_FORMSANDMYREQUESTS])"
                     target-id="Form"
-                    title="Request Stocks FORM"
+                    title="Withdrawal Form"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_all_request])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_ALLREQUEST])"
                     target-id="allRequest"
                     title="All Request"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_my_approvals])"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_MYAPPROVALS,
+                    ])"
                     target-id="myApprovals"
                     title="My Approvals"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_forms_and_my_requests])"
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_FORMSANDMYREQUESTS,
+                    ])"
                     target-id="myRequests"
                     title="My Request"
                 />
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="Form">
-                    <InventoryRequestStockForm v-model="requestStock.form" />
+                    <InventoryWithdrawalForm v-model="withdrawal.form" />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="allRequest">
-                    <InventoryRequestStockRequestAllRequests />
+                    <InventoryWithdrawalRequestAllRequests />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myApprovals">
-                    <InventoryRequestStockRequestMyApprovals />
+                    <InventoryWithdrawalRequestMyApprovals />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myRequests">
-                    <InventoryRequestStockRequestMyRequests />
+                    <InventoryWithdrawalRequestMyRequests />
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>

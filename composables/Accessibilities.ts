@@ -23,7 +23,9 @@ export enum AccessibilityTypes {
     hrms_reports_philhealthremittancesummary = "hrms:reports_philhealth remittance summary",
     hrms_reports_loanreports = "hrms:reports_loan reports",
     hrms_reports_administrativereports = "hrms:reports_administrative reports",
+    hrms_reports_portalmonitoring_group = "hrms:reports_portal monitoring_",
     hrms_reports_portalmonitoring_overtimemonitoring = "hrms:reports_portal monitoring_overtime monitoring",
+    hrms_reports_portalmonitoring_salarymonitoring = "hrms:reports_portal monitoring_salary monitoring",
     // ATTENDANCE
     hrms_attendance_group = "hrms:attendance_",
     hrms_attendance_attendance_portal = "hrms:attendance_attendance portal",
@@ -248,7 +250,9 @@ export enum AccessibilityTypes {
     project_monitoring_group = "project monitoring:",
     project_monitoring_dashboard = "project monitoring:dashboard",
     project_monitoring_projects = "project monitoring:projects",
-
+    PROJECTMONITORING_MARKETING = "project monitoring:marketing",
+    PROJECTMONITORING_TSS = "project monitoring:tss",
+    PROJECTMONITORING_SETUP = "project monitoring:setup"
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
     allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS

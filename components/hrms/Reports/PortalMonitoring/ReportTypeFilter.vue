@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import { useGenerateReportStore, OVERTIME_MONITORING } from "@/stores/hrms/reports/generateReport"
+import {
+    useGenerateReportStore,
+    OVERTIME_MONITORING,
+    SALARY_MONITORING
+} from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
 const compId = useId()
@@ -19,6 +23,9 @@ const clearList = () => {
         >
             <option :value="OVERTIME_MONITORING">
                 Overtime Monitoring
+            </option>
+            <option :value="SALARY_MONITORING">
+                Salary Monitoring
             </option>
         </select>
     </div>
