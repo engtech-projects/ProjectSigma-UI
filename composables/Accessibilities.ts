@@ -178,7 +178,7 @@ export enum AccessibilityTypes {
     INVENTORY_WAREHOUSE_WITHDRAWAL_ALLREQUEST = "inventory:warehouse_withdrawal_all requests",
     INVENTORY_WAREHOUSE_WITHDRAWAL_MYAPPROVALS = "inventory:warehouse_withdrawal_my approvals",
     INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_GROUP = "inventory:warehouse_materials receiving_",
-    INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_FORMSANDMYREQUESTS = "inventory:warehouse_materials receiving_form and my requests",
+    INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_REQUESTPROCESSING = "inventory:warehouse_materials receiving_request processing",
     INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_ALLREQUEST = "inventory:warehouse_materials receiving_all requests",
 
     // ACCOUNTING SETUP
