@@ -176,13 +176,6 @@ export enum AccessibilityTypes {
     INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_GROUP = "inventory:warehouse_materials receiving_",
     INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_FORMSANDMYREQUESTS = "inventory:warehouse_materials receiving_form and my requests",
     INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_ALLREQUEST = "inventory:warehouse_materials receiving_all requests",
-    inventory_materials_receiving_group = "inventory:materials receiving_",
-    inventory_materials_receiving_forms_and_my_requests = "inventory:materials receiving_form and my requests",
-    inventory_materials_receiving_all_request = "inventory:materials receiving_all requests",
-    inventory_withdrawal_group = "inventory:withdrawal_",
-    inventory_withdrawal_forms_and_my_requests = "inventory:withdrawal_form and my requests",
-    inventory_withdrawal_all_request = "inventory:withdrawal_all requests",
-    inventory_withdrawal_my_approvals = "inventory:withdrawal_my approvals",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",
