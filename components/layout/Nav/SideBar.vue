@@ -616,6 +616,14 @@ const config = useRuntimeConfig()
                     icon="grommet-icons:overview"
                     single-nav-title="Suppliers"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.inventory_procurement_price_quotation_group,
+                    ])"
+                    linkarea="/inventory/request-pricequotation"
+                    icon="grommet-icons:overview"
+                    single-nav-title=" Price Quotation"
+                />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
 
