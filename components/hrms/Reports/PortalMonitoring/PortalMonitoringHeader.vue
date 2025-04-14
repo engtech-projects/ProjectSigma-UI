@@ -15,9 +15,15 @@ const compId = useId()
         </div>
         <div class="flex flex-row gap-4">
             <HrmsReportsPortalMonitoringAllDepartmentProjectSelector
+                v-show="portalMonitoringReports.params.report_type === OVERTIME_MONITORING"
                 v-model:select-type="portalMonitoringReports.params.group_type"
                 v-model:department-id="portalMonitoringReports.params.department_id"
                 v-model:project-id="portalMonitoringReports.params.project_id"
+                title="Category:"
+            />
+            <HrmsReportsPortalMonitoringDepartmentProjectSelector
+                v-show="portalMonitoringReports.params.report_type === SALARY_MONITORING"
+                v-model:select-type="portalMonitoringReports.params.group_type"
                 title="Category:"
             />
             <HrmsReportsPortalMonitoringDateFilter

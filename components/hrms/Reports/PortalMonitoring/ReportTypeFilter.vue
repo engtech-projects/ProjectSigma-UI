@@ -21,10 +21,15 @@ const clearList = () => {
             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             @change="clearList"
         >
-            <option :value="OVERTIME_MONITORING">
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_overtimemonitoring])"
+                :value="OVERTIME_MONITORING"
+            >
                 Overtime Monitoring
             </option>
-            <option :value="SALARY_MONITORING">
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_salarymonitoring])"
+                :value="SALARY_MONITORING">
                 Salary Monitoring
             </option>
         </select>
