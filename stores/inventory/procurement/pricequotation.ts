@@ -159,14 +159,14 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                 "/api/request-price-quotation/resource",
                 {
                     method: "GET",
-                    params: this.pricequotation.params,
+                    params: this.priceQuotation.params,
                     onRequest: () => {
-                        this.pricequotation.isLoading = true
+                        this.priceQuotation.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.pricequotation.isLoading = false
+                        this.priceQuotation.isLoading = false
                         if (response.ok) {
-                            this.pricequotation.list = response._data.data
+                            this.priceQuotation.list = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -182,12 +182,12 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                     method: "GET",
                     watch: false,
                     onRequest: () => {
-                        this.pricequotation.isLoading = true
+                        this.priceQuotation.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.pricequotation.isLoading = false
+                        this.priceQuotation.isLoading = false
                         if (response.ok) {
-                            this.pricequotation.details = response._data.data
+                            this.priceQuotation.details = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -203,12 +203,12 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                     method: "GET",
                     watch: false,
                     onRequest: () => {
-                        this.pricequotation.isLoading = true
+                        this.priceQuotation.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.pricequotation.isLoading = false
+                        this.priceQuotation.isLoading = false
                         if (response.ok) {
-                            this.pricequotation.details = response._data.data
+                            this.priceQuotation.details = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -223,8 +223,8 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                 {
                     method: "POST",
                     body: {
-                        ...this.pricequotation.form,
-                        details: this.pricequotation.details, // Include details
+                        ...this.priceQuotation.form,
+                        details: this.priceQuotation.details, // Include details
                     },
                     watch: false,
                     onResponse: ({ response }) => {
@@ -244,10 +244,10 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                 "/api/request-price-quotation/resource/" + id,
                 {
                     method: "GET",
-                    params: this.pricequotation.params,
+                    params: this.priceQuotation.params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.pricequotation.details = response._data.data
+                            this.priceQuotation.details = response._data.data
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)
