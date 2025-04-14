@@ -54,37 +54,37 @@ const headers = [
                                         {{ request.project_identifier }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ request.pay_basic }}
+                                        {{ useFormatCurrency(request.pay_basic) }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ request.number_of_personnel_basic_pay }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ request.pay_overtime }}
+                                        {{ useFormatCurrency(request.pay_overtime) }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ request.number_of_personnel_overtime_pay }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ request.pay_sunday }}
+                                        {{ useFormatCurrency(request.pay_sunday) }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ request.number_of_personnel_sunday_pay }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ request.pay_allowance }}
+                                        {{ useFormatCurrency(request.pay_allowance) }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ request.number_of_personnel_allowance_pay }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ request.pay_regular_holiday_pay }}
+                                        {{ useFormatCurrency(request.pay_regular_holiday_pay) }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ request.number_of_personnel_regular_holiday_pay }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ request.pay_special_holiday }}
+                                        {{ useFormatCurrency(request.pay_special_holiday) }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ request.number_of_personnel_special_holiday }}
@@ -99,27 +99,27 @@ const headers = [
                                     <td />
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        {{ getTotalSalaryListReport?.total_pay_basic }}
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_basic) }}
                                     </td>
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        {{ getTotalSalaryListReport?.total_pay_overtime }}
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_overtime) }}
                                     </td>
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        {{ getTotalSalaryListReport?.total_pay_sunday }}
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_sunday) }}
                                     </td>
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        {{ getTotalSalaryListReport?.total_pay_allowance }}
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_allowance) }}
                                     </td>
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        {{ getTotalSalaryListReport?.total_pay_specialholiday }}
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_specialholiday) }}
                                     </td>
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        {{ getTotalSalaryListReport?.total_pay_regularholiday }}
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_regularholiday) }}
                                     </td>
                                     <td />
                                 </tr>
@@ -128,7 +128,7 @@ const headers = [
                                         Grand Total Amount
                                     </td>
                                     <td colspan="14" class="border border-gray-500 h-8 text-right p-1">
-                                        {{ getTotalSalaryListReport?.total }}
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total) }}
                                     </td>
                                 </tr>
                             </tfoot>

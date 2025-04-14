@@ -342,13 +342,9 @@ export const useGenerateReportStore = defineStore("GenerateReport", {
                     "pay_special_holiday"
                 ]
                 fields.forEach((field) => {
-                    totalSalaryList[`total_${field.replace("_pay", "")}`] = Math.round(
-                        this.portalMonitoringReports.list.reduce((sum, item) => sum + (item[field] || 0), 0)
-                    ).toFixed(2)
+                    totalSalaryList[`total_${field.replace("_pay", "")}`] = this.portalMonitoringReports.list.reduce((sum, item) => sum + (item[field] || 0), 0)
                 })
-                totalSalaryList.total = Math.round(
-                    fields.reduce((sum, field) => sum + Number(totalSalaryList[`total_${field.replace("_pay", "")}`]), 0)
-                ).toFixed(2)
+                totalSalaryList.total = fields.reduce((sum, field) => sum + Number(totalSalaryList[`total_${field.replace("_pay", "")}`]), 0)
                 return totalSalaryList
             }
         },
