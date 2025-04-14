@@ -575,16 +575,10 @@ const config = useRuntimeConfig()
                     single-nav-title="Overview"
                 />
                 <LayoutNavSingle
-                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_GROUP])"
-                    linkarea="/inventory/material-receiving"
-                    icon="material-symbols-light:add-home-work-outline"
-                    single-nav-title="Materials Receiving"
-                />
-                <LayoutNavSingle
-                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_GROUP])"
-                    linkarea="/inventory/withdrawal"
-                    icon="material-symbols-light:shopping-cart-checkout-sharp"
-                    single-nav-title="Withdrawal"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP])"
+                    linkarea="/inventory/stock-transfer"
+                    icon="mingcute:transfer-horizontal-line"
+                    single-nav-title="Stock Transfer"
                 />
             </LayoutNavGroup>
             <LayoutNavSingle
@@ -600,12 +594,6 @@ const config = useRuntimeConfig()
                 linkarea="/inventory/request-stocks"
                 icon="material-symbols-light:shopping-cart-checkout-sharp"
                 single-nav-title="Request Stocks"
-            />
-            <LayoutNavSingle
-                v-if="useCheckAccessibility([AccessibilityTypes.inventory_materials_receiving_group])"
-                linkarea="/inventory/material-receiving"
-                icon="material-symbols-light:add-home-work-outline"
-                single-nav-title="Materials Receiving"
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
