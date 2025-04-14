@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 const mainStore = usePriceQuotationStore()
-const { pricequotation } = storeToRefs(mainStore)
+const { priceQuotation } = storeToRefs(mainStore)
 useHead({
     title: "Price Quotation",
 })
@@ -41,7 +41,7 @@ useHead({
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="Form">
-                    <InventoryPriceQuotationForm v-model="pricequotation.form" />
+                    <InventoryPriceQuotationForm v-model="priceQuotation.form" />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="allRequest">
                     <InventoryPriceQuotationRequestAllRequests />

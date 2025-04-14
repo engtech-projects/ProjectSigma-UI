@@ -32,7 +32,7 @@ export interface PriceQuotationItems {
 
 export const usePriceQuotationStore = defineStore("priceQuotationStore", {
     state: () => ({
-        pricequotation: {
+        priceQuotation: {
             isLoading: false,
             isLoaded: false,
             form: {} as PriceQuotationDetails,
@@ -80,7 +80,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
     actions: {
         async getAllRequests () {
             await useInventoryApi(
-                "/api/request-pricequotation/all-request",
+                "/api/request-price-quotation/all-request",
                 {
                     method: "GET",
                     params: this.allRequests.params,
@@ -104,7 +104,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
         },
         async getMyRequests () {
             await useInventoryApi(
-                "/api/request-pricequotation/my-request",
+                "/api/request-price-quotation/my-request",
                 {
                     method: "GET",
                     params: this.myRequests.params,
@@ -130,7 +130,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
         },
         async getMyApprovals () {
             await useInventoryApi(
-                "/api/request-pricequotation/my-approvals",
+                "/api/request-price-quotation/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
@@ -156,7 +156,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
         },
         async fetchQuotationqs () {
             await useInventoryApi(
-                "/api/request-pricequotation/resource",
+                "/api/request-price-quotation/resource",
                 {
                     method: "GET",
                     params: this.pricequotation.params,
@@ -177,7 +177,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
         },
         async fetchPriceQuotationDetails (id: any) {
             await useInventoryApi(
-                "/api/request-pricequotation/resource/" + id,
+                "/api/request-price-quotation/resource/" + id,
                 {
                     method: "GET",
                     watch: false,
@@ -198,7 +198,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
         },
         async fetchPriceQuotationByWarehouseId (id: any) {
             await useInventoryApi(
-                "/api/request-pricequotation/warehouse/" + id,
+                "/api/request-price-quotation/warehouse/" + id,
                 {
                     method: "GET",
                     watch: false,
@@ -219,7 +219,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
         },
         async storeRequest () {
             await useInventoryApiO(
-                "/api/request-pricequotation/resource",
+                "/api/request-price-quotation/resource",
                 {
                     method: "POST",
                     body: {
@@ -241,7 +241,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
         },
         async getOne (id: number) {
             return await useInventoryApiO(
-                "/api/request-pricequotation/resource/" + id,
+                "/api/request-price-quotation/resource/" + id,
                 {
                     method: "GET",
                     params: this.pricequotation.params,
@@ -305,7 +305,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
             this.successMessage = ""
 
             await useInventoryApi(
-                `/api/request-pricequotation/item/${id}/accept-all`,
+                `/api/request-price-quotation/item/${id}/accept-all`,
                 {
                     method: "PATCH",
                     body: JSON.stringify(data),
@@ -330,7 +330,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
             this.successMessage = ""
 
             await useInventoryApi(
-                `/api/request-pricequotation/item/${id}/accept-with-details`,
+                `/api/request-price-quotation/item/${id}/accept-with-details`,
                 {
                     method: "PATCH",
                     body: JSON.stringify(data),
@@ -355,7 +355,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
             this.successMessage = ""
 
             await useInventoryApi(
-                `/api/request-pricequotation/item/${id}/reject`,
+                `/api/request-price-quotation/item/${id}/reject`,
                 {
                     method: "PATCH",
                     body: JSON.stringify(data),

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { useReceivingStore } from "@/stores/inventory/receiving"
+import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 
 interface HeaderColumn {
     name: string,
@@ -22,100 +22,12 @@ const props = defineProps({
     },
 })
 
-const isDisabled = ref(false)
-const main = useReceivingStore()
-const snackbar = useSnackbar()
-const { receiving, remarks } = storeToRefs(main)
+const main = usePriceQuotationStore()
+// const snackbar = useSnackbar()
+const { priceQuotation } = storeToRefs(main)
 const utils = useUtilities()
 
 const reactiveData = computed(() => props.data)
-
-const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
-    try {
-        await main.acceptAllItem(requestId, { remarks })
-        if (main.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: main.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: main.successMessage
-            })
-            main.$reset()
-            main.fetchReceivingDetails(props.data.id)
-            isDisabled.value = true
-        }
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    }
-}
-const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestId: number, acceptedQty: number, remarks: string }) => {
-    if (remarks === "") {
-        snackbar.add({
-            type: "error",
-            text: "Quantity & Remarks are required."
-        })
-        return
-    }
-    try {
-        await main.acceptQtyRemarks(requestId, { accepted_qty: acceptedQty, remarks })
-        if (main.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: main.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: main.successMessage
-            })
-            main.$reset()
-            await main.fetchReceivingDetails(props.data.id)
-            isDisabled.value = true
-        }
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    }
-}
-const rejectRequest = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
-    if (remarks.trim() === "") {
-        snackbar.add({
-            type: "error",
-            text: "Remarks are required."
-        })
-        return
-    }
-    try {
-        await main.rejectItem(requestId, { remarks: remarks.trim() })
-        if (main.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: main.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: main.successMessage
-            })
-            main.$reset()
-            await main.fetchReceivingDetails(props.data.id)
-            isDisabled.value = true
-        }
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    }
-}
 
 </script>
 <template>
@@ -136,28 +48,28 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                             <div class="flex justify-start p-2">
                                 <div class="grid grid-cols-2">
                                     <p class="text-md font-bold">
-                                        Supplier:
+                                        Date:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data?.supplier?.company_name || '' }}
+                                        {{ data.date || '' }}
                                     </p>
                                     <p class="text-md font-bold">
-                                        Reference:
+                                        Supplier Name:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.reference_code }}
+                                        {{ data.supplier_name }}
                                     </p>
                                     <p class="text-md font-bold">
-                                        Terms of Payment:
+                                        Address:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.terms_of_payment }}
+                                        {{ data.address }}
                                     </p>
                                     <p class="text-md font-bold">
-                                        Particulars:
+                                        Contact Person:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.particulars }}
+                                        {{ data.contact_person }}
                                     </p>
                                 </div>
                             </div>
@@ -166,34 +78,22 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                             <div class="flex justify-around p-2">
                                 <div class="grid grid-cols-2">
                                     <p class="text-md font-bold">
-                                        Reference Number:
+                                        Quotation Number:
                                     </p>
                                     <p class="text-md font-bold underline indent-2">
-                                        {{ data.reference_no }}
+                                        {{ data.quotation_no }}
                                     </p>
                                     <p class="text-md font-bold">
-                                        Transaction Date:
+                                        Conso Reference No.:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.transaction_date }}
+                                        {{ data.conso_reference_no }}
                                     </p>
                                     <p class="text-md font-bold">
-                                        Project Code:
+                                        Contact Number:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data?.project?.project_code }}
-                                    </p>
-                                    <p class="text-md font-bold">
-                                        Equipment No.:
-                                    </p>
-                                    <p class="text-md underline indent-2">
-                                        {{ data.equipment_no }}
-                                    </p>
-                                    <p class="text-md font-bold">
-                                        Source PO:
-                                    </p>
-                                    <p class="text-md underline indent-2">
-                                        {{ data.source_po }}
+                                        {{ data?.contact_no }}
                                     </p>
                                 </div>
                             </div>
@@ -201,7 +101,7 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                     </div>
                 </div>
 
-                <LayoutLoadingContainer class="w-full" :loading="receiving.isLoading">
+                <LayoutLoadingContainer class="w-full" :loading="priceQuotation.isLoading">
                     <div id="itemDetails">
                         <div id="content" class="overflow-auto">
                             <table class="table-auto w-full border-collapse">
@@ -215,94 +115,31 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                 <tbody>
                                     <tr v-for="item in reactiveData.items" :key="item.id" class="bg-white border-b">
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item_code }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
-                                            {{ item.item_profile }}
+                                            {{ item.item_id }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.specification }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.actual_brand }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
                                             {{ item.qty }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.accepted_qty }}
+                                            {{ item.unit }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.uom }}
+                                            {{ item.preferred_brand }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(item.unit_price) }}
+                                            {{ item.actual_brand }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(item.unit_price) }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
-                                            <template v-if="item.status === 'Rejected'">
-                                                <div class="flex justify-center relative group">
-                                                    <Icon name="mdi:close-circle" class="h-8 w-8 text-red-700" />
-                                                    <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
-                                                        Rejected
-                                                    </div>
-                                                </div>
-                                            </template>
-                                            <template v-else-if="item.status === 'Accepted'">
-                                                <div class="flex justify-center relative group">
-                                                    <Icon name="mdi:check-circle" class="h-8 w-8 text-green-700" />
-                                                    <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
-                                                        Accepted
-                                                    </div>
-                                                </div>
-                                            </template>
+                                            {{ item.unit_price }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.remarks }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            <InventoryCommonAcceptRejectButton
-                                                v-model:accept-remarks="remarks"
-                                                v-model:reject-remarks="remarks"
-                                                v-model:accepted-qty="acceptedQty"
-                                                :max-quantity="item.qty"
-                                                :request-id="item.id"
-                                                :disabled="!!item.remarks"
-                                                :class="{
-                                                    'opacity-60 cursor-not-allowed pointer-events-none': !!item.remarks
-                                                }"
-                                                @accept-all="acceptAll"
-                                                @accept="acceptWithDetails"
-                                                @reject="rejectRequest"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr class="border">
-                                        <td colspan="10">
-                                            <div class="flex justify-end p-2 py-2">
-                                                <div class="grid grid-cols-2 gap-2">
-                                                    <p v-if="title" class="text-md text-gray-900">
-                                                        <strong>Total net of VAT cost:</strong>
-                                                    </p>
-                                                    <p v-if="title" class="text-md text-gray-900">
-                                                        {{ utils.formatCurrency(reactiveData.total_net_of_vat_cost) }}
-                                                    </p>
-                                                    <p v-if="title" class="text-md text-gray-900">
-                                                        <strong>Total Input VAT:</strong>
-                                                    </p>
-                                                    <p v-if="title" class="text-md text-gray-900">
-                                                        {{ utils.formatCurrency(reactiveData.total_input_vat) }}
-                                                    </p>
-                                                    <p v-if="title" class="text-md text-gray-900">
-                                                        <strong> Grand Total:</strong>
-                                                    </p>
-                                                    <p v-if="title" class="text-md text-gray-900">
-                                                        {{ `₱${utils.formatCurrency(reactiveData.grand_total)}` }}
-                                                    </p>
-                                                </div>
-                                            </div>
+                                            {{ utils.formatCurrency(item.unit_price) }}
                                         </td>
                                     </tr>
                                 </tbody>

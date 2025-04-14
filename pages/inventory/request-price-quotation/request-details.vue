@@ -2,7 +2,7 @@
 import { useRoute } from "vue-router"
 import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 const mainStore = usePriceQuotationStore()
-const { pricequotation } = storeToRefs(mainStore)
+const { priceQuotation } = storeToRefs(mainStore)
 const route = useRoute()
 const validKey = ref(false)
 if (route.query.key) {
@@ -36,7 +36,7 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <InventoryPriceQuotationDetails title="Request Details" :data="pricequotation.details" :header-columns="headers" />
+            <InventoryPriceQuotationDetails title="Request Details" :data="priceQuotation.details" :header-columns="headers" />
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">

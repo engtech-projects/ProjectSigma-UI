@@ -1,8 +1,8 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { useWithdrawalStore } from "@/stores/inventory/withdrawal"
+import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 
-const mainStore = useWithdrawalStore()
+const mainStore = usePriceQuotationStore()
 const { allRequests } = storeToRefs(mainStore)
 onMounted(() => {
     if (!allRequests.isLoaded) {
@@ -22,7 +22,7 @@ const actions = {
 }
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/withdrawal/request-details",
+        path: "/inventory/request-price-quotation/request-details",
         query: {
             key: data.id
         },

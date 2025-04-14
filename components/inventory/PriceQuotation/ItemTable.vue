@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 const mainStore = usePriceQuotationStore()
-const { pricequotation } = storeToRefs(mainStore)
+const { priceQuotation } = storeToRefs(mainStore)
 interface HeaderColumn {
     name: string,
     id: string,
@@ -17,7 +17,7 @@ defineProps({
     },
 })
 const addItem = () => {
-    pricequotation.value.items.push(
+    priceQuotation.value.items.push(
         {
             item_id: "",
             specification: "",
@@ -31,7 +31,7 @@ const addItem = () => {
     )
 }
 const removeItem = (id: number) => {
-    pricequotation.value.items.splice(id, 1)
+    priceQuotation.value.items.splice(id, 1)
 }
 </script>
 <template>
@@ -61,9 +61,9 @@ const removeItem = (id: number) => {
                                 </button>
                             </td>
                         </tr>
-                        <template v-for="(item, index) in pricequotation.items" :key="index">
+                        <template v-for="(item, index) in priceQuotation.items" :key="index">
                             <InventoryPriceQuotationItemAppend
-                                v-model:item="pricequotation.items[index]"
+                                v-model:item="priceQuotation.items[index]"
                                 :index="index"
                                 @remove-item="removeItem"
                             />

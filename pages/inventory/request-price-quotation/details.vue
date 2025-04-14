@@ -3,7 +3,7 @@ import { useRoute } from "vue-router"
 import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 const route = useRoute()
 const mainStore = usePriceQuotationStore()
-const { pricequotation } = storeToRefs(mainStore)
+const { priceQuotation } = storeToRefs(mainStore)
 const validKey = ref(false)
 
 if (route.query.key) {
@@ -20,11 +20,11 @@ if (route.query.key) {
             AccessibilityTypes.INVENTORY_PROCUREMENT_REQUEST_PRICE_QUOTATION_GROUP,
         ])"
     >
-        <LayoutBoards title="REQUEST FOR PRICE QUOTATION" class="w-full" :loading="pricequotation.isLoading">
+        <LayoutBoards title="REQUEST FOR PRICE QUOTATION" class="w-full" :loading="priceQuotation.isLoading">
             <template v-if="validKey">
                 <InventoryPriceQuotationDetails
                     id="listTable"
-                    :datas="pricequotation.details"
+                    :datas="priceQuotation.details"
                 />
             </template>
             <template v-else>
