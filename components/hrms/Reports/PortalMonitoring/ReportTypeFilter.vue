@@ -29,14 +29,15 @@ const clearList = () => {
                 Overtime Monitoring
             </option>
             <option
-                v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_overtimemonitoringsummary]) || useCheckAccessibility(['AdminOnly'])"
+                v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_overtimemonitoringsummary])"
                 :value="OVERTIME_MONITORING_SUMMARY"
             >
                 Overtime Monitoring Summary
             </option>
             <option
                 v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_salarymonitoring])"
-                :value="SALARY_MONITORING">
+                :value="SALARY_MONITORING"
+            >
                 Salary Monitoring
             </option>
         </select>
