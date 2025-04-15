@@ -2,7 +2,8 @@
 import {
     useGenerateReportStore,
     OVERTIME_MONITORING,
-    SALARY_MONITORING
+    SALARY_MONITORING,
+    OVERTIME_MONITORING_SUMMARY
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -15,7 +16,7 @@ const compId = useId()
         </div>
         <div class="flex flex-row gap-4">
             <HrmsReportsPortalMonitoringAllDepartmentProjectSelector
-                v-show="portalMonitoringReports.params.report_type === OVERTIME_MONITORING"
+                v-show="portalMonitoringReports.params.report_type === OVERTIME_MONITORING || portalMonitoringReports.params.report_type === OVERTIME_MONITORING_SUMMARY"
                 v-model:select-type="portalMonitoringReports.params.group_type"
                 v-model:department-id="portalMonitoringReports.params.department_id"
                 v-model:project-id="portalMonitoringReports.params.project_id"
@@ -27,7 +28,7 @@ const compId = useId()
                 title="Category:"
             />
             <HrmsReportsPortalMonitoringDateFilter
-                v-show="portalMonitoringReports.params.report_type === OVERTIME_MONITORING"
+                v-show="portalMonitoringReports.params.report_type === OVERTIME_MONITORING || portalMonitoringReports.params.report_type === OVERTIME_MONITORING_SUMMARY"
                 v-model:date-from="portalMonitoringReports.params.date_from"
                 v-model:date-to="portalMonitoringReports.params.date_to"
                 title="Date Filter"
