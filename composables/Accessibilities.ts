@@ -25,6 +25,7 @@ export enum AccessibilityTypes {
     hrms_reports_administrativereports = "hrms:reports_administrative reports",
     hrms_reports_portalmonitoring_group = "hrms:reports_portal monitoring_",
     hrms_reports_portalmonitoring_overtimemonitoring = "hrms:reports_portal monitoring_overtime monitoring",
+    hrms_reports_portalmonitoring_overtimemonitoringsummary = "hrms:reports_portal monitoring_overtime monitoring summary",
     hrms_reports_portalmonitoring_salarymonitoring = "hrms:reports_portal monitoring_salary monitoring",
     // ATTENDANCE
     hrms_attendance_group = "hrms:attendance_",

@@ -2,7 +2,8 @@
 import {
     useGenerateReportStore,
     OVERTIME_MONITORING,
-    SALARY_MONITORING
+    SALARY_MONITORING,
+    OVERTIME_MONITORING_SUMMARY
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -28,8 +29,15 @@ const clearList = () => {
                 Overtime Monitoring
             </option>
             <option
+                v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_overtimemonitoringsummary])"
+                :value="OVERTIME_MONITORING_SUMMARY"
+            >
+                Overtime Monitoring Summary
+            </option>
+            <option
                 v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_salarymonitoring])"
-                :value="SALARY_MONITORING">
+                :value="SALARY_MONITORING"
+            >
                 Salary Monitoring
             </option>
         </select>
