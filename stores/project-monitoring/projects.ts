@@ -21,6 +21,7 @@ interface Project {
     license: null | String,
     uuid: null | String,
     designation: null | Number,
+    employee_id: null | Number,
     employees: Array<Employee>
 }
 
@@ -46,6 +47,7 @@ export const useProjectStore = defineStore("projects", {
             ntp_date: null,
             license: null,
             designation: null,
+            employee_id: 809,
             employees: []
         } as Project,
         list: [] as Project[],
