@@ -1,5 +1,6 @@
 import { USER_ADMINISTRATOR } from "@/stores/hrms/setup/users"
 const { data: userData } = useAuth()
+const config = useRuntimeConfig()
 export enum AccessibilityTypes {
     ADMIN_ONLY = "Admin Only Access",
     admin = "AdminOnly",
@@ -275,4 +276,8 @@ export function useCheckAccessibility (allowedAccessibilities: any) {
 
 export function useCheckIsCurrentUser (userId: any) {
     return userData.value?.id === userId || useCheckAccessibility([AccessibilityTypes.SUPERADMIN])
+}
+
+export function useBetaOnly () {
+    return config.public.APP_ENV === "local"
 }
