@@ -2,7 +2,8 @@
 import {
     useGenerateReportStore,
     SALARY_MONITORING,
-    CATEGORY_FILTER_MONITORING_REPORTS
+    CATEGORY_FILTER_MONITORING_REPORTS,
+    DATE_FILTER_MONITORING_REPORTS
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -22,7 +23,7 @@ const compId = useId()
                 title="Category:"
             />
             <HrmsReportsPortalMonitoringDateFilter
-                v-show="CATEGORY_FILTER_MONITORING_REPORTS.includes(portalMonitoringReports.params.report_type ?? '')"
+                v-show="DATE_FILTER_MONITORING_REPORTS.includes(portalMonitoringReports.params.report_type ?? '')"
                 v-model:date-from="portalMonitoringReports.params.date_from"
                 v-model:date-to="portalMonitoringReports.params.date_to"
                 title="Date Filter"
