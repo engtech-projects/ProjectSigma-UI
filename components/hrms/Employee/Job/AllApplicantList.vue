@@ -85,9 +85,9 @@ const applicantDetails = (applic) => {
             <CustomPagination :links="allJobApplicants.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
-    <PsModal v-model:show-modal="applicantDetail" :is-loading="boardLoading" title="APPLICANT DETAILS">
+    <PsModal v-model:show-modal="applicantDetail" title="APPLICANT DETAILS">
         <template #body>
-            <HrmsEmployeeJobApplicantList :applicant="applicantInfo" />
+            <HrmsEmployeeJobApplicantInfoSheet :applicant="applicantInfo" />
         </template>
     </PsModal>
 </template>
