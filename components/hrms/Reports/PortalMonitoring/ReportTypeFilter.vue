@@ -42,7 +42,7 @@ const clearList = () => {
                 Salary Monitoring
             </option>
             <option
-                v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_failuretologmonitoring])"
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_FAILURETOLOGMONITORING])"
                 :value="FAILURE_TO_LOG_MONITORING"
             >
                 Failure To Log Monitoring
