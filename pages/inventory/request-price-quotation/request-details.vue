@@ -16,7 +16,7 @@ if (route.query.key) {
         contact_no: "09123456789",
         quotation_no: "Q-2025-001",
         conso_reference_no: "CRN-2025-01",
-        details: [
+        items: [
             {
                 id: 1,
                 item_id: "Item 1",
@@ -56,8 +56,7 @@ const headers = [
     { name: "Preferred Brand", id: "preferred_brand" },
     { name: "Actual Brand", id: "actual_brand" },
     { name: "Unit Price", id: "unit_price" },
-    { name: "Remarks", id: "remarks" },
-    { name: "Action", id: "" },
+    { name: "Remarks During Canvass", id: "remarks" },
 ]
 
 useHead({
@@ -72,7 +71,8 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <InventoryPriceQuotationDetails title="Request Details" :data="priceQuotation.details" :header-columns="headers" />
+            <InventoryPriceQuotationDetails title="Request For Price Quotation" :data="priceQuotation" :header-columns="headers" />
+            <!-- :data="priceQuotation.details" -->
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">

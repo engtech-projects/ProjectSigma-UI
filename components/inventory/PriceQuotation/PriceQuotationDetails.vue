@@ -37,6 +37,7 @@ const reactiveData = computed(() => props.data)
         <div class="flex flex-col gap-2 w-full p-4">
             <LayoutPrint>
                 <div id="headline mb-4 ">
+                    <PrintTableFormat />
                     <!-- <InventoryCommonEvenparHeader /> -->
                     <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4 mt-4">
                         <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
@@ -133,13 +134,10 @@ const reactiveData = computed(() => props.data)
                                             {{ item.actual_brand }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.unit_price }}
+                                            {{ utils.formatCurrency(item.unit_price) }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.remarks }}
-                                        </td>
-                                        <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(item.unit_price) }}
                                         </td>
                                     </tr>
                                 </tbody>

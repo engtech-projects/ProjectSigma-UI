@@ -39,9 +39,6 @@ useHead({
                 <HrmsCommonTabsTabContainer id="allRequest">
                     <InventoryPriceQuotationRequestAllRequests />
                 </HrmsCommonTabsTabContainer>
-                <HrmsCommonTabsTabContainer id="myApprovals">
-                    <InventoryPriceQuotationRequestMyApprovals />
-                </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myRequests">
                     <InventoryPriceQuotationRequestMyRequests />
                 </HrmsCommonTabsTabContainer>
