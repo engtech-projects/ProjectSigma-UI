@@ -35,6 +35,10 @@ export interface CurrentBom {
     item_id: Number | null,
     uom: Array<any>,
 }
+export interface Supplier {
+    id: number,
+    company_name: string,
+}
 export const useInventoryEnumsStore = defineStore("inventoryEnums", {
     state: () => ({
         test: true,
@@ -67,6 +71,14 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
             params: {} as ItemProfileSearch,
             isLoading: false,
             isLoaded: false,
+            successMessage: "",
+            errorMessage: "",
+        },
+        supplierEnum: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as Supplier[],
+            params: {},
             successMessage: "",
             errorMessage: "",
         },
@@ -128,6 +140,24 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
                         this.itemEnum.isLoading = false
                         if (response.ok) {
                             this.itemEnum.list = response._data.data ?? []
+                        }
+                    },
+                }
+            )
+        },
+        async getSupplierEnums () {
+            this.supplierEnum.isLoaded = true
+            await useInventoryApi(
+                "/api/supplier/list",
+                {
+                    method: "GET",
+                    params: this.supplierEnum.params,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.supplierEnum.list = response._data.data ?? []
                         }
                     },
                 }
