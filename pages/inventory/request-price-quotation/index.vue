@@ -29,7 +29,7 @@ useHead({
                         AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESPRICEQUOTATION_MYREQUESTS,
                     ])"
                     target-id="myRequests"
-                    title="My Price QUotations"
+                    title="My Price Quotations"
                 />
             </template>
             <template #tab-containers>
