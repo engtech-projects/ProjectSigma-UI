@@ -154,7 +154,7 @@ export const usePriceQuotationStore = defineStore("priceQuotationStore", {
                 }
             )
         },
-        async fetchQuotationqs () {
+        async fetchQuotations () {
             await useInventoryApi(
                 "/api/request-price-quotation/resource",
                 {

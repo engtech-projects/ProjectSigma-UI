@@ -11,15 +11,31 @@ onMounted(() => {
 })
 
 const headers = [
-    { name: "Reference No", id: "reference_no" },
-    { name: "Project Code", id: "project.project_code" },
-    { name: "Transaction Date", id: "transaction_date" },
+    { name: "Supplier", id: "supplier_name" },
+    { name: "Quotation Date", id: "date" },
 ]
 const actions = {
     showTable: true,
     edit: false,
     delete: false,
 }
+const dummyData = [
+    {
+        id: 1,
+        supplier_name: "Supplier 1",
+        date: "2022-02-26"
+    },
+    {
+        id: 2,
+        supplier_name: "Supplier 2",
+        date: "2022-02-26"
+    },
+    {
+        id: 3,
+        supplier_name: "Supplier 3",
+        date: "2022-02-26"
+    }
+]
 const showInformation = (data) => {
     navigateTo({
         path: "/inventory/request-price-quotation/request-details",
@@ -39,7 +55,7 @@ const changePaginate = (newParams) => {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="allRequests.list ?? []"
+                :datas="allRequests.list?.length ? allRequests.list : dummyData"
                 @show-table="showInformation"
             />
         </div>

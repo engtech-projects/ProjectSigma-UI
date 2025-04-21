@@ -7,16 +7,52 @@ const route = useRoute()
 const validKey = ref(false)
 if (route.query.key) {
     validKey.value = true
-    await mainStore.getOne(route.query.key)
+    // await mainStore.getOne(route.query.key)
+    priceQuotation.value = {
+        date: "2025-04-16",
+        supplier_name: "Acme Supplies Inc.",
+        address: "123 Sample Street, Cityville",
+        contact_person: "Jane Doe",
+        contact_no: "09123456789",
+        quotation_no: "Q-2025-001",
+        conso_reference_no: "CRN-2025-01",
+        details: [
+            {
+                id: 1,
+                item_id: "Item 1",
+                specification: "Spec 1",
+                qty: 1,
+                unit: "Unit 1",
+                preferred_brand: "Brand A",
+                actual_brand: "Brand A",
+                unit_price: 100,
+                remarks: "Sample remark",
+            },
+            {
+                id: 2,
+                item_id: "Item 2",
+                specification: "Spec 2",
+                qty: 2,
+                unit: "Unit 2",
+                preferred_brand: "Brand B",
+                actual_brand: "Brand B",
+                unit_price: 200,
+                remarks: "Another remark",
+            },
+        ],
+    }
 } else {
     validKey.value = false
+    priceQuotation.value = {
+        details: []
+    }
 }
 
 const headers = [
-    { name: "Item Description", id: "item_profile" },
+    { name: "Item Description", id: "item_id" },
     { name: "Specification", id: "specification" },
     { name: "Quantity", id: "qty" },
-    { name: "UOM", id: "uom" },
+    { name: "UOM", id: "unit" },
     { name: "Preferred Brand", id: "preferred_brand" },
     { name: "Actual Brand", id: "actual_brand" },
     { name: "Unit Price", id: "unit_price" },

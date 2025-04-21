@@ -37,7 +37,7 @@ const reactiveData = computed(() => props.data)
         <div class="flex flex-col gap-2 w-full p-4">
             <LayoutPrint>
                 <div id="headline mb-4 ">
-                    <InventoryCommonEvenparHeader />
+                    <!-- <InventoryCommonEvenparHeader /> -->
                     <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4 mt-4">
                         <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                             {{ title }}
@@ -51,7 +51,7 @@ const reactiveData = computed(() => props.data)
                                         Date:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.date || '' }}
+                                        {{ data.date }}
                                     </p>
                                     <p class="text-md font-bold">
                                         Supplier Name:

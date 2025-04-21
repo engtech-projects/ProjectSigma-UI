@@ -1,15 +1,10 @@
 <script setup>
-import { useWithdrawalStore, APPROVALS } from "@/stores/inventory/withdrawal"
-import { useApprovalStore } from "@/stores/hrms/setup/approvals"
+import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 
-const mainStore = useWithdrawalStore()
-const { approvalList } = storeToRefs(mainStore)
+const mainStore = usePriceQuotationStore()
 // mainStore.fetchQuotations()
 
 const form = defineModel({ required: true, type: Object })
-
-const approvals = useApprovalStore()
-approvalList.value.list = await approvals.getApprovalByName(APPROVALS)
 
 const snackbar = useSnackbar()
 
@@ -46,20 +41,54 @@ const storeWithdrawalForm = async () => {
         })
     }
 }
-const headers = [
-    { name: "ITEM DESCRIPTION", id: "item_id" },
-    { name: "SPECIFICATION", id: "specification" },
+// const headers = [
+//     { name: "ITEM DESCRIPTION", id: "item_id" },
+//     { name: "SPECIFICATION", id: "specification" },
+//     { name: "QTY", id: "qty" },
+//     { name: "UOM", id: "unit" },
+//     { name: "PREFERRED BRAND", id: "preferred_brand" },
+//     { name: "ACTUAL BRAND", id: "actual_brand" },
+//     { name: "UNIT PRICE", id: "unit_price" },
+//     { name: "REMARKS DURING CANVASS", id: "remarks" },
+// ]
+const supplierId = defineModel("supplierId", { required: false, type: Number })
+const rsInfoHeaders = [
     { name: "QTY", id: "qty" },
-    { name: "UOM", id: "unit" },
-    { name: "PREFERRED BRAND", id: "preferred_brand" },
-    { name: "ACTUAL BRAND", id: "actual_brand" },
-    { name: "UNIT PRICE", id: "unit_price" },
-    { name: "REMARKS DURING CANVASS", id: "remarks" },
+    { name: "Unit", id: "unit" },
+    { name: "Item Description", id: "itemDescription" },
+    { name: "Specification", id: "specification" },
+    { name: "Preferred Brand", id: "preferredBrand" },
+    { name: "Reason for Request", id: "reasonForRequest" },
 ]
-const departmentId = defineModel("departmentId", { required: false, type: Number })
+const rsInfo = [
+    {
+        qty: 1,
+        unit: "PCS",
+        itemDescription: "Item 1",
+        specification: "Specification 1",
+        preferredBrand: "Brand 1",
+        reasonForRequest: "Reason 1",
+    },
+    {
+        qty: 2,
+        unit: "BOX",
+        itemDescription: "Item 2",
+        specification: "Specification 2",
+        preferredBrand: "Brand 2",
+        reasonForRequest: "Reason 2",
+    },
+    {
+        qty: 3,
+        unit: "PCS",
+        itemDescription: "Item 3",
+        specification: "Specification 3",
+        preferredBrand: "Brand 3",
+        reasonForRequest: "Reason 3",
+    },
+]
+
 </script>
 <template>
-    <!-- <pre>{{ form }}</pre> -->
     <div class="text-gray-500 p-2">
         <form @submit.prevent="storeWithdrawalForm">
             <div class="flex flex-col gap-4 pt-4 w-full">
@@ -78,7 +107,7 @@ const departmentId = defineModel("departmentId", { required: false, type: Number
                                 <div class="flex flex-row items-center gap-2">
                                     <HrmsCommonSupplierSelector
                                         v-model:select-type="form.requesting"
-                                        v-model:department-id="departmentId"
+                                        v-model:supplier-id="supplierId"
                                         title="Supplier Name"
                                     />
                                 </div>
@@ -97,29 +126,18 @@ const departmentId = defineModel("departmentId", { required: false, type: Number
                         </div>
                     </div>
                     <div class="w-full">
-                        <div class="w-full mt-4 p-4 bg-white rounded-lg shadow-md">
-                            <InventoryPriceQuotationItemTable
-                                :header-columns="headers"
-                                :data-columns="form.items"
-                            />
-                        </div>
+                        <LayoutPsTable
+                            :header-columns="rsInfoHeaders"
+                            :datas="rsInfo ?? []"
+                            class="rounded-md shadow-sm"
+                        />
                     </div>
                     <div class="w-full p-4 bg-white rounded-lg">
                         <p class="text-sm font-medium text-gray-900">
                             Your promptness in giving us the price quotation of the above mentioned items is highly appreciated.
                         </p>
                     </div>
-                    <div class="flex w-full">
-                        <div class="pt-5 w-full mb-2 rounded-lg p-4 bg-slate-100 ">
-                            <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white"> Approval:</label>
-                            <HrmsSetupApprovalsList
-                                v-for="(approv, apr) in approvalList.list"
-                                :key="'hrmsetupapprovallist' + approv"
-                                v-model="approvalList.list[apr]"
-                            />
-                        </div>
-                    </div>
-                    <div class="flex w-full items-center gap-4">
+                    <div class="flex w-full items-center gap-4 no-print">
                         <button
                             type="submit"
                             class=" text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
@@ -132,3 +150,10 @@ const departmentId = defineModel("departmentId", { required: false, type: Number
         </form>
     </div>
 </template>
+<style scoped>
+@media print {
+    .no-print {
+    display: none !important;
+    }
+}
+</style>

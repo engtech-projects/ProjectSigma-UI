@@ -181,9 +181,9 @@ export enum AccessibilityTypes {
     inventory_withdrawal_all_request = "inventory:withdrawal_all requests",
     inventory_withdrawal_my_approvals = "inventory:withdrawal_my approvals",
     INVENTORY_PROCUREMENT_REQUEST_PRICE_QUOTATION_GROUP = "inventory:procurement_request price quotation_",
-    INVENTORY_PROCUREMENT_REQUEST_PRICE_QUOTATION_FORMSANDMYREQUESTS = "inventory:procurement_request price quotation_form and my requests",
-    INVENTORY_PROCUREMENT_REQUEST_PRICE_QUOTATION_ALLREQUEST = "inventory:procurement_request price quotation_all requests",
-    INVENTORY_PROCUREMENT_REQUEST_PRICE_QUOTATION_MYAPPROVALS = "inventory:procurement_request price quotation_my approvals",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS = "inventory:procurement_request price quotation_requests",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLREQUEST = "inventory:procurement_request price quotation_all requests",
+    INVENTORY_PROCUREMENT_REQUESPRICEQUOTATION_MYREQUESTS = "inventory:procurement_request price quotation_my approvals",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",

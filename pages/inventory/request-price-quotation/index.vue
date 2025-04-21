@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
-const mainStore = usePriceQuotationStore()
-const { priceQuotation } = storeToRefs(mainStore)
+// import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
+// const mainStore = usePriceQuotationStore()
+// const { priceQuotation } = storeToRefs(mainStore)
 useHead({
     title: "Price Quotation",
 })
@@ -15,33 +15,26 @@ useHead({
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUEST_PRICE_QUOTATION_FORMSANDMYREQUESTS])"
-                    target-id="Form"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS])"
+                    target-id="Request"
                     title="Request For Price Quotation"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUEST_PRICE_QUOTATION_ALLREQUEST])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLREQUEST])"
                     target-id="allRequest"
-                    title="All Request"
+                    title="All Price Quotations"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.INVENTORY_PROCUREMENT_REQUEST_PRICE_QUOTATION_MYAPPROVALS,
-                    ])"
-                    target-id="myApprovals"
-                    title="My Approvals"
-                />
-                <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.INVENTORY_PROCUREMENT_REQUEST_PRICE_QUOTATION_FORMSANDMYREQUESTS,
+                        AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESPRICEQUOTATION_MYREQUESTS,
                     ])"
                     target-id="myRequests"
-                    title="My Request"
+                    title="My Price QUotations"
                 />
             </template>
             <template #tab-containers>
-                <HrmsCommonTabsTabContainer id="Form">
-                    <InventoryPriceQuotationForm v-model="priceQuotation.form" />
+                <HrmsCommonTabsTabContainer id="Request">
+                    <InventoryPriceQuotationRequestList />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="allRequest">
                     <InventoryPriceQuotationRequestAllRequests />
