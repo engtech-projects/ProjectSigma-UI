@@ -18,7 +18,7 @@ const headers = [
 </script>
 <template>
     <div
-        v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_FAILURETOLOGMONITORING])"
+        v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_FAILURETOLOG])"
         class="flex flex-col"
     >
         <LayoutPrint>
