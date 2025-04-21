@@ -17,7 +17,7 @@ if (route.query.key) {
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.inventory_request_stock_group,
+            AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP,
         ])"
     >
         <LayoutBoards title="SUPPLIER REQUEST DETAILS" class="w-full" :loading="createRequest.isLoading">
