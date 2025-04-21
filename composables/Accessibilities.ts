@@ -1,5 +1,6 @@
 import { USER_ADMINISTRATOR } from "@/stores/hrms/setup/users"
 const { data: userData } = useAuth()
+const config = useRuntimeConfig()
 export enum AccessibilityTypes {
     ADMIN_ONLY = "Admin Only Access",
     admin = "AdminOnly",
@@ -25,7 +26,9 @@ export enum AccessibilityTypes {
     hrms_reports_administrativereports = "hrms:reports_administrative reports",
     hrms_reports_portalmonitoring_group = "hrms:reports_portal monitoring_",
     hrms_reports_portalmonitoring_overtimemonitoring = "hrms:reports_portal monitoring_overtime monitoring",
+    hrms_reports_portalmonitoring_overtimemonitoringsummary = "hrms:reports_portal monitoring_overtime monitoring summary",
     hrms_reports_portalmonitoring_salarymonitoring = "hrms:reports_portal monitoring_salary monitoring",
+    HRMS_REPORTS_PORTALMONITORING_FAILURETOLOG = "hrms:reports_portal monitoring_failure to log monitoring",
     // ATTENDANCE
     hrms_attendance_group = "hrms:attendance_",
     hrms_attendance_attendance_portal = "hrms:attendance_attendance portal",
@@ -170,7 +173,7 @@ export enum AccessibilityTypes {
     inventory_procurement_my_approvals = "inventory:procurement_suppliers_my approvals",
     inventory_procurement_edit = "inventory:procurement_suppliers_edit",
     inventory_request_stock_group = "inventory:request stock_",
-    inventory_request_stock_forms_and_my_requests = "inventory:request stock_form and my requests",
+    INVENTORY_REQUEST_STOCK_FORMSANDMYREQUESTS = "inventory:request stock_form and my requests",
     inventory_request_stock_all_request = "inventory:request stock_all requests",
     inventory_request_stock_my_approvals = "inventory:request stock_my approvals",
     inventory_materials_receiving_group = "inventory:materials receiving_",
@@ -184,6 +187,9 @@ export enum AccessibilityTypes {
     INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS = "inventory:procurement_request price quotation_requests",
     INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLREQUEST = "inventory:procurement_request price quotation_all requests",
     INVENTORY_PROCUREMENT_REQUESPRICEQUOTATION_MYREQUESTS = "inventory:procurement_request price quotation_my approvals",
+    INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP = "inventory:warehouse_stock transfer_",
+    INVENTORY_WAREHOUSE_STOCK_TRANSFER_REQUESTPROCESSING = "inventory:warehouse_stock transfer_request processing",
+    INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST = "inventory:warehouse_stock transfer_all requests",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",
@@ -282,4 +288,8 @@ export function useCheckAccessibility (allowedAccessibilities: any) {
 
 export function useCheckIsCurrentUser (userId: any) {
     return userData.value?.id === userId || useCheckAccessibility([AccessibilityTypes.SUPERADMIN])
+}
+
+export function useBetaOnly () {
+    return config.public.APP_ENV === "local"
 }

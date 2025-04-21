@@ -1,36 +1,36 @@
 <script lang="ts" setup>
-import { useReceivingStore } from "~/stores/inventory/receiving"
-const mainStore = useReceivingStore()
-const { receiving } = storeToRefs(mainStore)
+import { useStockTransferStore } from "~/stores/inventory/stocktransfer"
+const mainStore = useStockTransferStore()
+const { stockTransfer } = storeToRefs(mainStore)
 useHead({
-    title: "Receivings",
+    title: "Stock Transfer",
 })
 </script>
 <template>
     <LayoutAcessContainer
-        :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_GROUP,
+        :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP,
         ])"
         class="w-full"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_REQUESTPROCESSING])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_STOCK_TRANSFER_REQUESTPROCESSING])"
                     target-id="Form"
-                    title="Materials Receiving Report"
+                    title="Stock Transfer"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_ALLREQUEST])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST])"
                     target-id="allRequest"
                     title="All Request"
                 />
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="Form">
-                    <InventoryReceivingForm v-model="receiving.form" />
+                    <InventoryStockTransferForm v-model="stockTransfer.form" />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="allRequest">
-                    <InventoryReceivingRequestAllRequests />
+                    <InventoryStockTransferRequestAllRequests />
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>

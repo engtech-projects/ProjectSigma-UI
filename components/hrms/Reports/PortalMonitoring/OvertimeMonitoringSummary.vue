@@ -5,19 +5,12 @@ const { portalMonitoringReports } = storeToRefs(generateReportstore)
 const headers = [
     { name: "NO", id: "" },
     { name: "Employee Name", id: "employee_name" },
-    { name: "Designation", id: "designation" },
-    { name: "Section", id: "section" },
-    { name: "Date of Overtime", id: "date_of_overtime" },
-    { name: "Prepared By", id: "prepared_by" },
-    { name: "Request Status", id: "request_status" },
-    { name: "No. of days delayed filling", id: "days_delayed_filling" },
-    { name: "Date Approved", id: "date_approved" },
-    { name: "Approvals", id: "approvals" },
+    { name: "Total Number of Overtime Filled", id: "overtime_filled" },
 ]
 </script>
 <template>
     <div
-        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_overtimemonitoring])"
+        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_overtimemonitoringsummary])"
         class="flex flex-col"
     >
         <LayoutPrint>
@@ -46,32 +39,7 @@ const headers = [
                                         {{ overtimeRequest.employee_name }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.designation }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.section }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.date_of_overtime }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.prepared_by }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.request_status }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.days_delayed_filling }}
-                                    </td>
-                                    <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.date_approved }}
-                                    </td>
-                                    <td
-                                        class="border border-gray-500 h-8"
-                                    >
-                                        <p class="whitespace-nowrap text-sm text-center">
-                                            {{ overtimeRequest.approvals }}
-                                        </p>
+                                        {{ overtimeRequest.overtime_filled }}
                                     </td>
                                 </tr>
                             </tbody>

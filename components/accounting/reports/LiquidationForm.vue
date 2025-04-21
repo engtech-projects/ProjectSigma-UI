@@ -76,8 +76,10 @@ useHead({
                         </td>
                         <td class="border border-black text-right px-4" />
                     </tr>
-                    <tr class="h-10">
-                        <td class="border border-black px-4" colspan="4" />
+                    <tr class="h-6">
+                        <td class="border border-black px-4 h-6" />
+                        <td class="border border-black px-4 h-6 font-bold text-right" />
+                        <td class="border border-black text-right px-4" />
                     </tr>
                 </tbody>
             </table>

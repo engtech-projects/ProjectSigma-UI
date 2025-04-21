@@ -1,7 +1,7 @@
 <script setup>
 import { useGenerateReportStore } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
-const { portalMonitoringReports } = storeToRefs(generateReportstore)
+const { portalMonitoringReports, getTotalSalaryListReport } = storeToRefs(generateReportstore)
 const headers = [
     { name: "NO", id: "" },
     { name: "Project Name", id: "project_name" },
@@ -47,6 +47,48 @@ const headers = [
                                     <td class="border border-gray-500 h-8">
                                         {{ index + 1 }}
                                     </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ request.project_name }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ request.project_identifier }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ useFormatCurrency(request.pay_basic) }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ request.number_of_personnel_basic_pay }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ useFormatCurrency(request.pay_overtime) }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ request.number_of_personnel_overtime_pay }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ useFormatCurrency(request.pay_sunday) }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ request.number_of_personnel_sunday_pay }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ useFormatCurrency(request.pay_allowance) }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ request.number_of_personnel_allowance_pay }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ useFormatCurrency(request.pay_regular_holiday_pay) }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ request.number_of_personnel_regular_holiday_pay }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ useFormatCurrency(request.pay_special_holiday) }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ request.number_of_personnel_special_holiday }}
+                                    </td>
                                 </tr>
                             </tbody>
                             <tfoot class="text-sm text-center">
@@ -57,27 +99,27 @@ const headers = [
                                     <td />
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        Amount
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_basic) }}
                                     </td>
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        Amount
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_overtime) }}
                                     </td>
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        Amount
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_sunday) }}
                                     </td>
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        Amount
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_allowance) }}
                                     </td>
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        Amount
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_specialholiday) }}
                                     </td>
                                     <td />
                                     <td class="border border-gray-500 h-8">
-                                        Amount
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total_pay_regularholiday) }}
                                     </td>
                                     <td />
                                 </tr>
@@ -85,8 +127,8 @@ const headers = [
                                     <td class="border border-gray-500 h-8">
                                         Grand Total Amount
                                     </td>
-                                    <td colspan="14" class="border border-gray-500 h-8">
-                                        Amount
+                                    <td colspan="14" class="border border-gray-500 h-8 text-right p-1">
+                                        {{ useFormatCurrency(getTotalSalaryListReport?.total) }}
                                     </td>
                                 </tr>
                             </tfoot>

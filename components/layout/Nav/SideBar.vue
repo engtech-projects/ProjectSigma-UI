@@ -1,5 +1,4 @@
 <script setup>
-const config = useRuntimeConfig()
 </script>
 <template>
     <div class="space-y-2">
@@ -844,5 +843,9 @@ const config = useRuntimeConfig()
                 single-nav-title="Technical Service"
             />
         </LayoutNavModuleGroup>
+        <LayoutNavOptionsAccounting />
+        <LayoutNavOptionsHrms />
+        <LayoutNavOptionsInventory />
+        <LayoutNavOptionsProjects />
     </div>
 </template>

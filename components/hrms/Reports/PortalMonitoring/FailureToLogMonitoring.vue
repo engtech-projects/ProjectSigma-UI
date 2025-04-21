@@ -7,17 +7,18 @@ const headers = [
     { name: "Employee Name", id: "employee_name" },
     { name: "Designation", id: "designation" },
     { name: "Section", id: "section" },
-    { name: "Date of Overtime", id: "date_of_overtime" },
+    { name: "Date of Failure to Log", id: "date_of_failure_to_log" },
+    { name: "Date Filled", id: "date_filled" },
     { name: "Prepared By", id: "prepared_by" },
     { name: "Request Status", id: "request_status" },
-    { name: "No. of days delayed filling", id: "days_delayed_filling" },
+    { name: "No. of Days Delayed Filling", id: "no_of_days_delayed_filling" },
     { name: "Date Approved", id: "date_approved" },
     { name: "Approvals", id: "approvals" },
 ]
 </script>
 <template>
     <div
-        v-if="useCheckAccessibility([AccessibilityTypes.hrms_reports_portalmonitoring_overtimemonitoring])"
+        v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_FAILURETOLOGMONITORING])"
         class="flex flex-col"
     >
         <LayoutPrint>
@@ -38,39 +39,39 @@ const headers = [
                                 </tr>
                             </thead>
                             <tbody class="text-sm text-center">
-                                <tr v-for="overtimeRequest, index in portalMonitoringReports.list" :key="'OvertimeMonitoring' + index" class="h-2">
+                                <tr v-for="failureToLog, index in portalMonitoringReports.list" :key="'OvertimeMonitoring' + index" class="h-2">
                                     <td class="border border-gray-500 h-8">
                                         {{ index + 1 }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ overtimeRequest.employee_name }}
+                                        {{ failureToLog.employee_name }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.designation }}
+                                        {{ failureToLog.designation }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.section }}
+                                        {{ failureToLog.section }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.date_of_overtime }}
+                                        {{ failureToLog.date_of_failure_to_log }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.prepared_by }}
+                                        {{ failureToLog.prepared_by }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.request_status }}
+                                        {{ failureToLog.request_status }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.days_delayed_filling }}
+                                        {{ failureToLog.days_delayed_filling }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ overtimeRequest.date_approved }}
+                                        {{ failureToLog.date_approved }}
                                     </td>
                                     <td
                                         class="border border-gray-500 h-8"
                                     >
                                         <p class="whitespace-nowrap text-sm text-center">
-                                            {{ overtimeRequest.approvals }}
+                                            {{ failureToLog.approvals }}
                                         </p>
                                     </td>
                                 </tr>
