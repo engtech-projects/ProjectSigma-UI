@@ -139,6 +139,14 @@
                 icon="grommet-icons:overview"
                 single-nav-title="Suppliers"
             />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP,
+                ])"
+                linkarea="/inventory/request-price-quotation"
+                icon="grommet-icons:overview"
+                single-nav-title="Price Quotation"
+            />
         </LayoutNavGroup>
     </LayoutNavModuleGroup>
 </template>
