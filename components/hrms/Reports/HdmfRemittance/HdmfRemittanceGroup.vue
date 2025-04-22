@@ -18,7 +18,7 @@ const generateReport = async () => {
         })
     }
 }
-const totalPagibigGroupRemittance = () => {
+const totalPagibigEmployeeGroupRemittance = () => {
     return pagibigGroupRemittance.value.list.reduce((accumulator, current) => {
         return accumulator + current.pagibig_employee_contribution
     }, 0)
@@ -166,7 +166,7 @@ watch(() => pagibigGroupRemittance.value.params.month_year, (newValue) => {
                                 TOTAL
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 font-bold text-sm text-right">
-                                {{ useFormatCurrency(totalPagibigGroupRemittance()) }}
+                                {{ useFormatCurrency(totalPagibigEmployeeGroupRemittance()) }}
                             </td>
                             <td class="border border-gray-500 = h-8 px-2 font-bold text-sm text-right">
                                 {{ useFormatCurrency(totalPagibigEmployerGroupRemittance()) }}
