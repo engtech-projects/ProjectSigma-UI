@@ -52,40 +52,43 @@ const storeWithdrawalForm = async () => {
 //     { name: "REMARKS DURING CANVASS", id: "remarks" },
 // ]
 const supplierId = defineModel("supplierId", { required: false, type: Number })
-const rsInfoHeaders = [
-    { name: "QTY", id: "qty" },
-    { name: "Unit", id: "unit" },
-    { name: "Item Description", id: "itemDescription" },
-    { name: "Specification", id: "specification" },
-    { name: "Preferred Brand", id: "preferredBrand" },
-    { name: "Reason for Request", id: "reasonForRequest" },
-]
-const rsInfo = [
-    {
-        qty: 1,
-        unit: "PCS",
-        itemDescription: "Item 1",
-        specification: "Specification 1",
-        preferredBrand: "Brand 1",
-        reasonForRequest: "Reason 1",
-    },
-    {
-        qty: 2,
-        unit: "BOX",
-        itemDescription: "Item 2",
-        specification: "Specification 2",
-        preferredBrand: "Brand 2",
-        reasonForRequest: "Reason 2",
-    },
-    {
-        qty: 3,
-        unit: "PCS",
-        itemDescription: "Item 3",
-        specification: "Specification 3",
-        preferredBrand: "Brand 3",
-        reasonForRequest: "Reason 3",
-    },
-]
+// const rsInfoHeaders = [
+//     { name: "QTY", id: "qty" },
+//     { name: "Unit", id: "unit" },
+//     { name: "Item Description", id: "itemDescription" },
+//     { name: "Specification", id: "specification" },
+//     { name: "Preferred Brand", id: "preferredBrand" },
+//     { name: "Reason for Request", id: "reasonForRequest" },
+//     { name: "Actual Brand", id: "actualBrand" },
+//     { name: "Unit Price", id: "unit_price" },
+//     { name: "Remarks During Canvass", id: "remarks" },
+// ]
+// const rsInfo = [
+//     {
+//         qty: 1,
+//         unit: "PCS",
+//         itemDescription: "Item 1",
+//         specification: "Specification 1",
+//         preferredBrand: "Brand 1",
+//         reasonForRequest: "Reason 1",
+//     },
+//     {
+//         qty: 2,
+//         unit: "BOX",
+//         itemDescription: "Item 2",
+//         specification: "Specification 2",
+//         preferredBrand: "Brand 2",
+//         reasonForRequest: "Reason 2",
+//     },
+//     {
+//         qty: 3,
+//         unit: "PCS",
+//         itemDescription: "Item 3",
+//         specification: "Specification 3",
+//         preferredBrand: "Brand 3",
+//         reasonForRequest: "Reason 3",
+//     },
+// ]
 
 </script>
 <template>
@@ -126,18 +129,14 @@ const rsInfo = [
                         </div>
                     </div>
                     <div class="w-full">
-                        <LayoutPsTable
-                            :header-columns="rsInfoHeaders"
-                            :datas="rsInfo ?? []"
-                            class="rounded-md shadow-sm"
-                        />
+                        <InventoryPriceQuotationItemList v-model="form.items" />
                     </div>
                     <div class="w-full p-4 bg-white rounded-lg">
                         <p class="text-sm font-medium text-gray-900">
                             Your promptness in giving us the price quotation of the above mentioned items is highly appreciated.
                         </p>
                     </div>
-                    <div class="flex w-full items-center gap-4 no-print">
+                    <div class="flex w-full justify-end items-center gap-4 no-print">
                         <button
                             type="submit"
                             class=" text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
