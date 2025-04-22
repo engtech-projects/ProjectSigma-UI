@@ -1,4 +1,5 @@
 <script setup>
+const config = useRuntimeConfig()
 </script>
 <template>
     <div class="space-y-2">
@@ -573,6 +574,18 @@
                     icon="grommet-icons:overview"
                     single-nav-title="Overview"
                 />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_GROUP])"
+                    linkarea="/inventory/material-receiving"
+                    icon="material-symbols-light:add-home-work-outline"
+                    single-nav-title="Materials Receiving"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_GROUP])"
+                    linkarea="/inventory/withdrawal"
+                    icon="material-symbols-light:shopping-cart-checkout-sharp"
+                    single-nav-title="Withdrawal"
+                />
             </LayoutNavGroup>
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
@@ -594,12 +607,6 @@
                 icon="material-symbols-light:add-home-work-outline"
                 single-nav-title="Materials Receiving"
             />
-            <LayoutNavSingle
-                v-if="useCheckAccessibility([AccessibilityTypes.inventory_withdrawal_group])"
-                linkarea="/inventory/withdrawal"
-                icon="material-symbols-light:shopping-cart-checkout-sharp"
-                single-nav-title="Withdrawal"
-            />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.inventory_procurement_group
@@ -617,7 +624,7 @@
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.inventory_procurement_price_quotation_group,
+                        AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP,
                     ])"
                     linkarea="/inventory/request-price-quotation"
                     icon="grommet-icons:overview"
@@ -843,9 +850,5 @@
                 single-nav-title="Technical Service"
             />
         </LayoutNavModuleGroup>
-        <LayoutNavOptionsAccounting />
-        <LayoutNavOptionsHrms />
-        <LayoutNavOptionsInventory />
-        <LayoutNavOptionsProjects />
     </div>
 </template>

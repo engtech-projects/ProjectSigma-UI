@@ -22,6 +22,7 @@ const rsInfoHeaders = [
     { name: "Specification", id: "specification" },
     { name: "Preferred Brand", id: "preferredBrand" },
     { name: "Reason for Request", id: "reasonForRequest" },
+    { name: "No. of Price Quotations", id: "noOfPriceQuotation" },
 ]
 
 const actions = {
@@ -48,6 +49,7 @@ const rsInfo = [
         specification: "Specification 1",
         preferredBrand: "Brand 1",
         reasonForRequest: "Reason 1",
+        noOfPriceQuotation: 1,
     },
     {
         qty: 2,
@@ -56,6 +58,7 @@ const rsInfo = [
         specification: "Specification 2",
         preferredBrand: "Brand 2",
         reasonForRequest: "Reason 2",
+        noOfPriceQuotation: 1,
     },
     {
         qty: 3,
@@ -64,6 +67,7 @@ const rsInfo = [
         specification: "Specification 3",
         preferredBrand: "Brand 3",
         reasonForRequest: "Reason 3",
+        noOfPriceQuotation: 1,
     },
 ]
 
