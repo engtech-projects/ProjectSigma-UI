@@ -69,12 +69,8 @@ const changePaginate = (newParams) => {
 <template>
     <LayoutLoadingContainer class="w-full" :loading="priceQuotation.isLoading">
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
-            <LayoutPsTable
-                :header-columns="headers"
-                :actions="actions"
-                :datas="formattedRequests"
-                @show-table="showInformation"
-            />
+            <LayoutPsTable :header-columns="headers" :actions="actions" :datas="formattedRequests"
+                @show-table="showInformation" />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="priceQuotation.pagination" @change-params="changePaginate" />
