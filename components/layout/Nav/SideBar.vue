@@ -1,4 +1,5 @@
 <script setup>
+const config = useRuntimeConfig()
 </script>
 <template>
     <div class="space-y-2">
@@ -622,6 +623,14 @@
                     linkarea="/inventory/request-price-quotation"
                     icon="grommet-icons:overview"
                     single-nav-title=" Price Quotation"
+                />
+                <LayoutNavSingle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.ADMIN_ONLY,
+                    ])"
+                    linkarea="/inventory/procurement/canvass-summary"
+                    icon="grommet-icons:overview"
+                    single-nav-title="Canvass Summary"
                 />
             </LayoutNavGroup>
         </LayoutNavModuleGroup>
