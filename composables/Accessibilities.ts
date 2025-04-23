@@ -261,12 +261,12 @@ export enum AccessibilityTypes {
     ACCOUNTING_REPORTS_PAYROLL_LIQUIDATIONS = "accounting:reports_payroll liquidations",
 
     // PROJECT MONITORING
-    project_monitoring_group = "project monitoring:",
-    project_monitoring_dashboard = "project monitoring:dashboard",
-    project_monitoring_projects = "project monitoring:projects",
-    PROJECTMONITORING_MARKETING = "project monitoring:marketing",
-    PROJECTMONITORING_TSS = "project monitoring:tss",
-    PROJECTMONITORING_SETUP = "project monitoring:setup"
+    PROJECT_MONITORING_GROUP = "project monitoring:",
+    PROJECT_MONITORING_DASHBOARD = "project monitoring:dashboard",
+    PROJECT_MONITORING_PROJECTS = "project monitoring:projects",
+    PROJECT_MONITORING_MARKETING = "project monitoring:marketing",
+    PROJECT_MONITORING_TSS = "project monitoring:tss",
+    PROJECT_MONITORING_SETUP = "project monitoring:setup"
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
     allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS
