@@ -1,71 +1,30 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
+import { ref } from "vue"
 
-const mainStore = usePriceQuotationStore()
-const { allRequests } = storeToRefs(mainStore)
-onMounted(() => {
-    if (!allRequests.isLoaded) {
-        mainStore.getAllRequests()
-    }
-})
-const formattedRequests = computed(() => {
-    return [
-        {
-            reference_no: "123456",
-            project_code: "N/A",
-            qty: 1,
-            transaction_date: "2022-01-01",
-            item_description: "Item 1",
-            prefferred_brand: "Brand 1",
-            unit_price: 100
-        },
-        {
-            reference_no: "123456",
-            project_code: "N/A",
-            qty: 2,
-            transaction_date: "2022-01-01",
-            item_description: "Item 2",
-            prefferred_brand: "Brand 2",
-            unit_price: 200
-        },
-        {
-            reference_no: "123456",
-            project_code: "N/A",
-            qty: 3,
-            transaction_date: "2022-01-01",
-            item_description: "Item 3",
-            prefferred_brand: "Brand 3",
-            unit_price: 300
-        },
-    ]
-})
-
-const headers = [
-    { name: "Quotation No", id: "quotation_no" },
-    { name: "Conso Reference No", id: "conso_reference_no" },
-    { name: "Item Description", id: "item_description" },
-    { name: "Prefferred Brand", id: "prefferred_brand" },
-    { name: "Unit Price", id: "unit_price" },
-]
-const actions = {
-    showTable: true,
-    edit: false,
-    delete: false,
-}
-const showInformation = (data) => {
-    navigateTo({
-        path: "/inventory/request-price-quotation/request-details",
-        query: {
-            key: data.id
-        },
-    })
-}
-const changePaginate = (newParams) => {
-    receiving.value.params.page = newParams.page ?? ""
-}
-
+const requestItems = ref([
+    {
+        qty: 10,
+        unit: "pcs",
+        itemDescription: "Steel Pipe",
+        specification: "1 inch diameter, 3m length",
+        preferredBrand: "Brand A",
+        actualBrand: "",
+        unit_price: 0,
+        remarks: "",
+    },
+    {
+        qty: 5,
+        unit: "box",
+        itemDescription: "Concrete Nails",
+        specification: "2 inch",
+        preferredBrand: "Brand B",
+        actualBrand: "",
+        unit_price: 0,
+        remarks: "",
+    },
+])
 </script>
+
 <template>
     <LayoutLoadingContainer class="w-full" :loading="priceQuotation.isLoading">
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
@@ -78,6 +37,84 @@ const changePaginate = (newParams) => {
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="priceQuotation.pagination" @change-params="changePaginate" />
+    <div>
+        <div class="overflow-x-auto">
+            <table class="table-auto w-full border-collapse text-sm">
+                <thead class="bg-gray-100 text-center">
+                    <tr>
+                        <th class="p-2 border">
+                            Item Description
+                        </th>
+                        <th class="p-2 border">
+                            Specification
+                        </th>
+                        <th class="p-2 border">
+                            QTY
+                        </th>
+                        <th class="p-2 border">
+                            UOM
+                        </th>
+                        <th class="p-2 border">
+                            Preferred Brand
+                        </th>
+                        <th class="p-2 border">
+                            Actual Brand
+                        </th>
+                        <th class="p-2 border">
+                            Unit Price
+                        </th>
+                        <th class="p-2 border">
+                            Remarks During Canvass
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr v-for="(item, index) in requestItems" :key="index" class="border-t">
+                        <td class="p-2 border">
+                            {{ item.itemDescription }}
+                        </td>
+                        <td class="p-2 border">
+                            {{ item.specification }}
+                        </td>
+                        <td class="p-2 border">
+                            {{ item.qty }}
+                        </td>
+                        <td class="p-2 border">
+                            {{ item.unit }}
+                        </td>
+                        <td class="p-2 border">
+                            {{ item.preferredBrand }}
+                        </td>
+
+                        <!-- Editable Fields -->
+                        <td class="p-2 border">
+                            <input
+                                v-model="item.actualBrand"
+                                type="text"
+                                placeholder="Enter brand"
+                                class="w-full px-2 py-1 border rounded text-sm"
+                            >
+                        </td>
+                        <td class="p-2 border">
+                            <input
+                                v-model.number="item.unit_price"
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                placeholder="0.00"
+                                class="w-full px-2 py-1 border rounded text-sm"
+                            >
+                        </td>
+                        <td class="p-2 border">
+                            <textarea
+                                v-model="item.remarks"
+                                placeholder="Remarks"
+                                class="w-full px-2 py-1 border rounded text-sm resize-none"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </LayoutLoadingContainer>
+    </div>
 </template>

@@ -151,10 +151,10 @@ watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => 
                                 {{ reportData.summary.no_of_employee }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.summary.total_employer_contribution) }}
+                                {{ useFormatCurrency(reportData.summary.total_employee_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
-                                {{ useFormatCurrency(reportData.summary.total_employee_contribution) }}
+                                {{ useFormatCurrency(reportData.summary.total_employer_contribution) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right">
                                 {{ useFormatCurrency(reportData.summary.total_contribution) }}
@@ -174,10 +174,10 @@ watch(() => pagibigRemittanceSummaryList.value.params.month_year, (newValue) => 
                                 {{ totalPagibigEmployeeCount() }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
-                                {{ useFormatCurrency(totalPagibigEmployerRemittance()) }}
+                                {{ useFormatCurrency(totalPagibigEmployeeRemittance()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
-                                {{ useFormatCurrency(totalPagibigEmployeeRemittance()) }}
+                                {{ useFormatCurrency(totalPagibigEmployerRemittance()) }}
                             </td>
                             <td class="border border-gray-500 h-8 px-2 text-sm text-right font-bold">
                                 {{ useFormatCurrency(pagibigTotalContribution()) }}

@@ -183,17 +183,19 @@ export enum AccessibilityTypes {
     inventory_withdrawal_forms_and_my_requests = "inventory:withdrawal_form and my requests",
     inventory_withdrawal_all_request = "inventory:withdrawal_all requests",
     inventory_withdrawal_my_approvals = "inventory:withdrawal_my approvals",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP = "inventory:procurement_request price quotation_",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS = "inventory:procurement_request price quotation_requests",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLREQUEST = "inventory:procurement_request price quotation_all requests",
-    INVENTORY_PROCUREMENT_REQUESPRICEQUOTATION_MYREQUESTS = "inventory:procurement_request price quotation_my approvals",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP = "inventory:warehouse_stock transfer_",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_REQUESTPROCESSING = "inventory:warehouse_stock transfer_request processing",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST = "inventory:warehouse_stock transfer_all requests",
+
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP = "inventory:procurement_canvass summary_",
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_REQUESTS = "inventory:procurement_canvass summary_requests",
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_ALLREQUEST = "inventory:procurement_canvass summary_all requests",
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_MYREQUESTS = "inventory:procurement_canvass summary_my approvals",
+
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP = "inventory:procurement_price quotation_",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS = "inventory:procurement_price quotation_requests",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLQUOTATONS = "inventory:procurement_price quotation_all quotations",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_MYQUOTATIONS = "inventory:procurement_price quotation_my quotations",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",

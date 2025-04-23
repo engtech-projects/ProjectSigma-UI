@@ -56,13 +56,16 @@ const headers = [
                                         {{ failureToLog.date_of_failure_to_log }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
+                                        {{ failureToLog.date_filled }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
                                         {{ failureToLog.prepared_by }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ failureToLog.request_status }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ failureToLog.days_delayed_filling }}
+                                        {{ failureToLog.no_of_days_delayed_filling }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ failureToLog.date_approved }}
