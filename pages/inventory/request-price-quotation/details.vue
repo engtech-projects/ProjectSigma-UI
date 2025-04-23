@@ -1,9 +1,9 @@
 <script setup>
 import { useRoute } from "vue-router"
-import { useSupplierStore } from "@/stores/inventory/suppliers"
+import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
 const route = useRoute()
-const mainStore = useSupplierStore()
-const { createRequest } = storeToRefs(mainStore)
+const mainStore = usePriceQuotationStore()
+const { priceQuotation } = storeToRefs(mainStore)
 const validKey = ref(false)
 
 if (route.query.key) {
@@ -17,14 +17,14 @@ if (route.query.key) {
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP,
+            AccessibilityTypes.INVENTORY_PROCUREMENT_REQUEST_PRICE_QUOTATION_GROUP,
         ])"
     >
-        <LayoutBoards title="SUPPLIER REQUEST DETAILS" class="w-full" :loading="createRequest.isLoading">
+        <LayoutBoards title="REQUEST FOR PRICE QUOTATION" class="w-full" :loading="priceQuotation.isLoading">
             <template v-if="validKey">
-                <InventorySuppliersSupplierDetails
+                <InventoryPriceQuotationDetails
                     id="listTable"
-                    :datas="createRequest.details"
+                    :datas="priceQuotation.details"
                 />
             </template>
             <template v-else>
