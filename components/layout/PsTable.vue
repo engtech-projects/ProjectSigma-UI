@@ -21,7 +21,7 @@ defineProps({
     },
 })
 
-const emit = defineEmits(["editRow", "deleteRow", "showTable", "detailRow"])
+const emit = defineEmits(["editRow", "deleteRow", "showTable", "detailRow", "customAction"])
 const doEdit = (data: any) => {
     emit("editRow", data)
 }
@@ -33,6 +33,9 @@ const showTbl = (data: any) => {
 }
 const doDetail = (data: any) => {
     emit("detailRow", data)
+}
+const doCustomAction = (data: any) => {
+    emit("customAction", data)
 }
 const activeIndex = ref(null)
 const setActiveRow = (index: any) => {
@@ -95,6 +98,9 @@ const isActiveRow = (index: any) => {
                             </button>
                             <button v-if="actions.detail" @click="doDetail(dataValue)">
                                 <Icon name="material-symbols:visibility-rounded" color="white" class="bg-green-500 rounded h-8 w-8 p-1 " />
+                            </button>
+                            <button v-if="actions.custom" @click="doCustomAction(dataValue)">
+                                <Icon name="material-symbols-light:overview-rounded" color="white" class="bg-green-400 rounded h-8 w-8 p-1 " />
                             </button>
                         </td>
                     </tr>
