@@ -2,6 +2,7 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 interface Employee {
+    employee_id: number,
     name: String,
 }
 interface Project {
@@ -21,6 +22,7 @@ interface Project {
     license: null | String,
     uuid: null | String,
     designation: null | Number,
+    employee_id: null | Number,
     employees: Array<Employee>
 }
 
@@ -46,6 +48,7 @@ export const useProjectStore = defineStore("projects", {
             ntp_date: null,
             license: null,
             designation: null,
+            employee_id: 1,
             employees: []
         } as Project,
         list: [] as Project[],
@@ -59,7 +62,7 @@ export const useProjectStore = defineStore("projects", {
         },
     }),
     actions: {
-        async getProjectInformation (id: any) {
+        async getProjectsInformation (id: any) {
             this.isLoading.list = true
             const { data, error } = await useFetch(
                 "/api/projects/" + id,
@@ -84,25 +87,20 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
-        async getProject () {
+        async getProjects () {
             this.isLoading.list = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useProjectsApi(
                 "/api/projects",
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.list = response._data.data
+                        this.list = response._data
                         this.pagination = {
-                            first_page: response._data.links.first,
-                            pages: response._data.meta.links,
-                            last_page: response._data.links.last,
+                            first_page: response._data.first_page_url,
+                            pages: response._data.links,
+                            last_page: response._data.last_page_url,
                         }
                     },
                 }
@@ -113,6 +111,59 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
+        async getProject (id: number) {
+            this.isLoading.list = true
+            const { data, error } = await useProjectsApi(
+                "/api/projects/" + id,
+                {
+                    method: "GET",
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading.list = false
+                        this.information = response._data
+                        this.pagination = {
+                            first_page: response._data.first_page_url,
+                            pages: response._data.links,
+                            last_page: response._data.last_page_url,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        // async getProjects () {
+        //     this.isLoading.list = true
+        //     const { data, error } = await useFetch(
+        //         "/api/projects",
+        //         {
+        //             baseURL: config.public.PROJECTS_API_URL,
+        //             method: "GET",
+        //             headers: {
+        //                 Authorization: token.value + "",
+        //                 Accept: "application/json"
+        //             },
+        //             params: this.getParams,
+        //             onResponse: ({ response }) => {
+        //                 this.isLoading.list = false
+        //                 this.list = response._data.data
+        //                 this.pagination = {
+        //                     first_page: response._data.links.first,
+        //                     pages: response._data.meta.links,
+        //                     last_page: response._data.links.last,
+        //                 }
+        //             },
+        //         }
+        //     )
+        //     if (data) {
+        //         return data
+        //     } else if (error) {
+        //         return error
+        //     }
+        // },
 
         async createProject () {
             this.successMessage = ""
@@ -133,7 +184,7 @@ export const useProjectStore = defineStore("projects", {
                             this.errorMessage = response._data.message
                         } else {
                             this.$reset()
-                            this.getProject()
+                            this.getProjects()
                             this.successMessage = response._data.message
                         }
                     },
@@ -162,7 +213,7 @@ export const useProjectStore = defineStore("projects", {
             )
             if (data.value) {
                 this.$reset()
-                this.getProject()
+                this.getProjects()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -187,7 +238,7 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
             if (data.value) {
-                this.getProject()
+                this.getProjects()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -225,7 +276,7 @@ export const useProjectStore = defineStore("projects", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.getProjectInformation(projectId)
+                            this.getProjectsInformation(projectId)
                             this.projectMemberList(projectId)
                             this.successMessage = response._data.message || "Employee attached successfully."
                         }

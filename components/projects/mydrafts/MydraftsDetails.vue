@@ -18,7 +18,7 @@
                         Project Id:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
-                        PRJ-10001-8977657-B1139876
+                        {{ projectStore.information.code }}
                     </span>
                 </div>
                 <div class="flex items-end gap-3">
@@ -26,7 +26,7 @@
                         Contract Name:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
-                        Construction of Flood Control Structure along Tago River, Abutment A, San Miguel Surigao del Sur
+                        {{ projectStore.information.name }}
                     </span>
                 </div>
                 <div class="flex items-end gap-3">
@@ -34,7 +34,7 @@
                         Location:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
-                        San Miguel, Surigao del Sur
+                        {{ projectStore.information.location }}
                     </span>
                 </div>
             </div>
@@ -112,7 +112,7 @@
             </template>
             <template #tab-containers>
                 <AccountingCommonTabsTabContainer id="billOfQuantities">
-                    <ProjectsBillofQuantities />
+                    <ProjectsBillofQuantities :project-id="projectId" />
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer id="summaryRates">
                     <ProjectsSummaryRates />
@@ -145,15 +145,17 @@
 
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
-
 const projectStore = useProjectStore()
 const edit = projectStore.viewState
+const route = useRoute()
+const projectId = route.query.id
 defineProps({
     awardee: {
         type: Boolean,
         default: false
     },
 })
+projectStore.getProject(Number(projectId))
 </script>
 
 <style>

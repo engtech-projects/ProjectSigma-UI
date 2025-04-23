@@ -1,4 +1,10 @@
 <script setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+const projectStore = useProjectStore()
+
+const draftProjects = computed(() => {
+    return projectStore.list.filter(item => item.stage === props.status)
+})
 const props = defineProps({
     status: {
         type: String,
@@ -6,22 +12,18 @@ const props = defineProps({
     }
 })
 const headers = [
-    { name: "PROJECT CODE", id: "project_code", style: "text-left" },
+    { name: "PROJECT CODE", id: "code", style: "text-left" },
     { name: "LOCATION", id: "location", style: "text-left" },
     { name: "AMOUNT", id: "amount", style: "text-left" },
-    { name: "CREATED AT", id: "created_at", style: "text-left" },
-    { name: "STATUS", id: "status", style: "text-left" },
+    { name: "CREATED AT", id: "contract_date", style: "text-left" },
+    { name: "STATUS", id: "stage", style: "text-left" },
 ]
 const actions = {
     detail: true,
 }
 
-const { projects } = useProjectState()
-const filteredData = computed(() => {
-    return projects.value.map(item => ({ ...item, status: props.status }))
-})
 const showDetail = (data) => {
-    navigateTo("/project-monitoring/my-drafts?project_code=" + data.project_code)
+    navigateTo("/project-monitoring/my-drafts?id=" + data.id)
 }
 </script>
 <template>
@@ -37,7 +39,7 @@ const showDetail = (data) => {
                 </label>
                 <input type="text" class="w-full rounded-lg h-10 border border-gray-300">
             </div>
-            <LayoutPsTable :header-columns="headers" :datas="filteredData" :actions="actions" @detail-row="showDetail" />
+            <LayoutPsTable :header-columns="headers" :datas="draftProjects" :actions="actions" @detail-row="showDetail" />
         </LayoutAcessContainer>
     </LayoutBoards>
 </template>

@@ -1,15 +1,18 @@
 <script setup>
-import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
-projectStore.viewState = true
+projectStore.getParams.status = "proposal"
+projectStore.getProjects()
 
-const voucherStore = useVoucherStore()
+onMounted(() => {
+    projectStore.$reset()
+    projectStore.viewState = true
+})
 </script>
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.PROJECTMONITORING_MARKETING,
+            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
         ])"
     >
         <div class="flex flex-col gap-4">
@@ -22,14 +25,14 @@ const voucherStore = useVoucherStore()
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
                         ])"
                         title="Project Contract"
                         target-id="projectForm"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_ALL,
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
                         ])"
                         title="My Drafts"
                         target-id="myDrafts"
@@ -40,16 +43,10 @@ const voucherStore = useVoucherStore()
                         <ProjectsForm />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="myDrafts">
-                        <ProjectsAllList />
+                        <ProjectsAllList status="draft" />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
-            <div class="w-full">
-                <AccountingVoucherDisbursementRequestForm
-                    v-if="voucherStore.voucherDisbursement.reference_no"
-                    :fillable="true"
-                />
-            </div>
         </div>
     </LayoutAcessContainer>
 </template>
