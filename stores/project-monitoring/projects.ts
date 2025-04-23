@@ -47,7 +47,7 @@ export const useProjectStore = defineStore("projects", {
             ntp_date: null,
             license: null,
             designation: null,
-            employee_id: 809,
+            employee_id: null,
             employees: []
         } as Project,
         list: [] as Project[],
