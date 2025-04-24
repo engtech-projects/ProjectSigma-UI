@@ -3,13 +3,13 @@
 <template>
     <LayoutNavModuleGroup
         v-if="useCheckAccessibility([
-            AccessibilityTypes.ADMIN_ONLY,
+            AccessibilityTypes.PROJECT_MONITORING_GROUP,
         ])"
         title="Project Monitoring"
     >
         <LayoutNavSingle
             v-if="useCheckAccessibility([
-                AccessibilityTypes.ADMIN_ONLY,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
             ])"
             linkarea="/project-monitoring"
             icon="ic:baseline-space-dashboard"
@@ -17,7 +17,7 @@
         />
         <LayoutNavSingle
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECTMONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
             ])"
             linkarea="/project-monitoring/marketing"
             icon="material-symbols:business-center"
@@ -25,7 +25,7 @@
         />
         <LayoutNavSingle
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECTMONITORING_TSS,
+                AccessibilityTypes.PROJECT_MONITORING_TSS,
             ])"
             linkarea="/project-monitoring/technical-service"
             icon="material-symbols:linked-services"
