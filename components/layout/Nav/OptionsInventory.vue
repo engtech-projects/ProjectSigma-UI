@@ -167,6 +167,14 @@
                 icon="grommet-icons:overview"
                 single-nav-title="Canvass Summary"
             />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.ADMIN_ONLY,
+                ])"
+                linkarea="/inventory/purchase-order"
+                icon="grommet-icons:overview"
+                single-nav-title="Purchase Order"
+            />
         </LayoutNavGroup>
     </LayoutNavModuleGroup>
 </template>

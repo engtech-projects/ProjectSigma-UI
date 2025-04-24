@@ -2,6 +2,7 @@ import { defineStore } from "pinia"
 const { token } = useAuth()
 const config = useRuntimeConfig()
 interface Employee {
+    employee_id: number,
     name: String,
 }
 interface Project {
@@ -21,6 +22,7 @@ interface Project {
     license: null | String,
     uuid: null | String,
     designation: null | Number,
+    employee_id: null | Number,
     employees: Array<Employee>
 }
 
@@ -46,9 +48,28 @@ export const useProjectStore = defineStore("projects", {
             ntp_date: null,
             license: null,
             designation: null,
+            employee_id: null,
             employees: []
         } as Project,
         list: [] as Project[],
+        draftList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        proposalList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         pagination: {},
         getParams: {},
         errorMessage: "",
@@ -59,7 +80,7 @@ export const useProjectStore = defineStore("projects", {
         },
     }),
     actions: {
-        async getProjectInformation (id: any) {
+        async getProjectsInformation (id: any) {
             this.isLoading.list = true
             const { data, error } = await useFetch(
                 "/api/projects/" + id,
@@ -84,26 +105,80 @@ export const useProjectStore = defineStore("projects", {
                 return error
             }
         },
-        async getProject () {
-            this.isLoading.list = true
-            const { data, error } = await useFetch(
+        async getDraftProjects () {
+            this.draftList.isLoading = true
+            this.draftList.params = {
+                status: "draft"
+            }
+            const { data, error } = await useProjectsApi(
                 "/api/projects",
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
+                    params: this.draftList.params,
+                    onRequest: () => {
+                        this.draftList.isLoading = true
                     },
+                    onResponse: ({ response }) => {
+                        this.draftList.isLoading = false
+                        if (response.ok) {
+                            this.draftList.list = response._data.data
+                            this.draftList.pagination = {
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getProposalProjects () {
+            this.proposalList.isLoading = true
+            this.proposalList.params = {
+                status: "proposal"
+            }
+            const { data, error } = await useProjectsApi(
+                "/api/projects",
+                {
+                    method: "GET",
+                    params: this.proposalList.params,
+                    onRequest: () => {
+                        this.proposalList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.proposalList.isLoading = false
+                        if (response.ok) {
+                            this.proposalList.list = response._data.data
+                            this.proposalList.pagination = {
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
+                            }
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getProject (id: number) {
+            this.isLoading.list = true
+            const { data, error } = await useProjectsApi(
+                "/api/projects/" + id,
+                {
+                    method: "GET",
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.list = response._data.data
-                        this.pagination = {
-                            first_page: response._data.links.first,
-                            pages: response._data.meta.links,
-                            last_page: response._data.links.last,
-                        }
+                        this.proposalList.list = response._data.data
                     },
                 }
             )
@@ -133,7 +208,8 @@ export const useProjectStore = defineStore("projects", {
                             this.errorMessage = response._data.message
                         } else {
                             this.$reset()
-                            this.getProject()
+                            this.getDraftProjects()
+                            this.getProposalProjects()
                             this.successMessage = response._data.message
                         }
                     },
@@ -162,7 +238,8 @@ export const useProjectStore = defineStore("projects", {
             )
             if (data.value) {
                 this.$reset()
-                this.getProject()
+                this.getDraftProjects()
+                this.getProposalProjects()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -187,7 +264,8 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
             if (data.value) {
-                this.getProject()
+                this.getDraftProjects()
+                this.getProposalProjects()
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -225,7 +303,7 @@ export const useProjectStore = defineStore("projects", {
                     },
                     onResponse: ({ response }) => {
                         if (response.ok) {
-                            this.getProjectInformation(projectId)
+                            this.getProjectsInformation(projectId)
                             this.projectMemberList(projectId)
                             this.successMessage = response._data.message || "Employee attached successfully."
                         }

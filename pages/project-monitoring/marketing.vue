@@ -1,55 +1,46 @@
-<script setup>
-import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-const projectStore = useProjectStore()
-projectStore.viewState = true
-
-const voucherStore = useVoucherStore()
-</script>
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.PROJECTMONITORING_MARKETING,
+            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
         ])"
     >
         <div class="flex flex-col gap-4">
-            <!-- <div class="w-full">
-                <p class="text-xl">
-                    Disbursement Voucher
-                </p>
-            </div> -->
             <AccountingCommonTabsMainContainer class="w-full">
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
                         ])"
                         title="Project Contract"
                         target-id="projectForm"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_ALL,
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
                         ])"
                         title="My Drafts"
                         target-id="myDrafts"
                     />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                        ])"
+                        title="My Proposals"
+                        target-id="myProposals"
+                    />
                 </template>
                 <template #tab-containers>
                     <AccountingCommonTabsTabContainer id="projectForm">
-                        <ProjectsForm />
+                        <ProjectsMarketingProjectsForm />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="myDrafts">
-                        <ProjectsAllList />
+                        <ProjectsMarketingDraftList status="draft" />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="myProposals">
+                        <ProjectsMarketingProposalList status="proposal" />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
-            <div class="w-full">
-                <AccountingVoucherDisbursementRequestForm
-                    v-if="voucherStore.voucherDisbursement.reference_no"
-                    :fillable="true"
-                />
-            </div>
         </div>
     </LayoutAcessContainer>
 </template>
