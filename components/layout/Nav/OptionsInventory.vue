@@ -147,6 +147,11 @@
                 icon="grommet-icons:overview"
                 single-nav-title="Price Quotation"
             />
+            <LayoutNavSingle
+                linkarea="/inventory/purchase-order"
+                icon="grommet-icons:overview"
+                single-nav-title="Purchase Order"
+            />
         </LayoutNavGroup>
     </LayoutNavModuleGroup>
 </template>
