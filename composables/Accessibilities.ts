@@ -186,10 +186,10 @@ export enum AccessibilityTypes {
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP = "inventory:warehouse_stock transfer_",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_REQUESTPROCESSING = "inventory:warehouse_stock transfer_request processing",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST = "inventory:warehouse_stock transfer_all requests",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP = "inventory:procurement_request price quotation_",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS = "inventory:procurement_request price quotation_requests",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLQUOTATONS = "inventory:procurement_request price quotation_all quotations",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_MYQUOTATIONS = "inventory:procurement_request price quotation_my quotations",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP = "inventory:procurement_price quotation_",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS = "inventory:procurement_price quotation_requests",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLQUOTATONS = "inventory:procurement_price quotation_all quotations",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_MYQUOTATIONS = "inventory:procurement_price quotation_my quotations",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",
