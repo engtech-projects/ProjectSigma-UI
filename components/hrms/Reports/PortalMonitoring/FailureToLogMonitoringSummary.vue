@@ -5,7 +5,7 @@ const { portalMonitoringReports } = storeToRefs(generateReportstore)
 const headers = [
     { name: "NO", id: "" },
     { name: "Employee Name", id: "employee_name" },
-    { name: "Total Number of Failure to Log Filled", id: "failuretolog_filled" },
+    { name: "Total Number of Failure to Log Filed", id: "failuretolog_filed" },
 ]
 </script>
 <template>
@@ -39,7 +39,7 @@ const headers = [
                                         {{ failureToLogRequest.employee_name }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ failureToLogRequest.failuretolog_filled }}
+                                        {{ failureToLogRequest.failuretolog_filed }}
                                     </td>
                                 </tr>
                             </tbody>
