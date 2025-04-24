@@ -453,10 +453,18 @@
 
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
-
+import { usePhaseStore } from "@/stores/project-monitoring/phase"
+const props = defineProps({
+    projectId: {
+        type: Number,
+        default: null
+    },
+})
 const projectStore = useProjectStore()
 const edit = projectStore.viewState
-
+const phaseStore = usePhaseStore()
+phaseStore.phase.project_id = props.projectId
+phaseStore.getPhases(Number(props.projectId))
 const showPhaseModal = ref(false)
 const showTaskModal = ref(false)
 

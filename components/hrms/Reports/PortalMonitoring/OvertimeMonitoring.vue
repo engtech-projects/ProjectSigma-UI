@@ -39,42 +39,40 @@ const headers = [
                             </thead>
                             <tbody class="text-sm text-center">
                                 <tr v-for="overtimeRequest, index in portalMonitoringReports.list" :key="'OvertimeMonitoring' + index" class="h-2">
-                                    <template v-for="dataValue, dataValueIndex in overtimeRequest" :key="'Request' + dataValueIndex">
-                                        <td class="border border-gray-500 h-8">
-                                            {{ index + 1 }}
-                                        </td>
-                                        <td class="whitespace-nowrap border border-gray-500 h-8">
-                                            {{ dataValue.employee_name }}
-                                        </td>
-                                        <td class="border border-gray-500 h-8">
-                                            {{ dataValue.designation }}
-                                        </td>
-                                        <td class="border border-gray-500 h-8">
-                                            {{ dataValue.section }}
-                                        </td>
-                                        <td class="border border-gray-500 h-8">
-                                            {{ dataValue.date_of_overtime }}
-                                        </td>
-                                        <td class="border border-gray-500 h-8">
-                                            {{ dataValue.prepared_by }}
-                                        </td>
-                                        <td class="border border-gray-500 h-8">
-                                            {{ dataValue.request_status }}
-                                        </td>
-                                        <td class="border border-gray-500 h-8">
-                                            {{ dataValue.days_delayed_filling }}
-                                        </td>
-                                        <td class="border border-gray-500 h-8">
-                                            {{ dataValue.date_approved }}
-                                        </td>
-                                        <td
-                                            class="border border-gray-500 h-8"
-                                        >
-                                            <p class="whitespace-nowrap text-sm text-center">
-                                                {{ dataValue.approvals }}
-                                            </p>
-                                        </td>
-                                    </template>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ index + 1 }}
+                                    </td>
+                                    <td class="whitespace-nowrap border border-gray-500 h-8">
+                                        {{ overtimeRequest.employee_name }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ overtimeRequest.designation }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ overtimeRequest.section }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ overtimeRequest.date_of_overtime }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ overtimeRequest.prepared_by }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ overtimeRequest.request_status }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ overtimeRequest.days_delayed_filling }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ overtimeRequest.date_approved }}
+                                    </td>
+                                    <td
+                                        class="border border-gray-500 h-8"
+                                    >
+                                        <p class="whitespace-nowrap text-sm text-center">
+                                            {{ overtimeRequest.approvals }}
+                                        </p>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
