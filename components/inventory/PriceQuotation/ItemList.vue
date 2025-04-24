@@ -26,6 +26,17 @@ const requestItems = ref([
 </script>
 
 <template>
+    <LayoutLoadingContainer class="w-full" :loading="priceQuotation.isLoading">
+        <div class="pb-2 text-gray-500 overflow-y-auto p-2">
+            <LayoutPsTable
+                :header-columns="headers"
+                :actions="actions"
+                :datas="formattedRequests"
+                @show-table="showInformation"
+            />
+        </div>
+        <div class="flex justify-center mx-auto">
+            <CustomPagination :links="priceQuotation.pagination" @change-params="changePaginate" />
     <div>
         <div class="overflow-x-auto">
             <table class="table-auto w-full border-collapse text-sm">
