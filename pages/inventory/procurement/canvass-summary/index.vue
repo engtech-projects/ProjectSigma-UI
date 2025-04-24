@@ -8,25 +8,25 @@ useHead({
 </script>
 <template>
     <LayoutAcessContainer
-        :if-access="useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY,
+        :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP,
         ])"
         class="w-full"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_REQUESTS])"
                     target-id="Request"
                     title="Canvass Summary"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_ALLREQUEST])"
                     target-id="allRequest"
                     title="All Canvass Summary"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.ADMIN_ONLY,
+                        AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_MYREQUESTS,
                     ])"
                     target-id="myRequests"
                     title="My Canvass Summary"
