@@ -1,5 +1,7 @@
 <script setup>
-
+import { useResourceStore } from "~/stores/project-monitoring/resource"
+const resourceStore = useResourceStore()
+await resourceStore.getResources()
 </script>
 <template>
     <LayoutAcessContainer
