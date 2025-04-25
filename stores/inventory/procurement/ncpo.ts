@@ -3,45 +3,35 @@ import { defineStore } from "pinia"
 export const APPROVED = "Approved"
 export const PENDING = "Pending"
 export const DENIED = "Denied"
-export const APPROVALS = "Request Stocks"
+export const APPROVALS = "NCPO"
 export const REQ_STATUS = [
     APPROVED,
     PENDING,
     DENIED,
 ]
 
-export interface RsDetails {
-    request_for: String,
-    warehouse_id: String,
-    warehouse_address: String,
-    section_id: number,
-    section_type: string,
-    office_project_address: String,
-    date_prepared: String,
-    date_needed: String,
+export interface NCPODetails {
+    ncpo_no: String,
+    po_number: String,
+    po_date: String,
+    project_id: String,
     equipment_no: String,
-    reference_no: String,
+    date: String,
+    justification: String,
     items: any,
     approvals: any,
 }
-export interface RsList {
+export interface NCPOList {
     item_id: string,
-    quantity: String,
-    unit: String,
     item_description: String,
     specification: String,
-    preferred_brand: String,
-    reason: String,
-    location: String,
-    location_qty: String,
-    is_approved: boolean,
-    type_of_request: String,
-    contact_no: String,
-    remarks: String,
-    current_smr: String,
-    previous_smr: String,
-    unused_smr: String,
-    next_smr: String,
+    quantity: String,
+    uom: String,
+    supplier_id: String,
+    unit_price: String,
+    net_of_vat: String,
+    input_vat: String,
+    gross_amount: String,
 }
 
 export const useNcpoStore = defineStore("ncpoStore", {
@@ -55,11 +45,10 @@ export const useNcpoStore = defineStore("ncpoStore", {
                 list: [],
                 params: {},
             },
-            list: [] as Array<RsList>,
-            form: {} as RsDetails,
-            items: [] as Array<RsList>,
+            list: [] as Array<NCPOList>,
+            form: {} as NCPODetails,
+            items: [] as Array<NCPOList>,
             params: {
-                department_id: null as null | Number,
                 project_id: null as null | Number,
             },
             pagination: {},
@@ -101,7 +90,7 @@ export const useNcpoStore = defineStore("ncpoStore", {
     actions: {
         async getAllRequests () {
             await useInventoryApi(
-                "/api/request-stock/all-request",
+                "/api/procurement/ncpo/all-request",
                 {
                     method: "GET",
                     params: this.allRequests.params,

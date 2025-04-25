@@ -37,16 +37,16 @@ useHead({
             </template>
             <template #tab-containers>
                 <HrmsCommonTabsTabContainer id="Form">
-                    <InventoryProcurementNoticeOfChangePOItemForm v-model="ncpoRequest.form" />
+                    <InventoryNoticeOfChangePOItemForm v-model="ncpoRequest.form" />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="allRequest">
-                    <InventoryRequestStockRequestAllRequests />
+                    <InventoryNoticeOfChangePORequestAllRequests />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myApprovals">
-                    <InventoryRequestStockRequestMyApprovals />
+                    <InventoryNoticeOfChangePORequestMyApprovals />
                 </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="myRequests">
-                    <InventoryRequestStockRequestMyRequests />
+                    <InventoryNoticeOfChangePORequestMyRequests />
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>
