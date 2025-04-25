@@ -52,7 +52,9 @@
 
 <script lang="ts" setup>
 import { usePhaseStore } from "@/stores/project-monitoring/phase"
+import { useProjectStore } from "~/stores/project-monitoring/projects"
 const phaseStore = usePhaseStore()
+const projectStore = useProjectStore()
 defineProps({
     showModal: {
         type: Boolean,
@@ -77,6 +79,7 @@ const handleSubmit = async () => {
                 type: "success",
                 text: phaseStore.successMessage
             })
+            projectStore.information.phases.push(phaseStore.phase)
         }
     } catch (error) {
         snackbar.add({
