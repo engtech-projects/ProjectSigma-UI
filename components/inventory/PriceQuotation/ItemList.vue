@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from "vue"
-
 const requestItems = ref([
     {
         qty: 10,
