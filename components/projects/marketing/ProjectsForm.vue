@@ -1,3 +1,38 @@
+<script lang="ts" setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+const projectStore = useProjectStore()
+const showUploadModal = ref(false)
+const snackbar = useSnackbar()
+
+const handleSubmit = async () => {
+    try {
+        projectStore.isLoading.create = true
+        await projectStore.createProject()
+        if (projectStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: projectStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: projectStore.successMessage
+            })
+        }
+    } catch (error) {
+        projectStore.errorMessage = error as string
+
+        snackbar.add({
+            type: "error",
+            text: projectStore.errorMessage
+        })
+    } finally {
+        projectStore.clearMessages()
+        projectStore.isLoading.create = false
+    }
+}
+</script>
+
 <template>
     <AccountingLoadScreen :is-loading="projectStore.isLoading.create" />
     <div class="flex flex-col gap-6 p-2">
@@ -23,7 +58,7 @@
                         <label for="" class="text-sm text-gray-700">
                             Contract Amount
                         </label>
-                        <input v-model="projectStore.information.amount" type="text" class="border rounded-lg border-gray-300 h-10" required placeholder="0.00">
+                        <input v-model="projectStore.information.amount" type="number" class="border rounded-lg border-gray-300 h-10" required placeholder="0.00">
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="" class="text-sm text-gray-700">
@@ -89,41 +124,6 @@
         <ProjectsModalsUpload :show-modal="showUploadModal" @hide-modal="showUploadModal = false" />
     </div>
 </template>
-
-<script lang="ts" setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-const projectStore = useProjectStore()
-const showUploadModal = ref(false)
-const snackbar = useSnackbar()
-
-const handleSubmit = async () => {
-    try {
-        projectStore.isLoading.create = true
-        await projectStore.createProject()
-        if (projectStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: projectStore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: projectStore.successMessage
-            })
-        }
-    } catch (error) {
-        projectStore.errorMessage = error as string
-
-        snackbar.add({
-            type: "error",
-            text: projectStore.errorMessage
-        })
-    } finally {
-        projectStore.clearMessages()
-        projectStore.isLoading.create = false
-    }
-}
-</script>
 
 <style>
 #tabContainer span.active {
