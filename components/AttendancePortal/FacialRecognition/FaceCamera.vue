@@ -71,7 +71,7 @@ const detectFace = () => {
             detectionTimer.value = 4
             currentDetectionId.value = null
         }
-    }, 750)
+    }, 250)
 }
 const findFaceOwner = () => {
     // const matcher = new faceapi.FaceMatcher(attendancePortal.labeledFaceDescriptorsID, 0.4)
