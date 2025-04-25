@@ -68,7 +68,7 @@ const startCamera = () => {
                     faceLandMarks.value = error
                     readyState.value = false
                 }
-            }, 500)
+            }, 1000)
         })
     })
 }
