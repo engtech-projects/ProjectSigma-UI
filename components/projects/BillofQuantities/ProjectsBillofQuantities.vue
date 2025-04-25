@@ -37,13 +37,13 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody v-for="phase in projectStore.information.phases" :key="phase.id">
                     <tr>
                         <td class="uppercase bg-yellow-200 text-center">
-                            Item A
+                            {{ phase.name }}
                         </td>
                         <td class="uppercase bg-yellow-200 text-center">
-                            Facilities for Engineers
+                            {{ phase.description }}
                         </td>
                         <td class="bg-yellow-200 py-1" colspan="4">
                             <div class="flex gap-1 justify-end">
@@ -74,6 +74,75 @@
                             Amount
                         </td>
                     </tr>
+
+                    <!-- //TASK LIST -->
+                    <tr v-for="task in phase.tasks" :key="task.id">
+                        <td class="text-center border border-gray-700">
+                            {{ task.name }}
+                        </td>
+                        <td class="p-2 border border-gray-700">
+                            {{ task.description }}
+                        </td>
+                        <td class="p-2 border border-gray-700 text-center">
+                            {{ task.unit }}
+                        </td>
+                        <td class="p-2 border border-gray-700 text-center">
+                            {{ task.quantity }}
+                        </td>
+                        <td class="border border-gray-700">
+                            <div class="flex flex-col p-2 border-b border-gray-700">
+                                <h4 class="font-bold uppercase text-sm">
+                                    In Words
+                                </h4>
+                                <span class="pl-4">
+                                    Eight hundred forty-six thousand seven hundred twenty.
+                                </span>
+                            </div>
+                            <div class="flex flex-col p-2">
+                                <h4 class="font-bold uppercase text-sm">
+                                    In Figures
+                                </h4>
+                                <span class="pl-4">
+                                    846,720
+                                </span>
+                            </div>
+                        </td>
+                        <td class="border border-gray-700">
+                            <div class="flex">
+                                <div class="flex flex-col border-r border-gray-700">
+                                    <div class="flex flex-col p-2 border-b border-gray-700">
+                                        <h4 class="font-bold uppercase text-sm flex-1">
+                                            In Words
+                                        </h4>
+                                        <span class="pl-4 flex-1">
+                                            Eight hundred forty-six thousand seven hundred twenty.
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-col p-2">
+                                        <h4 class="font-bold uppercase text-sm">
+                                            In Figures
+                                        </h4>
+                                        <span class="pl-4">
+                                            846,720
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col p-2 justify-center gap-2">
+                                    <NuxtLink v-if="edit" to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                        <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
+                                    </NuxtLink>
+                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
+                                    </NuxtLink>
+                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                        <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody>
                     <tr>
                         <td class="text-center border border-gray-700">
                             A.1.1
