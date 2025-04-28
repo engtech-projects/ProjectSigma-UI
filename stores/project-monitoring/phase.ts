@@ -19,7 +19,8 @@ export const usePhaseStore = defineStore("phaseStore", {
         successMessage: "",
         isLoading: {
             list: false,
-            create: false
+            create: false,
+            delete: false
         },
         isEdit: false
     }),
@@ -66,9 +67,8 @@ export const usePhaseStore = defineStore("phaseStore", {
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
-                            this.phase = response._data
                         } else {
-                            this.reset()
+                            this.phase = response._data.data
                             this.successMessage = response._data.message
                         }
                     },
@@ -79,8 +79,8 @@ export const usePhaseStore = defineStore("phaseStore", {
         async editPhase () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useAccountingApi(
-                "/api/phase/" + this.phase.id,
+            const { data, error } = await useProjectsApi(
+                "/api/phases/" + this.phase.id,
                 {
                     method: "PATCH",
                     body: this.phase,
@@ -98,8 +98,8 @@ export const usePhaseStore = defineStore("phaseStore", {
         },
 
         async deletePhase (id: number) {
-            const { data, error } = await useAccountingApi(
-                "/api/phase/" + id,
+            const { data, error } = await useProjectsApi(
+                "/api/phases/" + id,
                 {
                     method: "DELETE",
                     body: this.phase,
@@ -110,11 +110,10 @@ export const usePhaseStore = defineStore("phaseStore", {
                 }
             )
             if (data.value) {
-                this.getPhases(this.phase.project_id)
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
-                this.errorMessage = "Error"
+                this.errorMessage = error.value.data.message
                 return error
             }
         },

@@ -8,6 +8,7 @@
         @hide="emit('hideModal')"
     >
         <div class="flex flex-col p-4">
+            <AccountingLoadScreen :is-loading="boardLoading" />
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-end gap-2">
                     <h1 class="text-3xl uppercase">
@@ -108,6 +109,7 @@ const handleSubmit = async () => {
                 text: taskStore.errorMessage
             })
         } else {
+            emit("save", clone(taskStore.task))
             snackbar.add({
                 type: "success",
                 text: taskStore.successMessage
@@ -120,9 +122,10 @@ const handleSubmit = async () => {
         })
     } finally {
         boardLoading.value = false
+        taskStore.reset()
     }
 }
-const emit = defineEmits(["hideModal"])
+const emit = defineEmits(["hideModal", "save"])
 </script>
 
 <style>

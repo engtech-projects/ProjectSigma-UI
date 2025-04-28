@@ -43,9 +43,9 @@ const handleSubmit = async () => {
 <template>
     <AccountingLoadScreen :is-loading="projectStore.isLoading.create" />
     <div class="flex flex-col gap-6 p-2">
-        <h1 class="text-2xl mb-4">
+        <!-- <h1 class="text-2xl mb-4">
             Project Creation Form
-        </h1>
+        </h1> -->
         <form @submit.prevent="handleSubmit">
             <div class="flex flex-col gap-4">
                 <div class="grid grid-cols-4 gap-6">

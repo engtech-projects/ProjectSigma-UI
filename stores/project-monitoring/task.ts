@@ -23,7 +23,8 @@ export const useTaskStore = defineStore("taskStore", {
         successMessage: "",
         isLoading: {
             list: false,
-            create: false
+            create: false,
+            delete: false
         },
         isEdit: false
     }),
@@ -71,8 +72,7 @@ export const useTaskStore = defineStore("taskStore", {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.getTasks(this.task.phase_id)
-                            this.reset()
+                            this.task = response._data.data
                             this.successMessage = response._data.message
                         }
                     },
@@ -83,7 +83,7 @@ export const useTaskStore = defineStore("taskStore", {
         async editTask () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useAccountingApi(
+            const { data, error } = await useProjectsApi(
                 "/api/task/" + this.task.id,
                 {
                     method: "PATCH",
@@ -102,8 +102,8 @@ export const useTaskStore = defineStore("taskStore", {
         },
 
         async deleteTask (id: number) {
-            const { data, error } = await useAccountingApi(
-                "/api/task/" + id,
+            const { data, error } = await useProjectsApi(
+                "/api/tasks/" + id,
                 {
                     method: "DELETE",
                     body: this.task,

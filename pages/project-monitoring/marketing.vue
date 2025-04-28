@@ -11,7 +11,7 @@
                         v-if="useCheckAccessibility([
                             AccessibilityTypes.PROJECT_MONITORING_MARKETING,
                         ])"
-                        title="Project Contract"
+                        title="Project Contract Creation"
                         target-id="projectForm"
                     />
                     <AccountingCommonTabsTabTitle
@@ -44,3 +44,8 @@
         </div>
     </LayoutAcessContainer>
 </template>
+<script setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+const projectStore = useProjectStore()
+projectStore.$reset()
+</script>
