@@ -25,7 +25,7 @@ const requestItems = ref([
 
 <template>
     <div>
-        <div class="overflow-x-auto">
+        <div>
             <table class="table-auto w-full border-collapse text-sm">
                 <thead class="bg-gray-100 text-center">
                     <tr>
