@@ -16,6 +16,7 @@ export const useResourceStore = defineStore("resourceStore", {
             resource_count: null,
             total_cost: null
         },
+        resourceNames: [],
         list: [],
         pagination: {},
         getParams: {},
@@ -48,6 +49,61 @@ export const useResourceStore = defineStore("resourceStore", {
                             pages: response._data.meta.links,
                             last_page: response._data.links.last,
                         }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async getResourceNames () {
+            this.isLoading.list = true
+            const { data, error } = await useFetch(
+                "/api/resource-names",
+                {
+                    baseURL: config.public.PROJECTS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading.list = false
+                        this.resourceNames = response._data
+                        this.pagination = {
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async getResource (id) {
+            this.isLoading.list = true
+            const { data, error } = await useFetch(
+                "/api/resource-items/" + id,
+                {
+                    baseURL: config.public.PROJECTS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading.list = false
+                        this.resource = response._data.data
                     },
                 }
             )

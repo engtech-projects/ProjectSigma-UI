@@ -58,6 +58,31 @@ export const useTaskStore = defineStore("taskStore", {
             }
         },
 
+        async getTask (id: number) {
+            this.isLoading.list = true
+            const { data, error } = await useFetch(
+                "/api/tasks/" + id,
+                {
+                    baseURL: config.public.PROJECTS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading.list = false
+                        this.task = response._data.data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         async createTask () {
             this.successMessage = ""
             this.errorMessage = ""
