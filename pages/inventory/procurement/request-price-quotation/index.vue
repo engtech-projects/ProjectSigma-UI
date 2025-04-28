@@ -20,13 +20,13 @@ useHead({
                     title="Request For Price Quotation"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLREQUEST])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLQUOTATONS])"
                     target-id="allRequest"
                     title="All Price Quotations"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
-                        AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESPRICEQUOTATION_MYREQUESTS,
+                        AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_MYQUOTATIONS,
                     ])"
                     target-id="myRequests"
                     title="My Price Quotations"
