@@ -3,19 +3,20 @@ import { defineStore } from "pinia"
 const config = useRuntimeConfig()
 const { token } = useAuth()
 
-export const useTaskStore = defineStore("taskStore", {
+export const useResourceStore = defineStore("resourceStore", {
     state: () => ({
-        task: {
+        resource: {
             id: null,
-            project_id: null,
-            phase_id: null,
-            name: null,
+            task_id: 1,
+            name_id: 1,
             description: null,
             quantity: null,
             unit: null,
-            unit_price: null,
-            amount: null
+            unit_cost: null,
+            resource_count: null,
+            total_cost: null
         },
+        resourceNames: [],
         list: [],
         pagination: {},
         getParams: {},
@@ -23,16 +24,15 @@ export const useTaskStore = defineStore("taskStore", {
         successMessage: "",
         isLoading: {
             list: false,
-            create: false,
-            delete: false
+            create: false
         },
         isEdit: false
     }),
     actions: {
-        async getTasks (projectId: number) {
+        async getResources () {
             this.isLoading.list = true
             const { data, error } = await useFetch(
-                "/api/tasks?project_id=" + projectId,
+                "/api/resource-items",
                 {
                     baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
@@ -59,10 +59,10 @@ export const useTaskStore = defineStore("taskStore", {
             }
         },
 
-        async getTask (id: number) {
+        async getResourceNames () {
             this.isLoading.list = true
             const { data, error } = await useFetch(
-                "/api/tasks/" + id,
+                "/api/resource-names",
                 {
                     baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
@@ -73,7 +73,12 @@ export const useTaskStore = defineStore("taskStore", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.task = response._data.data
+                        this.resourceNames = response._data
+                        this.pagination = {
+                            first_page: response._data.links.first,
+                            pages: response._data.meta.links,
+                            last_page: response._data.links.last,
+                        }
                     },
                 }
             )
@@ -84,20 +89,46 @@ export const useTaskStore = defineStore("taskStore", {
             }
         },
 
-        async createTask () {
+        async getResource (id) {
+            this.isLoading.list = true
+            const { data, error } = await useFetch(
+                "/api/resource-items/" + id,
+                {
+                    baseURL: config.public.PROJECTS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading.list = false
+                        this.resource = response._data.data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
+        async createResource () {
             this.successMessage = ""
             this.errorMessage = ""
             await useProjectsApi(
-                "/api/tasks",
+                "/api/resource-items",
                 {
                     method: "POST",
-                    body: this.task,
+                    body: this.resource,
                     watch: false,
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
                         } else {
-                            this.task = response._data.data
+                            this.getResources()
+                            this.reset()
                             this.successMessage = response._data.message
                         }
                     },
@@ -105,19 +136,19 @@ export const useTaskStore = defineStore("taskStore", {
             )
         },
 
-        async editTask () {
+        async editResource () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useProjectsApi(
-                "/api/task/" + this.task.id,
+            const { data, error } = await useAccountingApi(
+                "/api/resource/" + this.resource.id,
                 {
                     method: "PATCH",
-                    body: this.task,
+                    body: this.resource,
                     watch: false,
                 }
             )
             if (data.value) {
-                this.getTasks(this.task.phase_id)
+                this.getResources(this.resource.project_id)
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -126,12 +157,12 @@ export const useTaskStore = defineStore("taskStore", {
             }
         },
 
-        async deleteTask (id: number) {
-            const { data, error } = await useProjectsApi(
-                "/api/tasks/" + id,
+        async deleteResource (id: number) {
+            const { data, error } = await useAccountingApi(
+                "/api/resource/" + id,
                 {
                     method: "DELETE",
-                    body: this.task,
+                    body: this.resource,
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
@@ -139,7 +170,7 @@ export const useTaskStore = defineStore("taskStore", {
                 }
             )
             if (data.value) {
-                this.getTasks(this.task.phase_id)
+                this.getResources(this.resource.project_id)
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -149,16 +180,16 @@ export const useTaskStore = defineStore("taskStore", {
         },
 
         reset () {
-            this.task = {
+            this.resource = {
                 id: null,
-                project_id: null,
-                phase_id: null,
-                name: null,
+                task_id: 1,
+                name_id: null,
                 description: null,
                 quantity: null,
                 unit: null,
-                unit_price: null,
-                amount: null
+                unit_cost: null,
+                resource_count: null,
+                total_cost: null
             }
             this.successMessage = ""
             this.errorMessage = ""
