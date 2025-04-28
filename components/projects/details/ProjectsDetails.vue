@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col p-2">
+    <div class="flex flex-col p-2 bg-white">
         <h1 class="text-lg mb-4 text-center uppercase font-bold">
             Department of Public Works and Highways
         </h1>
@@ -42,9 +42,9 @@
                 <span>
                     A.1.1(3)
                 </span>
-                <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-8" @click="showCategoryModal = true">
+                <!-- <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-8" @click="showCategoryModal = true">
                     Add Category
-                </button>
+                </button> -->
             </div>
         </div>
 
@@ -57,7 +57,8 @@
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projectStore = useProjectStore()
-const edit = projectStore.viewState
+projectStore.viewState = true
+// const edit = projectStore.viewState
 const showCategoryModal = ref(false)
 </script>
 
