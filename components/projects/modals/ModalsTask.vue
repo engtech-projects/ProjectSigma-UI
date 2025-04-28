@@ -22,10 +22,10 @@
             </div>
             <div class="flex gap-4 items-center mb-10">
                 <label class="text-md text-gray-700 uppercase text-md">
-                    Phase name
+                    Phase Name
                 </label>
                 <h3 class="text-green-600 text-lg">
-                    General Requirements
+                    {{ phaseStore.phase.name }}
                 </h3>
             </div>
             <form @submit.prevent="handleSubmit">
@@ -43,34 +43,6 @@
                         <input v-model="taskStore.task.amount" type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
                     </div> -->
                 </div>
-                <!-- <div class="grid grid-cols-2 gap-6 mb-4">
-                    <div class="flex flex-col">
-                        <label class="text-md text-gray-700">
-                            Quantity
-                        </label>
-                        <input v-model="taskStore.task.quantity" type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-md text-gray-700">
-                            Unit
-                        </label>
-                        <input v-model="taskStore.task.unit" type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-6 mb-4">
-                    <div class="flex flex-col">
-                        <label class="text-md text-gray-700">
-                            Unit Price
-                        </label>
-                        <input v-model="taskStore.task.unit_price" type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-md text-gray-700">
-                            Amount
-                        </label>
-                        <input v-model="taskStore.task.amount" type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
-                    </div>
-                </div> -->
                 <div class="flex flex-col mb-4">
                     <label class="text-md text-gray-700">
                         Description
@@ -89,7 +61,9 @@
 
 <script lang="ts" setup>
 import { useTaskStore } from "@/stores/project-monitoring/task"
+import { usePhaseStore } from "@/stores/project-monitoring/phase"
 const taskStore = useTaskStore()
+const phaseStore = usePhaseStore()
 defineProps({
     showModal: {
         type: Boolean,
