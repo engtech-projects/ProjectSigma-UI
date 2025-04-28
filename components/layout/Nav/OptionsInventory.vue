@@ -161,7 +161,7 @@
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ADMIN_ONLY,
+                    AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP,
                 ])"
                 linkarea="/inventory/procurement/canvass-summary"
                 icon="grommet-icons:overview"
@@ -177,7 +177,7 @@
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ADMIN_ONLY,
+                    AccessibilityTypes.INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_GROUP,
                 ])"
                 linkarea="/inventory/procurement/notice-of-change-po"
                 icon="carbon:purchase"
