@@ -1,5 +1,6 @@
 <template>
     <div>
+        <AccountingLoadScreen :is-loading="boardLoading" />
         <div class="flex flex-col gap-6 border-t-2 border-gray-800 pt-6 mb-4">
             <div class="flex justify-between">
                 <div class="flex items-end gap-2">
@@ -10,7 +11,7 @@
                         Project Description
                     </h4>
                 </div>
-                <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9" @click="showPhaseModal = true">
+                <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9" @click="phaseModalShow">
                     Create Item
                 </button>
             </div>
@@ -37,6 +38,13 @@
                         </th>
                     </tr>
                 </thead>
+                <tbody v-if="projectStore.information.phases.length === 0">
+                    <tr>
+                        <td colspan="6" class="text-center py-4 font-semibold text-md italic text-gray-500">
+                            No Data Available!
+                        </td>
+                    </tr>
+                </tbody>
                 <tbody v-for="phase in projectStore.information.phases" :key="phase.id">
                     <tr>
                         <td class="uppercase bg-yellow-200 text-center">
@@ -47,10 +55,10 @@
                         </td>
                         <td class="bg-yellow-200 py-1" colspan="4">
                             <div class="flex gap-1 justify-end">
-                                <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showTaskModal = true">
+                                <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="displayTaskModal(phase)">
                                     Create Task
                                 </button>
-                                <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
+                                <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="removePhase(phase)">
                                     Remove
                                 </button>
                             </div>
@@ -95,7 +103,7 @@
                                     In Words
                                 </h4>
                                 <span class="pl-4">
-                                    Eight hundred forty-six thousand seven hundred twenty.
+                                    {{ amountToWords(task.unit_price?? 0) }}
                                 </span>
                             </div>
                             <div class="flex flex-col p-2">
@@ -103,19 +111,19 @@
                                     In Figures
                                 </h4>
                                 <span class="pl-4">
-                                    846,720
+                                    {{ accountingCurrency(task.unit_price) }}
                                 </span>
                             </div>
                         </td>
                         <td class="border border-gray-700">
                             <div class="flex">
-                                <div class="flex flex-col border-r border-gray-700">
+                                <div class="flex flex-col border-r border-gray-700 flex-1">
                                     <div class="flex flex-col p-2 border-b border-gray-700">
                                         <h4 class="font-bold uppercase text-sm flex-1">
                                             In Words
                                         </h4>
                                         <span class="pl-4 flex-1">
-                                            Eight hundred forty-six thousand seven hundred twenty.
+                                            {{ amountToWords(task.amount?? 0) }}
                                         </span>
                                     </div>
                                     <div class="flex flex-col p-2">
@@ -123,7 +131,7 @@
                                             In Figures
                                         </h4>
                                         <span class="pl-4">
-                                            846,720
+                                            {{ accountingCurrency(task.amount) }}
                                         </span>
                                     </div>
                                 </div>
@@ -134,370 +142,7 @@
                                     <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
                                     </NuxtLink>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td class="text-center border border-gray-700">
-                            A.1.1
-                        </td>
-                        <td class="p-2 border border-gray-700">
-                            Construction of Field Office for the Engineer (Bunk House with Complete Electrical, Water & Sanitary Installation including Provision of 2 units Multifunction Inkjet Printer A3)
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            l.s
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            1
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex flex-col p-2 border-b border-gray-700">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Words
-                                </h4>
-                                <span class="pl-4">
-                                    Eight hundred forty-six thousand seven hundred twenty.
-                                </span>
-                            </div>
-                            <div class="flex flex-col p-2">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Figures
-                                </h4>
-                                <span class="pl-4">
-                                    846,720
-                                </span>
-                            </div>
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex">
-                                <div class="flex flex-col border-r border-gray-700">
-                                    <div class="flex flex-col p-2 border-b border-gray-700">
-                                        <h4 class="font-bold uppercase text-sm flex-1">
-                                            In Words
-                                        </h4>
-                                        <span class="pl-4 flex-1">
-                                            Eight hundred forty-six thousand seven hundred twenty.
-                                        </span>
-                                    </div>
-                                    <div class="flex flex-col p-2">
-                                        <h4 class="font-bold uppercase text-sm">
-                                            In Figures
-                                        </h4>
-                                        <span class="pl-4">
-                                            846,720
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink v-if="edit" to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center border border-gray-700">
-                            A.1.2
-                        </td>
-                        <td class="p-2 border border-gray-700">
-                            Construction of Field Office for the Engineer (Bunk House with Complete Electrical, Water & Sanitary Installation including Provision of 2 units Multifunction Inkjet Printer A3)
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            l.s
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            1
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex flex-col p-2 border-b border-gray-700">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Words
-                                </h4>
-                                <span class="pl-4">
-                                    Eight hundred forty-six thousand seven hundred twenty.
-                                </span>
-                            </div>
-                            <div class="flex flex-col p-2">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Figures
-                                </h4>
-                                <span class="pl-4">
-                                    846,720
-                                </span>
-                            </div>
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex">
-                                <div class="flex flex-col border-r border-gray-700">
-                                    <div class="flex flex-col p-2 border-b border-gray-700">
-                                        <h4 class="font-bold uppercase text-sm flex-1">
-                                            In Words
-                                        </h4>
-                                        <span class="pl-4 flex-1">
-                                            Eight hundred forty-six thousand seven hundred twenty.
-                                        </span>
-                                    </div>
-                                    <div class="flex flex-col p-2">
-                                        <h4 class="font-bold uppercase text-sm">
-                                            In Figures
-                                        </h4>
-                                        <span class="pl-4">
-                                            846,720
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink v-if="edit" to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center border border-gray-700">
-                            A.1.3
-                        </td>
-                        <td class="p-2 border border-gray-700">
-                            Construction of Field Office for the Engineer (Bunk House with Complete Electrical, Water & Sanitary Installation including Provision of 2 units Multifunction Inkjet Printer A3)
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            l.s
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            1
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex flex-col p-2 border-b border-gray-700">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Words
-                                </h4>
-                                <span class="pl-4">
-                                    Eight hundred forty-six thousand seven hundred twenty.
-                                </span>
-                            </div>
-                            <div class="flex flex-col p-2">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Figures
-                                </h4>
-                                <span class="pl-4">
-                                    846,720
-                                </span>
-                            </div>
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex">
-                                <div class="flex flex-col border-r border-gray-700">
-                                    <div class="flex flex-col p-2 border-b border-gray-700">
-                                        <h4 class="font-bold uppercase text-sm flex-1">
-                                            In Words
-                                        </h4>
-                                        <span class="pl-4 flex-1">
-                                            Eight hundred forty-six thousand seven hundred twenty.
-                                        </span>
-                                    </div>
-                                    <div class="flex flex-col p-2">
-                                        <h4 class="font-bold uppercase text-sm">
-                                            In Figures
-                                        </h4>
-                                        <span class="pl-4">
-                                            846,720
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink v-if="edit" to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="uppercase bg-yellow-200 text-center">
-                            Item B
-                        </td>
-                        <td class="uppercase bg-yellow-200 text-center">
-                            Facilities for Engineers
-                        </td>
-                        <td class="bg-yellow-200 py-1" colspan="4">
-                            <div class="flex gap-1 justify-end">
-                                <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showTaskModal = true">
-                                    Create Task
-                                </button>
-                                <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
-                                    Remove
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="bg-gray-100">
-                        <td />
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Designation
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            No. of Persons
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            No. of Hours
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Hourly Rate
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Amount
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center border border-gray-700">
-                            B.1.1
-                        </td>
-                        <td class="p-2 border border-gray-700">
-                            Construction of Field Office for the Engineer (Bunk House with Complete Electrical, Water & Sanitary Installation including Provision of 2 units Multifunction Inkjet Printer A3)
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            l.s
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            1
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex flex-col p-2 border-b border-gray-700">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Words
-                                </h4>
-                                <span class="pl-4">
-                                    Eight hundred forty-six thousand seven hundred twenty.
-                                </span>
-                            </div>
-                            <div class="flex flex-col p-2">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Figures
-                                </h4>
-                                <span class="pl-4">
-                                    846,720
-                                </span>
-                            </div>
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex">
-                                <div class="flex flex-col border-r border-gray-700">
-                                    <div class="flex flex-col p-2 border-b border-gray-700">
-                                        <h4 class="font-bold uppercase text-sm flex-1">
-                                            In Words
-                                        </h4>
-                                        <span class="pl-4 flex-1">
-                                            Eight hundred forty-six thousand seven hundred twenty.
-                                        </span>
-                                    </div>
-                                    <div class="flex flex-col p-2">
-                                        <h4 class="font-bold uppercase text-sm">
-                                            In Figures
-                                        </h4>
-                                        <span class="pl-4">
-                                            846,720
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink v-if="edit" to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center border border-gray-700">
-                            B.1.2
-                        </td>
-                        <td class="p-2 border border-gray-700">
-                            Construction of Field Office for the Engineer (Bunk House with Complete Electrical, Water & Sanitary Installation including Provision of 2 units Multifunction Inkjet Printer A3)
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            l.s
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            1
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex flex-col p-2 border-b border-gray-700">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Words
-                                </h4>
-                                <span class="pl-4">
-                                    Eight hundred forty-six thousand seven hundred twenty.
-                                </span>
-                            </div>
-                            <div class="flex flex-col p-2">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Figures
-                                </h4>
-                                <span class="pl-4">
-                                    846,720
-                                </span>
-                            </div>
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex">
-                                <div class="flex flex-col border-r border-gray-700">
-                                    <div class="flex flex-col p-2 border-b border-gray-700">
-                                        <h4 class="font-bold uppercase text-sm flex-1">
-                                            In Words
-                                        </h4>
-                                        <span class="pl-4 flex-1">
-                                            Eight hundred forty-six thousand seven hundred twenty.
-                                        </span>
-                                    </div>
-                                    <div class="flex flex-col p-2">
-                                        <h4 class="font-bold uppercase text-sm">
-                                            In Figures
-                                        </h4>
-                                        <span class="pl-4">
-                                            846,720
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink v-if="edit" to="/project-monitoring/project-details" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6" @click="removeTask(task)">
                                         <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
                                     </button>
                                 </div>
@@ -515,14 +160,17 @@
                 Generate TSS
             </NuxtLink>
         </div>
-        <ProjectsModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" />
-        <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" />
+        <ProjectsModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" @save="savePhase" />
+        <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" @save="saveTask" />
     </div>
 </template>
 
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 import { usePhaseStore } from "@/stores/project-monitoring/phase"
+import { useTaskStore } from "@/stores/project-monitoring/task"
+const taskStore = useTaskStore()
+const boardLoading = ref(false)
 const props = defineProps({
     projectId: {
         type: Number,
@@ -532,11 +180,83 @@ const props = defineProps({
 const projectStore = useProjectStore()
 const edit = projectStore.viewState
 const phaseStore = usePhaseStore()
+const currentPhase = ref(null)
 phaseStore.phase.project_id = props.projectId
-phaseStore.getPhases(Number(props.projectId))
 const showPhaseModal = ref(false)
 const showTaskModal = ref(false)
+const displayTaskModal = (phase) => {
+    currentPhase.value = phase
+    currentPhase.value.tasks = !currentPhase.value.tasks ? [] : currentPhase.value.tasks
+    showTaskModal.value = true
+    taskStore.task.phase_id = phase.id
+}
+const phaseModalShow = () => {
+    showPhaseModal.value = true
+    phaseStore.reset()
+    phaseStore.phase.project_id = props.projectId
+}
+const saveTask = (task) => {
+    currentPhase.value.tasks.push(task)
+    showTaskModal.value = false
+}
+const savePhase = () => {
+    showPhaseModal.value = false
+}
+const snackbar = useSnackbar()
+const removeTask = async (task) => {
+    try {
+        taskStore.isLoading.delete = true
+        await taskStore.deleteTask(task.id)
+        if (taskStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: taskStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: taskStore.successMessage
+            })
+        }
+    } catch (error) {
+        taskStore.errorMessage = error as string
 
+        snackbar.add({
+            type: "error",
+            text: taskStore.errorMessage
+        })
+    } finally {
+        taskStore.isLoading.delete = false
+    }
+    currentPhase.value.tasks = currentPhase.value.tasks.filter(t => t.id !== task.id)
+}
+
+const removePhase = async (phase) => {
+    try {
+        taskStore.isLoading.delete = true
+        await phaseStore.deletePhase(phase.id)
+        if (phaseStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: phaseStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: phaseStore.successMessage
+            })
+        }
+    } catch (error) {
+        phaseStore.errorMessage = error as string
+
+        snackbar.add({
+            type: "error",
+            text: phaseStore.errorMessage
+        })
+    } finally {
+        phaseStore.isLoading.delete = false
+    }
+}
 </script>
 
 <style>
