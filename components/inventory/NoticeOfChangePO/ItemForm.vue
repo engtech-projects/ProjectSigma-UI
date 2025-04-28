@@ -37,20 +37,6 @@ const selectedItems = ref([
         gross_amount: 1000,
     }
 ])
-// const changeItems = ref([
-//     {
-//         item_id: "ITEM001",
-//         specification: "Updated Spec A",
-//         quantity: 12,
-//         uom: "pcs",
-//         preferred_brand: "BrandY",
-//         unit_price: 105,
-//         net_of_vat: 94.5,
-//         input_vat: 10.5,
-//         gross_amount: 115.5,
-//         cancel_item: false,
-//     },
-// ])
 
 const headers = [
     { name: "ITEM NO.", id: "id" },
