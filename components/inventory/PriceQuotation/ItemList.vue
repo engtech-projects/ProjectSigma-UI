@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from "vue"
-
 const requestItems = ref([
     {
         qty: 10,
@@ -26,6 +24,54 @@ const requestItems = ref([
 </script>
 
 <template>
+    <div>
+        <div>
+            <table class="table-auto w-full border-collapse text-sm">
+                <thead class="bg-gray-100 text-center">
+                    <tr>
+                        <th class="p-2 border">
+                            Item Description
+                        </th>
+                        <th class="p-2 border">
+                            Specification
+                        </th>
+                        <th class="p-2 border">
+                            QTY
+                        </th>
+                        <th class="p-2 border">
+                            UOM
+                        </th>
+                        <th class="p-2 border">
+                            Preferred Brand
+                        </th>
+                        <th class="p-2 border">
+                            Actual Brand
+                        </th>
+                        <th class="p-2 border">
+                            Unit Price
+                        </th>
+                        <th class="p-2 border">
+                            Remarks During Canvass
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr v-for="(item, index) in requestItems" :key="index" class="border-t">
+                        <td class="p-2 border">
+                            {{ item.itemDescription }}
+                        </td>
+                        <td class="p-2 border">
+                            {{ item.specification }}
+                        </td>
+                        <td class="p-2 border">
+                            {{ item.qty }}
+                        </td>
+                        <td class="p-2 border">
+                            {{ item.unit }}
+                        </td>
+                        <td class="p-2 border">
+                            {{ item.preferredBrand }}
+                        </td>
     <LayoutLoadingContainer class="w-full" :loading="priceQuotation.isLoading">
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
             <LayoutPsTable
