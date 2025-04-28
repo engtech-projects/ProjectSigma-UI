@@ -66,8 +66,8 @@ export const usePhaseStore = defineStore("phaseStore", {
                     onResponse: ({ response }) => {
                         if (!response.ok) {
                             this.errorMessage = response._data.message
+                            this.phase = response._data
                         } else {
-                            this.getPhases(this.phase.project_id)
                             this.reset()
                             this.successMessage = response._data.message
                         }

@@ -1,8 +1,8 @@
 <script setup>
 import { storeToRefs } from "pinia"
-import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
+import { useCanvassSummaryStore } from "~/stores/inventory/procurement/canvassSummary"
 
-const mainStore = usePriceQuotationStore()
+const mainStore = useCanvassSummaryStore()
 const { allRequests } = storeToRefs(mainStore)
 onMounted(() => {
     if (!allRequests.isLoaded) {
@@ -12,7 +12,7 @@ onMounted(() => {
 
 const headers = [
     { name: "Supplier", id: "supplier_name" },
-    { name: "Quotation Date", id: "date" },
+    { name: "Canvass Date", id: "date" },
 ]
 const actions = {
     showTable: true,
@@ -38,7 +38,7 @@ const dummyData = [
 ]
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/procurement/request-price-quotation/request-details",
+        path: "/inventory/procurement/canvass-summary/request-details",
         query: {
             key: data.id
         },

@@ -146,9 +146,11 @@
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
+projectStore.viewState = true
 const edit = projectStore.viewState
 const route = useRoute()
 const projectId = route.query.id
+await projectStore.getProject(Number(projectId))
 defineProps({
     awardee: {
         type: Boolean,

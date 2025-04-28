@@ -24,6 +24,7 @@ interface Project {
     designation: null | Number,
     employee_id: null | Number,
     employees: Array<Employee>
+    phases: Array<any>
 }
 
 export const useProjectStore = defineStore("projects", {
@@ -49,7 +50,8 @@ export const useProjectStore = defineStore("projects", {
             license: null,
             designation: null,
             employee_id: null,
-            employees: []
+            employees: [],
+            phases: []
         } as Project,
         list: [] as Project[],
         draftList: {
@@ -178,7 +180,7 @@ export const useProjectStore = defineStore("projects", {
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         this.isLoading.list = false
-                        this.proposalList.list = response._data.data
+                        this.information = response._data
                     },
                 }
             )

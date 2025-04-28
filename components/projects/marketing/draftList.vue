@@ -5,13 +5,13 @@ const projectStore = useProjectStore()
 
 const { draftList } = storeToRefs(projectStore)
 
-const requestData = ref(null)
-const showInformationModal = ref(false)
+// const requestData = ref(null)
+// const showInformationModal = ref(false)
 await projectStore.getDraftProjects()
-const showInformation = (data) => {
-    requestData.value = data
-    showInformationModal.value = true
-}
+// const showInformation = (data) => {
+//     requestData.value = data
+//     showInformationModal.value = true
+// }
 const changePaginate = (newParams) => {
     draftList.value.params.page = newParams.page ?? ""
 }
@@ -28,6 +28,9 @@ const actions = {
 const ddata = computed(() => {
     return draftList.value.list ?? []
 })
+const draftDetais = (data) => {
+    navigateTo(`/project-monitoring/my-drafts?id=${data.id}`)
+}
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="draftList.isLoading">
@@ -44,7 +47,7 @@ const ddata = computed(() => {
                     :header-columns="headers"
                     :actions="actions"
                     :datas="ddata ?? []"
-                    @show-table="showInformation"
+                    @show-table="draftDetais"
                 />
                 <div class="flex justify-center mx-auto">
                     <CustomPagination :links="draftList.pagination" @change-params="changePaginate" />
@@ -52,9 +55,9 @@ const ddata = computed(() => {
             </div>
         </LayoutAcessContainer>
     </LayoutBoards>
-    <AccountingRequestNonPurchaseRequestInfoModal
+    <!-- <AccountingRequestNonPurchaseRequestInfoModal
         v-model:showModal="showInformationModal"
         :fillable="false"
         :payment-data="requestData"
-    />
+    /> -->
 </template>

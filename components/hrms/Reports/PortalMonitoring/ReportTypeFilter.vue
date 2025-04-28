@@ -4,7 +4,8 @@ import {
     OVERTIME_MONITORING,
     SALARY_MONITORING,
     OVERTIME_MONITORING_SUMMARY,
-    FAILURE_TO_LOG_MONITORING
+    FAILURE_TO_LOG_MONITORING,
+    FAILURE_TO_LOG_MONITORING_SUMMARY
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -46,6 +47,12 @@ const clearList = () => {
                 :value="FAILURE_TO_LOG_MONITORING"
             >
                 Failure To Log Monitoring
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_FAILURETOLOGSUMMARY])"
+                :value="FAILURE_TO_LOG_MONITORING_SUMMARY"
+            >
+                Failure To Log Monitoring Summary
             </option>
         </select>
     </div>
