@@ -185,6 +185,7 @@ phaseStore.phase.project_id = props.projectId
 const showPhaseModal = ref(false)
 const showTaskModal = ref(false)
 const displayTaskModal = (phase) => {
+    phaseStore.phase = phase
     currentPhase.value = phase
     currentPhase.value.tasks = !currentPhase.value.tasks ? [] : currentPhase.value.tasks
     showTaskModal.value = true
@@ -205,7 +206,7 @@ const savePhase = () => {
 const snackbar = useSnackbar()
 const removeTask = async (task) => {
     try {
-        taskStore.isLoading.delete = true
+        boardLoading.value = true
         await taskStore.deleteTask(task.id)
         if (taskStore.errorMessage !== "") {
             snackbar.add({
@@ -226,14 +227,15 @@ const removeTask = async (task) => {
             text: taskStore.errorMessage
         })
     } finally {
-        taskStore.isLoading.delete = false
+        projectStore.getProject(projectStore.information.id)
+        boardLoading.value = false
     }
     currentPhase.value.tasks = currentPhase.value.tasks.filter(t => t.id !== task.id)
 }
 
 const removePhase = async (phase) => {
     try {
-        taskStore.isLoading.delete = true
+        boardLoading.value = true
         await phaseStore.deletePhase(phase.id)
         if (phaseStore.errorMessage !== "") {
             snackbar.add({
@@ -254,7 +256,8 @@ const removePhase = async (phase) => {
             text: phaseStore.errorMessage
         })
     } finally {
-        phaseStore.isLoading.delete = false
+        projectStore.getProject(projectStore.information.id)
+        boardLoading.value = false
     }
 }
 </script>
