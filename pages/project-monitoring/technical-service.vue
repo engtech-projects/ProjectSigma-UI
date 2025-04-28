@@ -7,7 +7,7 @@ projectStore.viewState = false
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.PROJECTMONITORING_TSS,
+            AccessibilityTypes.PROJECT_MONITORING_TSS,
         ])"
     >
         <div class="flex flex-col gap-4">
@@ -15,28 +15,28 @@ projectStore.viewState = false
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_ALL,
+                            AccessibilityTypes.PROJECT_MONITORING_TSS,
                         ])"
                         title="MY DRAFTS"
                         target-id="myDrafts"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                            AccessibilityTypes.PROJECT_MONITORING_TSS,
                         ])"
                         title="AWARDEE"
                         target-id="awardee"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                            AccessibilityTypes.PROJECT_MONITORING_TSS,
                         ])"
                         title="ONGOING"
                         target-id="ongoing"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
+                            AccessibilityTypes.PROJECT_MONITORING_TSS,
                         ])"
                         title="COMPLETE"
                         target-id="complete"

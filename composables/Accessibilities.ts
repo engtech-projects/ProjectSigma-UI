@@ -29,6 +29,7 @@ export enum AccessibilityTypes {
     hrms_reports_portalmonitoring_overtimemonitoringsummary = "hrms:reports_portal monitoring_overtime monitoring summary",
     hrms_reports_portalmonitoring_salarymonitoring = "hrms:reports_portal monitoring_salary monitoring",
     HRMS_REPORTS_PORTALMONITORING_FAILURETOLOG = "hrms:reports_portal monitoring_failure to log monitoring",
+    HRMS_REPORTS_PORTALMONITORING_FAILURETOLOGSUMMARY = "hrms:reports_portal monitoring_failure to log monitoring summary",
     // ATTENDANCE
     hrms_attendance_group = "hrms:attendance_",
     hrms_attendance_attendance_portal = "hrms:attendance_attendance portal",
@@ -176,20 +177,31 @@ export enum AccessibilityTypes {
     INVENTORY_REQUEST_STOCK_FORMSANDMYREQUESTS = "inventory:request stock_form and my requests",
     inventory_request_stock_all_request = "inventory:request stock_all requests",
     inventory_request_stock_my_approvals = "inventory:request stock_my approvals",
-    inventory_materials_receiving_group = "inventory:materials receiving_",
-    inventory_materials_receiving_forms_and_my_requests = "inventory:materials receiving_form and my requests",
-    inventory_materials_receiving_all_request = "inventory:materials receiving_all requests",
-    inventory_withdrawal_group = "inventory:withdrawal_",
-    inventory_withdrawal_forms_and_my_requests = "inventory:withdrawal_form and my requests",
-    inventory_withdrawal_all_request = "inventory:withdrawal_all requests",
-    inventory_withdrawal_my_approvals = "inventory:withdrawal_my approvals",
+    INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_GROUP = "inventory:warehouse_materials receiving_",
+    INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_REQUESTPROCESSING = "inventory:warehouse_materials receiving_request processing",
+    INVENTORY_WAREHOUSE_MATERIALS_RECEIVING_ALLREQUEST = "inventory:warehouse_materials receiving_all requests",
+    INVENTORY_WAREHOUSE_WITHDRAWAL_GROUP = "inventory:warehouse_withdrawal_",
+    INVENTORY_WAREHOUSE_WITHDRAWAL_FORMSANDMYREQUESTS = "inventory:warehouse_withdrawal_form and my requests",
+    INVENTORY_WAREHOUSE_WITHDRAWAL_ALLREQUEST = "inventory:warehouse_withdrawal_all requests",
+    INVENTORY_WAREHOUSE_WITHDRAWAL_MYAPPROVALS = "inventory:warehouse_withdrawal_my approvals",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP = "inventory:warehouse_stock transfer_",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_REQUESTPROCESSING = "inventory:warehouse_stock transfer_request processing",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST = "inventory:warehouse_stock transfer_all requests",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP = "inventory:procurement_request price quotation_",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS = "inventory:procurement_request price quotation_requests",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLQUOTATONS = "inventory:procurement_request price quotation_all quotations",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_MYQUOTATIONS = "inventory:procurement_request price quotation_my quotations",
+
+    INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP = "inventory:procurement_canvass summary_",
+    INVENTORY_PROCUREMENT_CANVASSSUMMARY_REQUESTS = "inventory:procurement_canvass summary_requests",
+    INVENTORY_PROCUREMENT_CANVASSSUMMARY_ALLREQUEST = "inventory:procurement_canvass summary_all requests",
+    INVENTORY_PROCUREMENT_CANVASSSUMMARY_MYREQUESTS = "inventory:procurement_canvass summary_my approvals",
+
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP = "inventory:procurement_price quotation_",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS = "inventory:procurement_price quotation_requests",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLQUOTATONS = "inventory:procurement_price quotation_all quotations",
+    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_MYQUOTATIONS = "inventory:procurement_price quotation_my quotations",
+    INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_GROUP = "inventory:procurement_notice of change purchase order_",
+    INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_FORMSANDMYREQUESTS = "inventory:procurement_notice of change purchase order_form and my requests",
+    INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_ALLREQUEST = "inventory:procurement_notice of change purchase order_all requests",
+    INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_MYREQUESTS = "inventory:procurement_notice of change purchase order_my requests",
+    INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_MYAPPROVALS = "inventory:procurement_notice of change purchase order_my approvals",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",
@@ -261,12 +273,12 @@ export enum AccessibilityTypes {
     ACCOUNTING_REPORTS_PAYROLL_LIQUIDATIONS = "accounting:reports_payroll liquidations",
 
     // PROJECT MONITORING
-    project_monitoring_group = "project monitoring:",
-    project_monitoring_dashboard = "project monitoring:dashboard",
-    project_monitoring_projects = "project monitoring:projects",
-    PROJECTMONITORING_MARKETING = "project monitoring:marketing",
-    PROJECTMONITORING_TSS = "project monitoring:tss",
-    PROJECTMONITORING_SETUP = "project monitoring:setup"
+    PROJECT_MONITORING_GROUP = "project monitoring:",
+    PROJECT_MONITORING_DASHBOARD = "project monitoring:dashboard",
+    PROJECT_MONITORING_PROJECTS = "project monitoring:projects",
+    PROJECT_MONITORING_MARKETING = "project monitoring:marketing",
+    PROJECT_MONITORING_TSS = "project monitoring:tss",
+    PROJECT_MONITORING_SETUP = "project monitoring:setup"
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
     allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS

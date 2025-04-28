@@ -8,17 +8,17 @@ const headers = [
     { name: "Designation", id: "designation" },
     { name: "Section", id: "section" },
     { name: "Date of Failure to Log", id: "date_of_failure_to_log" },
-    { name: "Date Filled", id: "date_filled" },
+    { name: "Date Filed", id: "date_filled" },
     { name: "Prepared By", id: "prepared_by" },
     { name: "Request Status", id: "request_status" },
-    { name: "No. of Days Delayed Filling", id: "no_of_days_delayed_filling" },
+    { name: "No. of Days Delayed Filing", id: "no_of_days_delayed_filling" },
     { name: "Date Approved", id: "date_approved" },
     { name: "Approvals", id: "approvals" },
 ]
 </script>
 <template>
     <div
-        v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_FAILURETOLOGMONITORING])"
+        v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_FAILURETOLOG])"
         class="flex flex-col"
     >
         <LayoutPrint>
@@ -56,13 +56,16 @@ const headers = [
                                         {{ failureToLog.date_of_failure_to_log }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
+                                        {{ failureToLog.date_filled }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
                                         {{ failureToLog.prepared_by }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ failureToLog.request_status }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ failureToLog.days_delayed_filling }}
+                                        {{ failureToLog.no_of_days_delayed_filling }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ failureToLog.date_approved }}

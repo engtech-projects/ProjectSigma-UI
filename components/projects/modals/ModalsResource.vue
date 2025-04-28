@@ -8,6 +8,7 @@
         @hide="emit('hideModal')"
     >
         <div class="flex flex-col p-4">
+            <AccountingLoadScreen :is-loading="boardLoading" />
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-end gap-2">
                     <h1 class="text-3xl uppercase">
@@ -27,71 +28,118 @@
                     A.Materials
                 </h3>
             </div>
-            <div class="grid grid-cols-2 gap-6 mb-4">
-                <div class="flex flex-col">
-                    <label class="text-md text-gray-700">
-                        Project Name
-                    </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="Project Name">
+            <form @submit.prevent="handleSubmit">
+                <div class="grid grid-cols-2 gap-6 mb-4">
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Resource Name
+                        </label>
+                        <select v-model="resourceStore.resource.name_id" class="border border-gray-300 rounded-md">
+                            <option value="" disabled selected>
+                                Select Resource Name
+                            </option>
+                            <option v-for="resourceName in resourceStore.resourceNames" :key="resourceName.id" :value="resourceName.id">
+                                {{ resourceName.name }}
+                            </option>
+                        </select>
+                        <!-- <input type="text" class="border border-gray-300 rounded-md" placeholder="Resource Name" required> -->
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Total Cost
+                        </label>
+                        <input v-model="resourceStore.resource.total_cost" type="text" class="border border-gray-300 rounded-md" placeholder="0.00" required>
+                    </div>
                 </div>
-                <div class="flex flex-col">
-                    <label class="text-md text-gray-700">
-                        Total Cost
-                    </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
+                <div class="grid grid-cols-2 gap-6 mb-4">
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Quantity
+                        </label>
+                        <input v-model="resourceStore.resource.quantity" type="text" class="border border-gray-300 rounded-md" placeholder="0" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Unit
+                        </label>
+                        <input v-model="resourceStore.resource.unit" type="text" class="border border-gray-300 rounded-md" placeholder="0" required>
+                    </div>
                 </div>
-            </div>
-            <div class="grid grid-cols-2 gap-6 mb-4">
-                <div class="flex flex-col">
-                    <label class="text-md text-gray-700">
-                        Quantity
-                    </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
+                <div class="grid grid-cols-2 gap-6 mb-4">
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Unit Price
+                        </label>
+                        <input v-model="resourceStore.resource.unit_cost" type="text" class="border border-gray-300 rounded-md" placeholder="0.00" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Amount
+                        </label>
+                        <input v-model="resourceStore.resource.resource_count" type="text" class="border border-gray-300 rounded-md" placeholder="0.00" required>
+                    </div>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col mb-4">
                     <label class="text-md text-gray-700">
-                        Unit
+                        Description
                     </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
+                    <textarea v-model="resourceStore.resource.description" class="border border-gray-300 rounded-md w-full h-56 resize-none" />
                 </div>
-            </div>
-            <div class="grid grid-cols-2 gap-6 mb-4">
-                <div class="flex flex-col">
-                    <label class="text-md text-gray-700">
-                        Unit Price
-                    </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
+                <div class="flex justify-end">
+                    <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" type="submit">
+                        Create Resource
+                    </button>
                 </div>
-                <div class="flex flex-col">
-                    <label class="text-md text-gray-700">
-                        Amount
-                    </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
-                </div>
-            </div>
-            <div class="flex flex-col mb-4">
-                <label class="text-md text-gray-700">
-                    Description
-                </label>
-                <textarea class="border border-gray-300 rounded-md w-full h-56 resize-none" />
-            </div>
-            <div class="flex justify-end">
-                <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" @click="emit('hideModal')">
-                    Create Resource
-                </button>
-            </div>
+            </form>
         </div>
     </ModalContainer>
 </template>
 
 <script lang="ts" setup>
-defineProps({
+import { useResourceStore } from "@/stores/project-monitoring/resource"
+import { useTaskStore } from "@/stores/project-monitoring/task"
+const taskStore = useTaskStore()
+const resourceStore = useResourceStore()
+const props = defineProps({
     showModal: {
         type: Boolean,
         required: true,
         default: false
-    }
+    },
+    taskId: {
+        type: Number,
+        required: true
+    },
 })
+const boardLoading = ref(false)
+const snackbar = useSnackbar()
+const handleSubmit = async () => {
+    try {
+        boardLoading.value = true
+        resourceStore.resource.task_id = props.taskId
+        await resourceStore.createResource()
+        if (resourceStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: resourceStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: resourceStore.successMessage
+            })
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: resourceStore.errorMessage
+        })
+    } finally {
+        boardLoading.value = false
+        emit("hideModal")
+        taskStore.getTask(props.taskId)
+    }
+}
 const emit = defineEmits(["hideModal"])
 </script>
 

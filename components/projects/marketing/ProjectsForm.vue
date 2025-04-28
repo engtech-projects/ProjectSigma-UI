@@ -1,9 +1,51 @@
+<script lang="ts" setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+const projectStore = useProjectStore()
+const showUploadModal = ref(false)
+const snackbar = useSnackbar()
+const designation = ref("employee")
+
+const selectStakeholder = (stakeholder) => {
+    projectStore.information.employee_id = stakeholder.stakeholdable_id
+    designation.value = "employee"
+}
+
+const handleSubmit = async () => {
+    try {
+        projectStore.isLoading.create = true
+        projectStore.information.employee_id = 1
+        await projectStore.createProject()
+        if (projectStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: projectStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: projectStore.successMessage
+            })
+        }
+    } catch (error) {
+        projectStore.errorMessage = error as string
+
+        snackbar.add({
+            type: "error",
+            text: projectStore.errorMessage
+        })
+    } finally {
+        projectStore.clearMessages()
+        projectStore.isLoading.create = false
+    }
+}
+</script>
+
 <template>
     <AccountingLoadScreen :is-loading="projectStore.isLoading.create" />
     <div class="flex flex-col gap-6 p-2">
-        <h1 class="text-2xl mb-4">
+        <!-- <h1 class="text-2xl mb-4">
             Project Creation Form
-        </h1>
+        </h1> -->
         <form @submit.prevent="handleSubmit">
             <div class="flex flex-col gap-4">
                 <div class="grid grid-cols-4 gap-6">
@@ -23,7 +65,7 @@
                         <label for="" class="text-sm text-gray-700">
                             Contract Amount
                         </label>
-                        <input v-model="projectStore.information.amount" type="text" class="border rounded-lg border-gray-300 h-10" required placeholder="0.00">
+                        <input v-model="projectStore.information.amount" type="number" class="border rounded-lg border-gray-300 h-10" required placeholder="0.00">
                     </div>
                     <div class="flex flex-col gap-1">
                         <label for="" class="text-sm text-gray-700">
@@ -59,7 +101,7 @@
                         <input v-model="projectStore.information.license" type="text" class="border rounded-lg border-gray-300 h-10" required placeholder="License">
                     </div>
                 </div>
-                <!-- <div class="grid grid-cols-4 gap-6">
+                <div class="grid grid-cols-4 gap-6">
                     <div class="flex flex-col gap-1">
                         <label for="" class="text-sm text-gray-700">
                             Designation
@@ -73,7 +115,7 @@
                             @select="selectStakeholder"
                         />
                     </div>
-                </div> -->
+                </div>
 
                 <div class="flex justify-end gap-4 items-center">
                     <div v-if="!1" class="flex items-center gap-1 border-b border-green-800 h-6 cursor-pointer hover:border-green-800 select-none" @click="showUploadModal = true">
@@ -89,41 +131,6 @@
         <ProjectsModalsUpload :show-modal="showUploadModal" @hide-modal="showUploadModal = false" />
     </div>
 </template>
-
-<script lang="ts" setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-const projectStore = useProjectStore()
-const showUploadModal = ref(false)
-const snackbar = useSnackbar()
-
-const handleSubmit = async () => {
-    try {
-        projectStore.isLoading.create = true
-        await projectStore.createProject()
-        if (projectStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: projectStore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: projectStore.successMessage
-            })
-        }
-    } catch (error) {
-        projectStore.errorMessage = error as string
-
-        snackbar.add({
-            type: "error",
-            text: projectStore.errorMessage
-        })
-    } finally {
-        projectStore.clearMessages()
-        projectStore.isLoading.create = false
-    }
-}
-</script>
 
 <style>
 #tabContainer span.active {
