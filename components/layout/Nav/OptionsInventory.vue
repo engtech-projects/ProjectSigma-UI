@@ -175,6 +175,14 @@
                 icon="grommet-icons:overview"
                 single-nav-title="Purchase Order"
             />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.ADMIN_ONLY,
+                ])"
+                linkarea="/inventory/procurement/notice-of-change-po"
+                icon="carbon:purchase"
+                single-nav-title="NCPO"
+            />
         </LayoutNavGroup>
     </LayoutNavModuleGroup>
 </template>
