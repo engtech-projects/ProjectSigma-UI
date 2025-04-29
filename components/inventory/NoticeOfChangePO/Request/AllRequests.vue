@@ -1,5 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
+import { ref } from "vue"
 import { useNcpoStore } from "@/stores/inventory/procurement/ncpo"
 
 const mainStore = useNcpoStore()
@@ -9,11 +10,30 @@ onMounted(() => {
         mainStore.getAllRequests()
     }
 })
+const dummyData = ref([
+    {
+        id: 1,
+        NCPO_NO: "NCPO-001",
+        po_number: "PO-001",
+        po_date: "2022-01-01",
+        project_id: "PRJ-001",
+        date: "2022-01-01",
+    },
+    {
+        id: 2,
+        NCPO_NO: "NCPO-002",
+        po_number: "PO-002",
+        po_date: "2022-01-02",
+        project_id: "PRJ-002",
+        date: "2022-01-02",
+    }
+])
 const headers = [
-    { name: "Reference No", id: "reference_no" },
-    { name: "Office/Project", id: "section_type" },
-    { name: "Project Address", id: "office_project_address" },
-    { name: "Date Needed", id: "date_needed" },
+    { name: "NCPO NO", id: "NCPO_NO" },
+    { name: "PO NUMBER", id: "po_number" },
+    { name: "PO DATE", id: "po_date" },
+    { name: "PROJECT CODE", id: "project_id" },
+    { name: "DATE", id: "date" },
 ]
 const actions = {
     showTable: true,
@@ -38,9 +58,10 @@ const changePaginate = (newParams) => {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="allRequests.list ?? []"
+                :datas="allRequests.list?.length ? allRequests.list : dummyData"
                 @show-table="showInformation"
             />
+            <!-- :datas="allRequests.list ?? []" -->
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />

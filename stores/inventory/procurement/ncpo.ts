@@ -18,6 +18,8 @@ export interface NCPODetails {
     equipment_no: String,
     date: String,
     justification: String,
+    total: String,
+    new_po_total: String,
     items: any,
     approvals: any,
 }
@@ -39,7 +41,7 @@ export const useNcpoStore = defineStore("ncpoStore", {
         ncpoRequest: {
             isLoading: false,
             isLoaded: false,
-            rsDetails: {
+            details: {
                 isLoading: false,
                 isLoaded: false,
                 list: [],
@@ -114,7 +116,7 @@ export const useNcpoStore = defineStore("ncpoStore", {
         },
         async getMyRequests () {
             await useInventoryApi(
-                "/api/request-stock/my-request",
+                "/api/procurement/ncpomy-request",
                 {
                     method: "GET",
                     params: this.myRequests.params,
@@ -140,7 +142,7 @@ export const useNcpoStore = defineStore("ncpoStore", {
         },
         async getMyApprovals () {
             await useInventoryApi(
-                "/api/request-stock/my-approvals",
+                "/api/procurement/ncpomy-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
@@ -166,17 +168,17 @@ export const useNcpoStore = defineStore("ncpoStore", {
         },
         async fetchRs () {
             await useInventoryApi(
-                "/api/request-stock/resource",
+                "/api/procurement/ncpo/resource",
                 {
                     method: "GET",
-                    params: this.requestStock.params,
+                    params: this.ncpoRequest.params,
                     onRequest: () => {
-                        this.requestStock.isLoading = true
+                        this.ncpoRequest.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.requestStock.isLoading = false
+                        this.ncpoRequest.isLoading = false
                         if (response.ok) {
-                            this.requestStock.list = response._data.data
+                            this.ncpoRequest.list = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -192,12 +194,12 @@ export const useNcpoStore = defineStore("ncpoStore", {
                     method: "GET",
                     watch: false,
                     onRequest: () => {
-                        this.requestStock.isLoading = true
+                        this.ncpoRequest.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.requestStock.isLoading = false
+                        this.ncpoRequest.isLoading = false
                         if (response.ok) {
-                            this.requestStock.details = response._data.data
+                            this.ncpoRequest.details = response._data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)
@@ -208,12 +210,12 @@ export const useNcpoStore = defineStore("ncpoStore", {
         },
         async storeRequest () {
             await useInventoryApiO(
-                "/api/request-stock/resource",
+                "/api/procurement/ncpo/resource",
                 {
                     method: "POST",
                     body: {
-                        ...this.requestStock.form,
-                        details: this.requestStock.details, // Include details
+                        ...this.ncpoRequest.form,
+                        details: this.ncpoRequest.details, // Include details
                     },
                     watch: false,
                     onResponse: ({ response }) => {
@@ -230,13 +232,13 @@ export const useNcpoStore = defineStore("ncpoStore", {
         },
         async getOne (id: number) {
             return await useInventoryApiO(
-                "/api/request-stock/resource/" + id,
+                "/api/procurement/ncpo/resource/" + id,
                 {
                     method: "GET",
-                    params: this.requestStock.params,
+                    params: this.ncpoRequest.params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.requestStock.details = response._data.data
+                            this.ncpoRequest.details = response._data.data
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)
@@ -249,7 +251,7 @@ export const useNcpoStore = defineStore("ncpoStore", {
             this.successMessage = ""
             this.errorMessage = ""
             await useInventoryApi(
-                "/api/approvals/approve/RequestStock/" + id,
+                "/api/approvals/approve/NCPO/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -272,7 +274,7 @@ export const useNcpoStore = defineStore("ncpoStore", {
             formData.append("id", id)
             formData.append("remarks", this.remarks)
             await useInventoryApi(
-                "/api/approvals/disapprove/RequestStock/" + id,
+                "/api/approvals/disapprove/NCPO/" + id,
                 {
                     method: "POST",
                     body: formData,
