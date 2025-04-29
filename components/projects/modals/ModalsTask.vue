@@ -8,6 +8,7 @@
         @hide="emit('hideModal')"
     >
         <div class="flex flex-col p-4">
+            <AccountingLoadScreen :is-loading="boardLoading" />
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-end gap-2">
                     <h1 class="text-3xl uppercase">
@@ -21,70 +22,48 @@
             </div>
             <div class="flex gap-4 items-center mb-10">
                 <label class="text-md text-gray-700 uppercase text-md">
-                    Phase name
+                    Phase Name
                 </label>
                 <h3 class="text-green-600 text-lg">
-                    General Requirements
+                    {{ phaseStore.phase.name }}
                 </h3>
             </div>
-            <div class="grid grid-cols-2 gap-6 mb-4">
-                <div class="flex flex-col">
-                    <label class="text-md text-gray-700">
-                        Project Name
-                    </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="Project Name">
+            <form @submit.prevent="handleSubmit">
+                <div class="grid grid-cols-2 gap-6 mb-4">
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Task Name
+                        </label>
+                        <input v-model="taskStore.task.name" type="text" class="border border-gray-300 rounded-md" placeholder="Task Name">
+                    </div>
+                    <!-- <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Total Cost
+                        </label>
+                        <input v-model="taskStore.task.amount" type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
+                    </div> -->
                 </div>
-                <div class="flex flex-col">
+                <div class="flex flex-col mb-4">
                     <label class="text-md text-gray-700">
-                        Total Cost
+                        Description
                     </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
+                    <textarea v-model="taskStore.task.description" class="border border-gray-300 rounded-md w-full h-56 resize-none" />
                 </div>
-            </div>
-            <div class="grid grid-cols-2 gap-6 mb-4">
-                <div class="flex flex-col">
-                    <label class="text-md text-gray-700">
-                        Quantity
-                    </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
+                <div class="flex justify-end">
+                    <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" type="submit">
+                        Create Task
+                    </button>
                 </div>
-                <div class="flex flex-col">
-                    <label class="text-md text-gray-700">
-                        Unit
-                    </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
-                </div>
-            </div>
-            <div class="grid grid-cols-2 gap-6 mb-4">
-                <div class="flex flex-col">
-                    <label class="text-md text-gray-700">
-                        Unit Price
-                    </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
-                </div>
-                <div class="flex flex-col">
-                    <label class="text-md text-gray-700">
-                        Amount
-                    </label>
-                    <input type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
-                </div>
-            </div>
-            <div class="flex flex-col mb-4">
-                <label class="text-md text-gray-700">
-                    Description
-                </label>
-                <textarea class="border border-gray-300 rounded-md w-full h-56 resize-none" />
-            </div>
-            <div class="flex justify-end">
-                <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" @click="emit('hideModal')">
-                    Create Task
-                </button>
-            </div>
+            </form>
         </div>
     </ModalContainer>
 </template>
 
 <script lang="ts" setup>
+import { useTaskStore } from "@/stores/project-monitoring/task"
+import { usePhaseStore } from "@/stores/project-monitoring/phase"
+const taskStore = useTaskStore()
+const phaseStore = usePhaseStore()
 defineProps({
     showModal: {
         type: Boolean,
@@ -92,7 +71,35 @@ defineProps({
         default: false
     }
 })
-const emit = defineEmits(["hideModal"])
+const boardLoading = ref(false)
+const snackbar = useSnackbar()
+const handleSubmit = async () => {
+    try {
+        boardLoading.value = true
+        await taskStore.createTask()
+        if (taskStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: taskStore.errorMessage
+            })
+        } else {
+            emit("save", clone(taskStore.task))
+            snackbar.add({
+                type: "success",
+                text: taskStore.successMessage
+            })
+        }
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: taskStore.errorMessage
+        })
+    } finally {
+        boardLoading.value = false
+        taskStore.reset()
+    }
+}
+const emit = defineEmits(["hideModal", "save"])
 </script>
 
 <style>

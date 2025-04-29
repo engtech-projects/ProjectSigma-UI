@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from "vue"
-
 const requestItems = ref([
     {
         qty: 10,
@@ -27,7 +25,7 @@ const requestItems = ref([
 
 <template>
     <div>
-        <div class="overflow-x-auto">
+        <div>
             <table class="table-auto w-full border-collapse text-sm">
                 <thead class="bg-gray-100 text-center">
                     <tr>
@@ -95,11 +93,11 @@ const requestItems = ref([
                             >
                         </td>
                         <td class="p-2 border">
-                            <textarea
+                            <textarea>
                                 v-model="item.remarks"
                                 placeholder="Remarks"
                                 class="w-full px-2 py-1 border rounded text-sm resize-none"
-                            />
+                            </textarea>
                         </td>
                     </tr>
                 </tbody>

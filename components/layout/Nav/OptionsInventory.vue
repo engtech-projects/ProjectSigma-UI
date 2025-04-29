@@ -109,6 +109,18 @@
                 icon="mingcute:transfer-horizontal-line"
                 single-nav-title="Stock Transfer"
             />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP])"
+                linkarea="/inventory/material-receiving"
+                icon="mingcute:transfer-horizontal-line"
+                single-nav-title="Materials Receiving"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_WAREHOUSE_WITHDRAWAL_GROUP])"
+                linkarea="/inventory/withdrawal"
+                icon="material-symbols-light:shopping-cart-checkout-sharp"
+                single-nav-title="Withdrawal"
+            />
         </LayoutNavGroup>
         <LayoutNavSingle
             v-if="useCheckAccessibility([
@@ -143,9 +155,33 @@
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP,
                 ])"
-                linkarea="/inventory/request-price-quotation"
+                linkarea="/inventory/procurement/request-price-quotation"
                 icon="grommet-icons:overview"
                 single-nav-title="Price Quotation"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP,
+                ])"
+                linkarea="/inventory/procurement/canvass-summary"
+                icon="grommet-icons:overview"
+                single-nav-title="Canvass Summary"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.ADMIN_ONLY,
+                ])"
+                linkarea="/inventory/purchase-order"
+                icon="grommet-icons:overview"
+                single-nav-title="Purchase Order"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_GROUP,
+                ])"
+                linkarea="/inventory/procurement/notice-of-change-po"
+                icon="carbon:purchase"
+                single-nav-title="NCPO"
             />
         </LayoutNavGroup>
     </LayoutNavModuleGroup>

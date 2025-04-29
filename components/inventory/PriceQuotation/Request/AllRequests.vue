@@ -38,7 +38,7 @@ const dummyData = [
 ]
 const showInformation = (data) => {
     navigateTo({
-        path: "/inventory/request-price-quotation/request-details",
+        path: "/inventory/procurement/request-price-quotation/request-details",
         query: {
             key: data.id
         },
