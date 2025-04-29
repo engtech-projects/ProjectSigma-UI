@@ -73,7 +73,6 @@ const requestItems = ref([
                             {{ item.preferredBrand }}
                         </td>
 
-                        <!-- Editable Fields -->
                         <td class="p-2 border">
                             <input
                                 v-model="item.actualBrand"
@@ -93,11 +92,11 @@ const requestItems = ref([
                             >
                         </td>
                         <td class="p-2 border">
-                            <textarea>
+                            <textarea
                                 v-model="item.remarks"
                                 placeholder="Remarks"
                                 class="w-full px-2 py-1 border rounded text-sm resize-none"
-                            </textarea>
+                            />
                         </td>
                     </tr>
                 </tbody>
