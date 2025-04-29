@@ -36,7 +36,7 @@ const draftDetais = (data) => {
     <LayoutBoards class="w-full" :loading="draftList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_DRAFTS,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
             ])"
         >
             <div class="w-1/3 hidden">
