@@ -1,6 +1,7 @@
 <script setup>
 import { useAttendancePortal } from "~/stores/hrms/attendancePortal"
 
+const snackbar = useSnackbar()
 const attendancePortal = useAttendancePortal()
 attendancePortal.getSearchAttedanceLog()
 
@@ -13,12 +14,30 @@ const headers = [
     { name: "Description", id: "log_type" },
     { name: "Attendance Type", id: "attendance_type" },
     { name: "Portal Location", id: "portal_name" },
+    { name: "Deleted", id: "deleted_at" },
 ]
+const actions = {
+    delete: useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY])
+}
 const changePaginate = (newParams) => {
     attendanceLogs.value.params.page = newParams.page ?? ""
 }
 const setEmployee = (emp) => {
     attendanceLogs.value.params.employee_id = emp.id
+}
+const deleteLog = async (req) => {
+    try {
+        await attendancePortal.deleteLog(req.id)
+        snackbar.add({
+            type: "success",
+            text: attendancePortal.successMessage
+        })
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error || "Failed to Delete."
+        })
+    }
 }
 const clearFilter = () => {
     attendanceLogs.value.params.date = null
@@ -64,7 +83,9 @@ const grouptype = ref(null)
                 <LayoutPsTable
                     id="listTable"
                     :header-columns="headers"
+                    :actions="actions"
                     :datas="attendanceLogs.list"
+                    @delete-row="deleteLog"
                 />
                 <div class="flex justify-center mx-auto">
                     <CustomPagination
