@@ -13,14 +13,6 @@ if (route.query.key) {
 }
 
 const headers = [
-    // { name: "Quantity", id: "items.quantity" },
-    // { name: "Unit", id: "items.unit" },
-    // { name: "Item Description", id: "item_desc.item_description" },
-    // { name: "Specification", id: "items.specification" },
-    // { name: "Preferred Brand", id: "items.preferred_brand" },
-    // { name: "Reason", id: "items.reason" },
-    // { name: "Location", id: "items.location" },
-    // { name: "Location Qty", id: "items.location_qty" },
     { name: "Quantity", id: "quantity" },
     { name: "Unit", id: "unit" },
     { name: "Item Description", id: "item_id" },
@@ -40,7 +32,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.inventory_request_stock_group,
+            AccessibilityTypes.INVENTORY_REQUESTSTOCK_GROUP,
         ])"
     >
         <template v-if="validKey">

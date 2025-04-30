@@ -90,7 +90,7 @@ const denyRequest = async (id:any) => {
         <div class="flex flex-col gap-2 w-full p-4">
             <LayoutPrint>
                 <div id="headline mb-4">
-                    <InventoryCommonEvenparHeader />
+                    <PrintTableFormat />
                     <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center border-b rounded-t mb-4">
                         <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                             {{ title }}
