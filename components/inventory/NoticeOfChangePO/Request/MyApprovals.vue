@@ -1,5 +1,6 @@
 <script setup>
 import { storeToRefs } from "pinia"
+import { ref } from "vue"
 import { useNcpoStore } from "@/stores/inventory/procurement/ncpo"
 const mainStore = useNcpoStore()
 const { myApprovals } = storeToRefs(mainStore)
@@ -8,17 +9,37 @@ onMounted(() => {
         mainStore.getMyApprovals()
     }
 })
+const dummyData = ref([
+    {
+        id: 1,
+        NCPO_NO: "NCPO-001",
+        po_number: "PO-001",
+        po_date: "2022-01-01",
+        project_id: "PRJ-001",
+        date: "2022-01-01",
+    },
+    {
+        id: 2,
+        NCPO_NO: "NCPO-002",
+        po_number: "PO-002",
+        po_date: "2022-01-02",
+        project_id: "PRJ-002",
+        date: "2022-01-02",
+    }
+])
 const headers = [
-    { name: "Reference No", id: "reference_no" },
-    { name: "Office/Project", id: "section_type" },
-    { name: "Project Address", id: "office_project_address" },
-    { name: "Date Needed", id: "date_needed" },
+    { name: "NCPO NO", id: "NCPO_NO" },
+    { name: "PO NUMBER", id: "po_number" },
+    { name: "PO DATE", id: "po_date" },
+    { name: "PROJECT CODE", id: "project_id" },
+    { name: "DATE", id: "date" },
 ]
 const actions = {
     showTable: true,
     edit: false,
     delete: false,
 }
+
 const showInformation = (data) => {
     navigateTo({
         path: "/inventory/procurement/notice-of-change-po/request-details",
@@ -37,7 +58,7 @@ const changePaginate = (newParams) => {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="myApprovals.list ?? []"
+                :datas="myApprovals.list?.length ? myApprovals.list : dummyData"
                 @show-table="showInformation"
             />
         </div>

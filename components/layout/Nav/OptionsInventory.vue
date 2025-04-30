@@ -131,7 +131,7 @@
             single-nav-title="Department BOM"
         />
         <LayoutNavSingle
-            v-if="useCheckAccessibility([AccessibilityTypes.inventory_request_stock_group])"
+            v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_REQUESTSTOCK_GROUP])"
             linkarea="/inventory/request-stocks"
             icon="material-symbols-light:shopping-cart-checkout-sharp"
             single-nav-title="Request Stocks"
