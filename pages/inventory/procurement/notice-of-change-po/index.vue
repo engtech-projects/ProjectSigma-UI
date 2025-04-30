@@ -30,7 +30,7 @@ useHead({
                     title="My Approvals"
                 />
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_MYREQUESTS])"
+                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_FORMSANDMYREQUESTS])"
                     target-id="myRequests"
                     title="My Request"
                 />

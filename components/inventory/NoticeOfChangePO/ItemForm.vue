@@ -18,7 +18,7 @@ const selectedItems = ref([
         specification: "High quality steel",
         quantity: 10,
         uom: "PCS",
-        preferred_brand: "BrandX",
+        supplier_id: "BrandX",
         unit_price: 100,
         net_of_vat: 950,
         input_vat: 50,
@@ -30,7 +30,7 @@ const selectedItems = ref([
         specification: "Heavy duty bolts",
         quantity: 25,
         uom: "SET",
-        preferred_brand: "BrandY",
+        supplier_id: "BrandY",
         unit_price: 40,
         net_of_vat: 950,
         input_vat: 50,
@@ -44,25 +44,23 @@ const headers = [
     { name: "SPECIFICATION", id: "specification" },
     { name: "QTY", id: "quantity" },
     { name: "UOM", id: "uom" },
-    { name: "SUPPLIER", id: "preferred_brand" },
+    { name: "SUPPLIER", id: "supplier_id" },
     { name: "UNIT PRICE", id: "unit_price" },
     { name: "NET OF VAT", id: "net_of_vat" },
     { name: "INPUT VAT", id: "input_vat" },
     { name: "GROSS AMOUNT", id: "gross_amount" }
 ]
 const changesHeaders = [
-    { name: "CHANGE OF SUPPLIER", id: "preferred_brand" },
+    { name: "CHANGE OF SUPPLIER", id: "supplier_id" },
     { name: "CHANGE IN ITEM DESCRIPTION/SPECIFICATION", id: "specification" },
     { name: "CHANGE IN QTY", id: "quantity" },
     { name: "CHANGE IN UOM", id: "uom" },
     { name: "CHANGE IN UNIT PRICE", id: "unit_price" },
     { name: "NEW TOTAL", id: "gross_amount" },
-    { name: "CHANGE IN BRAND", id: "preferred_brand" },
+    { name: "CHANGE IN BRAND", id: "supplier_id" },
     { name: "CANCEL ITEM", id: "cancel_item" },
 ]
-const handleChange = (newItems) => {
-    console.log("Updated items:", newItems)
-}
+
 </script>
 
 <template>
@@ -92,7 +90,6 @@ const handleChange = (newItems) => {
                             :headers="changesHeaders"
                             :items="selectedItems"
                             :base-items="selectedItems"
-                            @change="handleChange"
                         />
                     </div>
 
