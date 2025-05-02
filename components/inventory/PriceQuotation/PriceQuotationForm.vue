@@ -43,11 +43,22 @@ const storeWithdrawalForm = async () => {
 }
 const supplierId = defineModel("supplierId", { required: false, type: Number })
 
+defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
+})
 </script>
 <template>
     <div class="text-gray-500 p-2">
         <form @submit.prevent="storeWithdrawalForm">
             <div class="flex flex-col gap-4 pt-4 w-full">
+                <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4">
+                    <h3 v-if="title" class="pl-4 text-xl font-bold text-gray-900 p-4 tracking-wide">
+                        {{ title }}
+                    </h3>
+                </div>
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="flex flex-row justify-between gap-4">
                         <div class="w-full flex flex-col gap-2">
