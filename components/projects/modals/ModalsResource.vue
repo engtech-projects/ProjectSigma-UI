@@ -62,7 +62,15 @@
                         <label class="text-md text-gray-700">
                             Unit
                         </label>
-                        <input v-model="resourceStore.resource.unit" type="text" class="border border-gray-300 rounded-md" placeholder="0" required>
+                        <select v-model="resourceStore.resource.unit" class="border border-gray-300 rounded-md uppercase">
+                            <option value="" disabled selected>
+                                Select Unit
+                            </option>
+                            <option v-for="unit in resourceStore.units" :key="unit.name" :value="unit.symbol">
+                                {{ unit.name + ' (' + unit.symbol + ')' }}
+                            </option>
+                        </select>
+                        <!-- <input v-model="resourceStore.resource.unit" type="text" class="border border-gray-300 rounded-md" placeholder="0" required> -->
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-6 mb-4">
@@ -86,8 +94,11 @@
                     <textarea v-model="resourceStore.resource.description" class="border border-gray-300 rounded-md w-full h-56 resize-none" />
                 </div>
                 <div class="flex justify-end">
-                    <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" type="submit">
+                    <button v-if="!resourceStore.resource.id" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" type="submit">
                         Create Resource
+                    </button>
+                    <button v-else class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" type="submit">
+                        Update Resource
                     </button>
                 </div>
             </form>
@@ -111,13 +122,18 @@ const props = defineProps({
         required: true
     },
 })
+
 const boardLoading = ref(false)
 const snackbar = useSnackbar()
 const handleSubmit = async () => {
     try {
         boardLoading.value = true
         resourceStore.resource.task_id = props.taskId
-        await resourceStore.createResource()
+        if (resourceStore.resource.id) {
+            await resourceStore.editResource()
+        } else {
+            await resourceStore.createResource()
+        }
         if (resourceStore.errorMessage !== "") {
             snackbar.add({
                 type: "error",

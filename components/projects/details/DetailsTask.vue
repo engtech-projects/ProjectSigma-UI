@@ -93,8 +93,9 @@
                         </td>
                     </tr>
                 </tbody>
+                <AccountingLoadScreen :is-loading="boardLoading" />
                 <tbody v-for="(rnames, index) in resourceStore.resourceNames" :key="rnames.id">
-                    <tr>
+                    <tr class="border-b border-gray-700">
                         <td colspan="6" class="px-2 py-1">
                             <div class="flex justify-between">
                                 <span class="font-semibold uppercase">
@@ -104,14 +105,14 @@
                                     <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="addResource(rnames.id)">
                                         Add Resource
                                     </button>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
+                                    <!-- <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
                                         Remove
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    <tr v-if="filterResources(rnames.id).length > 0">
                         <td />
                         <td class="uppercase text-xs font-semibold pt-2 text-center">
                             Name and Specification
@@ -119,10 +120,16 @@
                         <td class="uppercase text-xs font-semibold pt-2 text-center">
                             Quantity
                         </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-if="rnames.name.toLowerCase() === 'labor' || rnames.name.toLowerCase() === 'equipment'" class="uppercase text-xs font-semibold pt-2 text-center">
+                            No. of Persons
+                        </td>
+                        <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Unit
                         </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-if="rnames.name.toLowerCase() === 'labor' || rnames.name.toLowerCase() === 'equipment'" class="uppercase text-xs font-semibold pt-2 text-center">
+                            No. of Hours
+                        </td>
+                        <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Unit Cost
                         </td>
                         <td class="uppercase text-xs font-semibold pt-2 text-center">
@@ -178,14 +185,14 @@
                                         </span>
                                     </div>
                                 </div>
-                                <!-- <div class="flex flex-col p-2 justify-center gap-2">
-                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                <div class="flex flex-col p-2 justify-center gap-2">
+                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6" @click="editResource(resource)">
                                         <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
                                     </button>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6" @click="removeResource(resource.id)">
                                         <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
                                     </button>
-                                </div> -->
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -221,7 +228,41 @@ const filterResources = (id: number) => {
 }
 const addResource = (id) => {
     showResourceModal.value = true
+    resourceStore.reset()
     resourceStore.resource.name_id = id
+}
+const editResource = (resource: any) => {
+    showResourceModal.value = true
+    resourceStore.resource = resource
+}
+const boardLoading = ref(false)
+const snackbar = useSnackbar()
+const removeResource = async (id: number) => {
+    try {
+        boardLoading.value = true
+        await resourceStore.deleteResource(id)
+        if (resourceStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: resourceStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: resourceStore.successMessage
+            })
+        }
+    } catch (error) {
+        resourceStore.errorMessage = error as string
+
+        snackbar.add({
+            type: "error",
+            text: resourceStore.errorMessage
+        })
+    } finally {
+        taskStore.getTask(taskStore.task.id)
+        boardLoading.value = false
+    }
 }
 </script>
 
