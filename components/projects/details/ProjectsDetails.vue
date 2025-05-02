@@ -8,9 +8,6 @@
                 <h1 class="text-2xl text-black uppercase font-semibold">
                     Task Details
                 </h1>
-                <h4 class="text-gray-500 text-md">
-                    Project Description
-                </h4>
             </div>
             <div class="flex flex-col gap-3 mb-8">
                 <div class="flex items-end gap-3">
