@@ -55,10 +55,13 @@
 
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { useResourceStore } from "~/stores/project-monitoring/resource"
 
 const projectStore = useProjectStore()
 projectStore.viewState = true
 // const edit = projectStore.viewState
+const resourceStore = useResourceStore()
+resourceStore.getResourceUnits()
 const showCategoryModal = ref(false)
 </script>
 
