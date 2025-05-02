@@ -1,7 +1,7 @@
 <script setup>
 import { useResourceStore } from "@/stores/project-monitoring/resource"
 const resourceStore = useResourceStore()
-resourceStore.getUnits()
+resourceStore.getResourceUnits()
 </script>
 <template>
     <LayoutAcessContainer

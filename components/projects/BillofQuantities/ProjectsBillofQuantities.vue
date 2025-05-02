@@ -188,6 +188,7 @@ const displayTaskModal = (phase) => {
     phaseStore.phase = phase
     currentPhase.value = phase
     currentPhase.value.tasks = !currentPhase.value.tasks ? [] : currentPhase.value.tasks
+    taskStore.reset()
     showTaskModal.value = true
     taskStore.task.phase_id = phase.id
 }
