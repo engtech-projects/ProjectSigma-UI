@@ -64,7 +64,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr class="bg-gray-100">
+                    <!-- <tr class="bg-gray-100">
                         <td />
                         <td class="uppercase text-xs font-semibold pt-2 text-center">
                             Name and Specification
@@ -81,7 +81,7 @@
                         <td class="uppercase text-xs font-semibold pt-2 text-center">
                             Amount
                         </td>
-                    </tr>
+                    </tr> -->
 
                     <!-- //TASK LIST -->
                     <tr v-for="task in phase.tasks" :key="task.id">
@@ -92,10 +92,10 @@
                             {{ task.description }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            {{ task.unit }}
+                            {{ task.quantity }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            {{ task.quantity }}
+                            {{ task.unit }}
                         </td>
                         <td class="border border-gray-700">
                             <div class="flex flex-col p-2 border-b border-gray-700">
