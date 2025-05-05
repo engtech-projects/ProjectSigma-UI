@@ -7,7 +7,9 @@ import {
     FAILURE_TO_LOG_MONITORING,
     FAILURE_TO_LOG_MONITORING_SUMMARY,
     LEAVE_MONITORING,
-    LEAVE_MONITORING_SUMMARY
+    LEAVE_MONITORING_SUMMARY,
+    TRAVEL_ORDER_MONITORING,
+    TRAVEL_ORDER_MONITORING_SUMMARY
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -67,6 +69,18 @@ const clearList = () => {
                 :value="LEAVE_MONITORING_SUMMARY"
             >
                 Leave Monitoring Summary
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_TRAVELORDERMONITORING])"
+                :value="TRAVEL_ORDER_MONITORING"
+            >
+                Travel Order Monitoring
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_TRAVELORDERMONITORINGSUMMARY])"
+                :value="TRAVEL_ORDER_MONITORING_SUMMARY"
+            >
+                Travel Order Monitoring Summary
             </option>
         </select>
     </div>

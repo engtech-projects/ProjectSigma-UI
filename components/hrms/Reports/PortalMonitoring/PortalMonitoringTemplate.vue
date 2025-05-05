@@ -7,7 +7,9 @@ import {
     FAILURE_TO_LOG_MONITORING,
     FAILURE_TO_LOG_MONITORING_SUMMARY,
     LEAVE_MONITORING,
-    LEAVE_MONITORING_SUMMARY
+    LEAVE_MONITORING_SUMMARY,
+    TRAVEL_ORDER_MONITORING,
+    TRAVEL_ORDER_MONITORING_SUMMARY
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -40,6 +42,12 @@ watch(portalMonitoringReports.value.params, (newValue, oldValue) => {
         />
         <HrmsReportsPortalMonitoringLeaveMonitoringSummary
             v-show="portalMonitoringReports.params.report_type === LEAVE_MONITORING_SUMMARY"
+        />
+        <HrmsReportsPortalMonitoringTravelOrderMonitoring
+            v-show="portalMonitoringReports.params.report_type === TRAVEL_ORDER_MONITORING"
+        />
+        <HrmsReportsPortalMonitoringTravelOrderMonitoringSummary
+            v-show="portalMonitoringReports.params.report_type === TRAVEL_ORDER_MONITORING_SUMMARY"
         />
     </LayoutBoardsWithoutBackground>
 </template>
