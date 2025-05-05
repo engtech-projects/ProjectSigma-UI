@@ -81,14 +81,6 @@
                                         </span>
                                     </div>
                                 </div>
-                                <!-- <div class="flex flex-col p-2 justify-center gap-2">
-                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
-                                    </button>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
-                                    </button>
-                                </div> -->
                             </div>
                         </td>
                     </tr>
@@ -105,9 +97,6 @@
                                     <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="addResource(rnames.id)">
                                         Add Resource
                                     </button>
-                                    <!-- <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
-                                        Remove
-                                    </button> -->
                                 </div>
                             </div>
                         </td>
@@ -224,7 +213,7 @@ const showResourceModal = ref(false)
 const letterHeader = ref(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"])
 const taskStore = useTaskStore()
 const filterResources = (id: number) => {
-    return taskStore.task.resources.filter(resource => resource.name_id === id)
+    return taskStore.task.resources?.filter(resource => resource.name_id === id)
 }
 const addResource = (id) => {
     showResourceModal.value = true

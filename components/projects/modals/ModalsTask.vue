@@ -28,27 +28,6 @@
                     {{ phaseStore.phase.name }}
                 </h3>
             </div>
-            <!-- <form @submit.prevent="handleSubmit">
-                <div class="grid grid-cols-2 gap-6 mb-4">
-                    <div class="flex flex-col">
-                        <label class="text-md text-gray-700">
-                            Task Name
-                        </label>
-                        <input v-model="taskStore.task.name" type="text" class="border border-gray-300 rounded-md" placeholder="Task Name">
-                    </div>
-                </div>
-                <div class="flex flex-col mb-4">
-                    <label class="text-md text-gray-700">
-                        Description
-                    </label>
-                    <textarea v-model="taskStore.task.description" class="border border-gray-300 rounded-md w-full h-56 resize-none" />
-                </div>
-                <div class="flex justify-end">
-                    <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" type="submit">
-                        Create Task
-                    </button>
-                </div>
-            </form> -->
             <form @submit.prevent="handleSubmit">
                 <div class="grid grid-cols-2 gap-6 mb-4">
                     <div class="flex flex-col">
@@ -83,7 +62,6 @@
                                 {{ unit.name + ' (' + unit.symbol + ')' }}
                             </option>
                         </select>
-                        <!-- <input v-model="resourceStore.resource.unit" type="text" class="border border-gray-300 rounded-md" placeholder="0" required> -->
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-6 mb-4">

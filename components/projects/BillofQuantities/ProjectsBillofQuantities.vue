@@ -64,25 +64,6 @@
                             </div>
                         </td>
                     </tr>
-                    <!-- <tr class="bg-gray-100">
-                        <td />
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Name and Specification
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Quantity
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Unit
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Unit Cost
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Amount
-                        </td>
-                    </tr> -->
-
                     <!-- //TASK LIST -->
                     <tr v-for="task in phase.tasks" :key="task.id">
                         <td class="text-center border border-gray-700">
