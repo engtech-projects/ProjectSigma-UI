@@ -34,14 +34,43 @@
                         <label class="text-md text-gray-700">
                             Task Name
                         </label>
-                        <input v-model="taskStore.task.name" type="text" class="border border-gray-300 rounded-md" placeholder="Task Name">
+                        <input v-model="taskStore.task.name" type="text" class="border border-gray-300 rounded-md" placeholder="Task Name" required>
                     </div>
-                    <!-- <div class="flex flex-col">
+                    <div class="flex flex-col">
                         <label class="text-md text-gray-700">
-                            Total Cost
+                            Amount
                         </label>
-                        <input v-model="taskStore.task.amount" type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
-                    </div> -->
+                        <input v-model="taskStore.task.amount" type="text" class="border border-gray-300 rounded-md" placeholder="0.00" required>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-6 mb-4">
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Quantity
+                        </label>
+                        <input v-model="taskStore.task.quantity" type="text" class="border border-gray-300 rounded-md" placeholder="0" required>
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Unit
+                        </label>
+                        <select v-model="taskStore.task.unit" class="border border-gray-300 rounded-md uppercase">
+                            <option value="" disabled selected>
+                                Select Unit
+                            </option>
+                            <option v-for="unit in resourceStore.units" :key="unit.name" :value="unit.symbol">
+                                {{ unit.name + ' (' + unit.symbol + ')' }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-6 mb-4">
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Unit Price
+                        </label>
+                        <input v-model="taskStore.task.unit_price" type="text" class="border border-gray-300 rounded-md" placeholder="0.00" required>
+                    </div>
                 </div>
                 <div class="flex flex-col mb-4">
                     <label class="text-md text-gray-700">
@@ -50,7 +79,7 @@
                     <textarea v-model="taskStore.task.description" class="border border-gray-300 rounded-md w-full h-56 resize-none" />
                 </div>
                 <div class="flex justify-end">
-                    <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" type="submit">
+                    <button v-if="!taskStore.task.id" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" type="submit">
                         Create Task
                     </button>
                 </div>
@@ -62,6 +91,8 @@
 <script lang="ts" setup>
 import { useTaskStore } from "@/stores/project-monitoring/task"
 import { usePhaseStore } from "@/stores/project-monitoring/phase"
+import { useResourceStore } from "@/stores/project-monitoring/resource"
+const resourceStore = useResourceStore()
 const taskStore = useTaskStore()
 const phaseStore = usePhaseStore()
 defineProps({
