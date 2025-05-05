@@ -32,6 +32,8 @@ export enum AccessibilityTypes {
     HRMS_REPORTS_PORTALMONITORING_FAILURETOLOGSUMMARY = "hrms:reports_portal monitoring_failure to log monitoring summary",
     HRMS_REPORTS_PORTALMONITORING_LEAVEMONITORING = "hrms:reports_portal monitoring_leave monitoring",
     HRMS_REPORTS_PORTALMONITORING_LEAVEMONITORINGSUMMARY = "hrms:reports_portal monitoring_leave monitoring summary",
+    HRMS_REPORTS_PORTALMONITORING_TRAVELORDERMONITORING = "hrms:reports_portal monitoring_travel order monitoring",
+    HRMS_REPORTS_PORTALMONITORING_TRAVELORDERMONITORINGSUMMARY = "hrms:reports_portal monitoring_travel order monitoring summary",
     // ATTENDANCE
     hrms_attendance_group = "hrms:attendance_",
     hrms_attendance_attendance_portal = "hrms:attendance_attendance portal",
