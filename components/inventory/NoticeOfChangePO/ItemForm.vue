@@ -62,6 +62,7 @@ const changesHeaders = [
 ]
 const dummyPOs = ref([
     {
+        ncpo_number: "NCPO-001-123",
         po_number: "PO-001",
         po_date: "April 25, 2025",
         project_code: "001-2323-232",
@@ -83,6 +84,7 @@ const dummyPOs = ref([
         ]
     },
     {
+        ncpo_number: "NCPO-002-456",
         po_number: "PO-002",
         po_date: "May 2, 2025",
         project_code: "001-4545-232",
@@ -108,6 +110,7 @@ const selectedPO = ref(dummyPOs.value[0].po_number)
 watch(selectedPO, (newVal) => {
     const selected = dummyPOs.value.find(po => po.po_number === newVal)
     if (selected) {
+        form.value.ncpo_number = selected.ncpo_number
         form.value.po_number = selected.po_number
         form.value.po_date = selected.po_date
         form.value.project_code = selected.project_code
@@ -116,17 +119,27 @@ watch(selectedPO, (newVal) => {
         selectedItems.value = selected.items
     }
 }, { immediate: true })
-
+defineProps({
+    title: {
+        type: String,
+        default: ""
+    },
+})
 </script>
 
 <template>
     <div class="text-gray-500 p-2">
         <form>
             <div class="flex flex-col gap-4 w-full">
+                <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4">
+                    <h3 v-if="title" class="pl-4 text-xl font-bold text-gray-900 p-4 tracking-wide">
+                        {{ title }}
+                    </h3>
+                </div>
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="flex flex-row justify-between gap-4">
                         <div class="w-full flex flex-col gap-2">
-                            <InventoryCommonFormPsFormLabel title="NCPO NO" value="NCPO-001-123456" />
+                            <InventoryCommonFormPsFormLabel title="NCPO NO" :value="form.ncpo_number" />
                             <div class="flex flex-row items-center gap-4">
                                 <label for="poSelect" class="w-full flex flex-col text-sm uppercase font-medium text-gray-900">
                                     PO NUMBER

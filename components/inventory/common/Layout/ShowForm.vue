@@ -55,9 +55,13 @@ const emit = defineEmits(["update:form"])
 
 const localForm = ref({ ...props.form })
 
-watch(() => props.form, (newVal) => {
-    localForm.value = { ...newVal }
-})
+watch(
+    () => props.form,
+    (newVal) => {
+        localForm.value = { ...newVal }
+    },
+    { deep: true, immediate: true }
+)
 
 watch(localForm, (val) => {
     emit("update:form", val)

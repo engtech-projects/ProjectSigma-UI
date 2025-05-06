@@ -15,6 +15,7 @@ const headers = [
 const rsHeaders = [
     { name: "RS No.", id: "rsNo" },
     { name: "Date", id: "date" },
+    { name: "Status", id: "status" },
 ]
 
 const rsInfoHeaders = [
@@ -38,10 +39,15 @@ const prDetails = [
     { supplier_name: "Supplier 2", quot_date: "2022-02-26" },
     { supplier_name: "Supplier 3", quot_date: "2022-02-26" },
 ]
-const rsDetails = [
-    { rsNo: 1, date: "2022-02-26", noOfPriceQuotation: 1 },
-    { rsNo: 2, date: "2022-02-26", noOfPriceQuotation: 1 },
-    { rsNo: 3, date: "2022-02-26", noOfPriceQuotation: 1 },
+const onGoing = [
+    { rsNo: 1, date: "2022-02-16", status: "Served" },
+    { rsNo: 2, date: "2022-02-4", status: "Unserved" },
+    { rsNo: 3, date: "2022-02-26", status: "Served" },
+]
+const all = [
+    { rsNo: 1, date: "2022-02-2", status: "Served" },
+    { rsNo: 2, date: "2022-02-18", status: "Served" },
+    { rsNo: 3, date: "2022-02-22", status: "Unserved" },
 ]
 const rsInfo = [
     {
@@ -126,10 +132,12 @@ const currentForm = ref(null)
             <h2 class="text-lg font-semibold text-center mb-4">
                 PROCUREMENT REQUESTS
             </h2>
-            <LayoutPsTable
-                :header-columns="rsHeaders"
+            <InventoryCommonLayoutRequestTable
+                :is-show="isShowTable"
+                :headers="rsHeaders"
                 :actions="actions"
-                :datas="rsDetails ?? []"
+                :datas="onGoing ?? []"
+                :all-datas="all ?? []"
                 class="rounded-md shadow-sm"
                 @show-table="showInformation"
             />
@@ -198,21 +206,20 @@ const currentForm = ref(null)
                         </HrmsCommonTabsTabContainer>
                         <HrmsCommonTabsTabContainer id="ncpo">
                             <PrintTableFormat>
-                                <InventoryNoticeOfChangePOItemForm v-model="ncpoRequest.form" />
+                                <InventoryNoticeOfChangePOItemForm v-model="ncpoRequest.form" title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)" />
                             </PrintTableFormat>
                         </HrmsCommonTabsTabContainer>
                     </template>
                 </HrmsCommonTabsMainContainer>
             </LayoutAcessContainer>
         </div>
-
         <InventoryCommonLayoutShowForm
             :is-visible="isShowThirdPage"
             :current-form="currentForm"
             :form="form"
             :request-details="requestDetails"
             :on-close="goBack"
-            @update:form="form = $event"
+            @update:form="(val) => form.value = val"
         />
     </div>
 </template>
