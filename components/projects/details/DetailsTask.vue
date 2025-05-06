@@ -41,25 +41,10 @@
                             {{ taskStore.task.unit }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            1
+                            {{ taskStore.task.quantity }}
                         </td>
-                        <td class="border border-gray-700">
-                            <div class="flex flex-col p-2 border-b border-gray-700">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Words
-                                </h4>
-                                <span class="pl-4">
-                                    {{ amountToWords(taskStore.task.unit_price) }}
-                                </span>
-                            </div>
-                            <div class="flex flex-col p-2">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Figures
-                                </h4>
-                                <span class="pl-4">
-                                    {{ accountingCurrency(taskStore.task.unit_price) }}
-                                </span>
-                            </div>
+                        <td class="p-2 border border-gray-700 text-center">
+                            {{ taskStore.task.unit_price + " / " + taskStore.task.unit }}
                         </td>
                         <td class="border border-gray-700">
                             <div class="flex">
@@ -136,27 +121,12 @@
                         <td class="p-2 border border-gray-700 text-center">
                             {{ resource.unit }}
                         </td>
-                        <td class="border border-gray-700">
-                            <div class="flex flex-col p-2 border-b border-gray-700">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Words
-                                </h4>
-                                <span class="pl-4">
-                                    {{ amountToWords(resource.unit_cost) }}
-                                </span>
-                            </div>
-                            <div class="flex flex-col p-2">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Figures
-                                </h4>
-                                <span class="pl-4">
-                                    {{ accountingCurrency(resource.unit_cost) }}
-                                </span>
-                            </div>
+                        <td class="p-2 border border-gray-700 text-center">
+                            {{ resource.unit_cost + " / " + resource.unit }}
                         </td>
                         <td class="border border-gray-700">
                             <div class="flex">
-                                <div class="flex flex-col border-r border-gray-700">
+                                <div class="flex flex-col border-r border-gray-700 flex-1">
                                     <div class="flex flex-col p-2 border-b border-gray-700">
                                         <h4 class="font-bold uppercase text-sm flex-1">
                                             In Words
@@ -183,6 +153,116 @@
                                     </button>
                                 </div>
                             </div>
+                        </td>
+                    </tr>
+                    <tr v-if="filterResources(rnames.id).length > 0" class="border-b border-gray-700 text-sm font-bold">
+                        <td class="text-right px-2" colspan="5">
+                            Direct {{ rnames.name }} Cost
+                        </td>
+                        <td class="text-right px-2">
+                            {{ accountingCurrency(totalDirectCost(rnames.id)) }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td class="font-semibold uppercase px-2">
+                            D.
+                        </td>
+                        <td class="pX-2 uppercase">
+                            Direct Cost
+                        </td>
+                        <td class="pX-2 text-center" />
+                        <td class="pX-2 text-center" />
+                        <td class="text-right px-2" />
+                        <td class="text-right px-2">
+                            {{ accountingCurrency(taskStore.task.resources.resources_item_total) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold uppercase px-2">
+                            E.
+                        </td>
+                        <td class="pX-2 uppercase">
+                            O.C.M
+                        </td>
+                        <td class="pX-2 text-center">
+                            10%
+                        </td>
+                        <td class="pX-2 text-center" />
+                        <td class="text-right px-2">
+                            of D
+                        </td>
+                        <td class="text-right px-2">
+                            {{ accountingCurrency(taskStore.task.resources.ocm) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold uppercase px-2">
+                            F.
+                        </td>
+                        <td class="pX-2 uppercase">
+                            Contractors Profit
+                        </td>
+                        <td class="pX-2 text-center">
+                            10%
+                        </td>
+                        <td class="pX-2 text-center" />
+                        <td class="text-right px-2">
+                            of D
+                        </td>
+                        <td class="text-right px-2">
+                            {{ accountingCurrency(taskStore.task.resources.contractors_profit) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold uppercase px-2">
+                            g.
+                        </td>
+                        <td class="pX-2 uppercase">
+                            vAT (Where Applicable)
+                        </td>
+                        <td class="pX-2 text-center">
+                            12%
+                        </td>
+                        <td class="pX-2 text-center" />
+                        <td class="text-right px-2">
+                            of (D + E + F)
+                        </td>
+                        <td class="text-right px-2">
+                            {{ accountingCurrency(taskStore.task.resources.vat) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold uppercase px-2">
+                            H.
+                        </td>
+                        <td class="pX-2 uppercase">
+                            Total Cost
+                        </td>
+                        <td class="pX-2 text-center" />
+                        <td class="pX-2 text-center" />
+                        <td class="text-right px-2">
+                            (D + E + F + G)
+                        </td>
+                        <td class="text-right px-2">
+                            {{ accountingCurrency(taskStore.task.resources.grand_total) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold uppercase px-2">
+                            I.
+                        </td>
+                        <td class="pX-2 uppercase">
+                            Unit Cost Per
+                        </td>
+                        <td class="pX-2 text-center" />
+                        <td class="pX-2 text-center" />
+                        <td class="text-right px-2">
+                            sq.m
+                        </td>
+                        <td class="text-right px-2">
+                            {{ accountingCurrency(taskStore.task.resources.unit_cost_per) }}
                         </td>
                     </tr>
                 </tbody>
@@ -213,7 +293,10 @@ const showResourceModal = ref(false)
 const letterHeader = ref(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"])
 const taskStore = useTaskStore()
 const filterResources = (id: number) => {
-    return taskStore.task.resources?.filter(resource => resource.name_id === id)
+    return taskStore.task.resources.data.filter(resource => resource.resources.id === id)
+}
+const totalDirectCost = (id: number) => {
+    return taskStore.task.resources.data.filter(resource => resource.resources.id === id).reduce((total: number, resource: any) => total + resource.unit_cost * resource.quantity, 0)
 }
 const addResource = (id) => {
     showResourceModal.value = true

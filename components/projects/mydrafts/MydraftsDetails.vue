@@ -10,7 +10,7 @@
                 </div>
             </div>
             <h1 class="text-lg mb-4 text-left uppercase font-bold flex-2">
-                Department of Public Works and Highways
+                {{ projectStore.information.license }}
             </h1>
         </div>
 

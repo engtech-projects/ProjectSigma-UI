@@ -14,9 +14,6 @@
                     <h1 class="text-3xl uppercase">
                         Create Resource
                     </h1>
-                    <h3 class="text-gray-400 text-lg">
-                        Resource Creation
-                    </h3>
                 </div>
                 <Icon name="material-symbols:close-rounded" class="h-6 w-6 text-gray-500 hover:text-gray-800 cursor-pointer" @click="emit('hideModal')" />
             </div>
@@ -42,7 +39,6 @@
                                 {{ resourceName.name }}
                             </option>
                         </select>
-                        <!-- <input type="text" class="border border-gray-300 rounded-md" placeholder="Resource Name" required> -->
                     </div>
                     <div class="flex flex-col">
                         <label class="text-md text-gray-700">
@@ -70,7 +66,6 @@
                                 {{ unit.name + ' (' + unit.symbol + ')' }}
                             </option>
                         </select>
-                        <!-- <input v-model="resourceStore.resource.unit" type="text" class="border border-gray-300 rounded-md" placeholder="0" required> -->
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-6 mb-4">
@@ -79,12 +74,6 @@
                             Unit Price
                         </label>
                         <input v-model="resourceStore.resource.unit_cost" type="text" class="border border-gray-300 rounded-md" placeholder="0.00" required>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-md text-gray-700">
-                            Amount
-                        </label>
-                        <input v-model="resourceStore.resource.resource_count" type="text" class="border border-gray-300 rounded-md" placeholder="0.00" required>
                     </div>
                 </div>
                 <div class="flex flex-col mb-4">
