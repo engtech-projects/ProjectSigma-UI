@@ -13,7 +13,7 @@ export const useResourceStore = defineStore("resourceStore", {
             quantity: null,
             unit: "",
             unit_cost: null,
-            resource_count: null,
+            resource_count: 0,
             total_cost: null
         },
         resourceNames: [],
@@ -213,7 +213,7 @@ export const useResourceStore = defineStore("resourceStore", {
                 quantity: null,
                 unit: "",
                 unit_cost: null,
-                resource_count: null,
+                resource_count: 0,
                 total_cost: null
             }
             this.successMessage = ""

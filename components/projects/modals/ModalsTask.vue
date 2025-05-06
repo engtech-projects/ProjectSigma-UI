@@ -14,9 +14,6 @@
                     <h1 class="text-3xl uppercase">
                         Create Task
                     </h1>
-                    <h3 class="text-gray-400 text-lg">
-                        Task Creation
-                    </h3>
                 </div>
                 <Icon name="material-symbols:close-rounded" class="h-6 w-6 text-gray-500 hover:text-gray-800 cursor-pointer" @click="emit('hideModal')" />
             </div>

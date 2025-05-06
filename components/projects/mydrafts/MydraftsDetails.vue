@@ -10,7 +10,7 @@
                 </div>
             </div>
             <h1 class="text-lg mb-4 text-left uppercase font-bold flex-2">
-                Department of Public Works and Highways
+                {{ projectStore.information.license }}
             </h1>
         </div>
 
@@ -72,7 +72,7 @@
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
                     ])"
-                    title="BID OF SUMMARY"
+                    title="SUMMARY OF BID"
                     target-id="bidSummary"
                 />
                 <AccountingCommonTabsTabTitle
