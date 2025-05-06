@@ -72,6 +72,9 @@ const headers = [
                                         {{ panTermination.effectivity_date }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
+                                        {{ panTermination.date_requested }}
+                                    </td>
+                                    <td class="whitespace-nowrap border border-gray-500 h-8">
                                         {{ panTermination.requested_by }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
