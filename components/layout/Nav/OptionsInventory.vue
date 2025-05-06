@@ -152,6 +152,11 @@
                 single-nav-title="Suppliers"
             />
             <LayoutNavSingle
+                linkarea="/inventory/procurement/requests"
+                icon="grommet-icons:overview"
+                single-nav-title="Procurement Requests"
+            />
+            <LayoutNavSingle
                 v-if="useCheckAccessibility([
                     AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP,
                 ])"

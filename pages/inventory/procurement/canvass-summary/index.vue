@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-// import { usePriceQuotationStore } from "~/stores/inventory/procurement/pricequotation"
-// const mainStore = usePriceQuotationStore()
-// const { priceQuotation } = storeToRefs(mainStore)
 useHead({
     title: "Canvass Summary",
 })
@@ -15,27 +12,19 @@ useHead({
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
-                    v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_REQUESTS])"
-                    target-id="Request"
-                    title="Canvass Summary"
-                />
-                <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_ALLREQUEST])"
                     target-id="allRequest"
-                    title="All Canvass Summary"
+                    title="All Requests"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_MYREQUESTS,
                     ])"
                     target-id="myRequests"
-                    title="My Canvass Summary"
+                    title="My Requests"
                 />
             </template>
             <template #tab-containers>
-                <HrmsCommonTabsTabContainer id="Request">
-                    <InventoryCanvassSummaryRequestList />
-                </HrmsCommonTabsTabContainer>
                 <HrmsCommonTabsTabContainer id="allRequest">
                     <InventoryCanvassSummaryRequestAllRequests />
                 </HrmsCommonTabsTabContainer>

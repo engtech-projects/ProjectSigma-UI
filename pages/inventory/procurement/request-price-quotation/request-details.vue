@@ -71,8 +71,7 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <InventoryPriceQuotationDetails title="Request For Price Quotation" :data="priceQuotation" :header-columns="headers" />
-            <!-- :data="priceQuotation.details" -->
+            <InventoryPriceQuotationDetails title="REQUEST FOR PRICE QUOTATION" :data="priceQuotation" :header-columns="headers" />
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">
