@@ -132,6 +132,7 @@ const openModalNotification = async () => {
             break
         }
         showModal.value = true
+        window.scrollBy(0, 1)
     } finally {
         loading.value = false
     }
@@ -140,6 +141,7 @@ const setAsRead = async (id) => {
     loading.value = true
     await notifStore.setSingleNotifAsRead(id)
     loading.value = false
+    window.scrollBy(0, 1)
 }
 const setAsUnread = async (id) => {
     loading.value = true

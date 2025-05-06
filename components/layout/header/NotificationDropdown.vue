@@ -3,6 +3,9 @@ import { useNotificationsStore } from "@/stores/notifications"
 const notifStore = useNotificationsStore()
 const { unreadList } = storeToRefs(notifStore)
 notifStore.getNotificationsStream()
+const reposPage = () => {
+    window.scrollBy(0, 1)
+}
 </script>
 <template>
     <div class="overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white divide-y divide-gray-100 shadow-lg dark:divide-gray-600 dark:bg-gray-700 rounded-xl">
@@ -25,7 +28,11 @@ notifStore.getNotificationsStream()
                 <LayoutNotificationNotifItem :notification="notif" />
             </template>
         </div>
-        <NuxtLink to="/hrms/notifications" class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50   dark:bg-gray-600 dark:text-white dark:hover:underline">
+        <NuxtLink
+            to="/hrms/notifications"
+            class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50   dark:bg-gray-600 dark:text-white dark:hover:underline"
+            @click="reposPage"
+        >
             <div class="inline-flex items-center">
                 <svg
                     aria-hidden="true"
