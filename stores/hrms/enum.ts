@@ -112,6 +112,22 @@ export const useHrmsEnumsStore = defineStore("enums", {
             successMessage: "",
             errorMessage: "",
         },
+        approvalHeadEnum: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as UserEmployee[],
+            params: {},
+            successMessage: "",
+            errorMessage: "",
+        },
+        approvalUserEnum: {
+            isLoading: false,
+            isLoaded: false,
+            list: [] as UserEmployee[],
+            params: {},
+            successMessage: "",
+            errorMessage: "",
+        },
         allEmployeeEnum: {
             isLoading: false,
             isLoaded: false,
@@ -306,6 +322,42 @@ export const useHrmsEnumsStore = defineStore("enums", {
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.userEmployeeHeadsEnum.list = response._data.data ?? []
+                        }
+                    },
+                }
+            )
+        },
+        async getApprovalUserEnums () {
+            this.approvalUserEnum.isLoaded = true
+            await useHRMSApiO(
+                "/api/enums/approval-users",
+                {
+                    method: "GET",
+                    params: this.approvalUserEnum.params,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.approvalUserEnum.list = response._data.data ?? []
+                        }
+                    },
+                }
+            )
+        },
+        async getApprovalHeadEnums () {
+            this.approvalHeadEnum.isLoaded = true
+            await useHRMSApiO(
+                "/api/enums/approval-heads",
+                {
+                    method: "GET",
+                    params: this.approvalHeadEnum.params,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.approvalHeadEnum.list = response._data.data ?? []
                         }
                     },
                 }
