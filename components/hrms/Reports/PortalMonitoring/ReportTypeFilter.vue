@@ -91,7 +91,7 @@ const clearList = () => {
                 Manpower Request Monitoring
             </option>
             <option
-                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_MANPOWERREQUESTMONITORING])"
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_PANTERMINATIONMONITORING])"
                 :value="PAN_TERMINATION_MONITORING"
             >
                 Pan Termination Monitoring

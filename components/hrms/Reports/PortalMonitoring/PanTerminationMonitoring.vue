@@ -22,7 +22,7 @@ const headers = [
 </script>
 <template>
     <div
-        v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_MANPOWERREQUESTMONITORING])"
+        v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_PANTERMINATIONMONITORING])"
         class="flex flex-col"
     >
         <LayoutPrint>
@@ -43,51 +43,51 @@ const headers = [
                                 </tr>
                             </thead>
                             <tbody class="text-sm text-center">
-                                <tr v-for="manpowerRequest, index in portalMonitoringReports.list" :key="'OvertimeMonitoring' + index" class="h-2">
+                                <tr v-for="panTermination, index in portalMonitoringReports.list" :key="'PanTerminationMonitoring' + index" class="h-2">
                                     <td class="border border-gray-500 h-8">
                                         {{ index + 1 }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ manpowerRequest.employee_name }}
+                                        {{ panTermination.employee_name }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ manpowerRequest.designation }}
+                                        {{ panTermination.designation }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ manpowerRequest.section }}
+                                        {{ panTermination.section }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ manpowerRequest.last_day_worked }}
+                                        {{ panTermination.last_day_worked }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ manpowerRequest.termination_type }}
+                                        {{ panTermination.termination_type }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ manpowerRequest.termination_reason }}
+                                        {{ panTermination.termination_reason }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ manpowerRequest.eligible_for_rehire }}
+                                        {{ panTermination.eligible_for_rehire }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ manpowerRequest.effectivity_date }}
+                                        {{ panTermination.effectivity_date }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ manpowerRequest.requested_by }}
+                                        {{ panTermination.requested_by }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ manpowerRequest.request_status }}
+                                        {{ panTermination.request_status }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ manpowerRequest.days_delayed_filling }}
+                                        {{ panTermination.days_delayed_filling }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ manpowerRequest.date_approved }}
+                                        {{ panTermination.date_approved }}
                                     </td>
                                     <td
                                         class="border border-gray-500 h-8"
                                     >
                                         <p class="whitespace-nowrap text-sm text-center">
-                                            {{ manpowerRequest.approvals }}
+                                            {{ panTermination.approvals }}
                                         </p>
                                     </td>
                                 </tr>
