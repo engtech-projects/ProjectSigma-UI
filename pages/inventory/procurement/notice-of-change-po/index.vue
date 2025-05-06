@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useNcpoStore } from "~/stores/inventory/procurement/ncpo"
-const mainStore = useNcpoStore()
-const { ncpoRequest } = storeToRefs(mainStore)
+// import { useNcpoStore } from "~/stores/inventory/procurement/ncpo"
+// const mainStore = useNcpoStore()
+// const { ncpoRequest } = storeToRefs(mainStore)
 useHead({
     title: "NCPO",
 })
@@ -14,11 +14,11 @@ useHead({
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
-                <HrmsCommonTabsTabTitle
+                <!-- <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_FORMSANDMYREQUESTS])"
                     target-id="Form"
                     title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)"
-                />
+                /> -->
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_ALLREQUEST])"
                     target-id="allRequest"
@@ -36,9 +36,9 @@ useHead({
                 />
             </template>
             <template #tab-containers>
-                <HrmsCommonTabsTabContainer id="Form">
+                <!-- <HrmsCommonTabsTabContainer id="Form">
                     <InventoryNoticeOfChangePOItemForm v-model="ncpoRequest.form" />
-                </HrmsCommonTabsTabContainer>
+                </HrmsCommonTabsTabContainer> -->
                 <HrmsCommonTabsTabContainer id="allRequest">
                     <InventoryNoticeOfChangePORequestAllRequests />
                 </HrmsCommonTabsTabContainer>

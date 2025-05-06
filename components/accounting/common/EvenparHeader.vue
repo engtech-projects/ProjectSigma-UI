@@ -2,7 +2,7 @@
     <div id="header" class="flex gap-4 items-start justify-between">
         <div class="flex flex-col gap-4">
             <div class="flex gap-4 items-center">
-                <img src="/evenpar.jpg" class="relative h-[60px]" alt="">
+                <img src="/evenpar_new_logo.jpg" class="relative h-[6rem]" alt="">
                 <div class="flex flex-col">
                     <h1 class="text-md font-bold text-green-500 leading-6">
                         EVENPAR CONSTRUCTION AND <br> DEVELOPMENT CORPORATION

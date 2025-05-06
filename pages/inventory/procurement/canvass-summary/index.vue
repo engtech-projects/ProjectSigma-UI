@@ -14,28 +14,28 @@ useHead({
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
-                <HrmsCommonTabsTabTitle
+                <!-- <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_REQUESTS])"
                     target-id="Request"
                     title="Canvass Summary"
-                />
+                /> -->
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_ALLREQUEST])"
                     target-id="allRequest"
-                    title="All Canvass Summary"
+                    title="All Requests"
                 />
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_MYREQUESTS,
                     ])"
                     target-id="myRequests"
-                    title="My Canvass Summary"
+                    title="My Requests"
                 />
             </template>
             <template #tab-containers>
-                <HrmsCommonTabsTabContainer id="Request">
+                <!-- <HrmsCommonTabsTabContainer id="Request">
                     <InventoryCanvassSummaryRequestList />
-                </HrmsCommonTabsTabContainer>
+                </HrmsCommonTabsTabContainer> -->
                 <HrmsCommonTabsTabContainer id="allRequest">
                     <InventoryCanvassSummaryRequestAllRequests />
                 </HrmsCommonTabsTabContainer>

@@ -1,7 +1,21 @@
-<script lang="ts" setup>
+<script setup>
 import { useNcpoStore } from "~/stores/inventory/procurement/ncpo"
 const mainStore = useNcpoStore()
 const { ncpoRequest } = storeToRefs(mainStore)
+
+const isShowTable = ref(true)
+const isShowSecondPage = ref(false)
+const isShowThirdPage = ref(false)
+const selectedItem = ref(null)
+
+const headers = [
+    { name: "Supplier", id: "supplier_name" },
+    { name: "Quotation Date", id: "quot_date" },
+]
+const rsHeaders = [
+    { name: "RS No.", id: "rsNo" },
+    { name: "Date", id: "date" },
+]
 
 const rsInfoHeaders = [
     { name: "QTY", id: "qty" },
@@ -13,6 +27,22 @@ const rsInfoHeaders = [
     { name: "No. of Price Quotations", id: "noOfPriceQuotation" },
 ]
 
+const actions = {
+    showTable: true,
+    edit: false,
+    delete: false,
+}
+
+const prDetails = [
+    { supplier_name: "Supplier 1", quot_date: "2022-02-26" },
+    { supplier_name: "Supplier 2", quot_date: "2022-02-26" },
+    { supplier_name: "Supplier 3", quot_date: "2022-02-26" },
+]
+const rsDetails = [
+    { rsNo: 1, date: "2022-02-26", noOfPriceQuotation: 1 },
+    { rsNo: 2, date: "2022-02-26", noOfPriceQuotation: 1 },
+    { rsNo: 3, date: "2022-02-26", noOfPriceQuotation: 1 },
+]
 const rsInfo = [
     {
         qty: 1,
@@ -43,65 +73,146 @@ const rsInfo = [
     },
 ]
 
+const showInformation = (item) => {
+    selectedItem.value = item
+    isShowTable.value = false
+    isShowSecondPage.value = true
+    isShowThirdPage.value = false
+}
+
+const goBack = () => {
+    if (isShowThirdPage.value) {
+        isShowThirdPage.value = false
+        isShowSecondPage.value = true
+    } else {
+        isShowTable.value = true
+        isShowSecondPage.value = false
+        isShowThirdPage.value = false
+        selectedItem.value = null
+    }
+}
+
+const showThirdPage = (formType) => {
+    currentForm.value = formType
+    isShowTable.value = false
+    isShowSecondPage.value = false
+    isShowThirdPage.value = true
+}
+const form = ref({
+    date: "",
+    quotation_no: "",
+    conso_reference_no: "",
+    contact_no: "",
+    address: "",
+    contact_person: "",
+    requesting: "",
+    items: [],
+})
+
+const requestDetails = {
+    requestFor: "Goods",
+    officeOrProject: "241235",
+    address: "SUYUTAN TUBAY ADN",
+    referenceNo: `RS${selectedItem.rsNo}`,
+    datePrepared: new Date().toLocaleDateString(),
+    dateNeeded: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+    equipmentNo: "N/A",
+}
+const currentForm = ref(null)
 </script>
 <template>
-    <div class="border border-gray-300 flex-1 rounded-md p-4 bg-white">
-        <div class="mt-4 p-4 bg-white rounded-md border border-gray-300">
+    <div class="flex flex-col md:flex-cols gap-4">
+        <div v-if="isShowTable" class="border border-gray-300 flex-1 rounded-md p-4 bg-white">
             <h2 class="text-lg font-semibold text-center mb-4">
-                REQUESITION SLIP
+                PROCUREMENT REQUESTS
             </h2>
-            <div class="grid grid-cols-2 gap-4 justify-center items-center mt-4 p-4">
-                <div class="flex flex-col gap-1">
-                    <InventoryCommonFormPsFormLabel title="Request For" value="Goods" />
-                    <InventoryCommonFormPsFormLabel title="Office/Project" value="SUYUTAN-123" />
-                    <InventoryCommonFormPsFormLabel title="Address" value="SUYUTAN TUBAY ADN" />
-                </div>
-                <div class="flex flex-col gap-1">
-                    <InventoryCommonFormPsFormLabel title="Reference No." value="RS-123-345" />
-                    <InventoryCommonFormPsFormLabel title="Date Prepared" :value="new Date().toLocaleDateString()" />
-                    <InventoryCommonFormPsFormLabel title="Date Needed" :value="new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()" />
-                    <InventoryCommonFormPsFormLabel title="Equipment No." value="N/A" />
-                </div>
+            <LayoutPsTable
+                :header-columns="rsHeaders"
+                :actions="actions"
+                :datas="rsDetails ?? []"
+                class="rounded-md shadow-sm"
+                @show-table="showInformation"
+            />
+        </div>
+        <div v-else-if="isShowSecondPage" class=" flex-1 rounded-md p-4 bg-white">
+            <div class="flex justify-end">
+                <button class="text-gray-500 hover:text-white hover:bg-red-600" @click="goBack">
+                    <Icon name="mdi:close" class="h-5 w-5" />
+                </button>
+            </div>
+            <div v-if="selectedItem" class="mt-4 p-4 bg-white rounded-md border-4 border-sky-200">
+                <InventoryCommonLayoutRequisitionSlip
+                    :selected-item="!!selectedItem"
+                    office-project="SUYUTAN-123"
+                    address="SUYUTAN TUBAY ADN"
+                    reference-no="RS-123-345"
+                    :rs-info-headers="rsInfoHeaders"
+                    :rs-info="rsInfo"
+                    title="REQUISITION SLIP"
+                />
             </div>
 
-            <LayoutPsTable :header-columns="rsInfoHeaders" :datas="rsInfo ?? []" class="rounded-md shadow-sm" />
+            <LayoutAcessContainer
+                :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP,
+                ])"
+                class="w-full mt-4"
+            >
+                <HrmsCommonTabsMainContainer>
+                    <template #tab-titles>
+                        <HrmsCommonTabsTabTitle
+                            v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS])"
+                            target-id="rpq"
+                            title="REQUEST FOR PRICE QUOTATION"
+                        />
+                        <HrmsCommonTabsTabTitle
+                            v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_REQUESTS])"
+                            target-id="cs"
+                            title="CANVASS SUMMARY"
+                        />
+                        <HrmsCommonTabsTabTitle
+                            v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_FORMSANDMYREQUESTS])"
+                            target-id="ncpo"
+                            title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)"
+                        />
+                    </template>
+                    <template #tab-containers>
+                        <HrmsCommonTabsTabContainer id="rpq">
+                            <InventoryCommonLayoutFormCreate
+                                :headers="headers"
+                                :datas="prDetails"
+                                :on-create="() => showThirdPage('priceQuotation')"
+                                :on-edit="() => showThirdPage('priceQuotation')"
+                                title="Price Quotations List"
+                                icon-label="Create Price Quotations"
+                            />
+                        </HrmsCommonTabsTabContainer>
+                        <HrmsCommonTabsTabContainer id="cs">
+                            <InventoryCommonLayoutFormCreate
+                                :headers="headers"
+                                :datas="prDetails"
+                                :on-create="() => showThirdPage('canvassSummary')"
+                                :on-edit="() => showThirdPage('canvassSummary')"
+                                title="Canvass Summary List"
+                                icon-label="Create Canvass Summary"
+                            />
+                        </HrmsCommonTabsTabContainer>
+                        <HrmsCommonTabsTabContainer id="ncpo">
+                            <PrintTableFormat>
+                                <InventoryNoticeOfChangePOItemForm v-model="ncpoRequest.form" />
+                            </PrintTableFormat>
+                        </HrmsCommonTabsTabContainer>
+                    </template>
+                </HrmsCommonTabsMainContainer>
+            </LayoutAcessContainer>
         </div>
 
-        <LayoutAcessContainer
-            :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP,
-            ])"
-            class="w-full"
-        >
-            <HrmsCommonTabsMainContainer>
-                <template #tab-titles>
-                    <HrmsCommonTabsTabTitle
-                        v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS])"
-                        target-id="RPQ"
-                        title="Request For Price Quotation"
-                    />
-                    <HrmsCommonTabsTabTitle
-                        v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_REQUESTS])"
-                        target-id="CS"
-                        title="Canvass Summary"
-                    />
-                    <HrmsCommonTabsTabTitle
-                        v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_FORMSANDMYREQUESTS])"
-                        target-id="NCPO"
-                        title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)"
-                    />
-                </template>
-                <template #tab-containers>
-                    <HrmsCommonTabsTabContainer id="RPQ">
-                        <InventoryPriceQuotationRequestList />
-                    </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="CS">
-                        <InventoryCanvassSummaryRequestList />
-                    </HrmsCommonTabsTabContainer>
-                    <HrmsCommonTabsTabContainer id="NCPO">
-                        <InventoryNoticeOfChangePOItemForm v-model="ncpoRequest.form" />
-                    </HrmsCommonTabsTabContainer>
-                </template>
-            </HrmsCommonTabsMainContainer>
-        </LayoutAcessContainer>
+        <InventoryCommonLayoutShowForm
+            :is-visible="isShowThirdPage"
+            :current-form="currentForm"
+            :form="form"
+            :request-details="requestDetails"
+            :on-close="goBack"
+            @update:form="form = $event"
+        />
     </div>
 </template>

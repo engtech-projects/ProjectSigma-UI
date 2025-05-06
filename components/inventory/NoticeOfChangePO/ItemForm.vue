@@ -60,6 +60,62 @@ const changesHeaders = [
     { name: "CHANGE IN BRAND", id: "supplier_id" },
     { name: "CANCEL ITEM", id: "cancel_item" },
 ]
+const dummyPOs = ref([
+    {
+        po_number: "PO-001",
+        po_date: "April 25, 2025",
+        project_code: "001-2323-232",
+        equipment_number: "Equip-923-211",
+        date: "April 24, 2025",
+        items: [
+            {
+                id: 1,
+                item_id: "ITEM001",
+                specification: "Steel",
+                quantity: 10,
+                uom: "PCS",
+                supplier_id: "BrandX",
+                unit_price: 100,
+                net_of_vat: 950,
+                input_vat: 50,
+                gross_amount: 1000,
+            }
+        ]
+    },
+    {
+        po_number: "PO-002",
+        po_date: "May 2, 2025",
+        project_code: "001-4545-232",
+        equipment_number: "Equip-111-999",
+        date: "May 1, 2025",
+        items: [
+            {
+                id: 2,
+                item_id: "ITEM999",
+                specification: "Alloy",
+                quantity: 5,
+                uom: "BOX",
+                supplier_id: "BrandY",
+                unit_price: 200,
+                net_of_vat: 190,
+                input_vat: 10,
+                gross_amount: 200,
+            }
+        ]
+    }
+])
+const selectedPO = ref(dummyPOs.value[0].po_number)
+watch(selectedPO, (newVal) => {
+    const selected = dummyPOs.value.find(po => po.po_number === newVal)
+    if (selected) {
+        form.value.po_number = selected.po_number
+        form.value.po_date = selected.po_date
+        form.value.project_code = selected.project_code
+        form.value.equipment_number = selected.equipment_number
+        form.value.date = selected.date
+        selectedItems.value = selected.items
+    }
+}, { immediate: true })
 
 </script>
 
@@ -71,13 +127,25 @@ const changesHeaders = [
                     <div class="flex flex-row justify-between gap-4">
                         <div class="w-full flex flex-col gap-2">
                             <InventoryCommonFormPsFormLabel title="NCPO NO" value="NCPO-001-123456" />
-                            <LayoutFormPsTextInput v-model="form.po_number" class="w-full" title="PO NUMBER" />
-                            <InventoryCommonFormPsFormLabel title="PO DATE" value="April 25, 2025" />
-                            <InventoryCommonFormPsFormLabel title="PROJECT CODE" value="001-2323-232" />
-                            <InventoryCommonFormPsFormLabel title="EQUIPMENT NUMBER" value="Equip-923-211" />
+                            <div class="flex flex-row items-center gap-4">
+                                <label for="poSelect" class="w-full flex flex-col text-sm uppercase font-medium text-gray-900">
+                                    PO NUMBER
+                                </label>
+                                <label>
+                                    :
+                                </label>
+                                <select id="poSelect" v-model="selectedPO" class="w-full block">
+                                    <option v-for="po in dummyPOs" :key="po.po_number" :value="po.po_number">
+                                        {{ po.po_number }}
+                                    </option>
+                                </select>
+                            </div>
+                            <InventoryCommonFormPsFormLabel title="PO DATE" :value="form.po_date" />
+                            <InventoryCommonFormPsFormLabel title="PROJECT CODE" :value="form.project_code" />
+                            <InventoryCommonFormPsFormLabel title="EQUIPMENT NUMBER" :value="form.equipment_number" />
                         </div>
                         <div class="w-full flex flex-col gap-2">
-                            <InventoryCommonFormPsFormLabel title="DATE" value="April 24, 2025" />
+                            <InventoryCommonFormPsFormLabel title="DATE" :value="form.date" />
                         </div>
                     </div>
 
