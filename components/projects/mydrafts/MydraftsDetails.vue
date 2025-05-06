@@ -72,7 +72,7 @@
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
                     ])"
-                    title="BID OF SUMMARY"
+                    title="SUMMARY OF BID"
                     target-id="bidSummary"
                 />
                 <AccountingCommonTabsTabTitle
