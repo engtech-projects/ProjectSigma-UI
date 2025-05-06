@@ -29,7 +29,7 @@
                         Project Id:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
-                        {{ projectStore.information.code ?? "No project yet."}}
+                        {{ projectStore.information.code ?? "No project yet." }}
                     </span>
                 </div>
                 <div class="flex items-end gap-3">
