@@ -5,16 +5,16 @@ const { portalMonitoringReports } = storeToRefs(generateReportstore)
 const headers = [
     { name: "NO", id: "" },
     { name: "Employee Name", id: "employee_name" },
-    { name: "Current Work Location", id: "current_work_location" },
-    { name: "Current Salary Type", id: "current_salary_type" },
-    { name: "Old Position", id: "old_position" },
-    { name: "New Work Location", id: "new_work_location" },
-    { name: "New Salary Type", id: "new_salary_type" },
-    { name: "New Position", id: "new_position" },
+    { name: "Designation", id: "designation" },
+    { name: "Section", id: "section" },
+    { name: "Last Day Worked", id: "last_day_worked" },
+    { name: "Termination Type", id: "termination_type" },
+    { name: "Termination Reason", id: "termination_reason" },
+    { name: "Eligible for re-hire", id: "eligible_for_rehire" },
     { name: "Effectivity Date", id: "effectivity_date" },
     { name: "Date Requested", id: "date_requested" },
-    { name: "Requested By", id: "requested_by" },
-    { name: "Requested Status", id: "request_status" },
+    { name: "Requested by", id: "requested_by" },
+    { name: "Request Status", id: "request_status" },
     { name: "No. of Days Delayed Filing", id: "days_delayed_filling" },
     { name: "Date Approved", id: "date_approved" },
     { name: "Approvals", id: "approvals" },
@@ -22,7 +22,7 @@ const headers = [
 </script>
 <template>
     <div
-        v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_PANTRANSFERMONITORING])"
+        v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_PANTERMINATIONMONITORING])"
         class="flex flex-col"
     >
         <LayoutPrint>
@@ -43,54 +43,54 @@ const headers = [
                                 </tr>
                             </thead>
                             <tbody class="text-sm text-center">
-                                <tr v-for="panTransfer, index in portalMonitoringReports.list" :key="'OvertimeMonitoring' + index" class="h-2">
+                                <tr v-for="panTermination, index in portalMonitoringReports.list" :key="'PanTerminationMonitoring' + index" class="h-2">
                                     <td class="border border-gray-500 h-8">
                                         {{ index + 1 }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ panTransfer.employee_name }}
+                                        {{ panTermination.employee_name }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ panTransfer.current_work_location }}
+                                        {{ panTermination.designation }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ panTransfer.current_salary_type }}
+                                        {{ panTermination.section }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ panTransfer.old_position }}
+                                        {{ panTermination.last_day_worked }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ panTransfer.new_work_location }}
+                                        {{ panTermination.termination_type }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ panTransfer.new_salary_type }}
+                                        {{ panTermination.termination_reason }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ panTransfer.new_position }}
+                                        {{ panTermination.eligible_for_rehire }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ panTransfer.effectivity_date }}
+                                        {{ panTermination.effectivity_date }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ panTransfer.date_requested }}
+                                        {{ panTermination.date_requested }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ panTransfer.requested_by }}
+                                        {{ panTermination.requested_by }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ panTransfer.request_status }}
+                                        {{ panTermination.request_status }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ panTransfer.days_delayed_filling }}
+                                        {{ panTermination.days_delayed_filling }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ panTransfer.date_approved }}
+                                        {{ panTermination.date_approved }}
                                     </td>
                                     <td
                                         class="border border-gray-500 h-8"
                                     >
                                         <p class="whitespace-nowrap text-sm text-center">
-                                            {{ panTransfer.approvals }}
+                                            {{ panTermination.approvals }}
                                         </p>
                                     </td>
                                 </tr>
