@@ -14,7 +14,7 @@ const headers = [
     { name: "Effectivity Date", id: "effectivity_date" },
     { name: "Date Requested", id: "date_requested" },
     { name: "Requested By", id: "requested_by" },
-    { name: "Requested Status", id: "requested_status" },
+    { name: "Requested Status", id: "request_status" },
     { name: "No. of Days Delayed Filing", id: "days_delayed_filling" },
     { name: "Date Approved", id: "date_approved" },
     { name: "Approvals", id: "approvals" },
@@ -78,7 +78,7 @@ const headers = [
                                         {{ panTransfer.requested_by }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ panTransfer.requested_status }}
+                                        {{ panTransfer.request_status }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ panTransfer.days_delayed_filling }}
