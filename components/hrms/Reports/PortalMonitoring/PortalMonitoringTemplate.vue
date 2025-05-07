@@ -11,7 +11,8 @@ import {
     TRAVEL_ORDER_MONITORING,
     TRAVEL_ORDER_MONITORING_SUMMARY,
     MANPOWER_REQUEST_MONITORING,
-    PAN_TERMINATION_MONITORING
+    PAN_TERMINATION_MONITORING,
+    PAN_TRANSFER_MONITORING
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -56,6 +57,9 @@ watch(portalMonitoringReports.value.params, (newValue, oldValue) => {
         />
         <HrmsReportsPortalMonitoringPanTerminationMonitoring
             v-show="portalMonitoringReports.params.report_type === PAN_TERMINATION_MONITORING"
+        />
+        <HrmsReportsPortalMonitoringPanTransferMonitoring
+            v-show="portalMonitoringReports.params.report_type === PAN_TRANSFER_MONITORING"
         />
     </LayoutBoardsWithoutBackground>
 </template>
