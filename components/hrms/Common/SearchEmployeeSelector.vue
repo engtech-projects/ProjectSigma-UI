@@ -43,7 +43,7 @@ watch(employeeId, (newValue) => {
             v-model:search-input="employeesAll.params.key"
             :search-list="employeesAll.list"
             :loading="employeesAll.isLoading"
-            title="fullname_last"
+            title="search_details"
             placeholder="Search Employee"
         />
     </div>

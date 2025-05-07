@@ -19,11 +19,6 @@ const employeePosition = computed(() => {
         <div class="w-full absolute top-[115px] text-center">
             <p
                 class="font-medium text-lg "
-                style="text-shadow:
-                    1px 1px 0 #FFF,
-                    -1px 1px 0 #FFF,
-                    -1px -1px 0 #FFF,
-                    1px -1px 0 #FFF;"
             >
                 {{ information.company_employments.employeedisplay_id }}
             </p>
@@ -54,7 +49,7 @@ const employeePosition = computed(() => {
             </p>
         </div>
         <div class="w-full absolute top-[395px] text-center">
-            <p class="font-medium text-md">
+            <p style="font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif; font-size: 18pt; font-weight: bold;">
                 {{ information.fullname_first }}
             </p>
         </div>

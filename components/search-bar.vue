@@ -32,7 +32,7 @@ watch(employeeInfo, async (newValue) => {
         v-model:search-input="employeesAll.params.key"
         :loading="employeesAll.isLoading"
         :search-list="employeesAll.list"
-        title="fullname_last"
+        title="search_details"
         placeholder="Search Employee"
     />
 </template>
