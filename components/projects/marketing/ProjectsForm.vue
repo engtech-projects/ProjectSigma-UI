@@ -109,7 +109,7 @@ const handleSubmit = async () => {
                         <AccountingCommonSelectStakeholderSelect
                             :stakeholder-id="projectStore.information.designation"
                             :stakeholder="designation"
-                            :select-options="['project', 'department', 'employee']"
+                            :select-options="['employee']"
                             default-dept="employee"
                             placeholder="Search Employee"
                             @select="selectStakeholder"
