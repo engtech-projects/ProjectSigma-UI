@@ -11,6 +11,7 @@ import {
     TRAVEL_ORDER_MONITORING,
     TRAVEL_ORDER_MONITORING_SUMMARY,
     MANPOWER_REQUEST_MONITORING,
+    MANPOWER_REQUEST_MONITORING_SUMMARY,
     PAN_TERMINATION_MONITORING,
     PAN_TRANSFER_MONITORING,
     PAN_PROMOTION_MONITORING
@@ -55,6 +56,9 @@ watch(portalMonitoringReports.value.params, (newValue, oldValue) => {
         />
         <HrmsReportsPortalMonitoringManpowerRequestMonitoring
             v-show="portalMonitoringReports.params.report_type === MANPOWER_REQUEST_MONITORING"
+        />
+        <HrmsReportsPortalMonitoringManpowerRequestMonitoringSummary
+            v-show="portalMonitoringReports.params.report_type === MANPOWER_REQUEST_MONITORING_SUMMARY"
         />
         <HrmsReportsPortalMonitoringPanTerminationMonitoring
             v-show="portalMonitoringReports.params.report_type === PAN_TERMINATION_MONITORING"
