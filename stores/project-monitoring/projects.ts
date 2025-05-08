@@ -250,6 +250,31 @@ export const useProjectStore = defineStore("projects", {
             }
         },
 
+        async editRates (rate: any) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            const { data, error } = await useFetch<any>(
+                "/api/projects/change-summary-rates",
+                {
+                    baseURL: config.public.PROJECTS_API_URL,
+                    method: "POST",
+                    headers: {
+                        Authorization: token.value + ""
+                    },
+                    body: rate,
+                    watch: false,
+                }
+            )
+            if (data.value) {
+                this.getProject(this.information.id)
+                this.successMessage = data.value.message
+                return data
+            } else if (error.value) {
+                this.errorMessage = error.value.data.message
+                return error
+            }
+        },
+
         async deleteProject (id: number) {
             const { data, error } = await useFetch<any>(
                 "/api/projects/" + id,
