@@ -12,7 +12,8 @@ import {
     TRAVEL_ORDER_MONITORING_SUMMARY,
     MANPOWER_REQUEST_MONITORING,
     PAN_TERMINATION_MONITORING,
-    PAN_TRANSFER_MONITORING
+    PAN_TRANSFER_MONITORING,
+    PAN_PROMOTION_MONITORING
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -102,6 +103,12 @@ const clearList = () => {
                 :value="PAN_TRANSFER_MONITORING"
             >
                 Pan Transfer Monitoring
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_PANPROMOTIONMONITORING])"
+                :value="PAN_PROMOTION_MONITORING"
+            >
+                Pan Promotion Monitoring
             </option>
         </select>
     </div>
