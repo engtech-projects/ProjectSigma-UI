@@ -8,7 +8,7 @@ defineProps({
     }
 })
 const model = defineModel({ required: true, type: Object })
-const emit = defineEmits("delete-item", "compute-details")
+const emit = defineEmits("delete-item")
 const setCost = () => {
     isGetTotal.value = true
     compute()
@@ -28,7 +28,6 @@ const compute = () => {
         model.value.cost = parseFloat((model.value.amount / (model.value.vat / 100 + 1)).toFixed(2)) || 0
         model.value.total_vat_amount = (model.value.cost * (model.value.vat / 100)).toFixed(2)
     }
-    emit("compute-details")
 }
 const selectStakeholder = (stakeholder) => {
     model.value.stakeholderInformation = stakeholder
