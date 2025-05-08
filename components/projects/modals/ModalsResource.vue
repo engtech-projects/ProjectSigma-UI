@@ -22,7 +22,7 @@
                     Category Name
                 </label>
                 <h3 class="text-green-600 text-lg">
-                    A.Materials
+                    {{ taskStore.task.name }}
                 </h3>
             </div>
             <form @submit.prevent="handleSubmit">
