@@ -60,8 +60,13 @@ const addPaymentRequest = async () => {
     }
 }
 
+const computeDetails = () => {
+    paymentRequest.value.total_vat_amount = paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.total_vat_amount), 0)
+    paymentRequest.value.total = paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.amount), 0)
+}
 const removeDetails = (index) => {
     paymentRequest.value.details.splice(index, 1)
+    computeDetails()
 }
 const addDetails = () => {
     details.value = {
@@ -273,6 +278,7 @@ const selectStakeholder = (stakeholder) => {
                                 v-model="paymentRequest.details[idx]"
                                 :index="idx"
                                 @delete-item="removeDetails(idx)"
+                                @compute-details="computeDetails"
                             />
                         </div>
                         <span v-if="paymentRequest.details.length === 0" class="block text-center text-gray-600">
