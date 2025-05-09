@@ -37,7 +37,7 @@
                         <label class="text-md text-gray-700">
                             Amount
                         </label>
-                        <input v-model="taskStore.task.amount" type="text" class="border border-gray-300 rounded-md" placeholder="0.00" required>
+                        <input v-model="taskStore.task.amount" type="number" class="border border-gray-300 rounded-md" placeholder="0.00" required>
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-6 mb-4">
@@ -45,7 +45,7 @@
                         <label class="text-md text-gray-700">
                             Quantity
                         </label>
-                        <input v-model="taskStore.task.quantity" type="text" class="border border-gray-300 rounded-md" placeholder="0" required>
+                        <input v-model="taskStore.task.quantity" type="number" class="border border-gray-300 rounded-md" placeholder="0" required>
                     </div>
                     <div class="flex flex-col">
                         <label class="text-md text-gray-700">
@@ -66,7 +66,7 @@
                         <label class="text-md text-gray-700">
                             Unit Price
                         </label>
-                        <input v-model="taskStore.task.unit_price" type="text" class="border border-gray-300 rounded-md" placeholder="0.00" required>
+                        <input v-model="taskStore.task.unit_price" type="number" class="border border-gray-300 rounded-md" placeholder="0.00" required>
                     </div>
                 </div>
                 <div class="flex flex-col mb-4">

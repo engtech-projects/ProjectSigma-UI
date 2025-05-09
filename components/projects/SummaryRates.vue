@@ -18,7 +18,7 @@
                             <td class="w-3/12">
                                 <div class="flex flex-between w-full" @dblclick="activateCost($event, index, item)">
                                     <input v-if="activeCost === index" v-model="activeCostValue" type="number" class="border-0 bg-gray-100 h-7 w-24 text-right" @keyup.enter="updateCost(item)">
-                                    <span v-else class="flex-1 text-right">{{ item.unit_cost }}</span>
+                                    <span v-else class="flex-1 text-right">{{ accountingCurrency(item.unit_cost) }}</span>
                                     <span class="flex-1 text-center">/</span>
                                     <span class="flex-1 text-left">{{ item.unit }}</span>
                                 </div>
