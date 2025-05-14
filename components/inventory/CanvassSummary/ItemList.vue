@@ -73,24 +73,10 @@ const formattedSupplierTotal = computed(() => {
     }).format(supplierTotal.value)
 })
 
-// Get the active supplier name for display
-const activeSupplierName = computed(() => {
-    if (activeSupplier.value === null) { return "No supplier selected" }
-    return props.suppliers[activeSupplier.value]?.name || "Unknown supplier"
-})
 </script>
 
 <template>
     <div class="flex flex-col gap-4">
-        <!-- Debug Output -->
-        <div class="text-sm text-gray-600 bg-yellow-50 border p-2 rounded">
-            <p><strong>Selected Item Index Mapping:</strong> {{ selectedItems }}</p>
-            <p><strong>Selected Suppliers Mapping:</strong> {{ selectedSuppliers }}</p>
-            <p v-if="activeSupplier !== null">
-                <strong>Active Supplier:</strong> {{ activeSupplierName }}
-            </p>
-        </div>
-
         <div class="flex gap-1">
             <!-- Requested Items Table -->
             <div class="w-1/2 border rounded overflow-hidden">

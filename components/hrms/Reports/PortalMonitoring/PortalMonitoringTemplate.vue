@@ -7,7 +7,13 @@ import {
     FAILURE_TO_LOG_MONITORING,
     FAILURE_TO_LOG_MONITORING_SUMMARY,
     LEAVE_MONITORING,
-    LEAVE_MONITORING_SUMMARY
+    LEAVE_MONITORING_SUMMARY,
+    TRAVEL_ORDER_MONITORING,
+    TRAVEL_ORDER_MONITORING_SUMMARY,
+    MANPOWER_REQUEST_MONITORING,
+    PAN_TERMINATION_MONITORING,
+    PAN_TRANSFER_MONITORING,
+    PAN_PROMOTION_MONITORING
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -40,6 +46,24 @@ watch(portalMonitoringReports.value.params, (newValue, oldValue) => {
         />
         <HrmsReportsPortalMonitoringLeaveMonitoringSummary
             v-show="portalMonitoringReports.params.report_type === LEAVE_MONITORING_SUMMARY"
+        />
+        <HrmsReportsPortalMonitoringTravelOrderMonitoring
+            v-show="portalMonitoringReports.params.report_type === TRAVEL_ORDER_MONITORING"
+        />
+        <HrmsReportsPortalMonitoringTravelOrderMonitoringSummary
+            v-show="portalMonitoringReports.params.report_type === TRAVEL_ORDER_MONITORING_SUMMARY"
+        />
+        <HrmsReportsPortalMonitoringManpowerRequestMonitoring
+            v-show="portalMonitoringReports.params.report_type === MANPOWER_REQUEST_MONITORING"
+        />
+        <HrmsReportsPortalMonitoringPanTerminationMonitoring
+            v-show="portalMonitoringReports.params.report_type === PAN_TERMINATION_MONITORING"
+        />
+        <HrmsReportsPortalMonitoringPanTransferMonitoring
+            v-show="portalMonitoringReports.params.report_type === PAN_TRANSFER_MONITORING"
+        />
+        <HrmsReportsPortalMonitoringPanPromotionMonitoring
+            v-show="portalMonitoringReports.params.report_type === PAN_PROMOTION_MONITORING"
         />
     </LayoutBoardsWithoutBackground>
 </template>

@@ -7,7 +7,13 @@ import {
     FAILURE_TO_LOG_MONITORING,
     FAILURE_TO_LOG_MONITORING_SUMMARY,
     LEAVE_MONITORING,
-    LEAVE_MONITORING_SUMMARY
+    LEAVE_MONITORING_SUMMARY,
+    TRAVEL_ORDER_MONITORING,
+    TRAVEL_ORDER_MONITORING_SUMMARY,
+    MANPOWER_REQUEST_MONITORING,
+    PAN_TERMINATION_MONITORING,
+    PAN_TRANSFER_MONITORING,
+    PAN_PROMOTION_MONITORING
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -67,6 +73,42 @@ const clearList = () => {
                 :value="LEAVE_MONITORING_SUMMARY"
             >
                 Leave Monitoring Summary
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_TRAVELORDERMONITORING])"
+                :value="TRAVEL_ORDER_MONITORING"
+            >
+                Travel Order Monitoring
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_TRAVELORDERMONITORINGSUMMARY])"
+                :value="TRAVEL_ORDER_MONITORING_SUMMARY"
+            >
+                Travel Order Monitoring Summary
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_MANPOWERREQUESTMONITORING])"
+                :value="MANPOWER_REQUEST_MONITORING"
+            >
+                Manpower Request Monitoring
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_PANTERMINATIONMONITORING])"
+                :value="PAN_TERMINATION_MONITORING"
+            >
+                Pan Termination Monitoring
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_PANTRANSFERMONITORING])"
+                :value="PAN_TRANSFER_MONITORING"
+            >
+                Pan Transfer Monitoring
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_PANPROMOTIONMONITORING])"
+                :value="PAN_PROMOTION_MONITORING"
+            >
+                Pan Promotion Monitoring
             </option>
         </select>
     </div>

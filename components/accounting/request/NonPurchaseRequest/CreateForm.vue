@@ -60,25 +60,16 @@ const addPaymentRequest = async () => {
     }
 }
 
+watch(() => paymentRequest, () => {
+    paymentRequest.value.total_vat_amount = paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.total_vat_amount), 0)
+    paymentRequest.value.total = paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.amount), 0)
+}, { deep: true })
 const removeDetails = (index) => {
     paymentRequest.value.details.splice(index, 1)
 }
 const addDetails = () => {
-    details.value = {
-        stakeholder_id: null,
-        particulars: "",
-        stakeholderInformation: {},
-        cost: 0,
-        vat: vat.value
-    }
-    paymentRequest.value.details.push(details.value)
+    paymentRequest.value.details.push(JSON.parse(JSON.stringify(details.value)))
 }
-paymentRequest.value.total_vat_amount = computed(() => {
-    return paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.total_vat_amount), 0)
-})
-paymentRequest.value.total = computed(() => {
-    return paymentRequest.value.details.reduce((acc, item) => acc + parseFloat(item.amount), 0)
-})
 const selectStakeholder = (stakeholder) => {
     paymentRequest.value.stakeholderInformation = stakeholder
     paymentRequest.value.stakeholder_id = stakeholder.id
@@ -212,7 +203,7 @@ const selectStakeholder = (stakeholder) => {
                                 <label
                                     for="description"
                                     class="text-xs italic"
-                                >Apply With Holding Tax</label>
+                                >Apply Withholding Tax</label>
                                 <input id="monday" v-model="paymentRequest.isWithHolingTax" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                             </div>
                             <div v-if="paymentRequest.isWithHolingTax">

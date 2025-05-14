@@ -31,5 +31,21 @@
             icon="material-symbols:linked-services"
             single-nav-title="Technical Service"
         />
+        <LayoutNavGroup
+            v-if="useCheckAccessibility([
+                AccessibilityTypes.PROJECT_MONITORING_SETUP,
+            ])"
+            icon="iconoir:credit-cards"
+            title="Setup"
+        >
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.PROJECT_MONITORING_SETUP,
+                ])"
+                linkarea="/project-monitoring/setup/positions"
+                icon="iconoir:thumbs-up"
+                single-nav-title="Position"
+            />
+        </LayoutNavGroup>
     </LayoutNavModuleGroup>
 </template>

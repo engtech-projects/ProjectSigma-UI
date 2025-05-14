@@ -32,7 +32,7 @@
                         <label class="text-md text-gray-700">
                             Total Cost
                         </label>
-                        <input v-model="phaseStore.phase.total_cost" type="text" class="border border-gray-300 rounded-md" placeholder="0.00">
+                        <input v-model="phaseStore.phase.total_cost" type="number" class="border border-gray-300 rounded-md" placeholder="0.00">
                     </div>
                 </div>
                 <div class="flex flex-col mb-6">

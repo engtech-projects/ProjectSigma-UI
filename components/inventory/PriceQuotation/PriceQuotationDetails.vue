@@ -36,11 +36,10 @@ const reactiveData = computed(() => props.data)
     >
         <div class="flex flex-col gap-2 w-full p-4">
             <LayoutPrint>
+                <PrintTableFormat />
                 <div id="headline mb-4 ">
-                    <PrintTableFormat />
-                    <!-- <InventoryCommonEvenparHeader /> -->
-                    <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4 mt-4">
-                        <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
+                    <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4">
+                        <h3 v-if="title" class="pl-4 text-2xl font-bold text-gray-900 p-4">
                             {{ title }}
                         </h3>
                     </div>
@@ -142,6 +141,31 @@ const reactiveData = computed(() => props.data)
                                     </tr>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div class="w-full p-4">
+                        <p class="text-sm font-medium text-gray-900">
+                            Your promptness in giving us the price quotation of the above mentioned items is highly appreciated.
+                        </p>
+                    </div>
+                    <div class="w-full flex justify-normal p-4">
+                        <div class="flex-1">
+                            <div class="mb-8">
+                                Prepared by:
+                            </div>
+                            <div>
+                                <hr class="my-4 w-1/2 border-gray-700">
+                                Procurement Specialist
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <div class="mb-8">
+                                Received by:
+                            </div>
+                            <div>
+                                <hr class="my-4 w-1/2 border-gray-700">
+                                Contact Person From Supplier
+                            </div>
                         </div>
                     </div>
                 </LayoutLoadingContainer>

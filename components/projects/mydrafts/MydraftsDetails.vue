@@ -10,7 +10,7 @@
                 </div>
             </div>
             <h1 class="text-lg mb-4 text-left uppercase font-bold flex-2">
-                Department of Public Works and Highways
+                {{ projectStore.information.license }}
             </h1>
         </div>
 
@@ -19,9 +19,6 @@
                 <h1 class="text-2xl text-black uppercase font-semibold">
                     Project Details
                 </h1>
-                <h4 class="text-gray-500 text-md">
-                    Project Description
-                </h4>
             </div>
             <div class="flex flex-col gap-3 mb-8">
                 <div class="flex items-end gap-3">
@@ -75,7 +72,7 @@
                     v-if="useCheckAccessibility([
                         AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
                     ])"
-                    title="BID OF SUMMARY"
+                    title="SUMMARY OF BID"
                     target-id="bidSummary"
                 />
                 <AccountingCommonTabsTabTitle

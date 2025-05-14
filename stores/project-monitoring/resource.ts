@@ -11,12 +11,13 @@ export const useResourceStore = defineStore("resourceStore", {
             name_id: 1,
             description: null,
             quantity: null,
-            unit: null,
+            unit: "",
             unit_cost: null,
-            resource_count: null,
+            resource_count: 0,
             total_cost: null
         },
         resourceNames: [],
+        units: [],
         list: [],
         pagination: {},
         getParams: {},
@@ -89,6 +90,31 @@ export const useResourceStore = defineStore("resourceStore", {
             }
         },
 
+        async getResourceUnits () {
+            this.isLoading.list = true
+            const { data, error } = await useFetch(
+                "/api/uom",
+                {
+                    baseURL: config.public.PROJECTS_API_URL,
+                    method: "GET",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    params: this.getParams,
+                    onResponse: ({ response }) => {
+                        this.isLoading.list = false
+                        this.units = response._data
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+
         async getResource (id) {
             this.isLoading.list = true
             const { data, error } = await useFetch(
@@ -139,8 +165,8 @@ export const useResourceStore = defineStore("resourceStore", {
         async editResource () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useAccountingApi(
-                "/api/resource/" + this.resource.id,
+            const { data, error } = await useProjectsApi(
+                "/api/resource-items/" + this.resource.id,
                 {
                     method: "PATCH",
                     body: this.resource,
@@ -158,8 +184,8 @@ export const useResourceStore = defineStore("resourceStore", {
         },
 
         async deleteResource (id: number) {
-            const { data, error } = await useAccountingApi(
-                "/api/resource/" + id,
+            const { data, error } = await useProjectsApi(
+                "/api/resource-items/" + id,
                 {
                     method: "DELETE",
                     body: this.resource,
@@ -170,7 +196,6 @@ export const useResourceStore = defineStore("resourceStore", {
                 }
             )
             if (data.value) {
-                this.getResources(this.resource.project_id)
                 this.successMessage = data.value.message
                 return data
             } else if (error.value) {
@@ -186,9 +211,9 @@ export const useResourceStore = defineStore("resourceStore", {
                 name_id: null,
                 description: null,
                 quantity: null,
-                unit: null,
+                unit: "",
                 unit_cost: null,
-                resource_count: null,
+                resource_count: 0,
                 total_cost: null
             }
             this.successMessage = ""

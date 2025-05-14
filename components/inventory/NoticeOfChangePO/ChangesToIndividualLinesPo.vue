@@ -27,15 +27,15 @@ const isChanged = (newVal, oldVal) => {
 
 <template>
     <div>
-        <table class="w-full border border-collapse">
+        <table class="w-full border border-collapse border-black">
             <thead>
-                <tr class="bg-white border-b">
-                    <th :colspan="headers.length" class="px-6 py-3 text-xs font-bold">
+                <tr class="bg-white border-b border-black">
+                    <th :colspan="headers.length" class="px-6 py-3 text-lg font-bold text-black">
                         {{ title }}
                     </th>
                 </tr>
-                <tr class="bg-blue-100 text-xs font-bold">
-                    <th v-for="header in headers" :key="header.id" class="px-6 py-3 border">
+                <tr class="bg-blue-100 text-xs font-bold text-black">
+                    <th v-for="header in headers" :key="header.id" class="px-6 py-3 border border-black text-black">
                         {{ header.name }}
                     </th>
                 </tr>
@@ -44,12 +44,12 @@ const isChanged = (newVal, oldVal) => {
                 <tr
                     v-for="(item, index) in items"
                     :key="index"
-                    class="border-b hover:bg-gray-100"
+                    class="border-b hover:bg-gray-100 text-black"
                 >
                     <td
                         v-for="header in headers"
                         :key="header.id"
-                        class="px-6 py-4 border text-sm"
+                        class="px-6 py-4 border border-black text-sm"
                         :class="{
                             'bg-yellow-100': baseItems?.[index] && isChanged(item[header.id], baseItems[index][header.id])
                         }"
@@ -71,6 +71,14 @@ const isChanged = (newVal, oldVal) => {
                                 :type="typeof item[header.id] === 'number' ? 'number' : 'text'"
                             >
                         </template>
+                    </td>
+                </tr>
+                <tr class="bg-white font-bold text-black">
+                    <td :colspan="headers.length - 1" class="px-6 py-4 border border-black text-right uppercase">
+                        New PO Total
+                    </td>
+                    <td class="px-6 py-4 border border-black ">
+                        {{ items.reduce((total, item) => total + (item.amount || 0), 0) }}
                     </td>
                 </tr>
             </tbody>

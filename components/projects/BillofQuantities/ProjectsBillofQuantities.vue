@@ -25,10 +25,10 @@
                             Description
                         </th>
                         <th class="uppercase py-2 border border-gray-700 border-b-0 w-1/12">
-                            Unit
+                            Qty
                         </th>
                         <th class="uppercase py-2 border border-gray-700 border-b-0 w-1/12">
-                            Qty
+                            Unit
                         </th>
                         <th class="uppercase py-2 border border-gray-700 border-b-0 w-2/12">
                             Unit Price (Pesos)
@@ -64,25 +64,6 @@
                             </div>
                         </td>
                     </tr>
-                    <tr class="bg-gray-100">
-                        <td />
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Name and Specification
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Quantity
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Unit
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Unit Cost
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Amount
-                        </td>
-                    </tr>
-
                     <!-- //TASK LIST -->
                     <tr v-for="task in phase.tasks" :key="task.id">
                         <td class="text-center border border-gray-700">
@@ -92,10 +73,10 @@
                             {{ task.description }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            {{ task.unit }}
+                            {{ task.quantity }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            {{ task.quantity }}
+                            {{ task.unit }}
                         </td>
                         <td class="border border-gray-700">
                             <div class="flex flex-col p-2 border-b border-gray-700">
@@ -188,6 +169,7 @@ const displayTaskModal = (phase) => {
     phaseStore.phase = phase
     currentPhase.value = phase
     currentPhase.value.tasks = !currentPhase.value.tasks ? [] : currentPhase.value.tasks
+    taskStore.reset()
     showTaskModal.value = true
     taskStore.task.phase_id = phase.id
 }
