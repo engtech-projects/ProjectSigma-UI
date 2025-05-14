@@ -50,14 +50,14 @@ export const REQUEST_APPROVED = "Approved"
 export const REQUEST_FILLED = "Filled"
 export const REQUEST_HOLD = "Hold"
 export const REQUEST_CANCELLED = "Cancelled"
-export const REQUEST_DISAPPROVED = "Disapproved"
+export const REQUEST_DENIED = "Denied"
 export const REQUEST_STATUS = [
     REQUEST_PENDING,
     REQUEST_APPROVED,
     REQUEST_FILLED,
     REQUEST_HOLD,
     REQUEST_CANCELLED,
-    REQUEST_DISAPPROVED
+    REQUEST_DENIED
 ]
 export interface Manpower {
     id: null | number,
