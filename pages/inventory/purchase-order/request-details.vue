@@ -20,12 +20,14 @@ const headers = [
     { name: "Input Vat", id: "input_vat" },
     { name: "Net Amount", id: "net_amount" },
 ]
-const createNCPO = () => {
-    // Navigate to the NCPO form with the current PO number as a query parameter
-    const poNumber = itemList.value.data.po_number
-    window.open(`/inventory/noticeofchangepo/itemform?po_number=${poNumber}`, "_blank")
+const createNCPO = (data:any) => {
+    navigateTo({
+        path: "/inventory/purchase-order/ncpo-form",
+        query: {
+            key: data.id
+        },
+    })
 }
-
 </script>
 <template>
     <div class="text-gray-500 p-2">
@@ -169,10 +171,5 @@ const createNCPO = () => {
                 </div>
             </div>
         </LayoutPrint>
-        <!-- <div class="flex justify-end gap-2 p-2">
-            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" @click="alert('Print Button Clicked')">
-                Print
-            </button>
-        </div> -->
     </div>
 </template>

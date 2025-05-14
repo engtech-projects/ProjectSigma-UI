@@ -161,24 +161,24 @@ const currentForm = ref(null)
             </div>
 
             <LayoutAcessContainer
-                :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP,
+                :if-access="useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY,
                 ])"
                 class="w-full mt-4"
             >
                 <HrmsCommonTabsMainContainer>
                     <template #tab-titles>
                         <HrmsCommonTabsTabTitle
-                            v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS])"
+                            v-if="useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY])"
                             target-id="rpq"
                             title="REQUEST FOR PRICE QUOTATION"
                         />
                         <HrmsCommonTabsTabTitle
-                            v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_REQUESTS])"
+                            v-if="useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY])"
                             target-id="cs"
                             title="CANVASS SUMMARY"
                         />
                         <HrmsCommonTabsTabTitle
-                            v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_FORMSANDMYREQUESTS])"
+                            v-if="useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY])"
                             target-id="ncpo"
                             title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)"
                         />

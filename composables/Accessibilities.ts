@@ -197,19 +197,19 @@ export enum AccessibilityTypes {
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST = "inventory:warehouse_stock transfer_all requests",
 
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP = "inventory:procurement_canvass summary_",
-    INVENTORY_PROCUREMENT_CANVASSSUMMARY_REQUESTS = "inventory:procurement_canvass summary_requests",
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_ALLREQUEST = "inventory:procurement_canvass summary_all requests",
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_MYREQUESTS = "inventory:procurement_canvass summary_my approvals",
-
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP = "inventory:procurement_request price quotation_",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS = "inventory:procurement_request price quotation_requests",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLQUOTATONS = "inventory:procurement_request price quotation_all quotations",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_MYQUOTATIONS = "inventory:procurement_request price quotation_my quotations",
     INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_GROUP = "inventory:procurement_notice of change purchase order_",
-    INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_FORMSANDMYREQUESTS = "inventory:procurement_notice of change purchase order_form and my requests",
     INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_ALLREQUEST = "inventory:procurement_notice of change purchase order_all requests",
-    INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_MYREQUESTS = "inventory:procurement_notice of change purchase order_my requests",
     INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_MYAPPROVALS = "inventory:procurement_notice of change purchase order_my approvals",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP = "inventory:procurement_procurement request_",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_REQUESTLISTALL = "procurement_procurement request_request list all",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_REQUESTLISTONGOING = "procurement_procurement request_request list ongoing",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_SETCANVASSER = "procurement_procurement request_set canvasser",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PRICEQUOTATION = "procurement_procurement request_price quotations_create and view",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_CANVASSSUMMARY = "procurement_procurement request_canvass summary_create and view",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PURCHASEORDER_ALLLIST = "procurement_purchase order_all list",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PURCHASEORDER_CREATENCPO = "procurement_purchase order_create ncpo",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",
