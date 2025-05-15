@@ -192,7 +192,7 @@ defineProps({
                     </div>
                 </div>
 
-                <div class="flex w-full items-center gap-4">
+                <div class="flex w-full justify-end items-center gap-4">
                     <button
                         type="submit"
                         class="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
