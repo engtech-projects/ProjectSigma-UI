@@ -1,7 +1,18 @@
 <script lang="ts" setup>
+// import { useRoute } from "vue-router"
+import { useSupplierStore } from "@/stores/inventory/suppliers"
 useHead({
     title: "NCPO",
 })
+// const route = useRoute()
+const mainStore = useSupplierStore()
+const { createRequest } = storeToRefs(mainStore)
+const validKey = ref(true)
+// if (route.query.key) {
+//     validKey.value = true
+// } else {
+//     validKey.value = false
+// }
 </script>
 <template>
     <LayoutAcessContainer
@@ -9,7 +20,7 @@ useHead({
         ])"
         class="w-full"
     >
-        <HrmsCommonTabsMainContainer>
+        <!-- <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
                     v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_ALLREQUEST])"
@@ -38,6 +49,20 @@ useHead({
                     <InventoryNoticeOfChangePORequestMyRequests />
                 </HrmsCommonTabsTabContainer>
             </template>
-        </HrmsCommonTabsMainContainer>
+        </HrmsCommonTabsMainContainer> -->
+        <LayoutBoards title="" class="w-full" :loading="createRequest.isLoading">
+            <template v-if="validKey">
+                <InventoryNoticeOfChangePOItemForm
+                    id="listTable"
+                    title="PURCHASE ORDER"
+                />
+                />
+            </template>
+            <template v-else>
+                <div class="grid grid-cols-1 gap-4">
+                    <h2> 404 NOT FOUND</h2>
+                </div>
+            </template>
+        </LayoutBoards>
     </LayoutAcessContainer>
 </template>

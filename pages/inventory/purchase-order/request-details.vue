@@ -20,19 +20,14 @@ const headers = [
     { name: "Input Vat", id: "input_vat" },
     { name: "Net Amount", id: "net_amount" },
 ]
-const createNCPO = (data:any) => {
-    navigateTo({
-        path: "/inventory/purchase-order/ncpo-form",
-        query: {
-            key: data.id
-        },
-    })
-}
+// const createNCPO = () => {
+//     window.open(`/inventory/purchase-order/ncpo-form`, "_blank")
+// }
 </script>
 <template>
     <div class="text-gray-500 p-2">
         <LayoutPrint>
-            <template #generateForm>
+            <!-- <template #generateForm>
                 <button
                     class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                     @click="createNCPO"
@@ -40,7 +35,7 @@ const createNCPO = (data:any) => {
                     <Icon name="mdi:plus" class="h-4 w-4 text-white" />
                     Create NCPO
                 </button>
-            </template>
+            </template> -->
             <PrintTableFormat />
             <h5 v-if="title" class="text-2xl font-medium mb-8 text-gray-900 text-center p-2">
                 {{ title }}

@@ -6,8 +6,13 @@ defineProps({
     title: {
         type: String,
         required: true,
+    },
+    onCreate: {
+        type: Function as PropType<(event: MouseEvent) => void>,
+        default: () => {},
     }
 })
+
 const headers = [
     { name: "Item No.", id: "item_no" },
     { name: "Item Description", id: "item_description" },
@@ -20,12 +25,6 @@ const headers = [
     { name: "Input Vat", id: "input_vat" },
     { name: "Net Amount", id: "net_amount" },
 ]
-const createNCPO = () => {
-    // Navigate to the NCPO form with the current PO number as a query parameter
-    const poNumber = itemList.value.data.po_number
-    window.open(`/inventory/noticeofchangepo/itemform?po_number=${poNumber}`, "_blank")
-}
-
 </script>
 <template>
     <div class="text-gray-500 p-2">
@@ -33,7 +32,7 @@ const createNCPO = () => {
             <template #generateForm>
                 <button
                     class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                    @click="createNCPO"
+                    @click="onCreate"
                 >
                     <Icon name="mdi:plus" class="h-4 w-4 text-white" />
                     Create NCPO
@@ -169,10 +168,5 @@ const createNCPO = () => {
                 </div>
             </div>
         </LayoutPrint>
-        <!-- <div class="flex justify-end gap-2 p-2">
-            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" @click="alert('Print Button Clicked')">
-                Print
-            </button>
-        </div> -->
     </div>
 </template>
