@@ -134,7 +134,7 @@
             v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_REQUESTSTOCK_GROUP])"
             linkarea="/inventory/request-stocks"
             icon="material-symbols-light:shopping-cart-checkout-sharp"
-            single-nav-title="Request Stocks"
+            single-nav-title="Requisition Slip"
         />
         <LayoutNavGroup
             v-if="useCheckAccessibility([
@@ -155,14 +155,6 @@
                 linkarea="/inventory/procurement/requests"
                 icon="grommet-icons:overview"
                 single-nav-title="Procurement Requests"
-            />
-            <LayoutNavSingle
-                v-if="useCheckAccessibility([
-                    AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP,
-                ])"
-                linkarea="/inventory/procurement/request-price-quotation"
-                icon="grommet-icons:overview"
-                single-nav-title="Price Quotation"
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([

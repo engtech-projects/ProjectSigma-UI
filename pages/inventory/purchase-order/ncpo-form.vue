@@ -110,12 +110,12 @@ const selectedPO = ref(dummyPOs.value[0].po_number)
 watch(selectedPO, (newVal) => {
     const selected = dummyPOs.value.find(po => po.po_number === newVal)
     if (selected) {
-        form.value.ncpo_no = selected.ncpo_no
-        form.value.po_number = selected.po_number
-        form.value.po_date = selected.po_date
-        form.value.project_code = selected.project_code
-        form.value.equipment_number = selected.equipment_number
-        form.value.date = selected.date
+        form.ncpo_no = selected.ncpo_no
+        form.po_number = selected.po_number
+        form.po_date = selected.po_date
+        form.project_code = selected.project_code
+        form.equipment_number = selected.equipment_number
+        form.date = selected.date
         selectedItems.value = selected.items
     }
 }, { immediate: true })
@@ -192,7 +192,7 @@ defineProps({
                     </div>
                 </div>
 
-                <div class="flex w-full justify-end items-center gap-4">
+                <div class="flex w-full items-center gap-4">
                     <button
                         type="submit"
                         class="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
