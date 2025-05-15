@@ -6,7 +6,6 @@ const headers = [
     { name: "NO", id: "" },
     { name: "Requested Position/Title", id: "requested_position" },
     { name: "Total Number Requested", id: "total_number_requested" },
-    { name: "Request Status", id: "request_status" },
     { name: "Total Number of Unserved", id: "total_number_unserved" },
     { name: "Total Number of Served", id: "total_number_served" },
 ]
