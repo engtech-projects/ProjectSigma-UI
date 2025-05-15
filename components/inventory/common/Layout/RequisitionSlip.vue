@@ -17,6 +17,8 @@
             </div>
         </div>
 
+        <InventoryCommonCanvasserSelector />
+
         <LayoutPsTable
             :header-columns="rsInfoHeaders"
             :datas="rsInfo"

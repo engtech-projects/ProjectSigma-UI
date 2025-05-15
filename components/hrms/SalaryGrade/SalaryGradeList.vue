@@ -26,9 +26,13 @@ const deleteSalaryGrade = async () => {
         salaryGradeStore.isLoading = false
     }
 }
-function setDelete (sg: any) {
-    toDelete.value = sg
-    modalStore.showModal()
+function setDelete (_sg: any) {
+    snackbar.add({
+        type: "warning",
+        text: "Delete has been temporarily disabled."
+    })
+    // toDelete.value = _sg
+    // modalStore.showModal()
 }
 </script>
 <template>
@@ -75,6 +79,7 @@ function setDelete (sg: any) {
                                     @click="setEdit(sg)"
                                 />
                                 <Icon
+                                    v-show="false"
                                     name="iconoir:bin-minus-in"
                                     class="text-red-500 cursor-pointer hover:text-red-700"
                                     @click="setDelete(sg)"

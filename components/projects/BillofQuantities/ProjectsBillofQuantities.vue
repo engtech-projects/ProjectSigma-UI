@@ -25,10 +25,10 @@
                             Description
                         </th>
                         <th class="uppercase py-2 border border-gray-700 border-b-0 w-1/12">
-                            Unit
+                            Qty
                         </th>
                         <th class="uppercase py-2 border border-gray-700 border-b-0 w-1/12">
-                            Qty
+                            Unit
                         </th>
                         <th class="uppercase py-2 border border-gray-700 border-b-0 w-2/12">
                             Unit Price (Pesos)

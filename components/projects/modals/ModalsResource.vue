@@ -9,21 +9,13 @@
     >
         <div class="flex flex-col p-4">
             <AccountingLoadScreen :is-loading="boardLoading" />
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center justify-between mb-8">
                 <div class="flex items-end gap-2">
                     <h1 class="text-3xl uppercase">
                         Create Resource
                     </h1>
                 </div>
                 <Icon name="material-symbols:close-rounded" class="h-6 w-6 text-gray-500 hover:text-gray-800 cursor-pointer" @click="emit('hideModal')" />
-            </div>
-            <div class="flex gap-4 items-center mb-10">
-                <label class="text-md text-gray-700 uppercase text-md">
-                    Category Name
-                </label>
-                <h3 class="text-green-600 text-lg">
-                    A.Materials
-                </h3>
             </div>
             <form @submit.prevent="handleSubmit">
                 <div class="grid grid-cols-2 gap-6 mb-4">
