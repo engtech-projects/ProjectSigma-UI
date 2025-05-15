@@ -44,9 +44,6 @@ const headers = [
                                         {{ manpowerRequest.total_number_requested }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ manpowerRequest.request_status }}
-                                    </td>
-                                    <td class="whitespace-nowrap border border-gray-500 h-8">
                                         {{ manpowerRequest.total_number_unserved }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
