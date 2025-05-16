@@ -46,6 +46,14 @@
                 icon="iconoir:thumbs-up"
                 single-nav-title="Position"
             />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.PROJECT_MONITORING_SETUP,
+                ])"
+                linkarea="/project-monitoring/setup/approvals"
+                icon="iconoir:thumbs-up"
+                single-nav-title="Approvals"
+            />
         </LayoutNavGroup>
     </LayoutNavModuleGroup>
 </template>
