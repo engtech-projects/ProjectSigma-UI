@@ -3,7 +3,7 @@ import { storeToRefs } from "pinia"
 import { useEmployeeInfo } from "@/stores/hrms/employee"
 const employee = useEmployeeInfo()
 
-const { information } = storeToRefs(employee)
+const { information, editable } = storeToRefs(employee)
 const employeePosition = computed(() => {
     const pos = employee.information.current_employment?.position?.name ?? ""
     const dep = employee.information.current_employment?.employee_department?.department_name ?? ""
@@ -61,10 +61,11 @@ const employeePosition = computed(() => {
                 {{ information.current_employment?.employee_department?.department_name }}
             </p>
         </div>
-        <div class="w-full absolute top-[365px] text-center">
+        <div class="w-full absolute top-[380.08px] text-center">
             <p class="text-xl font-bold">
+                <LayoutFormPsSignaturePad v-if="editable" />
                 <img
-                    v-if="information.digital_signature"
+                    v-else-if="information.digital_signature"
                     draggable="false"
                     class="w-full bg-transparent m-auto"
                     :src="information.digital_signature.base64"
