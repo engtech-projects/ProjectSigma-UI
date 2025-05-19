@@ -14,7 +14,9 @@ import {
     MANPOWER_REQUEST_MONITORING_SUMMARY,
     PAN_TERMINATION_MONITORING,
     PAN_TRANSFER_MONITORING,
-    PAN_PROMOTION_MONITORING
+    PAN_PROMOTION_MONITORING,
+    ATTENDANCE_LOG_MONITORING,
+    ATTENDANCE_LOG_MONITORING_SUMMARY
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -68,6 +70,12 @@ watch(portalMonitoringReports.value.params, (newValue, oldValue) => {
         />
         <HrmsReportsPortalMonitoringPanPromotionMonitoring
             v-show="portalMonitoringReports.params.report_type === PAN_PROMOTION_MONITORING"
+        />
+        <HrmsReportsPortalMonitoringAttendanceLogMonitoring
+            v-show="portalMonitoringReports.params.report_type === ATTENDANCE_LOG_MONITORING"
+        />
+        <HrmsReportsPortalMonitoringAttendanceLogMonitoringSummary
+            v-show="portalMonitoringReports.params.report_type === ATTENDANCE_LOG_MONITORING_SUMMARY"
         />
     </LayoutBoardsWithoutBackground>
 </template>
