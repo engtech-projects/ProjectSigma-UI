@@ -3,10 +3,17 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 const showUploadModal = ref(false)
 const snackbar = useSnackbar()
+const designation = ref("employee")
+
+const selectStakeholder = (stakeholder) => {
+    projectStore.information.employee_id = stakeholder.stakeholdable_id
+    designation.value = "employee"
+}
 
 const handleSubmit = async () => {
     try {
         projectStore.isLoading.create = true
+        projectStore.information.employee_id = 1
         await projectStore.createProject()
         if (projectStore.errorMessage !== "") {
             snackbar.add({
@@ -36,9 +43,9 @@ const handleSubmit = async () => {
 <template>
     <AccountingLoadScreen :is-loading="projectStore.isLoading.create" />
     <div class="flex flex-col gap-6 p-2">
-        <h1 class="text-2xl mb-4">
+        <!-- <h1 class="text-2xl mb-4">
             Project Creation Form
-        </h1>
+        </h1> -->
         <form @submit.prevent="handleSubmit">
             <div class="flex flex-col gap-4">
                 <div class="grid grid-cols-4 gap-6">
@@ -94,7 +101,7 @@ const handleSubmit = async () => {
                         <input v-model="projectStore.information.license" type="text" class="border rounded-lg border-gray-300 h-10" required placeholder="License">
                     </div>
                 </div>
-                <!-- <div class="grid grid-cols-4 gap-6">
+                <div class="grid grid-cols-4 gap-6">
                     <div class="flex flex-col gap-1">
                         <label for="" class="text-sm text-gray-700">
                             Designation
@@ -102,13 +109,13 @@ const handleSubmit = async () => {
                         <AccountingCommonSelectStakeholderSelect
                             :stakeholder-id="projectStore.information.designation"
                             :stakeholder="designation"
-                            :select-options="['project', 'department', 'employee']"
+                            :select-options="['employee']"
                             default-dept="employee"
                             placeholder="Search Employee"
                             @select="selectStakeholder"
                         />
                     </div>
-                </div> -->
+                </div>
 
                 <div class="flex justify-end gap-4 items-center">
                     <div v-if="!1" class="flex items-center gap-1 border-b border-green-800 h-6 cursor-pointer hover:border-green-800 select-none" @click="showUploadModal = true">

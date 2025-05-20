@@ -17,7 +17,7 @@ if (route.query.key) {
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ADMIN_ONLY,
+            AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP,
         ])"
     >
         <LayoutBoards title="CANVASS SUMMARY" class="w-full" :loading="priceQuotation.isLoading">

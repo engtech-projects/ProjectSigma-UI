@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from "vue"
-
 const requestItems = ref([
     {
         qty: 10,
@@ -11,6 +9,7 @@ const requestItems = ref([
         actualBrand: "",
         unit_price: 0,
         remarks: "",
+        selected: false,
     },
     {
         qty: 5,
@@ -21,27 +20,36 @@ const requestItems = ref([
         actualBrand: "",
         unit_price: 0,
         remarks: "",
+        selected: false,
     },
 ])
+const selectAllChecked = ref(false)
+
+const toggleSelectAll = () => {
+    requestItems.value.forEach((item) => {
+        item.selected = selectAllChecked.value
+    })
+}
+
+watch(requestItems, (newVal) => {
+    selectAllChecked.value = newVal.every(item => item.selected)
+}, { deep: true })
 </script>
 
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="priceQuotation.isLoading">
-        <div class="pb-2 text-gray-500 overflow-y-auto p-2">
-            <LayoutPsTable
-                :header-columns="headers"
-                :actions="actions"
-                :datas="formattedRequests"
-                @show-table="showInformation"
-            />
-        </div>
-        <div class="flex justify-center mx-auto">
-            <CustomPagination :links="priceQuotation.pagination" @change-params="changePaginate" />
     <div>
-        <div class="overflow-x-auto">
+        <div>
             <table class="table-auto w-full border-collapse text-sm">
                 <thead class="bg-gray-100 text-center">
                     <tr>
+                        <th class="p-2 border">
+                            <input
+                                v-model="selectAllChecked"
+                                type="checkbox"
+                                class="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                                @change="toggleSelectAll"
+                            >
+                        </th>
                         <th class="p-2 border">
                             Item Description
                         </th>
@@ -71,6 +79,13 @@ const requestItems = ref([
                 <tbody class="text-center">
                     <tr v-for="(item, index) in requestItems" :key="index" class="border-t">
                         <td class="p-2 border">
+                            <input
+                                v-model="item.selected"
+                                type="checkbox"
+                                class="h-4 w-4 text-blue-600 border-gray-300 rounded"
+                            >
+                        </td>
+                        <td class="p-2 border">
                             {{ item.itemDescription }}
                         </td>
                         <td class="p-2 border">
@@ -86,7 +101,6 @@ const requestItems = ref([
                             {{ item.preferredBrand }}
                         </td>
 
-                        <!-- Editable Fields -->
                         <td class="p-2 border">
                             <input
                                 v-model="item.actualBrand"
@@ -118,3 +132,7 @@ const requestItems = ref([
         </div>
     </div>
 </template>
+
+<style scoped>
+
+</style>

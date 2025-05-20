@@ -41,60 +41,24 @@ const storeWithdrawalForm = async () => {
         })
     }
 }
-// const headers = [
-//     { name: "ITEM DESCRIPTION", id: "item_id" },
-//     { name: "SPECIFICATION", id: "specification" },
-//     { name: "QTY", id: "qty" },
-//     { name: "UOM", id: "unit" },
-//     { name: "PREFERRED BRAND", id: "preferred_brand" },
-//     { name: "ACTUAL BRAND", id: "actual_brand" },
-//     { name: "UNIT PRICE", id: "unit_price" },
-//     { name: "REMARKS DURING CANVASS", id: "remarks" },
-// ]
 const supplierId = defineModel("supplierId", { required: false, type: Number })
-// const rsInfoHeaders = [
-//     { name: "QTY", id: "qty" },
-//     { name: "Unit", id: "unit" },
-//     { name: "Item Description", id: "itemDescription" },
-//     { name: "Specification", id: "specification" },
-//     { name: "Preferred Brand", id: "preferredBrand" },
-//     { name: "Reason for Request", id: "reasonForRequest" },
-//     { name: "Actual Brand", id: "actualBrand" },
-//     { name: "Unit Price", id: "unit_price" },
-//     { name: "Remarks During Canvass", id: "remarks" },
-// ]
-// const rsInfo = [
-//     {
-//         qty: 1,
-//         unit: "PCS",
-//         itemDescription: "Item 1",
-//         specification: "Specification 1",
-//         preferredBrand: "Brand 1",
-//         reasonForRequest: "Reason 1",
-//     },
-//     {
-//         qty: 2,
-//         unit: "BOX",
-//         itemDescription: "Item 2",
-//         specification: "Specification 2",
-//         preferredBrand: "Brand 2",
-//         reasonForRequest: "Reason 2",
-//     },
-//     {
-//         qty: 3,
-//         unit: "PCS",
-//         itemDescription: "Item 3",
-//         specification: "Specification 3",
-//         preferredBrand: "Brand 3",
-//         reasonForRequest: "Reason 3",
-//     },
-// ]
 
+defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
+})
 </script>
 <template>
     <div class="text-gray-500 p-2">
         <form @submit.prevent="storeWithdrawalForm">
             <div class="flex flex-col gap-4 pt-4 w-full">
+                <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4">
+                    <h3 v-if="title" class="pl-4 text-xl font-bold text-gray-900 p-4 tracking-wide">
+                        {{ title }}
+                    </h3>
+                </div>
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="flex flex-row justify-between gap-4">
                         <div class="w-full flex flex-col gap-2">

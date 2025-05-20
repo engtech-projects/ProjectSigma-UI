@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="bg-white">
         <div class="flex flex-col border-gray-800">
             <div class="flex justify-center py-2 border-2 border-b border-black">
                 <h1 class="text-lg font-semibold text-black uppercase text-center ">
@@ -32,44 +32,29 @@
                 <tbody>
                     <tr>
                         <td class="text-center border border-gray-700">
-                            A.1.1(3)
+                            {{ taskStore.task.name }}
                         </td>
                         <td class="p-2 border border-gray-700">
-                            Construction of Field Office for the Engineer (Bunk House with Complete Electrical, Water & Sanitary Installation including Provision of 2 units Multifunction Inkjet Printer A3)
+                            {{ taskStore.task.description }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            l.s
+                            {{ taskStore.task.unit }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            1
+                            {{ taskStore.task.quantity }}
                         </td>
-                        <td class="border border-gray-700">
-                            <div class="flex flex-col p-2 border-b border-gray-700">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Words
-                                </h4>
-                                <span class="pl-4">
-                                    Eight hundred forty-six thousand seven hundred twenty.
-                                </span>
-                            </div>
-                            <div class="flex flex-col p-2">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Figures
-                                </h4>
-                                <span class="pl-4">
-                                    846,720
-                                </span>
-                            </div>
+                        <td class="p-2 border border-gray-700 text-center">
+                            {{ taskStore.task.unit_price + " / " + taskStore.task.unit }}
                         </td>
                         <td class="border border-gray-700">
                             <div class="flex">
-                                <div class="flex flex-col border-r border-gray-700">
+                                <div class="flex flex-col border-r border-gray-700 flex-1">
                                     <div class="flex flex-col p-2 border-b border-gray-700">
                                         <h4 class="font-bold uppercase text-sm flex-1">
                                             In Words
                                         </h4>
                                         <span class="pl-4 flex-1">
-                                            Eight hundred forty-six thousand seven hundred twenty.
+                                            {{ amountToWords(taskStore.task.amount) }}
                                         </span>
                                     </div>
                                     <div class="flex flex-col p-2">
@@ -77,39 +62,31 @@
                                             In Figures
                                         </h4>
                                         <span class="pl-4">
-                                            846,720
+                                            {{ accountingCurrency(taskStore.task.amount) }}
                                         </span>
                                     </div>
                                 </div>
-                                <div class="flex flex-col p-2 justify-center gap-2">
-                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
-                                    </button>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
-                                    </button>
-                                </div>
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                </tbody>
+                <AccountingLoadScreen :is-loading="boardLoading" />
+                <tbody v-for="(rnames, index) in resourceStore.resourceNames" :key="rnames.id">
+                    <tr class="border-b border-gray-700">
                         <td colspan="6" class="px-2 py-1">
                             <div class="flex justify-between">
                                 <span class="font-semibold uppercase">
-                                    A. Materials
+                                    {{ letterHeader[index] }}. {{ rnames.name }}
                                 </span>
                                 <div class="flex gap-1 justify-end">
-                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showResourceModal = true">
+                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="addResource(rnames.id)">
                                         Add Resource
-                                    </button>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
-                                        Remove
                                     </button>
                                 </div>
                             </div>
                         </td>
                     </tr>
-                    <tr>
+                    <tr v-if="filterResources(rnames.id).length > 0">
                         <td />
                         <td class="uppercase text-xs font-semibold pt-2 text-center">
                             Name and Specification
@@ -117,54 +94,45 @@
                         <td class="uppercase text-xs font-semibold pt-2 text-center">
                             Quantity
                         </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-if="rnames.name.toLowerCase() === 'labor' || rnames.name.toLowerCase() === 'equipment'" class="uppercase text-xs font-semibold pt-2 text-center">
+                            No. of Persons
+                        </td>
+                        <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Unit
                         </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
+                        <td v-if="rnames.name.toLowerCase() === 'labor' || rnames.name.toLowerCase() === 'equipment'" class="uppercase text-xs font-semibold pt-2 text-center">
+                            No. of Hours
+                        </td>
+                        <td v-else class="uppercase text-xs font-semibold pt-2 text-center">
                             Unit Cost
                         </td>
                         <td class="uppercase text-xs font-semibold pt-2 text-center">
                             Amount
                         </td>
                     </tr>
-                    <tr>
+                    <tr v-for="resource in filterResources(rnames.id)" :key="resource.id">
                         <td class="text-center border border-gray-700" />
                         <td class="p-2 border border-gray-700">
-                            Construction of Field Office for the Engineer (Bunk House with Complete Electrical, Water & Sanitary Installation including Provision of 2 units Multifunction Inkjet Printer A3)
+                            {{ resource.description }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            l.s
+                            {{ resource.quantity }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            1
+                            {{ resource.unit }}
                         </td>
-                        <td class="border border-gray-700">
-                            <div class="flex flex-col p-2 border-b border-gray-700">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Words
-                                </h4>
-                                <span class="pl-4">
-                                    Eight hundred forty-six thousand seven hundred twenty.
-                                </span>
-                            </div>
-                            <div class="flex flex-col p-2">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Figures
-                                </h4>
-                                <span class="pl-4">
-                                    846,720
-                                </span>
-                            </div>
+                        <td class="p-2 border border-gray-700 text-center">
+                            {{ resource.unit_cost + " / " + resource.unit }}
                         </td>
                         <td class="border border-gray-700">
                             <div class="flex">
-                                <div class="flex flex-col border-r border-gray-700">
+                                <div class="flex flex-col border-r border-gray-700 flex-1">
                                     <div class="flex flex-col p-2 border-b border-gray-700">
                                         <h4 class="font-bold uppercase text-sm flex-1">
                                             In Words
                                         </h4>
                                         <span class="pl-4 flex-1">
-                                            Eight hundred forty-six thousand seven hundred twenty.
+                                            {{ amountToWords(resource.unit_cost) }}
                                         </span>
                                     </div>
                                     <div class="flex flex-col p-2">
@@ -172,137 +140,31 @@
                                             In Figures
                                         </h4>
                                         <span class="pl-4">
-                                            846,720
+                                            {{ accountingCurrency(resource.unit_cost) }}
                                         </span>
                                     </div>
                                 </div>
                                 <div class="flex flex-col p-2 justify-center gap-2">
-                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6" @click="editResource(resource)">
                                         <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
                                     </button>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6" @click="removeResource(resource.id)">
                                         <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
                                     </button>
                                 </div>
                             </div>
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="6" class="px-2 py-1">
-                            <div class="flex justify-between">
-                                <span class="font-semibold uppercase">
-                                    B. Labor
-                                </span>
-                                <div class="flex gap-1 justify-end">
-                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showResourceModal = true">
-                                        Add Resource
-                                    </button>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
-                                        Remove
-                                    </button>
-                                </div>
-                            </div>
+                    <tr v-if="filterResources(rnames.id).length > 0" class="border-b border-gray-700 text-sm font-bold">
+                        <td class="text-right px-2" colspan="5">
+                            Direct {{ rnames.name }} Cost
+                        </td>
+                        <td class="text-right px-2">
+                            {{ accountingCurrency(totalDirectCost(rnames.id)) }}
                         </td>
                     </tr>
-                    <tr>
-                        <td />
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Designation
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            No. of Persons
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            No. of Hours
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Hourly Rate
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Amount
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center border border-gray-700" />
-                        <td class="p-2 border border-gray-700" />
-                        <td class="p-2 border border-gray-700 text-center" />
-                        <td class="p-2 border border-gray-700 text-center" />
-                        <td class="border border-gray-700 h-24">
-                            <div class="flex flex-between items-end h-full p-2">
-                                <span class="font-semibold uppercase text-sm">
-                                    Direct Material Cost
-                                </span>
-                                <span class="font-semibold uppercase text-sm">
-                                    =
-                                </span>
-                            </div>
-                        </td>
-                        <td class="border border-gray-700 h-24 p-2">
-                            <div class="flex items-end h-full">
-                                <span class="font-semibold uppercase text-sm">
-                                    0.00
-                                </span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="6" class="px-2 py-1">
-                            <div class="flex justify-between">
-                                <span class="font-semibold uppercase">
-                                    C. Equipment
-                                </span>
-                                <div class="flex gap-1 justify-end">
-                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="showResourceModal = true">
-                                        Add Resource
-                                    </button>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6">
-                                        Remove
-                                    </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td />
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Description
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            No. of Persons
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            No. of Hours
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Hourly Rate
-                        </td>
-                        <td class="uppercase text-xs font-semibold pt-2 text-center">
-                            Amount
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-center border border-gray-700" />
-                        <td class="p-2 border border-gray-700" />
-                        <td class="p-2 border border-gray-700 text-center" />
-                        <td class="p-2 border border-gray-700 text-center" />
-                        <td class="border border-gray-700 h-24">
-                            <div class="flex flex-between items-end h-full p-2">
-                                <span class="font-semibold uppercase text-sm">
-                                    Direct Material Cost
-                                </span>
-                                <span class="font-semibold uppercase text-sm">
-                                    =
-                                </span>
-                            </div>
-                        </td>
-                        <td class="border border-gray-700 h-24 p-2">
-                            <div class="flex items-end h-full">
-                                <span class="font-semibold uppercase text-sm">
-                                    0.00
-                                </span>
-                            </div>
-                        </td>
-                    </tr>
+                </tbody>
+                <tbody>
                     <tr>
                         <td class="font-semibold uppercase px-2">
                             D.
@@ -312,11 +174,9 @@
                         </td>
                         <td class="pX-2 text-center" />
                         <td class="pX-2 text-center" />
+                        <td class="text-right px-2" />
                         <td class="text-right px-2">
-                            =
-                        </td>
-                        <td class="text-right px-2">
-                            630,000.00
+                            {{ accountingCurrency(taskStore.task.resources.resources_item_total) }}
                         </td>
                     </tr>
                     <tr>
@@ -331,10 +191,10 @@
                         </td>
                         <td class="pX-2 text-center" />
                         <td class="text-right px-2">
-                            =
+                            of D
                         </td>
                         <td class="text-right px-2">
-                            630,000.00
+                            {{ accountingCurrency(taskStore.task.resources.ocm) }}
                         </td>
                     </tr>
                     <tr>
@@ -349,10 +209,10 @@
                         </td>
                         <td class="pX-2 text-center" />
                         <td class="text-right px-2">
-                            =
+                            of D
                         </td>
                         <td class="text-right px-2">
-                            630,000.00
+                            {{ accountingCurrency(taskStore.task.resources.contractors_profit) }}
                         </td>
                     </tr>
                     <tr>
@@ -363,50 +223,46 @@
                             vAT (Where Applicable)
                         </td>
                         <td class="pX-2 text-center">
-                            10%
+                            12%
                         </td>
                         <td class="pX-2 text-center" />
                         <td class="text-right px-2">
-                            =
+                            of (D + E + F)
                         </td>
                         <td class="text-right px-2">
-                            630,000.00
+                            {{ accountingCurrency(taskStore.task.resources.vat) }}
                         </td>
                     </tr>
                     <tr>
                         <td class="font-semibold uppercase px-2">
-                            g.
+                            H.
                         </td>
                         <td class="pX-2 uppercase">
                             Total Cost
                         </td>
-                        <td class="pX-2 text-center">
-                            10%
-                        </td>
+                        <td class="pX-2 text-center" />
                         <td class="pX-2 text-center" />
                         <td class="text-right px-2">
-                            =
+                            (D + E + F + G)
                         </td>
                         <td class="text-right px-2">
-                            630,000.00
+                            {{ accountingCurrency(taskStore.task.resources.grand_total) }}
                         </td>
                     </tr>
                     <tr>
                         <td class="font-semibold uppercase px-2">
-                            g.
+                            I.
                         </td>
                         <td class="pX-2 uppercase">
-                            Total Cost
-                        </td>
-                        <td class="pX-2 text-center">
-                            10%
+                            Unit Cost Per
                         </td>
                         <td class="pX-2 text-center" />
+                        <td class="pX-2 text-center" />
                         <td class="text-right px-2">
-                            =
+                            sq.m
                         </td>
-                        <td class="text-right px-2 font-bold">
-                            630,000.00
+                        <td class="text-right px-2">
+                            {{ accountingCurrency(taskStore.task.resources.unit_cost_per) }}
                         </td>
                     </tr>
                 </tbody>
@@ -419,19 +275,68 @@
         </div>
         <ProjectsModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" />
         <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" />
-        <ProjectsModalsResource :show-modal="showResourceModal" @hide-modal="showResourceModal = false" />
+        <ProjectsModalsResource :show-modal="showResourceModal" :task-id="taskStore.task.id" @hide-modal="showResourceModal = false" />
     </div>
 </template>
 
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { useResourceStore } from "~/stores/project-monitoring/resource"
+import { useTaskStore } from "~/stores/project-monitoring/task"
 
 const projectStore = useProjectStore()
 const edit = projectStore.viewState
-
+const resourceStore = useResourceStore()
 const showPhaseModal = ref(false)
 const showTaskModal = ref(false)
 const showResourceModal = ref(false)
+const letterHeader = ref(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"])
+const taskStore = useTaskStore()
+const filterResources = (id: number) => {
+    return taskStore.task.resources.data.filter(resource => resource.resources.id === id)
+}
+const totalDirectCost = (id: number) => {
+    return taskStore.task.resources.data.filter(resource => resource.resources.id === id).reduce((total: number, resource: any) => total + resource.unit_cost * resource.quantity, 0)
+}
+const addResource = (id) => {
+    showResourceModal.value = true
+    resourceStore.reset()
+    resourceStore.resource.name_id = id
+}
+const editResource = (resource: any) => {
+    showResourceModal.value = true
+    resourceStore.resource = resource
+    resourceStore.resource.name_id = resource.resources.id
+}
+const boardLoading = ref(false)
+const snackbar = useSnackbar()
+const removeResource = async (id: number) => {
+    try {
+        boardLoading.value = true
+        await resourceStore.deleteResource(id)
+        if (resourceStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: resourceStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: resourceStore.successMessage
+            })
+        }
+    } catch (error) {
+        resourceStore.errorMessage = error as string
+
+        snackbar.add({
+            type: "error",
+            text: resourceStore.errorMessage
+        })
+    } finally {
+        taskStore.getTask(taskStore.task.id)
+        boardLoading.value = false
+    }
+}
 </script>
 
 <style>

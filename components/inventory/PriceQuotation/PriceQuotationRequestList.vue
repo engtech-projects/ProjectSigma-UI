@@ -185,7 +185,7 @@ const requestDetails = {
                 </button>
             </div>
             <PrintTableFormat>
-                <InventoryPriceQuotationForm v-model="form" :request-details="requestDetails" />
+                <InventoryPriceQuotationForm v-model="form" :request-details="requestDetails" title="REQUEST FOR PRICE QUOTATION" />
             </PrintTableFormat>
         </div>
     </div>

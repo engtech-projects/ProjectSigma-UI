@@ -10,7 +10,23 @@ const snackbar = useSnackbar()
 
 const storeForm = async () => {
     try {
-        await mainStore.storeRequest()
+        // Prepare the payload with form data and selected items/suppliers
+        const payload = {
+            ...form.value,
+            supplierId: supplierId.value,
+            selectedItems: Object.keys(selectedItems.value).filter(key => selectedItems.value[key] === true)
+                .map(key => parseInt(key)),
+            selectedSuppliers: Object.entries(selectedSuppliers.value)
+                .filter(([_, value]) => value !== null)
+                .reduce((acc, [key, value]) => {
+                    acc[key] = value
+                    return acc
+                }, {}),
+            activeSupplier: activeSupplier.value
+        }
+
+        // Pass the payload to the store method
+        await mainStore.storeRequest(payload)
 
         if (mainStore.errorMessage !== "") {
             snackbar.add({
@@ -38,22 +54,46 @@ const suppliers = [
         name: "ABC Hardware Supply",
         address: "123 Main St, Metro City",
         contactPerson: "John Smith",
-        contactNumber: "555-1234"
+        contactNumber: "555-1234",
+        items: [
+            { unit_price: 850, total: 8500, remarks: "In stock" },
+            { unit_price: 900, total: 9000, remarks: "In stock" },
+            { unit_price: 950, total: 9500, remarks: "In stock" },
+            { unit_price: 1000, total: 10000, remarks: "In stock" },
+            { unit_price: 1050, total: 10500, remarks: "In stock" },
+            { unit_price: 1050, total: 10500, remarks: "In stock" },
+        ]
     },
     {
         id: 2,
         name: "XYZ Building Materials",
         address: "456 Oak Ave, Capital City",
         contactPerson: "Sarah Johnson",
-        contactNumber: "555-5678"
+        contactNumber: "555-5678",
+        items: [
+            { unit_price: 900, total: 9000, remarks: "2-week lead time" },
+            { unit_price: 875, total: 8750, remarks: "Immediate availability" },
+            { unit_price: 950, total: 9500, remarks: "3-day delivery" },
+            { unit_price: 1000, total: 10000, remarks: "In stock" },
+            { unit_price: 1050, total: 10500, remarks: "In stock" },
+            { unit_price: 1100, total: 11000, remarks: "In stock" }
+        ]
     },
     {
         id: 3,
         name: "MegaTools Enterprises",
         address: "789 Pine Blvd, Bay City",
         contactPerson: "Mike Wilson",
-        contactNumber: "555-9012"
-    }
+        contactNumber: "555-9012",
+        items: [
+            { unit_price: 850, total: 8500, remarks: "In stock, 3-day delivery" },
+            { unit_price: 900, total: 9000, remarks: "2-week lead time" },
+            { unit_price: 950, total: 9500, remarks: "Immediate availability" },
+            { unit_price: 1000, total: 10000, remarks: "In stock" },
+            { unit_price: 1050, total: 10500, remarks: "In stock" },
+            { unit_price: 1100, total: 11000, remarks: "In stock" }
+        ]
+    },
 ]
 
 const supplierColumns = [
@@ -76,15 +116,6 @@ const canvassItems = [
         specification: "2-inch diameter, galvanized",
         qty: 10,
         unit: "PCS",
-        supplier1_unit_price: 850,
-        supplier1_total: 8500,
-        supplier1_remarks: "In stock, 3-day delivery",
-        supplier2_unit_price: 875,
-        supplier2_total: 8750,
-        supplier2_remarks: "2-week lead time",
-        supplier3_unit_price: 840,
-        supplier3_total: 8400,
-        supplier3_remarks: "Immediate availability"
     },
     {
         id: 2,
@@ -92,15 +123,6 @@ const canvassItems = [
         specification: "Portland, 40kg bag",
         qty: 50,
         unit: "BAGS",
-        supplier1_unit_price: 255,
-        supplier1_total: 12750,
-        supplier1_remarks: "Free delivery",
-        supplier2_unit_price: 250,
-        supplier2_total: 12500,
-        supplier2_remarks: "Bulk discount applied",
-        supplier3_unit_price: 265,
-        supplier3_total: 13250,
-        supplier3_remarks: "High quality import"
     },
     {
         id: 3,
@@ -108,33 +130,46 @@ const canvassItems = [
         specification: "12 AWG, copper, 100m roll",
         qty: 5,
         unit: "ROLLS",
-        supplier1_unit_price: 2200,
-        supplier1_total: 11000,
-        supplier1_remarks: "With certification",
-        supplier2_unit_price: 2150,
-        supplier2_total: 10750,
-        supplier2_remarks: "Local manufacturer",
-        supplier3_unit_price: 2300,
-        supplier3_total: 11500,
-        supplier3_remarks: "Premium quality"
+    },
+    {
+        id: 4,
+        itemDescription: "PVC Pipe",
+        specification: "1-inch diameter, 3m length",
+        qty: 20,
+        unit: "PCS",
+    },
+    {
+        id: 5,
+        itemDescription: "Steel Bar",
+        specification: "10mm diameter, 6m length",
+        qty: 20,
+        unit: "PCS",
+    },
+    {
+        id: 6,
+        itemDescription: "Concrete Nails",
+        specification: "3 inch",
+        qty: 50,
+        unit: "BOXES",
     },
 ]
-
-// Calculate total amount (sum of the lowest prices for each item)
-const totalAmount = computed(() => {
-    const total = canvassItems.reduce((sum, item) => {
-        const lowestPrice = Math.min(item.supplier1_total, item.supplier2_total, item.supplier3_total)
-        return sum + lowestPrice
-    }, 0)
-    return new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(total)
+defineProps({
+    title: {
+        type: String,
+        required: true,
+    },
 })
-
 const selectType = ref("department")
 </script>
 <template>
     <div class="text-gray-500 p-2">
         <form @submit.prevent="storeForm">
             <div class="flex flex-col gap-4 pt-4 w-full">
+                <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4">
+                    <h3 v-if="title" class="pl-4 text-xl font-bold text-gray-900 p-4 tracking-wide">
+                        {{ title }}
+                    </h3>
+                </div>
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="flex flex-row justify-between gap-4">
                         <div class="w-full flex flex-col gap-2">
@@ -148,9 +183,6 @@ const selectType = ref("department")
                                     />
                                 </div>
                                 <div class="flex flex-row items-center gap-2">
-                                    <LayoutFormPsTextInput v-model="form.rs_no" :required="true" class="w-full" title="RS No." />
-                                </div>
-                                <div class="flex flex-row items-center gap-2">
                                     <div class="w-full">
                                         <HrmsCommonDepartmentProjectSelector
                                             v-model:select-type="selectType"
@@ -161,71 +193,24 @@ const selectType = ref("department")
                                     </div>
                                 </div>
                                 <div class="flex flex-row items-center gap-2">
-                                    <LayoutFormPsInput v-model="form.equipment_no" :required="true" class="w-full" title="Equipment No." />
+                                    <LayoutFormPsTextInput v-model="form.rs_no" :required="true" class="w-full" title="Conso/RS Reference No." />
                                 </div>
                             </div>
                         </div>
                         <div class="w-full flex flex-col gap-2">
-                            <LayoutFormPsTextInput v-model="form.quotation_no" :required="true" class="w-full" title="CS Number" />
-                            <LayoutFormPsTextInput v-model="form.conso_reference_no" :required="true" class="w-full" title="Conso Reference No." />
-                            <LayoutFormPsTextInput v-model="form.contact_no" :required="true" class="w-full" title="Project Address" />
-                            <LayoutFormPsInput v-model="form.proj_address" :required="true" class="w-full" title="Project Address" />
+                            <LayoutFormPsTextInput v-model="form.cs_no" :required="true" class="w-full" title="CS Number" />
                         </div>
                     </div>
                     <!-- items table -->
                     <div class="w-full">
-                        <table class="w-full table-auto border border-gray-300 text-sm text-gray-600">
-                            <thead class="bg-gray-100">
-                                <tr>
-                                    <th class="border px-2 py-1 text-center bg-gray-50" colspan="5">
-                                        REQUESTED ITEM(S) / SERVICE(S)
-                                    </th>
-                                    <th v-for="(supplier, index) in suppliers" :key="index" class="border p-4 text-center bg-gray-50" colspan="3">
-                                        <div class="flex flex-col items-center gap-1">
-                                            <div class="text-lg font-semibold text-gray-700">
-                                                {{ supplier.name }}
-                                            </div>
-                                            <div class="text-sm text-gray-600">
-                                                {{ supplier.address }}
-                                            </div>
-                                            <div class="text-sm text-gray-600">
-                                                {{ supplier.contactPerson }}
-                                            </div>
-                                            <div class="text-sm text-gray-600">
-                                                {{ supplier.contactNumber }}
-                                            </div>
-                                        </div>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th v-for="col in supplierColumns" :key="col.key" class="border px-2 py-1 text-center text-sm">
-                                        {{ col.name }}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(row, index) in canvassItems" :key="index" class="text-center">
-                                    <td v-for="col in supplierColumns" :key="col.key" class="border px-2 py-1 text-center">
-                                        <template v-if="col.key.includes('unit_price')">
-                                            ₱{{ row[col.key].toLocaleString() }}
-                                        </template>
-                                        <template v-else-if="col.key.includes('total')">
-                                            ₱{{ row[col.key].toLocaleString() }}
-                                        </template>
-                                        <template v-else>
-                                            {{ row[col.key] }}
-                                        </template>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <InventoryCanvassSummaryItemList
+                            :items="canvassItems"
+                            :suppliers="suppliers"
+                            :columns="supplierColumns"
+                            @select-supplier="(i) => selectedSupplierIndex = i"
+                        />
 
                         <div class="flex flex-col gap-4 mt-4">
-                            <div class="flex font-bold">
-                                <span class="pr-2">Total Amount:</span>
-                                <span class="text-lg">{{ totalAmount }}</span>
-                            </div>
-
                             <div class="w-1/4">
                                 <label class="font-medium">Terms and Conditions:</label>
                                 <select v-model="form.terms" class="w-full border rounded px-2 py-1">

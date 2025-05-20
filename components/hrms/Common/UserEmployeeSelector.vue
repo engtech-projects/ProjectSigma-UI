@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { useHrmsEnumsStore } from "@/stores/hrms/enum"
 const enums = useHrmsEnumsStore()
-const { userEmployeeEnum } = storeToRefs(enums)
+const { approvalUserEnum } = storeToRefs(enums)
 onMounted(() => {
-    if (!userEmployeeEnum.value.isLoaded) {
-        enums.getUserEmployeeEnums()
+    if (!approvalUserEnum.value.isLoaded) {
+        enums.getApprovalUserEnums()
     }
 })
 defineProps({
@@ -32,11 +32,11 @@ const model = defineModel({ required: false, type: Number, default: null })
                 --Select Employee--
             </option>
             <option
-                v-for="userSelect, userSelector in userEmployeeEnum.list"
+                v-for="userSelect, userSelector in approvalUserEnum.list"
                 :key="userSelector"
                 :value="userSelect.id"
             >
-                {{ userSelect.employee.fullname_first }}
+                {{ userSelect.employee.fullname_last }}
             </option>
         </select>
     </div>

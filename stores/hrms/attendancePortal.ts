@@ -204,6 +204,22 @@ export const useAttendancePortal = defineStore("attendancePortal", {
                 }
             )
         },
+        async deleteLog (id: any) {
+            return await useHRMSApiO(
+                "/api/attendance/log/" + id,
+                {
+                    method: "DELETE",
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
         async getEmployeePattern (id: any) {
             this.successMessage = ""
             this.errorMessage = ""

@@ -67,7 +67,7 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ADMIN_ONLY,
+            AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP,
         ])"
     >
         <template v-if="validKey">
