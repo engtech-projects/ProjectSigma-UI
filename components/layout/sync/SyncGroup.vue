@@ -13,6 +13,10 @@ const props = defineProps({
     api: {
         type: String,
         default: ""
+    },
+    isModuleSync: {
+        type: Boolean,
+        default: true
     }
 })
 const dataSyncStore = useDataSyncStore()
@@ -57,6 +61,7 @@ const sync = async () => {
                     {{ props.name }}
                 </h2>
                 <button
+                    v-show="props.isModuleSync"
                     class="border border-2-teal-600 rounded-md px-3 py-1 flex items-center gap-2 bg-teal-500 text-white hover:bg-teal-600 active:bg-teal-500"
                     @click="sync"
                 >
