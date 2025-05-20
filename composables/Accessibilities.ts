@@ -39,6 +39,8 @@ export enum AccessibilityTypes {
     HRMS_REPORTS_PORTALMONITORING_PANTRANSFERMONITORING = "hrms:reports_portal monitoring_pan transfer monitoring",
     HRMS_REPORTS_PORTALMONITORING_PANPROMOTIONMONITORING = "hrms:reports_portal monitoring_pan promotion monitoring",
     HRMS_REPORTS_PORTALMONITORING_MANPOWERREQUESTMONITORINGSUMMARY = "hrms:reports_portal monitoring_manpower request monitoring summary",
+    HRMS_REPORTS_PORTALMONITORING_ATTENDANCELOGMONITORING = "hrms:reports_portal monitoring_attendance log monitoring",
+    HRMS_REPORTS_PORTALMONITORING_ATTENDANCELOGMONITORINGSUMMARY = "hrms:reports_portal monitoring_attendance log monitoring summary",
     // ATTENDANCE
     hrms_attendance_group = "hrms:attendance_",
     hrms_attendance_attendance_portal = "hrms:attendance_attendance portal",
