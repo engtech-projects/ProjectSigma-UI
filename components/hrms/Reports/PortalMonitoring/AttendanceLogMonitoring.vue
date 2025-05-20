@@ -7,10 +7,10 @@ const headers = [
     { name: "Employee Name", id: "employee_name" },
     { name: "Designation", id: "designation" },
     { name: "Project/Section", id: "section" },
-    { name: "IN (AM)", id: "in_am" },
-    { name: "OUT (AM)", id: "out_am" },
-    { name: "IN (PM)", id: "in_pm" },
-    { name: "OUT (PM)", id: "out_pm" },
+    { name: "IN (AM)", id: "time_in_am" },
+    { name: "OUT (AM)", id: "time_out_am" },
+    { name: "IN (PM)", id: "time_in_pm" },
+    { name: "OUT (PM)", id: "time_out_pm" },
 ]
 </script>
 <template>
@@ -50,16 +50,16 @@ const headers = [
                                         {{ attendanceLog.section }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ attendanceLog.in_am }}
+                                        {{ attendanceLog.time_in_am }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ attendanceLog.out_am }}
+                                        {{ attendanceLog.time_out_am }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ attendanceLog.in_pm }}
+                                        {{ attendanceLog.time_in_pm }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ attendanceLog.out_pm }}
+                                        {{ attendanceLog.time_out_pm }}
                                     </td>
                                 </tr>
                             </tbody>

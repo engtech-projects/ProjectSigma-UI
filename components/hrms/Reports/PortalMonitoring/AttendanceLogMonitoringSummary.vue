@@ -4,10 +4,10 @@ const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
 const headers = [
     { name: "NO", id: "" },
-    { name: "Total Number In (AM)", id: "total_number_in_am" },
-    { name: "Total Number Out (AM)", id: "total_number_out_am" },
-    { name: "Total Number In (PM)", id: "total_number_in_pm" },
-    { name: "Total Number Out (PM)", id: "total_number_out_pm" },
+    { name: "Total Number In (AM)", id: "total_time_in_am" },
+    { name: "Total Number Out (AM)", id: "total_time_out_am" },
+    { name: "Total Number In (PM)", id: "total_time_in_pm" },
+    { name: "Total Number Out (PM)", id: "total_time_out_pm" },
 ]
 </script>
 <template>
@@ -33,21 +33,21 @@ const headers = [
                                 </tr>
                             </thead>
                             <tbody class="text-sm text-center">
-                                <tr v-for="attendanceLogSummary, index in portalMonitoringReports.list" :key="'OvertimeMonitoring' + index" class="h-2">
+                                <tr v-for="attendanceLog, index in portalMonitoringReports.list" :key="'OvertimeMonitoring' + index" class="h-2">
                                     <td class="border border-gray-500 h-8">
                                         {{ index + 1 }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ attendanceLogSummary.total_number_in_am }}
+                                        {{ attendanceLog.total_time_in_am }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ attendanceLogSummary.total_number_out_am }}
+                                        {{ attendanceLog.total_time_out_am }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ attendanceLogSummary.total_number_in_pm }}
+                                        {{ attendanceLog.total_time_in_pm }}
                                     </td>
                                     <td class="whitespace-nowrap border border-gray-500 h-8">
-                                        {{ attendanceLogSummary.total_number_out_pm }}
+                                        {{ attendanceLog.total_time_out_pm }}
                                     </td>
                                 </tr>
                             </tbody>
