@@ -129,8 +129,8 @@ const formattedSupplierTotal = computed(() => {
             </div>
 
             <!-- Supplier Quotes Table -->
-            <div class="w-3/5 overflow-x-auto">
-                <table class="w-full table-auto text-sm text-gray-800" style="width: auto;">
+            <div class="overflow-x-auto w-3/5">
+                <table class="max-w-fit table-fixed text-sm text-gray-800">
                     <thead>
                         <tr class="bg-gray-100">
                             <th
@@ -165,7 +165,7 @@ const formattedSupplierTotal = computed(() => {
                                 <th class="border-b border-r px-2 py-1 text-center w-24">
                                     TOTAL
                                 </th>
-                                <th class="border-b border-r px-2 py-1 text-center w-24">
+                                <th class="border-b px-2 py-1 text-center w-24">
                                     REMARKS
                                 </th>
                             </template>
@@ -175,7 +175,7 @@ const formattedSupplierTotal = computed(() => {
                         <tr v-for="(item, rowIndex) in items" :key="'row-' + rowIndex">
                             <template v-for="(supplier, colIndex) in suppliers" :key="'cell-' + rowIndex + '-' + colIndex">
                                 <td
-                                    class="border-r px-2 py-2 text-center"
+                                    class="border-r px-2 py-2 text-center w-24"
                                     :class="[
                                         highlightCell(rowIndex, colIndex) ? 'bg-yellow-200 font-semibold' : '',
                                         activeSupplier === colIndex && supplier.items?.[rowIndex] ? 'bg-green-100' : ''
@@ -184,7 +184,7 @@ const formattedSupplierTotal = computed(() => {
                                     {{ supplier.items?.[rowIndex]?.unit_price?.toLocaleString() || '-' }}
                                 </td>
                                 <td
-                                    class="border-r px-2 py-2 text-center"
+                                    class="border-r px-2 py-2 text-center w-24"
                                     :class="[
                                         highlightCell(rowIndex, colIndex) ? 'bg-yellow-200 font-semibold' : '',
                                         activeSupplier === colIndex && supplier.items?.[rowIndex] ? 'bg-green-100' : ''
@@ -193,16 +193,14 @@ const formattedSupplierTotal = computed(() => {
                                     {{ supplier.items?.[rowIndex]?.total?.toLocaleString() || '-' }}
                                 </td>
                                 <td
-                                    class="border-r px-2 py-2 text-center truncate"
+                                    class="border-r px-2 py-2 text-center truncate overflow-hidden whitespace-nowrap w-24"
                                     :title="supplier.items?.[rowIndex]?.remarks || '-'"
                                     :class="[
                                         highlightCell(rowIndex, colIndex) ? 'bg-yellow-200 font-semibold' : '',
                                         activeSupplier === colIndex && supplier.items?.[rowIndex] ? 'bg-green-100' : ''
                                     ]"
                                 >
-                                    <div class="whitespace-nowrap truncate">
-                                        {{ supplier.items?.[rowIndex]?.remarks || '-' }}
-                                    </div>
+                                    {{ supplier.items?.[rowIndex]?.remarks || '-' }}
                                 </td>
                             </template>
                         </tr>
@@ -226,7 +224,7 @@ const formattedSupplierTotal = computed(() => {
     </div>
 </template>
 
-<style scoped>
+<!-- <style scoped>
 tbody tr {
     height: 40px;
 }
@@ -247,4 +245,4 @@ tbody tr {
 .overflow-x-auto::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
-</style>
+</style> -->
