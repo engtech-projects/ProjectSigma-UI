@@ -218,6 +218,32 @@ export const useProjectStore = defineStore("projects", {
                 }
             )
         },
+        async publishProposal (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useFetch(
+                "/api/project-revisions/change-to-proposal",
+                {
+                    baseURL: config.public.PROJECTS_API_URL,
+                    method: "POST",
+                    headers: {
+                        Authorization: token.value + "",
+                        Accept: "application/json"
+                    },
+                    body: { id },
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        if (!response.ok) {
+                            this.errorMessage = response._data.message
+                        } else {
+                            this.getDraftProjects()
+                            this.getProposalProjects()
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
         clearMessages () {
             this.errorMessage = ""
             this.successMessage = ""
