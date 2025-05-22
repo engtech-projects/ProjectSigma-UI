@@ -3,12 +3,13 @@ import { storeToRefs } from "pinia"
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 
-const { draftList } = storeToRefs(projectStore)
+const { awardedList } = storeToRefs(projectStore)
 
-await projectStore.getDraftProjects()
+await projectStore.getAwardedProjects()
 const changePaginate = (newParams) => {
-    draftList.value.params.page = newParams.page ?? ""
+    awardedList.value.params.page = newParams.page ?? ""
 }
+
 const headers = [
     { name: "PROJECT NAME", id: "name", style: "text-left" },
     { name: "LOCATION", id: "location", style: "text-left" },
@@ -20,22 +21,19 @@ const actions = {
     showTable: true,
 }
 const ddata = computed(() => {
-    return draftList.value.list ?? []
+    return awardedList.value.list ?? []
 })
 const draftDetais = (data) => {
     navigateTo(`/project-monitoring/my-drafts?id=${data.id}`)
 }
 </script>
 <template>
-    <LayoutBoards class="w-full" :loading="draftList.isLoading">
+    <LayoutBoards class="w-full" :loading="awardedList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
                 AccessibilityTypes.PROJECT_MONITORING_MARKETING,
             ])"
         >
-            <div class="w-1/3 hidden">
-                <LayoutFormPsTextInput v-model="draftList.params.key" title="PROJECT CODE" class="w-full" />
-            </div>
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
                 <LayoutPsTable
                     :header-columns="headers"
@@ -44,14 +42,9 @@ const draftDetais = (data) => {
                     @show-table="draftDetais"
                 />
                 <div class="flex justify-center mx-auto">
-                    <CustomPagination :links="draftList.pagination" @change-params="changePaginate" />
+                    <CustomPagination :links="awardedList.pagination" @change-params="changePaginate" />
                 </div>
             </div>
         </LayoutAcessContainer>
     </LayoutBoards>
-    <!-- <AccountingRequestNonPurchaseRequestInfoModal
-        v-model:showModal="showInformationModal"
-        :fillable="false"
-        :payment-data="requestData"
-    /> -->
 </template>

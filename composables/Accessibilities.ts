@@ -288,6 +288,13 @@ export enum AccessibilityTypes {
     PROJECT_MONITORING_DASHBOARD = "project monitoring:dashboard",
     PROJECT_MONITORING_PROJECTS = "project monitoring:projects",
     PROJECT_MONITORING_MARKETING = "project monitoring:marketing",
+    PROJECT_MONITORING_MARKETING_MY_PROJECTS = "project monitoring:marketing_my projects",
+    PROJECT_MONITORING_MARKETING_BIDDING_LIST = "project monitoring:marketing_bidding list",
+    PROJECT_MONITORING_MARKETING_PROPOSAL_LIST = "project monitoring:marketing_proposal list",
+    PROJECT_MONITORING_MARKETING_ARCHIVED_LIST = "project monitoring:marketing_archived list",
+    PROJECT_MONITORING_MARKETING_ON_HOLD_LIST = "project monitoring:marketing_on hold list",
+    PROJECT_MONITORING_MARKETING_AWARDED_LIST = "project monitoring:marketing_awarded list",
+    PROJECT_MONITORING_MARKETING_DRAFT_LIST = "project monitoring:marketing_draft list",
     PROJECT_MONITORING_TSS = "project monitoring:tss",
     PROJECT_MONITORING_SETUP = "project monitoring:setup"
 }

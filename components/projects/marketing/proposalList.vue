@@ -4,10 +4,9 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 
 const { proposalList } = storeToRefs(projectStore)
-
+await projectStore.getProposalProjects()
 const requestData = ref(null)
 const showInformationModal = ref(false)
-await projectStore.getProposalProjects()
 const showInformation = (data) => {
     requestData.value = data
     showInformationModal.value = true
