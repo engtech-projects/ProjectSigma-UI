@@ -23,13 +23,13 @@ useHead({
                         <HrmsPayroll13thMonth13thmonthForm />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer :id="'tab2' + compId">
-                        <HrmsPayrollAllowanceAllRequests />
+                        <HrmsPayroll13thMonthAllRequests />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer :id="'tab3' + compId">
-                        <HrmsPayrollAllowanceMyRequests />
+                        <HrmsPayroll13thMonthMyRequests />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer :id="'tab4' + compId">
-                        <HrmsPayrollAllowanceMyApprovals />
+                        <HrmsPayroll13thMonthMyApprovals />
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>
