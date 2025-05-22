@@ -147,7 +147,7 @@ const extraRows = computed(() => {
                                         <td class="border px-4 py-1 border-gray-800 text-xs">
                                             {{ accountingCurrency(ae.cost) }}
                                         </td>
-                                        <td class="border px-4 py-1 border-gray-800  text-xs">
+                                        <td class="border px-4 py-1 border-gray-800 text-xs">
                                             {{ accountingCurrency(ae.total_vat_amount) }}
                                         </td>
                                         <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs">
@@ -158,7 +158,7 @@ const extraRows = computed(() => {
                                         <td class="border px-4 py-1 border-gray-800 text-xs relative" />
                                         <td class="border px-4 py-1 border-gray-800 text-xs" />
                                         <td class="border px-4 py-1 border-gray-800 text-xs" />
-                                        <td class="border px-4 py-1 border-gray-800  text-xs" />
+                                        <td class="border px-4 py-1 border-gray-800 text-xs" />
                                         <td class="border px-4 py-1 font-bold border-gray-800 border-y-gray-800 text-xs" />
                                     </tr>
                                     <tr v-if="i === numPages.length - 1" class="border-2 border-black">

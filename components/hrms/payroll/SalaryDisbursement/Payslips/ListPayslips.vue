@@ -1,4 +1,4 @@
-<script  setup lang="ts">
+<script setup lang="ts">
 import { useSalaryDisbursementStore } from "@/stores/hrms/payroll/salaryDisbursement"
 
 const salaryDisbursementStore = useSalaryDisbursementStore()

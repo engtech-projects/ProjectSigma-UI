@@ -137,7 +137,7 @@
             <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-12 h-8">
                 <Icon name="ic:outline-local-printshop" class="text-white h-6 w-6" />
             </button>
-            <NuxtLink v-if="!edit" to="/project-monitoring/tss" class="flex items-center  justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9 text-center">
+            <NuxtLink v-if="!edit" to="/project-monitoring/tss" class="flex items-center justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9 text-center">
                 Generate TSS
             </NuxtLink>
         </div>

@@ -59,7 +59,7 @@ watch(() => philhealthRemittanceSummaryList.value.params.month_year, (newValue) 
         </form>
         <LayoutPrint>
             <div class="flex flex-col">
-                <div class="header flex flex-col  mb-8">
+                <div class="header flex flex-col mb-8">
                     <div class="flex gap-4">
                         <span class="text-md flex-1">
                             Employer ID:

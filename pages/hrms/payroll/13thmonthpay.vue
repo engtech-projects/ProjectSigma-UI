@@ -1,4 +1,4 @@
-<script  setup lang="ts">
+<script setup lang="ts">
 const compId = useId()
 useHead({
     title: "13th Month Pay",
@@ -20,7 +20,6 @@ useHead({
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer :id="'tab1' + compId">
-                        <HrmsPayroll13thMonth13thmonthTable />
                         <HrmsPayroll13thMonth13thmonthForm />
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer :id="'tab2' + compId">

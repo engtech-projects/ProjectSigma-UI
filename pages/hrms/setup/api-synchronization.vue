@@ -1,4 +1,4 @@
-<script  setup>
+<script setup>
 import { useDataSyncStore } from "~/stores/datasync"
 useHead({
     title: "Project Sigma Manual API Synchronization",

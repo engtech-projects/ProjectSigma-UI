@@ -63,7 +63,7 @@ const calendarOptions = ref({
             minute: "2-digit"
         })
         return {
-            html: `<div  class="event-container flex flex-col justify-between items-center p-1 event-container bg-blue-600 text-[10px] overflow-hidden text-white rounded-md">
+            html: `<div class="event-container flex flex-col justify-between items-center p-1 event-container bg-blue-600 text-[10px] overflow-hidden text-white rounded-md">
                         ${startTimeStr + " - " + endTimeStr}
                         <div class="flex gap-[5px]">
                             <i class="fa fa-edit text-slate-200 hover:text-white text-[10px] event-edit edit-${info.event.id}" data-event="${info.event.id}"></i>
@@ -317,7 +317,7 @@ watch(errorMessage, (msg) => {
                             </div>
 
                             <div class="flex md:flex justify-center mx-auto">
-                                <div class="p-2  gap-4 items-center">
+                                <div class="p-2 gap-4 items-center">
                                     <label for="eventTitleIn" class="block text-xs text-center italic">In</label>
                                     <input
                                         id="eventTitleIn"
@@ -327,7 +327,7 @@ watch(errorMessage, (msg) => {
                                         required
                                     >
                                 </div>
-                                <div class="p-2  gap-4 items-center">
+                                <div class="p-2 gap-4 items-center">
                                     <label for="eventTitleOut" class="block text-xs text-center italic">Out</label>
                                     <input
                                         id="eventTitleOut"
@@ -418,11 +418,11 @@ watch(errorMessage, (msg) => {
                                     <div class="border-b w-full h-[14px] text-center p-3 mb-2" />
 
                                     <div class="flex md:flex justify-center mx-auto">
-                                        <div class="p-2  gap-4 items-center">
+                                        <div class="p-2 gap-4 items-center">
                                             <label for="dateStart" class="block text-xs text-center italic">Date Start</label>
                                             <input id="dateStart" v-model="newEvent.startRecur" type="date" class="w-36 md:w-32 rounded-lg" required>
                                         </div>
-                                        <div class="p-2  gap-4 items-center">
+                                        <div class="p-2 gap-4 items-center">
                                             <label for="dateEnd" class="block text-xs italic ml-3">Date End <b class="text-orange-500"> (optional)</b></label>
                                             <input id="dateEnd" v-model="newEvent.endRecur" type="date" class="w-36 md:w-32 rounded-lg">
                                         </div>

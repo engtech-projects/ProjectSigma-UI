@@ -1,4 +1,4 @@
-<script  setup>
+<script setup>
 import { useUOM } from "@/stores/inventory/setup/uom"
 
 const main = useUOM()

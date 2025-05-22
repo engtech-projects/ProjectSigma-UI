@@ -55,7 +55,7 @@ const handleDocumentUpload = async (event) => {
                     DOCUMENT
                 </p>
                 <span class="content-center">
-                    <label for="floating_application_letter_attachment" class="block  text-sm font-medium dark:text-white border rounded-xl p-1 px-2 bg-green-500 text-gray-50 hover:bg-green-700">
+                    <label for="floating_application_letter_attachment" class="block text-sm font-medium dark:text-white border rounded-xl p-1 px-2 bg-green-500 text-gray-50 hover:bg-green-700">
                         <Icon name="material-symbols:upload-file-sharp" />
                         new
                     </label>
