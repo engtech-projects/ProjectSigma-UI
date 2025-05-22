@@ -217,7 +217,6 @@ watch(() => form.value.type_of_request, (newType) => {
                 <div class="flex flex-col gap-4 mb-5">
                     <div class="flex flex-row justify-between gap-4">
                         <div class="w-full flex flex-col gap-2">
-                            <LayoutFormPsTextInput v-model="form.request_for" :required="true" class="w-full" title="Request For" />
                             <div class="w-full flex gap-2">
                                 <div class="w-full">
                                     <HrmsCommonDepartmentProjectSelector
@@ -231,6 +230,7 @@ watch(() => form.value.type_of_request, (newType) => {
                                     <LayoutFormPsTextInput v-model="form.office_project_address" class="w-full" title="Address" />
                                 </div>
                             </div>
+                            <LayoutFormPsTextInput v-model="form.request_for" :required="true" class="w-full" title="Request For" />
                         </div>
                         <div class="w-full flex flex-col gap-2">
                             {{ form.reference_no }}
