@@ -7,7 +7,7 @@ const loading = ref(false)
 const sync = async () => {
     try {
         loading.value = true
-        dataSyncStore.url = "/api/setup/sync-all"
+        dataSyncStore.url = "/api/sync/all"
         dataSyncStore.api = "inventory"
         await dataSyncStore.sync()
         if (dataSyncStore.errorMessage !== "") {
@@ -57,27 +57,27 @@ const sync = async () => {
                 </button>
             </div>
             <div class="flex flex-col gap-8">
-                <LayoutSyncGroup name="HRMS" url="/api/setup/all" api="inventory">
+                <LayoutSyncGroup name="HRMS" url="/api/sync/hrms/all" api="inventory">
                     <LayoutSyncItem
                         name="Employees"
-                        url="/api/setup/sync-employees"
+                        url="/api/sync/hrms/employees"
                         api="inventory"
                     />
                     <LayoutSyncItem
                         name="Users"
-                        url="/api/setup/sync-users"
+                        url="/api/sync/hrms/users"
                         api="inventory"
                     />
                     <LayoutSyncItem
                         name="Departments"
-                        url="/api/setup/sync-departments"
+                        url="/api/sync/hrms/departments"
                         api="inventory"
                     />
                 </LayoutSyncGroup>
-                <LayoutSyncGroup name="PROJECT" url="/api/setup/sync-projects" api="inventory">
+                <LayoutSyncGroup name="PROJECT" url="/api/project/all" api="inventory">
                     <LayoutSyncItem
                         name="Projects"
-                        url="/api/setup/sync-projects"
+                        url="/api/sync/project/projects"
                         api="inventory"
                     />
                 </LayoutSyncGroup>
