@@ -148,9 +148,6 @@ export const useProjectStore = defineStore("projects", {
                 {
                     baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
-                    headers: {
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -399,9 +396,6 @@ export const useProjectStore = defineStore("projects", {
                 "/api/projects",
                 {
                     method: "POST",
-                    headers: {
-                        Accept: "application/json"
-                    },
                     body: this.information,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -424,9 +418,6 @@ export const useProjectStore = defineStore("projects", {
                 "/api/project-revisions/change-to-proposal",
                 {
                     method: "POST",
-                    headers: {
-                        Accept: "application/json"
-                    },
                     body: { id },
                     watch: false,
                     onResponse: ({ response }) => {
