@@ -143,13 +143,12 @@ export const useProjectStore = defineStore("projects", {
     actions: {
         async getProjectsInformation (id: any) {
             this.isLoading.list = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useProjectsApi(
                 "/api/projects/" + id,
                 {
                     baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
                     headers: {
-                        Authorization: token.value + "",
                         Accept: "application/json"
                     },
                     params: this.getParams,
@@ -401,7 +400,6 @@ export const useProjectStore = defineStore("projects", {
                 {
                     method: "POST",
                     headers: {
-                        Authorization: token.value + "",
                         Accept: "application/json"
                     },
                     body: this.information,
@@ -427,7 +425,6 @@ export const useProjectStore = defineStore("projects", {
                 {
                     method: "POST",
                     headers: {
-                        Authorization: token.value + "",
                         Accept: "application/json"
                     },
                     body: { id },
@@ -456,9 +453,6 @@ export const useProjectStore = defineStore("projects", {
                 "/api/projects/" + this.information.id,
                 {
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.information,
                     watch: false,
                 }
@@ -482,9 +476,6 @@ export const useProjectStore = defineStore("projects", {
                 "/api/projects/change-summary-rates",
                 {
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: rate,
                     watch: false,
                 }
@@ -504,9 +495,6 @@ export const useProjectStore = defineStore("projects", {
                 "/api/projects/" + id,
                 {
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message
