@@ -396,10 +396,9 @@ export const useProjectStore = defineStore("projects", {
         async createProject () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useProjectsApi(
                 "/api/projects",
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "POST",
                     headers: {
                         Authorization: token.value + "",
@@ -423,10 +422,9 @@ export const useProjectStore = defineStore("projects", {
         async publishProposal (id: number) {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useProjectsApi(
                 "/api/project-revisions/change-to-proposal",
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "POST",
                     headers: {
                         Authorization: token.value + "",
@@ -454,10 +452,9 @@ export const useProjectStore = defineStore("projects", {
         async editProject () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch<any>(
+            const { data, error } = await useProjectsApi<any>(
                 "/api/projects/" + this.information.id,
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "PATCH",
                     headers: {
                         Authorization: token.value + ""
@@ -481,10 +478,9 @@ export const useProjectStore = defineStore("projects", {
         async editRates (rate: any) {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch<any>(
+            const { data, error } = await useProjectsApi<any>(
                 "/api/projects/change-summary-rates",
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "POST",
                     headers: {
                         Authorization: token.value + ""
@@ -504,10 +500,9 @@ export const useProjectStore = defineStore("projects", {
         },
 
         async deleteProject (id: number) {
-            const { data, error } = await useFetch<any>(
+            const { data, error } = await useProjectsApi<any>(
                 "/api/projects/" + id,
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "DELETE",
                     headers: {
                         Authorization: token.value + ""
