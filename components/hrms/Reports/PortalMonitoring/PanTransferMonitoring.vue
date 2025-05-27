@@ -14,7 +14,7 @@ const headers = [
     { name: "Effectivity Date", id: "effectivity_date" },
     { name: "Date Requested", id: "date_requested" },
     { name: "Requested By", id: "requested_by" },
-    { name: "Requested Status", id: "request_status" },
+    { name: "Request Status", id: "request_status" },
     { name: "No. of Days Delayed Filing", id: "days_delayed_filling" },
     { name: "Date Approved", id: "date_approved" },
     { name: "Approvals", id: "approvals" },
