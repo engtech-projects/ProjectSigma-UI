@@ -1,34 +1,44 @@
 <template>
-    <div id="toPrint" class="flex flex-col gap-2 bg-white w-screen p-2">
-        <input type="file" accept=".xlsx" class="mb-4 print:hidden">
+    <!-- Header -->
+    <div>
+        <h6 class="text-center">Department of Public Works and Highways</h6>
+        <p>Contract ID: </p>
+        <p>Contract Name: </p>
+        <p>Contract Location: </p>
+    </div>
 
-        <div class="flex flex-col gap-2 pt-4 border-2 border-black pb-4 min-h-[1000px] print:min-h-[1000px] relative">
-            <!-- Header -->
-            <div class="text-center font-bold text-xl border-b-2 pb-2 mb-2">
-                BILL OF QUANTITIES (Page 1 of 1)
-            </div>
-
-            <!-- Table -->
-            <div class="overflow-auto border rounded shadow p-2 print:p-0 print:shadow-none print:border-0">
-                <table class="table-auto w-full border-collapse border border-gray-300 text-sm">
-                    <thead class="bg-gray-200">
-                        <tr>
-                            <th class="border px-2 py-1" />
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="border px-2 py-1" />
-                        </tr>
-                        <tr>
-                            <td class="border px-2 py-1" />
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Footer -->
-            <div class="mt-6 text-xs text-right pr-4" />
-        </div>
+    <div class="p-4">
+        <h2 class="text-xl font-bold mb-4">Bill of Quantities</h2>
+        <table class="min-w-full border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border px-4 py-2">Pay Item No.</th>
+                    <th class="border px-4 py-2">Description</th>
+                    <th class="border px-4 py-2">Unit</th>
+                    <th class="border px-4 py-2">Quantity</th>
+                    <th class="border px-4 py-2">Unit Price(Pesos)</th>
+                    <th class="border px-4 py-2">Amount (Pesos)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border px-4 py-2" />
+                    <td class="border px-4 py-2" />
+                    <td class="border px-4 py-2" />
+                    <td class="border px-4 py-2" />
+                    <td class="border px-4 py-2" />
+                    <td class="border px-4 py-2" />
+                </tr>
+            </tbody>
+        </table>
+        <button @click="printTable" class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Print</button>
     </div>
 </template>
+
+<style scoped>
+    @media print {
+        button {
+            display: none;
+        }
+    }
+</style>
