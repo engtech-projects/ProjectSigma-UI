@@ -2,7 +2,7 @@
     <!-- Header -->
     <div>
         <h6 class="text-center">
-            Department of Public Works and Highways
+            Local Government Unit
         </h6>
         <p>Contract ID: </p>
         <p>Contract Name: </p>
