@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 interface Employee {
     employee_id: number,
     name: String,
@@ -146,7 +144,6 @@ export const useProjectStore = defineStore("projects", {
             const { data, error } = await useProjectsApi(
                 "/api/projects/" + id,
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
                     params: this.getParams,
                     onResponse: ({ response }) => {
