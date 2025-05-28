@@ -87,7 +87,6 @@ const applicantDetails = (applic) => {
     </LayoutLoadingContainer>
     <PsModal v-model:show-modal="applicantDetail" title="APPLICANT DETAILS">
         <template #body>
-            <!-- <HrmsEmployeeJobApplicantInfoSheet :applicant="applicantInfo" /> -->
             <HrmsEmployeeJobApplicantDetailsApplicantInfo :applicant="applicantInfo" />
             <HrmsEmployeeJobApplicantDetailsApplicantPermanentAddress :applicant="applicantInfo" />
             <HrmsEmployeeJobApplicantDetailsApplicantPresentAddress :applicant="applicantInfo" />
