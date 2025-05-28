@@ -17,7 +17,7 @@
         />
         <LayoutNavSingle
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
             ])"
             linkarea="/project-monitoring/marketing"
             icon="material-symbols:business-center"
