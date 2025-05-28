@@ -279,7 +279,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
             )
         },
         reloadResources () {
-            const backup = this.generateDraftRequest.data.approvals
+            const backup = this.generateDraftRequest.data
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
@@ -291,7 +291,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                 callFunctions.push(this.getMyApprovals)
             }
             this.$reset()
-            this.generateDraftRequest.data.approvals = backup
+            this.generateDraftRequest.data = backup
             callFunctions.forEach((element) => {
                 element()
             })
