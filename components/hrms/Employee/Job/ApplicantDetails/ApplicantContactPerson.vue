@@ -44,8 +44,6 @@ defineProps({
                         >
                     </div>
                 </td>
-            </tr>
-            <tr>
                 <td class="border border-slate-300 p-1 space-y-1">
                     <label for="contact_person_relationship" class="block mb-2 text-[11px] font-bold text-gray-900 dark:text-white">Relationship</label>
                     <input
