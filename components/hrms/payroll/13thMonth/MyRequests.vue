@@ -1,20 +1,17 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
-
-const genallowstore = useGenerateAllowanceStore()
-const { myRequests } = storeToRefs(genallowstore)
+import { use13thMonthStore } from "@/stores/hrms/payroll/13thmonth"
+const dataStore = use13thMonthStore()
+const { myRequests } = storeToRefs(dataStore)
 if (!myRequests.value.isLoaded) {
     myRequests.value.isLoaded = true
-    genallowstore.getMyRequests()
+    dataStore.getMyRequests()
 }
-
 const headers = [
-    { name: "Charge Department", id: "charge_name" },
-    { name: "Cutoff Start", id: "cutoff_start_human" },
-    { name: "Cutoff End", id: "cutoff_end_human" },
-    { name: "Allowance Date", id: "allowance_date_human" },
-    { name: "Total # of Day(s)", id: "total_days" },
+    { name: "Payroll Duration", id: "paryoll_duration_human" },
+    { name: "Release Type", id: "release_type" },
+    { name: "Request Status", id: "request_status" },
+    { name: "Requested By", id: "requested_by" },
+    { name: "Requested On", id: "created_at_human" },
 ]
 const actions = {
     showTable: true,

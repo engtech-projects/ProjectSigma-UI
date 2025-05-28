@@ -23,7 +23,7 @@ const dateChanged = computed(() => {
             <LayoutFormPsDateInput v-model="generateDraftRequest.data.cutoff_end" class="w-full" title="Cut-off Date (End)" @change="dateChanged" />
             <LayoutFormPsDateInput v-model="generateDraftRequest.data.release_date" class="w-full" title="Release Date" />
         </div>
-        <div class="w-full flex gap-2 md:flex-row flex-col">
+        <div v-if="false" class="w-full flex gap-2 md:flex-row flex-col">
             <HrmsCommonDepartmentProjectSelector
                 v-model:select-type="generateDraftRequest.data.charging_type"
                 v-model:department-id="generateDraftRequest.data.department_id"

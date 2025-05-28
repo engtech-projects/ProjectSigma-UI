@@ -1,27 +1,21 @@
 <script setup>
-import { storeToRefs } from "pinia"
-import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
-
-const genallowstore = useGenerateAllowanceStore()
-const { allRequests, errorMessage, successMessage } = storeToRefs(genallowstore)
+import { use13thMonthStore } from "@/stores/hrms/payroll/13thmonth"
+const dataStore = use13thMonthStore()
+const { allRequests } = storeToRefs(dataStore)
 if (!allRequests.value.isLoaded) {
     allRequests.value.isLoaded = true
-    genallowstore.getAllRequests()
+    dataStore.getAllRequests()
 }
-
 const boardLoading = ref(false)
-
 const changePaginate = (newParams) => {
     allRequests.value.params.page = newParams.page ?? ""
 }
-
 const headers = [
-    { name: "Charge Department", id: "charge_name" },
-    { name: "Cutoff Start", id: "cutoff_start_human" },
-    { name: "Cutoff End", id: "cutoff_end_human" },
-    { name: "Allowance Date", id: "allowance_date_human" },
-    { name: "Total # of Day(s)", id: "total_days" },
-
+    { name: "Payroll Duration", id: "paryoll_duration_human" },
+    { name: "Release Type", id: "release_type" },
+    { name: "Request Status", id: "request_status" },
+    { name: "Requested By", id: "requested_by" },
+    { name: "Requested On", id: "created_at_human" },
 ]
 const actions = {
     showTable: true,
@@ -47,16 +41,6 @@ const showInformation = (data) => {
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
         </div>
-        <p hidden class="error-message text-red-600 text-center font-semibold mt-2 italic" :class="{ 'fade-out': !errorMessage }">
-            {{ errorMessage }}
-        </p>
-        <p
-            v-show="successMessage"
-            hidden
-            class="success-message text-green-600 text-center font-semibold italic"
-        >
-            {{ successMessage }}
-        </p>
     </LayoutLoadingContainer>
     <HrmsPayrollAllowanceInfoModal
         v-model:show-modal="showInfoModal"
