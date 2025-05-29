@@ -10,12 +10,6 @@ const sync = async () => {
         dataSyncStore.url = "/api/sync/all"
         dataSyncStore.api = "inventory"
         await dataSyncStore.sync()
-        if (dataSyncStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: dataSyncStore.errorMessage
-            })
-        }
         if (dataSyncStore.successMessage !== "") {
             snackbar.add({
                 type: "success",
@@ -25,7 +19,7 @@ const sync = async () => {
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: "something went wrong."
+            text: dataSyncStore.errorMessage
         })
     } finally {
         dataSyncStore.reset()
@@ -74,17 +68,10 @@ const sync = async () => {
                         api="inventory"
                     />
                 </LayoutSyncGroup>
-                <LayoutSyncGroup name="PROJECT" url="/api/project/all" api="inventory">
+                <LayoutSyncGroup name="PROJECT" url="/api/sync/project/all" api="inventory">
                     <LayoutSyncItem
                         name="Projects"
                         url="/api/sync/project/projects"
-                        api="inventory"
-                    />
-                </LayoutSyncGroup>
-                <LayoutSyncGroup name="INVENTORY" url="/api/setup/sync-supplier" api="inventory">
-                    <LayoutSyncItem
-                        name="Suppliers"
-                        url="/api/setup/sync-supplier"
                         api="inventory"
                     />
                 </LayoutSyncGroup>
