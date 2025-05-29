@@ -5,7 +5,8 @@
         </div>
 
         <div class="grid grid-cols-3 gap-4 mb-4">
-            <div><strong>Project ID:</strong>
+            <div>
+                <strong>Project ID:</strong>
             </div>
             <div class="col-span-2">
                 <strong>Project Name:</strong><br>
