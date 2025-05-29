@@ -1,7 +1,6 @@
 <script setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
-const awardee = true
 projectStore.viewState = true
 </script>
 <template>
@@ -11,7 +10,7 @@ projectStore.viewState = true
         ])"
     >
         <div class="flex flex-col gap-4">
-            <ProjectsMydraftsDetails :awardee="awardee" />
+            <ProjectsDetails />
         </div>
     </LayoutAcessContainer>
 </template>

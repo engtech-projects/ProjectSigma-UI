@@ -8,13 +8,7 @@ await taskStore.getTask(route.query.id)
 await resourceStore.getResourceNames()
 </script>
 <template>
-    <LayoutAcessContainer
-        :if-access="useCheckAccessibility([
-            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_GROUP,
-        ])"
-    >
-        <div class="flex flex-col gap-4 bg-white">
-            <ProjectsDetails />
-        </div>
-    </LayoutAcessContainer>
+    <div class="flex flex-col gap-4 bg-white">
+        <ProjectsDupaDetails />
+    </div>
 </template>

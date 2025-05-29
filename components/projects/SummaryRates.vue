@@ -8,7 +8,7 @@
             <h3 class="text-gray-500 uppercase text-md text-center">
                 Cost of {{ i }}
             </h3>
-            <div class="flex flex-col border-t border-blue-500 border-dashed">
+            <div class="flex flex-col border-t border-blue-500 border-dashed p-2">
                 <table>
                     <tbody>
                         <tr v-for="(item, index) in sr" :key="index">
