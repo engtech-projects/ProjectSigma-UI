@@ -36,10 +36,18 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="border p-1" />
-                    <td class="border p-1 text-left" />
-                    <td class="border p-1" />
-                    <td class="border p-1" />
+                    <td class="border p-1">
+                        Data
+                    </td>
+                    <td class="border p-1 text-left">
+                        Data
+                    </td>
+                    <td class="border p-1">
+                        Data
+                    </td>
+                    <td class="border p-1">
+                        Data
+                    </td>
                 </tr>
             </tbody>
         </table>
