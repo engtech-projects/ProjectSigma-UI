@@ -1,0 +1,10 @@
+<template>
+    <tbody>
+        <tr>
+            <td>a</td>
+            <td>b</td>
+            <td>b</td>
+            <td>c</td>
+        </tr>
+    </tbody>
+</template>
