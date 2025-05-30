@@ -16,7 +16,7 @@ const headers = [
     { name: "Supplier", id: "supplier.company_name" },
     { name: "Reference", id: "reference_code" },
     { name: "Terms of Payment", id: "terms_of_payment" },
-    { name: "Particulars", id: "particulars" },
+    { name: "Particulars", id: "metadata.particulars" },
     { name: "Transaction Date", id: "transaction_date" },
     { name: "Project Code", id: "project.project_code" },
     { name: "Equipment No.", id: "equipment_no" },

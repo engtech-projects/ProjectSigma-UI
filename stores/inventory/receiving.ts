@@ -9,13 +9,26 @@ export const REQ_STATUS = [
     PENDING,
     DENIED,
 ]
-export const WEEKLY = "Weekly"
-export const MONTHLY = "Monthly"
-export const BIMONTHLY = "Bimonthly"
+// export const WEEKLY = "Weekly"
+// export const MONTHLY = "Monthly"
+// export const BIMONTHLY = "Bimonthly"
+// export const TERMS = [
+//     MONTHLY,
+//     BIMONTHLY,
+//     WEEKLY,
+// ]
+
+export const PREPAYMENT_IN_FULL = "PREPAYMENT IN FULL"
+export const CREDIT_7_DAYS = "CREDIT 7 DAYS"
+export const CREDIT_15_DAYS = "CREDIT 15 DAYS"
+export const CREDIT_30_DAYS = "CREDIT 30 DAYS"
+export const PROGRESS_BILLING = "PROGRESS BILLING"
 export const TERMS = [
-    MONTHLY,
-    BIMONTHLY,
-    WEEKLY,
+    PREPAYMENT_IN_FULL,
+    CREDIT_7_DAYS,
+    CREDIT_15_DAYS,
+    CREDIT_30_DAYS,
+    PROGRESS_BILLING
 ]
 
 export interface ReceivingDetails {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useReceivingStore } from "@/stores/inventory/receiving"
+import { useReceivingStore, TERMS } from "@/stores/inventory/receiving"
 
 interface HeaderColumn {
     name: string,
@@ -17,10 +17,13 @@ const props = defineProps({
         required: true,
     },
     data: {
-        type: Array<any>,
+        type: Object,
         required: true,
     },
 })
+
+// Create emits for updating parent data
+const emit = defineEmits(["update:data"])
 
 const isDisabled = ref(false)
 const main = useReceivingStore()
@@ -28,7 +31,29 @@ const snackbar = useSnackbar()
 const { receiving, remarks } = storeToRefs(main)
 const utils = useUtilities()
 
-const reactiveData = computed(() => props.data)
+// Create a local reactive copy of the data
+const localData = ref({ ...props.data })
+
+// Watch for changes in props and update local data
+watch(() => props.data, (newData) => {
+    localData.value = { ...newData }
+}, { deep: true })
+
+const reactiveData = computed(() => localData.value)
+const selectedTerm = ref(null)
+
+// Computed property for editable particulars
+const editableParticulars = computed({
+    get: () => localData.value.metadata?.particulars || "",
+    set: (value) => {
+        if (!localData.value.metadata) {
+            localData.value.metadata = {}
+        }
+        localData.value.metadata.particulars = value
+        // Emit the updated data to parent
+        emit("update:data", localData.value)
+    }
+})
 
 const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
     try {
@@ -54,6 +79,7 @@ const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: s
         })
     }
 }
+
 const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestId: number, acceptedQty: number, remarks: string }) => {
     if (remarks === "") {
         snackbar.add({
@@ -85,6 +111,7 @@ const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestI
         })
     }
 }
+
 const rejectRequest = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
     if (remarks.trim() === "") {
         snackbar.add({
@@ -116,8 +143,8 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
         })
     }
 }
-
 </script>
+
 <template>
     <div
         class="h-full w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700"
@@ -134,66 +161,83 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                     <div class="flex justify-between mb-4">
                         <div class="w-1/2">
                             <div class="flex justify-start p-2">
-                                <div class="grid grid-cols-2">
+                                <div class="grid grid-cols-2 gap-y-2">
                                     <p class="text-md font-bold">
                                         Supplier:
                                     </p>
-                                    <p class="text-md underline indent-2">
-                                        {{ data?.supplier?.company_name || '' }}
-                                    </p>
+                                    <InventoryCommonSupplierSelector v-model="localData.supplier_id" />
+                                    <!-- <p class="text-md underline indent-2">
+                                        {{ localData?.supplier?.company_name || '' }}
+                                    </p> -->
                                     <p class="text-md font-bold">
                                         Reference:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.reference_code }}
+                                        {{ localData.reference.reference_no }}
                                     </p>
-                                    <p class="text-md font-bold">
+                                    <p class="text-md font-bold inline align-middle">
                                         Terms of Payment:
                                     </p>
-                                    <p class="text-md underline indent-2">
-                                        {{ data.terms_of_payment }}
-                                    </p>
+                                    <select
+                                        v-model="selectedTerm"
+                                        class="inline align-middle w-full p-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    >
+                                        <option value="" disabled selected>
+                                            Choose Terms of Payment
+                                        </option>
+                                        <option v-for="(term, index) in TERMS" :key="index" :value="term">
+                                            {{ term }}
+                                        </option>
+                                    </select>
                                     <p class="text-md font-bold">
                                         Particulars:
                                     </p>
-                                    <p class="text-md underline indent-2">
-                                        {{ data.particulars }}
-                                    </p>
+                                    <input
+                                        v-model="editableParticulars"
+                                        class="text-md underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full"
+                                        placeholder="Enter particulars..."
+                                        title="hover to show text"
+                                        @mouseover="showParticulars = true"
+                                        @mouseleave="showParticulars = false"
+                                    >
+                                    <span v-if="showParticulars" class="absolute p-2 bg-white border rounded-md shadow-md">
+                                        {{ editableParticulars }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
                         <div class="w-1/2 text-left">
                             <div class="flex justify-around p-2">
-                                <div class="grid grid-cols-2">
+                                <div class="grid grid-cols-2 gap-y-2">
                                     <p class="text-md font-bold">
                                         Reference Number:
                                     </p>
-                                    <p class="text-md font-bold underline indent-2">
-                                        {{ data.reference_no }}
+                                    <p class="text-md underline indent-2">
+                                        {{ localData.reference_no }}
                                     </p>
                                     <p class="text-md font-bold">
                                         Transaction Date:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.transaction_date }}
+                                        {{ dateToString(new Date(localData.transaction_date)) }}
                                     </p>
                                     <p class="text-md font-bold">
                                         Project Code:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data?.project?.project_code }}
+                                        {{ localData?.project?.project_code }}
                                     </p>
                                     <p class="text-md font-bold">
                                         Equipment No.:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.equipment_no }}
+                                        {{ localData.metadata.equipment_no }}
                                     </p>
                                     <p class="text-md font-bold">
                                         Source PO:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.source_po }}
+                                        {{ localData.source_po }}
                                     </p>
                                 </div>
                             </div>
@@ -215,31 +259,31 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                 <tbody>
                                     <tr v-for="item in reactiveData.items" :key="item.id" class="bg-white border-b">
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item_code }}
+                                            {{ item.item.details.item_code }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item_profile }}
+                                            {{ item.item.details.item_description }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.specification }}
+                                            {{ item.item.metadata.specification }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.actual_brand }}
+                                            <input v-model="item.metadata.actual_brand_purchase" type="text" class="w-full px-2 py-1 text-center border rounded-md" :value="{{ item.metadata.actual_brand_purchase}}">
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.qty }}
+                                            {{ item.item.quantity }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.accepted_qty }}
+                                            {{ item.item.accepted_qty }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.uom }}
+                                            {{ item.item.unit }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(item.unit_price) }}
+                                            <input v-model="item.unit_price" type="number" class="w-full px-2 py-1 text-center border rounded-md">
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(item.unit_price) }}
+                                            {{ utils.formatCurrency(item.unit_price * item.accepted_qty) }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             <template v-if="item.status === 'Rejected'">
