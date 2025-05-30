@@ -10,12 +10,6 @@ const sync = async () => {
         dataSyncStore.url = "/api/setup/sync/all"
         dataSyncStore.api = "inventory"
         await dataSyncStore.sync()
-        if (dataSyncStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: dataSyncStore.errorMessage
-            })
-        }
         if (dataSyncStore.successMessage !== "") {
             snackbar.add({
                 type: "success",
@@ -25,7 +19,7 @@ const sync = async () => {
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: "something went wrong."
+            text: dataSyncStore.errorMessage
         })
     } finally {
         dataSyncStore.reset()

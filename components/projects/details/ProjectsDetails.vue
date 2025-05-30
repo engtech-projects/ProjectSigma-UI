@@ -49,9 +49,6 @@
                 <span>
                     A.1.1(3)
                 </span>
-                <!-- <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-8" @click="showCategoryModal = true">
-                    Add Category
-                </button> -->
             </div>
         </div>
 

@@ -4,12 +4,12 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 const projectStore = useProjectStore()
 
 const { proposalList } = storeToRefs(projectStore)
-await projectStore.getProposalProjects()
+
 const requestData = ref(null)
 const showInformationModal = ref(false)
-const showInformation = (data) => {
-    requestData.value = data
-    showInformationModal.value = true
+await projectStore.getProposalProjects()
+const draftDetails = (data) => {
+    navigateTo(`/project-monitoring/my-proposals?id=${data.id}`)
 }
 const changePaginate = (newParams) => {
     proposalList.value.params.page = newParams.page ?? ""
@@ -43,7 +43,7 @@ const ddata = computed(() => {
                     :header-columns="headers"
                     :actions="actions"
                     :datas="ddata ?? []"
-                    @show-table="showInformation"
+                    @show-table="draftDetails"
                 />
                 <div class="flex justify-center mx-auto">
                     <CustomPagination :links="proposalList.pagination" @change-params="changePaginate" />

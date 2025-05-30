@@ -126,12 +126,6 @@
 
 <script lang="ts" setup>
 const showModal = ref(true)
-// const ducu = ref({
-//     contract_id: null,
-//     contract_name: null,
-//     contract_location: null,
-//     parts: []
-// })
 </script>
 
 <style scoped>

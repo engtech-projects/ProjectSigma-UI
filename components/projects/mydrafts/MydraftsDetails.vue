@@ -1,5 +1,6 @@
 <template>
     <div class="flex flex-col gap-6 p-2">
+        <AccountingLoadScreen :is-loading="isLoading" />
         <div class="flex items-center">
             <div class="flex-1 flex items-center gap-2 text-gray-500">
                 <div class="flex items-center border hover:bg-gray-500 hover:text-white gap-1 bg-gray-100 rounded-lg px-4 py-1">
@@ -148,6 +149,12 @@
                 </AccountingCommonTabsTabContainer>
             </template>
         </AccountingCommonTabsMainContainer>
+
+        <div class="flex justify-end pt-4pb-12">
+            <button v-if="edit" class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 select-none text-white rounded-lg text-sm w-48 h-9" @click="publishProposal">
+                Publish Proposal
+            </button>
+        </div>
     </div>
 </template>
 
@@ -165,7 +172,26 @@ defineProps({
         default: false
     },
 })
+const isLoading = ref(false)
+const snackbar = useSnackbar()
 projectStore.getProject(Number(projectId))
+const publishProposal = async () => {
+    try {
+        isLoading.value = true
+        await projectStore.publishProposal(Number(projectId))
+        snackbar.add({
+            type: "success",
+            text: projectStore.successMessage
+        })
+    } catch {
+        snackbar.add({
+            type: "error",
+            text: projectStore.errorMessage || "something went wrong."
+        })
+    } finally {
+        isLoading.value = false
+    }
+}
 </script>
 
 <style>

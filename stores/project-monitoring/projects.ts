@@ -1,6 +1,4 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 interface Employee {
     employee_id: number,
     name: String,
@@ -143,15 +141,10 @@ export const useProjectStore = defineStore("projects", {
     actions: {
         async getProjectsInformation (id: any) {
             this.isLoading.list = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useProjectsApi(
                 "/api/projects/" + id,
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -396,15 +389,10 @@ export const useProjectStore = defineStore("projects", {
         async createProject () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useProjectsApi(
                 "/api/projects",
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.information,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -412,6 +400,27 @@ export const useProjectStore = defineStore("projects", {
                             this.errorMessage = response._data.message
                         } else {
                             this.$reset()
+                            this.getDraftProjects()
+                            this.getProposalProjects()
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async publishProposal (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useProjectsApi(
+                "/api/project-revisions/change-to-proposal",
+                {
+                    method: "POST",
+                    body: { id },
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        if (!response.ok) {
+                            this.errorMessage = response._data.message
+                        } else {
                             this.getDraftProjects()
                             this.getProposalProjects()
                             this.successMessage = response._data.message
@@ -428,14 +437,10 @@ export const useProjectStore = defineStore("projects", {
         async editProject () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch<any>(
+            const { data, error } = await useProjectsApi<any>(
                 "/api/projects/" + this.information.id,
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.information,
                     watch: false,
                 }
@@ -455,14 +460,10 @@ export const useProjectStore = defineStore("projects", {
         async editRates (rate: any) {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch<any>(
+            const { data, error } = await useProjectsApi<any>(
                 "/api/projects/change-summary-rates",
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: rate,
                     watch: false,
                 }
@@ -478,14 +479,10 @@ export const useProjectStore = defineStore("projects", {
         },
 
         async deleteProject (id: number) {
-            const { data, error } = await useFetch<any>(
+            const { data, error } = await useProjectsApi<any>(
                 "/api/projects/" + id,
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message

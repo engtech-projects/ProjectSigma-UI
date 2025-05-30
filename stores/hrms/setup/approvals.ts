@@ -74,7 +74,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
             isLoading: false,
             list: [],
             params: {
-                module: "Projects"
+                module: "Project"
             },
             pagination: {},
             successMessage: "",
