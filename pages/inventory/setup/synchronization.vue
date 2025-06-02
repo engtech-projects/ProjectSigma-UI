@@ -7,15 +7,9 @@ const loading = ref(false)
 const sync = async () => {
     try {
         loading.value = true
-        dataSyncStore.url = "/api/sync/all"
+        dataSyncStore.url = "/api/setup/sync/all"
         dataSyncStore.api = "inventory"
         await dataSyncStore.sync()
-        if (dataSyncStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: dataSyncStore.errorMessage
-            })
-        }
         if (dataSyncStore.successMessage !== "") {
             snackbar.add({
                 type: "success",
@@ -25,7 +19,7 @@ const sync = async () => {
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: "something went wrong."
+            text: dataSyncStore.errorMessage
         })
     } finally {
         dataSyncStore.reset()
@@ -57,34 +51,27 @@ const sync = async () => {
                 </button>
             </div>
             <div class="flex flex-col gap-8">
-                <LayoutSyncGroup name="HRMS" url="/api/sync/hrms/all" api="inventory">
+                <LayoutSyncGroup name="HRMS" url="/api/setup/sync/hrms/all" api="inventory">
+                    <LayoutSyncItem
+                        name="Departments"
+                        url="/api/setup/sync/hrms/departments"
+                        api="inventory"
+                    />
                     <LayoutSyncItem
                         name="Employees"
-                        url="/api/sync/hrms/employees"
+                        url="/api/setup/sync/hrms/employees"
                         api="inventory"
                     />
                     <LayoutSyncItem
                         name="Users"
-                        url="/api/sync/hrms/users"
-                        api="inventory"
-                    />
-                    <LayoutSyncItem
-                        name="Departments"
-                        url="/api/sync/hrms/departments"
+                        url="/api/setup/sync/hrms/users"
                         api="inventory"
                     />
                 </LayoutSyncGroup>
-                <LayoutSyncGroup name="PROJECT" url="/api/project/all" api="inventory">
+                <LayoutSyncGroup name="PROJECT" url="/api/setup/sync/project/all" api="inventory">
                     <LayoutSyncItem
                         name="Projects"
-                        url="/api/sync/project/projects"
-                        api="inventory"
-                    />
-                </LayoutSyncGroup>
-                <LayoutSyncGroup name="INVENTORY" url="/api/setup/sync-supplier" api="inventory">
-                    <LayoutSyncItem
-                        name="Suppliers"
-                        url="/api/setup/sync-supplier"
+                        url="/api/setup/sync/project/projects"
                         api="inventory"
                     />
                 </LayoutSyncGroup>
