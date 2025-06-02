@@ -45,6 +45,20 @@
                         {{ projectStore.information.location }}
                     </span>
                 </div>
+                <div class="flex items-end gap-3">
+                    <span class=" text-gray-500 uppercase w-[140px] text-right">
+                        Attachment:
+                    </span>
+                    <div class="flex gap-2">
+                        <input type="file" @change="handleAttachmentChange" />
+                        <button @click="uploadAttachment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Upload
+                        </button>
+                        <a v-if="projectStore.information.attachments.length > 0" :href="projectStore.information.attachments[0].url" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            View
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <h1 class="text-2xl text-black uppercase font-semibold">
@@ -153,12 +167,39 @@
 
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { AccessibilityTypes } from "@/types/accessibility"
+import { useCheckAccessibility } from "@/composables/useCheckAccessibility"
+import { ref, onMounted } from "vue"
+import { useRoute } from "vue-router"
+import { useApi } from "@/composables/useApi"
+
 const projectStore = useProjectStore()
 projectStore.viewState = true
 const edit = projectStore.viewState
 const route = useRoute()
 const projectId = route.query.id
-await projectStore.getProject(Number(projectId))
+
+const attachment = ref(null)
+
+const handleAttachmentChange = (event: Event) => {
+    const target = event.target as HTMLInputElement
+    if (target.files) {
+        attachment.value = target.files[0]
+    }
+}
+
+const uploadAttachment = async () => {
+    const formData = new FormData()
+    formData.append("file", attachment.value)
+    const { data } = await useApi(`projects/${projectId}/attachments`, {
+        method: "POST",
+        data: formData,
+    })
+    if (data) {
+        window.open(data.url, "_blank")
+    }
+}
+
 defineProps({
     awardee: {
         type: Boolean,
