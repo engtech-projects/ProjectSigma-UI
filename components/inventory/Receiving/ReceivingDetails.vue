@@ -22,7 +22,6 @@ const props = defineProps({
     },
 })
 
-// Create emits for updating parent data
 const emit = defineEmits(["update:data"])
 
 const isDisabled = ref(false)
@@ -30,11 +29,10 @@ const main = useReceivingStore()
 const snackbar = useSnackbar()
 const { receiving, remarks } = storeToRefs(main)
 const utils = useUtilities()
+const acceptedQty = ref(0)
 
-// Create a local reactive copy of the data
 const localData = ref({ ...props.data })
 
-// Watch for changes in props and update local data
 watch(() => props.data, (newData) => {
     localData.value = { ...newData }
 }, { deep: true })
@@ -42,7 +40,6 @@ watch(() => props.data, (newData) => {
 const reactiveData = computed(() => localData.value)
 const selectedTerm = ref(null)
 
-// Computed property for editable particulars
 const editableParticulars = computed({
     get: () => localData.value.metadata?.particulars || "",
     set: (value) => {
@@ -50,7 +47,6 @@ const editableParticulars = computed({
             localData.value.metadata = {}
         }
         localData.value.metadata.particulars = value
-        // Emit the updated data to parent
         emit("update:data", localData.value)
     }
 })
@@ -145,7 +141,6 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
 }
 watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
     if (newSupplierId !== oldSupplierId) {
-        // Emit the updated data to parent when supplier changes
         emit("update:data", localData.value)
     }
 })
