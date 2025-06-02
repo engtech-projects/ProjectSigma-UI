@@ -56,6 +56,13 @@
                         title="Archived"
                         target-id="archived"
                     />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_ON_HOLD_LIST,
+                        ])"
+                        title="On Hold"
+                        target-id="onHold"
+                    />
                 </template>
                 <template #tab-containers>
                     <AccountingCommonTabsTabContainer id="projectForm">
@@ -78,6 +85,9 @@
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="archived">
                         <ProjectsMarketingArchivedList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="onHold">
+                        <ProjectsMarketingOnHoldList />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
