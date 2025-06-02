@@ -51,6 +51,26 @@ const editableParticulars = computed({
     }
 })
 
+watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
+    if (newSupplierId !== oldSupplierId) {
+        if (!localData.value.metadata) {
+            localData.value.metadata = {}
+        }
+        localData.value.metadata.supplier_id = newSupplierId
+        emit("update:data", localData.value)
+    }
+})
+
+watch(selectedTerm, (newTerm, oldTerm) => {
+    if (newTerm !== oldTerm) {
+        if (!localData.value.metadata) {
+            localData.value.metadata = {}
+        }
+        localData.value.metadata.terms_of_payment = newTerm
+        emit("update:data", localData.value)
+    }
+})
+
 const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
     try {
         await main.acceptAllItem(requestId, { remarks })
@@ -192,17 +212,13 @@ watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
                                     <p class="text-md font-bold">
                                         Particulars:
                                     </p>
-                                    <input
+                                    <textarea
                                         v-model="editableParticulars"
-                                        class="text-md underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full"
+                                        class="text-md underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full "
                                         placeholder="Enter particulars..."
-                                        title="hover to show text"
-                                        @mouseover="showParticulars = true"
-                                        @mouseleave="showParticulars = false"
-                                    >
-                                    <span v-if="showParticulars" class="absolute p-2 bg-white border rounded-md shadow-md">
-                                        {{ editableParticulars }}
-                                    </span>
+                                        :title="localData.particulars"
+                                        rows="3"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -259,31 +275,31 @@ watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
                                 <tbody>
                                     <tr v-for="item in reactiveData.items" :key="item.id" class="bg-white border-b">
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item.details.item_code }}
+                                            {{ item.item_code }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item.details.item_description }}
+                                            {{ item.item_description }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item.details.specification }}
+                                            {{ item.specification }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             <input v-model="item.actual_brand_purchase" type="text" class="w-full px-2 py-1 text-center border rounded-md">
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item.quantity }}
+                                            {{ item.quantity }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item.accepted_qty }}
+                                            {{ item.accepted_qty }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item.uom }}
+                                            {{ item.uom }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             <input v-model="item.unit_price" type="number" class="w-full px-2 py-1 text-center border rounded-md">
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(item.unit_price * item.accepted_qty) }}
+                                            {{ utils.formatCurrency((item.unit_price || 0) * (item.accepted_qty || 0)) }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             <template v-if="item.status === 'Rejected'">
@@ -311,7 +327,7 @@ watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
                                                 v-model:accept-remarks="remarks"
                                                 v-model:reject-remarks="remarks"
                                                 v-model:accepted-qty="acceptedQty"
-                                                :max-quantity="item.qty"
+                                                :max-quantity="item.quantity"
                                                 :request-id="item.id"
                                                 :disabled="!!item.remarks"
                                                 :class="{
@@ -323,6 +339,7 @@ watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
                                             />
                                         </td>
                                     </tr>
+                                    <pre>{{ reactiveData }}</pre>
                                     <tr class="border">
                                         <td colspan="10">
                                             <div class="flex justify-end p-2 py-2">
