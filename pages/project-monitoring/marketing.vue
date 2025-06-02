@@ -86,6 +86,9 @@
 </template>
 <script setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { usePositionStore } from "@/stores/project-monitoring/positions"
+const positionStore = usePositionStore()
 const projectStore = useProjectStore()
 projectStore.$reset()
+positionStore.getAllPosition()
 </script>

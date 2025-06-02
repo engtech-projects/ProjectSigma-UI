@@ -23,6 +23,7 @@ interface Project {
     employee_id: null | Number,
     employees: Array<Employee>
     phases: Array<any>
+    approvals: Array<any>
 }
 
 export const useProjectStore = defineStore("projects", {
@@ -49,7 +50,8 @@ export const useProjectStore = defineStore("projects", {
             designation: null,
             employee_id: null,
             employees: [],
-            phases: []
+            phases: [],
+            approvals: []
         } as Project,
         list: [] as Project[],
         myProjectList: {
