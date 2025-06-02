@@ -143,6 +143,12 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
         })
     }
 }
+watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
+    if (newSupplierId !== oldSupplierId) {
+        // Emit the updated data to parent when supplier changes
+        emit("update:data", localData.value)
+    }
+})
 </script>
 
 <template>
@@ -165,10 +171,11 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                     <p class="text-md font-bold">
                                         Supplier:
                                     </p>
-                                    <InventoryCommonSupplierSelector v-model="localData.supplier_id" />
-                                    <!-- <p class="text-md underline indent-2">
-                                        {{ localData?.supplier?.company_name || '' }}
-                                    </p> -->
+                                    <InventoryCommonSupplierSelector
+                                        v-model="localData.supplier_id"
+                                        :show-all="true"
+                                        :default-value="localData.supplier?.company_name"
+                                    />
                                     <p class="text-md font-bold">
                                         Reference:
                                     </p>
@@ -181,10 +188,8 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                     <select
                                         v-model="selectedTerm"
                                         class="inline align-middle w-full p-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        :placeholder="localData?.terms_of_payment || 'Choose Terms of Payment'"
                                     >
-                                        <option value="" disabled selected>
-                                            Choose Terms of Payment
-                                        </option>
                                         <option v-for="(term, index) in TERMS" :key="index" :value="term">
                                             {{ term }}
                                         </option>
@@ -265,10 +270,10 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                             {{ item.item.details.item_description }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item.metadata.specification }}
+                                            {{ item.item.details.specification }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            <input v-model="item.metadata.actual_brand_purchase" type="text" class="w-full px-2 py-1 text-center border rounded-md" :value="{{ item.metadata.actual_brand_purchase}}">
+                                            <input v-model="item.actual_brand_purchase" type="text" class="w-full px-2 py-1 text-center border rounded-md">
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.item.quantity }}
@@ -277,7 +282,7 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                             {{ item.item.accepted_qty }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item.unit }}
+                                            {{ item.item.uom }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             <input v-model="item.unit_price" type="number" class="w-full px-2 py-1 text-center border rounded-md">

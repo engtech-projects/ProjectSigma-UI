@@ -32,7 +32,7 @@ export const TERMS = [
 ]
 
 export interface ReceivingDetails {
-    reference_number: string;
+    reference_no: string;
     supplier: string;
     reference_code: string;
     terms_of_payment: string;
