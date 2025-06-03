@@ -71,11 +71,3 @@ const showCategoryModal = ref(false)
 const goBack = () => {
     window.history.back()
 }
-</script>
-
-<style scoped>
-.tabContainer span.active {
-    border-bottom-color: rgb(28 100 242);
-    color: rgb(28 100 242);
-}
-</style>

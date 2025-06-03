@@ -54,10 +54,3 @@ const goBack = () => {
     }
 }
 </script>
-
-<style scoped>
-.tabContainer span.active {
-    border-bottom-color: rgb(28 100 242);
-    color: rgb(28 100 242);
-}
-</style>

@@ -166,10 +166,3 @@ const handleSubmit = async () => {
         <ProjectsModalsUpload :show-modal="showUploadModal" @hide-modal="showUploadModal = false" />
     </div>
 </template>
-
-<style scoped>
-.tabContainer span.active {
-    border-bottom-color: rgb(28 100 242);
-    color: rgb(28 100 242);
-}
-</style>
