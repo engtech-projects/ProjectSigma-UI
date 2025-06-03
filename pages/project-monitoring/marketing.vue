@@ -56,6 +56,13 @@
                         title="Archived"
                         target-id="archived"
                     />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_ON_HOLD_LIST,
+                        ])"
+                        title="On Hold"
+                        target-id="onHold"
+                    />
                 </template>
                 <template #tab-containers>
                     <AccountingCommonTabsTabContainer id="projectForm">
@@ -79,6 +86,9 @@
                     <AccountingCommonTabsTabContainer id="archived">
                         <ProjectsMarketingArchivedList />
                     </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="onHold">
+                        <ProjectsMarketingOnHoldList />
+                    </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
         </div>
@@ -86,6 +96,9 @@
 </template>
 <script setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { usePositionStore } from "@/stores/project-monitoring/positions"
+const positionStore = usePositionStore()
 const projectStore = useProjectStore()
 projectStore.$reset()
+positionStore.getAllPositions()
 </script>
