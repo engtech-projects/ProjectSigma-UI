@@ -13,13 +13,9 @@ const { receiving } = storeToRefs(mainStore)
 
 const headers = [
     { name: "Reference No.", id: "reference_no" },
-    { name: "Supplier", id: "supplier.company_name" },
-    { name: "Reference", id: "reference.reference_no" },
-    { name: "Terms of Payment", id: "metadata.terms_of_payment" },
-    { name: "Particulars", id: "metadata.particulars" },
+    { name: "Warehouse", id: "warehouse.name" },
+    { name: "Transaction Type", id: "transaction_type" },
     { name: "Transaction Date", id: "transaction_date" },
-    { name: "Project Code", id: "project.project_code" },
-    { name: "Equipment No.", id: "metadata.equipment_no" },
     { name: "Source PO", id: "source_po" },
 ]
 const actions = {
