@@ -307,5 +307,25 @@ export const useTravelorderStore = defineStore("travels", {
                 }
             )
         },
+        async voidRequest (id: any, remarks: any) {
+            await useHRMSApiO(
+                "/api/request-voids/void/TravelOrder/" + id,
+                {
+                    method: "POST",
+                    params: { reason_for_void: remarks },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            this.getTravelorders()
+                            this.getMyRequests()
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
     },
 })
