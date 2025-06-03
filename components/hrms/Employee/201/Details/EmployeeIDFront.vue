@@ -58,7 +58,7 @@ const employeePosition = computed(() => {
                 {{ employeePosition }}
             </p>
             <p class="text-md">
-                {{ information.current_employment?.employee_department?.department_name }}
+                {{ information.current_employment?.department?.department_name }}
             </p>
         </div>
         <div class="w-full absolute top-[380.08px] text-center">
