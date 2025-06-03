@@ -40,7 +40,8 @@ export const usePositionStore = defineStore("positionStore", {
                 return error
             }
         },
-        async getAllPosition () {
+        async getAllPositions () {
+            this.isLoading = true
             const { data, error } = await useProjectsApi(
                 "/api/get-all-position",
                 {

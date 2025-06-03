@@ -10,7 +10,16 @@ const designation = ref("employee")
 const snackbar = useSnackbar()
 const approvals = useApprovalStore()
 
-projectStore.information.approvals = await approvals.getApprovalByName(APPROVAL_PROJECT_CREATION)
+onMounted(async () => {
+    try {
+        projectStore.information.approvals = await approvals.getApprovalByName(APPROVAL_PROJECT_CREATION)
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error as string
+        })
+    }
+})
 const selectStakeholder = (stakeholder) => {
     projectStore.information.employee_id = stakeholder.stakeholdable_id
     designation.value = "employee"

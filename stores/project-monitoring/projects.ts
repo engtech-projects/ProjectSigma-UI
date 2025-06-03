@@ -3,6 +3,13 @@ interface Employee {
     employee_id: number,
     name: String,
 }
+interface Approval {
+    type: string;
+    status: string;
+    remarks: null | string;
+    user_id: number;
+    date_approved: null | string;
+}
 interface Project {
     id: null | number,
     parent_project_id: null | number,
@@ -23,7 +30,7 @@ interface Project {
     employee_id: null | Number,
     employees: Array<Employee>
     phases: Array<any>
-    approvals: Array<any>
+    approvals: Array<Approval>
 }
 
 export const useProjectStore = defineStore("projects", {
