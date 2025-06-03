@@ -29,7 +29,6 @@
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 import { useResourceStore } from "~/stores/project-monitoring/resource"
-import { useSnackbar } from "~/composables/useSnackbar"
 
 const snackbar = useSnackbar()
 const projectStore = useProjectStore()
