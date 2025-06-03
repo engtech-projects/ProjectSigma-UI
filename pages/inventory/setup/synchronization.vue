@@ -31,7 +31,7 @@ const sync = async () => {
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ACCOUNTING_SETUP_SYNCHRONIZATION,
+            AccessibilityTypes.INVENTORY_SETUP_SYNCHRONIZATION,
         ])"
     >
         <div class="p-8 min-h-screen bg-white shadow rounded-md relative">
