@@ -32,7 +32,7 @@ const ddata = computed(() => {
     <LayoutBoards class="w-full" :loading="proposalList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROPOSAL_LIST,
             ])"
         >
             <div class="w-1/3 hidden">

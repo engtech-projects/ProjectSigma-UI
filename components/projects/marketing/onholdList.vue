@@ -31,7 +31,7 @@ const draftDetais = (data) => {
     <LayoutBoards class="w-full" :loading="onHoldList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING_ON_HOLD_LIST,
             ])"
         >
             <div class="w-1/3 px-4">

@@ -9,7 +9,7 @@
     >
         <LayoutNavSingle
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_DASHBOARD,
             ])"
             linkarea="/project-monitoring"
             icon="ic:baseline-space-dashboard"
