@@ -87,7 +87,7 @@
                         <ProjectsMarketingArchivedList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="onHold">
-                        <ProjectsMarketingOnHoldList />
+                        <ProjectsMarketingOnholdList />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
