@@ -29,17 +29,22 @@ const main = useReceivingStore()
 const snackbar = useSnackbar()
 const { receiving, remarks } = storeToRefs(main)
 const utils = useUtilities()
-const acceptedQty = ref(0)
+const acceptedQtyMap = ref(new Map())
 
+// Create a deep copy of props.data to avoid mutating props directly
 const localData = ref({ ...props.data })
 
+// Watch for changes in props.data and update localData
 watch(() => props.data, (newData) => {
     localData.value = { ...newData }
 }, { deep: true })
 
 const reactiveData = computed(() => localData.value)
-const selectedTerm = ref(null)
 
+// COMPUTED PROPERTIES FOR EDITABLE FIELDS
+// These create two-way binding with proper reactivity and emit updates
+
+// 1. Editable Particulars
 const editableParticulars = computed({
     get: () => localData.value.metadata?.particulars || "",
     set: (value) => {
@@ -51,29 +56,127 @@ const editableParticulars = computed({
     }
 })
 
-watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
-    if (newSupplierId !== oldSupplierId) {
+// 2. Editable Terms of Payment
+const editableTerms = computed({
+    get: () => localData.value.metadata?.terms_of_payment || "",
+    set: (value) => {
         if (!localData.value.metadata) {
             localData.value.metadata = {}
         }
-        localData.value.metadata.supplier_id = newSupplierId
+        localData.value.metadata.terms_of_payment = value
         emit("update:data", localData.value)
     }
 })
 
-watch(selectedTerm, (newTerm, oldTerm) => {
-    if (newTerm !== oldTerm) {
+// 3. Editable Supplier ID
+const editableSupplier = computed({
+    get: () => localData.value.supplier_id || localData.value.metadata?.supplier_id || null,
+    set: (value) => {
+        localData.value.supplier_id = value
         if (!localData.value.metadata) {
             localData.value.metadata = {}
         }
-        localData.value.metadata.terms_of_payment = newTerm
+        localData.value.metadata.supplier_id = value
         emit("update:data", localData.value)
     }
 })
 
+// ITEM FIELD UPDATERS
+// These functions handle updating individual item fields and emit changes
+
+const updateItemField = (itemId: number, field: string, value: any) => {
+    const itemIndex = localData.value.items.findIndex(item => item.id === itemId)
+    if (itemIndex !== -1) {
+        // Initialize metadata if it doesn't exist
+        if (!localData.value.items[itemIndex].metadata) {
+            localData.value.items[itemIndex].metadata = {}
+        }
+
+        localData.value.items[itemIndex].metadata[field] = value
+
+        // If updating unit_price, recalculate ext_price
+        if (field === "unit_price") {
+            const item = localData.value.items[itemIndex]
+            item.ext_price = (value || 0) * (item.quantity || 0)
+        }
+
+        emit("update:data", localData.value)
+    }
+}
+
+const updateActualBrand = (itemId: number, value: string) => {
+    updateItemField(itemId, "actual_brand_purchase", value)
+}
+
+const updateUnitPrice = (itemId: number, value: number) => {
+    updateItemField(itemId, "unit_price", value)
+}
+
+// COMPUTED PROPERTY FOR DYNAMIC EXT_PRICE CALCULATION
+const getExtPrice = (item: any) => {
+    const unitPrice = item.metadata?.unit_price || item.unit_price || 0
+    // Use accepted quantity from user input if available, otherwise use accepted_quantity or quantity
+    const acceptedQty = acceptedQtyMap.value.get(item.id) || item.quantity || 0
+    return unitPrice * acceptedQty
+}
+
+// Helper functions to check if data exists in database and get values
+const getActualBrandValue = (item: any) => {
+    return item.metadata?.actual_brand_purchase || item.actual_brand_purchase || ""
+}
+
+const getUnitPriceValue = (item: any) => {
+    return item.metadata?.unit_price || item.unit_price || 0
+}
+
+const isActualBrandDisabled = (item: any) => {
+    // Check if the item has been processed/accepted/rejected (has remarks)
+    // This indicates the data has been saved to database
+    return !!(item.metadata?.remarks && (item.metadata?.actual_brand_purchase || item.actual_brand_purchase))
+}
+
+const isUnitPriceDisabled = (item: any) => {
+    // Check if the item has been processed/accepted/rejected (has remarks)
+    // This indicates the data has been saved to database
+    return !!(item.metadata?.remarks && (item.metadata?.unit_price || item.unit_price))
+}
+
+const updateAcceptedQty = (itemId, qty) => {
+    acceptedQtyMap.value.set(itemId, qty)
+
+    // Also update the item's accepted_quantity field for persistence
+    const itemIndex = localData.value.items.findIndex(item => item.id === itemId)
+    if (itemIndex !== -1) {
+        localData.value.items[itemIndex].accepted_quantity = qty
+        // Recalculate ext_price when accepted quantity changes
+        const item = localData.value.items[itemIndex]
+        const unitPrice = item.metadata?.unit_price || item.unit_price || 0
+        item.ext_price = unitPrice * qty
+        emit("update:data", localData.value)
+    }
+}
+
+// EXISTING FUNCTIONS (updated to use metadata structure)
 const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
+    // Find the item to get its data
+    const item = localData.value.items.find(item => item.id === requestId)
+    if (!item) {
+        snackbar.add({
+            type: "error",
+            text: "Item not found."
+        })
+        return
+    }
+
+    const payload = {
+        remarks,
+        actual_brand_purchase: item.metadata?.actual_brand_purchase || item.actual_brand_purchase || "",
+        quantity: acceptedQtyMap.value.get(requestId) || item.quantity || 0,
+        unit_price: item.metadata?.unit_price || item.unit_price || 0
+    }
+
     try {
-        await main.acceptAllItem(requestId, { remarks })
+        await main.acceptAllItem(requestId, payload)
         if (main.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -104,8 +207,29 @@ const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestI
         })
         return
     }
+
+    // Find the item to get its data
+    const item = localData.value.items.find(item => item.id === requestId)
+    if (!item) {
+        snackbar.add({
+            type: "error",
+            text: "Item not found."
+        })
+        return
+    }
+
+    // Update the accepted quantity in our map
+    updateAcceptedQty(requestId, acceptedQty)
+
+    const payload = {
+        quantity: acceptedQty,
+        remarks,
+        actual_brand_purchase: item.metadata?.actual_brand_purchase || item.actual_brand_purchase || "",
+        unit_price: item.metadata?.unit_price || item.unit_price || 0
+    }
+
     try {
-        await main.acceptQtyRemarks(requestId, { accepted_qty: acceptedQty, remarks })
+        await main.acceptQtyRemarks(requestId, payload)
         if (main.errorMessage !== "") {
             snackbar.add({
                 type: "error",
@@ -159,11 +283,6 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
         })
     }
 }
-watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
-    if (newSupplierId !== oldSupplierId) {
-        emit("update:data", localData.value)
-    }
-})
 </script>
 
 <template>
@@ -186,8 +305,9 @@ watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
                                     <p class="text-md font-bold">
                                         Supplier:
                                     </p>
+                                    <!-- EDITABLE SUPPLIER FIELD -->
                                     <InventoryCommonSupplierSelector
-                                        v-model="localData.supplier_id"
+                                        v-model="editableSupplier"
                                         :show-all="true"
                                         :default-value="localData.supplier?.company_name"
                                     />
@@ -200,11 +320,15 @@ watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
                                     <p class="text-md font-bold inline align-middle">
                                         Terms of Payment:
                                     </p>
+                                    <!-- EDITABLE TERMS OF PAYMENT FIELD -->
                                     <select
-                                        v-model="selectedTerm"
+                                        v-model="editableTerms"
                                         class="inline align-middle w-full p-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        :placeholder="localData?.terms_of_payment || 'Choose Terms of Payment'"
+                                        :placeholder="localData.metadata?.terms_of_payment || 'Choose Terms of Payment'"
                                     >
+                                        <option value="">
+                                            Choose Terms of Payment
+                                        </option>
                                         <option v-for="(term, index) in TERMS" :key="index" :value="term">
                                             {{ term }}
                                         </option>
@@ -212,12 +336,12 @@ watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
                                     <p class="text-md font-bold">
                                         Particulars:
                                     </p>
+                                    <!-- EDITABLE PARTICULARS FIELD -->
                                     <textarea
                                         v-model="editableParticulars"
-                                        class="text-md underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full "
+                                        class="text-md underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full border border-gray-300 rounded p-2"
                                         placeholder="Enter particulars..."
-                                        :title="localData.particulars"
-                                        rows="3"
+                                        rows="1"
                                     />
                                 </div>
                             </div>
@@ -284,25 +408,50 @@ watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
                                             {{ item.specification }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            <input v-model="item.actual_brand_purchase" type="text" class="w-full px-2 py-1 text-center border rounded-md">
+                                            <template
+                                                v-if="isActualBrandDisabled(item)"
+                                            >
+                                                {{ getActualBrandValue(item) }}
+                                            </template>
+                                            <input
+                                                v-else
+                                                :value="getActualBrandValue(item)"
+                                                type="text"
+                                                class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                placeholder="Enter brand..."
+                                                @input="updateActualBrand(item.id, $event.target.value)"
+                                            >
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.quantity }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.accepted_qty }}
+                                            {{ acceptedQtyMap.get(item.id) ||  item.quantity || 0 }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.uom }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            <input v-model="item.unit_price" type="number" class="w-full px-2 py-1 text-center border rounded-md">
+                                            <template v-if="isUnitPriceDisabled(item)">
+                                                {{ getUnitPriceValue(item) }}
+                                            </template>
+                                            <template v-else>
+                                                <input
+                                                    :value="getUnitPriceValue(item)"
+                                                    type="number"
+                                                    step="0.01"
+                                                    min="0"
+                                                    class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    placeholder="0.00"
+                                                    @input="updateUnitPrice(item.id, parseFloat($event.target.value) || 0)"
+                                                >
+                                            </template>
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency((item.unit_price || 0) * (item.accepted_qty || 0)) }}
+                                            {{ utils.formatCurrency(getExtPrice(item)) }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            <template v-if="item.status === 'Rejected'">
+                                            <template v-if="item.metadata.status === 'Rejected'">
                                                 <div class="flex justify-center relative group">
                                                     <Icon name="mdi:close-circle" class="h-8 w-8 text-red-700" />
                                                     <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
@@ -310,7 +459,7 @@ watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
                                                     </div>
                                                 </div>
                                             </template>
-                                            <template v-else-if="item.status === 'Accepted'">
+                                            <template v-else-if="item.metadata.status === 'Accepted'">
                                                 <div class="flex justify-center relative group">
                                                     <Icon name="mdi:check-circle" class="h-8 w-8 text-green-700" />
                                                     <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
@@ -320,26 +469,26 @@ watch(() => localData.value.supplier_id, (newSupplierId, oldSupplierId) => {
                                             </template>
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.remarks }}
+                                            {{ item.metadata.remarks }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             <InventoryCommonAcceptRejectButton
                                                 v-model:accept-remarks="remarks"
                                                 v-model:reject-remarks="remarks"
-                                                v-model:accepted-qty="acceptedQty"
                                                 :max-quantity="item.quantity"
                                                 :request-id="item.id"
-                                                :disabled="!!item.remarks"
+                                                :disabled="!!item.metadata.remarks"
                                                 :class="{
-                                                    'opacity-60 cursor-not-allowed pointer-events-none': !!item.remarks
+                                                    'opacity-60 cursor-not-allowed pointer-events-none': !!item.metadata.remarks
                                                 }"
                                                 @accept-all="acceptAll"
                                                 @accept="acceptWithDetails"
                                                 @reject="rejectRequest"
+                                                @update-accepted-qty="updateAcceptedQty"
                                             />
                                         </td>
                                     </tr>
-                                    <pre>{{ reactiveData }}</pre>
+                                    <!-- <pre>{{ reactiveData.items }}</pre> -->
                                     <tr class="border">
                                         <td colspan="10">
                                             <div class="flex justify-end p-2 py-2">

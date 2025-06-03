@@ -18,18 +18,14 @@ const props = defineProps({
     placeholder: { type: String, default: null }, // Custom placeholder
 })
 
-// Computed property to get the current supplier name
-const currentSupplierName = computed(() => {
+// Computed property for the default value
+const defaultValue = computed(() => {
     if (props.defaultValue) {
-        return props.defaultValue
+        const currentSupplier = supplierEnum.value.list.find(sup => sup.company_name === props.defaultValue)
+        return currentSupplier?.id || null
     }
 
-    if (model.value && supplierEnum.value.list) {
-        const currentSupplier = supplierEnum.value.list.find(sup => sup.id === model.value)
-        return currentSupplier?.company_name || null
-    }
-
-    return null
+    return model.value
 })
 
 // Computed property for the placeholder text
@@ -38,8 +34,9 @@ const placeholderText = computed(() => {
         return props.placeholder
     }
 
-    if (currentSupplierName.value) {
-        return `${currentSupplierName.value}`
+    if (defaultValue.value) {
+        const currentSupplier = supplierEnum.value.list.find(sup => sup.id === defaultValue.value)
+        return currentSupplier?.company_name || null
     }
 
     return "Choose Supplier"
@@ -48,7 +45,7 @@ const placeholderText = computed(() => {
 
 <template>
     <select
-        v-model="model"
+        v-model="defaultValue"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         required
     >

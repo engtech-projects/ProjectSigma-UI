@@ -17,12 +17,25 @@ const props = defineProps({
 const rejectRemarks = ref("")
 const acceptRemarks = ref("")
 const acceptedQty = ref(1)
-const emit = defineEmits(["acceptAll", "accept", "reject"])
+const emit = defineEmits(["acceptAll", "accept", "reject", "update-accepted-qty"])
 
 const acceptPopoverId = computed(() => `popover-accept-${props.requestId}`)
 const rejectPopoverId = computed(() => `popover-reject-${props.requestId}`)
 
 const isDisabled = ref(props.disabled)
+
+watch(acceptedQty, (newQty) => {
+    if (newQty > props.maxQuantity) {
+        acceptedQty.value = props.maxQuantity
+    }
+    emit("update-accepted-qty", props.requestId, newQty)
+})
+
+onMounted(() => {
+    acceptedQty.value = props.maxQuantity
+    emit("update-accepted-qty", props.requestId, props.maxQuantity)
+})
+
 const acceptAll = () => {
     emit("acceptAll", { requestId: props.requestId })
     isDisabled.value = true
@@ -44,7 +57,11 @@ const rejectRequest = () => {
 const clearRemarks = () => {
     rejectRemarks.value = ""
     acceptRemarks.value = ""
-    acceptQuantity.value = 1
+    acceptedQty.value = props.maxQuantity
+}
+
+const setMaxQuantity = () => {
+    acceptedQty.value = props.maxQuantity
 }
 </script>
 
@@ -75,7 +92,7 @@ const clearRemarks = () => {
                             <label for="accept-quantity">Quantity</label>
                             <div class="flex gap-2">
                                 <input v-model.number="acceptedQty" type="number" min="1" :max="maxQuantity" class="w-full p-1 text-black">
-                                <button class="bg-green-600 p-1 hover:bg-green-900 text-white rounded-sm" @click="acceptedQty = maxQuantity">
+                                <button class="bg-green-600 p-1 hover:bg-green-900 text-white rounded-sm" @click="setMaxQuantity">
                                     Max
                                 </button>
                             </div>
