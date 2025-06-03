@@ -15,8 +15,9 @@ const employeeDept = computed(() => {
     const dept = employee.information.current_employment?.position?.name ?? ""
     if (dept.includes(",")) {
         return dept.split(",")[1]
+    } else {
+        return ""
     }
-    return dept
 })
 </script>
 <template>
