@@ -30,21 +30,12 @@ const snackbar = useSnackbar()
 const { receiving, remarks } = storeToRefs(main)
 const utils = useUtilities()
 const acceptedQtyMap = ref(new Map())
-
-// Create a deep copy of props.data to avoid mutating props directly
 const localData = ref({ ...props.data })
-
-// Watch for changes in props.data and update localData
 watch(() => props.data, (newData) => {
     localData.value = { ...newData }
 }, { deep: true })
 
 const reactiveData = computed(() => localData.value)
-
-// COMPUTED PROPERTIES FOR EDITABLE FIELDS
-// These create two-way binding with proper reactivity and emit updates
-
-// 1. Editable Particulars
 const editableParticulars = computed({
     get: () => localData.value.metadata?.particulars || "",
     set: (value) => {
@@ -55,8 +46,6 @@ const editableParticulars = computed({
         emit("update:data", localData.value)
     }
 })
-
-// 2. Editable Terms of Payment
 const editableTerms = computed({
     get: () => localData.value.metadata?.terms_of_payment || "",
     set: (value) => {
@@ -67,8 +56,6 @@ const editableTerms = computed({
         emit("update:data", localData.value)
     }
 })
-
-// 3. Editable Supplier ID
 const editableSupplier = computed({
     get: () => localData.value.supplier_id || localData.value.metadata?.supplier_id || null,
     set: (value) => {
@@ -80,21 +67,13 @@ const editableSupplier = computed({
         emit("update:data", localData.value)
     }
 })
-
-// ITEM FIELD UPDATERS
-// These functions handle updating individual item fields and emit changes
-
 const updateItemField = (itemId: number, field: string, value: any) => {
     const itemIndex = localData.value.items.findIndex(item => item.id === itemId)
     if (itemIndex !== -1) {
-        // Initialize metadata if it doesn't exist
         if (!localData.value.items[itemIndex].metadata) {
             localData.value.items[itemIndex].metadata = {}
         }
-
         localData.value.items[itemIndex].metadata[field] = value
-
-        // If updating unit_price, recalculate ext_price
         if (field === "unit_price") {
             const item = localData.value.items[itemIndex]
             item.ext_price = (value || 0) * (item.quantity || 0)
@@ -103,62 +82,42 @@ const updateItemField = (itemId: number, field: string, value: any) => {
         emit("update:data", localData.value)
     }
 }
-
 const updateActualBrand = (itemId: number, value: string) => {
     updateItemField(itemId, "actual_brand_purchase", value)
 }
-
 const updateUnitPrice = (itemId: number, value: number) => {
     updateItemField(itemId, "unit_price", value)
 }
-
-// COMPUTED PROPERTY FOR DYNAMIC EXT_PRICE CALCULATION
 const getExtPrice = (item: any) => {
     const unitPrice = item.metadata?.unit_price || item.unit_price || 0
-    // Use accepted quantity from user input if available, otherwise use accepted_quantity or quantity
     const acceptedQty = acceptedQtyMap.value.get(item.id) || item.quantity || 0
     return unitPrice * acceptedQty
 }
-
-// Helper functions to check if data exists in database and get values
 const getActualBrandValue = (item: any) => {
     return item.metadata?.actual_brand_purchase || item.actual_brand_purchase || ""
 }
-
 const getUnitPriceValue = (item: any) => {
     return item.metadata?.unit_price || item.unit_price || 0
 }
-
 const isActualBrandDisabled = (item: any) => {
-    // Check if the item has been processed/accepted/rejected (has remarks)
-    // This indicates the data has been saved to database
     return !!(item.metadata?.remarks && (item.metadata?.actual_brand_purchase || item.actual_brand_purchase))
 }
-
 const isUnitPriceDisabled = (item: any) => {
-    // Check if the item has been processed/accepted/rejected (has remarks)
-    // This indicates the data has been saved to database
     return !!(item.metadata?.remarks && (item.metadata?.unit_price || item.unit_price))
 }
 
 const updateAcceptedQty = (itemId, qty) => {
     acceptedQtyMap.value.set(itemId, qty)
-
-    // Also update the item's accepted_quantity field for persistence
     const itemIndex = localData.value.items.findIndex(item => item.id === itemId)
     if (itemIndex !== -1) {
         localData.value.items[itemIndex].accepted_quantity = qty
-        // Recalculate ext_price when accepted quantity changes
         const item = localData.value.items[itemIndex]
         const unitPrice = item.metadata?.unit_price || item.unit_price || 0
         item.ext_price = unitPrice * qty
         emit("update:data", localData.value)
     }
 }
-
-// EXISTING FUNCTIONS (updated to use metadata structure)
 const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
-    // Find the item to get its data
     const item = localData.value.items.find(item => item.id === requestId)
     if (!item) {
         snackbar.add({
@@ -167,14 +126,12 @@ const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: s
         })
         return
     }
-
     const payload = {
         remarks,
         actual_brand_purchase: item.metadata?.actual_brand_purchase || item.actual_brand_purchase || "",
         quantity: acceptedQtyMap.value.get(requestId) || item.quantity || 0,
         unit_price: item.metadata?.unit_price || item.unit_price || 0
     }
-
     try {
         await main.acceptAllItem(requestId, payload)
         if (main.errorMessage !== "") {
@@ -207,8 +164,6 @@ const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestI
         })
         return
     }
-
-    // Find the item to get its data
     const item = localData.value.items.find(item => item.id === requestId)
     if (!item) {
         snackbar.add({
@@ -217,17 +172,13 @@ const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestI
         })
         return
     }
-
-    // Update the accepted quantity in our map
     updateAcceptedQty(requestId, acceptedQty)
-
     const payload = {
         quantity: acceptedQty,
         remarks,
         actual_brand_purchase: item.metadata?.actual_brand_purchase || item.actual_brand_purchase || "",
         unit_price: item.metadata?.unit_price || item.unit_price || 0
     }
-
     try {
         await main.acceptQtyRemarks(requestId, payload)
         if (main.errorMessage !== "") {
@@ -305,7 +256,6 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                     <p class="text-md font-bold">
                                         Supplier:
                                     </p>
-                                    <!-- EDITABLE SUPPLIER FIELD -->
                                     <InventoryCommonSupplierSelector
                                         v-model="editableSupplier"
                                         :show-all="true"
@@ -320,7 +270,6 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                     <p class="text-md font-bold inline align-middle">
                                         Terms of Payment:
                                     </p>
-                                    <!-- EDITABLE TERMS OF PAYMENT FIELD -->
                                     <select
                                         v-model="editableTerms"
                                         class="inline align-middle w-full p-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -336,7 +285,6 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                     <p class="text-md font-bold">
                                         Particulars:
                                     </p>
-                                    <!-- EDITABLE PARTICULARS FIELD -->
                                     <textarea
                                         v-model="editableParticulars"
                                         class="text-md underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full border border-gray-300 rounded p-2"
@@ -488,7 +436,6 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                             />
                                         </td>
                                     </tr>
-                                    <!-- <pre>{{ reactiveData.items }}</pre> -->
                                     <tr class="border">
                                         <td colspan="10">
                                             <div class="flex justify-end p-2 py-2">
