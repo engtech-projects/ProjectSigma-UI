@@ -71,3 +71,4 @@ const showCategoryModal = ref(false)
 const goBack = () => {
     window.history.back()
 }
+</script>
