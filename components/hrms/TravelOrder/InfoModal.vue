@@ -131,7 +131,7 @@ const voidRequest = async (id) => {
                     v-model:remarks="voidRemarks"
                     main-button-title="Void"
                     main-button-color="bg-red-600"
-                    secondary-title="Are you sure you want to void this leave request?"
+                    secondary-title="Are you sure you want to void this Travel Order request?"
                     secondary-button-title="Submit Void Request"
                     secondary-button-color="bg-red-600"
                     remarks-title="Reason for Voiding"
