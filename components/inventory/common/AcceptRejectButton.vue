@@ -24,6 +24,11 @@ const rejectPopoverId = computed(() => `popover-reject-${props.requestId}`)
 
 const isDisabled = ref(props.disabled)
 
+// Watch for prop changes to update local disabled state
+watch(() => props.disabled, (newValue) => {
+    isDisabled.value = newValue
+})
+
 watch(acceptedQty, (newQty) => {
     if (newQty > props.maxQuantity) {
         acceptedQty.value = props.maxQuantity
@@ -36,22 +41,37 @@ onMounted(() => {
     emit("update-accepted-qty", props.requestId, props.maxQuantity)
 })
 
-const acceptAll = () => {
-    emit("acceptAll", { requestId: props.requestId })
+const acceptAll = async () => {
     isDisabled.value = true
-    clearRemarks()
+    try {
+        await emit("acceptAll", { requestId: props.requestId, remarks: acceptRemarks.value })
+        clearRemarks()
+    } catch (error) {
+        // Re-enable if there's an error
+        isDisabled.value = props.disabled
+    }
 }
 
-const acceptWithDetails = () => {
-    emit("accept", { requestId: props.requestId, acceptedQty: acceptedQty.value, remarks: acceptRemarks.value })
+const acceptWithDetails = async () => {
     isDisabled.value = true
-    clearRemarks()
+    try {
+        await emit("accept", { requestId: props.requestId, acceptedQty: acceptedQty.value, remarks: acceptRemarks.value })
+        clearRemarks()
+    } catch (error) {
+        // Re-enable if there's an error
+        isDisabled.value = props.disabled
+    }
 }
 
-const rejectRequest = () => {
-    emit("reject", { requestId: props.requestId, remarks: rejectRemarks.value })
+const rejectRequest = async () => {
     isDisabled.value = true
-    clearRemarks()
+    try {
+        await emit("reject", { requestId: props.requestId, remarks: rejectRemarks.value })
+        clearRemarks()
+    } catch (error) {
+        // Re-enable if there's an error
+        isDisabled.value = props.disabled
+    }
 }
 
 const clearRemarks = () => {
@@ -102,6 +122,7 @@ const setMaxQuantity = () => {
                         <div class="w-full py-2 flex gap-2 justify-end">
                             <button
                                 class="bg-green-600 p-2 hover:bg-green-900 text-white rounded-sm"
+                                :disabled="isDisabled"
                                 @click="acceptWithDetails"
                             >
                                 Accept
@@ -139,6 +160,7 @@ const setMaxQuantity = () => {
                     <div class="w-full py-2 flex gap-2 justify-end">
                         <button
                             class="bg-red-600 p-2 hover:bg-red-900 text-white rounded-sm"
+                            :disabled="isDisabled"
                             @click="rejectRequest"
                         >
                             Reject

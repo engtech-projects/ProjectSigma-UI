@@ -31,84 +31,125 @@ const { receiving, remarks } = storeToRefs(main)
 const utils = useUtilities()
 const acceptedQtyMap = ref(new Map())
 const localData = ref({ ...props.data })
+const isSaving = ref(false)
+const autoSaveTimeout = ref(null)
+
+const performAutoSave = async (field: string, value: any) => {
+    try {
+        isSaving.value = true
+        const payload = {
+            [field]: value
+        }
+        await main.autoSaveReceivingData(localData.value.id, payload)
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error.message || "Auto-save failed"
+        })
+    } finally {
+        isSaving.value = false
+    }
+}
+
+const autoSave = (field: string, value: any) => {
+    if (autoSaveTimeout.value) {
+        clearTimeout(autoSaveTimeout.value)
+    }
+    autoSaveTimeout.value = setTimeout(() => {
+        performAutoSave(field, value)
+    }, 800)
+}
+
 watch(() => props.data, (newData) => {
     localData.value = { ...newData }
 }, { deep: true })
 
 const reactiveData = computed(() => localData.value)
-const editableParticulars = computed({
-    get: () => localData.value.metadata?.particulars || "",
-    set: (value) => {
-        if (!localData.value.metadata) {
-            localData.value.metadata = {}
+
+const editableFields = {
+    particulars: {
+        get: () => localData.value.metadata?.particulars || "",
+        set: (value: any) => {
+            localData.value.metadata ||= {}
+            localData.value.metadata.particulars = value
+            emit("update:data", localData.value)
+            autoSave("particulars", value)
         }
-        localData.value.metadata.particulars = value
-        emit("update:data", localData.value)
-    }
-})
-const editableTerms = computed({
-    get: () => localData.value.metadata?.terms_of_payment || "",
-    set: (value) => {
-        if (!localData.value.metadata) {
-            localData.value.metadata = {}
+    },
+    terms_of_payment: {
+        get: () => localData.value.metadata?.terms_of_payment || "",
+        set: (value: any) => {
+            localData.value.metadata ||= {}
+            localData.value.metadata.terms_of_payment = value
+            emit("update:data", localData.value)
+            autoSave("terms_of_payment", value)
         }
-        localData.value.metadata.terms_of_payment = value
-        emit("update:data", localData.value)
-    }
-})
-const editableSupplier = computed({
-    get: () => localData.value.supplier_id || localData.value.metadata?.supplier_id || null,
-    set: (value) => {
-        localData.value.supplier_id = value
-        if (!localData.value.metadata) {
-            localData.value.metadata = {}
+    },
+    supplier_id: {
+        get: () => localData.value.supplier_id || localData.value.metadata?.supplier_id || null,
+        set: (value: any) => {
+            localData.value.supplier_id = value
+            localData.value.metadata ||= {}
+            localData.value.metadata.supplier_id = value
+            emit("update:data", localData.value)
+            autoSave("supplier_id", value)
         }
-        localData.value.metadata.supplier_id = value
-        emit("update:data", localData.value)
     }
-})
+}
+
+const editableParticulars = computed(editableFields.particulars)
+const editableTerms = computed(editableFields.terms_of_payment)
+const editableSupplier = computed(editableFields.supplier_id)
+
 const updateItemField = (itemId: number, field: string, value: any) => {
-    const itemIndex = localData.value.items.findIndex(item => item.id === itemId)
+    const itemIndex = localData.value.items.findIndex((item: { id: number }) => item.id === itemId)
     if (itemIndex !== -1) {
-        if (!localData.value.items[itemIndex].metadata) {
-            localData.value.items[itemIndex].metadata = {}
-        }
-        localData.value.items[itemIndex].metadata[field] = value
+        const item = localData.value.items[itemIndex]
+        if (!item.metadata) { item.metadata = {} }
+
+        item.metadata[field] = value
+
         if (field === "unit_price") {
-            const item = localData.value.items[itemIndex]
             item.ext_price = (value || 0) * (item.quantity || 0)
         }
 
         emit("update:data", localData.value)
     }
 }
+
 const updateActualBrand = (itemId: number, value: string) => {
     updateItemField(itemId, "actual_brand_purchase", value)
 }
+
 const updateUnitPrice = (itemId: number, value: number) => {
     updateItemField(itemId, "unit_price", value)
 }
+
 const getExtPrice = (item: any) => {
     const unitPrice = item.metadata?.unit_price || item.unit_price || 0
     const acceptedQty = acceptedQtyMap.value.get(item.id) || item.quantity || 0
     return unitPrice * acceptedQty
 }
+
 const getActualBrandValue = (item: any) => {
     return item.metadata?.actual_brand_purchase || item.actual_brand_purchase || ""
 }
+
 const getUnitPriceValue = (item: any) => {
     return item.metadata?.unit_price || item.unit_price || 0
 }
+
 const isActualBrandDisabled = (item: any) => {
     return !!(item.metadata?.remarks && (item.metadata?.actual_brand_purchase || item.actual_brand_purchase))
 }
+
 const isUnitPriceDisabled = (item: any) => {
     return !!(item.metadata?.remarks && (item.metadata?.unit_price || item.unit_price))
 }
 
-const updateAcceptedQty = (itemId, qty) => {
+const updateAcceptedQty = (itemId: number, qty: number) => {
     acceptedQtyMap.value.set(itemId, qty)
-    const itemIndex = localData.value.items.findIndex(item => item.id === itemId)
+    const itemIndex = localData.value.items.findIndex((item: { id: any }) => item.id === itemId)
     if (itemIndex !== -1) {
         localData.value.items[itemIndex].accepted_quantity = qty
         const item = localData.value.items[itemIndex]
@@ -117,61 +158,54 @@ const updateAcceptedQty = (itemId, qty) => {
         emit("update:data", localData.value)
     }
 }
+
 const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
-    const item = localData.value.items.find(item => item.id === requestId)
+    const item = localData.value.items.find((item: { id: number }) => item.id === requestId)
     if (!item) {
-        snackbar.add({
-            type: "error",
-            text: "Item not found."
-        })
+        snackbar.add({ type: "error", text: "Item not found." })
         return
     }
+
     const payload = {
         remarks,
         actual_brand_purchase: item.metadata?.actual_brand_purchase || item.actual_brand_purchase || "",
         quantity: acceptedQtyMap.value.get(requestId) || item.quantity || 0,
         unit_price: item.metadata?.unit_price || item.unit_price || 0
     }
+
     try {
         await main.acceptAllItem(requestId, payload)
-        if (main.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: main.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: main.successMessage
-            })
+        const messageType = main.errorMessage !== "" ? "error" : "success"
+        const messageText = main.errorMessage || main.successMessage
+
+        snackbar.add({ type: messageType, text: messageText })
+
+        if (messageType === "success") {
             main.$reset()
             main.fetchReceivingDetails(props.data.id)
             isDisabled.value = true
         }
     } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
+        snackbar.add({ type: "error", text: error || "something went wrong." })
     }
 }
 
 const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestId: number, acceptedQty: number, remarks: string }) => {
-    if (remarks === "") {
-        snackbar.add({
+    if (remarks === "" || acceptedQty <= 0) {
+        return snackbar.add({
             type: "error",
             text: "Quantity & Remarks are required."
         })
-        return
     }
+
     const item = localData.value.items.find(item => item.id === requestId)
     if (!item) {
-        snackbar.add({
+        return snackbar.add({
             type: "error",
             text: "Item not found."
         })
-        return
     }
+
     updateAcceptedQty(requestId, acceptedQty)
     const payload = {
         quantity: acceptedQty,
@@ -179,61 +213,51 @@ const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestI
         actual_brand_purchase: item.metadata?.actual_brand_purchase || item.actual_brand_purchase || "",
         unit_price: item.metadata?.unit_price || item.unit_price || 0
     }
+
     try {
         await main.acceptQtyRemarks(requestId, payload)
-        if (main.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: main.errorMessage
-            })
+
+        if (main.errorMessage) {
+            snackbar.add({ type: "error", text: main.errorMessage })
         } else {
-            snackbar.add({
-                type: "success",
-                text: main.successMessage
-            })
+            snackbar.add({ type: "success", text: main.successMessage })
             main.$reset()
             await main.fetchReceivingDetails(props.data.id)
             isDisabled.value = true
         }
     } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
+        snackbar.add({ type: "error", text: error || "something went wrong." })
     }
 }
 
 const rejectRequest = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
-    if (remarks.trim() === "") {
-        snackbar.add({
-            type: "error",
-            text: "Remarks are required."
-        })
-        return
+    if (!remarks.trim()) {
+        return snackbar.add({ type: "error", text: "Remarks are required." })
     }
+
     try {
         await main.rejectItem(requestId, { remarks: remarks.trim() })
-        if (main.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: main.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: main.successMessage
-            })
+        const messageType = main.errorMessage ? "error" : "success"
+        const messageText = main.errorMessage || main.successMessage
+
+        snackbar.add({ type: messageType, text: messageText })
+
+        if (messageType === "success") {
             main.$reset()
             await main.fetchReceivingDetails(props.data.id)
             isDisabled.value = true
         }
     } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
+        snackbar.add({ type: "error", text: error || "something went wrong." })
     }
 }
+
+// Cleanup timeout on component unmount
+onUnmounted(() => {
+    if (autoSaveTimeout.value) {
+        clearTimeout(autoSaveTimeout.value)
+    }
+})
 </script>
 
 <template>
@@ -248,6 +272,20 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                         <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                             {{ title }}
                         </h3>
+                        <div v-if="isSaving" class="ml-2 flex items-center text-sm text-blue-600">
+                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle
+                                    class="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    stroke-width="4"
+                                />
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                            </svg>
+                            Saving...
+                        </div>
                     </div>
                     <div class="flex justify-between mb-4">
                         <div class="w-1/2">
@@ -367,6 +405,7 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                                 type="text"
                                                 class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                 placeholder="Enter brand..."
+                                                required
                                                 @input="updateActualBrand(item.id, $event.target.value)"
                                             >
                                         </td>
@@ -374,7 +413,7 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                             {{ item.quantity }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ acceptedQtyMap.get(item.id) ||  item.quantity || 0 }}
+                                            {{ acceptedQtyMap.get(item.id) || item.quantity || 0 }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.uom }}
