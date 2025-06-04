@@ -42,6 +42,7 @@ const sync = async () => {
     >
         <LayoutBoards
             title="Project Sigma Manual API Synchronization"
+            :loading="loading"
         >
             <div class="p-8 min-h-screen bg-white shadow rounded-md relative">
                 <div class="flex items-center justify-between mb-8">
