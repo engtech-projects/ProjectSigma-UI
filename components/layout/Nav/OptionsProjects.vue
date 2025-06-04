@@ -59,8 +59,8 @@
                     AccessibilityTypes.PROJECT_MONITORING_SETUP_SYNCHRONIZATION,
                 ])"
                 linkarea="/project-monitoring/setup/synchronization"
-                icon="iconoir:user-square"
-                single-nav-title="Synchronization"
+                icon="iconoir:refresh-double"
+                single-nav-title="API Synchronization"
             />
         </LayoutNavGroup>
     </LayoutNavModuleGroup>
