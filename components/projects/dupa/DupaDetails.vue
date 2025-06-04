@@ -50,7 +50,13 @@ const goBack = () => {
     if (router.options.history.state.back) {
         router.back()
     } else {
-        navigateTo("/")
+        navigateTo(`/project-monitoring/information?id=${id}`)
     }
 }
+defineProps({
+    id: {
+        type: Number,
+        required: true
+    }
+})
 </script>

@@ -14,7 +14,7 @@ await resourceStore.getResourceNames()
         ])"
     >
         <div class="flex flex-col gap-4 bg-white">
-            <ProjectsDetails />
+            <ProjectsDupaDetails />
         </div>
     </LayoutAcessContainer>
 </template>

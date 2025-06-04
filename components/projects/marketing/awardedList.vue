@@ -23,8 +23,8 @@ const actions = {
 const ddata = computed(() => {
     return awardedList.value.list ?? []
 })
-const draftDetais = (data) => {
-    navigateTo(`/project-monitoring/my-drafts?id=${data.id}`)
+const projectDetails = (data) => {
+    navigateTo(`/project-monitoring/information?id=${data.id}`)
 }
 </script>
 <template>
@@ -39,7 +39,7 @@ const draftDetais = (data) => {
                     :header-columns="headers"
                     :actions="actions"
                     :datas="ddata ?? []"
-                    @show-table="draftDetais"
+                    @show-table="projectDetails"
                 />
                 <div class="flex justify-center mx-auto">
                     <CustomPagination :links="awardedList.pagination" @change-params="changePaginate" />

@@ -9,7 +9,7 @@ const requestData = ref(null)
 const showInformationModal = ref(false)
 await projectStore.getProposalProjects()
 const draftDetails = (data) => {
-    navigateTo(`/project-monitoring/my-proposals?id=${data.id}`)
+    navigateTo(`/project-monitoring/my-proposal?id=${data.id}`)
 }
 const changePaginate = (newParams) => {
     proposalList.value.params.page = newParams.page ?? ""
