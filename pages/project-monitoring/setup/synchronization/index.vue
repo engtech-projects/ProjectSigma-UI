@@ -8,7 +8,7 @@ const sync = async () => {
     try {
         loading.value = true
         dataSyncStore.url = "/api/sync/all"
-        dataSyncStore.api = "accounting"
+        dataSyncStore.api = "project"
         await dataSyncStore.sync()
         if (dataSyncStore.errorMessage !== "") {
             snackbar.add({
@@ -37,7 +37,7 @@ const sync = async () => {
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ACCOUNTING_SETUP_SYNCHRONIZATION,
+            AccessibilityTypes.PROJECT_MONITORING_SETUP_SYNCHRONIZATION,
         ])"
     >
         <LayoutBoards
@@ -60,35 +60,11 @@ const sync = async () => {
                     </button>
                 </div>
                 <div class="flex flex-col gap-8">
-                    <LayoutSyncGroup name="HRMS" url="/api/sync/hrms/all" api="accounting">
+                    <LayoutSyncGroup name="INVENTORY" :is-module-sync="false">
                         <LayoutSyncItem
-                            name="Employees"
-                            url="/api/sync/hrms/employee"
-                            api="accounting"
-                        />
-                        <LayoutSyncItem
-                            name="Users"
-                            url="/api/sync/hrms/users"
-                            api="accounting"
-                        />
-                        <LayoutSyncItem
-                            name="Departments"
-                            url="/api/sync/hrms/department"
-                            api="accounting"
-                        />
-                    </LayoutSyncGroup>
-                    <LayoutSyncGroup name="PROJECT" url="/api/sync/project/all" api="accounting">
-                        <LayoutSyncItem
-                            name="Projects"
-                            url="/api/sync/project/project"
-                            api="accounting"
-                        />
-                    </LayoutSyncGroup>
-                    <LayoutSyncGroup name="INVENTORY" url="/api/sync/inventory/all" api="accounting">
-                        <LayoutSyncItem
-                            name="Suppliers"
-                            url="/api/sync/inventory/supplier"
-                            api="accounting"
+                            name="Unit of Measurements (UOM)"
+                            url="/api/sync/inventory/uom"
+                            api="project"
                         />
                     </LayoutSyncGroup>
                 </div>

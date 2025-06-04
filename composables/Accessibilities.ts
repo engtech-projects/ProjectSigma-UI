@@ -297,7 +297,8 @@ export enum AccessibilityTypes {
     PROJECT_MONITORING_MARKETING_AWARDED_LIST = "project monitoring:marketing_awarded list",
     PROJECT_MONITORING_MARKETING_DRAFT_LIST = "project monitoring:marketing_draft list",
     PROJECT_MONITORING_TSS = "project monitoring:tss",
-    PROJECT_MONITORING_SETUP = "project monitoring:setup"
+    PROJECT_MONITORING_SETUP = "project monitoring:setup",
+    PROJECT_MONITORING_SETUP_SYNCHRONIZATION = "project monitoring:setup_synchronization"
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
     allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS

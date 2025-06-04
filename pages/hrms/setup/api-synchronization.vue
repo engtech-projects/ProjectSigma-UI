@@ -44,14 +44,15 @@ const sync = async () => {
     >
         <LayoutBoards
             title="Project Sigma Manual API Synchronization"
+            :loading="loading"
         >
             <div class="p-8 min-h-screen bg-white shadow rounded-md relative">
                 <div class="flex items-center justify-between mb-8">
-                    <h1 class="text-2xl font-bold">
+                    <h3 class="text-2xl font-bold">
                         PROJECT SIGMA
-                    </h1>
+                    </h3>
                     <button
-                        class="border border-2-green-600 rounded-md px-3 py-2 flex items-center gap-2 bg-green-500 text-white hover:bg-green-600 active:bg-green-500"
+                        class="border-2 border-green-600 rounded-md px-3 py-2 flex items-center gap-2 bg-green-500 text-white hover:bg-green-600 active:bg-green-500"
                         @click="sync"
                     >
                         <Icon name="iconoir:cloud-sync" />

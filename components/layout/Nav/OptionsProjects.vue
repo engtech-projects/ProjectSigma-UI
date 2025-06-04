@@ -54,6 +54,14 @@
                 icon="iconoir:thumbs-up"
                 single-nav-title="Approvals"
             />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.PROJECT_MONITORING_SETUP_SYNCHRONIZATION,
+                ])"
+                linkarea="/project-monitoring/setup/synchronization"
+                icon="iconoir:refresh-double"
+                single-nav-title="API Synchronization"
+            />
         </LayoutNavGroup>
     </LayoutNavModuleGroup>
 </template>

@@ -163,8 +163,8 @@
                     AccessibilityTypes.ACCOUNTING_SETUP_SYNCHRONIZATION,
                 ])"
                 linkarea="/accounting/synchronization"
-                icon="iconoir:user-square"
-                single-nav-title="Synchronization"
+                icon="iconoir:refresh-double"
+                single-nav-title="API Synchronization"
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
