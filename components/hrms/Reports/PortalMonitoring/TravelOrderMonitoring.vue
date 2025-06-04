@@ -7,7 +7,8 @@ const headers = [
     { name: "Employee Name", id: "employee_name" },
     { name: "Designation", id: "designation" },
     { name: "Section", id: "section" },
-    { name: "Date of Travel Order", id: "date_of_travel_order" },
+    { name: "Date of Travel From", id: "date_of_travel_order_from" },
+    { name: "Date of Travel To", id: "date_of_travel_order_to" },
     { name: "Date Filed", id: "date_filled" },
     { name: "Prepared By", id: "prepared_by" },
     { name: "Request Status", id: "request_status" },
@@ -53,7 +54,10 @@ const headers = [
                                         {{ leaveRequest.section }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
-                                        {{ leaveRequest.date_of_travel_order }}
+                                        {{ leaveRequest.date_of_travel_order_from }}
+                                    </td>
+                                    <td class="border border-gray-500 h-8">
+                                        {{ leaveRequest.date_of_travel_order_to }}
                                     </td>
                                     <td class="border border-gray-500 h-8">
                                         {{ leaveRequest.date_filled }}

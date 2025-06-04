@@ -5,13 +5,7 @@ const projectStore = useProjectStore()
 
 const { draftList } = storeToRefs(projectStore)
 
-// const requestData = ref(null)
-// const showInformationModal = ref(false)
 await projectStore.getDraftProjects()
-// const showInformation = (data) => {
-//     requestData.value = data
-//     showInformationModal.value = true
-// }
 const changePaginate = (newParams) => {
     draftList.value.params.page = newParams.page ?? ""
 }

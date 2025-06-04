@@ -1,9 +1,14 @@
 import { defineStore } from "pinia"
-const { token } = useAuth()
-const config = useRuntimeConfig()
 interface Employee {
     employee_id: number,
     name: String,
+}
+interface Approval {
+    type: string;
+    status: string;
+    remarks: null | string;
+    user_id: number;
+    date_approved: null | string;
 }
 interface Project {
     id: null | number,
@@ -25,6 +30,7 @@ interface Project {
     employee_id: null | Number,
     employees: Array<Employee>
     phases: Array<any>
+    approvals: Array<Approval>
 }
 
 export const useProjectStore = defineStore("projects", {
@@ -51,14 +57,28 @@ export const useProjectStore = defineStore("projects", {
             designation: null,
             employee_id: null,
             employees: [],
-            phases: []
+            phases: [],
+            approvals: []
         } as Project,
         list: [] as Project[],
+        myProjectList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                status: ProjectStatus.MY_PROJECTS
+            },
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
         draftList: {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                status: ProjectStatus.DRAFT
+            },
             pagination: {},
             errorMessage: "",
             successMessage: "",
@@ -67,7 +87,53 @@ export const useProjectStore = defineStore("projects", {
             isLoading: false,
             isLoaded: false,
             list: [],
-            params: {},
+            params: {
+                status: ProjectStatus.PROPOSAL
+            },
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        biddingList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                status: ProjectStatus.BIDDING
+            },
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        onHoldList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                status: ProjectStatus.ON_HOLD
+            },
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        awardedList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                status: ProjectStatus.AWARDED
+            },
+            pagination: {},
+            errorMessage: "",
+            successMessage: "",
+        },
+        archivedList: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {
+                status: ProjectStatus.ARCHIVED
+            },
             pagination: {},
             errorMessage: "",
             successMessage: "",
@@ -84,15 +150,10 @@ export const useProjectStore = defineStore("projects", {
     actions: {
         async getProjectsInformation (id: any) {
             this.isLoading.list = true
-            const { data, error } = await useFetch(
+            const { data, error } = await useProjectsApi(
                 "/api/projects/" + id,
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "GET",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     params: this.getParams,
                     onResponse: ({ response }) => {
                         if (response.ok) {
@@ -110,7 +171,7 @@ export const useProjectStore = defineStore("projects", {
         async getDraftProjects () {
             this.draftList.isLoading = true
             this.draftList.params = {
-                status: "draft"
+                status: ProjectStatus.DRAFT
             }
             const { data, error } = await useProjectsApi(
                 "/api/projects",
@@ -125,9 +186,9 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.draftList.list = response._data.data
                             this.draftList.pagination = {
-                                first_page: response._data.links.first,
-                                pages: response._data.meta.links,
-                                last_page: response._data.links.last,
+                                first_page: response._data.first_page_url,
+                                pages: response._data.links,
+                                last_page: response._data.last_page_url,
                             }
                         }
                     },
@@ -141,9 +202,6 @@ export const useProjectStore = defineStore("projects", {
         },
         async getProposalProjects () {
             this.proposalList.isLoading = true
-            this.proposalList.params = {
-                status: "proposal"
-            }
             const { data, error } = await useProjectsApi(
                 "/api/projects",
                 {
@@ -157,9 +215,155 @@ export const useProjectStore = defineStore("projects", {
                         if (response.ok) {
                             this.proposalList.list = response._data.data
                             this.proposalList.pagination = {
-                                first_page: response._data.links.first,
-                                pages: response._data.meta.links,
-                                last_page: response._data.links.last,
+                                first_page: response._data.first_page_url,
+                                pages: response._data.links,
+                                last_page: response._data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getBiddingProjects () {
+            this.biddingList.isLoading = true
+            const { data, error } = await useProjectsApi(
+                "/api/projects",
+                {
+                    method: "GET",
+                    params: this.biddingList.params,
+                    onRequest: () => {
+                        this.biddingList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.biddingList.isLoading = false
+                        if (response.ok) {
+                            this.biddingList.list = response._data.data
+                            this.biddingList.pagination = {
+                                first_page: response._data.first_page_url,
+                                pages: response._data.links,
+                                last_page: response._data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getOnHoldProjects () {
+            this.onHoldList.isLoading = true
+            const { data, error } = await useProjectsApi(
+                "/api/projects",
+                {
+                    method: "GET",
+                    params: this.onHoldList.params,
+                    onRequest: () => {
+                        this.onHoldList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.onHoldList.isLoading = false
+                        if (response.ok) {
+                            this.onHoldList.list = response._data.data
+                            this.onHoldList.pagination = {
+                                first_page: response._data.first_page_url,
+                                pages: response._data.links,
+                                last_page: response._data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getAwardedProjects () {
+            this.awardedList.isLoading = true
+            const { data, error } = await useProjectsApi(
+                "/api/projects",
+                {
+                    method: "GET",
+                    params: this.awardedList.params,
+                    onRequest: () => {
+                        this.awardedList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.awardedList.isLoading = false
+                        if (response.ok) {
+                            this.awardedList.list = response._data.data
+                            this.awardedList.pagination = {
+                                first_page: response._data.first_page_url,
+                                pages: response._data.links,
+                                last_page: response._data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getArchivedProjects () {
+            this.archivedList.isLoading = true
+            const { data, error } = await useProjectsApi(
+                "/api/projects",
+                {
+                    method: "GET",
+                    params: this.archivedList.params,
+                    onRequest: () => {
+                        this.archivedList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.archivedList.isLoading = false
+                        if (response.ok) {
+                            this.archivedList.list = response._data.data
+                            this.archivedList.pagination = {
+                                first_page: response._data.first_page_url,
+                                pages: response._data.links,
+                                last_page: response._data.last_page_url,
+                            }
+                        }
+                    },
+                }
+            )
+            if (data) {
+                return data
+            } else if (error) {
+                return error
+            }
+        },
+        async getMyProjects () {
+            this.myProjectList.isLoading = true
+
+            const { data, error } = await useProjectsApi(
+                "/api/projects",
+                {
+                    method: "GET",
+                    params: this.myProjectList.params,
+                    onRequest: () => {
+                        this.myProjectList.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.myProjectList.isLoading = false
+                        if (response.ok) {
+                            this.myProjectList.list = response._data.data
+                            this.myProjectList.pagination = {
+                                first_page: response._data.first_page_url,
+                                pages: response._data.links,
+                                last_page: response._data.last_page_url,
                             }
                         }
                     },
@@ -194,15 +398,10 @@ export const useProjectStore = defineStore("projects", {
         async createProject () {
             this.successMessage = ""
             this.errorMessage = ""
-            await useFetch(
+            await useProjectsApi(
                 "/api/projects",
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + "",
-                        Accept: "application/json"
-                    },
                     body: this.information,
                     watch: false,
                     onResponse: ({ response }) => {
@@ -210,6 +409,27 @@ export const useProjectStore = defineStore("projects", {
                             this.errorMessage = response._data.message
                         } else {
                             this.$reset()
+                            this.getDraftProjects()
+                            this.getProposalProjects()
+                            this.successMessage = response._data.message
+                        }
+                    },
+                }
+            )
+        },
+        async publishProposal (id: number) {
+            this.successMessage = ""
+            this.errorMessage = ""
+            await useProjectsApi(
+                "/api/project-revisions/change-to-proposal",
+                {
+                    method: "POST",
+                    body: { id },
+                    watch: false,
+                    onResponse: ({ response }) => {
+                        if (!response.ok) {
+                            this.errorMessage = response._data.message
+                        } else {
                             this.getDraftProjects()
                             this.getProposalProjects()
                             this.successMessage = response._data.message
@@ -226,14 +446,10 @@ export const useProjectStore = defineStore("projects", {
         async editProject () {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch<any>(
+            const { data, error } = await useProjectsApi<any>(
                 "/api/projects/" + this.information.id,
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "PATCH",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: this.information,
                     watch: false,
                 }
@@ -253,14 +469,10 @@ export const useProjectStore = defineStore("projects", {
         async editRates (rate: any) {
             this.successMessage = ""
             this.errorMessage = ""
-            const { data, error } = await useFetch<any>(
+            const { data, error } = await useProjectsApi<any>(
                 "/api/projects/change-summary-rates",
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "POST",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     body: rate,
                     watch: false,
                 }
@@ -276,14 +488,10 @@ export const useProjectStore = defineStore("projects", {
         },
 
         async deleteProject (id: number) {
-            const { data, error } = await useFetch<any>(
+            const { data, error } = await useProjectsApi<any>(
                 "/api/projects/" + id,
                 {
-                    baseURL: config.public.PROJECTS_API_URL,
                     method: "DELETE",
-                    headers: {
-                        Authorization: token.value + ""
-                    },
                     watch: false,
                     onResponse: ({ response }) => {
                         this.successMessage = response._data.message

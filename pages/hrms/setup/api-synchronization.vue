@@ -10,8 +10,8 @@ const loading = ref(false)
 const sync = async () => {
     try {
         loading.value = true
-        dataSyncStore.url = "/api/sync/all"
-        dataSyncStore.api = "accounting"
+        dataSyncStore.url = "/api/setup/sync/all"
+        dataSyncStore.api = "hrms"
         await dataSyncStore.sync()
         if (dataSyncStore.errorMessage !== "") {
             snackbar.add({
@@ -61,10 +61,10 @@ const sync = async () => {
                     </button>
                 </div>
                 <div class="flex flex-col gap-8">
-                    <LayoutSyncGroup name="PROJECT MONITORING" url="/api/sync/project/all" api="hrms">
+                    <LayoutSyncGroup name="PROJECT MONITORING" url="/api/setup/sync/project/all" api="hrms">
                         <LayoutSyncItem
                             name="Projects"
-                            url="/api/sync/project/project"
+                            url="/api/setup/sync/project/project"
                             api="hrms"
                         />
                     </LayoutSyncGroup>

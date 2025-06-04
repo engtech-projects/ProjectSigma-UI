@@ -29,12 +29,17 @@ const undo = () => {
 </script>
 <template>
     <div>
-        <div class="w-full mt-5">
-            <div class="w-fit m-auto">
+        <div class="w-full">
+            <div class="w-full">
+                <VueSignaturePad
+                    :id="compId"
+                    ref="signature"
+                    :width="'389'"
+                    :height="'225'"
+                    :options="{ onBegin: () => { signature.resizeCanvas() } }"
+                    class="z-50 m-auto shadow-lg outline"
+                />
                 <div class="flex flex-row justify-between items-center">
-                    <div class="w-full p-2">
-                        <p>Signature</p>
-                    </div>
                     <div class="flex flex-row justify-between items-center">
                         <button class="p-2 bg-green-600 text-white hover:bg-green-400" @click="save()">
                             <Icon name="ion:save" color="white" class="rounded h-6 w-6 p-1" />
@@ -44,14 +49,6 @@ const undo = () => {
                         </button>
                     </div>
                 </div>
-                <VueSignaturePad
-                    :id="compId"
-                    ref="signature"
-                    :width="'500'"
-                    :height="'300'"
-                    :options="{ onBegin: () => { signature.resizeCanvas() } }"
-                    class="z-50 m-auto shadow-lg outline"
-                />
             </div>
         </div>
     </div>

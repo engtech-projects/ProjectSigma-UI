@@ -101,7 +101,6 @@ const setEdit = () => {
                     >
                         <div v-if="employee.information.id">
                             <HrmsEmployee201IdentificationCard />
-                            <LayoutFormPsSignaturePad v-if="editable" />
                         </div>
                         <div v-else>
                             <p class="text-lg text-gray-400">

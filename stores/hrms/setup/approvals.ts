@@ -19,6 +19,7 @@ export const APPROVAL_CASH_VOUCHER = "Cash Voucher Request"
 // INVENTORY APPROVALS
 export const APPROVAL_NEW_ITEM_PROFILE = "New Item Profile"
 // PROJECTS APPROVALS
+export const APPROVAL_PROJECT_CREATION = "Project Award Request"
 
 export interface Approver {
     type: string,
@@ -74,7 +75,7 @@ export const useApprovalStore = defineStore("hrmsapprovals", {
             isLoading: false,
             list: [],
             params: {
-                module: "Projects"
+                module: "Project"
             },
             pagination: {},
             successMessage: "",

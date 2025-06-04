@@ -166,7 +166,7 @@
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ADMIN_ONLY,
+                    AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP,
                 ])"
                 linkarea="/inventory/purchase-order"
                 icon="grommet-icons:overview"
