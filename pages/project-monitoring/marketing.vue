@@ -1,7 +1,7 @@
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+            AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
         ])"
     >
         <div class="flex flex-col gap-4">
@@ -9,35 +9,85 @@
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROJECT_FORM,
                         ])"
                         title="Project Contract Creation"
                         target-id="projectForm"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_MY_PROJECTS,
                         ])"
-                        title="My Drafts"
-                        target-id="myDrafts"
+                        title="My Projects"
+                        target-id="myProjects"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_DRAFT_LIST,
                         ])"
-                        title="My Proposals"
-                        target-id="myProposals"
+                        title="Drafts"
+                        target-id="drafts"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROPOSAL_LIST,
+                        ])"
+                        title="Proposals"
+                        target-id="proposals"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_BIDDING_LIST,
+                        ])"
+                        title="Bidding"
+                        target-id="bidding"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_AWARDED_LIST,
+                        ])"
+                        title="Awarded"
+                        target-id="awarded"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_ARCHIVED_LIST,
+                        ])"
+                        title="Archived"
+                        target-id="archived"
+                    />
+                    <AccountingCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_ON_HOLD_LIST,
+                        ])"
+                        title="On Hold"
+                        target-id="onHold"
                     />
                 </template>
                 <template #tab-containers>
                     <AccountingCommonTabsTabContainer id="projectForm">
                         <ProjectsMarketingProjectsForm />
                     </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="myDrafts">
-                        <ProjectsMarketingDraftList status="draft" />
+                    <AccountingCommonTabsTabContainer id="myProjects">
+                        <ProjectsMarketingProjectList />
                     </AccountingCommonTabsTabContainer>
-                    <AccountingCommonTabsTabContainer id="myProposals">
-                        <ProjectsMarketingProposalList status="proposal" />
+                    <AccountingCommonTabsTabContainer id="drafts">
+                        <ProjectsMarketingDraftList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="proposals">
+                        <ProjectsMarketingProposalList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="bidding">
+                        <ProjectsMarketingBiddingList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="awarded">
+                        <ProjectsMarketingAwardedList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="archived">
+                        <ProjectsMarketingArchivedList />
+                    </AccountingCommonTabsTabContainer>
+                    <AccountingCommonTabsTabContainer id="onHold">
+                        <ProjectsMarketingOnholdList />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
@@ -46,6 +96,9 @@
 </template>
 <script setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { usePositionStore } from "@/stores/project-monitoring/positions"
+const positionStore = usePositionStore()
 const projectStore = useProjectStore()
 projectStore.$reset()
+positionStore.getAllPositions()
 </script>

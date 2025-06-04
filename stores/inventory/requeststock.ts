@@ -9,7 +9,30 @@ export const REQ_STATUS = [
     PENDING,
     DENIED,
 ]
-
+export const CONSOLIDATED = "Consolidated Request for the month of"
+export const RECOMMENDED = "Recommended Request"
+export const SPECIAL = "Special Case of Request"
+export const NOTAPPLICABLE = "N/A"
+export const TYPEOFREQUEST = [
+    CONSOLIDATED,
+    RECOMMENDED,
+    SPECIAL,
+    NOTAPPLICABLE
+]
+export const MONTHS = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+]
+export const PURCHASEORDER = "Purchase Order"
+export const CANCELLED = "Cancelled"
+export const PURCHASEORDERMR = "Purchase Order for MR"
+export const PETTYCASH = "Petty Cash"
+export const REMARKS = [
+    PURCHASEORDER,
+    CANCELLED,
+    PURCHASEORDERMR,
+    PETTYCASH
+]
 export interface RsDetails {
     request_for: String,
     warehouse_id: String,

@@ -6,8 +6,13 @@ defineProps({
     title: {
         type: String,
         required: true,
+    },
+    onCreate: {
+        type: Function as PropType<(event: MouseEvent) => void>,
+        default: () => {},
     }
 })
+
 const headers = [
     { name: "Item No.", id: "item_no" },
     { name: "Item Description", id: "item_description" },
@@ -24,6 +29,15 @@ const headers = [
 <template>
     <div class="text-gray-500 p-2">
         <LayoutPrint>
+            <template #generateForm>
+                <button
+                    class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    @click="onCreate"
+                >
+                    <Icon name="mdi:plus" class="h-4 w-4 text-white" />
+                    Create NCPO
+                </button>
+            </template>
             <PrintTableFormat />
             <h5 v-if="title" class="text-2xl font-medium mb-8 text-gray-900 text-center p-2">
                 {{ title }}

@@ -10,11 +10,11 @@ await resourceStore.getResourceNames()
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_GROUP,
+            AccessibilityTypes.PROJECT_MONITORING_PROJECTS,
         ])"
     >
         <div class="flex flex-col gap-4 bg-white">
-            <ProjectsDetails />
+            <ProjectsDupaDetails />
         </div>
     </LayoutAcessContainer>
 </template>

@@ -5,13 +5,7 @@ const projectStore = useProjectStore()
 
 const { draftList } = storeToRefs(projectStore)
 
-// const requestData = ref(null)
-// const showInformationModal = ref(false)
 await projectStore.getDraftProjects()
-// const showInformation = (data) => {
-//     requestData.value = data
-//     showInformationModal.value = true
-// }
 const changePaginate = (newParams) => {
     draftList.value.params.page = newParams.page ?? ""
 }
@@ -28,15 +22,15 @@ const actions = {
 const ddata = computed(() => {
     return draftList.value.list ?? []
 })
-const draftDetais = (data) => {
-    navigateTo(`/project-monitoring/my-drafts?id=${data.id}`)
+const projectDetails = (data) => {
+    navigateTo(`/project-monitoring/information?id=${data.id}`)
 }
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="draftList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING_DRAFT_LIST,
             ])"
         >
             <div class="w-1/3 hidden">
@@ -47,7 +41,7 @@ const draftDetais = (data) => {
                     :header-columns="headers"
                     :actions="actions"
                     :datas="ddata ?? []"
-                    @show-table="draftDetais"
+                    @show-table="projectDetails"
                 />
                 <div class="flex justify-center mx-auto">
                     <CustomPagination :links="draftList.pagination" @change-params="changePaginate" />

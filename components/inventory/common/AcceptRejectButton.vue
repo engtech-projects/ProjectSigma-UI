@@ -17,34 +17,71 @@ const props = defineProps({
 const rejectRemarks = ref("")
 const acceptRemarks = ref("")
 const acceptedQty = ref(1)
-const emit = defineEmits(["acceptAll", "accept", "reject"])
+const emit = defineEmits(["acceptAll", "accept", "reject", "update-accepted-qty"])
 
 const acceptPopoverId = computed(() => `popover-accept-${props.requestId}`)
 const rejectPopoverId = computed(() => `popover-reject-${props.requestId}`)
 
 const isDisabled = ref(props.disabled)
-const acceptAll = () => {
-    emit("acceptAll", { requestId: props.requestId })
+
+// Watch for prop changes to update local disabled state
+watch(() => props.disabled, (newValue) => {
+    isDisabled.value = newValue
+})
+
+watch(acceptedQty, (newQty) => {
+    if (newQty > props.maxQuantity) {
+        acceptedQty.value = props.maxQuantity
+    }
+    emit("update-accepted-qty", props.requestId, newQty)
+})
+
+onMounted(() => {
+    acceptedQty.value = props.maxQuantity
+    emit("update-accepted-qty", props.requestId, props.maxQuantity)
+})
+
+const acceptAll = async () => {
     isDisabled.value = true
-    clearRemarks()
+    try {
+        await emit("acceptAll", { requestId: props.requestId, remarks: acceptRemarks.value })
+        clearRemarks()
+    } catch (error) {
+        // Re-enable if there's an error
+        isDisabled.value = props.disabled
+    }
 }
 
-const acceptWithDetails = () => {
-    emit("accept", { requestId: props.requestId, acceptedQty: acceptedQty.value, remarks: acceptRemarks.value })
+const acceptWithDetails = async () => {
     isDisabled.value = true
-    clearRemarks()
+    try {
+        await emit("accept", { requestId: props.requestId, acceptedQty: acceptedQty.value, remarks: acceptRemarks.value })
+        clearRemarks()
+    } catch (error) {
+        // Re-enable if there's an error
+        isDisabled.value = props.disabled
+    }
 }
 
-const rejectRequest = () => {
-    emit("reject", { requestId: props.requestId, remarks: rejectRemarks.value })
+const rejectRequest = async () => {
     isDisabled.value = true
-    clearRemarks()
+    try {
+        await emit("reject", { requestId: props.requestId, remarks: rejectRemarks.value })
+        clearRemarks()
+    } catch (error) {
+        // Re-enable if there's an error
+        isDisabled.value = props.disabled
+    }
 }
 
 const clearRemarks = () => {
     rejectRemarks.value = ""
     acceptRemarks.value = ""
-    acceptQuantity.value = 1
+    acceptedQty.value = props.maxQuantity
+}
+
+const setMaxQuantity = () => {
+    acceptedQty.value = props.maxQuantity
 }
 </script>
 
@@ -75,7 +112,7 @@ const clearRemarks = () => {
                             <label for="accept-quantity">Quantity</label>
                             <div class="flex gap-2">
                                 <input v-model.number="acceptedQty" type="number" min="1" :max="maxQuantity" class="w-full p-1 text-black">
-                                <button class="bg-green-600 p-1 hover:bg-green-900 text-white rounded-sm" @click="acceptedQty = maxQuantity">
+                                <button class="bg-green-600 p-1 hover:bg-green-900 text-white rounded-sm" @click="setMaxQuantity">
                                     Max
                                 </button>
                             </div>
@@ -85,6 +122,7 @@ const clearRemarks = () => {
                         <div class="w-full py-2 flex gap-2 justify-end">
                             <button
                                 class="bg-green-600 p-2 hover:bg-green-900 text-white rounded-sm"
+                                :disabled="isDisabled"
                                 @click="acceptWithDetails"
                             >
                                 Accept
@@ -122,6 +160,7 @@ const clearRemarks = () => {
                     <div class="w-full py-2 flex gap-2 justify-end">
                         <button
                             class="bg-red-600 p-2 hover:bg-red-900 text-white rounded-sm"
+                            :disabled="isDisabled"
                             @click="rejectRequest"
                         >
                             Reject

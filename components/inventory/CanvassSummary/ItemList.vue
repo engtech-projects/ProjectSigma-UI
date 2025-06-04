@@ -11,22 +11,10 @@ const props = defineProps({
 })
 
 const selectedItems = ref({})
-const selectedSuppliers = ref({})
 const activeSupplier = ref(null)
 
 function toggleItemSelection (index) {
     selectedItems.value[index] = selectedItems.value[index] !== true
-}
-
-function handleSupplierClick (rowIndex, supplierIndex) {
-    if (selectedItems.value[rowIndex]) {
-        selectedSuppliers.value[rowIndex] =
-            selectedSuppliers.value[rowIndex] === supplierIndex ? null : supplierIndex
-    }
-}
-
-function highlightCell (rowIndex, supplierIndex) {
-    return selectedSuppliers.value[rowIndex] === supplierIndex
 }
 
 function highlightItem (index) {
@@ -37,11 +25,16 @@ function toggleSupplierHeader (supplierIndex) {
     activeSupplier.value = activeSupplier.value === supplierIndex ? null : supplierIndex
 }
 
+function highlightCell (rowIndex, supplierIndex) {
+    return selectedItems.value[rowIndex] === true &&
+        activeSupplier.value === supplierIndex
+}
+
 function itemBelongsToActiveSupplier (itemIndex) {
     if (activeSupplier.value === null) { return false }
 
     return props.suppliers[activeSupplier.value]?.items?.[itemIndex] !== undefined &&
-           (props.suppliers[activeSupplier.value]?.items?.[itemIndex]?.unit_price !== undefined ||
+        (props.suppliers[activeSupplier.value]?.items?.[itemIndex]?.unit_price !== undefined ||
             props.suppliers[activeSupplier.value]?.items?.[itemIndex]?.total !== undefined ||
             props.suppliers[activeSupplier.value]?.items?.[itemIndex]?.remarks !== undefined)
 }
@@ -53,8 +46,8 @@ const supplierTotal = computed(() => {
     let total = 0
     // Sum up only the selected items that belong to this supplier
     for (let i = 0; i < props.items.length; i++) {
-        // Only include item if it's selected AND has a supplier match
-        if (selectedItems.value[i] && selectedSuppliers.value[i] === activeSupplier.value) {
+        // Only include item if it's selected AND active supplier is selected
+        if (selectedItems.value[i] && activeSupplier.value !== null) {
             const supplierItems = props.suppliers[activeSupplier.value]?.items
             if (supplierItems && supplierItems[i] && supplierItems[i].total) {
                 total += supplierItems[i].total
@@ -77,30 +70,29 @@ const formattedSupplierTotal = computed(() => {
 
 <template>
     <div class="flex flex-col gap-4">
-        <div class="flex gap-1">
-            <!-- Requested Items Table -->
-            <div class="w-1/2 border rounded overflow-hidden">
-                <table class="w-full table-auto text-sm text-gray-800">
+        <div class="flex border rounded overflow-hidden">
+            <div class="w-2/5 border-r">
+                <table class="w-full table-fixed text-sm text-gray-800">
                     <thead>
                         <tr>
-                            <th colspan="5" class="bg-gray-100 text-center text-md font-semibold p-8">
+                            <th colspan="5" class="border-b bg-gray-100 text-center text-md font-semibold p-8">
                                 REQUESTED ITEM(S)
                             </th>
                         </tr>
                         <tr class="bg-gray-50 text-center text-xs font-medium">
-                            <th class="border px-2 py-1">
+                            <th class="border-b border-r w-16 px-2 py-1">
                                 ITEM NO.
                             </th>
-                            <th class="border px-2 py-1">
+                            <th class="border-b border-r px-2 py-1">
                                 ITEM DESCRIPTION
                             </th>
-                            <th class="border px-2 py-1">
+                            <th class="border-b border-r px-2 py-1">
                                 SPECIFICATION
                             </th>
-                            <th class="border px-2 py-1">
+                            <th class="border-b border-r w-16 px-2 py-1">
                                 QTY
                             </th>
-                            <th class="border px-2 py-1">
+                            <th class="border-b w-16 px-2 py-1">
                                 UNIT
                             </th>
                         </tr>
@@ -116,19 +108,19 @@ const formattedSupplierTotal = computed(() => {
                             ]"
                             @click="toggleItemSelection(index)"
                         >
-                            <td class="border px-2 py-2">
+                            <td class="border-r px-2 py-2">
                                 {{ index + 1 }}
                             </td>
-                            <td class="border px-2 py-2">
+                            <td class="border-r px-2 py-2 text-left truncate" :title="item.itemDescription">
                                 {{ item.itemDescription }}
                             </td>
-                            <td class="border px-2 py-2">
+                            <td class="border-r px-2 py-2 text-left truncate" :title="item.specification">
                                 {{ item.specification }}
                             </td>
-                            <td class="border px-2 py-2">
+                            <td class="border-r px-2 py-2">
                                 {{ item.qty }}
                             </td>
-                            <td class="border px-2 py-2">
+                            <td class="px-2 py-2">
                                 {{ item.unit }}
                             </td>
                         </tr>
@@ -137,15 +129,15 @@ const formattedSupplierTotal = computed(() => {
             </div>
 
             <!-- Supplier Quotes Table -->
-            <div class="flex-1 border rounded overflow-x-auto gap-2">
-                <table class="w-full table-auto text-sm text-gray-800">
+            <div class="overflow-x-auto w-3/5">
+                <table class="max-w-fit table-fixed text-sm text-gray-800">
                     <thead>
                         <tr class="bg-gray-100">
                             <th
                                 v-for="(supplier, index) in suppliers"
                                 :key="'supplier-header-' + index"
                                 colspan="3"
-                                class="border px-4 py-2 text-center font-semibold cursor-pointer hover:bg-gray-200 transition-colors"
+                                class="border-b border-r px-4 py-2 text-center font-semibold cursor-pointer hover:bg-gray-200 transition-colors"
                                 :class="activeSupplier === index ? 'bg-green-100' : ''"
                                 @click="toggleSupplierHeader(index)"
                             >
@@ -167,13 +159,13 @@ const formattedSupplierTotal = computed(() => {
                         </tr>
                         <tr class="bg-gray-50 text-xs">
                             <template v-for="(supplier, index) in suppliers" :key="'price-header-' + index">
-                                <th class="border px-2 py-1 text-center">
+                                <th class="border-b border-r px-2 py-1 text-center w-24">
                                     UNIT PRICE
                                 </th>
-                                <th class="border px-2 py-1 text-center">
+                                <th class="border-b border-r px-2 py-1 text-center w-24">
                                     TOTAL
                                 </th>
-                                <th class="border px-2 py-1 text-center">
+                                <th class="border-b px-2 py-1 text-center w-24">
                                     REMARKS
                                 </th>
                             </template>
@@ -183,32 +175,30 @@ const formattedSupplierTotal = computed(() => {
                         <tr v-for="(item, rowIndex) in items" :key="'row-' + rowIndex">
                             <template v-for="(supplier, colIndex) in suppliers" :key="'cell-' + rowIndex + '-' + colIndex">
                                 <td
-                                    class="border px-2 py-2 text-center cursor-pointer"
+                                    class="border-r px-2 py-2 text-center w-24"
                                     :class="[
                                         highlightCell(rowIndex, colIndex) ? 'bg-yellow-200 font-semibold' : '',
                                         activeSupplier === colIndex && supplier.items?.[rowIndex] ? 'bg-green-100' : ''
                                     ]"
-                                    @click="handleSupplierClick(rowIndex, colIndex)"
                                 >
                                     {{ supplier.items?.[rowIndex]?.unit_price?.toLocaleString() || '-' }}
                                 </td>
                                 <td
-                                    class="border px-2 py-2 text-center cursor-pointer"
+                                    class="border-r px-2 py-2 text-center w-24"
                                     :class="[
                                         highlightCell(rowIndex, colIndex) ? 'bg-yellow-200 font-semibold' : '',
                                         activeSupplier === colIndex && supplier.items?.[rowIndex] ? 'bg-green-100' : ''
                                     ]"
-                                    @click="handleSupplierClick(rowIndex, colIndex)"
                                 >
                                     {{ supplier.items?.[rowIndex]?.total?.toLocaleString() || '-' }}
                                 </td>
                                 <td
-                                    class="border px-2 py-2 text-center cursor-pointer"
+                                    class="border-r px-2 py-2 text-center truncate overflow-hidden whitespace-nowrap w-24"
+                                    :title="supplier.items?.[rowIndex]?.remarks || '-'"
                                     :class="[
                                         highlightCell(rowIndex, colIndex) ? 'bg-yellow-200 font-semibold' : '',
                                         activeSupplier === colIndex && supplier.items?.[rowIndex] ? 'bg-green-100' : ''
                                     ]"
-                                    @click="handleSupplierClick(rowIndex, colIndex)"
                                 >
                                     {{ supplier.items?.[rowIndex]?.remarks || '-' }}
                                 </td>
@@ -233,3 +223,26 @@ const formattedSupplierTotal = computed(() => {
         </div>
     </div>
 </template>
+
+<!-- <style scoped>
+tbody tr {
+    height: 40px;
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+    height: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+</style> -->

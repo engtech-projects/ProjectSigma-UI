@@ -11,9 +11,12 @@ import {
     TRAVEL_ORDER_MONITORING,
     TRAVEL_ORDER_MONITORING_SUMMARY,
     MANPOWER_REQUEST_MONITORING,
+    MANPOWER_REQUEST_MONITORING_SUMMARY,
     PAN_TERMINATION_MONITORING,
     PAN_TRANSFER_MONITORING,
-    PAN_PROMOTION_MONITORING
+    PAN_PROMOTION_MONITORING,
+    ATTENDANCE_LOG_MONITORING,
+    ATTENDANCE_LOG_MONITORING_SUMMARY
 } from "@/stores/hrms/reports/generateReport"
 const generateReportstore = useGenerateReportStore()
 const { portalMonitoringReports } = storeToRefs(generateReportstore)
@@ -93,6 +96,12 @@ const clearList = () => {
                 Manpower Request Monitoring
             </option>
             <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_MANPOWERREQUESTMONITORINGSUMMARY])"
+                :value="MANPOWER_REQUEST_MONITORING_SUMMARY"
+            >
+                Manpower Request Monitoring Summary
+            </option>
+            <option
                 v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_PANTERMINATIONMONITORING])"
                 :value="PAN_TERMINATION_MONITORING"
             >
@@ -109,6 +118,18 @@ const clearList = () => {
                 :value="PAN_PROMOTION_MONITORING"
             >
                 Pan Promotion Monitoring
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_ATTENDANCELOGMONITORING])"
+                :value="ATTENDANCE_LOG_MONITORING"
+            >
+                Attendance Log Monitoring
+            </option>
+            <option
+                v-if="useCheckAccessibility([AccessibilityTypes.HRMS_REPORTS_PORTALMONITORING_ATTENDANCELOGMONITORINGSUMMARY])"
+                :value="ATTENDANCE_LOG_MONITORING_SUMMARY"
+            >
+                Attendance Log Monitoring Summary
             </option>
         </select>
     </div>

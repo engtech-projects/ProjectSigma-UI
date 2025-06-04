@@ -38,6 +38,9 @@ export enum AccessibilityTypes {
     HRMS_REPORTS_PORTALMONITORING_PANTERMINATIONMONITORING = "hrms:reports_portal monitoring_pan termination monitoring",
     HRMS_REPORTS_PORTALMONITORING_PANTRANSFERMONITORING = "hrms:reports_portal monitoring_pan transfer monitoring",
     HRMS_REPORTS_PORTALMONITORING_PANPROMOTIONMONITORING = "hrms:reports_portal monitoring_pan promotion monitoring",
+    HRMS_REPORTS_PORTALMONITORING_MANPOWERREQUESTMONITORINGSUMMARY = "hrms:reports_portal monitoring_manpower request monitoring summary",
+    HRMS_REPORTS_PORTALMONITORING_ATTENDANCELOGMONITORING = "hrms:reports_portal monitoring_attendance log monitoring",
+    HRMS_REPORTS_PORTALMONITORING_ATTENDANCELOGMONITORINGSUMMARY = "hrms:reports_portal monitoring_attendance log monitoring summary",
     // ATTENDANCE
     hrms_attendance_group = "hrms:attendance_",
     hrms_attendance_attendance_portal = "hrms:attendance_attendance portal",
@@ -195,21 +198,22 @@ export enum AccessibilityTypes {
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP = "inventory:warehouse_stock transfer_",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_REQUESTPROCESSING = "inventory:warehouse_stock transfer_request processing",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST = "inventory:warehouse_stock transfer_all requests",
+    INVENTORY_SETUP_SYNCHRONIZATION = "inventory:setup_synchronization",
 
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP = "inventory:procurement_canvass summary_",
-    INVENTORY_PROCUREMENT_CANVASSSUMMARY_REQUESTS = "inventory:procurement_canvass summary_requests",
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_ALLREQUEST = "inventory:procurement_canvass summary_all requests",
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_MYREQUESTS = "inventory:procurement_canvass summary_my approvals",
-
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP = "inventory:procurement_request price quotation_",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_REQUESTS = "inventory:procurement_request price quotation_requests",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_ALLQUOTATONS = "inventory:procurement_request price quotation_all quotations",
-    INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_MYQUOTATIONS = "inventory:procurement_request price quotation_my quotations",
     INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_GROUP = "inventory:procurement_notice of change purchase order_",
-    INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_FORMSANDMYREQUESTS = "inventory:procurement_notice of change purchase order_form and my requests",
     INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_ALLREQUEST = "inventory:procurement_notice of change purchase order_all requests",
-    INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_MYREQUESTS = "inventory:procurement_notice of change purchase order_my requests",
     INVENTORY_PROCUREMENT_NOTICEOFCHANGEPURCHASEORDER_MYAPPROVALS = "inventory:procurement_notice of change purchase order_my approvals",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP = "inventory:procurement_procurement request_",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_REQUESTLISTALL = "procurement_procurement request_request list all",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_REQUESTLISTONGOING = "procurement_procurement request_request list ongoing",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_SETCANVASSER = "procurement_procurement request_set canvasser",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PRICEQUOTATION = "procurement_procurement request_price quotations_create and view",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_CANVASSSUMMARY = "procurement_procurement request_canvass summary_create and view",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PURCHASEORDER_ALLLIST = "procurement_purchase order_all list",
+    INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PURCHASEORDER_CREATENCPO = "procurement_purchase order_create ncpo",
 
     // ACCOUNTING SETUP
     ACCOUNTING_GROUP = "accounting:",
@@ -284,9 +288,17 @@ export enum AccessibilityTypes {
     PROJECT_MONITORING_GROUP = "project monitoring:",
     PROJECT_MONITORING_DASHBOARD = "project monitoring:dashboard",
     PROJECT_MONITORING_PROJECTS = "project monitoring:projects",
-    PROJECT_MONITORING_MARKETING = "project monitoring:marketing",
+    PROJECT_MONITORING_MARKETING_GROUP = "project monitoring:marketing_",
+    PROJECT_MONITORING_MARKETING_MY_PROJECTS = "project monitoring:marketing_my projects",
+    PROJECT_MONITORING_MARKETING_BIDDING_LIST = "project monitoring:marketing_bidding list",
+    PROJECT_MONITORING_MARKETING_PROPOSAL_LIST = "project monitoring:marketing_proposal list",
+    PROJECT_MONITORING_MARKETING_ARCHIVED_LIST = "project monitoring:marketing_archived list",
+    PROJECT_MONITORING_MARKETING_ON_HOLD_LIST = "project monitoring:marketing_on hold list",
+    PROJECT_MONITORING_MARKETING_AWARDED_LIST = "project monitoring:marketing_awarded list",
+    PROJECT_MONITORING_MARKETING_DRAFT_LIST = "project monitoring:marketing_draft list",
     PROJECT_MONITORING_TSS = "project monitoring:tss",
-    PROJECT_MONITORING_SETUP = "project monitoring:setup"
+    PROJECT_MONITORING_SETUP = "project monitoring:setup",
+    PROJECT_MONITORING_SETUP_SYNCHRONIZATION = "project monitoring:setup_synchronization"
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
     allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS

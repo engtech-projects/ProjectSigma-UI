@@ -84,8 +84,8 @@
                     'AdminOnly',
                 ])"
                 linkarea="/inventory/setup/synchronization"
-                icon="iconoir:user-square"
-                single-nav-title="Synchronization"
+                icon="iconoir:refresh-double"
+                single-nav-title="API Synchronization"
             />
         </LayoutNavGroup>
         <LayoutNavGroup
@@ -134,7 +134,7 @@
             v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_REQUESTSTOCK_GROUP])"
             linkarea="/inventory/request-stocks"
             icon="material-symbols-light:shopping-cart-checkout-sharp"
-            single-nav-title="Request Stocks"
+            single-nav-title="Requisition Slip"
         />
         <LayoutNavGroup
             v-if="useCheckAccessibility([
@@ -158,14 +158,6 @@
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP,
-                ])"
-                linkarea="/inventory/procurement/request-price-quotation"
-                icon="grommet-icons:overview"
-                single-nav-title="Price Quotation"
-            />
-            <LayoutNavSingle
-                v-if="useCheckAccessibility([
                     AccessibilityTypes.INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP,
                 ])"
                 linkarea="/inventory/procurement/canvass-summary"
@@ -174,7 +166,7 @@
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.ADMIN_ONLY,
+                    AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP,
                 ])"
                 linkarea="/inventory/purchase-order"
                 icon="grommet-icons:overview"

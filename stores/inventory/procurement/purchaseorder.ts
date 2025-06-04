@@ -65,6 +65,13 @@ export const usePurchaseOrderStore = defineStore("purchaseOrderStore", {
             errorMessage: "",
             successMessage: "",
         },
+        allRequests: {
+            isLoading: false,
+            isLoaded: false,
+            list: [],
+            params: {},
+            pagination: {},
+        },
         errorMessage: "",
         successMessage: "",
         remarks: "",
@@ -82,6 +89,30 @@ export const usePurchaseOrderStore = defineStore("purchaseOrderStore", {
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
+        async getAllRequests () {
+            await useInventoryApi(
+                "/api/procurement/procurement/all-request",
+                {
+                    method: "GET",
+                    params: this.allRequests.params,
+                    onRequest: () => {
+                        this.allRequests.isLoading = true
+                    },
+                    onResponse: ({ response }) => {
+                        this.allRequests.isLoading = false
+                        if (response.ok) {
+                            this.allRequests.list = response._data.data.data
+                            this.allRequests.pagination = {
+                                first_page: response._data.data.links.first,
+                                pages: response._data.data.meta.links,
+                                last_page: response._data.data.links.last,
+                            }
+                            this.allRequests.isLoaded = true
                         }
                     },
                 }

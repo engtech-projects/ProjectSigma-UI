@@ -32,19 +32,19 @@
                 <tbody>
                     <tr>
                         <td class="text-center border border-gray-700">
-                            {{ taskStore.task.name }}
+                            {{ task.name }}
                         </td>
                         <td class="p-2 border border-gray-700">
-                            {{ taskStore.task.description }}
+                            {{ task.description }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            {{ taskStore.task.unit }}
+                            {{ task.unit }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            {{ taskStore.task.quantity }}
+                            {{ task.quantity }}
                         </td>
                         <td class="p-2 border border-gray-700 text-center">
-                            {{ taskStore.task.unit_price + " / " + taskStore.task.unit }}
+                            {{ task.unit_price + " / " + task.unit }}
                         </td>
                         <td class="border border-gray-700">
                             <div class="flex">
@@ -54,7 +54,7 @@
                                             In Words
                                         </h4>
                                         <span class="pl-4 flex-1">
-                                            {{ amountToWords(taskStore.task.amount) }}
+                                            {{ amountToWords(task.amount) }}
                                         </span>
                                     </div>
                                     <div class="flex flex-col p-2">
@@ -62,7 +62,7 @@
                                             In Figures
                                         </h4>
                                         <span class="pl-4">
-                                            {{ accountingCurrency(taskStore.task.amount) }}
+                                            {{ accountingCurrency(task.amount) }}
                                         </span>
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                         <td colspan="6" class="px-2 py-1">
                             <div class="flex justify-between">
                                 <span class="font-semibold uppercase">
-                                    {{ letterHeader[index] }}. {{ rnames.name }}
+                                    {{ letterHeader(index) }}. {{ rnames.name }}
                                 </span>
                                 <div class="flex gap-1 justify-end">
                                     <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="addResource(rnames.id)">
@@ -132,7 +132,7 @@
                                             In Words
                                         </h4>
                                         <span class="pl-4 flex-1">
-                                            {{ amountToWords(resource.unit_cost) }}
+                                            {{ amountToWords(totalDirectCost(rnames.id)) }}
                                         </span>
                                     </div>
                                     <div class="flex flex-col p-2">
@@ -140,7 +140,7 @@
                                             In Figures
                                         </h4>
                                         <span class="pl-4">
-                                            {{ accountingCurrency(resource.unit_cost) }}
+                                            {{ accountingCurrency(totalDirectCost(rnames.id)) }}
                                         </span>
                                     </div>
                                 </div>
@@ -176,7 +176,7 @@
                         <td class="pX-2 text-center" />
                         <td class="text-right px-2" />
                         <td class="text-right px-2">
-                            {{ accountingCurrency(taskStore.task.resources.resources_item_total) }}
+                            {{ accountingCurrency(task.resources.resources_item_total) }}
                         </td>
                     </tr>
                     <tr>
@@ -194,7 +194,7 @@
                             of D
                         </td>
                         <td class="text-right px-2">
-                            {{ accountingCurrency(taskStore.task.resources.ocm) }}
+                            {{ accountingCurrency(task.resources.ocm) }}
                         </td>
                     </tr>
                     <tr>
@@ -212,7 +212,7 @@
                             of D
                         </td>
                         <td class="text-right px-2">
-                            {{ accountingCurrency(taskStore.task.resources.contractors_profit) }}
+                            {{ accountingCurrency(task.resources.contractors_profit) }}
                         </td>
                     </tr>
                     <tr>
@@ -230,7 +230,7 @@
                             of (D + E + F)
                         </td>
                         <td class="text-right px-2">
-                            {{ accountingCurrency(taskStore.task.resources.vat) }}
+                            {{ accountingCurrency(task.resources.vat) }}
                         </td>
                     </tr>
                     <tr>
@@ -246,7 +246,7 @@
                             (D + E + F + G)
                         </td>
                         <td class="text-right px-2">
-                            {{ accountingCurrency(taskStore.task.resources.grand_total) }}
+                            {{ accountingCurrency(task.resources.grand_total) }}
                         </td>
                     </tr>
                     <tr>
@@ -262,7 +262,7 @@
                             sq.m
                         </td>
                         <td class="text-right px-2">
-                            {{ accountingCurrency(taskStore.task.resources.unit_cost_per) }}
+                            {{ accountingCurrency(task.resources.unit_cost_per) }}
                         </td>
                     </tr>
                 </tbody>
@@ -275,7 +275,7 @@
         </div>
         <ProjectsModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" />
         <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" />
-        <ProjectsModalsResource :show-modal="showResourceModal" :task-id="taskStore.task.id" @hide-modal="showResourceModal = false" />
+        <ProjectsModalsResource :show-modal="showResourceModal" :task-id="task.id" @hide-modal="showResourceModal = false" />
     </div>
 </template>
 
@@ -285,27 +285,36 @@ import { useResourceStore } from "~/stores/project-monitoring/resource"
 import { useTaskStore } from "~/stores/project-monitoring/task"
 
 const projectStore = useProjectStore()
-const edit = projectStore.viewState
 const resourceStore = useResourceStore()
+const taskStore = useTaskStore()
+
+const edit = projectStore.viewState
 const showPhaseModal = ref(false)
 const showTaskModal = ref(false)
 const showResourceModal = ref(false)
-const letterHeader = ref(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"])
-const taskStore = useTaskStore()
+const { task } = storeToRefs(taskStore)
+
+const letterHeader = (index: number) => {
+    const base = Math.floor(index / 26)
+    const remainder = index % 26
+    return String.fromCharCode(65 + remainder) + (base > 0 ? String.fromCharCode(65 + base - 1) : "")
+}
 const filterResources = (id: number) => {
-    return taskStore.task.resources.data.filter(resource => resource.resources.id === id)
+    return task.value.resources.data.filter(resource => resource.resources.id === id)
 }
 const totalDirectCost = (id: number) => {
-    return taskStore.task.resources.data.filter(resource => resource.resources.id === id).reduce((total: number, resource: any) => total + resource.unit_cost * resource.quantity, 0)
+    return task.value.resources.data.filter(resource => resource.resources.id === id).reduce((total: number, resource: any) => total + resource.unit_cost * resource.quantity, 0)
 }
 const addResource = (id) => {
     showResourceModal.value = true
     resourceStore.reset()
     resourceStore.resource.name_id = id
+    resourceStore.resource.task_id = task.id
 }
 const editResource = (resource: any) => {
     showResourceModal.value = true
     resourceStore.resource = resource
+    resourceStore.resource.name_id = resource.resources.id
 }
 const boardLoading = ref(false)
 const snackbar = useSnackbar()
@@ -332,7 +341,7 @@ const removeResource = async (id: number) => {
             text: resourceStore.errorMessage
         })
     } finally {
-        taskStore.getTask(taskStore.task.id)
+        taskStore.getTask(task.id)
         boardLoading.value = false
     }
 }
