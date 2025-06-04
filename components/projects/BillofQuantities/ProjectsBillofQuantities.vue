@@ -117,10 +117,10 @@
                                     </div>
                                 </div>
                                 <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink v-if="edit" :to="`/project-monitoring/project-details?id=${task.id}`" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="edit" :to="`/project-monitoring/dupa-details?id=${task.id}`" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
                                     </NuxtLink>
-                                    <NuxtLink v-if="!edit" to="/project-monitoring/project-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                    <NuxtLink v-if="!edit" to="/project-monitoring/dupa-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
                                         <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
                                     </NuxtLink>
                                     <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6" @click="removeTask(task)">

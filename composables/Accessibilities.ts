@@ -288,7 +288,7 @@ export enum AccessibilityTypes {
     PROJECT_MONITORING_GROUP = "project monitoring:",
     PROJECT_MONITORING_DASHBOARD = "project monitoring:dashboard",
     PROJECT_MONITORING_PROJECTS = "project monitoring:projects",
-    PROJECT_MONITORING_MARKETING = "project monitoring:marketing",
+    PROJECT_MONITORING_MARKETING_GROUP = "project monitoring:marketing_",
     PROJECT_MONITORING_MARKETING_MY_PROJECTS = "project monitoring:marketing_my projects",
     PROJECT_MONITORING_MARKETING_BIDDING_LIST = "project monitoring:marketing_bidding list",
     PROJECT_MONITORING_MARKETING_PROPOSAL_LIST = "project monitoring:marketing_proposal list",

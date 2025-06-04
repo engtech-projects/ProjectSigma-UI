@@ -9,7 +9,7 @@ const requestData = ref(null)
 const showInformationModal = ref(false)
 await projectStore.getProposalProjects()
 const draftDetails = (data) => {
-    navigateTo(`/project-monitoring/my-proposals?id=${data.id}`)
+    navigateTo(`/project-monitoring/my-proposal?id=${data.id}`)
 }
 const changePaginate = (newParams) => {
     proposalList.value.params.page = newParams.page ?? ""
@@ -32,7 +32,7 @@ const ddata = computed(() => {
     <LayoutBoards class="w-full" :loading="proposalList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROPOSAL_LIST,
             ])"
         >
             <div class="w-1/3 hidden">
