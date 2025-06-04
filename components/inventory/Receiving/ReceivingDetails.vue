@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useReceivingStore } from "@/stores/inventory/receiving"
+import { useReceivingStore, TERMS } from "@/stores/inventory/receiving"
 
 interface HeaderColumn {
     name: string,
@@ -17,107 +17,249 @@ const props = defineProps({
         required: true,
     },
     data: {
-        type: Array<any>,
+        type: Object,
         required: true,
     },
 })
+
+const emit = defineEmits(["update:data"])
 
 const isDisabled = ref(false)
 const main = useReceivingStore()
 const snackbar = useSnackbar()
 const { receiving, remarks } = storeToRefs(main)
 const utils = useUtilities()
+const acceptedQtyMap = ref(new Map())
+const localData = ref({ ...props.data })
+const isSaving = ref(false)
+const autoSaveTimeout = ref(null)
 
-const reactiveData = computed(() => props.data)
+const performAutoSave = async (field: string, value: any) => {
+    try {
+        isSaving.value = true
+        const payload = {
+            [field]: value
+        }
+        await main.autoSaveReceivingData(localData.value.id, payload)
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error.message || "Auto-save failed"
+        })
+    } finally {
+        isSaving.value = false
+    }
+}
+
+const autoSave = (field: string, value: any) => {
+    if (autoSaveTimeout.value) {
+        clearTimeout(autoSaveTimeout.value)
+    }
+    autoSaveTimeout.value = setTimeout(() => {
+        performAutoSave(field, value)
+    }, 800)
+}
+
+watch(() => props.data, (newData) => {
+    localData.value = { ...newData }
+}, { deep: true })
+
+const reactiveData = computed(() => localData.value)
+
+const editableFields = {
+    particulars: {
+        get: () => localData.value.metadata?.particulars || "",
+        set: (value: any) => {
+            localData.value.metadata ||= {}
+            localData.value.metadata.particulars = value
+            emit("update:data", localData.value)
+            autoSave("particulars", value)
+        }
+    },
+    terms_of_payment: {
+        get: () => localData.value.metadata?.terms_of_payment || "",
+        set: (value: any) => {
+            localData.value.metadata ||= {}
+            localData.value.metadata.terms_of_payment = value
+            emit("update:data", localData.value)
+            autoSave("terms_of_payment", value)
+        }
+    },
+    supplier_id: {
+        get: () => localData.value.supplier_id || localData.value.metadata?.supplier_id || null,
+        set: (value: any) => {
+            localData.value.supplier_id = value
+            localData.value.metadata ||= {}
+            localData.value.metadata.supplier_id = value
+            emit("update:data", localData.value)
+            autoSave("supplier_id", value)
+        }
+    }
+}
+
+const editableParticulars = computed(editableFields.particulars)
+const editableTerms = computed(editableFields.terms_of_payment)
+const editableSupplier = computed(editableFields.supplier_id)
+
+const updateItemField = (itemId: number, field: string, value: any) => {
+    const itemIndex = localData.value.items.findIndex((item: { id: number }) => item.id === itemId)
+    if (itemIndex !== -1) {
+        const item = localData.value.items[itemIndex]
+        if (!item.metadata) { item.metadata = {} }
+
+        item.metadata[field] = value
+
+        if (field === "unit_price") {
+            item.ext_price = (value || 0) * (item.quantity || 0)
+        }
+
+        emit("update:data", localData.value)
+    }
+}
+
+const updateActualBrand = (itemId: number, value: string) => {
+    updateItemField(itemId, "actual_brand_purchase", value)
+}
+
+const updateUnitPrice = (itemId: number, value: number) => {
+    updateItemField(itemId, "unit_price", value)
+}
+
+const getExtPrice = (item: any) => {
+    const unitPrice = item.metadata?.unit_price || item.unit_price || 0
+    const acceptedQty = acceptedQtyMap.value.get(item.id) || item.quantity || 0
+    return unitPrice * acceptedQty
+}
+
+const getActualBrandValue = (item: any) => {
+    return item.metadata?.actual_brand_purchase || item.actual_brand_purchase || ""
+}
+
+const getUnitPriceValue = (item: any) => {
+    return item.metadata?.unit_price || item.unit_price || 0
+}
+
+const isActualBrandDisabled = (item: any) => {
+    return !!(item.metadata?.remarks && (item.metadata?.actual_brand_purchase || item.actual_brand_purchase))
+}
+
+const isUnitPriceDisabled = (item: any) => {
+    return !!(item.metadata?.remarks && (item.metadata?.unit_price || item.unit_price))
+}
+
+const updateAcceptedQty = (itemId: number, qty: number) => {
+    acceptedQtyMap.value.set(itemId, qty)
+    const itemIndex = localData.value.items.findIndex((item: { id: any }) => item.id === itemId)
+    if (itemIndex !== -1) {
+        localData.value.items[itemIndex].accepted_quantity = qty
+        const item = localData.value.items[itemIndex]
+        const unitPrice = item.metadata?.unit_price || item.unit_price || 0
+        item.ext_price = unitPrice * qty
+        emit("update:data", localData.value)
+    }
+}
 
 const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
+    const item = localData.value.items.find((item: { id: number }) => item.id === requestId)
+    if (!item) {
+        snackbar.add({ type: "error", text: "Item not found." })
+        return
+    }
+
+    const payload = {
+        remarks,
+        actual_brand_purchase: item.metadata?.actual_brand_purchase || item.actual_brand_purchase || "",
+        quantity: acceptedQtyMap.value.get(requestId) || item.quantity || 0,
+        unit_price: item.metadata?.unit_price || item.unit_price || 0
+    }
+
     try {
-        await main.acceptAllItem(requestId, { remarks })
-        if (main.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: main.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: main.successMessage
-            })
+        await main.acceptAllItem(requestId, payload)
+        const messageType = main.errorMessage !== "" ? "error" : "success"
+        const messageText = main.errorMessage || main.successMessage
+
+        snackbar.add({ type: messageType, text: messageText })
+
+        if (messageType === "success") {
             main.$reset()
             main.fetchReceivingDetails(props.data.id)
             isDisabled.value = true
         }
     } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    }
-}
-const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestId: number, acceptedQty: number, remarks: string }) => {
-    if (remarks === "") {
-        snackbar.add({
-            type: "error",
-            text: "Quantity & Remarks are required."
-        })
-        return
-    }
-    try {
-        await main.acceptQtyRemarks(requestId, { accepted_qty: acceptedQty, remarks })
-        if (main.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: main.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: main.successMessage
-            })
-            main.$reset()
-            await main.fetchReceivingDetails(props.data.id)
-            isDisabled.value = true
-        }
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    }
-}
-const rejectRequest = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
-    if (remarks.trim() === "") {
-        snackbar.add({
-            type: "error",
-            text: "Remarks are required."
-        })
-        return
-    }
-    try {
-        await main.rejectItem(requestId, { remarks: remarks.trim() })
-        if (main.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: main.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: main.successMessage
-            })
-            main.$reset()
-            await main.fetchReceivingDetails(props.data.id)
-            isDisabled.value = true
-        }
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
+        snackbar.add({ type: "error", text: error || "something went wrong." })
     }
 }
 
+const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestId: number, acceptedQty: number, remarks: string }) => {
+    if (remarks === "" || acceptedQty <= 0) {
+        return snackbar.add({
+            type: "error",
+            text: "Quantity & Remarks are required."
+        })
+    }
+
+    const item = localData.value.items.find(item => item.id === requestId)
+    if (!item) {
+        return snackbar.add({
+            type: "error",
+            text: "Item not found."
+        })
+    }
+
+    updateAcceptedQty(requestId, acceptedQty)
+    const payload = {
+        quantity: acceptedQty,
+        remarks,
+        actual_brand_purchase: item.metadata?.actual_brand_purchase || item.actual_brand_purchase || "",
+        unit_price: item.metadata?.unit_price || item.unit_price || 0
+    }
+
+    try {
+        await main.acceptQtyRemarks(requestId, payload)
+
+        if (main.errorMessage) {
+            snackbar.add({ type: "error", text: main.errorMessage })
+        } else {
+            snackbar.add({ type: "success", text: main.successMessage })
+            main.$reset()
+            await main.fetchReceivingDetails(props.data.id)
+            isDisabled.value = true
+        }
+    } catch (error) {
+        snackbar.add({ type: "error", text: error || "something went wrong." })
+    }
+}
+
+const rejectRequest = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
+    if (!remarks.trim()) {
+        return snackbar.add({ type: "error", text: "Remarks are required." })
+    }
+
+    try {
+        await main.rejectItem(requestId, { remarks: remarks.trim() })
+        const messageType = main.errorMessage ? "error" : "success"
+        const messageText = main.errorMessage || main.successMessage
+
+        snackbar.add({ type: messageType, text: messageText })
+
+        if (messageType === "success") {
+            main.$reset()
+            await main.fetchReceivingDetails(props.data.id)
+            isDisabled.value = true
+        }
+    } catch (error) {
+        snackbar.add({ type: "error", text: error || "something went wrong." })
+    }
+}
+
+// Cleanup timeout on component unmount
+onUnmounted(() => {
+    if (autoSaveTimeout.value) {
+        clearTimeout(autoSaveTimeout.value)
+    }
+})
 </script>
+
 <template>
     <div
         class="h-full w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700"
@@ -130,70 +272,98 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                         <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
                             {{ title }}
                         </h3>
+                        <div v-if="isSaving" class="ml-2 flex items-center text-sm text-blue-600">
+                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle
+                                    class="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    stroke-width="4"
+                                />
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                            </svg>
+                            Saving...
+                        </div>
                     </div>
                     <div class="flex justify-between mb-4">
                         <div class="w-1/2">
                             <div class="flex justify-start p-2">
-                                <div class="grid grid-cols-2">
+                                <div class="grid grid-cols-2 gap-y-2">
                                     <p class="text-md font-bold">
                                         Supplier:
                                     </p>
-                                    <p class="text-md underline indent-2">
-                                        {{ data?.supplier?.company_name || '' }}
-                                    </p>
+                                    <InventoryCommonSupplierSelector
+                                        v-model="editableSupplier"
+                                        :show-all="true"
+                                        :default-value="localData.supplier?.company_name"
+                                    />
                                     <p class="text-md font-bold">
                                         Reference:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.reference_code }}
+                                        {{ localData.reference.reference_no }}
                                     </p>
-                                    <p class="text-md font-bold">
+                                    <p class="text-md font-bold inline align-middle">
                                         Terms of Payment:
                                     </p>
-                                    <p class="text-md underline indent-2">
-                                        {{ data.terms_of_payment }}
-                                    </p>
+                                    <select
+                                        v-model="editableTerms"
+                                        class="inline align-middle w-full p-2 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        :placeholder="localData.metadata?.terms_of_payment || 'Choose Terms of Payment'"
+                                    >
+                                        <option value="">
+                                            Choose Terms of Payment
+                                        </option>
+                                        <option v-for="(term, index) in TERMS" :key="index" :value="term">
+                                            {{ term }}
+                                        </option>
+                                    </select>
                                     <p class="text-md font-bold">
                                         Particulars:
                                     </p>
-                                    <p class="text-md underline indent-2">
-                                        {{ data.particulars }}
-                                    </p>
+                                    <textarea
+                                        v-model="editableParticulars"
+                                        class="text-md underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full border border-gray-300 rounded p-2"
+                                        placeholder="Enter particulars..."
+                                        rows="1"
+                                    />
                                 </div>
                             </div>
                         </div>
                         <div class="w-1/2 text-left">
                             <div class="flex justify-around p-2">
-                                <div class="grid grid-cols-2">
+                                <div class="grid grid-cols-2 gap-y-2">
                                     <p class="text-md font-bold">
                                         Reference Number:
                                     </p>
-                                    <p class="text-md font-bold underline indent-2">
-                                        {{ data.reference_no }}
+                                    <p class="text-md underline indent-2">
+                                        {{ localData.reference_no }}
                                     </p>
                                     <p class="text-md font-bold">
                                         Transaction Date:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.transaction_date }}
+                                        {{ dateToString(new Date(localData.transaction_date)) }}
                                     </p>
                                     <p class="text-md font-bold">
                                         Project Code:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data?.project?.project_code }}
+                                        {{ localData?.project?.project_code }}
                                     </p>
                                     <p class="text-md font-bold">
                                         Equipment No.:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.equipment_no }}
+                                        {{ localData.metadata.equipment_no }}
                                     </p>
                                     <p class="text-md font-bold">
                                         Source PO:
                                     </p>
                                     <p class="text-md underline indent-2">
-                                        {{ data.source_po }}
+                                        {{ localData.source_po }}
                                     </p>
                                 </div>
                             </div>
@@ -218,31 +388,57 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                             {{ item.item_code }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.item_profile }}
+                                            {{ item.item_description }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.specification }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.actual_brand }}
+                                            <template
+                                                v-if="isActualBrandDisabled(item)"
+                                            >
+                                                {{ getActualBrandValue(item) }}
+                                            </template>
+                                            <input
+                                                v-else
+                                                :value="getActualBrandValue(item)"
+                                                type="text"
+                                                class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                placeholder="Enter brand..."
+                                                required
+                                                @input="updateActualBrand(item.id, $event.target.value)"
+                                            >
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.qty }}
+                                            {{ item.quantity }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.accepted_qty }}
+                                            {{ acceptedQtyMap.get(item.id) || item.quantity || 0 }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             {{ item.uom }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(item.unit_price) }}
+                                            <template v-if="isUnitPriceDisabled(item)">
+                                                {{ getUnitPriceValue(item) }}
+                                            </template>
+                                            <template v-else>
+                                                <input
+                                                    :value="getUnitPriceValue(item)"
+                                                    type="number"
+                                                    step="0.01"
+                                                    min="0"
+                                                    class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                    placeholder="0.00"
+                                                    @input="updateUnitPrice(item.id, parseFloat($event.target.value) || 0)"
+                                                >
+                                            </template>
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ utils.formatCurrency(item.unit_price) }}
+                                            {{ utils.formatCurrency(getExtPrice(item)) }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            <template v-if="item.status === 'Rejected'">
+                                            <template v-if="item.metadata.status === 'Rejected'">
                                                 <div class="flex justify-center relative group">
                                                     <Icon name="mdi:close-circle" class="h-8 w-8 text-red-700" />
                                                     <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
@@ -250,7 +446,7 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                                     </div>
                                                 </div>
                                             </template>
-                                            <template v-else-if="item.status === 'Accepted'">
+                                            <template v-else-if="item.metadata.status === 'Accepted'">
                                                 <div class="flex justify-center relative group">
                                                     <Icon name="mdi:check-circle" class="h-8 w-8 text-green-700" />
                                                     <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
@@ -260,22 +456,22 @@ const rejectRequest = async ({ requestId, remarks }: { requestId: number, remark
                                             </template>
                                         </td>
                                         <td class="border px-2 py-1 text-center">
-                                            {{ item.remarks }}
+                                            {{ item.metadata.remarks }}
                                         </td>
                                         <td class="border px-2 py-1 text-center">
                                             <InventoryCommonAcceptRejectButton
                                                 v-model:accept-remarks="remarks"
                                                 v-model:reject-remarks="remarks"
-                                                v-model:accepted-qty="acceptedQty"
-                                                :max-quantity="item.qty"
+                                                :max-quantity="item.quantity"
                                                 :request-id="item.id"
-                                                :disabled="!!item.remarks"
+                                                :disabled="!!item.metadata.remarks"
                                                 :class="{
-                                                    'opacity-60 cursor-not-allowed pointer-events-none': !!item.remarks
+                                                    'opacity-60 cursor-not-allowed pointer-events-none': !!item.metadata.remarks
                                                 }"
                                                 @accept-all="acceptAll"
                                                 @accept="acceptWithDetails"
                                                 @reject="rejectRequest"
+                                                @update-accepted-qty="updateAcceptedQty"
                                             />
                                         </td>
                                     </tr>

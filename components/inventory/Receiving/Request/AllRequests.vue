@@ -12,8 +12,10 @@ onMounted(() => {
 
 const headers = [
     { name: "Reference No", id: "reference_no" },
-    { name: "Project Code", id: "project.project_code" },
+    { name: "Warehouse", id: "warehouse.name" },
+    { name: "Transaction Type", id: "transaction_type" },
     { name: "Transaction Date", id: "transaction_date" },
+    { name: "Status", id: "request_status" },
 ]
 const actions = {
     showTable: true,
@@ -35,7 +37,6 @@ const changePaginate = (newParams) => {
 <template>
     <LayoutLoadingContainer class="w-full" :loading="allRequests.isLoading">
         <div class="pb-2 text-gray-500 overflow-y-auto p-2">
-            {{ allRequest }}
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
