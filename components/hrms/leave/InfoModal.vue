@@ -62,7 +62,7 @@ const voidRequest = async (id) => {
         await leaveReqStore.voidRequest(id, voidRemarks.value)
         snackbar.add({
             type: "success",
-            text: "Void Request Submitted",
+            text: leaveReqStore.successMessage,
         })
     } catch (error) {
         snackbar.add({

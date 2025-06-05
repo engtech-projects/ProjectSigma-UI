@@ -64,7 +64,7 @@ const voidRequest = async (id) => {
         await overtimes.voidRequest(id, voidRemarks.value)
         snackbar.add({
             type: "success",
-            text: "Void Request Submitted",
+            text: overtimes.successMessage,
         })
         closeViewModal()
     } catch (error) {
