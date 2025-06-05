@@ -271,12 +271,16 @@ export const useLeaveRequest = defineStore("LeaveRequest", {
                 }
             )
         },
-        async voidRequest (id: any, remarks: any) {
+        async voidRequest (id: number | string, remarks: string) {
             await useHRMSApiO(
                 "/api/request-voids/void/LeaveEmployeeRequest/" + id,
                 {
                     method: "POST",
                     params: { reason_for_void: remarks },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.fetchLeaveRequestList()
