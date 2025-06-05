@@ -14,6 +14,7 @@ const showModal = defineModel("showModal", { required: false, type: Boolean })
 
 const overtimes = useOvertimeStore()
 const { remarks } = storeToRefs(overtimes)
+const voidRemarks = ref("")
 
 const snackbar = useSnackbar()
 const boardLoading = ref(false)
