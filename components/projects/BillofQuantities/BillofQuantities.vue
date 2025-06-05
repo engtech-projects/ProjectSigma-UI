@@ -151,18 +151,13 @@ import { useProjectStore } from "@/stores/project-monitoring/projects"
 import { usePhaseStore } from "@/stores/project-monitoring/phase"
 import { useTaskStore } from "@/stores/project-monitoring/task"
 const taskStore = useTaskStore()
-const boardLoading = ref(false)
-const props = defineProps({
-    projectId: {
-        type: Number,
-        default: null
-    },
-})
 const projectStore = useProjectStore()
-const edit = projectStore.viewState
 const phaseStore = usePhaseStore()
+const boardLoading = ref(false)
+
+const edit = projectStore.viewState
 const currentPhase = ref(null)
-phaseStore.phase.project_id = props.projectId
+phaseStore.phase.project_id = projectStore.information.id
 const showPhaseModal = ref(false)
 const showTaskModal = ref(false)
 const displayTaskModal = (phase) => {
@@ -176,7 +171,7 @@ const displayTaskModal = (phase) => {
 const phaseModalShow = () => {
     showPhaseModal.value = true
     phaseStore.reset()
-    phaseStore.phase.project_id = props.projectId
+    phaseStore.phase.project_id = projectStore.information.id
 }
 const saveTask = (task) => {
     currentPhase.value.tasks.push(task)

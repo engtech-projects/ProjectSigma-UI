@@ -55,7 +55,7 @@ export const useProjectStore = defineStore("projects", {
             ntp_date: null,
             license: null,
             designation: null,
-            employee_id: null,
+            position_id: null,
             employees: [],
             phases: [],
             approvals: []
@@ -410,7 +410,6 @@ export const useProjectStore = defineStore("projects", {
                         } else {
                             this.$reset()
                             this.getDraftProjects()
-                            this.getProposalProjects()
                             this.successMessage = response._data.message
                         }
                     },

@@ -9,31 +9,16 @@
                     </span>
                 </div>
             </div>
-            <h1 class="text-lg mb-4 text-left uppercase font-bold flex-2">
-                {{ information.license || "No License Information" }}
-            </h1>
         </div>
-        <div class="flex flex-col gap-4">
-            <ProjectsInformationProjects
-                page-title="Task Details"
-                header-title="Detailed Unit Price Analysis"
-                :information="information"
-            />
-        </div>
-
         <ProjectsDetailsTask />
-        <ProjectsModalsCategory :show-modal="showCategoryModal" @hide-modal="showCategoryModal = false" />
+        <ProjectsModalsCategory :show-modal="false" @hide-modal="true" />
     </div>
 </template>
 
 <script lang="ts" setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
 import { useResourceStore } from "~/stores/project-monitoring/resource"
 
 const snackbar = useSnackbar()
-const projectStore = useProjectStore()
-const { information } = storeToRefs(projectStore)
-projectStore.viewState = true
 const resourceStore = useResourceStore()
 try {
     await resourceStore.getResourceUnits()
@@ -43,19 +28,9 @@ try {
         text: error || "something went wrong."
     })
 }
-const showCategoryModal = ref(false)
-
-const router = useRouter()
-const goBack = () => {
-    if (router.options.history.state.back) {
-        router.back()
-    } else {
-        navigateTo(`/project-monitoring/information?id=${id}`)
-    }
-}
 defineProps({
-    id: {
-        type: Number,
+    taskInformation: {
+        type: Object,
         required: true
     }
 })
