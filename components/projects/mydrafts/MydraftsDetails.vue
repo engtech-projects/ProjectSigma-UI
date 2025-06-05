@@ -50,14 +50,31 @@
                         Attachment:
                     </span>
                     <div class="flex gap-2">
-                        <input type="file" @change="handleAttachmentChange" />
-                        <button @click="uploadAttachment" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Upload
+                        <input
+                            type="file"
+                            accept=".pdf,.doc, .jpg, .png, .jpeg"
+                            :disable="isUploading"
+                            @change="handleAttachmentChange"
+                        >
+                        <button
+                            :disable="isUploading || isUploading"
+                            class="bg-blue-500 hover:bg-blue-700 disabled:text-gray-500 text-whitefont-bold py-2 px-4 rounded"
+                            @click="uploadAttachment"
+                        >
+                            {{ isUploading ? "Uploading..." : "Upload" }}
                         </button>
-                        <a v-if="projectStore.information.attachments.length > 0" :href="projectStore.information.attachments[0].url" target="_blank" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a
+                            v-if="projectStore.information.attachments.length > 0"
+                            :href="projectStore.information.attachments[0].url"
+                            target="_blank"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        >
                             View
                         </a>
                     </div>
+                </div>
+                <div v-if="displayableUploadError" class="text-red-500 text-sm">
+                    {{ displayableUploadError }}
                 </div>
             </div>
 
@@ -69,72 +86,54 @@
         <AccountingCommonTabsMainContainer class="w-full">
             <template #tab-titles>
                 <AccountingCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
-                    ])"
+                    v-if="hasVoucherDisbursementApprovalAccess"
                     title="BILL OF QUANTITIES"
                     target-id="billOfQuantities"
                 />
                 <AccountingCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
-                    ])"
+                    v-if="hasVoucherDisbursementApprovalAccess"
                     title="SUMMARY OF RATES"
                     target-id="summaryRates"
                 />
                 <AccountingCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
-                    ])"
+                    v-if="hasVoucherDisbursementApprovalAccess"
                     title="SUMMARY OF BID"
                     target-id="bidSummary"
                 />
                 <AccountingCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
-                    ])"
+                    v-if="hasVoucherDisbursementApprovalAccess"
                     title="CASH FLOW"
                     target-id="cashFlow"
                 />
                 <AccountingCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
-                    ])&&!edit"
+                    v-if="hasVoucherDisbursementApprovalAccess&&!edit"
                     title="BILL OF MATERIALS"
                     target-id="billOfMaterials"
                 />
                 <AccountingCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
-                    ])&&awardee"
+                    v-if="hasVoucherDisbursementApprovalAccess&&awardee"
                     title="ESTIMATED NET INCOME"
                     target-id="estimatedNetIncome"
                 />
                 <AccountingCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
-                    ])&&awardee"
+                    v-if="hasVoucherDisbursementApprovalAccess&&awardee"
                     title="ESTIMATED DIRECT COST"
                     target-id="estimatedDirectCost"
                 />
                 <AccountingCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
-                    ])"
+                    v-if="hasVoucherDisbursementApprovalAccess"
                     title="PCR"
                     target-id="pcr"
                 />
                 <AccountingCommonTabsTabTitle
-                    v-if="useCheckAccessibility([
-                        AccessibilityTypes.ACCOUNTING_VOUCHER_DISBURSEMENT_MY_APPROVAL,
-                    ])"
+                    v-if="hasVoucherDisbursementApprovalAccess"
                     title="STEWA"
                     target-id="stewa"
                 />
             </template>
             <template #tab-containers>
                 <AccountingCommonTabsTabContainer id="billOfQuantities">
-                    <ProjectsBillofQuantities :project-id="projectId" />
+                    <ProjectsBillofQuantities :project-id="Number(projectId)" />
                 </AccountingCommonTabsTabContainer>
                 <AccountingCommonTabsTabContainer id="summaryRates">
                     <ProjectsSummaryRates />
@@ -166,12 +165,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-import { AccessibilityTypes } from "@/types/accessibility"
-import { useCheckAccessibility } from "@/composables/useCheckAccessibility"
-import { ref, onMounted } from "vue"
+import { ref, computed } from "vue"
 import { useRoute } from "vue-router"
-import { useApi } from "@/composables/useApi"
+import { useProjectStore } from "@/stores/project-monitoring/projects"
 
 const projectStore = useProjectStore()
 projectStore.viewState = true
@@ -179,24 +175,71 @@ const edit = projectStore.viewState
 const route = useRoute()
 const projectId = route.query.id
 
-const attachment = ref(null)
+const attachment = ref<File | null>(null)
+const isUploading = ref(false)
+const attachmentUploadErrorMsg = ref<string | null>(null)
+const displayableUploadError = computed(() => attachmentUploadErrorMsg.value)
 
+const { hasVoucherDisbursementApprovalAccess } = useCheckAccessibility()
 const handleAttachmentChange = (event: Event) => {
     const target = event.target as HTMLInputElement
-    if (target.files) {
-        attachment.value = target.files[0]
+    attachmentUploadErrorMsg.value = null
+
+    if (target.files && target.files[0]) {
+        const file = target.files[0]
+
+        if (file.size > 10 * 1024 * 1024) {
+            attachmentUploadErrorMsg.value = "File size exceeds the limit of 10MB."
+            target.value = ""
+            return
+        }
+
+        const allowedTypes = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "image/jpeg", "image/jpg", "image/png"]
+        if (!allowedTypes.includes(file.type)) {
+            attachmentUploadErrorMsg.value = "File type is not allowed."
+            target.value = ""
+            return
+        }
+        attachment.value = file
     }
 }
 
 const uploadAttachment = async () => {
-    const formData = new FormData()
-    formData.append("file", attachment.value)
-    const { data } = await useApi(`projects/${projectId}/attachments`, {
-        method: "POST",
-        data: formData,
-    })
-    if (data) {
-        window.open(data.url, "_blank")
+    if (!attachment.value) {
+        attachmentUploadErrorMsg.value = "Please select a file to upload."
+        return
+    }
+
+    isUploading.value = true
+    attachmentUploadErrorMsg.value = null
+
+    try {
+        const formData = new FormData()
+        formData.append("file", attachment.value)
+        const api = useApi()
+        const response = await api.makeRequest({
+            url: `/projects/${projectId}/attachments`,
+            method: "POST",
+            data: formData,
+        })
+        const data = response.data
+        if (data?.url) {
+            await projectStore.getProject(Number(projectId))
+
+            if (data.url.startsWith("http://") || data.url.startsWith("https://")) {
+                window.open(data.url, "_blank")
+            }
+
+            attachment.value = null
+            const fileInput = document.querySelector("input[type=\"file\"]") as HTMLInputElement
+            if (fileInput) {
+                fileInput.value = ""
+            }
+        }
+    } catch (error) {
+        attachmentUploadErrorMsg.value = "Failed to upload file."
+    } finally {
+        isUploading.value = false
     }
 }
 

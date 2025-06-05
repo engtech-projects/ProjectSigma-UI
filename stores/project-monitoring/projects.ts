@@ -25,6 +25,7 @@ interface Project {
     employee_id: null | Number,
     employees: Array<Employee>
     phases: Array<any>
+    attachments: { url: string }[];
 }
 
 export const useProjectStore = defineStore("projects", {
@@ -51,7 +52,8 @@ export const useProjectStore = defineStore("projects", {
             designation: null,
             employee_id: null,
             employees: [],
-            phases: []
+            phases: [],
+            attachments: [],
         } as Project,
         list: [] as Project[],
         draftList: {
