@@ -11,7 +11,7 @@
             </div>
         </div>
         <ProjectsDetailsTask />
-        <ProjectsModalsCategory :show-modal="false" @hide-modal="true" />
+        <ProjectsModalsCategory :show-modal="showCategoryModal" @hide-modal="showCategoryModal = false" />
     </div>
 </template>
 
@@ -20,6 +20,7 @@ import { useResourceStore } from "~/stores/project-monitoring/resource"
 
 const snackbar = useSnackbar()
 const resourceStore = useResourceStore()
+const showCategoryModal = ref(false)
 try {
     await resourceStore.getResourceUnits()
 } catch (error) {

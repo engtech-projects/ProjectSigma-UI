@@ -15,7 +15,7 @@
             </div>
             <div class="flex flex-col gap-3 mb-8">
                 <div class="flex items-end gap-3">
-                    <span class=" text-gray-500 uppercase w-[140px] text-right">
+                    <span class="text-gray-500 uppercase w-[140px] text-right">
                         Project Id:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
@@ -23,7 +23,7 @@
                     </span>
                 </div>
                 <div class="flex items-end gap-3">
-                    <span class=" text-gray-500 uppercase w-[140px] text-right">
+                    <span class="text-gray-500 uppercase w-[140px] text-right">
                         Contract Name:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
@@ -31,7 +31,7 @@
                     </span>
                 </div>
                 <div class="flex items-end gap-3">
-                    <span class=" text-gray-500 uppercase w-[140px] text-right">
+                    <span class="text-gray-500 uppercase w-[140px] text-right">
                         Location:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
@@ -46,23 +46,28 @@
 defineProps({
     label: {
         type: String,
-        required: true,
+        required: false,
+        default: "Project Information",
     },
     code: {
         type: String,
-        required: true,
+        required: false,
+        default: null,
     },
     name: {
         type: String,
-        required: true,
+        required: false,
+        default: null,
     },
     location: {
         type: String,
-        required: true,
+        required: false,
+        default: null,
     },
     license: {
         type: String,
-        required: true,
+        required: false,
+        default: null,
     }
 })
 </script>

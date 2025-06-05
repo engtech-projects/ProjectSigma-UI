@@ -79,12 +79,12 @@ const handleSubmit = async () => {
                         placeholder="Contract ID"
                     />
                     <LayoutFormPsTextInput
-                        v-model:v-model="projectStore.information.license"
+                        v-model="projectStore.information.license"
                         :title="'License'"
                         placeholder="License"
                     />
                     <LayoutFormPsTextInput
-                        v-model:v-model="projectStore.information.designation"
+                        v-model="projectStore.information.designation"
                         :title="'Designation'"
                         placeholder="Designation"
                     />

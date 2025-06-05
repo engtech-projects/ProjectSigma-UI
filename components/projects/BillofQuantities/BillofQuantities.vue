@@ -157,7 +157,7 @@ const boardLoading = ref(false)
 
 const edit = projectStore.viewState
 const currentPhase = ref(null)
-phaseStore.phase.project_id = projectStore.information.id
+phaseStore.phase.project_id = projectStore.information?.id
 const showPhaseModal = ref(false)
 const showTaskModal = ref(false)
 const displayTaskModal = (phase) => {
@@ -171,7 +171,7 @@ const displayTaskModal = (phase) => {
 const phaseModalShow = () => {
     showPhaseModal.value = true
     phaseStore.reset()
-    phaseStore.phase.project_id = projectStore.information.id
+    phaseStore.phase.project_id = projectStore.information?.id
 }
 const saveTask = (task) => {
     currentPhase.value.tasks.push(task)

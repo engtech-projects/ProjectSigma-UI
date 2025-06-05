@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+interface SelectOption {
+    label: string
+    value: string
+}
 const model = defineModel({ required: false, type: String, default: "" })
 const compId = useId()
 defineProps({
@@ -16,7 +20,7 @@ defineProps({
         default: false,
     },
     optionsList: {
-        type: Array<any>,
+        type: Array<SelectOption>,
         default: [],
     },
     addAll: {

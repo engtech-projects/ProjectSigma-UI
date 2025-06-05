@@ -56,7 +56,6 @@ export const useProjectStore = defineStore("projects", {
             license: null,
             designation: null,
             position_id: null,
-            employees: [],
             phases: [],
             approvals: []
         } as Project,
