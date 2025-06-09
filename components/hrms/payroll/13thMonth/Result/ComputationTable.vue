@@ -75,7 +75,7 @@ defineProps({
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
                 >
-                    {{ _key + 1}}
+                    {{ _key + 1 }}
                 </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm"

@@ -16,6 +16,7 @@ const headers = [
     { name: "Request Status", id: "request_status" },
     { name: "Requested By", id: "requested_by" },
     { name: "Requested On", id: "created_at_human" },
+    { name: "Requested Status", id: "request_status" },
 ]
 const actions = {
     link: {

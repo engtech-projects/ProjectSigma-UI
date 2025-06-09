@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { use13thMonthStore } from "@/stores/hrms/payroll/13thmonth"
 const dataStore = use13thMonthStore()
-const { data: userData } = useAuth()
 useHead({
     title: "Payroll Summary Details",
 })
 const compId = useId()
 const isLoading = ref(false)
 const route = useRoute()
-const salaryDisbursement = ref()
+const requestDetailsData = ref()
 const snackbar = useSnackbar()
 onMounted(async () => {
     if (route.query.id) {
         isLoading.value = true
-        salaryDisbursement.value = await dataStore.getOne(route.query.id)
+        requestDetailsData.value = await dataStore.getOne(route.query.id)
         isLoading.value = false
     }
 })
@@ -46,20 +45,6 @@ const denyRequest = async (id : any) => {
         })
     }
 }
-const submitToAccounting = async (id: any) => {
-    try {
-        await dataStore.submitToAccounting(id)
-        snackbar.add({
-            type: "success",
-            text: "Successfully submitted to accounting."
-        })
-    } catch (error) {
-        snackbar.add({
-            type: "error",
-            text: error || "something went wrong."
-        })
-    }
-}
 </script>
 <template>
     <LayoutAcessContainer
@@ -69,43 +54,20 @@ const submitToAccounting = async (id: any) => {
         :comp-id="compId"
         class="min-h-40"
     >
-        <LayoutBoards title="Payroll Summary Details" :is-loading="isLoading">
-            <LayoutBackOrHome v-if="!route.query.id" message="Please select a Payroll Disbursement" />
-            <template v-if="salaryDisbursement?.data">
-                <div class="grid md:grid-cols-3 gap-2 md:justify-between">
-                    <div class="p-2 flex gap-2">
-                        <span class="text-teal-600 text-light font-medium">Payroll Date: </span> <span class="text-gray-900">{{ salaryDisbursement?.data.payroll_date_human }}</span>
-                    </div>
-                    <div class="p-2 flex gap-2">
-                        <span class="text-teal-600 text-light font-medium">Payroll Type: </span> {{ salaryDisbursement?.data.payroll_type }}
-                    </div>
-                    <div class="p-2 flex gap-2">
-                        <span class="text-teal-600 text-light font-medium">Release Type: </span> {{ salaryDisbursement?.data.release_type }}
-                    </div>
-                    <div class="p-2 flex gap-2">
-                        <span class="text-teal-600 text-light font-medium">Requested By: </span>
-                        {{ salaryDisbursement?.data.created_by_user_name }}<br>{{ salaryDisbursement?.data.created_at_human }}
-                    </div>
-                    <div class="p-2 flex gap-2">
-                        <span class="text-teal-600 text-light font-medium">Request Status: </span> {{ salaryDisbursement?.data.request_status }}
-                    </div>
-                    <div class="p-2 flex gap-2">
-                        <span class="text-teal-600 text-light font-medium">Disbursement Status: </span> {{ salaryDisbursement?.data.disbursement_status }}
-                    </div>
-                </div>
-                <div class="w-full">
-                    <HrmsPayrollSalaryDisbursementDetailsTable :data="salaryDisbursement.data" />
-                </div>
-                <div v-if="salaryDisbursement?.data.next_approval?.user_id === userData?.id" class="flex gap-2 p-2 justify-end relative">
+        <LayoutBoards title="13th Month Request Details" :is-loading="isLoading">
+            <LayoutBackOrHome v-if="!route.query.id" message="Please select a 13th Month Request" />
+            <template v-if="requestDetailsData?.data">
+                <HrmsPayroll13thMonthRequestDetails
+                    :data="requestDetailsData?.data"
+                />
+                <LayoutApprovalsListView :approvals="requestDetailsData?.data.approvals" :signature-view="false" />
+                <div v-if="useCheckIsCurrentUser(requestDetailsData?.data.next_approval?.user_id)" class="flex gap-2 p-2 justify-end relative">
                     <HrmsCommonApprovalDenyButton
                         v-model:deny-remarks="denyRemarks"
-                        :request-id="salaryDisbursement?.data.id"
+                        :request-id="requestDetailsData?.data.id"
                         @approve="approvedRequest"
                         @deny="denyRequest"
                     />
-                </div>
-                <div v-if="salaryDisbursement?.data.request_status === 'Approved'">
-                    <LayoutFormPsButton button-title="Submit to Accounting" @click="submitToAccounting(salaryDisbursement?.data.id)" />
                 </div>
             </template>
         </LayoutBoards>
