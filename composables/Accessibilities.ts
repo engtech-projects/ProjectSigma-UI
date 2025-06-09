@@ -128,7 +128,11 @@ export enum AccessibilityTypes {
     hrms_payroll_salarydisbursement_allrequests = "hrms:payroll_salary disbursement_all requests",
     hrms_payroll_salarydisbursement_myapprovals = "hrms:payroll_salary disbursement_my approvals",
     hrms_payroll_salarydisbursement_viewpayslips = "hrms:payroll_salary disbursement_view payslips",
-    hrms_payroll_13thmonth = "hrms:payroll_13th month",
+    HRMS_PAYROLL_13THMONTH_GROUP = "hrms:payroll_13th month",
+    HRMS_PAYROLL_13THMONTH_FORMANDMYREQUEST = "hrms:payroll_13th month_form and my requests",
+    HRMS_PAYROLL_13THMONTH_ALLREQUESTS = "hrms:payroll_13th month_all requests",
+    HRMS_PAYROLL_13THMONTH_MYAPPROVALS = "hrms:payroll_13th month_my approvals",
+    HRMS_PAYROLL_13THMONTH_SUMMARY = "hrms:payroll_13th month_summary",
     hrms_payroll_allowance = "hrms:payroll_allowance",
     // SCHEDULE
     hrms_schedule_group = "hrms:schedule_",

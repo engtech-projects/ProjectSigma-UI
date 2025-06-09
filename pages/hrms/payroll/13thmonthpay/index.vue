@@ -7,16 +7,40 @@ useHead({
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.hrms_payroll_13thmonth,
+            AccessibilityTypes.HRMS_PAYROLL_13THMONTH_GROUP,
         ])"
     >
         <div class="grid grid-cols-1 md:flex-row gap-4">
             <HrmsCommonTabsMainContainer>
                 <template #tab-titles>
-                    <HrmsCommonTabsTabTitle :target-id="'tab1' + compId" title="Generate 13th Month Pays" />
-                    <HrmsCommonTabsTabTitle :target-id="'tab2' + compId" title="All Requests" />
-                    <HrmsCommonTabsTabTitle :target-id="'tab3' + compId" title="My Requests" />
-                    <HrmsCommonTabsTabTitle :target-id="'tab4' + compId" title="My Approvals" />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.HRMS_PAYROLL_13THMONTH_FORMANDMYREQUEST,
+                        ])"
+                        :target-id="'tab1' + compId"
+                        title="Generate 13th Month Pays"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.HRMS_PAYROLL_13THMONTH_ALLREQUESTS,
+                        ])"
+                        :target-id="'tab2' + compId"
+                        title="All Requests"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.HRMS_PAYROLL_13THMONTH_ALLREQUESTS,
+                        ])"
+                        :target-id="'tab3' + compId"
+                        title="My Requests"
+                    />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.HRMS_PAYROLL_13THMONTH_MYAPPROVALS,
+                        ])"
+                        :target-id="'tab4' + compId"
+                        title="My Approvals"
+                    />
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer :id="'tab1' + compId">

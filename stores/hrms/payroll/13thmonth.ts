@@ -55,17 +55,6 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
             errorMessage: "",
             successMessage: "",
         },
-        payslipReadyRecords: {
-            isLoading: false,
-            isLoaded: false,
-            list: [],
-            params: {
-                payroll_date: null,
-            },
-            pagination: {},
-            errorMessage: "",
-            successMessage: "",
-        },
     }),
     actions: {
         async getOne (id: any): Promise<any> {
@@ -162,49 +151,6 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
                 }
             )
         },
-        async getPayslipReadyRecords () {
-            this.payslipReadyRecords.isLoaded = true
-            await useHRMSApi(
-                "/api/13th-month/payslip-ready",
-                {
-                    method: "GET",
-                    params: this.payslipReadyRecords.params,
-                    onRequest: () => {
-                        this.payslipReadyRecords.isLoading = true
-                    },
-                    onResponse: ({ response }) => {
-                        this.payslipReadyRecords.isLoading = false
-                        if (response.ok) {
-                            this.payslipReadyRecords.list = response._data.data.data
-                            this.payslipReadyRecords.successMessage = response._data.message
-                            this.payslipReadyRecords.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
-                            }
-                        } else {
-                            this.payslipReadyRecords.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
-        async getOnePayslipReady (id: any): Promise<any> {
-            return await useHRMSApiO(
-                "/api/13th-month/payslip-ready/" + id,
-                {
-                    method: "GET",
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            return response._data.data
-                        } else {
-                            throw new Error(response._data.message)
-                        }
-                    },
-                }
-            )
-        },
         async generateDraft () {
             await useHRMSApiO(
                 "/api/13th-month/draft",
@@ -268,7 +214,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         },
         async approveApprovalForm (id: number) {
             await useHRMSApiO(
-                "/api/approvals/approve/RequestSalaryDisbursement/" + id,
+                "/api/approvals/approve/Request13thMonth/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -293,30 +239,12 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
             formData.append("id", id)
             formData.append("remarks", remarks)
             await useHRMSApiO(
-                "/api/approvals/disapprove/RequestSalaryDisbursement/" + id,
+                "/api/approvals/disapprove/Request13thMonth/" + id,
                 {
                     method: "POST",
                     body: formData,
                     onResponseError: ({ response }: any) => {
                         // this.errorMessage = response._data.message
-                        throw new Error(response._data.message)
-                    },
-                    onResponse: ({ response }: any) => {
-                        if (response.ok) {
-                            this.reloadResources()
-                            // this.successMessage = response._data.message
-                            return response._data
-                        }
-                    },
-                }
-            )
-        },
-        async submitToAccounting (id: number) {
-            await useHRMSApiO(
-                "/api/13th-month/submit-to-accounting/" + id,
-                {
-                    method: "POST",
-                    onResponseError: ({ response }: any) => {
                         throw new Error(response._data.message)
                     },
                     onResponse: ({ response }: any) => {
@@ -340,9 +268,6 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
             }
             if (this.myApprovals.isLoaded) {
                 callFunctions.push(this.getMyApprovals)
-            }
-            if (this.payslipReadyRecords.isLoaded) {
-                callFunctions.push(this.getPayslipReadyRecords)
             }
             this.$reset()
             this.createApprovalsBackup = backup
