@@ -1,7 +1,11 @@
 <script setup lang="ts">
+interface DataField {
+    label: string;
+    value: string | number | boolean;
+}
 defineProps({
     data: {
-        type: Array<Object>,
+        type: Array<DataField>,
         required: true,
     },
 })
