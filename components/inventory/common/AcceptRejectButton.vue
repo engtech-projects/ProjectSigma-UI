@@ -41,37 +41,22 @@ onMounted(() => {
     emit("update-accepted-qty", props.requestId, props.maxQuantity)
 })
 
-const acceptAll = async () => {
+const acceptAll = () => {
     isDisabled.value = true
-    try {
-        await emit("acceptAll", { requestId: props.requestId, remarks: acceptRemarks.value })
-        clearRemarks()
-    } catch (error) {
-        // Re-enable if there's an error
-        isDisabled.value = props.disabled
-    }
+    emit("acceptAll", { requestId: props.requestId, remarks: acceptRemarks.value })
+    clearRemarks()
 }
 
-const acceptWithDetails = async () => {
+const acceptWithDetails = () => {
     isDisabled.value = true
-    try {
-        await emit("accept", { requestId: props.requestId, acceptedQty: acceptedQty.value, remarks: acceptRemarks.value })
-        clearRemarks()
-    } catch (error) {
-        // Re-enable if there's an error
-        isDisabled.value = props.disabled
-    }
+    emit("accept", { requestId: props.requestId, acceptedQty: acceptedQty.value, remarks: acceptRemarks.value })
+    clearRemarks()
 }
 
-const rejectRequest = async () => {
+const rejectRequest = () => {
     isDisabled.value = true
-    try {
-        await emit("reject", { requestId: props.requestId, remarks: rejectRemarks.value })
-        clearRemarks()
-    } catch (error) {
-        // Re-enable if there's an error
-        isDisabled.value = props.disabled
-    }
+    emit("reject", { requestId: props.requestId, remarks: rejectRemarks.value })
+    clearRemarks()
 }
 
 const clearRemarks = () => {
