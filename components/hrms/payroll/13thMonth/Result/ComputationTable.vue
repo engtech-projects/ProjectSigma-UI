@@ -93,24 +93,25 @@ defineProps({
                     {{ _rowData.metadata?.payroll_record_count || 0 }}
                 </td>
                 <td
-                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
+                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
                     {{ useFormatCurrency(_rowData.metadata?.total_payroll_regular || 0) }}
                 </td>
                 <td
-                    class="border border-gray-500 h-8 px-2 font-bold text-sm"
+                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
                     {{ useFormatCurrency(_rowData.metadata?.total_payroll_regular_holiday || 0) }}
                 </td>
                 <td
-                    class="border border-gray-500 h-8 px-2 font-bold text-sm"
+                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
                     {{ useFormatCurrency(_rowData.metadata?.total_payroll_special_holiday || 0) }}
                 </td>
                 <td
-                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
+                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
                     {{ useFormatCurrency(_rowData.metadata?.total_amount || 0) }}
+                </td>
                 </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
