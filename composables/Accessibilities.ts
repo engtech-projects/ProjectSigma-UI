@@ -51,6 +51,7 @@ export enum AccessibilityTypes {
     hrms_attendance_qr_generator = "hrms:attendance_generate QR",
     hrms_attendance_qr_login = "hrms:attendance_attendance QR",
     hrms_attendance_attendance_logs = "hrms:attendance_attendance logs",
+    hrms_attendance_attendance_logs_delete = "hrms:attendance_attendance logs delete",
     hrms_attendance_dtr = "hrms:attendance_dtr",
     // EMPLOYEE
     hrms_employee_group = "hrms:employee_",
