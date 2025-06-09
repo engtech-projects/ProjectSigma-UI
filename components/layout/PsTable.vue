@@ -110,7 +110,7 @@ const isActiveRow = (index: any) => {
                                 <Icon name="material-symbols-light:overview-rounded" color="white" class="bg-green-400 rounded h-8 w-8 p-1 " />
                             </button>
                             <NuxtLink v-if="actions.link?.show" :to="useUrlGenerator(actions.link.url, {id: dataValue.id})">
-                                <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
+                                <Icon name="material-symbols:open-in-new" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
                             </NuxtLink>
                         </td>
                     </tr>
