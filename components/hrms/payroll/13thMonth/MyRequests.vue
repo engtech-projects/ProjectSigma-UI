@@ -23,11 +23,10 @@ const changePaginate = (newParams) => {
     myRequests.value.params.page = newParams.page ?? ""
 }
 
-const boardLoading = ref(false)
 
 </script>
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="boardLoading">
+    <LayoutLoadingContainer class="w-full" :loading="myRequests.isLoading">
         <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
             <LayoutPsTable
                 :header-columns="headers"

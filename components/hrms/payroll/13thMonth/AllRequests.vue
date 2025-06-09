@@ -6,7 +6,6 @@ if (!allRequests.value.isLoaded) {
     allRequests.value.isLoaded = true
     dataStore.getAllRequests()
 }
-const boardLoading = ref(false)
 const changePaginate = (newParams) => {
     allRequests.value.params.page = newParams.page ?? ""
 }
@@ -26,7 +25,7 @@ const actions = {
 
 </script>
 <template>
-    <LayoutLoadingContainer class="w-full" :loading="boardLoading">
+    <LayoutLoadingContainer class="w-full" :loading="allRequests.isLoading">
         <div class="pb-2 text-gray-500 p-2">
             <LayoutPsTable
                 :header-columns="headers"
