@@ -64,6 +64,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
             errorMessage: "",
             successMessage: "",
         },
+        errorMessage: ""
     }),
     actions: {
         async getAllowanceRecords () {
@@ -256,11 +257,12 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
             )
         },
         async denyApprovalForm (id: string, remarks: string) {
+            this.errorMessage = ""
             const formData = new FormData()
             formData.append("id", id)
             formData.append("remarks", remarks)
             await useHRMSApiO(
-                "/api/approvals/disapprove/AllowanceRequest/" + id,
+                "/api/approvals/disapprove/GenerateAllowance/" + id,
                 {
                     method: "POST",
                     body: formData,
@@ -271,7 +273,6 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.reloadResources()
-                            // this.successMessage = response._data.message
                             return response._data
                         }
                     },
@@ -282,17 +283,19 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
             const formData = new FormData()
             formData.append("reason_for_void", remarks)
             await useHRMSApiO(
-                "/api/request-voids/void/AllowanceRequest/" + id,
+                "/api/request-voids/void/GenerateAllowance/" + id,
                 {
                     method: "POST",
                     body: formData,
-                    onResponseError: ({ error }: any) => {
-                        throw new Error(error._data.message)
-                    },
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.reloadResources()
-                            return response._data
+                            this.getAllRequests()
+                            this.getMyApprovals()
+                            this.getMyRequests()
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }

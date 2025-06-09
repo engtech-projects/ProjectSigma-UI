@@ -61,16 +61,16 @@ const denyRequest = async (id) => {
 const voidRequest = async (id) => {
     try {
         boardLoading.value = true
-        await resourceStore.voidRequest(id, voidRemarks.value)
+        const result = await resourceStore.voidRequest(id, voidRemarks.value)
         snackbar.add({
             type: "success",
-            text: resourceStore.successMessage
+            text: result?.message || "Request voided successfully"
         })
         closeViewModal()
     } catch (error) {
         snackbar.add({
             type: "error",
-            text: error || "something went wrong."
+            text: error.message || "Something went wrong."
         })
     } finally {
         boardLoading.value = false
