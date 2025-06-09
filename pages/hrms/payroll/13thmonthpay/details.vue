@@ -14,9 +14,17 @@ onMounted(() => {
 })
 const loadInfo = async () => {
     if (route.query.id) {
-        isLoading.value = true
-        requestDetailsData.value = await dataStore.getOne(route.query.id)
-        isLoading.value = false
+        try {
+            isLoading.value = true
+            requestDetailsData.value = await dataStore.getOne(route.query.id)
+        } catch (error) {
+            snackbar.add({
+                type: "error",
+                text: error || "Failed to load request details."
+            })
+        } finally {
+            isLoading.value = false
+        }
     }
 }
 const approvedRequest = async (id: any) => {
