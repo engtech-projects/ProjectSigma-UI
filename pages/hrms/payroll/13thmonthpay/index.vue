@@ -29,7 +29,7 @@ useHead({
                     />
                     <HrmsCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.HRMS_PAYROLL_13THMONTH_ALLREQUESTS,
+                            AccessibilityTypes.HRMS_PAYROLL_13THMONTH_FORMANDMYREQUEST,
                         ])"
                         :target-id="'tab3' + compId"
                         title="My Requests"
