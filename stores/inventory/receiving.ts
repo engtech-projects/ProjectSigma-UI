@@ -454,7 +454,7 @@ export const useReceivingStore = defineStore("receivingStore", {
                                     }
 
                                     // Merge the updated metadata from the response
-                                    Object.assign(this.receiving.details.metadata, response._data.data.metadata)
+                                    this.receiving.details.metadata = merge(this.receiving.details.metadata, response._data.data.metadata)
                                 }
 
                                 // Optionally show success message (uncomment if needed)
