@@ -9,10 +9,9 @@ if (!myApprovals.value.isLoaded) {
 const headers = [
     { name: "Payroll Duration", id: "payroll_duration" },
     { name: "13th Month Date", id: "date_requested" },
-    { name: "Request Status", id: "request_status" },
     { name: "Requested By", id: "requested_by" },
     { name: "Requested On", id: "created_at_human" },
-    { name: "Requested Status", id: "request_status" },
+    { name: "Request Status", id: "request_status" },
 ]
 const actions = {
     link: {
