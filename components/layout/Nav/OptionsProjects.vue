@@ -9,7 +9,7 @@
     >
         <LayoutNavSingle
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_DASHBOARD,
             ])"
             linkarea="/project-monitoring"
             icon="ic:baseline-space-dashboard"
@@ -17,7 +17,7 @@
         />
         <LayoutNavSingle
             v-if="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
             ])"
             linkarea="/project-monitoring/marketing"
             icon="material-symbols:business-center"
@@ -53,6 +53,14 @@
                 linkarea="/project-monitoring/setup/approvals"
                 icon="iconoir:thumbs-up"
                 single-nav-title="Approvals"
+            />
+            <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.PROJECT_MONITORING_SETUP_SYNCHRONIZATION,
+                ])"
+                linkarea="/project-monitoring/setup/synchronization"
+                icon="iconoir:refresh-double"
+                single-nav-title="API Synchronization"
             />
         </LayoutNavGroup>
     </LayoutNavModuleGroup>

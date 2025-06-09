@@ -37,7 +37,9 @@ export interface CurrentBom {
 }
 export interface Supplier {
     id: number,
+    supplier_code: string,
     company_name: string,
+    classification: string,
 }
 export const useInventoryEnumsStore = defineStore("inventoryEnums", {
     state: () => ({
@@ -148,7 +150,7 @@ export const useInventoryEnumsStore = defineStore("inventoryEnums", {
         async getSupplierEnums () {
             this.supplierEnum.isLoaded = true
             await useInventoryApi(
-                "/api/supplier/list",
+                "/api/request-supplier/list",
                 {
                     method: "GET",
                     params: this.supplierEnum.params,

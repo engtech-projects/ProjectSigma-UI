@@ -94,6 +94,36 @@ const suppliers = [
             { unit_price: 1100, total: 11000, remarks: "In stock" }
         ]
     },
+    {
+        id: 4,
+        name: "MegaTools Enterprises",
+        address: "789 Pine Blvd, Bay City",
+        contactPerson: "Mike Wilson",
+        contactNumber: "555-9012",
+        items: [
+            { unit_price: 850, total: 8500, remarks: "In stock, 3-day delivery" },
+            { unit_price: 900, total: 9000, remarks: "2-week lead time" },
+            { unit_price: 950, total: 9500, remarks: "Immediate availability" },
+            { unit_price: 1000, total: 10000, remarks: "In stock" },
+            { unit_price: 1050, total: 10500, remarks: "In stock" },
+            { unit_price: 1100, total: 11000, remarks: "In stock" }
+        ]
+    },
+    // {
+    //     id: 5,
+    //     name: "MegaTools Enterprises",
+    //     address: "789 Pine Blvd, Bay City",
+    //     contactPerson: "Mike Wilson",
+    //     contactNumber: "555-9012",
+    //     items: [
+    //         { unit_price: 850, total: 8500, remarks: "In stock, 3-day delivery" },
+    //         { unit_price: 900, total: 9000, remarks: "2-week lead time" },
+    //         { unit_price: 950, total: 9500, remarks: "Immediate availability" },
+    //         { unit_price: 1000, total: 10000, remarks: "In stock" },
+    //         { unit_price: 1050, total: 10500, remarks: "In stock" },
+    //         { unit_price: 1100, total: 11000, remarks: "In stock" }
+    //     ]
+    // },
 ]
 
 const supplierColumns = [

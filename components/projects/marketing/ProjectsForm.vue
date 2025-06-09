@@ -1,10 +1,25 @@
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { useApprovalStore, APPROVAL_PROJECT_CREATION } from "@/stores/hrms/setup/approvals"
+import { usePositionStore } from "@/stores/project-monitoring/positions"
+
+const positionStore = usePositionStore()
 const projectStore = useProjectStore()
 const showUploadModal = ref(false)
-const snackbar = useSnackbar()
 const designation = ref("employee")
+const snackbar = useSnackbar()
+const approvals = useApprovalStore()
 
+onMounted(async () => {
+    try {
+        projectStore.information.approvals = await approvals.getApprovalByName(APPROVAL_PROJECT_CREATION)
+    } catch (error) {
+        snackbar.add({
+            type: "error",
+            text: error as string
+        })
+    }
+})
 const selectStakeholder = (stakeholder) => {
     projectStore.information.employee_id = stakeholder.stakeholdable_id
     designation.value = "employee"
@@ -108,15 +123,34 @@ const handleSubmit = async () => {
                         </label>
                         <AccountingCommonSelectStakeholderSelect
                             :stakeholder-id="projectStore.information.designation"
-                            :stakeholder="designation"
                             :select-options="['employee']"
                             default-dept="employee"
                             placeholder="Search Employee"
                             @select="selectStakeholder"
                         />
                     </div>
+                    <div class="flex flex-col gap-1">
+                        <label for="" class="text-sm text-gray-700">
+                            Position
+                        </label>
+                        <ProjectsCommonSelect
+                            v-model:v-model="projectStore.information.position"
+                            :data="positionStore.list"
+                            select-title="Position"
+                        />
+                    </div>
                 </div>
-
+                <div class="w-full">
+                    <HrmsCommonRequestedBy />
+                    <label for="approved_by" class="block text-sm font-medium text-gray-900 dark:text-white">Approvals</label>
+                    <div>
+                        <HrmsSetupApprovalsList
+                            v-for="(approv, apr) in projectStore.information.approvals"
+                            :key="'hrmsetupapprovallist'+apr"
+                            v-model="projectStore.information.approvals[apr]"
+                        />
+                    </div>
+                </div>
                 <div class="flex justify-end gap-4 items-center">
                     <div v-if="!1" class="flex items-center gap-1 border-b border-green-800 h-6 cursor-pointer hover:border-green-800 select-none" @click="showUploadModal = true">
                         <Icon name="mdi:paperclip" class="text-green-800" />
@@ -131,10 +165,3 @@ const handleSubmit = async () => {
         <ProjectsModalsUpload :show-modal="showUploadModal" @hide-modal="showUploadModal = false" />
     </div>
 </template>
-
-<style>
-#tabContainer span.active {
-    border-bottom-color: rgb(28 100 242);
-    color: rgb(28 100 242);
-}
-</style>

@@ -1,22 +1,43 @@
+<script setup>
+const router = useRouter()
+// const showCategoryModal = ref(false)
+
+const goBackOrHome = () => {
+    if (router.options.history.state.back) {
+        router.back()
+    } else {
+        navigateTo("/project-monitoring/marketing")
+    }
+}
+defineProps({
+    projectDetails: {
+        type: Object,
+        required: true,
+    },
+})
+</script>
 <template>
-    <div class="flex flex-col p-2 bg-white">
-        <div class="flex items-center mb-4">
-            <div class="flex-1 flex items-center gap-2 text-gray-500 cursor-pointer">
-                <div class="flex items-center border hover:bg-gray-500 hover:text-white gap-1 bg-gray-100 rounded-lg px-4 py-1">
+    <div class="flex flex-col gap-6 p-2">
+        <AccountingLoadScreen />
+        <div class="flex items-center">
+            <div class="flex-1 flex items-center gap-2 text-gray-500">
+                <div class="flex items-center border hover:bg-gray-500 hover:text-white gap-1 bg-gray-100 rounded-lg px-4 py-1 cursor-pointer" @click="goBackOrHome">
                     <Icon name="material-symbols:arrow-back-rounded" />
-                    <span @click="goBack">
-                        BACK
-                    </span>
+                    BACK
                 </div>
             </div>
-            <h1 class="text-lg mb-4 text-left uppercase font-bold flex-2">
-                {{ projectStore.information.license }}
-            </h1>
+        </div>
+        <div class="w-full flex items-center justify-center">
+            <div>
+                <h1 class="text-lg text-center uppercase font-bold">
+                    {{ projectDetails.license }}
+                </h1>
+            </div>
         </div>
         <div class="flex flex-col gap-4">
             <div class="flex items-end gap-1 mb-8">
                 <h1 class="text-2xl text-black uppercase font-semibold">
-                    Task Details
+                    PROJECT INFORMATION DETAILS
                 </h1>
             </div>
             <div class="flex flex-col gap-3 mb-8">
@@ -25,7 +46,7 @@
                         Project Id:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
-                        PRJ-10001-8977657-B1139876
+                        {{ projectDetails.code ?? "No project yet." }}
                     </span>
                 </div>
                 <div class="flex items-end gap-3">
@@ -33,7 +54,7 @@
                         Contract Name:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
-                        Construction of Flood Control Structure along Tago River, Abutment A, San Miguel Surigao del Sur
+                        {{ projectDetails.name }}
                     </span>
                 </div>
                 <div class="flex items-end gap-3">
@@ -41,44 +62,69 @@
                         Location:
                     </span>
                     <span class="text-black text-md uppercase flex-1 font-semibold">
-                        San Miguel, Surigao del Sur
+                        {{ projectDetails.location }}
                     </span>
                 </div>
             </div>
-            <div class="flex justify-between bg-gray-200 px-2 py-2 items-center">
-                <span>
-                    A.1.1(3)
-                </span>
-                <!-- <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-8" @click="showCategoryModal = true">
-                    Add Category
-                </button> -->
-            </div>
         </div>
-
-        <ProjectsDetailsTask />
-        <ProjectsModalsCategory :show-modal="showCategoryModal" @hide-modal="showCategoryModal = false" />
+        <AccountingCommonTabsMainContainer class="w-full">
+            <template #tab-titles>
+                <AccountingCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+                    ])"
+                    title="BILL OF QUANTITIES"
+                    target-id="billOfQuantities"
+                />
+                <AccountingCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+                    ])"
+                    title="SUMMARY OF RATES"
+                    target-id="summaryRates"
+                />
+                <AccountingCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+                    ])"
+                    title="SUMMARY OF BID"
+                    target-id="bidSummary"
+                />
+                <AccountingCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+                    ])"
+                    title="CASH FLOW"
+                    target-id="cashFlow"
+                />
+                <AccountingCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
+                    ])"
+                    title="BILL OF MATERIALS"
+                    target-id="billOfMaterials"
+                    class="hidden"
+                />
+            </template>
+            <template #tab-containers>
+                <AccountingCommonTabsTabContainer id="billOfQuantities">
+                    <ProjectsBillofQuantities />
+                </AccountingCommonTabsTabContainer>
+                <AccountingCommonTabsTabContainer id="summaryRates">
+                    <ProjectsSummaryRates />
+                </AccountingCommonTabsTabContainer>
+                <AccountingCommonTabsTabContainer id="bidSummary">
+                    <ProjectsBidSummary />
+                </AccountingCommonTabsTabContainer>
+                <AccountingCommonTabsTabContainer id="cashFlow">
+                    <ProjectsCashFlow />
+                </AccountingCommonTabsTabContainer>
+                <AccountingCommonTabsTabContainer id="billOfMaterials" class="hidden">
+                    <ProjectsBillofMaterials />
+                </AccountingCommonTabsTabContainer>
+            </template>
+        </AccountingCommonTabsMainContainer>
+        <!-- <ProjectsDetailsTask />
+        <ProjectsModalsCategory :show-modal="showCategoryModal" @hide-modal="showCategoryModal = false" /> -->
     </div>
 </template>
-
-<script lang="ts" setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-import { useResourceStore } from "~/stores/project-monitoring/resource"
-
-const projectStore = useProjectStore()
-projectStore.viewState = true
-// const edit = projectStore.viewState
-const resourceStore = useResourceStore()
-resourceStore.getResourceUnits()
-const showCategoryModal = ref(false)
-
-const goBack = () => {
-    window.history.back()
-}
-</script>
-
-<style>
-#tabContainer span.active {
-    border-bottom-color: rgb(28 100 242);
-    color: rgb(28 100 242);
-}
-</style>

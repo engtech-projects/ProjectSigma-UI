@@ -1,0 +1,50 @@
+<script setup>
+import { storeToRefs } from "pinia"
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+const projectStore = useProjectStore()
+
+const { onHoldList } = storeToRefs(projectStore)
+
+await projectStore.getOnHoldProjects()
+const changePaginate = (newParams) => {
+    onHoldList.value.params.page = newParams.page ?? ""
+}
+
+const headers = [
+    { name: "PROJECT NAME", id: "name", style: "text-left" },
+    { name: "LOCATION", id: "location", style: "text-left" },
+    { name: "AMOUNT", id: "amount", style: "text-left" },
+    { name: "CREATED AT", id: "created_at", style: "text-left" },
+    { name: "STATUS", id: "stage", style: "text-left" },
+]
+const actions = {
+    showTable: true,
+}
+const ddata = computed(() => {
+    return onHoldList.value.list ?? []
+})
+const projectDetails = (data) => {
+    navigateTo(`/project-monitoring/information?id=${data.id}`)
+}
+</script>
+<template>
+    <LayoutBoards class="w-full" :loading="onHoldList.isLoading">
+        <LayoutAcessContainer
+            :if-access="useCheckAccessibility([
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING_ON_HOLD_LIST,
+            ])"
+        >
+            <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
+                <LayoutPsTable
+                    :header-columns="headers"
+                    :actions="actions"
+                    :datas="ddata ?? []"
+                    @show-table="projectDetails"
+                />
+                <div class="flex justify-center mx-auto">
+                    <CustomPagination :links="onHoldList.pagination" @change-params="changePaginate" />
+                </div>
+            </div>
+        </LayoutAcessContainer>
+    </LayoutBoards>
+</template>
