@@ -1,4 +1,4 @@
-<script  setup>
+<script setup>
 import { useModalStore } from "~/stores/modal"
 import { useHMOStore } from "~/stores/hrms/setup/hmo"
 

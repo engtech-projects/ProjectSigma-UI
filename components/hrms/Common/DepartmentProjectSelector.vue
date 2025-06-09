@@ -9,6 +9,16 @@ defineProps({
         required: false,
         default: "Department/Project",
     },
+    useClassChargeType: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
+    showAllOption: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
 })
 watch(selectType, () => {
     projectId.value = null
@@ -32,21 +42,34 @@ watch(selectType, () => {
                     <option value="" selected>
                         Select Type
                     </option>
-                    <option value="Project">
-                        Project
-                    </option>
-                    <option value="Department">
-                        Department
-                    </option>
+                    <template v-if="!useClassChargeType">
+                        <option v-if="showAllOption" value="All">
+                            All
+                        </option>
+                        <option value="Project">
+                            Project
+                        </option>
+                        <option value="Department">
+                            Department
+                        </option>
+                    </template>
+                    <template v-else>
+                        <option value="App\Models\Project">
+                            Project
+                        </option>
+                        <option value="App\Models\Department">
+                            Department
+                        </option>
+                    </template>
                 </select>
             </div>
             <div class="w-2/3">
-                <template v-if="selectType === 'Department'">
+                <template v-if="selectType === 'Department' || selectType === 'App\\Models\\Department'">
                     <HrmsCommonDepartmentSelector
                         v-model="departmentId"
                     />
                 </template>
-                <template v-if="selectType === 'Project'">
+                <template v-if="selectType === 'Project' || selectType === 'App\\Models\\Project'">
                     <HrmsCommonProjectSelector
                         v-model="projectId"
                     />
