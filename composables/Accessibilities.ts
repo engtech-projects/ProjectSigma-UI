@@ -51,6 +51,7 @@ export enum AccessibilityTypes {
     hrms_attendance_qr_generator = "hrms:attendance_generate QR",
     hrms_attendance_qr_login = "hrms:attendance_attendance QR",
     hrms_attendance_attendance_logs = "hrms:attendance_attendance logs",
+    hrms_attendance_attendance_logs_delete = "hrms:attendance_attendance logs delete",
     hrms_attendance_dtr = "hrms:attendance_dtr",
     // EMPLOYEE
     hrms_employee_group = "hrms:employee_",
@@ -288,7 +289,7 @@ export enum AccessibilityTypes {
     PROJECT_MONITORING_GROUP = "project monitoring:",
     PROJECT_MONITORING_DASHBOARD = "project monitoring:dashboard",
     PROJECT_MONITORING_PROJECTS = "project monitoring:projects",
-    PROJECT_MONITORING_MARKETING = "project monitoring:marketing",
+    PROJECT_MONITORING_MARKETING_GROUP = "project monitoring:marketing_",
     PROJECT_MONITORING_MARKETING_MY_PROJECTS = "project monitoring:marketing_my projects",
     PROJECT_MONITORING_MARKETING_BIDDING_LIST = "project monitoring:marketing_bidding list",
     PROJECT_MONITORING_MARKETING_PROPOSAL_LIST = "project monitoring:marketing_proposal list",

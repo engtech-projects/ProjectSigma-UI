@@ -15,6 +15,8 @@ const headers = [
     { name: "From", id: "start_time_human" },
     { name: "To", id: "end_time_human" },
     { name: "Purpose/Reason", id: "reason" },
+    { name: "Request Status", id: "request_status" },
+    { name: "Requested by", id: "created_by_user" },
 ]
 const actions = {
     showTable: true, // edit: true, // delete: true

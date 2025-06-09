@@ -6,11 +6,18 @@ const employee = useEmployeeInfo()
 const { information, editable } = storeToRefs(employee)
 const employeePosition = computed(() => {
     const pos = employee.information.current_employment?.position?.name ?? ""
-    const dep = employee.information.current_employment?.employee_department?.department_name ?? ""
-    if (pos.includes(dep)) {
+    if (pos.includes(",")) {
         return pos.split(",")[0]
     }
     return pos
+})
+const employeeDept = computed(() => {
+    const dept = employee.information.current_employment?.position?.name ?? ""
+    if (dept.includes(",")) {
+        return dept.split(",")[1]
+    } else {
+        return ""
+    }
 })
 </script>
 <template>
@@ -58,7 +65,7 @@ const employeePosition = computed(() => {
                 {{ employeePosition }}
             </p>
             <p class="text-md">
-                {{ information.current_employment?.employee_department?.department_name }}
+                {{ employeeDept }}
             </p>
         </div>
         <div class="w-full absolute top-[380.08px] text-center">

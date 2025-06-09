@@ -9,17 +9,30 @@ export const REQ_STATUS = [
     PENDING,
     DENIED,
 ]
-export const WEEKLY = "Weekly"
-export const MONTHLY = "Monthly"
-export const BIMONTHLY = "Bimonthly"
+// export const WEEKLY = "Weekly"
+// export const MONTHLY = "Monthly"
+// export const BIMONTHLY = "Bimonthly"
+// export const TERMS = [
+//     MONTHLY,
+//     BIMONTHLY,
+//     WEEKLY,
+// ]
+
+export const PREPAYMENT_IN_FULL = "PREPAYMENT IN FULL"
+export const CREDIT_7_DAYS = "CREDIT 7 DAYS"
+export const CREDIT_15_DAYS = "CREDIT 15 DAYS"
+export const CREDIT_30_DAYS = "CREDIT 30 DAYS"
+export const PROGRESS_BILLING = "PROGRESS BILLING"
 export const TERMS = [
-    MONTHLY,
-    BIMONTHLY,
-    WEEKLY,
+    PREPAYMENT_IN_FULL,
+    CREDIT_7_DAYS,
+    CREDIT_15_DAYS,
+    CREDIT_30_DAYS,
+    PROGRESS_BILLING
 ]
 
 export interface ReceivingDetails {
-    reference_number: string;
+    reference_no: string;
     supplier: string;
     reference_code: string;
     terms_of_payment: string;
@@ -398,6 +411,67 @@ export const useReceivingStore = defineStore("receivingStore", {
                     },
                 }
             )
+        },
+
+        async autoSaveReceivingData (id: number, payload: Record<string, any>) {
+            this.errorMessage = ""
+            this.successMessage = ""
+
+            try {
+                await useInventoryApi(
+                    `/api/material-receiving/${id}/save-details`,
+                    {
+                        method: "PATCH",
+                        body: JSON.stringify(payload),
+                        watch: false,
+                        onRequest: () => {
+                            this.receiving.isLoading = true
+                        },
+                        onResponseError: ({ response }: any) => {
+                            this.receiving.isLoading = false
+                            // Handle validation errors (422)
+                            if (response.status === 422 && response._data.errors) {
+                                const errorMessages = Object.values(response._data.errors).flat().join(", ")
+                                this.errorMessage = `Validation error: ${errorMessages}`
+                            } else {
+                                this.errorMessage = response._data.message || "Auto-save failed"
+                            }
+                            throw new Error(this.errorMessage)
+                        },
+                        onResponse: ({ response }: any) => {
+                            this.receiving.isLoading = false
+                            if (response.ok && response._data.success) {
+                                // Update the local receiving details with the refreshed data from backend
+                                if (response._data.data && this.receiving.details) {
+                                    // Update supplier_id in the main object if it was updated
+                                    if (payload.supplier_id !== undefined) {
+                                        this.receiving.details.supplier_id = response._data.data.supplier_id
+                                    }
+
+                                    // Update metadata with the saved values
+                                    if (!this.receiving.details.metadata) {
+                                        this.receiving.details.metadata = {}
+                                    }
+
+                                    // Merge the updated metadata from the response
+                                    this.receiving.details.metadata = merge(this.receiving.details.metadata, response._data.data.metadata)
+                                }
+
+                                // Optionally show success message (uncomment if needed)
+                                this.successMessage = response._data.message
+
+                                return response._data
+                            } else {
+                                this.errorMessage = response._data.message || "Auto-save failed"
+                                throw new Error(this.errorMessage)
+                            }
+                        },
+                    }
+                )
+            } catch (error) {
+                this.receiving.isLoading = false
+                throw error
+            }
         },
 
         clearMessages () {

@@ -23,15 +23,15 @@ const actions = {
 const ddata = computed(() => {
     return myProjectList.value.list ?? []
 })
-const draftDetais = (data) => {
-    navigateTo(`/project-monitoring/my-drafts?id=${data.id}`)
+const projectDetails = (data) => {
+    navigateTo(`/project-monitoring/information?id=${data.id}`)
 }
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="myProjectList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROJECT_LIST,
             ])"
         >
             <div class="w-1/3 px-4">
@@ -62,7 +62,7 @@ const draftDetais = (data) => {
                     :header-columns="headers"
                     :actions="actions"
                     :datas="ddata ?? []"
-                    @show-table="draftDetais"
+                    @show-table="projectDetails"
                 />
                 <div class="flex justify-center mx-auto">
                     <CustomPagination :links="myProjectList.pagination" @change-params="changePaginate" />

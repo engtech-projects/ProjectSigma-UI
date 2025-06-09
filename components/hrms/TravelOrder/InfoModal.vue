@@ -62,7 +62,7 @@ const voidRequest = async (id) => {
         await travelOrderStore.voidRequest(id, voidRemarks.value)
         snackbar.add({
             type: "success",
-            text: "Void Request Submitted",
+            text: travelOrderStore.successMessage,
         })
         closeViewModal()
     } catch (error) {

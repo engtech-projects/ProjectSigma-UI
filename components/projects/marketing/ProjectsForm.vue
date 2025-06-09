@@ -123,7 +123,6 @@ const handleSubmit = async () => {
                         </label>
                         <AccountingCommonSelectStakeholderSelect
                             :stakeholder-id="projectStore.information.designation"
-                            :stakeholder="designation"
                             :select-options="['employee']"
                             default-dept="employee"
                             placeholder="Search Employee"
@@ -166,10 +165,3 @@ const handleSubmit = async () => {
         <ProjectsModalsUpload :show-modal="showUploadModal" @hide-modal="showUploadModal = false" />
     </div>
 </template>
-
-<style>
-#tabContainer span.active {
-    border-bottom-color: rgb(28 100 242);
-    color: rgb(28 100 242);
-}
-</style>
