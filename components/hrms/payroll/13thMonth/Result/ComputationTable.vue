@@ -11,7 +11,7 @@ defineProps({
         <thead class="text-md">
             <tr class="py-4">
                 <th
-                    rowspan="11"
+                    colspan="10"
                     class="py-4 border-gray-500"
                 >
                     13TH MONTH FORMULA COMPUTATION
@@ -71,51 +71,51 @@ defineProps({
             </tr>
         </thead>
         <tbody class="text-sm">
-            <tr v-for="_rowData, _key, index in data.pays" :key="'13thMonthComputationDataRow' + index" class="h-2">
+            <tr v-for="_rowData, _key in data.details" :key="'13thMonthComputationDataRow' + _key" class="h-2">
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
                 >
-                    {{ index + 1 }}
+                    {{ _key + 1}}
                 </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm"
                 >
-                    name
+                    {{ _rowData.employee?.fullname_last || _rowData.metadata.employee_name || "N/A" }}
                 </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
                 >
-                    duration
+                    {{ data.payroll_duration }}
                 </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
-                    no of payroll
+                    {{ _rowData.metadata?.payroll_record_count || 0 }}
                 </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
                 >
-                    regular days
+                    {{ useFormatCurrency(_rowData.metadata?.total_payroll_regular || 0) }}
                 </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm"
                 >
-                    regular holiday
+                    {{ useFormatCurrency(_rowData.metadata?.total_payroll_regular_holiday || 0) }}
                 </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm"
                 >
-                    special holiday
+                    {{ useFormatCurrency(_rowData.metadata?.total_payroll_special_holiday || 0) }}
                 </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
                 >
-                    total amount of gross pay / 12
+                    {{ useFormatCurrency(_rowData.metadata?.total_amount || 0) }}
                 </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
-                    office
+                    {{ _rowData.charging_names || _rowData.metadata?.charging_names || "N/A" }}
                 </td>
                 <td class="border border-gray-500 h-8 px-2 font-bold text-sm text-right" />
             </tr>

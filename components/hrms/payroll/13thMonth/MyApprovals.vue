@@ -7,22 +7,18 @@ if (!myApprovals.value.isLoaded) {
     dataStore.getMyApprovals()
 }
 const headers = [
-    { name: "Payroll Duration", id: "paryoll_duration_human" },
-    { name: "Release Type", id: "release_type" },
+    { name: "Payroll Duration", id: "payroll_duration" },
+    { name: "13th Month Date", id: "date_requested" },
     { name: "Request Status", id: "request_status" },
     { name: "Requested By", id: "requested_by" },
     { name: "Requested On", id: "created_at_human" },
 ]
 const actions = {
-    showTable: true,
+    link: {
+        show: true,
+        url: "/hrms/payroll/13thmonthpay/details"
+    }
 }
-const infoModalData = ref({})
-const showInfoModal = ref(false)
-const showInformation = (data) => {
-    infoModalData.value = data
-    showInfoModal.value = true
-}
-
 </script>
 <template>
     <LayoutLoadingContainer class="w-full">
@@ -31,12 +27,7 @@ const showInformation = (data) => {
                 :header-columns="headers"
                 :actions="actions"
                 :datas="myApprovals.list ?? []"
-                @show-table="showInformation"
             />
         </div>
     </LayoutLoadingContainer>
-    <HrmsPayrollAllowanceInfoModal
-        v-model:show-modal="showInfoModal"
-        :data="infoModalData"
-    />
 </template>

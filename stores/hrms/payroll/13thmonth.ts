@@ -1,16 +1,21 @@
 import { defineStore } from "pinia"
 
+export const FORM_APPROVAL_NAME = "13th Month Request"
+
 export const use13thMonthStore = defineStore("13thmonthStore", {
     state: () => ({
         isEdit: false,
         generateDraftRequest: {
             isLoading: false,
             data: {
-                from: "",
-                to: "",
-                payroll_date: "",
-                release_type: "",
-                approvals: [],
+                date_from: "",
+                date_to: "",
+                total_days: 0,
+                date_requested: "",
+                employee_ids: [],
+                days_advance: 0,
+                charging_type: "",
+                charging_id: null,
             },
             errorMessage: "",
             successMessage: "",
@@ -18,9 +23,11 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         createRequestData: {
             isLoading: false,
             data: {}, // Will be set By Generate Draft
+            resourceData: {}, // Will be set By Generate Draft
             errorMessage: "",
             successMessage: "",
         },
+        createApprovalsBackup: [],
         allRequests: {
             isLoading: false,
             isLoaded: false,
@@ -63,7 +70,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
     actions: {
         async getOne (id: any): Promise<any> {
             return await useHRMSApiO(
-                "/api/salary-disbursement/resource/" + id,
+                "/api/13th-month/resource/" + id,
                 {
                     method: "GET",
                     onResponse: ({ response }: any) => {
@@ -79,7 +86,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         async getAllRequests () {
             this.allRequests.isLoaded = true
             await useHRMSApi(
-                "/api/salary-disbursement/resource",
+                "/api/13th-month/resource",
                 {
                     method: "GET",
                     params: this.allRequests.params,
@@ -103,7 +110,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         async getMyRequests () {
             this.myRequests.isLoaded = true
             await useHRMSApi(
-                "/api/salary-disbursement/my-requests",
+                "/api/13th-month/my-requests",
                 {
                     method: "GET",
                     params: this.myRequests.params,
@@ -130,7 +137,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         async getMyApprovals () {
             this.myApprovals.isLoaded = true
             await useHRMSApi(
-                "/api/salary-disbursement/my-approvals",
+                "/api/13th-month/my-approvals",
                 {
                     method: "GET",
                     params: this.myApprovals.params,
@@ -158,7 +165,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         async getPayslipReadyRecords () {
             this.payslipReadyRecords.isLoaded = true
             await useHRMSApi(
-                "/api/salary-disbursement/payslip-ready",
+                "/api/13th-month/payslip-ready",
                 {
                     method: "GET",
                     params: this.payslipReadyRecords.params,
@@ -185,7 +192,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         },
         async getOnePayslipReady (id: any): Promise<any> {
             return await useHRMSApiO(
-                "/api/salary-disbursement/payslip-ready/" + id,
+                "/api/13th-month/payslip-ready/" + id,
                 {
                     method: "GET",
                     onResponse: ({ response }: any) => {
@@ -200,22 +207,23 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         },
         async generateDraft () {
             await useHRMSApiO(
-                "/api/salary-disbursement/draft",
+                "/api/13th-month/draft",
                 {
                     method: "POST",
                     body: this.generateDraftRequest.data,
                     onRequest: () => {
                         this.generateDraftRequest.isLoading = true
                     },
+                    onResponseError: ({ response }: any) => {
+                        this.generateDraftRequest.isLoading = false
+                        this.generateDraftRequest.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
                     onResponse: ({ response }: any) => {
                         this.generateDraftRequest.isLoading = false
-                        if (response.ok) {
-                            this.createRequestData.data = response._data.data
-                            this.generateDraftRequest.successMessage = response._data.message
-                        } else {
-                            this.generateDraftRequest.errorMessage = response._data.message
-                            throw new Error(response._data.message)
-                        }
+                        this.createRequestData.data = response._data.data.json
+                        this.createRequestData.resourceData = response._data.data.model
+                        this.generateDraftRequest.successMessage = response._data.message
                     },
                 }
             )
@@ -223,7 +231,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         async createRequest () {
             if (this.createRequestData.isLoading) { return }
             await useHRMSApiO(
-                "/api/salary-disbursement/resource",
+                "/api/13th-month/resource",
                 {
                     method: "POST",
                     body: this.createRequestData.data,
@@ -245,7 +253,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         },
         async deleteRequest (id: number) {
             return await useHRMSApiO(
-                "/api/salary-disbursement/resource/" + id,
+                "/api/13th-month/resource/" + id,
                 {
                     method: "DELETE",
                     watch: false,
@@ -305,7 +313,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         },
         async submitToAccounting (id: number) {
             await useHRMSApiO(
-                "/api/salary-disbursement/submit-to-accounting/" + id,
+                "/api/13th-month/submit-to-accounting/" + id,
                 {
                     method: "POST",
                     onResponseError: ({ response }: any) => {
@@ -322,7 +330,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
             )
         },
         reloadResources () {
-            const backup = this.generateDraftRequest.data.approvals
+            const backup = this.createApprovalsBackup
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
@@ -337,7 +345,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
                 callFunctions.push(this.getPayslipReadyRecords)
             }
             this.$reset()
-            this.generateDraftRequest.data.approvals = backup
+            this.createApprovalsBackup = backup
             callFunctions.forEach((element) => {
                 element()
             })

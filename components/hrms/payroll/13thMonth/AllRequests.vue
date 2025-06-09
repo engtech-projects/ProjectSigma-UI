@@ -11,20 +11,17 @@ const changePaginate = (newParams) => {
     allRequests.value.params.page = newParams.page ?? ""
 }
 const headers = [
-    { name: "Payroll Duration", id: "paryoll_duration_human" },
-    { name: "Release Type", id: "release_type" },
+    { name: "Payroll Duration", id: "payroll_duration" },
+    { name: "13th Month Date", id: "date_requested" },
     { name: "Request Status", id: "request_status" },
     { name: "Requested By", id: "requested_by" },
     { name: "Requested On", id: "created_at_human" },
 ]
 const actions = {
-    showTable: true,
-}
-const infoModalData = ref({})
-const showInfoModal = ref(false)
-const showInformation = (data) => {
-    infoModalData.value = data
-    showInfoModal.value = true
+    link: {
+        show: true,
+        url: "/hrms/payroll/13thmonthpay/details"
+    }
 }
 
 </script>
@@ -35,15 +32,10 @@ const showInformation = (data) => {
                 :header-columns="headers"
                 :datas="allRequests.list"
                 :actions="actions"
-                @show-table="showInformation"
             />
         </div>
         <div class="flex justify-center mx-auto">
             <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
-    <HrmsPayrollAllowanceInfoModal
-        v-model:show-modal="showInfoModal"
-        :data="infoModalData"
-    />
 </template>

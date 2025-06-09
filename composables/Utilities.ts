@@ -373,3 +373,9 @@ export const useHrmsDownloadLink = (url: string) => {
 export const clone = (obj) => {
     return JSON.parse(JSON.stringify(obj))
 }
+
+export const useUrlGenerator = (path: string, query: Record<string, any> = {}) => {
+    const url = new URL(path, window.location.origin)
+    Object.keys(query).forEach(key => url.searchParams.append(key, query[key]))
+    return url.toString()
+}
