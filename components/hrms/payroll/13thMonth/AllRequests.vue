@@ -22,7 +22,6 @@ const actions = {
         url: "/hrms/payroll/13thmonthpay/details"
     }
 }
-
 </script>
 <template>
     <LayoutLoadingContainer class="w-full" :loading="allRequests.isLoading">

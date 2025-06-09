@@ -22,8 +22,6 @@ const actions = {
 const changePaginate = (newParams) => {
     myRequests.value.params.page = newParams.page ?? ""
 }
-
-
 </script>
 <template>
     <LayoutLoadingContainer class="w-full" :loading="myRequests.isLoading">
