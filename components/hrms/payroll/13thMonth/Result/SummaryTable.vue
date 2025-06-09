@@ -83,22 +83,22 @@ defineProps({
                     {{ _rowData.unique_payrolls || 0 }}
                 </td>
                 <td
-                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
+                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
-                    {{ useFormatCurrency(_rowData.total_regular_salary || 0)}}
+                    {{ useFormatCurrency(_rowData.total_regular_salary || 0) }}
                 </td>
                 <td
-                    class="border border-gray-500 h-8 px-2 font-bold text-sm"
+                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
-                    {{ useFormatCurrency(_rowData.total_regular_holiday_salary || 0)}}
+                    {{ useFormatCurrency(_rowData.total_regular_holiday_salary || 0) }}
                 </td>
                 <td
-                    class="border border-gray-500 h-8 px-2 font-bold text-sm"
+                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
-                    {{ useFormatCurrency(_rowData.total_special_holiday_salary || 0)}}
+                    {{ useFormatCurrency(_rowData.total_special_holiday_salary || 0) }}
                 </td>
                 <td
-                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-center"
+                    class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
                     {{ useFormatCurrency(_rowData.total_amount || 0) }}
                 </td>

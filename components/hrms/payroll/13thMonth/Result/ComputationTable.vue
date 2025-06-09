@@ -112,7 +112,6 @@ defineProps({
                 >
                     {{ useFormatCurrency(_rowData.metadata?.total_amount || 0) }}
                 </td>
-                </td>
                 <td
                     class="border border-gray-500 h-8 px-2 font-bold text-sm text-right"
                 >
