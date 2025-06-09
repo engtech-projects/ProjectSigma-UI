@@ -41,6 +41,13 @@ useHead({
                         :target-id="'tab4' + compId"
                         title="My Approvals"
                     />
+                    <HrmsCommonTabsTabTitle
+                        v-if="useCheckAccessibility([
+                            AccessibilityTypes.HRMS_PAYROLL_13THMONTH_SUMMARY,
+                        ])"
+                        :target-id="'tab5' + compId"
+                        title="Payroll Summary"
+                    />
                 </template>
                 <template #tab-containers>
                     <HrmsCommonTabsTabContainer :id="'tab1' + compId">
@@ -54,6 +61,9 @@ useHead({
                     </HrmsCommonTabsTabContainer>
                     <HrmsCommonTabsTabContainer :id="'tab4' + compId">
                         <HrmsPayroll13thMonthMyApprovals />
+                    </HrmsCommonTabsTabContainer>
+                    <HrmsCommonTabsTabContainer :id="'tab5' + compId">
+                        <HrmsPayroll13thMonthSummaryDetails />
                     </HrmsCommonTabsTabContainer>
                 </template>
             </HrmsCommonTabsMainContainer>

@@ -55,6 +55,16 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
             errorMessage: "",
             successMessage: "",
         },
+        summary: {
+            isLoading: false,
+            isLoaded: false,
+            data: [],
+            params: {
+                date_requested: "",
+            },
+            errorMessage: "",
+            successMessage: "",
+        }
     }),
     actions: {
         async getOne (id: any): Promise<any> {
@@ -253,6 +263,28 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
                             // this.successMessage = response._data.message
                             return response._data
                         }
+                    },
+                }
+            )
+        },
+        async getSummary () {
+            await useHRMSApi(
+                "/api/13th-month/summary",
+                {
+                    method: "GET",
+                    params: this.summary.params,
+                    onRequest: () => {
+                        this.summary.isLoading = true
+                    },
+                    onResponseError: ({ response }) => {
+                        this.summary.isLoading = false
+                        this.summary.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }) => {
+                        this.summary.isLoading = false
+                        this.summary.data = response._data.data
+                        this.summary.successMessage = response._data.message
                     },
                 }
             )
