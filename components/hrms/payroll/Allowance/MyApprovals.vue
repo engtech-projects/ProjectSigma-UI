@@ -15,6 +15,8 @@ const headers = [
     { name: "Cutoff End", id: "cutoff_end_human" },
     { name: "Allowance Date", id: "allowance_date_human" },
     { name: "Total # of Day(s)", id: "total_days" },
+    { name: "Requested by", id: "requested_by_user" },
+    { name: "Request Status", id: "request_status" },
 ]
 
 const actions = {
