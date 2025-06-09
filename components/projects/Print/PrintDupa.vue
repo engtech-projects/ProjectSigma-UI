@@ -1,9 +1,16 @@
 <template>
-    <div>
-        <LayoutPrint v-if="print">
-            <ProjectsPrintDupa />
-        </LayoutPrint>
-        <div v-else class="bg-white">
+    <div class="max-w-6xl mx-auto border border-black p-6">
+        <div class="text-center font-bold text-sm">
+            <h1>{{ projectStore.information.license }}</h1>
+        </div>
+
+        <div class="my-4 text-sm">
+            <p><strong>Project ID Number:</strong> {{ projectStore.information.id }}</p>
+            <p><strong>Project Name:</strong> {{ projectStore.information.name }}</p>
+            <p><strong>Project Location:</strong> {{ projectStore.information.location }}</p>
+        </div>
+
+        <div class="bg-white">
             <div class="flex flex-col border-gray-800">
                 <div class="flex justify-center py-2 border-2 border-b border-black">
                     <h1 class="text-lg font-semibold text-black uppercase text-center ">
@@ -50,27 +57,8 @@
                             <td class="p-2 border border-gray-700 text-center">
                                 {{ taskStore.task.unit_price + " / " + taskStore.task.unit }}
                             </td>
-                            <td class="border border-gray-700">
-                                <div class="flex">
-                                    <div class="flex flex-col border-r border-gray-700 flex-1">
-                                        <div class="flex flex-col p-2 border-b border-gray-700">
-                                            <h4 class="font-bold uppercase text-sm flex-1">
-                                                In Words
-                                            </h4>
-                                            <span class="pl-4 flex-1">
-                                                {{ amountToWords(taskStore.task.amount) }}
-                                            </span>
-                                        </div>
-                                        <div class="flex flex-col p-2">
-                                            <h4 class="font-bold uppercase text-sm">
-                                                In Figures
-                                            </h4>
-                                            <span class="pl-4">
-                                                {{ accountingCurrency(taskStore.task.amount) }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <td class="p-2 border border-gray-700 text-center">
+                                {{ accountingCurrency(taskStore.task.amount) }}
                             </td>
                         </tr>
                     </tbody>
@@ -128,35 +116,8 @@
                             <td class="p-2 border border-gray-700 text-center">
                                 {{ resource.unit_cost + " / " + resource.unit }}
                             </td>
-                            <td class="border border-gray-700">
-                                <div class="flex">
-                                    <div class="flex flex-col border-r border-gray-700 flex-1">
-                                        <div class="flex flex-col p-2 border-b border-gray-700">
-                                            <h4 class="font-bold uppercase text-sm flex-1">
-                                                In Words
-                                            </h4>
-                                            <span class="pl-4 flex-1">
-                                                {{ amountToWords(resource.unit_cost) }}
-                                            </span>
-                                        </div>
-                                        <div class="flex flex-col p-2">
-                                            <h4 class="font-bold uppercase text-sm">
-                                                In Figures
-                                            </h4>
-                                            <span class="pl-4">
-                                                {{ accountingCurrency(resource.unit_cost) }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-col p-2 justify-center gap-2">
-                                        <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6" @click="editResource(resource)">
-                                            <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
-                                        </button>
-                                        <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6" @click="removeResource(resource.id)">
-                                            <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
-                                        </button>
-                                    </div>
-                                </div>
+                            <td class="p-2 border border-gray-700 text-center">
+                                {{ accountingCurrency(resource.unit_cost) }}
                             </td>
                         </tr>
                         <tr v-if="filterResources(rnames.id).length > 0" class="border-b border-gray-700 text-sm font-bold">
@@ -272,33 +233,32 @@
                     </tbody>
                 </table>
             </div>
-            <ProjectsModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" />
-            <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" />
-            <ProjectsModalsResource :show-modal="showResourceModal" :task-id="taskStore.task.id" @hide-modal="showResourceModal = false" />
         </div>
-        <div class="flex justify-end py-4">
-            <button v-if="!print" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-12 h-8" @click="print = true">
-                <Icon name="ic:outline-local-printshop" class="text-white h-6 w-6" />
-            </button>
-            <button v-else class="bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 select-none text-white rounded-lg text-sm px-4 py-2" @click="print = false">
-                Hide Print Layout
-            </button>
+
+        <!-- Footer -->
+        <div class="mt-6 text-sm">
+            <p class="font-bold">
+                Submitted By:
+            </p>
+            <div class="mt-8">
+                <p><strong>ANGEL A. ABRAU</strong></p>
+                <p>Authorized Managing Officer</p>
+                <p>ENVEPAR CONSTRUCTION AND DEVELOPMENT CORPORATION</p>
+            </div>
+            <div class="mt-4 text-right">
+                <p><strong>Date:</strong> {{ fullDate(new Date()) }}</p>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { useProjectStore } from "~/stores/project-monitoring/projects"
 import { useResourceStore } from "~/stores/project-monitoring/resource"
 import { useTaskStore } from "~/stores/project-monitoring/task"
 
-const print = ref(false)
 const projectStore = useProjectStore()
-const edit = projectStore.viewState
 const resourceStore = useResourceStore()
-const showPhaseModal = ref(false)
-const showTaskModal = ref(false)
-const showResourceModal = ref(false)
 const letterHeader = ref(["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"])
 const taskStore = useTaskStore()
 const filterResources = (id: number) => {
@@ -308,44 +268,10 @@ const totalDirectCost = (id: number) => {
     return taskStore.task.resources.data.filter(resource => resource.resources.id === id).reduce((total: number, resource: any) => total + resource.unit_cost * resource.quantity, 0)
 }
 const addResource = (id) => {
-    showResourceModal.value = true
     resourceStore.reset()
     resourceStore.resource.name_id = id
 }
-const editResource = (resource: any) => {
-    showResourceModal.value = true
-    resourceStore.resource = resource
-    resourceStore.resource.name_id = resource.resources.id
-}
 const boardLoading = ref(false)
-const snackbar = useSnackbar()
-const removeResource = async (id: number) => {
-    try {
-        boardLoading.value = true
-        await resourceStore.deleteResource(id)
-        if (resourceStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: resourceStore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: resourceStore.successMessage
-            })
-        }
-    } catch (error) {
-        resourceStore.errorMessage = error as string
-
-        snackbar.add({
-            type: "error",
-            text: resourceStore.errorMessage
-        })
-    } finally {
-        taskStore.getTask(taskStore.task.id)
-        boardLoading.value = false
-    }
-}
 </script>
 
 <style>
