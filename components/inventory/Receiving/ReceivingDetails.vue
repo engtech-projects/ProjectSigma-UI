@@ -179,10 +179,13 @@ const updateAcceptedQty = (itemId: number, qty: number) => {
 }
 const calculatedGrandTotal = computed(() => {
     const items = localData.value.items || []
-    const total = items.reduce((total, item) => total + getExtPrice(item), 0)
-    localData.value.metadata = { ...localData.value.metadata, grand_total: total }
-    emit("update:data", localData.value)
-    return total
+    return items.reduce((total, item) => total + getExtPrice(item), 0)
+})
+watch(calculatedGrandTotal, (newTotal) => {
+    if (localData.value.metadata?.grand_total !== newTotal) {
+        localData.value.metadata = { ...localData.value.metadata, grand_total: newTotal }
+        emit("update:data", localData.value)
+    }
 })
 
 const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
@@ -191,14 +194,13 @@ const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: s
         snackbar.add({ type: "error", text: "Item not found." })
         return
     }
-    const grandTotal = calculatedGrandTotal.value
     const payload = {
         remarks,
         actual_brand_purchase: item.metadata?.actual_brand_purchase || item.actual_brand_purchase || "",
         quantity: acceptedQtyMap.value.get(requestId) || item.quantity || 0,
         unit_price: item.metadata?.unit_price || item.unit_price || 0,
         specification: item.metadata?.specification || item.specification || null,
-        grand_total: grandTotal
+        grand_total: getExtPrice(item)
     }
 
     try {
@@ -232,14 +234,13 @@ const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestI
     }
 
     updateAcceptedQty(requestId, acceptedQty)
-    const grandTotal = calculatedGrandTotal.value
     const payload = {
         quantity: acceptedQty,
         remarks,
         actual_brand_purchase: item.metadata?.actual_brand_purchase || item.actual_brand_purchase || "",
         unit_price: item.metadata?.unit_price || item.unit_price || 0,
         specification: item.metadata?.specification || item.specification || null,
-        grand_total: grandTotal
+        grand_total: getExtPrice(item)
     }
     try {
         await main.acceptQtyRemarks(requestId, payload)
@@ -439,7 +440,7 @@ onUnmounted(() => {
                                                     class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     placeholder="Enter brand..."
                                                     required
-                                                    @input="updateSpecification(item.id, $event.target.value)"
+                                                    @input="updateSpecification(item.id, ($event.target as HTMLInputElement).value)"
                                                 >
                                             </td>
                                             <td class="border px-2 py-1 text-center">
@@ -455,7 +456,7 @@ onUnmounted(() => {
                                                     class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                     placeholder="Enter brand..."
                                                     required
-                                                    @input="updateActualBrand(item.id, $event.target.value)"
+                                                    @input="updateActualBrand(item.id, ($event.target as HTMLInputElement).value)"
                                                 >
                                             </td>
                                             <td class="border px-2 py-1 text-center">
@@ -479,7 +480,7 @@ onUnmounted(() => {
                                                         min="0"
                                                         class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                                         placeholder="0.00"
-                                                        @input="updateUnitPrice(item.id, parseFloat($event.target.value) || 0)"
+                                                        @input="updateUnitPrice(item.id, parseFloat(($event.target as HTMLInputElement).value) || 0)"
                                                     >
                                                 </template>
                                             </td>
