@@ -91,7 +91,14 @@ const isActiveRow = (index: any) => {
                                 <Icon name="material-symbols:edit" color="white" class="bg-green-400 rounded h-8 w-8 p-1" />
                             </button>
                             <button v-if="actions.delete" @click="doDelete(dataValue)">
-                                <Icon name="ion:trash" color="white" class="bg-red-500 rounded h-8 w-8 p-1" />
+                                <Icon
+                                    name="ion:trash"
+                                    color="white"
+                                    class="bg-red-500 rounded h-8 w-8 p-1"
+                                    :if-access="useCheckAccessibility([
+                                        AccessibilityTypes.hrms_attendance_attendance_logs_delete,
+                                    ])"
+                                />
                             </button>
                             <button v-if="actions.showTable" @click="showTbl(dataValue)">
                                 <Icon name="material-symbols:visibility-rounded" color="white" class="bg-teal-700 rounded h-8 w-8 p-1" />
