@@ -37,7 +37,7 @@ const deleteCont = async (cont) => {
 
 const changePaginate = (newParams) => {
     getParams.value.page = newParams.page ?? ""
-    await main.getUOM()
+    main.getUOM()
 }
 
 const headers = [
