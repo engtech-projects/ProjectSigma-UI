@@ -291,6 +291,8 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
         },
         reloadResources () {
             const backup = this.createApprovalsBackup
+            this.generateDraftRequest.data.employee_ids = []
+            const formBackup = this.generateDraftRequest.data
             const callFunctions = []
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
@@ -303,6 +305,7 @@ export const use13thMonthStore = defineStore("13thmonthStore", {
             }
             this.$reset()
             this.createApprovalsBackup = backup
+            this.generateDraftRequest.data = formBackup
             callFunctions.forEach((element) => {
                 element()
             })
