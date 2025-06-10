@@ -24,6 +24,8 @@ const headers = [
     { name: "Purpose", id: "purpose_of_travel" },
     { name: "Duration", id: "duration_of_travel" },
     { name: "Remarks", id: "remarks" },
+    { name: "Request Status", id: "request_status" },
+    { name: "Requested By", id: "created_by_user" },
 ]
 
 const actions = {

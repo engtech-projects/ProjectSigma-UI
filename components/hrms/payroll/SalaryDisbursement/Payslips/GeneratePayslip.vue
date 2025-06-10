@@ -1,4 +1,4 @@
-<script  setup lang="ts">
+<script setup lang="ts">
 import PsButton from "~/components/layout/Form/PsButton.vue"
 
 const props = defineProps({

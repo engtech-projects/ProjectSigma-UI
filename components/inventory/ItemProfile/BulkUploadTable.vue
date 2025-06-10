@@ -68,7 +68,7 @@ const doBulkUpload = () => {
                         <input
                             type="submit"
                             value="Submit"
-                            class="hover:text-green-600 hover:bg-gray-100 hover:border-green-600 uppercase font-bold cursor-pointer w-full max-w-fit py-2 px-5 block text-sm text-gray-100  text-center bg-green-600 border rounded border-green-950"
+                            class="hover:text-green-600 hover:bg-gray-100 hover:border-green-600 uppercase font-bold cursor-pointer w-full max-w-fit py-2 px-5 block text-sm text-gray-100 text-center bg-green-600 border rounded border-green-950"
                             @click="doBulkUpload"
                         >
                     </div>

@@ -30,7 +30,7 @@ const reposPage = () => {
         </div>
         <NuxtLink
             to="/hrms/notifications"
-            class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50   dark:bg-gray-600 dark:text-white dark:hover:underline"
+            class="block py-2 text-md font-medium text-center text-gray-900 bg-gray-50 dark:bg-gray-600 dark:text-white dark:hover:underline"
             @click="reposPage"
         >
             <div class="inline-flex items-center">

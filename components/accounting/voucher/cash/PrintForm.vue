@@ -160,7 +160,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                     <td class="border px-4 py-1 border-gray-800 text-xs">
                                         {{ ae?.stakeholder?.name }}
                                     </td>
-                                    <td class="border px-4 py-1 border-gray-800  text-xs text-right">
+                                    <td class="border px-4 py-1 border-gray-800 text-xs text-right">
                                         {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "-" }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs text-right">
@@ -171,7 +171,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                     <td class="border px-4 py-1 border-gray-800 text-xs relative" />
                                     <td class="border px-4 py-1 border-gray-800 text-xs" />
                                     <td class="border px-4 py-1 border-gray-800 text-xs" />
-                                    <td class="border px-4 py-1 border-gray-800  text-xs" />
+                                    <td class="border px-4 py-1 border-gray-800 text-xs" />
                                     <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs" />
                                 </tr>
                                 <tr class="border-none">
