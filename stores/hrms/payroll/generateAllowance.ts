@@ -64,6 +64,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
             errorMessage: "",
             successMessage: "",
         },
+        errorMessage: ""
     }),
     actions: {
         async getAllowanceRecords () {
@@ -256,6 +257,7 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
             )
         },
         async denyApprovalForm (id: string, remarks: string) {
+            this.errorMessage = ""
             const formData = new FormData()
             formData.append("id", id)
             formData.append("remarks", remarks)
@@ -271,7 +273,26 @@ export const useGenerateAllowanceStore = defineStore("GenerateAllowances", {
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.reloadResources()
-                            // this.successMessage = response._data.message
+                            return response._data
+                        }
+                    },
+                }
+            )
+        },
+        async voidRequest (id: string, remarks: string) {
+            const formData = new FormData()
+            formData.append("reason_for_void", remarks)
+            return await useHRMSApiO(
+                "/api/request-voids/void/GenerateAllowance/" + id,
+                {
+                    method: "POST",
+                    body: formData,
+                    onResponseError: ({ response }: any) => {
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.reloadResources()
                             return response._data
                         }
                     },

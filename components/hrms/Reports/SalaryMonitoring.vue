@@ -3,7 +3,7 @@
 </script>
 <template>
     <div class="flex flex-col">
-        <div class="header flex flex-col  mb-8">
+        <div class="header flex flex-col mb-8">
             <div class="flex gap-4">
                 <span class="flex-1 font-bold text-2xl">
                     SALARY MONITORING 2025

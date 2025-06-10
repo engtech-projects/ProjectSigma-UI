@@ -2,7 +2,7 @@
 const compId = useId()
 </script>
 <template>
-    <div :for="compId" class="header flex flex-col  mb-8">
+    <div :for="compId" class="header flex flex-col mb-8">
         <div class="flex gap-4">
             <span class="text-md flex-1">
                 Employer Name:

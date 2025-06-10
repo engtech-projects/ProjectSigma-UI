@@ -10,7 +10,7 @@ const { unreadList, unreadListLength } = storeToRefs(notifStore)
         data-dropdown-trigger="hover"
         data-dropdown-offset-skidding="0"
         data-dropdown-offset-distance="0"
-        class="relative p-2 mr-1 text-gray-500 rounded-lg hover:text-gray-900   dark:text-gray-400 dark:hover:text-white   focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+        class="relative p-2 mr-1 text-gray-500 rounded-lg hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
     >
         <span class="sr-only">View notifications</span>
         <svg
