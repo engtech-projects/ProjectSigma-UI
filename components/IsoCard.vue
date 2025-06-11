@@ -8,7 +8,7 @@
             </tr>
             <tr>
                 <th colspan="4" class="border border-gray-500">
-                    {{ prfNo }}
+                    {{ documentCode }}
                 </th>
             </tr>
             <tr class="text-[12px] bg-[#dce5c8]">
@@ -51,7 +51,7 @@ defineProps({
         type: Object,
         default: null,
     },
-    prfNo: {
+    documentCode: {
         type: String,
         default: ""
     }

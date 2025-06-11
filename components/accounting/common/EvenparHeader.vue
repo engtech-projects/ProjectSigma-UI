@@ -14,7 +14,7 @@
             </div>
             <div class="w-[400px] h-2 border-y-2 border-black border-dashed" />
         </div>
-        <IsoCard :page="page" :prf-no="prfNo" />
+        <IsoCard :page="page" :document-code="documentCode" />
     </div>
 </template>
 
@@ -24,7 +24,7 @@ defineProps({
         type: Object,
         default: null
     },
-    prfNo: {
+    documentCode: {
         type: String,
         default: ""
     }
