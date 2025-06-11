@@ -8,7 +8,7 @@
             </tr>
             <tr>
                 <th colspan="4" class="border border-gray-500">
-                    {{ paymentRequestStore.paymentRequest.prf_no }}
+                    {{ prfNo }}
                 </th>
             </tr>
             <tr class="text-[12px] bg-[#dce5c8]">
@@ -46,13 +46,15 @@
 </template>
 
 <script lang="ts" setup>
-import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
-const paymentRequestStore = usePaymentRequestStore()
 defineProps({
     page: {
         type: Object,
         default: null,
     },
+    prfNo: {
+        type: String,
+        default: ""
+    }
 })
 
 </script>
