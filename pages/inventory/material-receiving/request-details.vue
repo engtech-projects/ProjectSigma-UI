@@ -51,14 +51,16 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <LayoutPrintAdvanced class="min-h-40">
-                <template #print-layout>
-                    <InventoryReceivingDetailsPrintLayout title="Materials Receiving Report" :data="receiving.details" :header-columns="printHeaders" />
-                </template>
-                <template #system-layout>
-                    <InventoryReceivingDetails title="Materials Receiving Report" :data="receiving.details" :header-columns="systemHeaders" />
-                </template>
-            </LayoutPrintAdvanced>
+            <div class="space-x-4">
+                <LayoutPrintAdvanced class="min-h-40">
+                    <template #print-layout>
+                        <InventoryReceivingDetailsPrintLayout title="Materials Receiving Report" :data="receiving.details" :header-columns="printHeaders" />
+                    </template>
+                    <template #system-layout>
+                        <InventoryReceivingDetails title="Materials Receiving Report" :data="receiving.details" :header-columns="systemHeaders" />
+                    </template>
+                </LayoutPrintAdvanced>
+            </div>
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">
