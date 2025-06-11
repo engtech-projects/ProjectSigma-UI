@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
 const { data: userData } = useAuth()
+const paymentRequestStore = usePaymentRequestStore()
+
 const props = defineProps({
     data: {
         type: Object,
@@ -41,7 +44,7 @@ const totalVat = computed(() => {
 <template>
     <div id="toPrint" class="bg-white left-0 top-0 w-screen min-h-[1000px] max-w-[100%] p-4 flex flex-col gap-4">
         <div class="header">
-            <AccountingCommonEvenparHeader />
+            <AccountingCommonEvenparHeader :document-code="paymentRequestStore.paymentRequest.prf_no" />
         </div>
         <div class="content">
             <h1 id="headText" class="text-2xl text-center font-bold mb-8">
