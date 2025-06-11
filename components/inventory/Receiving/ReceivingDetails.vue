@@ -430,7 +430,6 @@ onUnmounted(() => {
                         </div>
                     </div>
                 </div>
-                <!-- <pre>{{ data }}</pre> -->
                 <LayoutLoadingContainer class="w-full" :loading="receiving.isLoading">
                     <div id="itemDetails">
                         <div id="content" class="overflow-auto">

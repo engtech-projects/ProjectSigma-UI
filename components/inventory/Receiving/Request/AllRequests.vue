@@ -48,5 +48,4 @@ const changePaginate = (newParams) => {
             <CustomPagination :links="allRequests.pagination" @change-params="changePaginate" />
         </div>
     </LayoutLoadingContainer>
-    <pre>{{ allRequests }}</pre>
 </template>
