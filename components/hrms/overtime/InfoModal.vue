@@ -123,7 +123,7 @@ const headers = [
             </div>
             <div class="grid md:grid-cols-3 gap-2 md:justify-between">
                 <div class="p-2 flex gap-2">
-                    <span class="text-teal-600 text-light"> Prepared by: </span> {{ data.created_by }}
+                    <span class="text-teal-600 text-light"> Prepared by: </span> {{ data.created_by_user }}
                 </div>
                 <div class="p-2 flex gap-2">
                     <span class="text-teal-600 text-light"> Prepared on: </span> {{ data.created_at_human }}
