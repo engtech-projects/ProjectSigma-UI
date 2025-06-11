@@ -9,15 +9,6 @@ export const REQ_STATUS = [
     PENDING,
     DENIED,
 ]
-// export const WEEKLY = "Weekly"
-// export const MONTHLY = "Monthly"
-// export const BIMONTHLY = "Bimonthly"
-// export const TERMS = [
-//     MONTHLY,
-//     BIMONTHLY,
-//     WEEKLY,
-// ]
-
 export const PREPAYMENT_IN_FULL = "PREPAYMENT IN FULL"
 export const CREDIT_7_DAYS = "CREDIT 7 DAYS"
 export const CREDIT_15_DAYS = "CREDIT 15 DAYS"
@@ -245,7 +236,7 @@ export const useReceivingStore = defineStore("receivingStore", {
                     onResponse: ({ response }) => {
                         this.receiving.isLoading = false
                         if (response.ok) {
-                            this.receiving.details = response._data.data
+                            this.receiving.details = response._data.data.data
                         } else {
                             this.errorMessage = response._data.message
                             throw new Error(response._data.message)

@@ -12,7 +12,7 @@ if (route.query.key) {
     validKey.value = false
 }
 
-const headers = [
+const systemHeaders = [
     { name: "Item Code", id: "item_code" },
     { name: "Item Description", id: "item_profile" },
     { name: "Specification", id: "specification" },
@@ -27,6 +27,18 @@ const headers = [
     { name: "Action", id: "" },
 ]
 
+const printHeaders = [
+    { name: "Item Code", id: "item_code" },
+    { name: "Item Description", id: "item_profile" },
+    { name: "Specification", id: "specification" },
+    { name: "Actual Brand Purchase", id: "actual_brand" },
+    { name: "Quantity", id: "accepted_qty" },
+    { name: "Unit of Measurement", id: "uom" },
+    { name: "Unit Price", id: "unit_price" },
+    { name: "Ext. Price", id: "ext_price" },
+    { name: "Remarks", id: "remarks" },
+]
+
 useHead({
     title: "Materials Receiving Report",
 })
@@ -39,7 +51,14 @@ useHead({
         ])"
     >
         <template v-if="validKey">
-            <InventoryReceivingDetails title="Materials Receiving Report" :data="receiving.details" :header-columns="headers" />
+            <LayoutPrintAdvanced class="min-h-40">
+                <template #print-layout>
+                    <InventoryReceivingDetailsPrintLayout title="Materials Receiving Report" :data="receiving.details" :header-columns="printHeaders" />
+                </template>
+                <template #system-layout>
+                    <InventoryReceivingDetails title="Materials Receiving Report" :data="receiving.details" :header-columns="systemHeaders" />
+                </template>
+            </LayoutPrintAdvanced>
         </template>
         <template v-else>
             <div class="grid grid-cols-1 gap-4">

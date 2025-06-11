@@ -141,9 +141,14 @@ const updateUnitPrice = (itemId: number, value: number) => {
 
 const getExtPrice = (item: any) => {
     const unitPrice = item.metadata?.unit_price || item.unit_price || 0
-    const acceptedQty = acceptedQtyMap.value.get(item.id) || item.quantity || 0
+    const acceptedQty = acceptedQtyMap.value.get(item.id) || item.accepted_quantity || 0
     return unitPrice * acceptedQty
 }
+
+const getAcceptedQuantity = (item: any) => {
+    return acceptedQtyMap.value.get(item.id) ?? item.accepted_quantity ?? 0
+}
+
 const getSpecificationValue = (item: any) => {
     return item.metadata?.specification || item.specification || ""
 }
@@ -189,6 +194,15 @@ watch(calculatedGrandTotal, (newTotal) => {
 })
 
 const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: string }) => {
+    // Check if required fields are filled
+    if (!editableSupplier.value || !editableTerms.value || !editableParticulars.value.trim()) {
+        snackbar.add({
+            type: "error",
+            text: "Please fill in Supplier, Terms of Payment, and Particulars before accepting items."
+        })
+        return
+    }
+
     const item = localData.value.items.find((item: { id: number }) => item.id === requestId)
     if (!item) {
         snackbar.add({ type: "error", text: "Item not found." })
@@ -219,6 +233,15 @@ const acceptAll = async ({ requestId, remarks }: { requestId: number, remarks: s
 }
 
 const acceptWithDetails = async ({ requestId, acceptedQty, remarks }: { requestId: number, acceptedQty: number, remarks: string }) => {
+    // Check if required fields are filled
+    if (!editableSupplier.value || !editableTerms.value || !editableParticulars.value.trim()) {
+        snackbar.add({
+            type: "error",
+            text: "Please fill in Supplier, Terms of Payment, and Particulars before accepting items."
+        })
+        return
+    }
+
     if (remarks === "" || acceptedQty <= 0) {
         return snackbar.add({
             type: "error",
@@ -289,275 +312,274 @@ onUnmounted(() => {
     <div
         class="h-full w-full bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-2 dark:bg-gray-800 dark:border-gray-700"
     >
-        <div class="flex flex-col gap-2 w-full p-4">
-            <LayoutPrint>
-                <div id="headline mb-4 ">
-                    <InventoryCommonEvenparHeader />
-                    <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4 mt-4">
-                        <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
-                            {{ title }}
-                        </h3>
-                        <div v-if="isSaving" class="ml-2 flex items-center text-sm text-blue-600">
-                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle
-                                    class="opacity-25"
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                    stroke="currentColor"
-                                    stroke-width="4"
-                                />
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                            </svg>
-                            Saving...
-                        </div>
+        <div class="flex flex-col gap-2 w-full p-4 border-red-600">
+            <div id="headline mb-4 ">
+                <InventoryCommonEvenparHeader />
+                <div class="basis-[10%] grow-1 shrink-0 flex items-center justify-center rounded-t mb-4 mt-4">
+                    <h3 v-if="title" class="pl-4 text-xl font-semibold text-gray-900 p-4">
+                        {{ title }}
+                    </h3>
+                    <div v-if="isSaving" class="ml-2 flex items-center text-sm text-blue-600">
+                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle
+                                class="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                stroke-width="4"
+                            />
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Saving...
                     </div>
-                    <div class="bg-white rounded-xl overflow-hidden mb-6">
-                        <div class="grid grid-cols-2 gap-10">
-                            <div class="flex-1">
-                                <div class="p-4">
-                                    <div class="grid grid-cols-2 items-center w-full gap-y-2">
-                                        <!-- Supplier -->
-                                        <label class="text-sm font-medium text-gray-700">Supplier:</label>
-                                        <InventoryCommonSupplierSelector
-                                            v-model="editableSupplier"
-                                            :show-all="true"
-                                            :default-value="localData.supplier?.company_name"
-                                            class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md"
-                                            :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
-                                            :disabled="hasAcceptedItems"
-                                        />
+                </div>
+                <div class="bg-white rounded-xl overflow-hidden mb-6">
+                    <div class="grid grid-cols-2 gap-10">
+                        <div class="flex-1">
+                            <div class="p-4">
+                                <div class="grid grid-cols-2 items-center w-full gap-y-2">
+                                    <!-- Supplier -->
+                                    <label class="text-sm font-medium text-gray-700">Supplier:</label>
+                                    <InventoryCommonSupplierSelector
+                                        v-model="editableSupplier"
+                                        :show-all="true"
+                                        :default-value="localData.supplier?.company_name"
+                                        class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md"
+                                        :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
+                                        :disabled="hasAcceptedItems"
+                                    />
 
-                                        <!-- Reference -->
-                                        <label class="text-sm font-medium text-gray-700">Reference:</label>
-                                        <input
-                                            v-model="editableReference"
-                                            class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700"
-                                            :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
-                                            :disabled="hasAcceptedItems"
-                                        >
+                                    <!-- Reference -->
+                                    <label class="text-sm font-medium text-gray-700">Reference:</label>
+                                    <input
+                                        v-model="editableReference"
+                                        class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-700"
+                                        :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
+                                        :disabled="hasAcceptedItems"
+                                    >
 
-                                        <!-- Terms of Payment -->
-                                        <label class="text-sm font-medium text-gray-700">Terms of Payment:</label>
-                                        <select
-                                            v-model="editableTerms"
-                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md appearance-none cursor-pointer"
-                                            :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
-                                            :disabled="hasAcceptedItems"
-                                        >
-                                            <option value="">
-                                                Choose Terms of Payment
-                                            </option>
-                                            <option v-for="(term, index) in TERMS" :key="index" :value="term">
-                                                {{ term }}
-                                            </option>
-                                        </select>
+                                    <!-- Terms of Payment -->
+                                    <label class="text-sm font-medium text-gray-700">Terms of Payment:</label>
+                                    <select
+                                        v-model="editableTerms"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md appearance-none cursor-pointer"
+                                        :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
+                                        :disabled="hasAcceptedItems"
+                                    >
+                                        <option value="">
+                                            Choose Terms of Payment
+                                        </option>
+                                        <option v-for="(term, index) in TERMS" :key="index" :value="term">
+                                            {{ term }}
+                                        </option>
+                                    </select>
 
-                                        <!-- Particulars -->
-                                        <label class="text-sm font-medium text-gray-700">Particulars:</label>
-                                        <input
-                                            v-model="editableParticulars"
-                                            :placeholder="localData?.particulars || 'Enter particulars...'"
-                                            class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
-                                            :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
-                                            :disabled="hasAcceptedItems"
-                                        >
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex-1">
-                                <div class="p-4">
-                                    <div class="space-y-6">
-                                        <div class="flex items-center justify-between w-full">
-                                            <label class="w-40 text-sm font-medium text-gray-700">Reference Number:</label>
-                                            <div class="flex-1 text-sm underline">
-                                                {{ localData.reference_no }}
-                                            </div>
-                                        </div>
-
-                                        <div class="flex items-center justify-between w-full">
-                                            <label class="w-40 text-sm font-medium text-gray-700">Transaction Date:</label>
-                                            <div class="flex-1 text-sm underline">
-                                                {{ dateToString(new Date(localData.transaction_date)) }}
-                                            </div>
-                                        </div>
-
-                                        <div class="flex items-center justify-between w-full">
-                                            <label class="w-40 text-sm font-medium text-gray-700">Project Code:</label>
-                                            <div class="flex-1 text-sm underline">
-                                                {{ localData?.project?.project_code }}
-                                            </div>
-                                        </div>
-
-                                        <div class="flex items-center justify-between w-full">
-                                            <label class="w-40 text-sm font-medium text-gray-700">Equipment No.:</label>
-                                            <div class="flex-1 text-sm underline">
-                                                {{ localData.metadata.equipment_no }}
-                                            </div>
-                                        </div>
-
-                                        <div class="flex items-center justify-between w-full">
-                                            <label class="w-40 text-sm font-medium text-gray-700">Source PO:</label>
-                                            <div class="flex-1 text-sm underline">
-                                                {{ localData.source_po }}
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <!-- Particulars -->
+                                    <label class="text-sm font-medium text-gray-700">Particulars:</label>
+                                    <input
+                                        v-model="editableParticulars"
+                                        :placeholder="localData?.particulars || 'Enter particulars...'"
+                                        class="w-full underline px-4 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white shadow-sm hover:shadow-md placeholder-gray-400"
+                                        :class="{ 'opacity-60 cursor-not-allowed bg-gray-100': hasAcceptedItems }"
+                                        :disabled="hasAcceptedItems"
+                                    >
                                 </div>
                             </div>
                         </div>
+
+                        <div class="flex-1">
+                            <div class="p-4">
+                                <div class="space-y-6">
+                                    <div class="flex items-center justify-between w-full">
+                                        <label class="w-40 text-sm font-medium text-gray-700">Reference Number:</label>
+                                        <div class="flex-1 text-sm underline">
+                                            {{ localData.reference_no }}
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between w-full">
+                                        <label class="w-40 text-sm font-medium text-gray-700">Transaction Date:</label>
+                                        <div class="flex-1 text-sm underline">
+                                            {{ dateToString(new Date(localData.transaction_date)) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between w-full">
+                                        <label class="w-40 text-sm font-medium text-gray-700">Project Code:</label>
+                                        <div class="flex-1 text-sm underline">
+                                            {{ localData?.project?.project_code ?? '--' }}
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between w-full">
+                                        <label class="w-40 text-sm font-medium text-gray-700">Equipment No.:</label>
+                                        <div class="flex-1 text-sm underline">
+                                            {{ localData.metadata.equipment_no }}
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between w-full">
+                                        <label class="w-40 text-sm font-medium text-gray-700">Source PO:</label>
+                                        <div class="flex-1 text-sm underline">
+                                            {{ localData.source_po }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <LayoutLoadingContainer class="w-full" :loading="receiving.isLoading">
-                        <div id="itemDetails">
-                            <div id="content" class="overflow-auto">
-                                <table class="table-auto w-full border-collapse">
-                                    <thead>
-                                        <tr class="bg-[#dbe5f1]">
-                                            <th v-for="(dataHeader, index) in headerColumns" :key="index" scope="col" class="p-2 border-b text-sm">
-                                                {{ dataHeader.name }}
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="item in reactiveData.items" :key="item.id" class="bg-white border-b">
-                                            <td class="border px-2 py-1 text-center">
-                                                {{ item.item_code }}
-                                            </td>
-                                            <td class="border px-2 py-1 text-center">
-                                                {{ item.item_description }}
-                                            </td>
-                                            <td class="border px-2 py-1 text-center">
-                                                <template
-                                                    v-if="isSpecificationDisabled(item)"
-                                                >
-                                                    {{ getSpecificationValue(item) }}
-                                                </template>
+                </div>
+                <!-- <pre>{{ data }}</pre> -->
+                <LayoutLoadingContainer class="w-full" :loading="receiving.isLoading">
+                    <div id="itemDetails">
+                        <div id="content" class="overflow-auto">
+                            <table class="table-auto w-full border-collapse">
+                                <thead>
+                                    <tr class="bg-[#dbe5f1]">
+                                        <th v-for="(dataHeader, index) in headerColumns" :key="index" scope="col" class="p-2 border-b text-sm">
+                                            {{ dataHeader.name }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in reactiveData.items" :key="item.id" class="bg-white border-b">
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.item_code }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.item_description }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            <template
+                                                v-if="isSpecificationDisabled(item)"
+                                            >
+                                                {{ getSpecificationValue(item) }}
+                                            </template>
+                                            <input
+                                                v-else
+                                                :value="getSpecificationValue(item)"
+                                                type="text"
+                                                class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                placeholder="Enter brand..."
+                                                required
+                                                @input="updateSpecification(item.id, ($event.target as HTMLInputElement).value)"
+                                            >
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            <template
+                                                v-if="isActualBrandDisabled(item)"
+                                            >
+                                                {{ getActualBrandValue(item) }}
+                                            </template>
+                                            <input
+                                                v-else
+                                                :value="getActualBrandValue(item)"
+                                                type="text"
+                                                class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                placeholder="Enter brand..."
+                                                required
+                                                @input="updateActualBrand(item.id, ($event.target as HTMLInputElement).value)"
+                                            >
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.quantity }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ getAcceptedQuantity(item) }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.uom_name }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            <template v-if="isUnitPriceDisabled(item)">
+                                                {{ getUnitPriceValue(item) }}
+                                            </template>
+                                            <template v-else>
                                                 <input
-                                                    v-else
-                                                    :value="getSpecificationValue(item)"
-                                                    type="text"
+                                                    :value="getUnitPriceValue(item)"
+                                                    type="number"
+                                                    step="0.01"
+                                                    min="0"
                                                     class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    placeholder="Enter brand..."
-                                                    required
-                                                    @input="updateSpecification(item.id, ($event.target as HTMLInputElement).value)"
+                                                    placeholder="0.00"
+                                                    @input="updateUnitPrice(item.id, parseFloat(($event.target as HTMLInputElement).value) || 0)"
                                                 >
-                                            </td>
-                                            <td class="border px-2 py-1 text-center">
-                                                <template
-                                                    v-if="isActualBrandDisabled(item)"
-                                                >
-                                                    {{ getActualBrandValue(item) }}
-                                                </template>
-                                                <input
-                                                    v-else
-                                                    :value="getActualBrandValue(item)"
-                                                    type="text"
-                                                    class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                    placeholder="Enter brand..."
-                                                    required
-                                                    @input="updateActualBrand(item.id, ($event.target as HTMLInputElement).value)"
-                                                >
-                                            </td>
-                                            <td class="border px-2 py-1 text-center">
-                                                {{ item.quantity }}
-                                            </td>
-                                            <td class="border px-2 py-1 text-center">
-                                                {{ acceptedQtyMap.get(item.id) || item.quantity || 0 }}
-                                            </td>
-                                            <td class="border px-2 py-1 text-center">
-                                                {{ item.uom }}
-                                            </td>
-                                            <td class="border px-2 py-1 text-center">
-                                                <template v-if="isUnitPriceDisabled(item)">
-                                                    {{ getUnitPriceValue(item) }}
-                                                </template>
-                                                <template v-else>
-                                                    <input
-                                                        :value="getUnitPriceValue(item)"
-                                                        type="number"
-                                                        step="0.01"
-                                                        min="0"
-                                                        class="w-full px-2 py-1 text-center border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                        placeholder="0.00"
-                                                        @input="updateUnitPrice(item.id, parseFloat(($event.target as HTMLInputElement).value) || 0)"
-                                                    >
-                                                </template>
-                                            </td>
-                                            <td class="border px-2 py-1 text-center">
-                                                {{ utils.formatCurrency(getExtPrice(item)) }}
-                                            </td>
-                                            <td class="border px-2 py-1 text-center">
-                                                <template v-if="item.metadata.status === 'Rejected'">
-                                                    <div class="flex justify-center relative group">
-                                                        <Icon name="mdi:close-circle" class="h-8 w-8 text-red-700" />
-                                                        <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
-                                                            Rejected
-                                                        </div>
-                                                    </div>
-                                                </template>
-                                                <template v-else-if="item.metadata.status === 'Accepted'">
-                                                    <div class="flex justify-center relative group">
-                                                        <Icon name="mdi:check-circle" class="h-8 w-8 text-green-700" />
-                                                        <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
-                                                            Accepted
-                                                        </div>
-                                                    </div>
-                                                </template>
-                                            </td>
-                                            <td class="border px-2 py-1 text-center">
-                                                {{ item.metadata.remarks }}
-                                            </td>
-                                            <td class="border px-2 py-1 text-center">
-                                                <InventoryCommonAcceptRejectButton
-                                                    v-model:accept-remarks="remarks"
-                                                    v-model:reject-remarks="remarks"
-                                                    :max-quantity="item.quantity"
-                                                    :request-id="item.id"
-                                                    :disabled="!!item.metadata.remarks"
-                                                    :class="{
-                                                        'opacity-60 cursor-not-allowed pointer-events-none': !!item.metadata.remarks
-                                                    }"
-                                                    @accept-all="acceptAll"
-                                                    @accept="acceptWithDetails"
-                                                    @reject="rejectRequest"
-                                                    @update-accepted-qty="updateAcceptedQty"
-                                                />
-                                            </td>
-                                        </tr>
-                                        <tr class="border">
-                                            <td colspan="10">
-                                                <div class="flex justify-end p-2 py-2">
-                                                    <div class="grid grid-cols-2 gap-2">
-                                                        <p v-if="title" class="text-md text-gray-900">
-                                                            <strong>Total net of VAT cost:</strong>
-                                                        </p>
-                                                        <p v-if="title" class="text-md text-gray-900">
-                                                            {{ utils.formatCurrency(reactiveData.total_net_of_vat_cost || 0) }}
-                                                        </p>
-                                                        <p v-if="title" class="text-md text-gray-900">
-                                                            <strong>Total Input VAT:</strong>
-                                                        </p>
-                                                        <p v-if="title" class="text-md text-gray-900">
-                                                            {{ utils.formatCurrency(reactiveData.total_input_vat || 0) }}
-                                                        </p>
-                                                        <p v-if="title" class="text-md text-gray-900">
-                                                            <strong> Grand Total:</strong>
-                                                        </p>
-                                                        <p v-if="title" class="text-md text-gray-900">
-                                                            {{ `₱${utils.formatCurrency(calculatedGrandTotal)}` }}
-                                                        </p>
+                                            </template>
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ utils.formatCurrency(getExtPrice(item)) }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            <template v-if="item.metadata.status === 'Rejected'">
+                                                <div class="flex justify-center relative group">
+                                                    <Icon name="mdi:close-circle" class="h-8 w-8 text-red-700" />
+                                                    <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
+                                                        Rejected
                                                     </div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                            </template>
+                                            <template v-else-if="item.metadata.status === 'Accepted'">
+                                                <div class="flex justify-center relative group">
+                                                    <Icon name="mdi:check-circle" class="h-8 w-8 text-green-700" />
+                                                    <div role="tooltip" class="absolute bottom-full mb-2 hidden group-hover:block z-10 w-32 px-2 py-1 text-xs text-white bg-gray-700 rounded-lg shadow-md">
+                                                        Accepted
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            {{ item.metadata.remarks }}
+                                        </td>
+                                        <td class="border px-2 py-1 text-center">
+                                            <InventoryCommonAcceptRejectButton
+                                                v-model:accept-remarks="remarks"
+                                                v-model:reject-remarks="remarks"
+                                                :max-quantity="item.quantity"
+                                                :request-id="item.id"
+                                                :disabled="!!item.metadata.remarks"
+                                                :class="{
+                                                    'opacity-60 cursor-not-allowed pointer-events-none': !!item.metadata.remarks
+                                                }"
+                                                @accept-all="acceptAll"
+                                                @accept="acceptWithDetails"
+                                                @reject="rejectRequest"
+                                                @update-accepted-qty="updateAcceptedQty"
+                                            />
+                                        </td>
+                                    </tr>
+                                    <tr class="border">
+                                        <td colspan="10">
+                                            <div class="flex justify-end p-2 py-2">
+                                                <div class="grid grid-cols-2 gap-2">
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        <strong>Total net of VAT cost:</strong>
+                                                    </p>
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        {{ utils.formatCurrency(reactiveData.total_net_of_vat_cost || 0) }}
+                                                    </p>
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        <strong>Total Input VAT:</strong>
+                                                    </p>
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        {{ utils.formatCurrency(reactiveData.total_input_vat || 0) }}
+                                                    </p>
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        <strong> Grand Total:</strong>
+                                                    </p>
+                                                    <p v-if="title" class="text-md text-gray-900">
+                                                        {{ `₱${utils.formatCurrency(calculatedGrandTotal)}` }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </LayoutLoadingContainer>
-                </div>
-            </LayoutPrint>
+                    </div>
+                </LayoutLoadingContainer>
+            </div>
         </div>
     </div>
 </template>
