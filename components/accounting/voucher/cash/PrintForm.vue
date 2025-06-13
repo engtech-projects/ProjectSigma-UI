@@ -73,7 +73,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                         REFERENCE NO.
                     </h3>
                     <span class="border-b-2 border-gray-800">
-                        {{ props.data?.reference_no }}
+                        {{ props.data?.voucher_no }}
                     </span>
                 </div>
                 <table class="border border-black">
