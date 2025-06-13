@@ -62,7 +62,7 @@ const extraRows = computed(() => {
 <template>
     <div class="flex flex-col gap-4 h-full p-4">
         <div v-for="page,i in numPages" :key="i" class="flex flex-col min-h-[1000px] gap-10 min-w-[800px]">
-            <AccountingCommonEvenparHeader :page="{currentPage: i+1, totalPages: numPages.length}" />
+            <AccountingCommonEvenparHeader :page="{currentPage: i+1, totalPages: numPages.length}" :document-code="useAccountingEnums().prf" />
             <h1 v-if="i === 0" id="headText" class="text-2xl text-center font-bold mb-6">
                 PAYMENT REQUEST FORM
             </h1>
