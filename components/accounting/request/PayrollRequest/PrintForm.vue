@@ -119,7 +119,7 @@ const totalVat = computed(() => {
                                     <td class="border px-4 py-1 border-gray-800 text-sm">
                                         {{ ae.cost > 0 ? formatToCurrency(ae.cost) : "-" }}
                                     </td>
-                                    <td class="border px-4 py-1 border-gray-800  text-sm">
+                                    <td class="border px-4 py-1 border-gray-800 text-sm">
                                         {{ ae.total_vat_amount > 0 ? formatToCurrency(ae.total_vat_amount) : "-" }}
                                     </td>
                                     <td class="border-2 px-4 py-1 font-bold border-gray-800 border-y-gray-800 text-sm">

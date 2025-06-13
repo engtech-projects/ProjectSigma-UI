@@ -14,7 +14,7 @@ const profilePhoto = computed(() => {
     <button
         type="button"
         data-dropdown-toggle="user-menu-button"
-        class="text-gray-500 rounded-lg hover:text-gray-900   dark:text-gray-400 dark:hover:text-white   focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+        class="text-gray-500 rounded-lg hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
     >
         <span class="sr-only">Open user menu</span>
         <img

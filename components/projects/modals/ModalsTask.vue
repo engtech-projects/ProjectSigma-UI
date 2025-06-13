@@ -19,7 +19,7 @@
             </div>
             <div class="flex gap-4 items-center mb-10">
                 <label class="text-md text-gray-700 uppercase text-md">
-                    Phase Name
+                    Item Name
                 </label>
                 <h3 class="text-green-600 text-lg">
                     {{ phaseStore.phase.name }}

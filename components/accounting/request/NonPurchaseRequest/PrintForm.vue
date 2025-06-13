@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
 const { data: userData } = useAuth()
+const paymentRequestStore = usePaymentRequestStore()
+
 const props = defineProps({
     data: {
         type: Object,
@@ -41,7 +44,7 @@ const totalVat = computed(() => {
 <template>
     <div id="toPrint" class="bg-white left-0 top-0 w-screen min-h-[1000px] max-w-[100%] p-4 flex flex-col gap-4">
         <div class="header">
-            <AccountingCommonEvenparHeader />
+            <AccountingCommonEvenparHeader :document-code="useAccountingEnums().prf" />
         </div>
         <div class="content">
             <h1 id="headText" class="text-2xl text-center font-bold mb-8">
@@ -128,7 +131,7 @@ const totalVat = computed(() => {
                                         <td class="border px-4 py-1 border-gray-800 text-xs">
                                             {{ ae.cost > 0 ? formatToCurrency(ae.cost) : "-" }}
                                         </td>
-                                        <td class="border px-4 py-1 border-gray-800  text-xs">
+                                        <td class="border px-4 py-1 border-gray-800 text-xs">
                                             {{ ae.total_vat_amount > 0 ? formatToCurrency(ae.total_vat_amount) : "-" }}
                                         </td>
                                         <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs">
@@ -139,7 +142,7 @@ const totalVat = computed(() => {
                                         <td class="border px-4 py-1 border-gray-800 text-xs relative" />
                                         <td class="border px-4 py-1 border-gray-800 text-xs" />
                                         <td class="border px-4 py-1 border-gray-800 text-xs" />
-                                        <td class="border px-4 py-1 border-gray-800  text-xs" />
+                                        <td class="border px-4 py-1 border-gray-800 text-xs" />
                                         <td class="border px-4 py-1 font-bold border-gray-800 border-y-gray-800 text-xs" />
                                     </tr>
                                     <tr class="border-2 border-black">

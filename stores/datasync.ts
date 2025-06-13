@@ -100,12 +100,12 @@ export const useDataSyncStore = defineStore("dataSyncStore", {
                     watch: false,
                     onResponse: ({ response }) => {
                         this.isLoading = false
-                        this.successMessage = response._data.message
-                        if (response._data.success) {
+                        if (response.ok) {
                             this.successMessage = response._data.message
-                        }
-                        if (!response._data.success) {
+                            return response._data
+                        } else {
                             this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
                         }
                     },
                 }

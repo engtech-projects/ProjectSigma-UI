@@ -8,7 +8,7 @@
             </tr>
             <tr>
                 <th colspan="4" class="border border-gray-500">
-                    FM-IMS-001-1
+                    {{ documentCode }}
                 </th>
             </tr>
             <tr class="text-[12px] bg-[#dce5c8]">
@@ -37,7 +37,7 @@
                         12-12-2024
                     </td>
                     <td class="text-[12px] p-[1px] text-center border border-gray-500">
-                        {{ page.currentPage }} of {{ page.totalPages }}
+                        <!-- {{ page.currentPage }} of {{ page.totalPages }} -->
                     </td>
                 </tr>
             </tbody>
@@ -46,12 +46,15 @@
 </template>
 
 <script lang="ts" setup>
-
 defineProps({
     page: {
         type: Object,
         default: null,
     },
+    documentCode: {
+        type: String,
+        default: ""
+    }
 })
 
 </script>

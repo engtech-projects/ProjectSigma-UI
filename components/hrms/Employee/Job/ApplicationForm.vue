@@ -78,7 +78,7 @@ const handleResumeFileUpload = (event) => {
             <div class="grid md:grid-cols-3 md:gap-6">
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-2">
-                        <label for="floating_application_letter_attachment" class="block  text-sm font-medium text-gray-900 dark:text-white">Application Letter Attachment</label>
+                        <label for="floating_application_letter_attachment" class="block text-sm font-medium text-gray-900 dark:text-white">Application Letter Attachment</label>
 
                         <input
                             id="floating_application_letter_attachment"
@@ -95,7 +95,7 @@ const handleResumeFileUpload = (event) => {
                 </div>
                 <div>
                     <div class="relative z-0 w-full mb-5 group col-span-2">
-                        <label for="floating_application_letter_attachment" class="block  text-sm font-medium text-gray-900 dark:text-white">Resume Attachment</label>
+                        <label for="floating_application_letter_attachment" class="block text-sm font-medium text-gray-900 dark:text-white">Resume Attachment</label>
 
                         <input
                             id="floating_application_letter_attachment"

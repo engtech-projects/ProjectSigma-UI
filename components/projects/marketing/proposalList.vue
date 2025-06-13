@@ -8,9 +8,8 @@ const { proposalList } = storeToRefs(projectStore)
 const requestData = ref(null)
 const showInformationModal = ref(false)
 await projectStore.getProposalProjects()
-const showInformation = (data) => {
-    requestData.value = data
-    showInformationModal.value = true
+const draftDetails = (data) => {
+    navigateTo(`/project-monitoring/my-proposal?id=${data.id}`)
 }
 const changePaginate = (newParams) => {
     proposalList.value.params.page = newParams.page ?? ""
@@ -33,7 +32,7 @@ const ddata = computed(() => {
     <LayoutBoards class="w-full" :loading="proposalList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROPOSAL_LIST,
             ])"
         >
             <div class="w-1/3 hidden">
@@ -44,7 +43,7 @@ const ddata = computed(() => {
                     :header-columns="headers"
                     :actions="actions"
                     :datas="ddata ?? []"
-                    @show-table="showInformation"
+                    @show-table="draftDetails"
                 />
                 <div class="flex justify-center mx-auto">
                     <CustomPagination :links="proposalList.pagination" @change-params="changePaginate" />

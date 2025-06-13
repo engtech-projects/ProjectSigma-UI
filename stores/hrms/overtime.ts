@@ -301,5 +301,29 @@ export const useOvertimeStore = defineStore("overtimes", {
                 }
             )
         },
+        async voidRequest (id: number | string, remarks: string) {
+            await useHRMSApiO(
+                "/api/request-voids/void/Overtime/" + id,
+                {
+                    method: "POST",
+                    params: { reason_for_void: remarks },
+                    onResponseError: ({ response }: any) => {
+                        this.errorMessage = response._data.message
+                        throw new Error(response._data.message)
+                    },
+                    onResponse: ({ response }: any) => {
+                        if (response.ok) {
+                            this.successMessage = response._data.message
+                            this.getMyApprovalRequests()
+                            this.getOvertime()
+                            this.getMyRequests()
+                        } else {
+                            this.errorMessage = response._data.message
+                            throw new Error(response._data.message)
+                        }
+                    },
+                }
+            )
+        },
     },
 })

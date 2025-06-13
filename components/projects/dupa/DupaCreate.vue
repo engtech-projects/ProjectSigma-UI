@@ -62,38 +62,18 @@
                         DETAILED ESTIMATES
                     </h3>
                 </div>
-                <!-- <div class="flex flex-col">
-                    <div class="flex gap-2">
-                        <div class="flex flex-col w-1/5">
-                            <label for="itemNo">Item No.</label>
-                            <input class="rounded-lg px-2 py-1" type="text">
-                        </div>
-                        <div class="flex flex-col w-2/5">
-                            <label for="itemNo">Item Description.</label>
-                            <input class="rounded-lg px-2 py-1" type="text">
-                        </div>
-                        <div class="flex flex-col w-1/5">
-                            <label for="itemNo">Qty</label>
-                            <input class="rounded-lg px-2 py-1" type="text">
-                        </div>
-                        <div class="flex flex-col w-15">
-                            <label for="itemNo">Unit</label>
-                            <input class="rounded-lg px-2 py-1" type="text">
-                        </div>
-                    </div>
-                </div> -->
                 <table class="w-full">
                     <thead>
-                        <th class="w=1/5">
+                        <th class="w-1/5">
                             Item No.
                         </th>
-                        <th class="w=2/5">
+                        <th class="w-2/5">
                             Item Description
                         </th>
-                        <th class="w=1/5">
+                        <th class="w-1/5">
                             Qty
                         </th>
-                        <th class="w=1/5">
+                        <th class="w-1/5">
                             Unit
                         </th>
                     </thead>
@@ -126,12 +106,6 @@
 
 <script lang="ts" setup>
 const showModal = ref(true)
-// const ducu = ref({
-//     contract_id: null,
-//     contract_name: null,
-//     contract_location: null,
-//     parts: []
-// })
 </script>
 
 <style scoped>
