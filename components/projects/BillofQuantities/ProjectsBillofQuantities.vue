@@ -143,7 +143,7 @@
             <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" @save="saveTask" />
         </div>
         <LayoutPrint v-if="print">
-            <ProjectsPrintCashFlow />
+            <ProjectsPrintBillOfQuantities />
         </LayoutPrint>
         <div class="flex justify-end py-4">
             <button v-if="!print" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-12 h-8" @click="print = true">
