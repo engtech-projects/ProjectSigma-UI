@@ -11,9 +11,10 @@ const headersStocks = [
     { name: "Stocks", id: "quantity" },
 ]
 const headersLogs = [
-    { name: "Transaction Date", id: "created_at" },
+    { name: "Transaction Date", id: "transaction_date" },
     { name: "Transaction Type", id: "transaction_type" },
-    { name: "Item Code", id: "item_codename" },
+    { name: "Item Code", id: "item_code" },
+    { name: "Deduction / Addition of Stock", id: "movement" },
 ]
 
 const showInformation = (data) => {
