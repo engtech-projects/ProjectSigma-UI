@@ -9,6 +9,7 @@ useHead({
 const changeType = (type) => {
     main.list = []
     getParams.value.filter = type
+    getParams.value.page = 1
     main.getUOM()
 }
 main.getUOM()
