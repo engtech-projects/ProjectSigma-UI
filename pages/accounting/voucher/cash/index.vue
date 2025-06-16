@@ -1,6 +1,8 @@
 <script setup>
 import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
+import { useJournalStore } from "@/stores/accounting/journals/journal"
 
+const journalStore = useJournalStore()
 const voucherStore = useVoucherStore()
 </script>
 <template>
@@ -30,6 +32,7 @@ const voucherStore = useVoucherStore()
                         ])"
                         title="For Approval"
                         target-id="forApproval"
+                        @click.once="voucherStore.getMyCashApprovals()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -37,6 +40,7 @@ const voucherStore = useVoucherStore()
                         ])"
                         title="My Request List"
                         target-id="myRequestList"
+                        @click.once="voucherStore.getMyCashVouchers()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -44,6 +48,7 @@ const voucherStore = useVoucherStore()
                         ])"
                         title="Cleared/Settled"
                         target-id="cleared"
+                        @click.once="voucherStore.getClearedVouchers()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -51,6 +56,7 @@ const voucherStore = useVoucherStore()
                         ])"
                         title="For Clearing/Settling"
                         target-id="forClearing"
+                        @click.once="voucherStore.getClearingVouchers()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -58,6 +64,7 @@ const voucherStore = useVoucherStore()
                         ])"
                         title="For Cash Voucher"
                         target-id="forVoucher"
+                        @click.once="journalStore.getForCashVoucherEntries()"
                     />
                 </template>
                 <template #tab-containers>

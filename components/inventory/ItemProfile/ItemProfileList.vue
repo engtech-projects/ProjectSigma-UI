@@ -31,10 +31,11 @@ const deactivate = (id:number) => {
         <div class="flex flex-col gap-2 w-full rounded-t">
             <div id="headline mb-4">
                 <div class="w-full basis-[10%] grow-1 shrink-0 flex flex-row justify-between items-center border-b py-2 px-4">
-                    <div class="flex flex-row gap-2 items-center justify-center">
+                    <div class="flex flex-row gap-4 items-center justify-center">
                         <h3 class="text-lg font-bold">
                             {{ title }}
                         </h3>
+                        <InventoryItemProfileExcelExportButton />
                     </div>
                 </div>
             </div>

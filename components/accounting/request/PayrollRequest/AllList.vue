@@ -7,7 +7,6 @@ const { payrollAllRequestList: allRequests } = storeToRefs(payrollRequestStore)
 
 const requestData = ref(null)
 const showInformationModal = ref(false)
-await payrollRequestStore.getAllRequests()
 const showInformation = (data) => {
     requestData.value = data
     showInformationModal.value = true

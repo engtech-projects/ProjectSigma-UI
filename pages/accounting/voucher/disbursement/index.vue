@@ -1,6 +1,8 @@
 <script setup>
 import { useVoucherStore } from "@/stores/accounting/vouchers/voucher"
+import { useJournalStore } from "@/stores/accounting/journals/journal"
 
+const journalStore = useJournalStore()
 const voucherStore = useVoucherStore()
 </script>
 <template>
@@ -30,6 +32,7 @@ const voucherStore = useVoucherStore()
                         ])"
                         title="For Approval"
                         target-id="forApproval"
+                        @click.once="voucherStore.getMyDisbursementApprovals()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -37,6 +40,7 @@ const voucherStore = useVoucherStore()
                         ])"
                         title="My Request List"
                         target-id="myRequestList"
+                        @click.once="voucherStore.getMyDisbursementVouchers()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -44,6 +48,7 @@ const voucherStore = useVoucherStore()
                         ])"
                         title="For Disbursement Voucher"
                         target-id="forVoucher"
+                        @click.once="journalStore.getForDisbursementVoucherEntries()"
                     />
                 </template>
                 <template #tab-containers>
