@@ -8,8 +8,6 @@ const { disbursementEntries } = storeToRefs(journalStore)
 const entryData = ref(null)
 const showInformationModal = ref(false)
 
-await journalStore.getDisbursementJournalEntries()
-
 const showInformation = (data) => {
     entryData.value = data
     showInformationModal.value = true

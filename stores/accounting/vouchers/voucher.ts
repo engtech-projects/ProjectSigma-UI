@@ -410,9 +410,6 @@ export const useVoucherStore = defineStore("voucherStore", {
             if (this.myCashApprovals.isLoaded) {
                 callFunctions.push(this.getMyCashApprovals)
             }
-            if (this.myCashApprovals.isLoaded) {
-                callFunctions.push(this.getMyCashApprovals)
-            }
             this.$reset()
             this.voucherCash.approvals = backup
             callFunctions.forEach((element) => {

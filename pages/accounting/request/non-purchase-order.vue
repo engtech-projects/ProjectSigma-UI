@@ -17,6 +17,7 @@
                         ])"
                         title="All List"
                         target-id="allList"
+                        @click.once="paymentRequestStore.getAllRequests()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -24,6 +25,7 @@
                         ])"
                         title="My Requests"
                         target-id="myRequests"
+                        @click.once="paymentRequestStore.getMyRequests()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -31,6 +33,7 @@
                         ])"
                         title="My Approvals"
                         target-id="myApprovals"
+                        @click.once="paymentRequestStore.getMyApprovals()"
                     />
                 </template>
                 <template #tab-containers>
@@ -51,3 +54,7 @@
         </div>
     </LayoutAcessContainer>
 </template>
+<script setup>
+import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
+const paymentRequestStore = usePaymentRequestStore()
+</script>

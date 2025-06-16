@@ -23,14 +23,17 @@ const journalStore = useJournalStore()
                     <AccountingCommonTabsTabTitle
                         title="Void Journals"
                         target-id="voidJournals"
+                        @click.once="journalStore.getVoidEntries()"
                     />
                     <AccountingCommonTabsTabTitle
                         title="Posted Journals"
                         target-id="postedJournals"
+                        @click.once="journalStore.getPostedEntries()"
                     />
                     <AccountingCommonTabsTabTitle
                         title="Unposted Journals"
                         target-id="unpostedJournals"
+                        @click.once="journalStore.getUnpostedEntries()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -38,6 +41,7 @@ const journalStore = useJournalStore()
                         ])"
                         title="For Payment Journal Entry"
                         target-id="forPaymentJournalEntry"
+                        @click.once="journalStore.getForPaymentJournalEntries()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -45,6 +49,7 @@ const journalStore = useJournalStore()
                         ])"
                         title="Cash"
                         target-id="treasuryJournalEntry"
+                        @click.once="journalStore.getCashJournalEntries()"
                     />
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
@@ -52,10 +57,12 @@ const journalStore = useJournalStore()
                         ])"
                         title="Disbursement"
                         target-id="disbursementJournalEntry"
+                        @click.once="journalStore.getDisbursementJournalEntries()"
                     />
                     <AccountingCommonTabsTabTitle
                         title="PRF Journal Entries"
                         target-id="paymentRequestJournals"
+                        @click.once="journalStore.getPaymentRequestEntries()"
                     />
                 </template>
                 <template #tab-containers>
