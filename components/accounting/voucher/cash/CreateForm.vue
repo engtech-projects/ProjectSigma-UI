@@ -19,12 +19,12 @@ defineProps({
 const addVoucherRequest = async () => {
     try {
         await voucherStore.addVoucherCash()
-        await journalStore.getForCashVoucherEntries()
         if (voucherCash.value.successMessage) {
             snackbar.add({
                 type: "success",
                 text: voucherCash.value.successMessage
             })
+            await journalStore.getForCashVoucherEntries()
         } else {
             snackbar.add({
                 type: "error",

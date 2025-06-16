@@ -15,6 +15,7 @@
                     <AccountingCommonTabsTabTitle
                         title="All List"
                         target-id="allList"
+                        @click.once="payrollRequestStore.getAllRequests()"
                     />
                 </template>
                 <template #tab-containers>
@@ -26,3 +27,7 @@
         </div>
     </LayoutAcessContainer>
 </template>
+<script setup>
+import { usePayrollRequestStore } from "@/stores/accounting/requests/payrollrequest"
+const payrollRequestStore = usePayrollRequestStore()
+</script>
