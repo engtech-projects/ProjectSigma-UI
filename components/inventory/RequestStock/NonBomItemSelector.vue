@@ -45,6 +45,7 @@ watch(selectedItem, val => emits("update:itemId", val))
             </div>
             <button
                 class="bg-green-600 text-white p-2 rounded hover:bg-green-800 flex items-center"
+                type="button"
                 @click.prevent="$emit('add-non-bom-item', selectedItem)"
             >
                 Add Item
