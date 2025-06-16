@@ -7,7 +7,6 @@ const { myApprovals } = storeToRefs(paymentRequestStore)
 
 const requestData = ref(null)
 const showInformationModal = ref(false)
-await paymentRequestStore.getMyApprovals()
 const showInformation = (data) => {
     requestData.value = data
     showInformationModal.value = true

@@ -7,7 +7,6 @@ const { myDisbursementApprovals } = storeToRefs(voucherStore)
 
 const requestData = ref(null)
 const showInformationModal = ref(false)
-await voucherStore.getMyDisbursementApprovals()
 const showInformation = (data) => {
     requestData.value = data
     showInformationModal.value = true

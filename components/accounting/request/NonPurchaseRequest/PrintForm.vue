@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { usePaymentRequestStore } from "@/stores/accounting/requests/paymentrequest"
 const { data: userData } = useAuth()
-const paymentRequestStore = usePaymentRequestStore()
 
 const props = defineProps({
     data: {
