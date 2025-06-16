@@ -1,4 +1,4 @@
-<script  setup>
+<script setup>
 import { storeToRefs } from "pinia"
 import { useContributionStore } from "@/stores/hrms/setup/sss"
 

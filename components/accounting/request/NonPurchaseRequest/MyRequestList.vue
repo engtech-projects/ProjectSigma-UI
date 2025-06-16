@@ -7,7 +7,6 @@ const { myRequests } = storeToRefs(paymentRequestStore)
 
 const requestData = ref(null)
 const showInformationModal = ref(false)
-await paymentRequestStore.getMyRequests()
 const showInformation = (data) => {
     requestData.value = data
     showInformationModal.value = true

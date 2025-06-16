@@ -52,7 +52,7 @@ watch(() => otherDeductionReports.value.reportResult.params.month_year, (newValu
         </form>
         <LayoutPrint>
             <div class="flex flex-col">
-                <div class="header flex flex-col  mb-8">
+                <div class="header flex flex-col mb-8">
                     <div class="flex gap-4">
                         <span class="text-md flex-1">
                             Employer Name:

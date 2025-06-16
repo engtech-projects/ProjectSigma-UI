@@ -76,11 +76,11 @@ const editManpwr = async () => {
                 </div>
                 <div class=" grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <div class="pb-4">
-                        <label for="brief_description" class="block  text-sm font-medium text-gray-900 dark:text-white">Brief Description</label>
+                        <label for="brief_description" class="block text-sm font-medium text-gray-900 dark:text-white">Brief Description</label>
                         <textarea id="brief_description" v-model="manpower.brief_description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
                     </div>
                     <div class="pb-4">
-                        <label for="job_description_attachment" class="block  text-sm font-medium text-gray-900 dark:text-white">Job Description Attachment</label>
+                        <label for="job_description_attachment" class="block text-sm font-medium text-gray-900 dark:text-white">Job Description Attachment</label>
                         <textarea id="job_description_attachment" v-model="manpower.job_description_attachment" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
                     </div>
                 </div>
@@ -101,7 +101,7 @@ const editManpwr = async () => {
                         <input id="age_range" v-model="manpower.age_range" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                     </div>
                     <div>
-                        <label class="block  text-sm font-medium text-gray-900 dark:text-white">Status</label>
+                        <label class="block text-sm font-medium text-gray-900 dark:text-white">Status</label>
                         <select id="status" v-model="manpower.status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option value="" disabled selected>
                                 Choose Status
@@ -112,7 +112,7 @@ const editManpwr = async () => {
                         </select>
                     </div>
                     <div>
-                        <label class="block  text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                        <label class="block text-sm font-medium text-gray-900 dark:text-white">Gender</label>
                         <select id="gender" v-model="manpower.gender" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                             <option value="" disabled selected>
                                 Choose Gender
@@ -124,15 +124,15 @@ const editManpwr = async () => {
                     </div>
                 </div>
                 <div class="pb-4">
-                    <label for="educational_req" class="block  text-sm font-medium text-gray-900 dark:text-white">Educational Requirement</label>
+                    <label for="educational_req" class="block text-sm font-medium text-gray-900 dark:text-white">Educational Requirement</label>
                     <textarea id="educational_req" v-model="manpower.educational_requirement" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
                 </div>
                 <div class="pb-4">
-                    <label for="pref_qualification" class="block  text-sm font-medium text-gray-900 dark:text-white">Preferred Qualifications / Experience (not mentioned above or in the Job Description)</label>
+                    <label for="pref_qualification" class="block text-sm font-medium text-gray-900 dark:text-white">Preferred Qualifications / Experience (not mentioned above or in the Job Description)</label>
                     <textarea id="pref_qualification" v-model="manpower.preferred_qualifications" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
                 </div>
                 <div class="pb-4">
-                    <label for="remarks" class="block  text-sm font-medium text-gray-900 dark:text-white">Additional Remarks (Reason for Request)</label>
+                    <label for="remarks" class="block text-sm font-medium text-gray-900 dark:text-white">Additional Remarks (Reason for Request)</label>
                     <textarea id="remarks" v-model="manpower.remarks" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="" />
                 </div>
                 <div class="pb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">

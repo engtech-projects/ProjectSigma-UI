@@ -1,4 +1,4 @@
-<script  setup>
+<script setup>
 import { useUOM } from "@/stores/inventory/setup/uom"
 
 const main = useUOM()
@@ -9,6 +9,7 @@ useHead({
 const changeType = (type) => {
     main.list = []
     getParams.value.filter = type
+    getParams.value.page = 1
     main.getUOM()
 }
 main.getUOM()

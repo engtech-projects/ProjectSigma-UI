@@ -13,14 +13,10 @@ const { receiving } = storeToRefs(mainStore)
 
 const headers = [
     { name: "Reference No.", id: "reference_no" },
-    { name: "Supplier", id: "supplier.company_name" },
-    { name: "Reference", id: "reference_code" },
-    { name: "Terms of Payment", id: "terms_of_payment" },
-    { name: "Particulars", id: "particulars" },
+    { name: "Warehouse", id: "warehouse.name" },
+    { name: "Transaction Type", id: "transaction_type" },
     { name: "Transaction Date", id: "transaction_date" },
-    { name: "Project Code", id: "project.project_code" },
-    { name: "Equipment No.", id: "equipment_no" },
-    { name: "Source PO", id: "source_po" },
+    { name: "Source PO", id: "metadata.po_id" },
 ]
 const actions = {
     showTable: true,
@@ -36,7 +32,6 @@ const showInformation = (data) => {
 const changePaginate = (newParams) => {
     receiving.value.params.page = newParams.page ?? ""
 }
-
 </script>
 <template>
     <LayoutLoadingContainer class="w-full" :loading="receiving.isLoading">
@@ -44,7 +39,7 @@ const changePaginate = (newParams) => {
             <LayoutPsTable
                 :header-columns="headers"
                 :actions="actions"
-                :datas="items"
+                :datas="items ?? []"
                 @show-table="showInformation"
             />
         </div>

@@ -51,6 +51,7 @@ export enum AccessibilityTypes {
     hrms_attendance_qr_generator = "hrms:attendance_generate QR",
     hrms_attendance_qr_login = "hrms:attendance_attendance QR",
     hrms_attendance_attendance_logs = "hrms:attendance_attendance logs",
+    hrms_attendance_attendance_logs_delete = "hrms:attendance_attendance logs delete",
     hrms_attendance_dtr = "hrms:attendance_dtr",
     // EMPLOYEE
     hrms_employee_group = "hrms:employee_",
@@ -127,7 +128,11 @@ export enum AccessibilityTypes {
     hrms_payroll_salarydisbursement_allrequests = "hrms:payroll_salary disbursement_all requests",
     hrms_payroll_salarydisbursement_myapprovals = "hrms:payroll_salary disbursement_my approvals",
     hrms_payroll_salarydisbursement_viewpayslips = "hrms:payroll_salary disbursement_view payslips",
-    hrms_payroll_13thmonth = "hrms:payroll_13th month",
+    HRMS_PAYROLL_13THMONTH_GROUP = "hrms:payroll_13th month",
+    HRMS_PAYROLL_13THMONTH_FORMANDMYREQUEST = "hrms:payroll_13th month_form and my requests",
+    HRMS_PAYROLL_13THMONTH_ALLREQUESTS = "hrms:payroll_13th month_all requests",
+    HRMS_PAYROLL_13THMONTH_MYAPPROVALS = "hrms:payroll_13th month_my approvals",
+    HRMS_PAYROLL_13THMONTH_SUMMARY = "hrms:payroll_13th month_summary",
     hrms_payroll_allowance = "hrms:payroll_allowance",
     // SCHEDULE
     hrms_schedule_group = "hrms:schedule_",
@@ -198,6 +203,7 @@ export enum AccessibilityTypes {
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP = "inventory:warehouse_stock transfer_",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_REQUESTPROCESSING = "inventory:warehouse_stock transfer_request processing",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST = "inventory:warehouse_stock transfer_all requests",
+    INVENTORY_SETUP_SYNCHRONIZATION = "inventory:setup_synchronization",
 
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP = "inventory:procurement_canvass summary_",
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_ALLREQUEST = "inventory:procurement_canvass summary_all requests",
@@ -296,7 +302,8 @@ export enum AccessibilityTypes {
     PROJECT_MONITORING_MARKETING_AWARDED_LIST = "project monitoring:marketing_awarded list",
     PROJECT_MONITORING_MARKETING_DRAFT_LIST = "project monitoring:marketing_draft list",
     PROJECT_MONITORING_TSS = "project monitoring:tss",
-    PROJECT_MONITORING_SETUP = "project monitoring:setup"
+    PROJECT_MONITORING_SETUP = "project monitoring:setup",
+    PROJECT_MONITORING_SETUP_SYNCHRONIZATION = "project monitoring:setup_synchronization"
 }
 export function useCheckAccessibility (allowedAccessibilities: any) {
     allowedAccessibilities.push(AccessibilityTypes.SUPERADMIN) // ADDED FOR DEFAULT SUPERADMIN ACCESS

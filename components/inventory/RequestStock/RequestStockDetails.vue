@@ -81,7 +81,6 @@ const denyRequest = async (id:any) => {
         })
     }
 }
-
 </script>
 <template>
     <div

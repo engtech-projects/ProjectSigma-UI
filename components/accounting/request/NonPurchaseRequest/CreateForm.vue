@@ -106,7 +106,7 @@ const selectStakeholder = (stakeholder) => {
                                 </div>
                             </div>
                             <div class="w-1/5">
-                                <label for="floating_payment_request_attachment" class="block  text-sm font-medium text-gray-900 dark:text-white">Payment Request Proof of attachment</label>
+                                <label for="floating_payment_request_attachment" class="block text-sm font-medium text-gray-900 dark:text-white">Payment Request Proof of attachment</label>
                                 <input
                                     id="floating_payment_request_attachment"
                                     formenctype="multipart/form-data"

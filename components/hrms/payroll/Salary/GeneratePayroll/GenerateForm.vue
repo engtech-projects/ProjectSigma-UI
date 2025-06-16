@@ -1,4 +1,4 @@
-<script  setup lang="ts">
+<script setup lang="ts">
 import { useGeneratePayrollStore, PAYROLL_TYPE, RELEASE_TYPE } from "@/stores/hrms/payroll/generatePayroll"
 import { useApprovalStore, APPROVAL_GP } from "@/stores/hrms/setup/approvals"
 

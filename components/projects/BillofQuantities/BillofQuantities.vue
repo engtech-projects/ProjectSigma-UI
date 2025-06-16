@@ -1,148 +1,158 @@
 <template>
     <div>
-        <AccountingLoadScreen :is-loading="boardLoading" />
-        <div class="flex flex-col gap-6 border-t-2 border-gray-800 pt-6 mb-4">
-            <div class="flex justify-between">
-                <div class="flex items-end gap-2">
-                    <h1 class="text-3xl text-black uppercase">
-                        Bill of Quantities
-                    </h1>
-                    <h4 class="text-gray-500 text-md">
-                        Project Description
-                    </h4>
+        <div v-if="!print">
+            <AccountingLoadScreen :is-loading="boardLoading" />
+            <div class="flex flex-col gap-6 border-t-2 border-gray-800 pt-6 mb-4">
+                <div class="flex justify-between">
+                    <div class="flex items-end gap-2">
+                        <h1 class="text-3xl text-black uppercase">
+                            Bill of Quantities
+                        </h1>
+                        <h4 class="text-gray-500 text-md">
+                            Project Description
+                        </h4>
+                    </div>
+                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9" @click="phaseModalShow">
+                        Create Item
+                    </button>
                 </div>
-                <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9" @click="phaseModalShow">
-                    Create Item
-                </button>
-            </div>
-            <table class="border border-collapse border-gray-800 w-full">
-                <thead>
-                    <tr>
-                        <th class="uppercase py-2 border border-gray-700 border-b-0 w-2/12">
-                            Pay Item No.
-                        </th>
-                        <th class="uppercase py-2 border border-gray-700 border-b-0 w-3/12">
-                            Description
-                        </th>
-                        <th class="uppercase py-2 border border-gray-700 border-b-0 w-1/12">
-                            Qty
-                        </th>
-                        <th class="uppercase py-2 border border-gray-700 border-b-0 w-1/12">
-                            Unit
-                        </th>
-                        <th class="uppercase py-2 border border-gray-700 border-b-0 w-2/12">
-                            Unit Price (Pesos)
-                        </th>
-                        <th class="uppercase py-2 border border-gray-700 border-b-0 w-3/12">
-                            Amount (Pesos)
-                        </th>
-                    </tr>
-                </thead>
-                <tbody v-if="projectStore.information.phases.length === 0">
-                    <tr>
-                        <td colspan="6" class="text-center py-4 font-semibold text-md italic text-gray-500">
-                            No Data Available!
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody v-for="phase in projectStore.information.phases" :key="phase.id">
-                    <tr>
-                        <td class="uppercase bg-yellow-200 text-center">
-                            {{ phase.name }}
-                        </td>
-                        <td class="uppercase bg-yellow-200 text-center">
-                            {{ phase.description }}
-                        </td>
-                        <td class="bg-yellow-200 py-1" colspan="4">
-                            <div class="flex gap-1 justify-end">
-                                <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="displayTaskModal(phase)">
-                                    Create Task
-                                </button>
-                                <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="removePhase(phase)">
-                                    Remove
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <!-- //TASK LIST -->
-                    <tr v-for="task in phase.tasks" :key="task.id">
-                        <td class="text-center border border-gray-700">
-                            {{ task.name }}
-                        </td>
-                        <td class="p-2 border border-gray-700">
-                            {{ task.description }}
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            {{ task.quantity }}
-                        </td>
-                        <td class="p-2 border border-gray-700 text-center">
-                            {{ task.unit }}
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex flex-col p-2 border-b border-gray-700">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Words
-                                </h4>
-                                <span class="pl-4">
-                                    {{ amountToWords(task.unit_price?? 0) }}
-                                </span>
-                            </div>
-                            <div class="flex flex-col p-2">
-                                <h4 class="font-bold uppercase text-sm">
-                                    In Figures
-                                </h4>
-                                <span class="pl-4">
-                                    {{ accountingCurrency(task.unit_price) }}
-                                </span>
-                            </div>
-                        </td>
-                        <td class="border border-gray-700">
-                            <div class="flex">
-                                <div class="flex flex-col border-r border-gray-700 flex-1">
-                                    <div class="flex flex-col p-2 border-b border-gray-700">
-                                        <h4 class="font-bold uppercase text-sm flex-1">
-                                            In Words
-                                        </h4>
-                                        <span class="pl-4 flex-1">
-                                            {{ amountToWords(task.amount?? 0) }}
-                                        </span>
-                                    </div>
-                                    <div class="flex flex-col p-2">
-                                        <h4 class="font-bold uppercase text-sm">
-                                            In Figures
-                                        </h4>
-                                        <span class="pl-4">
-                                            {{ accountingCurrency(task.amount) }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="flex flex-col p-2 justify-center gap-2">
-                                    <NuxtLink v-if="edit" :to="`/project-monitoring/dupa-details?id=${task.id}`" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <NuxtLink v-if="!edit" to="/project-monitoring/dupa-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
-                                        <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
-                                    </NuxtLink>
-                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6" @click="removeTask(task)">
-                                        <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
+                <table class="border border-collapse border-gray-800 w-full">
+                    <thead>
+                        <tr>
+                            <th class="uppercase py-2 border border-gray-700 border-b-0 w-2/12">
+                                Pay Item No.
+                            </th>
+                            <th class="uppercase py-2 border border-gray-700 border-b-0 w-3/12">
+                                Description
+                            </th>
+                            <th class="uppercase py-2 border border-gray-700 border-b-0 w-1/12">
+                                Qty
+                            </th>
+                            <th class="uppercase py-2 border border-gray-700 border-b-0 w-1/12">
+                                Unit
+                            </th>
+                            <th class="uppercase py-2 border border-gray-700 border-b-0 w-2/12">
+                                Unit Price (Pesos)
+                            </th>
+                            <th class="uppercase py-2 border border-gray-700 border-b-0 w-3/12">
+                                Amount (Pesos)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody v-if="projectStore.information.phases.length === 0">
+                        <tr>
+                            <td colspan="6" class="text-center py-4 font-semibold text-md italic text-gray-500">
+                                No Data Available!
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody v-for="phase in projectStore.information.phases" :key="phase.id">
+                        <tr>
+                            <td class="uppercase bg-yellow-200 text-center">
+                                {{ phase.name }}
+                            </td>
+                            <td class="uppercase bg-yellow-200 text-center">
+                                {{ phase.description }}
+                            </td>
+                            <td class="bg-yellow-200 py-1" colspan="4">
+                                <div class="flex gap-1 justify-end">
+                                    <button v-if="edit" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="displayTaskModal(phase)">
+                                        Create Task
+                                    </button>
+                                    <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-lg text-xs px-4 h-6" @click="removePhase(phase)">
+                                        Remove
                                     </button>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            </td>
+                        </tr>
+                        <!-- //TASK LIST -->
+                        <tr v-for="task in phase.tasks" :key="task.id">
+                            <td class="text-center border border-gray-700">
+                                {{ task.name }}
+                            </td>
+                            <td class="p-2 border border-gray-700">
+                                {{ task.description }}
+                            </td>
+                            <td class="p-2 border border-gray-700 text-center">
+                                {{ task.quantity }}
+                            </td>
+                            <td class="p-2 border border-gray-700 text-center">
+                                {{ task.unit }}
+                            </td>
+                            <td class="border border-gray-700">
+                                <div class="flex flex-col p-2 border-b border-gray-700">
+                                    <h4 class="font-bold uppercase text-sm">
+                                        In Words
+                                    </h4>
+                                    <span class="pl-4">
+                                        {{ amountToWords(task.unit_price?? 0) }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col p-2">
+                                    <h4 class="font-bold uppercase text-sm">
+                                        In Figures
+                                    </h4>
+                                    <span class="pl-4">
+                                        {{ accountingCurrency(task.unit_price) }}
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="border border-gray-700">
+                                <div class="flex">
+                                    <div class="flex flex-col border-r border-gray-700 flex-1">
+                                        <div class="flex flex-col p-2 border-b border-gray-700">
+                                            <h4 class="font-bold uppercase text-sm flex-1">
+                                                In Words
+                                            </h4>
+                                            <span class="pl-4 flex-1">
+                                                {{ amountToWords(task.amount?? 0) }}
+                                            </span>
+                                        </div>
+                                        <div class="flex flex-col p-2">
+                                            <h4 class="font-bold uppercase text-sm">
+                                                In Figures
+                                            </h4>
+                                            <span class="pl-4">
+                                                {{ accountingCurrency(task.amount) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col p-2 justify-center gap-2">
+                                        <NuxtLink v-if="edit" :to="`/project-monitoring/dupa-details?id=${task.id}`" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                            <Icon name="material-symbols:edit" color="white" class="rounded h-6 w-6 p-1" />
+                                        </NuxtLink>
+                                        <NuxtLink v-if="!edit" to="/project-monitoring/dupa-details" class="bg-teal-500 hover:bg-teal-600 active:bg-teal-700 select-none text-white rounded-md text-xs w-6 h-6">
+                                            <Icon name="material-symbols:visibility-rounded" color="white" class="rounded h-6 w-6 p-1" />
+                                        </NuxtLink>
+                                        <button v-if="edit" class="bg-red-500 hover:bg-red-600 active:bg-red-700 select-none text-white rounded-md text-xs w-6 h-6" @click="removeTask(task)">
+                                            <Icon name="ion:trash" color="white" class=" rounded h-6 w-6 p-1" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-end gap-4 items-center">
+                <NuxtLink v-if="!edit" to="/project-monitoring/tss" class="flex items-center justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9 text-center">
+                    Generate TSS
+                </NuxtLink>
+            </div>
+            <ProjectsModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" @save="savePhase" />
+            <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" @save="saveTask" />
         </div>
-        <div class="flex justify-end gap-4 items-center">
-            <button class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-12 h-8">
+        <LayoutPrint v-if="print">
+            <ProjectsPrintCashFlow />
+        </LayoutPrint>
+        <div class="flex justify-end py-4">
+            <button v-if="!print" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-12 h-8" @click="print = true">
                 <Icon name="ic:outline-local-printshop" class="text-white h-6 w-6" />
             </button>
-            <NuxtLink v-if="!edit" to="/project-monitoring/tss" class="flex items-center  justify-center bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-48 h-9 text-center">
-                Generate TSS
-            </NuxtLink>
+            <button v-else class="bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 select-none text-white rounded-lg text-sm px-4 py-2" @click="print = false">
+                Hide Print Layout
+            </button>
         </div>
-        <ProjectsModalsPhase :show-modal="showPhaseModal" @hide-modal="showPhaseModal = false" @save="savePhase" />
-        <ProjectsModalsTask :show-modal="showTaskModal" @hide-modal="showTaskModal = false" @save="saveTask" />
     </div>
 </template>
 
@@ -150,6 +160,7 @@
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 import { usePhaseStore } from "@/stores/project-monitoring/phase"
 import { useTaskStore } from "@/stores/project-monitoring/task"
+const print = ref(false)
 const taskStore = useTaskStore()
 const projectStore = useProjectStore()
 const phaseStore = usePhaseStore()

@@ -290,7 +290,6 @@ watch(() => form.value.type_of_request, (newType) => {
                                     <td class="border border-gray-300 p-3 align-top">
                                         <div class="space-y-4">
                                             <div>
-                                                <label class="font-medium block mb-1">Type of Request</label>
                                                 <div class="flex items-center gap-2">
                                                     <select v-model="form.type_of_request" class="w-full border rounded-md px-2 py-1">
                                                         <option v-for="(type, i) in TYPEOFREQUEST" :key="i" :value="type">

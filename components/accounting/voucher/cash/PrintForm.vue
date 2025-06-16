@@ -57,7 +57,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
 <template>
     <div id="toPrint" class="flex flex-col gap-2 bg-white left-0 top-0 w-screen max-w-[100%] p-2">
         <div v-for="page,i in numPages" :key="i" class="flex flex-col gap-2 pt-8 relative border-2 border-black pb-4 min-h-[1000px]">
-            <AccountingCommonEvenparHeader :page="{currentPage: i+1, totalPages: numPages.length}" class="pb-4 border-b-4 border-green-400 mb-8" />
+            <AccountingCommonEvenparHeader :page="{currentPage: i+1, totalPages: numPages.length}" :document-code="useAccountingEnums().cv" class="pb-4 border-b-4 border-green-400 mb-8" />
             <h1 v-if="i === 0" id="headText" class="text-2xl text-center font-bold text-block border-b-2 pb-2 border-black">
                 CASH VOUCHER
             </h1>
@@ -73,7 +73,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                         REFERENCE NO.
                     </h3>
                     <span class="border-b-2 border-gray-800">
-                        {{ props.data?.reference_no }}
+                        {{ props.data?.voucher_no }}
                     </span>
                 </div>
                 <table class="border border-black">
@@ -160,7 +160,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                     <td class="border px-4 py-1 border-gray-800 text-xs">
                                         {{ ae?.stakeholder?.name }}
                                     </td>
-                                    <td class="border px-4 py-1 border-gray-800  text-xs text-right">
+                                    <td class="border px-4 py-1 border-gray-800 text-xs text-right">
                                         {{ ae.debit > 0 ? formatToCurrency(ae.debit) : "-" }}
                                     </td>
                                     <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs text-right">
@@ -171,7 +171,7 @@ function chunkArray (array: string | any[], chunkSize: number) {
                                     <td class="border px-4 py-1 border-gray-800 text-xs relative" />
                                     <td class="border px-4 py-1 border-gray-800 text-xs" />
                                     <td class="border px-4 py-1 border-gray-800 text-xs" />
-                                    <td class="border px-4 py-1 border-gray-800  text-xs" />
+                                    <td class="border px-4 py-1 border-gray-800 text-xs" />
                                     <td class="border px-4 py-1 border-gray-800 border-y-gray-800 text-xs" />
                                 </tr>
                                 <tr class="border-none">
