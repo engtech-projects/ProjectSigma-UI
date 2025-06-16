@@ -496,6 +496,7 @@ export const useItemProfileStore = defineStore("itemprofiles", {
                         this.exportList.tempFile = ""
                     },
                     onResponseError: ({ response } : any) => {
+                        this.exportList.isLoading = false
                         this.exportList.errorMessage = response._data.message
                         throw new Error(response._data.message)
                     },
