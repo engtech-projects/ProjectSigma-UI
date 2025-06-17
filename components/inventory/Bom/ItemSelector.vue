@@ -32,8 +32,6 @@ function selectOption (option: any) {
     const names = option.convertable_units
     itemEnum.value.itemGroupFilter = names
     forFocusOut.value.focus()
-    searchInput.value = ""
-    itemEnum.value.params.query = ""
 }
 function clearSearchQuery () {
     searchInput.value = ""

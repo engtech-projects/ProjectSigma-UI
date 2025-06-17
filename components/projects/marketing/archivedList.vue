@@ -23,15 +23,15 @@ const actions = {
 const ddata = computed(() => {
     return archivedList.value.list ?? []
 })
-const draftDetais = (data) => {
-    navigateTo(`/project-monitoring/my-drafts?id=${data.id}`)
+const projectDetails = (data) => {
+    navigateTo(`/project-monitoring/information?id=${data.id}`)
 }
 </script>
 <template>
     <LayoutBoards class="w-full" :loading="archivedList.isLoading">
         <LayoutAcessContainer
             :if-access="useCheckAccessibility([
-                AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                AccessibilityTypes.PROJECT_MONITORING_MARKETING_ARCHIVED_LIST,
             ])"
         >
             <div class="pb-2 text-gray-500 text-[12px] overflow-y-auto p-2">
@@ -39,7 +39,7 @@ const draftDetais = (data) => {
                     :header-columns="headers"
                     :actions="actions"
                     :datas="ddata ?? []"
-                    @show-table="draftDetais"
+                    @show-table="projectDetails"
                 />
                 <div class="flex justify-center mx-auto">
                     <CustomPagination :links="archivedList.pagination" @change-params="changePaginate" />

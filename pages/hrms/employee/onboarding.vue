@@ -5,7 +5,7 @@
         ])"
     >
         <div class="flex space-x-10">
-            <div class="flex flex-col  basis-4/12 w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
+            <div class="flex flex-col basis-4/12 w-full max-w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-6 overflow-auto">
                 <form>
                     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div class="relative">

@@ -8,8 +8,6 @@ const { unpostedEntries } = storeToRefs(journalStore)
 const entryData = ref(null)
 const showInformationModal = ref(false)
 
-await journalStore.getUnpostedEntries()
-
 const showInformation = (data) => {
     entryData.value = data
     showInformationModal.value = true

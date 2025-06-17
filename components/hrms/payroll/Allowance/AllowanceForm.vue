@@ -1,4 +1,4 @@
-<script  setup lang="ts">
+<script setup lang="ts">
 import { useGenerateAllowanceStore } from "@/stores/hrms/payroll/generateAllowance"
 import { useApprovalStore, APPROVAL_GA } from "@/stores/hrms/setup/approvals"
 
@@ -49,7 +49,7 @@ const dateChanged = computed(() => {
                         <LayoutFormPsDateInput v-model="generateDraftRequest.data.cutoff_end" class="w-full" title="Cut-off Date (End)" @change="dateChanged" />
                         <LayoutFormPsDateInput v-model="generateDraftRequest.data.allowance_date" class="w-full" title="Allowance Date" />
                     </div>
-                    <div class="w-full flex gap-2 p-2  md:flex-row flex-col">
+                    <div class="w-full flex gap-2 p-2 md:flex-row flex-col">
                         <LayoutFormPsNumberInput v-model="generateDraftRequest.data.total_days" class="md:w-1/3 w-full" title="Total Day(s)" />
                         <HrmsCommonDepartmentProjectSelector
                             v-model:select-type="generateDraftRequest.data.charging_type"

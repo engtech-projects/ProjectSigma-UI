@@ -17,7 +17,7 @@ const headers = [
     { name: "Deleted", id: "deleted_at" },
 ]
 const actions = {
-    delete: useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY])
+    delete: useCheckAccessibility([AccessibilityTypes.hrms_attendance_attendance_logs_delete])
 }
 const changePaginate = (newParams) => {
     attendanceLogs.value.params.page = newParams.page ?? ""

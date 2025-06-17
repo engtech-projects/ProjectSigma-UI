@@ -21,9 +21,8 @@ const headers = [
 const actions = {
     detail: true,
 }
-
-const showDetail = (data) => {
-    navigateTo("/project-monitoring/my-drafts?id=" + data.id)
+const projectDetails = (data) => {
+    navigateTo(`/project-monitoring/information?id=${data.id}`)
 }
 </script>
 <template>
@@ -39,7 +38,7 @@ const showDetail = (data) => {
                 </label>
                 <input type="text" class="w-full rounded-lg h-10 border border-gray-300">
             </div>
-            <LayoutPsTable :header-columns="headers" :datas="draftProjects" :actions="actions" @detail-row="showDetail" />
+            <LayoutPsTable :header-columns="headers" :datas="draftProjects" :actions="actions" @detail-row="projectDetails" />
         </LayoutAcessContainer>
     </LayoutBoards>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <div class="block max-w-screen p-4  border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <div class="block max-w-screen p-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <div
             class="flex items-center justify-between text-lg font-semibold text-gray-900 dark:text-white"
         >

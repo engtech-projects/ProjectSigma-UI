@@ -252,9 +252,8 @@ const config = useRuntimeConfig()
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.hrms_payroll_13thmonth,
+                    AccessibilityTypes.HRMS_PAYROLL_13THMONTH_GROUP,
                 ])"
-                v-show="useBetaOnly()"
                 linkarea="/hrms/payroll/13thmonthpay"
                 icon="material-symbols:dynamic-form-outline-rounded"
                 single-nav-title="13th Month Pay"
@@ -425,8 +424,8 @@ const config = useRuntimeConfig()
                     AccessibilityTypes.hrms_setup_settings,
                 ])"
                 linkarea="/hrms/setup/api-synchronization"
-                icon="material-symbols:dynamic-form-outline-rounded"
-                single-nav-title="API Syncronization"
+                icon="iconoir:refresh-double"
+                single-nav-title="API Synchronization"
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([

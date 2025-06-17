@@ -1,7 +1,7 @@
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+            AccessibilityTypes.PROJECT_MONITORING_MARKETING_GROUP,
         ])"
     >
         <div class="flex flex-col gap-4">
@@ -9,7 +9,7 @@
                 <template #tab-titles>
                     <AccountingCommonTabsTabTitle
                         v-if="useCheckAccessibility([
-                            AccessibilityTypes.PROJECT_MONITORING_MARKETING,
+                            AccessibilityTypes.PROJECT_MONITORING_MARKETING_PROJECT_FORM,
                         ])"
                         title="Project Contract Creation"
                         target-id="projectForm"
@@ -87,7 +87,7 @@
                         <ProjectsMarketingArchivedList />
                     </AccountingCommonTabsTabContainer>
                     <AccountingCommonTabsTabContainer id="onHold">
-                        <ProjectsMarketingOnHoldList />
+                        <ProjectsMarketingOnholdList />
                     </AccountingCommonTabsTabContainer>
                 </template>
             </AccountingCommonTabsMainContainer>
@@ -96,6 +96,9 @@
 </template>
 <script setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { usePositionStore } from "@/stores/project-monitoring/positions"
+const positionStore = usePositionStore()
 const projectStore = useProjectStore()
 projectStore.$reset()
+positionStore.getAllPositions()
 </script>
