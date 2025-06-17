@@ -22,7 +22,6 @@ export interface Item {
     item_name: String,
     item_id: Number | null,
     uom_id: Number | null,
-    uom_name: String,
     unit_price: String,
     quantity: Number | null,
     uom: Array<any>,
