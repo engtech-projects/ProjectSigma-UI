@@ -152,6 +152,9 @@
                 single-nav-title="Suppliers"
             />
             <LayoutNavSingle
+                v-if="useCheckAccessibility([
+                    AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP,
+                ])"
                 linkarea="/inventory/procurement/requests"
                 icon="grommet-icons:overview"
                 single-nav-title="Procurement Requests"
@@ -166,7 +169,7 @@
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP,
+                    AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PURCHASEORDER_ALLLIST,
                 ])"
                 linkarea="/inventory/purchase-order"
                 icon="grommet-icons:overview"
