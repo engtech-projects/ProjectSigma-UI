@@ -16,7 +16,7 @@ const headers = [
     { name: "Warehouse", id: "warehouse.name" },
     { name: "Transaction Type", id: "transaction_type" },
     { name: "Transaction Date", id: "transaction_date" },
-    { name: "Source PO", id: "metadata.po_id" },
+    // { name: "Source PO", id: "metadata.po_id" },
 ]
 const actions = {
     showTable: true,
