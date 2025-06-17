@@ -193,9 +193,6 @@ const changeUnitAndConvert = (index, newUnit) => {
                         <Icon name="mdi:remove" class="h-5 w-5 lg:h-5 lg:w-5" />
                     </button>
                 </td>
-                <td>
-                    <pre>{{ JSON.stringify(dataValue, null, 2) }}</pre>
-                </td>
             </tr>
         </tbody>
     </table>
