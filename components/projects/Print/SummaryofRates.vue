@@ -33,7 +33,7 @@
         <p class="text-lg font-bold text-center uppercase mb-8">
             SUMMARY OF RATES
         </p>
-        <div v-for="(rate,index) in projectStore.information.summary_of_rates" :key="rate.id">
+        <div v-for="(rate, index) in projectStore.information.summary_of_rates" :key="index">
             <div class="text-center mb-8">
                 <p class="text-base font-bold uppercase">
                     COST OF {{ index }}

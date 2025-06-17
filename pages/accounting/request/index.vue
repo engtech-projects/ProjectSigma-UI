@@ -1,3 +1,8 @@
 <script setup>
-navigateTo("/accounting/request/non-purchase-order")
+definePageMeta({
+    redirect: {
+        to: '/accounting/request/non-purchase-order',
+        statusCode: 302
+    }
+})
 </script>
