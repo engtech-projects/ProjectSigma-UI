@@ -1,4 +1,7 @@
 <script setup>
+import { useInventoryEnumsStore } from "@/stores/inventory/enum"
+const enums = useInventoryEnumsStore()
+const { itemEnum } = storeToRefs(enums)
 defineProps({
     title: {
         type: String,
@@ -15,6 +18,15 @@ const data = computed(() => dataColumns.value)
 const emit = defineEmits(["updateField", "removeItem"])
 const compId = useId()
 
+const getUomName = (dataValue) => {
+    if (dataValue.convertable_units && dataValue.convertable_units.length >= 1) {
+        const foundUnit = dataValue.convertable_units.find(u => u.id === dataValue.unit)
+        return foundUnit?.name || "N/A"
+    }
+
+    const itemFromEnum = itemEnum.value.list.find(item => item.id === dataValue.item_id)
+    return itemFromEnum?.uom_name || dataValue.old_unit || "N/A"
+}
 // Function to handle unit changes and track the previous unit
 const changeUnit = (index, newUnit) => {
     const item = data.value[index]
@@ -120,26 +132,36 @@ const changeUnitAndConvert = (index, newUnit) => {
                                 emit('updateField', index, 'quantity', dataValue.quantity)"
                     >
                 </td>
-                <td v-if="dataValue.convertable_units.length > 1" colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
-                    <span
-                        class="block w-full cursor-pointer"
-                        @click="dataValue.showUomSelector = true"
-                    >
-                        {{ (dataValue.convertable_units.find(u => u.id === dataValue.unit)?.name || '').toUpperCase() }}
-                    </span>
-                    <InventoryRequestStockItemUomSelector
-                        v-if="dataValue.showUomSelector"
-                        :id="compId + index"
-                        v-model="dataValue.unit"
-                        :item-id="dataValue.item_id"
-                        :quantity="dataValue.quantity"
-                        :convertable-units="dataValue.convertable_units"
-                        @update:model-value="(newUnit) => {
-                            changeUnitAndConvert(index, newUnit);
-                            dataValue.showUomSelector = false;
-                        }"
-                        @close="dataValue.showUomSelector = false"
-                    />
+                <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
+                    <div v-if="dataValue.convertable_units && dataValue.convertable_units.length > 1">
+                        <span
+                            class="block w-full cursor-pointer"
+                            @click="dataValue.showUomSelector = true"
+                        >
+                            {{ ((dataValue.convertable_units.find(u => u.id === dataValue.unit)?.name || 'N/A')).toString().toUpperCase() }}
+                        </span>
+                        <InventoryRequestStockItemUomSelector
+                            v-if="dataValue.showUomSelector"
+                            :id="compId + index"
+                            v-model="dataValue.unit"
+                            :item-id="dataValue.item_id"
+                            :quantity="dataValue.quantity"
+                            :convertable-units="dataValue.convertable_units"
+                            @update:model-value="(newUnit) => {
+                                changeUnitAndConvert(index, newUnit);
+                                dataValue.showUomSelector = false;
+                            }"
+                            @close="dataValue.showUomSelector = false"
+                        />
+                    </div>
+                    <div v-else>
+                        <span class="block w-full text-center font-medium">
+                            {{ getUomName(dataValue) }}
+                        </span>
+                        <small class="text-red-500 text-xs mt-1 font-medium italic">
+                            No conversion available
+                        </small>
+                    </div>
                 </td>
                 <td>{{ dataValue.item_summary }}</td>
                 <td colspan="1" class="px-2 py-2 border-0 border-b border-r font-medium text-gray-900 whitespace-nowrap text-center">
@@ -170,6 +192,9 @@ const changeUnitAndConvert = (index, newUnit) => {
                     <button class="text-red-700 bg-transparent font-medium rounded-lg text-sm py-2.5 me-2 mb-2" @click.prevent="emit('removeItem', index)">
                         <Icon name="mdi:remove" class="h-5 w-5 lg:h-5 lg:w-5" />
                     </button>
+                </td>
+                <td>
+                    <pre>{{ JSON.stringify(dataValue, null, 2) }}</pre>
                 </td>
             </tr>
         </tbody>
