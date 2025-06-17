@@ -260,7 +260,6 @@ watch(() => form.value.type_of_request, (newType) => {
                             />
                         </div>
                     </div>
-                    <pre>{{ form }}</pre>
                     <hr class="my-4">
                     <div class="border border-teal-200 shadow-md rounded-lg overflow-y-auto max-h-[365px]">
                         <InventoryRequestStockSelectedItems
