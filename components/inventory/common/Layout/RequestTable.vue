@@ -3,16 +3,22 @@
         {{ title }}
     </h2>
     <LayoutAcessContainer
-        :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_REQUESTPRICEQUOTATION_GROUP])"
+        :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP])"
         class="w-full mt-4"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
                 <HrmsCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_REQUESTLISTONGOING,
+                    ])"
                     target-id="ongoing"
                     title="Ongoing"
                 />
                 <HrmsCommonTabsTabTitle
+                    v-if="useCheckAccessibility([
+                        AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_REQUESTLISTALL,
+                    ])"
                     target-id="all"
                     title="All"
                 />
@@ -26,7 +32,7 @@
                             :header-columns="headers"
                             :actions="actions"
                             :datas="datas ?? []"
-                            class="rounded-md shadow-sm"
+                            class="rounded-md"
                             @show-table="$emit('show-table', $event)"
                         />
                     </div>
@@ -39,7 +45,7 @@
                             :header-columns="headers"
                             :actions="actions"
                             :datas="allDatas ?? []"
-                            class="rounded-md shadow-sm"
+                            class="rounded-md"
                             @show-table="$emit('show-table', $event)"
                         />
                     </div>
@@ -74,4 +80,8 @@ defineProps({
 })
 
 defineEmits(["show-table"])
+
+useHead({
+    title: "PROCUREMENT REQUESTS",
+})
 </script>
