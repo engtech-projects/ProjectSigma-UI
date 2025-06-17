@@ -197,6 +197,8 @@ watch([selectType, () => List.value.params.department_id, () => List.value.param
 
     if (selectType.value === "Department") {
         form.value.warehouse_id = 1
+    } else if (selectType.value === "Project") {
+        form.value.warehouse_id = List.value.params.project_id
     }
 
     BOMStore.getCurrentBOM()
@@ -258,6 +260,7 @@ watch(() => form.value.type_of_request, (newType) => {
                             />
                         </div>
                     </div>
+                    <pre>{{ form }}</pre>
                     <hr class="my-4">
                     <div class="border border-teal-200 shadow-md rounded-lg overflow-y-auto max-h-[365px]">
                         <InventoryRequestStockSelectedItems
