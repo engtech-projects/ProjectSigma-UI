@@ -1,10 +1,22 @@
-<script setup>
-const router = useRouter()
-// const showCategoryModal = ref(false)
+<script setup lang="ts">
 
+const fileUrl = ref<string | null>(null)
+const fileName = ref<string | null>(null)
+
+function handleFileUpload (event: Event) {
+    const target = event.target as HTMLInputElement
+    const file = target.files?.[0]
+    if (file) {
+        fileUrl.value = URL.createObjectURL(file)
+        fileName.value = file.name
+    } else {
+        fileUrl.value = null
+        fileName.value = null
+    }
+}
 const goBackOrHome = () => {
-    if (router.options.history.state.back) {
-        router.back()
+    if ((useRouter()).options.history.state.back) {
+        (useRouter()).back()
     } else {
         navigateTo("/project-monitoring/marketing")
     }
@@ -64,6 +76,22 @@ defineProps({
                     <span class="text-black text-md uppercase flex-1 font-semibold">
                         {{ projectDetails.location }}
                     </span>
+                </div>
+                <div class="flex flex-col gap-1 ml-[140px]">
+                    <label class="text-gray-500 uppercase text-sm">Attach File</label>
+                    <input type="file" class="text-sm" @change="handleFileUpload">
+
+                    <div v-if="fileName" class="mt-1 text-sm text-gray-600">
+                        Uploaded File: <strong>{{ fileName }}</strong>
+                    </div>
+
+                    <div v-if="fileUrl" class="mt-2">
+                        <iframe
+                            :src="fileUrl"
+                            class="w-full h-64 border rounded"
+                            frameborder="0"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
