@@ -19,17 +19,15 @@ const emit = defineEmits(["updateField", "removeItem"])
 const compId = useId()
 
 const getUomName = (dataValue) => {
-    if (dataValue.uom_name) {
-        return dataValue.uom_name.toString().toUpperCase()
-    }
-
     if (dataValue.convertable_units && dataValue.convertable_units.length >= 1) {
         const foundUnit = dataValue.convertable_units.find(u => u.id === dataValue.unit)
         if (foundUnit?.name) {
             return foundUnit.name.toString().toUpperCase()
         }
     }
-
+    if (dataValue.uom_name) {
+        return dataValue.uom_name.toString().toUpperCase()
+    }
     const itemFromEnum = itemEnum.value.list.find(item => item.id === dataValue.item_id)
     if (itemFromEnum?.uom_name) {
         return itemFromEnum.uom_name.toString().toUpperCase()
