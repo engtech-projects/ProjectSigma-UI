@@ -41,7 +41,7 @@ watch(selectedItem, val => emits("update:itemId", val))
 
         <div v-if="checkboxChecked" class="flex items-center gap-4 p-2">
             <div class="flex-1">
-                <InventoryBomItemSelector v-model="selectedItem" class="w-full" />
+                <InventoryCommonItemSelector v-model="selectedItem" class="w-full" />
             </div>
             <button
                 class="bg-green-600 text-white p-2 rounded hover:bg-green-800 flex items-center"

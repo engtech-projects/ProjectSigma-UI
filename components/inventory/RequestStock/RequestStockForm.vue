@@ -57,6 +57,7 @@ const addNonBomItem = () => {
         max_quantity: Infinity,
         unit: selectedItem.uom,
         old_unit: selectedItem.uom,
+        uom_name: selectedItem.uom_name,
         specification: "",
         preferred_brand: "",
         reason: "",
@@ -85,6 +86,7 @@ const addItem = (item) => {
         max_quantity: item.quantity,
         unit: item.uom_id,
         old_unit: item.uom_id,
+        uom_name: selectedItem.uom_name,
         specification: "",
         preferred_brand: "",
         reason: "",
@@ -259,7 +261,7 @@ watch(() => form.value.type_of_request, (newType) => {
                         </div>
                     </div>
                     <hr class="my-4">
-                    <div class="border border-teal-200 shadow-md rounded-lg overflow-y-auto max-h-[365px]">
+                    <div class="border border-gray-400 shadow-md rounded-lg overflow-y-auto max-h-[415px]">
                         <InventoryRequestStockSelectedItems
                             title="Selected Items"
                             :header-columns="headers"
