@@ -101,7 +101,7 @@ const denyRequest = async (id:any) => {
                                 Request For: <span class="underline">{{ data.request_for }}</span>
                             </p>
                             <p v-if="title" class="pl-4 text-md text-gray-900">
-                                Office/Project: <span class="underline">{{ data.section_type }}</span>
+                                Office/Project: <span class="underline">{{ data.project?.project_code }}</span>
                             </p>
                             <p v-if="title" class="pl-4 text-md text-gray-900">
                                 Address: <span class="underline">{{ data.office_project_address }}</span>

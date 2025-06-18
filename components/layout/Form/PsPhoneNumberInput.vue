@@ -22,7 +22,7 @@ defineProps({
 })
 </script>
 <template>
-    <div class="PsTextInput">
+    <div class="PsPhoneNumberInput">
         <label
             :for="compId"
             class="block mb-1 text-sm font-medium text-gray-900 dark:text-white"
