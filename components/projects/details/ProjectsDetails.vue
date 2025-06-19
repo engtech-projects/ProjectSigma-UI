@@ -1,15 +1,30 @@
 <script setup lang="ts">
 
+import { onUnmounted } from 'vue'
+
 const fileUrl = ref<string | null>(null)
 const fileName = ref<string | null>(null)
+
+onUnmounted(() => {
+    if (fileUrl.value) {
+        URL.revokeObjectURL(fileUrl.value)
+    }
+})
 
 function handleFileUpload (event: Event) {
     const target = event.target as HTMLInputElement
     const file = target.files?.[0]
     if (file) {
+        // Revoke previous URL if exists
+        if (fileUrl.value) {
+            URL.revokeObjectURL(fileUrl.value)
+        }
         fileUrl.value = URL.createObjectURL(file)
         fileName.value = file.name
     } else {
+        if (fileUrl.value) {
+            URL.revokeObjectURL(fileUrl.value)
+        }
         fileUrl.value = null
         fileName.value = null
     }
