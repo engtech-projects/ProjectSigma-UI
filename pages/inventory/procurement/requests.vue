@@ -10,8 +10,9 @@ const isShowThirdPage = ref(false)
 const selectedItem = ref(null)
 
 const procurementStore = useProcurementRequestStore()
-const { allRequests } = storeToRefs(procurementStore)
+const { allRequests, unServed } = storeToRefs(procurementStore)
 procurementStore.getAllRequests()
+procurementStore.getUnserved()
 const headers = [
     { name: "Supplier", id: "supplier_name" },
     { name: "Quotation Date", id: "quot_date" },
@@ -43,16 +44,6 @@ const prDetails = [
     { supplier_name: "Supplier 2", quot_date: "2022-02-26" },
     { supplier_name: "Supplier 3", quot_date: "2022-02-26" },
 ]
-const onGoing = [
-    { rsNo: 1, date: "2022-02-16", status: "Served" },
-    { rsNo: 2, date: "2022-02-4", status: "Unserved" },
-    { rsNo: 3, date: "2022-02-26", status: "Served" },
-]
-// const all = [
-//     { rsNo: 1, date: "2022-02-2", status: "Served" },
-//     { rsNo: 2, date: "2022-02-18", status: "Served" },
-//     { rsNo: 3, date: "2022-02-22", status: "Unserved" },
-// ]
 const rsInfo = [
     {
         qty: 1,
@@ -140,8 +131,8 @@ const currentForm = ref(null)
                 :is-show="isShowTable"
                 :headers="rsHeaders"
                 :actions="actions"
-                :datas="onGoing ?? []"
-                :all-datas="allRequests ?? []"
+                :datas="unServed.list ?? []"
+                :all-datas="allRequests.list ?? []"
                 class="rounded-md shadow-sm"
                 @show-table="showInformation"
             />

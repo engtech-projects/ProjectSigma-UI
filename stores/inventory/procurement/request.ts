@@ -39,14 +39,13 @@ export const useProcurementRequestStore = defineStore("procurementRequest", {
                         this.allRequests.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        console.log(response)
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.list = response._data.data.data
+                            this.allRequests.list = response._data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                             this.allRequests.isLoaded = true
                         }
@@ -67,11 +66,11 @@ export const useProcurementRequestStore = defineStore("procurementRequest", {
                         this.unServed.isLoading = false
                         if (response.ok) {
                             this.unServed.isLoaded = true
-                            this.unServed.list = response._data.data.data
+                            this.unServed.list = response._data.data
                             this.unServed.pagination = {
-                                first_page: response._data.data.links.first,
-                                pages: response._data.data.meta.links,
-                                last_page: response._data.data.links.last,
+                                first_page: response._data.links.first,
+                                pages: response._data.meta.links,
+                                last_page: response._data.links.last,
                             }
                         } else {
                             throw new Error(response._data.message)
