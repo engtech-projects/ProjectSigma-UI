@@ -19,21 +19,11 @@ const emit = defineEmits(["updateField", "removeItem"])
 const compId = useId()
 
 const getUomName = (dataValue) => {
-    if (dataValue.convertable_units && dataValue.convertable_units.length >= 1) {
+    if (dataValue.convertable_units?.length) {
         const foundUnit = dataValue.convertable_units.find(u => u.id === dataValue.unit)
-        if (foundUnit?.name) {
-            return foundUnit.name.toString().toUpperCase()
-        }
+        return foundUnit?.name?.toString().toUpperCase() || "N/A"
     }
-    if (dataValue.uom_name) {
-        return dataValue.uom_name.toString().toUpperCase()
-    }
-    const itemFromEnum = itemEnum.value.list.find(item => item.id === dataValue.item_id)
-    if (itemFromEnum?.uom_name) {
-        return itemFromEnum.uom_name.toString().toUpperCase()
-    }
-
-    return "N/A"
+    return (dataValue.uom || itemEnum.value.list.find(item => item.id === dataValue.item_id)?.uom)?.toString().toUpperCase() || "N/A"
 }
 
 // Function to handle unit changes and track the previous unit
@@ -147,7 +137,7 @@ const changeUnitAndConvert = (index, newUnit) => {
                             class="block w-full cursor-pointer"
                             @click="dataValue.showUomSelector = true"
                         >
-                            {{ ((dataValue.convertable_units.find(u => u.id === dataValue.unit)?.name || 'N/A')).toString().toUpperCase() }}
+                            {{ (dataValue.convertable_units.find(u => u.id === dataValue.unit)?.name).toString().toUpperCase() }}
                         </span>
                         <InventoryRequestStockItemUomSelector
                             v-if="dataValue.showUomSelector"
