@@ -127,99 +127,104 @@ const requestDetails = {
 const currentForm = ref(null)
 </script>
 <template>
-    <div class="flex flex-col md:flex-cols gap-4">
-        <div v-if="isShowTable" class="border border-gray-300 flex-1 rounded-md p-4 bg-white">
-            <h2 class="text-lg font-semibold text-center mb-4">
-                PROCUREMENT REQUESTS
-            </h2>
-            <InventoryCommonLayoutRequestTable
-                :is-show="isShowTable"
-                :headers="rsHeaders"
-                :actions="actions"
-                :datas="onGoing ?? []"
-                :all-datas="all ?? []"
-                class="rounded-md shadow-sm"
-                @show-table="showInformation"
-            />
-        </div>
-        <div v-else-if="isShowSecondPage" class=" flex-1 rounded-md p-4 bg-white">
-            <div class="flex justify-end">
-                <button class="text-gray-500 hover:text-white hover:bg-red-600" @click="goBack">
-                    <Icon name="mdi:close" class="h-5 w-5" />
-                </button>
-            </div>
-            <div v-if="selectedItem" class="mt-4 p-4 bg-white rounded-md border-4 border-sky-200">
-                <InventoryCommonLayoutRequisitionSlip
-                    :selected-item="!!selectedItem"
-                    office-project="SUYUTAN-123"
-                    address="SUYUTAN TUBAY ADN"
-                    reference-no="RS-123-345"
-                    :rs-info-headers="rsInfoHeaders"
-                    :rs-info="rsInfo"
-                    title="REQUISITION SLIP"
+    <LayoutAcessContainer
+        :if-access="useCheckAccessibility([
+            AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_REQUESTLISTALL,
+        ])"
+        class="w-full"
+    >
+        <div class="flex flex-col md:flex-cols gap-4">
+            <div v-if="isShowTable" class="border border-gray-300 flex-1 rounded-md p-4 bg-white">
+                <InventoryCommonLayoutRequestTable
+                    :is-show="isShowTable"
+                    :headers="rsHeaders"
+                    :actions="actions"
+                    :datas="onGoing ?? []"
+                    :all-datas="all ?? []"
+                    title="PROCUREMENT REQUESTS"
+                    class="rounded-md shadow-sm"
+                    @show-table="showInformation"
                 />
             </div>
+            <div v-else-if="isShowSecondPage" class=" flex-1 rounded-md p-4 bg-white">
+                <div class="flex justify-end">
+                    <button class="text-gray-500 hover:text-white hover:bg-red-600" @click="goBack">
+                        <Icon name="mdi:close" class="h-5 w-5" />
+                    </button>
+                </div>
+                <div v-if="selectedItem" class="mt-4 p-4 bg-white rounded-md border-4 border-sky-200">
+                    <InventoryCommonLayoutRequisitionSlip
+                        :selected-item="!!selectedItem"
+                        office-project="SUYUTAN-123"
+                        address="SUYUTAN TUBAY ADN"
+                        reference-no="RS-123-345"
+                        :rs-info-headers="rsInfoHeaders"
+                        :rs-info="rsInfo"
+                        title="REQUISITION SLIP"
+                    />
+                </div>
 
-            <LayoutAcessContainer
-                :if-access="useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY,
-                ])"
-                class="w-full mt-4"
-            >
-                <HrmsCommonTabsMainContainer>
-                    <template #tab-titles>
-                        <HrmsCommonTabsTabTitle
-                            v-if="useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY])"
-                            target-id="rpq"
-                            title="REQUEST FOR PRICE QUOTATION"
-                        />
-                        <HrmsCommonTabsTabTitle
-                            v-if="useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY])"
-                            target-id="cs"
-                            title="CANVASS SUMMARY"
-                        />
-                        <HrmsCommonTabsTabTitle
-                            v-if="useCheckAccessibility([AccessibilityTypes.ADMIN_ONLY])"
-                            target-id="ncpo"
-                            title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)"
-                        />
-                    </template>
-                    <template #tab-containers>
-                        <HrmsCommonTabsTabContainer id="rpq">
-                            <InventoryCommonLayoutFormCreate
-                                :headers="headers"
-                                :datas="prDetails"
-                                :on-create="() => showThirdPage('priceQuotation')"
-                                :on-edit="() => showThirdPage('priceQuotation')"
-                                title="Price Quotations List"
-                                icon-label="Create Price Quotations"
+                <LayoutAcessContainer
+                    :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP,
+                    ])"
+                    class="w-full mt-4"
+                >
+                    <HrmsCommonTabsMainContainer v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PRICEQUOTATION, AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_CANVASSSUMMARY, AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PURCHASEORDER_CREATENCPO])">
+                        <template #tab-titles>
+                            <HrmsCommonTabsTabTitle
+                                v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PRICEQUOTATION])"
+                                target-id="rpq"
+                                title="REQUEST FOR PRICE QUOTATION"
                             />
-                        </HrmsCommonTabsTabContainer>
-                        <HrmsCommonTabsTabContainer id="cs">
-                            <InventoryCommonLayoutFormCreate
-                                :headers="headers"
-                                :datas="prDetails"
-                                :on-create="() => showThirdPage('canvassSummary')"
-                                :on-edit="() => showThirdPage('canvassSummary')"
-                                title="Canvass Summary List"
-                                icon-label="Create Canvass Summary"
+                            <HrmsCommonTabsTabTitle
+                                v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_CANVASSSUMMARY])"
+                                target-id="cs"
+                                title="CANVASS SUMMARY"
                             />
-                        </HrmsCommonTabsTabContainer>
-                        <HrmsCommonTabsTabContainer id="ncpo">
-                            <PrintTableFormat>
-                                <InventoryNoticeOfChangePOItemForm v-model="ncpoRequest.form" title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)" />
-                            </PrintTableFormat>
-                        </HrmsCommonTabsTabContainer>
-                    </template>
-                </HrmsCommonTabsMainContainer>
-            </LayoutAcessContainer>
+                            <HrmsCommonTabsTabTitle
+                                v-if="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_PURCHASEORDER_CREATENCPO])"
+                                target-id="ncpo"
+                                title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)"
+                            />
+                        </template>
+                        <template #tab-containers>
+                            <HrmsCommonTabsTabContainer id="rpq">
+                                <InventoryCommonLayoutFormCreate
+                                    :headers="headers"
+                                    :datas="prDetails"
+                                    :on-create="() => showThirdPage('priceQuotation')"
+                                    :on-edit="() => showThirdPage('priceQuotation')"
+                                    title="Price Quotations List"
+                                    icon-label="Create Price Quotations"
+                                />
+                            </HrmsCommonTabsTabContainer>
+                            <HrmsCommonTabsTabContainer id="cs">
+                                <InventoryCommonLayoutFormCreate
+                                    :headers="headers"
+                                    :datas="prDetails"
+                                    :on-create="() => showThirdPage('canvassSummary')"
+                                    :on-edit="() => showThirdPage('canvassSummary')"
+                                    title="Canvass Summary List"
+                                    icon-label="Create Canvass Summary"
+                                />
+                            </HrmsCommonTabsTabContainer>
+                            <HrmsCommonTabsTabContainer id="ncpo">
+                                <PrintTableFormat>
+                                    <InventoryNoticeOfChangePOItemForm v-model="ncpoRequest.form" title="NOTICE OF CHANGES IN PURCHASE ORDER (NCPO)" />
+                                </PrintTableFormat>
+                            </HrmsCommonTabsTabContainer>
+                        </template>
+                    </HrmsCommonTabsMainContainer>
+                </LayoutAcessContainer>
+            </div>
+            <InventoryCommonLayoutShowForm
+                :is-visible="isShowThirdPage"
+                :current-form="currentForm"
+                :form="form"
+                :request-details="requestDetails"
+                :on-close="goBack"
+                @update:form="(val) => form.value = val"
+            />
         </div>
-        <InventoryCommonLayoutShowForm
-            :is-visible="isShowThirdPage"
-            :current-form="currentForm"
-            :form="form"
-            :request-details="requestDetails"
-            :on-close="goBack"
-            @update:form="(val) => form.value = val"
-        />
-    </div>
+    </LayoutAcessContainer>
 </template>
