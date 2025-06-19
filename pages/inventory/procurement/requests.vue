@@ -1,5 +1,6 @@
 <script setup>
 import { useNcpoStore } from "~/stores/inventory/procurement/ncpo"
+import { useProcurementRequestStore } from "@/stores/inventory/procurement/request"
 const mainStore = useNcpoStore()
 const { ncpoRequest } = storeToRefs(mainStore)
 
@@ -8,13 +9,16 @@ const isShowSecondPage = ref(false)
 const isShowThirdPage = ref(false)
 const selectedItem = ref(null)
 
+const procurementStore = useProcurementRequestStore()
+const { allRequests } = storeToRefs(procurementStore)
+procurementStore.getAllRequests()
 const headers = [
     { name: "Supplier", id: "supplier_name" },
     { name: "Quotation Date", id: "quot_date" },
 ]
 const rsHeaders = [
-    { name: "RS No.", id: "rsNo" },
-    { name: "Date", id: "date" },
+    { name: "RS No.", id: "rs_reference_no" },
+    { name: "Date", id: "rs_date_prepared_human" },
     { name: "Status", id: "status" },
 ]
 
@@ -44,11 +48,11 @@ const onGoing = [
     { rsNo: 2, date: "2022-02-4", status: "Unserved" },
     { rsNo: 3, date: "2022-02-26", status: "Served" },
 ]
-const all = [
-    { rsNo: 1, date: "2022-02-2", status: "Served" },
-    { rsNo: 2, date: "2022-02-18", status: "Served" },
-    { rsNo: 3, date: "2022-02-22", status: "Unserved" },
-]
+// const all = [
+//     { rsNo: 1, date: "2022-02-2", status: "Served" },
+//     { rsNo: 2, date: "2022-02-18", status: "Served" },
+//     { rsNo: 3, date: "2022-02-22", status: "Unserved" },
+// ]
 const rsInfo = [
     {
         qty: 1,
@@ -137,7 +141,7 @@ const currentForm = ref(null)
                 :headers="rsHeaders"
                 :actions="actions"
                 :datas="onGoing ?? []"
-                :all-datas="all ?? []"
+                :all-datas="allRequests ?? []"
                 class="rounded-md shadow-sm"
                 @show-table="showInformation"
             />
