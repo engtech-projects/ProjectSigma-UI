@@ -19,13 +19,15 @@ const emit = defineEmits(["updateField", "removeItem"])
 const compId = useId()
 
 const getUomName = (dataValue) => {
+    if (!dataValue) {
+        return "N/A"
+    }
     if (dataValue.convertable_units?.length) {
         const foundUnit = dataValue.convertable_units.find(u => u.id === dataValue.unit)
         return foundUnit?.name?.toString().toUpperCase() || "N/A"
     }
     return (dataValue.uom || itemEnum.value.list.find(item => item.id === dataValue.item_id)?.uom)?.toString().toUpperCase() || "N/A"
 }
-
 // Function to handle unit changes and track the previous unit
 const changeUnit = (index, newUnit) => {
     const item = data.value[index]
