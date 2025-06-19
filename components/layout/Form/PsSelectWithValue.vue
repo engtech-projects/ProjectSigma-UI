@@ -46,6 +46,12 @@ defineProps({
             :name="name"
         >
             <option
+                class="uppercase cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
+                value=""
+            >
+                -Select-
+            </option>
+            <option
                 v-if="addAll"
                 class="uppercase cursor-pointer hover:bg-slate-100 px-3 py-1 border-b"
                 value=""

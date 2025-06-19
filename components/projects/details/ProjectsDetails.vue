@@ -1,7 +1,5 @@
 <script setup>
 const router = useRouter()
-// const showCategoryModal = ref(false)
-
 const goBackOrHome = () => {
     if (router.options.history.state.back) {
         router.back()

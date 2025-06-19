@@ -1,3 +1,96 @@
+<script lang="ts" setup>
+import { useProjectStore } from "@/stores/project-monitoring/projects"
+import { usePhaseStore } from "@/stores/project-monitoring/phase"
+import { useTaskStore } from "@/stores/project-monitoring/task"
+const print = ref(false)
+const taskStore = useTaskStore()
+const projectStore = useProjectStore()
+const phaseStore = usePhaseStore()
+const boardLoading = ref(false)
+
+const edit = projectStore.viewState
+const currentPhase = ref(null)
+phaseStore.phase.project_id = projectStore.information?.id
+const showPhaseModal = ref(false)
+const showTaskModal = ref(false)
+const displayTaskModal = (phase) => {
+    phaseStore.phase = phase
+    currentPhase.value = phase
+    currentPhase.value.tasks = !currentPhase.value.tasks ? [] : currentPhase.value.tasks
+    taskStore.reset()
+    showTaskModal.value = true
+    taskStore.task.phase_id = phase.id
+}
+const phaseModalShow = () => {
+    showPhaseModal.value = true
+    phaseStore.reset()
+    phaseStore.phase.project_id = projectStore.information?.id
+}
+const saveTask = (task) => {
+    currentPhase.value.tasks.push(task)
+    showTaskModal.value = false
+}
+const savePhase = () => {
+    showPhaseModal.value = false
+}
+const snackbar = useSnackbar()
+const removeTask = async (task) => {
+    try {
+        boardLoading.value = true
+        await taskStore.deleteTask(task.id)
+        if (taskStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: taskStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: taskStore.successMessage
+            })
+        }
+    } catch (error) {
+        taskStore.errorMessage = error as string
+
+        snackbar.add({
+            type: "error",
+            text: taskStore.errorMessage
+        })
+    } finally {
+        projectStore.getProject(projectStore.information.id)
+        boardLoading.value = false
+    }
+    currentPhase.value.tasks = currentPhase.value.tasks.filter(t => t.id !== task.id)
+}
+
+const removePhase = async (phase) => {
+    try {
+        boardLoading.value = true
+        await phaseStore.deletePhase(phase.id)
+        if (phaseStore.errorMessage !== "") {
+            snackbar.add({
+                type: "error",
+                text: phaseStore.errorMessage
+            })
+        } else {
+            snackbar.add({
+                type: "success",
+                text: phaseStore.successMessage
+            })
+        }
+    } catch (error) {
+        phaseStore.errorMessage = error as string
+
+        snackbar.add({
+            type: "error",
+            text: phaseStore.errorMessage
+        })
+    } finally {
+        projectStore.getProject(projectStore.information.id)
+        boardLoading.value = false
+    }
+}
+</script>
 <template>
     <div>
         <div v-if="!print">
@@ -155,101 +248,3 @@
         </div>
     </div>
 </template>
-
-<script lang="ts" setup>
-import { useProjectStore } from "@/stores/project-monitoring/projects"
-import { usePhaseStore } from "@/stores/project-monitoring/phase"
-import { useTaskStore } from "@/stores/project-monitoring/task"
-const print = ref(false)
-const taskStore = useTaskStore()
-const projectStore = useProjectStore()
-const phaseStore = usePhaseStore()
-const boardLoading = ref(false)
-
-const edit = projectStore.viewState
-const currentPhase = ref(null)
-phaseStore.phase.project_id = projectStore.information?.id
-const showPhaseModal = ref(false)
-const showTaskModal = ref(false)
-const displayTaskModal = (phase) => {
-    phaseStore.phase = phase
-    currentPhase.value = phase
-    currentPhase.value.tasks = !currentPhase.value.tasks ? [] : currentPhase.value.tasks
-    taskStore.reset()
-    showTaskModal.value = true
-    taskStore.task.phase_id = phase.id
-}
-const phaseModalShow = () => {
-    showPhaseModal.value = true
-    phaseStore.reset()
-    phaseStore.phase.project_id = projectStore.information?.id
-}
-const saveTask = (task) => {
-    currentPhase.value.tasks.push(task)
-    showTaskModal.value = false
-}
-const savePhase = () => {
-    showPhaseModal.value = false
-}
-const snackbar = useSnackbar()
-const removeTask = async (task) => {
-    try {
-        boardLoading.value = true
-        await taskStore.deleteTask(task.id)
-        if (taskStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: taskStore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: taskStore.successMessage
-            })
-        }
-    } catch (error) {
-        taskStore.errorMessage = error as string
-
-        snackbar.add({
-            type: "error",
-            text: taskStore.errorMessage
-        })
-    } finally {
-        projectStore.getProject(projectStore.information.id)
-        boardLoading.value = false
-    }
-    currentPhase.value.tasks = currentPhase.value.tasks.filter(t => t.id !== task.id)
-}
-
-const removePhase = async (phase) => {
-    try {
-        boardLoading.value = true
-        await phaseStore.deletePhase(phase.id)
-        if (phaseStore.errorMessage !== "") {
-            snackbar.add({
-                type: "error",
-                text: phaseStore.errorMessage
-            })
-        } else {
-            snackbar.add({
-                type: "success",
-                text: phaseStore.successMessage
-            })
-        }
-    } catch (error) {
-        phaseStore.errorMessage = error as string
-
-        snackbar.add({
-            type: "error",
-            text: phaseStore.errorMessage
-        })
-    } finally {
-        projectStore.getProject(projectStore.information.id)
-        boardLoading.value = false
-    }
-}
-</script>
-
-<style>
-
-</style>

@@ -1,15 +1,19 @@
 <script lang="ts" setup>
 import { useProjectStore } from "@/stores/project-monitoring/projects"
 import { usePositionStore } from "@/stores/project-monitoring/positions"
+import { useNatureOfWorkStore } from "@/stores/project-monitoring/natureOfWork"
 
 const positionStore = usePositionStore()
+const natureOfWorkStore = useNatureOfWorkStore()
 const projectStore = useProjectStore()
 const { list: positionList } = storeToRefs(positionStore)
+const { list: natureOfWorkList } = storeToRefs(natureOfWorkStore)
 const showUploadModal = ref(false)
 const snackbar = useSnackbar()
 
 onMounted(() => {
     positionStore.getPositions()
+    natureOfWorkStore.getNatureOfWorks()
 })
 
 const handleSubmit = async () => {
@@ -61,10 +65,10 @@ const handleSubmit = async () => {
                         :title="'Project Name'"
                         placeholder="Project Name"
                     />
-                    <LayoutFormPsTextInput
+                    <LayoutFormPsSelectWithValue
                         v-model="projectStore.information.nature_of_work"
-                        :title="'Nature of Work'"
-                        placeholder="Nature of Work"
+                        :options-list="natureOfWorkList.map(item => ({ value: item, label: item }))"
+                        title="Nature of Work"
                     />
                     <LayoutFormPsTextInput
                         v-model="projectStore.information.implementing_office"

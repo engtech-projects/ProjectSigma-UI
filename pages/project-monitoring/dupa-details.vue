@@ -7,7 +7,6 @@ const taskStore = useTaskStore()
 const projectStore = useProjectStore()
 const resourceStore = useResourceStore()
 await taskStore.getTask(route.query.id)
-await projectStore.getProject(route.query.pid)
 await resourceStore.getResourceNames()
 </script>
 <template>

@@ -1,90 +1,3 @@
-<template>
-    <ModalContainer
-        :show="showModal"
-        :local="true"
-        :header="false"
-        bg="bg-gray-50"
-        size="modal-lg"
-        @hide="emit('hideModal')"
-    >
-        <div class="flex flex-col p-4">
-            <AccountingLoadScreen :is-loading="boardLoading" />
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-end gap-2">
-                    <h1 class="text-3xl uppercase">
-                        Create Task
-                    </h1>
-                </div>
-                <Icon name="material-symbols:close-rounded" class="h-6 w-6 text-gray-500 hover:text-gray-800 cursor-pointer" @click="emit('hideModal')" />
-            </div>
-            <div class="flex gap-4 items-center mb-10">
-                <label class="text-md text-gray-700 uppercase text-md">
-                    Item Name
-                </label>
-                <h3 class="text-green-600 text-lg">
-                    {{ phaseStore.phase.name }}
-                </h3>
-            </div>
-            <form @submit.prevent="handleSubmit">
-                <div class="grid grid-cols-2 gap-6 mb-4">
-                    <div class="flex flex-col">
-                        <label class="text-md text-gray-700">
-                            Task Name
-                        </label>
-                        <input v-model="taskStore.task.name" type="text" class="border border-gray-300 rounded-md" placeholder="Task Name" required>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-md text-gray-700">
-                            Amount
-                        </label>
-                        <input v-model="taskStore.task.amount" type="text" class="border border-gray-300 rounded-md" disabled placeholder="0.00">
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-6 mb-4">
-                    <div class="flex flex-col">
-                        <label class="text-md text-gray-700">
-                            Quantity
-                        </label>
-                        <input v-model="taskStore.task.quantity" type="number" class="border border-gray-300 rounded-md" placeholder="0" required>
-                    </div>
-                    <div class="flex flex-col">
-                        <label class="text-md text-gray-700">
-                            Unit
-                        </label>
-                        <select v-model="taskStore.task.unit" class="border border-gray-300 rounded-md uppercase" required>
-                            <option value="" disabled selected>
-                                Select Unit
-                            </option>
-                            <option v-for="unit in resourceStore.units" :key="unit.name" :value="unit.symbol">
-                                {{ unit.name + ' (' + unit.symbol + ')' }}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-6 mb-4">
-                    <div class="flex flex-col">
-                        <label class="text-md text-gray-700">
-                            Unit Price
-                        </label>
-                        <input v-model="taskStore.task.unit_price" type="number" class="border border-gray-300 rounded-md" placeholder="0.00" required>
-                    </div>
-                </div>
-                <div class="flex flex-col mb-4">
-                    <label class="text-md text-gray-700">
-                        Description
-                    </label>
-                    <textarea v-model="taskStore.task.description" class="border border-gray-300 rounded-md w-full h-56 resize-none" />
-                </div>
-                <div class="flex justify-end">
-                    <button v-if="!taskStore.task.id" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" type="submit">
-                        Create Task
-                    </button>
-                </div>
-            </form>
-        </div>
-    </ModalContainer>
-</template>
-
 <script lang="ts" setup>
 import { useTaskStore } from "@/stores/project-monitoring/task"
 import { usePhaseStore } from "@/stores/project-monitoring/phase"
@@ -123,6 +36,7 @@ const handleSubmit = async () => {
                 text: taskStore.successMessage
             })
         }
+        taskStore.reset()
     } catch (error) {
         snackbar.add({
             type: "error",
@@ -130,8 +44,122 @@ const handleSubmit = async () => {
         })
     } finally {
         boardLoading.value = false
-        taskStore.reset()
     }
 }
 const emit = defineEmits(["hideModal", "save"])
 </script>
+<template>
+    <ModalContainer
+        :show="showModal"
+        :local="true"
+        :header="false"
+        bg="bg-gray-50"
+        size="modal-lg"
+        @hide="emit('hideModal')"
+    >
+        <div class="flex flex-col p-4">
+            <AccountingLoadScreen :is-loading="boardLoading" />
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-end gap-2">
+                    <h1 class="text-3xl uppercase">
+                        Create Task
+                    </h1>
+                </div>
+                <Icon name="material-symbols:close-rounded" class="h-6 w-6 text-gray-500 hover:text-gray-800 cursor-pointer" @click="emit('hideModal')" />
+            </div>
+            <div class="flex gap-4 items-center mb-10">
+                <label class="text-md text-gray-700 uppercase text-md">
+                    Item Name
+                </label>
+                <h3 class="text-green-600 text-lg">
+                    {{ phaseStore.phase.name }}
+                </h3>
+            </div>
+            <form @submit.prevent="handleSubmit">
+                <div class="grid grid-cols-2 gap-6 mb-4">
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Task Name
+                        </label>
+                        <input
+                            v-model="taskStore.task.name"
+                            type="text"
+                            class="border border-gray-300 rounded-md"
+                            placeholder="Task Name"
+                            required
+                        >
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Amount
+                        </label>
+                        <input
+                            v-model="taskStore.task.amount"
+                            type="text"
+                            class="border border-gray-300 rounded-md"
+                            disabled
+                            placeholder="0.00"
+                            required
+                        >
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-6 mb-4">
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Quantity
+                        </label>
+                        <input
+                            v-model="taskStore.task.quantity"
+                            type="number"
+                            class="border border-gray-300 rounded-md"
+                            placeholder="0"
+                            required
+                        >
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Unit
+                        </label>
+                        <select v-model="taskStore.task.unit" class="border border-gray-300 rounded-md uppercase" required>
+                            <option value="" disabled selected>
+                                Select Unit
+                            </option>
+                            <option v-for="unit in resourceStore.units" :key="unit.name" :value="unit.symbol">
+                                {{ unit.name + ' (' + unit.symbol + ')' }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-6 mb-4">
+                    <div class="flex flex-col">
+                        <label class="text-md text-gray-700">
+                            Unit Price
+                        </label>
+                        <input
+                            v-model="taskStore.task.unit_price"
+                            type="number"
+                            class="border border-gray-300 rounded-md"
+                            placeholder="0.00"
+                            required
+                        >
+                    </div>
+                </div>
+                <div class="flex flex-col mb-4">
+                    <label class="text-md text-gray-700">
+                        Description
+                    </label>
+                    <textarea
+                        v-model="taskStore.task.description"
+                        class="border border-gray-300 rounded-md w-full h-56 resize-none"
+                        required
+                    />
+                </div>
+                <div class="flex justify-end">
+                    <button v-if="!taskStore.task.id" class="bg-green-500 hover:bg-green-600 active:bg-green-700 select-none text-white rounded-lg text-sm w-36 h-10" type="submit">
+                        Create Task
+                    </button>
+                </div>
+            </form>
+        </div>
+    </ModalContainer>
+</template>
