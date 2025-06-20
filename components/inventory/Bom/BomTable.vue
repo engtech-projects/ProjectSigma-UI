@@ -34,6 +34,11 @@ defineProps({
                         </tr>
                     </thead>
                     <tbody>
+                        <tr v-if="dataColumns.length === 0">
+                            <td :colspan="headerColumns.length" class="text-center p-4 text-gray-500 italic">
+                                No data found
+                            </td>
+                        </tr>
                         <tr v-for="(item, index) in dataColumns" :key="index">
                             <td class="text-center">
                                 {{ item ? item.item_summary : "" }}
@@ -42,13 +47,13 @@ defineProps({
                                 {{ item ? item.unit : "" }}
                             </td>
                             <td class="text-center">
-                                {{ item ? item.unit_price : "" }}
+                                {{ item ? new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(item.price) : "" }}
                             </td>
                             <td class="text-center">
                                 {{ item ? item.quantity : "" }}
                             </td>
                             <td class="text-center">
-                                {{ item ? item.amount : "" }}
+                                {{ item ? new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(item.amount) : "" }}
                             </td>
                         </tr>
                     </tbody>
