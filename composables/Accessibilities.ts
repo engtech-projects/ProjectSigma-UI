@@ -168,6 +168,7 @@ export enum AccessibilityTypes {
     inventory_setup_approvals = "inventory:setup_approvals",
     inventory_setup_item_group = "inventory:setup_item group",
     inventory_setup_unit_of_measurements = "inventory:setup_unit of measurements",
+    INVENTORY_SETUP_APISYNCHRONIZATION = "inventory:setup_api synchronization",
     INVENTORY_SETUP_LISTS_GROUP = "inventory:setup_lists_",
     INVENTORY_SETUP_LISTS_DEPARTMENT_LIST = "inventory:setup_lists_department list",
     INVENTORY_SETUP_LISTS_EMPLOYEE_LIST = "inventory:setup_lists_employee list",
@@ -208,7 +209,6 @@ export enum AccessibilityTypes {
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_GROUP = "inventory:warehouse_stock transfer_",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_REQUESTPROCESSING = "inventory:warehouse_stock transfer_request processing",
     INVENTORY_WAREHOUSE_STOCK_TRANSFER_ALLREQUEST = "inventory:warehouse_stock transfer_all requests",
-    INVENTORY_SETUP_SYNCHRONIZATION = "inventory:setup_synchronization",
 
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_GROUP = "inventory:procurement_canvass summary_",
     INVENTORY_PROCUREMENT_CANVASSSUMMARY_ALLREQUEST = "inventory:procurement_canvass summary_all requests",
