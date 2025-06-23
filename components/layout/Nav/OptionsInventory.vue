@@ -81,7 +81,7 @@
             />
             <LayoutNavSingle
                 v-if="useCheckAccessibility([
-                    'AdminOnly',
+                    AccessibilityTypes.INVENTORY_SETUP_API_SYNCHRONIZATION,
                 ])"
                 linkarea="/inventory/setup/synchronization"
                 icon="iconoir:refresh-double"

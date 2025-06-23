@@ -31,7 +31,7 @@ const sync = async () => {
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
-            AccessibilityTypes.INVENTORY_SETUP_SYNCHRONIZATION,
+            AccessibilityTypes.INVENTORY_SETUP_API_SYNCHRONIZATION,
         ])"
     >
         <LayoutBoards
