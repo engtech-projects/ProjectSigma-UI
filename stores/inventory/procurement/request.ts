@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 
-export const useProcurementRequestStore = defineStore("procurementRequest", {
+export const useProcurementRequestStore = defineStore("procurementRequestStore", {
     state: () => ({
         allRequests: {
             isLoading: false,
@@ -9,7 +9,7 @@ export const useProcurementRequestStore = defineStore("procurementRequest", {
             params: {},
             pagination: {},
         },
-        myRequests: {
+        viewRequests: {
             isLoading: false,
             isLoaded: false,
             list: [],
@@ -17,12 +17,14 @@ export const useProcurementRequestStore = defineStore("procurementRequest", {
             params: {},
             pagination: {},
         },
-        unServed: {
+        unserved: {
             isLoading: false,
             isLoaded: false,
             list: [],
             params: {},
             pagination: {},
+            errorMessage: "",
+            successMessage: "",
         },
         errorMessage: "",
         successMessage: "",
@@ -58,16 +60,16 @@ export const useProcurementRequestStore = defineStore("procurementRequest", {
                 "/api/procurement-request/unserved",
                 {
                     method: "GET",
-                    params: this.unServed.params,
+                    params: this.unserved.params,
                     onRequest: () => {
-                        this.unServed.isLoading = true
+                        this.unserved.isLoading = true
                     },
                     onResponse: ({ response }) => {
-                        this.unServed.isLoading = false
+                        this.unserved.isLoading = false
                         if (response.ok) {
-                            this.unServed.isLoaded = true
-                            this.unServed.list = response._data.data
-                            this.unServed.pagination = {
+                            this.unserved.isLoaded = true
+                            this.unserved.list = response._data.data
+                            this.unserved.pagination = {
                                 first_page: response._data.links.first,
                                 pages: response._data.meta.links,
                                 last_page: response._data.links.last,
@@ -79,15 +81,15 @@ export const useProcurementRequestStore = defineStore("procurementRequest", {
                 }
             )
         },
-        async getMyRequests (id: number) {
+        async getOne (id: number) {
             return await useInventoryApiO(
                 "/api/procurement-request/resource/" + id,
                 {
                     method: "GET",
-                    params: this.myRequests.params,
+                    params: this.viewRequests.params,
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
-                            this.myRequests.details = response._data.data
+                            this.viewRequests.details = response._data.data
                             return response._data.data
                         } else {
                             throw new Error(response._data.message)
@@ -105,11 +107,11 @@ export const useProcurementRequestStore = defineStore("procurementRequest", {
             if (this.allRequests.isLoaded) {
                 callFunctions.push(this.getAllRequests)
             }
-            if (this.myRequests.isLoaded) {
-                callFunctions.push(this.getMyRequests)
-            }
-            if (this.unServed.isLoaded) {
+            if (this.unserved.isLoaded) {
                 callFunctions.push(this.getUnserved)
+            }
+            if (this.viewRequests.isLoaded) {
+                callFunctions.push(this.getOne)
             }
             this.$reset()
             callFunctions.forEach((element) => {

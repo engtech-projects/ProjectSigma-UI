@@ -7,9 +7,6 @@ const { paymentRequestEntries } = storeToRefs(journalStore)
 
 const entryData = ref(null)
 const showInformationModal = ref(false)
-
-await journalStore.getPaymentRequestEntries()
-
 const showInformation = (data) => {
     entryData.value = data
     showInformationModal.value = true
