@@ -168,7 +168,7 @@ export enum AccessibilityTypes {
     inventory_setup_approvals = "inventory:setup_approvals",
     inventory_setup_item_group = "inventory:setup_item group",
     inventory_setup_unit_of_measurements = "inventory:setup_unit of measurements",
-    INVENTORY_SETUP_API_SYNCHRONIZATION = "inventory:setup_api synchronization",
+    INVENTORY_SETUP_APISYNCHRONIZATION = "inventory:setup_api synchronization",
     INVENTORY_SETUP_LISTS_GROUP = "inventory:setup_lists_",
     INVENTORY_SETUP_LISTS_DEPARTMENT_LIST = "inventory:setup_lists_department list",
     INVENTORY_SETUP_LISTS_EMPLOYEE_LIST = "inventory:setup_lists_employee list",
