@@ -37,7 +37,7 @@ const actions = {
     edit: false,
     delete: false,
 }
-
+const route = useRoute()
 const router = useRouter()
 
 const prDetails = [
