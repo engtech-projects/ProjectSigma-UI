@@ -1,10 +1,12 @@
 <script setup>
 import { useRoute } from "vue-router"
 import { useReceivingStore } from "@/stores/inventory/receiving"
+
 const mainStore = useReceivingStore()
 const { receiving } = storeToRefs(mainStore)
 const route = useRoute()
 const validKey = ref(false)
+const sharedData = ref({})
 if (route.query.key) {
     validKey.value = true
     await mainStore.getOne(route.query.key)
@@ -42,8 +44,8 @@ const printHeaders = [
 useHead({
     title: "Materials Receiving Report",
 })
-
 </script>
+
 <template>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([
@@ -54,10 +56,20 @@ useHead({
             <div class="space-x-4">
                 <LayoutPrintAdvanced class="min-h-40">
                     <template #print-layout>
-                        <InventoryReceivingDetailsPrintLayout title="Materials Receiving Report" :data="receiving.details" :header-columns="printHeaders" />
+                        <InventoryReceivingDetailsPrintLayout
+                            v-model="receiving.details"
+                            :data="sharedData"
+                            title="Materials Receiving Report"
+                            :header-columns="printHeaders"
+                        />
                     </template>
                     <template #system-layout>
-                        <InventoryReceivingDetails title="Materials Receiving Report" :data="receiving.details" :header-columns="systemHeaders" />
+                        <InventoryReceivingDetails
+                            v-model="receiving.details"
+                            :data="sharedData"
+                            title="Materials Receiving Report"
+                            :header-columns="systemHeaders"
+                        />
                     </template>
                 </LayoutPrintAdvanced>
             </div>
