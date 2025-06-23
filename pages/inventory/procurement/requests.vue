@@ -54,11 +54,8 @@ const showInformation = (selectedItem) => {
     isShowThirdPage.value = false
 }
 
-if (route.query.id) {
-    procurementRequestStore.getOne(route.query.id)
-}
-
 const goBack = () => {
+    router.replace({ query: {} })
     if (isShowThirdPage.value) {
         isShowThirdPage.value = false
         isShowSecondPage.value = true
@@ -76,6 +73,16 @@ const showThirdPage = (formType) => {
     isShowSecondPage.value = false
     isShowThirdPage.value = true
 }
+
+if (route.query.id) {
+    procurementRequestStore.getOne(route.query.id)
+    if (viewRequests.details) {
+        showInformation(route.query.id)
+    } else {
+        goBack()
+    }
+}
+
 const form = ref({
     date: "",
     quotation_no: "",
@@ -111,8 +118,8 @@ const currentForm = ref(null)
                     :is-show="isShowTable"
                     :headers="rsHeaders"
                     :actions="actions"
-                    :datas="unserved.list ?? []"
-                    :all-datas="allRequests.list ?? []"
+                    :datas="unserved"
+                    :all-datas="allRequests"
                     title="PROCUREMENT REQUESTS"
                     class="rounded-md shadow-sm"
                     @show-table="showInformation"
@@ -134,7 +141,6 @@ const currentForm = ref(null)
                         title="REQUISITION SLIP"
                     />
                 </div>
-
                 <LayoutAcessContainer
                     :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP,
                     ])"

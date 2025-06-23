@@ -43,11 +43,11 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
                     onResponse: ({ response }) => {
                         this.allRequests.isLoading = false
                         if (response.ok) {
-                            this.allRequests.list = response._data.data
+                            this.allRequests.list = response._data.data.data
                             this.allRequests.pagination = {
-                                first_page: response._data.links.first,
-                                pages: response._data.meta.links,
-                                last_page: response._data.links.last,
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
                             }
                             this.allRequests.isLoaded = true
                         }
@@ -68,11 +68,11 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
                         this.unserved.isLoading = false
                         if (response.ok) {
                             this.unserved.isLoaded = true
-                            this.unserved.list = response._data.data
+                            this.unserved.list = response._data.data.data
                             this.unserved.pagination = {
-                                first_page: response._data.links.first,
-                                pages: response._data.meta.links,
-                                last_page: response._data.links.last,
+                                first_page: response._data.data.first_page_url,
+                                pages: response._data.data.links,
+                                last_page: response._data.data.last_page_url,
                             }
                         } else {
                             throw new Error(response._data.message)
@@ -90,7 +90,7 @@ export const useProcurementRequestStore = defineStore("procurementRequestStore",
                     onResponse: ({ response }: any) => {
                         if (response.ok) {
                             this.viewRequests.details = response._data.data
-                            return response._data.data
+                            return response._data.data.data
                         } else {
                             throw new Error(response._data.message)
                         }

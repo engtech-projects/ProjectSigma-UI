@@ -4,7 +4,6 @@
     </h2>
     <LayoutAcessContainer
         :if-access="useCheckAccessibility([AccessibilityTypes.INVENTORY_PROCUREMENT_PROCUREMENTREQUESTS_GROUP])"
-        class="w-full mt-4"
     >
         <HrmsCommonTabsMainContainer>
             <template #tab-titles>
@@ -23,32 +22,38 @@
                     title="All"
                 />
             </template>
-
             <template #tab-containers>
                 <!-- Ongoing Tab -->
                 <HrmsCommonTabsTabContainer id="ongoing">
-                    <div v-if="isShow" class="border border-gray-300 flex-1 rounded-md p-4 bg-white">
+                    <LayoutLoadingContainer :loading="datas.isLoading">
                         <LayoutPsTable
+                            v-if="isShow"
                             :header-columns="headers"
                             :actions="actions"
-                            :datas="datas ?? []"
+                            :datas="datas.list ?? []"
                             class="rounded-md"
                             @show-table="$emit('show-table', $event)"
                         />
-                    </div>
+                        <div class="flex justify-center mx-auto">
+                            <CustomPagination :links="datas.pagination" @change-params="changePaginateOnGoing" />
+                        </div>
+                    </LayoutLoadingContainer>
                 </HrmsCommonTabsTabContainer>
-
                 <!-- All Tab -->
                 <HrmsCommonTabsTabContainer id="all">
-                    <div v-if="isShow" class="border border-gray-300 flex-1 rounded-md p-4 bg-white">
+                    <LayoutLoadingContainer :loading="allDatas.isLoading">
                         <LayoutPsTable
+                            v-if="isShow"
                             :header-columns="headers"
                             :actions="actions"
-                            :datas="allDatas ?? []"
+                            :datas="allDatas.list ?? []"
                             class="rounded-md"
                             @show-table="$emit('show-table', $event)"
                         />
-                    </div>
+                        <div class="flex justify-center mx-auto">
+                            <CustomPagination :links="allDatas.pagination" @change-params="changePaginate" />
+                        </div>
+                    </LayoutLoadingContainer>
                 </HrmsCommonTabsTabContainer>
             </template>
         </HrmsCommonTabsMainContainer>
@@ -84,4 +89,10 @@ defineEmits(["show-table"])
 useHead({
     title: "PROCUREMENT REQUESTS",
 })
+const changePaginateOnGoing = (newParams) => {
+    datas.value.params.page = newParams.page ?? ""
+}
+const changePaginate = (newParams) => {
+    allDatas.value.params.page = newParams.page ?? ""
+}
 </script>
