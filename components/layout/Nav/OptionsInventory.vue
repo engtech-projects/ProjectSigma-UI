@@ -89,14 +89,14 @@
             />
             <LayoutNavGroup
                 v-if="useCheckAccessibility([
-                    AccessibilityTypes.inventory_setup_group
+                    AccessibilityTypes.INVENTORY_SETUP_LISTS_GROUP,
                 ])"
                 icon="ion:ios-people"
                 title="Lists"
             >
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        'AdminOnly',
+                        AccessibilityTypes.INVENTORY_SETUP_LISTS_DEPARTMENT_LIST,
                     ])"
                     linkarea="/inventory/setup/lists/department-list"
                     icon="material-symbols:view-list"
@@ -104,7 +104,7 @@
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        'AdminOnly',
+                        AccessibilityTypes.INVENTORY_SETUP_LISTS_EMPLOYEE_LIST,
                     ])"
                     linkarea="/inventory/setup/lists/employee-list"
                     icon="material-symbols:view-list"
@@ -112,7 +112,7 @@
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        'AdminOnly',
+                        AccessibilityTypes.INVENTORY_SETUP_LISTS_USERS_LIST,
                     ])"
                     linkarea="/inventory/setup/lists/users-list"
                     icon="material-symbols:view-list"
@@ -120,7 +120,7 @@
                 />
                 <LayoutNavSingle
                     v-if="useCheckAccessibility([
-                        'AdminOnly',
+                        AccessibilityTypes.INVENTORY_SETUP_LISTS_PROJECT_LIST,
                     ])"
                     linkarea="/inventory/setup/lists/projects-list"
                     icon="material-symbols:view-list"
