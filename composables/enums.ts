@@ -12,3 +12,14 @@ export const useAccountingEnums = () => {
         dv: "FM-ACS-001-1",
     }
 }
+export const DetailedEstimatesType = {
+    labor: "labor",
+    equipment: "equipment",
+    material: "material",
+}
+
+export const DetailedEstimatesUnitIndex = {
+    material: 1,
+    labor: 2,
+    equipment: 3,
+}
